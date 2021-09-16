@@ -6,33 +6,115 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
-import { GlobalStyle } from '../styles/global-styles';
+import '../css/style.scss';
 
-import { HomePage } from './pages/HomePage/Loadable';
-import { NotFoundPage } from './pages/NotFoundPage/Loadable';
+import { focusHandling } from 'cruip-js-toolkit';
+import './charts/ChartjsConfig';
+
 import { useTranslation } from 'react-i18next';
+// Import pages
+import Dashboard from './pages/Dashboard';
+import Analytics from './pages/Analytics';
+import Customers from './pages/ecommerce/Customers';
+import Products from './pages/product/Products';
+import Inventories from './pages/inventory/Inventories';
+import Collections from './pages/collection/Collections';
+import Orders from './pages/ecommerce/Orders';
+import Account from './pages/settings/Account';
+import Notifications from './pages/settings/Notifications';
+import Apps from './pages/settings/Apps';
+import Plans from './pages/settings/Plans';
+import Billing from './pages/settings/Billing';
+import Feedback from './pages/settings/Feedback';
+import PageNotFound from './pages/utility/PageNotFound';
+
+import { GlobalStyle } from 'styles/global-styles';
 
 export function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    //@ts-ignore
+    document.querySelector('html').style.scrollBehavior = 'auto';
+    window.scroll({ top: 0 });
+    //@ts-ignore
+    document.querySelector('html').style.scrollBehavior = '';
+    //@ts-ignore
+    focusHandling('outline');
+  }, [location.pathname]); // triggered on route change
   const { i18n } = useTranslation();
   return (
-    <BrowserRouter>
+    <>
       <Helmet
-        titleTemplate="%s - React Boilerplate"
-        defaultTitle="React Boilerplate"
+        titleTemplate="%s - Reoplex Admin"
+        defaultTitle="Reoplex Admin"
         htmlAttributes={{ lang: i18n.language }}
       >
-        <meta name="description" content="A React Boilerplate application" />
+        <meta name="description" content="Reoplex Merchant Admin" />
       </Helmet>
-
       <Switch>
-        <Route exact path={process.env.PUBLIC_URL + '/'} component={HomePage} />
-        <Route component={NotFoundPage} />
+        <Route exact path={process.env.PUBLIC_URL + '/'}>
+          <Dashboard />
+        </Route>
+        <Route exact path="/analytics">
+          <Analytics />
+        </Route>
+        <Route exact path="/customers">
+          <Customers />
+        </Route>
+        <Route exact path="/orders">
+          <Orders />
+        </Route>
+        <Route exact path="/shop/products">
+          <Products />
+        </Route>
+        <Route exact path="/shop/collections">
+          <Collections />
+        </Route>
+        <Route exact path="/shop/inventory">
+          <Inventories />
+        </Route>
+        <Route exact path="/analytics/live">
+          <Dashboard />
+        </Route>
+        <Route exact path="/analytics/reports">
+          <Dashboard />
+        </Route>
+        <Route exact path="/analytics/dashboards">
+          <Dashboard />
+        </Route>
+        <Route exact path="/analytics/insights">
+          <Dashboard />
+        </Route>
+
+        <Route exact path="/settings/account">
+          <Account />
+        </Route>
+        <Route exact path="/settings/notifications">
+          <Notifications />
+        </Route>
+        <Route exact path="/settings/apps">
+          <Apps />
+        </Route>
+        <Route exact path="/settings/plans">
+          <Plans />
+        </Route>
+        <Route exact path="/settings/billing">
+          <Billing />
+        </Route>
+        <Route exact path="/settings/feedback">
+          <Feedback />
+        </Route>
+
+        <Route path="*">
+          <PageNotFound />
+        </Route>
       </Switch>
       <GlobalStyle />
-    </BrowserRouter>
+    </>
   );
 }

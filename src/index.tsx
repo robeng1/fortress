@@ -12,6 +12,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import FontFaceObserver from 'fontfaceobserver';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
@@ -46,7 +47,9 @@ ReactDOM.render(
     <ThemeProvider>
       <HelmetProvider>
         <React.StrictMode>
-          <App />
+          <Router>
+            <App />
+          </Router>
         </React.StrictMode>
       </HelmetProvider>
     </ThemeProvider>
