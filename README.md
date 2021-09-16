@@ -141,11 +141,3 @@ But wait... there's more!
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-## License
-
-This project is licensed under the MIT license, Copyright (c) 2019 Maximilian Stoiber.
-For more information see `LICENSE.md`.
