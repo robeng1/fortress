@@ -1,0 +1,7 @@
+export enum CollectionErrorType {
+  RESPONSE_ERROR = 1,
+  SHOP_NOT_FOUND = 2,
+  SHOPID_EMPTY = 3,
+  SHOP_HAS_NO_COLLECTION = 4,
+  COLLECTION_HAS_NO_PRODUCTS = 5,
+}

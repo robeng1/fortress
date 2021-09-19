@@ -54,7 +54,7 @@ function ModalBasic({ children, id, title, modalOpen, setModalOpen }) {
       >
         <div
           ref={modalContent}
-          className="bg-white rounded shadow-lg overflow-auto max-w-lg w-full max-h-full"
+          className="bg-white rounded shadow-lg overflow-auto max-w-3xl w-full max-h-full"
         >
           {/* Modal header */}
           <div className="px-5 py-3 border-b border-gray-200">

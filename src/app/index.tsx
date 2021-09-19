@@ -9,6 +9,7 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import 'react-quill/dist/quill.snow.css';
 
 import '../css/style.scss';
 

@@ -35,3 +35,13 @@ export const formatThousands = value =>
     maximumSignificantDigits: 3,
     notation: 'compact',
   }).format(value);
+
+export const objectify = (array, key) => {
+  const initialValue = {};
+  return array.reduce((obj, item) => {
+    return {
+      ...obj,
+      [item[key]]: item,
+    };
+  }, initialValue);
+};
