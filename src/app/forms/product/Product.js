@@ -570,7 +570,7 @@ const ProductForm = () => {
                   {values.is_parent ? (
                     <>
                       <div className="w-full block border-1 border-black mt-4"></div>
-                      <h2 className="hidden md:block text-sm uppercase leading-snug text-gray-800 font-medium mb-1">
+                      <h2 className="text-sm uppercase leading-snug text-gray-800 font-medium mb-1">
                         Options
                       </h2>
                       <div className="hidden md:block">
