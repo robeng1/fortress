@@ -573,7 +573,7 @@ const ProductForm = () => {
                       <h2 className="text-sm uppercase leading-snug text-gray-800 font-medium mb-1">
                         Options
                       </h2>
-                      <div className="hidden md:block">
+                      <div>
                         <div className="flex align-baseline sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-2 mt-5">
                           <div className="sm:w-1/5 md:w-1/5">
                             <label
