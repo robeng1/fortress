@@ -31,13 +31,13 @@ function VariantItem(props) {
           </div>
         </div>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      {/* <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div
           className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 `}
         >
           {props.inventory}
         </div>
-      </td>
+      </td> */}
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div
           className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 `}

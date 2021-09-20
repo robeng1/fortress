@@ -1,10 +1,9 @@
 import { useState } from 'react';
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond';
-import ModalBasic from 'app/components/ModalBasic';
+
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
-import VariantPreviewTable from './Variant';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css';
@@ -16,30 +15,7 @@ import 'css/filepond.css';
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-const ProductForm = () => {
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [variantModalOpen, setVariantModalOpen] = useState(false);
-
-  const handleSelectedItems = selectedItems => {
-    setSelectedItems([...selectedItems]);
-  };
-  const filteredOpts = (options, alreadySelected) =>
-    Object.keys(options)
-      .filter(key => !alreadySelected.includes(key))
-      .reduce((obj, key) => {
-        obj[key] = options[key];
-        return obj;
-      }, {});
-
-  let options = {
-    size: 'Size',
-    color: 'Color',
-    scent: 'Scent',
-    flavour: 'Flavour',
-    material: 'Material',
-    model: 'Model',
-    style: 'Style',
-  };
+const DiscountForm = () => {
   return (
     <>
       <Formik
@@ -146,178 +122,74 @@ const ProductForm = () => {
                       />
                     </div>
                   </div>
+                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                    <div className="w-full">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="type"
+                      >
+                        Type
+                      </label>
+                      <select
+                        name="type"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.type}
+                        id="type"
+                        className="form-select block"
+                      >
+                        <option value="">Please Select</option>
+                        <option value="SITE">Automatic</option>
+                        <option value="VOUCHER">Manual</option>
+                      </select>
+                    </div>
+                  </div>
                 </section>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-1 md:gap-0 md:content-start md:gap-y-6 md:row-span-2">
-                <div class="rounded-lg p-4">
-                  <section>
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                      Organization
-                    </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="type"
-                        >
-                          Product Type
-                        </label>
-                        <select
-                          name="type"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.type}
-                          id="type"
-                          className="form-select block"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Ghana</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="RW">Rwanda</option>
-                          <option value="KY">Kenya</option>
-                          <option value="SA">South Africa</option>
-                        </select>
-                      </div>
+              <div class="md:col-span-2">
+                <section className="rounded bg-white shadow overflow-hidden p-3">
+                  <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
+                    Incentive
+                  </h2>
+                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                    <div className="w-full">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="incentive_type"
+                      >
+                        Type
+                      </label>
+                      <select
+                        name="incentive_type"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.incentive_type}
+                        id="incentive_type"
+                        className="form-select block"
+                      >
+                        <option value="">Please Select</option>
+                        <option value="Percentage">
+                          Discount is a percentage off of the product's value
+                        </option>
+                        <option value="Absolute">
+                          Discount is a fixed amount off of the product's value
+                        </option>
+                        <option value="MultiBuy">
+                          Discount is to give the cheapest product for free
+                        </option>
+                        <option value="FixedPricePerProduct">
+                          Discount is a fixed amount off of each product's value
+                          that match condition
+                        </option>
+                      </select>
                     </div>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="vendor"
-                        >
-                          Vendor
-                        </label>
-                        <input
-                          id="vendor"
-                          name="vendor"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.vendor}
-                          className="form-input"
-                          type="text"
-                          autoComplete="vendor"
-                          placeholder="Nike"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="collections"
-                        >
-                          Collections
-                        </label>
-                        <select
-                          id="collections"
-                          name="collections"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.collections}
-                          className="form-select block"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Ghana</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="RW">Rwanda</option>
-                          <option value="KY">Kenya</option>
-                          <option value="SA">South Africa</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="tags"
-                        >
-                          Tags
-                        </label>
-                        <select
-                          id="tags"
-                          name="tags"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.tags}
-                          className="form-select block"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Ghana</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="RW">Rwanda</option>
-                          <option value="KY">Kenya</option>
-                          <option value="SA">South Africa</option>
-                        </select>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="rounded-lg p-4">
-                  <section className="sm:mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                      Availability
-                    </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="channels"
-                        >
-                          Channels
-                        </label>
-                        <select
-                          id="channels"
-                          name="channels"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.channels}
-                          className="form-select block"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Store</option>
-                          <option value="NG">Facebook</option>
-                          <option value="RW">Instagram</option>
-                          <option value="KY">TikTok</option>
-                        </select>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="rounded-lg p-4">
-                  <section className="sm:mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                      Theme Templates
-                    </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="template_suffix"
-                        >
-                          Template
-                        </label>
-                        <select
-                          id="template_suffix"
-                          name="template_suffix"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.template_suffix}
-                          className="form-select block"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Ghana</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="product">product</option>
-                        </select>
-                      </div>
-                    </div>
-                  </section>
-                </div>
+                  </div>
+                </section>
               </div>
               <div class="md:col-span-2">
                 <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                    Product Images
+                    Cover Image
                   </h2>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="w-full">
@@ -330,7 +202,7 @@ const ProductForm = () => {
                           ]);
                         }}
                         allowMultiple={true}
-                        maxFiles={6}
+                        maxFiles={1}
                         server={null}
                         instantUpload={false}
                         id="files"
@@ -343,7 +215,7 @@ const ProductForm = () => {
                 </section>
                 <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                    Pricing
+                    Type
                   </h2>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="sm:w-1/2">
@@ -400,6 +272,21 @@ const ProductForm = () => {
                         className="form-input"
                         type="text"
                         placeholder="GHS 0.00"
+                      />
+                    </div>
+                    <div className="sm:w-1/2">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="post-code"
+                      >
+                        Digital Address/Postal code
+                      </label>
+                      <input
+                        id="post-code"
+                        className="form-input"
+                        type="text"
+                        autoComplete="postal-code"
+                        placeholder="G7HS7893"
                       />
                     </div>
                   </div>
@@ -547,174 +434,6 @@ const ProductForm = () => {
                 </section>
 
                 <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                  <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-8">
-                    Variants
-                  </h2>
-                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="flex items-center w-full">
-                      <input
-                        name="is_parent"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.is_parent}
-                        id="is_parent"
-                        type="checkbox"
-                      />
-                      <label className="block text-sm ml-2" htmlFor="is_parent">
-                        This product has multiple options, like different sizes
-                        or colors
-                      </label>
-                    </div>
-                  </div>
-                  {values.is_parent ? (
-                    <>
-                      <div className="w-full block border-1 border-black mt-4"></div>
-                      <h2 className="text-sm uppercase leading-snug text-gray-800 font-medium mb-1">
-                        Options
-                      </h2>
-                      <div>
-                        <div className="flex align-baseline sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-2 mt-5">
-                          <div className="sm:w-1/5 md:w-1/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_one"
-                            >
-                              Option 1
-                            </label>
-                            <select
-                              id="option_one"
-                              name="option_one"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_one}
-                              className="form-select block"
-                            >
-                              {Object.entries(
-                                filteredOpts(options, [
-                                  values.option_two,
-                                  values.option_three,
-                                ]),
-                              ).map(([k, v], i) => (
-                                <option key={`${k}-${i}-option_one`} value={k}>
-                                  {v}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="sm:w-4/5 md:w-4/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_one_values"
-                            >
-                              Option 1 Values
-                            </label>
-                            <input
-                              id="option_one_values"
-                              name="option_one_values"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_one_values}
-                              className="form-input capitalize"
-                              type="text"
-                              placeholder="Red, Yellow"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex align-baseline sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-2 mt-5">
-                          <div className="sm:w-1/5 md:w-1/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_two"
-                            >
-                              Option 2
-                            </label>
-                            <select
-                              id="option_two"
-                              name="option_two"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_two}
-                              className="form-select block"
-                            >
-                              {Object.entries(
-                                filteredOpts(options, [
-                                  values.option_one,
-                                  values.option_three,
-                                ]),
-                              ).map(([k, v], i) => (
-                                <option key={`${k}-${i}-option_two`} value={k}>
-                                  {v}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="sm:w-4/5 md:w-4/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_two_values"
-                            >
-                              Option 2 Values
-                            </label>
-                            <input
-                              id="option_two_values"
-                              name="option_two_values"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_two_values}
-                              className="form-input capitalize"
-                              type="text"
-                              placeholder="Red, Yellow"
-                            />
-                          </div>
-                        </div>
-                        <div className="rounded bg-white shadow p-3 mt-4 mb-10">
-                          <button
-                            onClick={e => {
-                              e.stopPropagation();
-                              setVariantModalOpen(true);
-                            }}
-                            className="text-sm uppercase leading-snug text-gray-800 font-bold mb-5"
-                          >
-                            Edit Variants
-                          </button>
-                          <ModalBasic
-                            id="feedback-modal"
-                            modalOpen={variantModalOpen}
-                            setModalOpen={setVariantModalOpen}
-                            title="Variants"
-                          >
-                            <h2 className="text-sm uppercase text-center leading-snug text-gray-800 font-medium mb-5">
-                              East Coast Warehouse
-                            </h2>
-                            <VariantPreviewTable
-                              headings={[
-                                values.option_one,
-                                values.option_two,
-                                // values.option_three,
-                              ]}
-                              selectedItems={handleSelectedItems}
-                            />
-                            <h2 className="text-sm uppercase text-justify leading-snug text-gray-800 font-medium mt-5 mb-5">
-                              Home Office
-                            </h2>
-                            <VariantPreviewTable
-                              headings={[
-                                values.option_one,
-                                values.option_two,
-                                // values.option_three,
-                              ]}
-                              selectedItems={handleSelectedItems}
-                            />
-                          </ModalBasic>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </section>
-                <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                     Search Engine Preview
                     <p className="text-sm header leading-snug text-gray-800 font-light mb-1">
@@ -795,4 +514,4 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
+export default DiscountForm;
