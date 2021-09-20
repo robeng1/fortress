@@ -137,10 +137,10 @@ const ProductForm = () => {
                         Description
                       </label>
                       <ReactQuill
+                        id="description"
                         theme="snow"
                         name="description"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
+                        onChange={e => setFieldValue('description', e)}
                         value={values.description}
                         style={{ height: '14rem', marginBottom: '3rem' }}
                       />
@@ -329,6 +329,7 @@ const ProductForm = () => {
                             ...fileItems,
                           ]);
                         }}
+                        credits={{}}
                         allowMultiple={true}
                         maxFiles={6}
                         server={null}

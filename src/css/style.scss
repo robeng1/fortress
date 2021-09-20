@@ -16,7 +16,7 @@
   [type='text'],
   [type='email'],
   [type='url'],
-  [type='password'],
+  // [type='password'],
   [type='number'],
   [type='date'],
   [type='datetime-local'],
@@ -33,5 +33,8 @@
   [type='checkbox'],
   [type='radio']{
     @apply rounded border-gray-300 text-indigo-600;
+  }
+  [type='password']{
+    @apply font-semibold tracking-wide;
   }
 } 
