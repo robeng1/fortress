@@ -1,6 +1,6 @@
 import { LatLng } from '../latLng';
 import { MoneyType } from '../money';
-import { Address } from '../settings/shop-type';
+import { AddressType } from '../settings/shop-type';
 
 export interface LocationType {
   centre_id?: string;
@@ -8,7 +8,7 @@ export interface LocationType {
   name?: string;
   longitude?: number | string;
   latitude?: number | string;
-  address?: Address | null;
+  address?: AddressType | null;
   created_at?: string;
   description?: string;
   average_dispatch_time?: string;

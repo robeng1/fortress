@@ -98,6 +98,10 @@ const slice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    clearError(state) {
+      state.error = null;
+      state.loading = false;
+    },
   },
 });
 

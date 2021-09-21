@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { fortressApi } from 'app/api/axios';
+import { fortressURL } from 'app/endpoints/urls';
 import {
   CollectionListType,
   CollectionProductType,
@@ -8,16 +8,17 @@ import {
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request, ResponseError } from 'utils/request';
 import { collectionActions as actions } from '.';
-import { selectShopID } from './selectors';
+import { selectCollectionsNextPageToken, selectShopId } from './selectors';
 import { CollectionErrorType } from './types';
 
 export function* getCollections() {
-  const shopID: string = yield select(selectShopID);
+  const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
     return;
   }
-  const requestURL = `${fortressApi}/shops/${shopID}/collections`;
+  const page: string = yield select(selectCollectionsNextPageToken);
+  const requestURL = `${fortressURL}/shops/${shopID}/collections?page=${page}`;
   try {
     const collectionList: CollectionListType = yield call(request, requestURL);
     if (
@@ -41,20 +42,16 @@ export function* getCollections() {
 }
 
 export function* watchLoadCollections() {
-  // Watches for loadCollections actions and calls getCollections when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
   yield takeLatest(actions.loadCollections.type, getCollections);
 }
 
 export function* createCollection(action: PayloadAction<CollectionType>) {
-  const shopID: string = yield select(selectShopID);
+  const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
     return;
   }
-  const requestURL = `${fortressApi}/shops/${shopID}/collections`;
+  const requestURL = `${fortressURL}/shops/${shopID}/collections`;
   try {
     const collection: CollectionType = yield call(request, requestURL, {
       method: 'POST',
@@ -78,13 +75,13 @@ export function* watchCreateCollection() {
 }
 
 export function* updateCollection(action: PayloadAction<CollectionType>) {
-  const shopID: string = yield select(selectShopID);
+  const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
     return;
   }
   const body = action?.payload;
-  const requestURL = `${fortressApi}/shops/${shopID}/collections/${body.collection_id}`;
+  const requestURL = `${fortressURL}/shops/${shopID}/collections/${body.collection_id}`;
   try {
     const collection: CollectionType = yield call(request, requestURL, {
       method: 'PATCH',
@@ -108,13 +105,13 @@ export function* watchUpdateCollection() {
 }
 
 export function* getCollectionProducts(action: PayloadAction<string>) {
-  const shopID: string = yield select(selectShopID);
+  const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
     return;
   }
   const collectionId = action?.payload;
-  const requestURL = `${fortressApi}/shops/${shopID}/collections/${collectionId}/products`;
+  const requestURL = `${fortressURL}/shops/${shopID}/collections/${collectionId}/products`;
   try {
     const products: CollectionProductType[] = yield call(request, requestURL);
     if (products && products.length > 0) {

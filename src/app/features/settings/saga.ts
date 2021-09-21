@@ -1,21 +1,65 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { fortressApi } from 'app/api/axios';
-import { Shop } from 'app/models/settings/shop-type';
-import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
+import { domainURL, fortressURL } from 'app/endpoints/urls';
+import { ShopType } from 'app/models/settings/shop-type';
+import {
+  all,
+  call,
+  fork,
+  put,
+  select,
+  takeLatest,
+  throttle,
+} from 'redux-saga/effects';
 import { request } from 'utils/request';
 import { settingsActions as actions } from '.';
-import { selectUserID } from './selectors';
+import { selectUserId } from './selectors';
 import { SettingsErrorType } from './type';
 
-export function* updateShop(action: PayloadAction<Shop>) {
+export function* ask(action: PayloadAction<string>) {
+  const requestURL = `${domainURL}/ask?domain=${action.payload}`;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _ = yield call(request, requestURL);
+    yield put(actions.settingsError(SettingsErrorType.SHOP_NAME_ALREADY_TAKEN));
+  } catch (err) {
+    yield put(actions.clearError());
+  }
+}
+
+export function* watchAsk() {
+  yield throttle(500, actions.ask.type, ask);
+}
+
+export function* createShop(action: PayloadAction<ShopType>) {
+  const body = action.payload;
+  const requestURL = `${fortressURL}/shops/`;
+  try {
+    const shop: ShopType = yield call(request, requestURL, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+
+    if (shop) {
+      yield put(actions.setShop(shop));
+    }
+  } catch (err) {
+    yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+  }
+}
+
+export function* watchCreateShop() {
+  yield takeLatest(actions.createShop.type, createShop);
+}
+
+export function* updateShop(action: PayloadAction<ShopType>) {
   const body = action.payload;
   if (body.shop_id?.length === 0) {
     yield put(actions.settingsError(SettingsErrorType.SHOPID_EMPTY));
     return;
   }
-  const requestURL = `${fortressApi}/shops/${body.shop_id}`;
+  const requestURL = `${fortressURL}/shops/${body.shop_id}`;
   try {
-    const shop: Shop = yield call(request, requestURL, {
+    const shop: ShopType = yield call(request, requestURL, {
       method: 'PATCH',
       body: JSON.stringify(body),
     });
@@ -29,22 +73,18 @@ export function* updateShop(action: PayloadAction<Shop>) {
 }
 
 export function* watchUpdateShop() {
-  // Watches for loadOffers actions and calls getOffers when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
   yield takeLatest(actions.updateShop.type, updateShop);
 }
 
 export function* getShop(action: PayloadAction<string>) {
-  const shopID = action.payload;
-  if (shopID.length === 0) {
+  const shopId = action.payload;
+  if (shopId.length === 0) {
     yield put(actions.settingsError(SettingsErrorType.SHOPID_EMPTY));
     return;
   }
-  const requestURL = `${fortressApi}/shops/${shopID}`;
+  const requestURL = `${fortressURL}/shops/${shopId}`;
   try {
-    const shop: Shop = yield call(request, requestURL);
+    const shop: ShopType = yield call(request, requestURL);
     if (shop) {
       yield put(actions.setShop(shop));
     }
@@ -54,22 +94,18 @@ export function* getShop(action: PayloadAction<string>) {
 }
 
 export function* watchGetShop() {
-  // Watches for loadOffers actions and calls getOffers when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
   yield takeLatest(actions.getShop.type, getShop);
 }
 
-export function* getShopByMerchantID() {
-  const userID: string = yield select(selectUserID);
+export function* getShopByMerchantId() {
+  const userID: string = yield select(selectUserId);
   if (userID.length === 0) {
     yield put(actions.settingsError(SettingsErrorType.USERID_EMPTY));
     return;
   }
-  const requestURL = `${fortressApi}/${userID}/shops`;
+  const requestURL = `${fortressURL}/${userID}/shops`;
   try {
-    const shop: Shop = yield call(request, requestURL);
+    const shop: ShopType = yield call(request, requestURL);
 
     if (shop) {
       yield put(actions.setShop(shop));
@@ -79,12 +115,8 @@ export function* getShopByMerchantID() {
   }
 }
 
-export function* watchGetShopByMerchantID() {
-  // Watches for loadOffers actions and calls getOffers when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
-  yield takeLatest(actions.getShopByMerchantId.type, getShopByMerchantID);
+export function* watchGetShopByMerchantId() {
+  yield takeLatest(actions.getShopByMerchantId.type, getShopByMerchantId);
 }
 
 /**
@@ -93,7 +125,9 @@ export function* watchGetShopByMerchantID() {
 export default function* settingsSaga() {
   yield all([
     fork(watchUpdateShop),
+    fork(watchCreateShop),
     fork(watchGetShop),
-    fork(watchGetShopByMerchantID),
+    fork(watchGetShopByMerchantId),
+    fork(watchAsk),
   ]);
 }

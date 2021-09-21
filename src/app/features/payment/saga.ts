@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { paymentApi } from 'app/api/axios';
+import { paymentURL } from 'app/endpoints/urls';
 import { Account } from 'app/models/payment/account-type';
 import { TransferType } from 'app/models/payment/transfer';
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
@@ -14,7 +14,7 @@ export function* createAccount(action: PayloadAction<Account>) {
     yield put(actions.paymentError(PaymentErrorType.USERID_EMPTY));
     return;
   }
-  const requestURL = `${paymentApi}/${userID}/accounts`;
+  const requestURL = `${paymentURL}/${userID}/accounts`;
   try {
     const account: Account = yield call(request, requestURL, {
       method: 'POST',
@@ -40,7 +40,7 @@ export function* updateAccount(action: PayloadAction<Account>) {
     return;
   }
   const body = action?.payload;
-  const requestURL = `${paymentApi}/${userID}/accounts/${body.account_id}`;
+  const requestURL = `${paymentURL}/${userID}/accounts/${body.account_id}`;
 
   try {
     const account: Account = yield call(request, requestURL, {
@@ -67,7 +67,7 @@ export function* getAccount(action: PayloadAction<string>) {
     return;
   }
   const accountId = action?.payload;
-  const requestURL = `${paymentApi}/${userID}/accounts/${accountId}`;
+  const requestURL = `${paymentURL}/${userID}/accounts/${accountId}`;
   try {
     const account: Account = yield call(request, requestURL);
     if (account) {
@@ -89,7 +89,7 @@ export function* withdraw(action: PayloadAction<TransferType>) {
     return;
   }
   const transfer = action?.payload;
-  const requestURL = `${paymentApi}/${userID}/accounts/${transfer.source_id}/withdraw`;
+  const requestURL = `${paymentURL}/${userID}/accounts/${transfer.source_id}/withdraw`;
   try {
     const returnedTrns: TransferType = yield call(request, requestURL, {
       method: 'POST',

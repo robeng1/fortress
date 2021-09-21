@@ -3,7 +3,7 @@ import { Photo } from '../photo';
 import { BenefitType } from './benefit-type';
 import { ConditionType } from './condition-type';
 
-export interface ConditionalOfferType {
+export interface DiscountType {
   shop_id?: string;
   offer_id?: string;
   name?: string;
@@ -35,7 +35,7 @@ export interface ConditionalOfferType {
   page_description?: string;
 }
 
-export interface OfferListType {
-  offers?: ConditionalOfferType[];
+export interface DiscountListType {
+  offers?: DiscountType[];
   next_page_token?: string;
 }

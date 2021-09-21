@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Shop } from 'app/models/settings/shop-type';
+import { ShopType } from 'app/models/settings/shop-type';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import settingsSaga from './saga';
 import { SettingsErrorType } from './type';
@@ -8,7 +8,7 @@ import { SettingsErrorType } from './type';
 const settingsNamespace = 'settings';
 
 export type SettingsState = {
-  shop: Shop;
+  shop: ShopType;
   loading: boolean;
   error?: SettingsErrorType | null;
 };
@@ -27,14 +27,36 @@ export const slice = createSlice({
   initialState, // same as initialState: initialState
 
   reducers: {
-    getShopByMerchantId: () => {},
-    getShop: (state, action: PayloadAction<string>) => {},
-    updateShop: (state, action: PayloadAction<Shop>) => {},
-    setShop: (state, action: PayloadAction<Shop>) => {
+    ask: (state, action: PayloadAction<string>) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getShopByMerchantId: state => {
+      state.loading = true;
+      state.error = null;
+    },
+    getShop: (state, action: PayloadAction<string>) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updateShop: (state, action: PayloadAction<ShopType>) => {
+      state.loading = true;
+      state.error = null;
+    },
+    createShop: (state, action: PayloadAction<ShopType>) => {
+      state.loading = true;
+      state.error = null;
+    },
+    setShop: (state, action: PayloadAction<ShopType>) => {
       state.shop = action?.payload;
+      state.loading = false;
     },
     settingsError(state, action: PayloadAction<SettingsErrorType>) {
       state.error = action.payload;
+      state.loading = false;
+    },
+    clearError(state) {
+      state.error = null;
       state.loading = false;
     },
   },
@@ -42,7 +64,7 @@ export const slice = createSlice({
 
 export const { actions: settingsActions, reducer } = slice;
 
-export const useSettingsSlice = () => {
+export const useSettingSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });
   useInjectSaga({ key: slice.name, saga: settingsSaga });
   return { actions: slice.actions };

@@ -16,6 +16,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
+import 'css/style.scss';
 
 import { App } from 'app';
 

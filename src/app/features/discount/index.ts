@@ -1,22 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
-  ConditionalOfferType,
-  OfferListType,
+  DiscountType,
+  DiscountListType,
 } from 'app/models/discount/discount-type';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import offerSaga from './saga';
-import { OfferErrorType } from './types';
+import DiscountSaga from './saga';
+import { DiscountErrorType } from './types';
 
 const discountNamespace = 'discount';
 
 export type DiscountState = {
-  offers: ConditionalOfferType[];
+  offers: DiscountType[];
   shard: number;
   nextPageToken: string;
   count: number;
   loading: boolean;
-  error?: OfferErrorType | null;
+  error?: DiscountErrorType | null;
 };
 
 export const initialState: DiscountState = {
@@ -36,19 +36,19 @@ const slice = createSlice({
   initialState, // same as initialState: initialState
 
   reducers: {
-    createOffer: (state, action: PayloadAction<ConditionalOfferType>) => {
+    createDiscount: (state, action: PayloadAction<DiscountType>) => {
       state.loading = true;
       state.error = null;
     },
-    updateOffer: (state, action: PayloadAction<ConditionalOfferType>) => {
+    updateDiscount: (state, action: PayloadAction<DiscountType>) => {
       state.loading = true;
       state.error = null;
     },
-    loadOffers: state => {
+    loadDiscounts: state => {
       state.loading = true;
       state.error = null;
     },
-    offersLoaded: (state, action: PayloadAction<OfferListType>) => {
+    discountsLoaded: (state, action: PayloadAction<DiscountListType>) => {
       const { offers, next_page_token } = action?.payload;
       if (offers) {
         state.offers = [...offers, ...state.offers];
@@ -58,8 +58,12 @@ const slice = createSlice({
       }
       state.loading = false;
     },
-    discountError(state, action: PayloadAction<OfferErrorType>) {
+    discountError(state, action: PayloadAction<DiscountErrorType>) {
       state.error = action.payload;
+      state.loading = false;
+    },
+    clearError(state) {
+      state.error = null;
       state.loading = false;
     },
   },
@@ -67,8 +71,8 @@ const slice = createSlice({
 
 export const { actions: discountActions, reducer } = slice;
 
-export const useOfferSlice = () => {
+export const useDiscountSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });
-  useInjectSaga({ key: slice.name, saga: offerSaga });
+  useInjectSaga({ key: slice.name, saga: DiscountSaga });
   return { actions: slice.actions };
 };

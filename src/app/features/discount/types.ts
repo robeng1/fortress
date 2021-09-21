@@ -1,4 +1,4 @@
-export enum OfferErrorType {
+export enum DiscountErrorType {
   RESPONSE_ERROR = 1,
   SHOP_NOT_FOUND = 2,
   SHOPID_EMPTY = 3,

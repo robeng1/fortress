@@ -11,30 +11,3 @@
 @import 'additional-styles/theme.scss';
 
 @tailwind utilities;
-
-@layer base{
-  [type='text'],
-  [type='email'],
-  [type='url'],
-  // [type='password'],
-  [type='number'],
-  [type='date'],
-  [type='datetime-local'],
-  [type='month'],
-  [type='search'],
-  [type='tel'],
-  [type='time'],
-  [type='week'],
-  [multiple],
-  textarea,
-  select{
-    @apply w-full border-gray-300 shadow-sm focus:border-indigo-500 rounded-lg;
-  }
-  [type='checkbox'],
-  [type='radio']{
-    @apply rounded border-gray-300 text-indigo-600;
-  }
-  [type='password']{
-    @apply font-semibold tracking-wide;
-  }
-} 

@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import * as React from 'react';
+import Divider from '@mui/material/Divider';
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond';
 
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
+import Select from 'react-select';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css';
@@ -16,42 +18,49 @@ import 'css/filepond.css';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const DiscountForm = () => {
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
   return (
-    <>
+    <div>
       <Formik
         initialValues={{
           title: '',
           description: '',
-          is_parent: false,
-          shipping_required: false,
-          track_quantity: true,
-          quantity: 0,
-          type: '',
-          collections: [],
-          stock_records: {},
-          images: [],
-          tags: [],
-          vendor: '',
-          channels: [],
-          template_suffix: 'product',
-          price: '',
-          compare_at_price: '',
-          cost_per_item: '',
-          sku: '',
-          barcode: '',
-          unlimited: '',
-          weight: '',
-          length: '',
-          wdith: '',
-          height: '',
-          option_one: '',
-          option_one_values: [],
-          option_two: '',
-          option_two_values: [],
-          option_three: '',
-          option_three_values: [],
-          locations: [],
-          comb_options: [],
+          page_title: '',
+          page_description: '',
+          type: 'site',
+          all_products: false,
+          specific_products: false,
+          included_products: [],
+          excluded_products: [],
+          included_collections: [],
+          incentive_type: '',
+          buy_x_get_y_cond_value_int: '',
+          conditon_value_money: '',
+          buy_x_get_y_cond_range_type: '',
+          buy_x_get_y_value_type: 'quantity',
+          buy_x_get_y_ben_range_type: '',
+          buy_x_get_y_ben_value_int: '',
+          buy_x_get_y_discounted_value_type: '',
+          requirements: '',
+          value: '',
+          applies_to: '',
+          exclusive: true,
+          customer_eligibility: '',
+          has_max_global_applications: false,
+          has_max_user_applications: false,
+          has_max_discount: false,
+          max_basket_applications: 1,
+          max_discount: '',
+          max_user_applications: '',
+          max_global_applications: '',
+          start_date: '',
+          start_time: '',
+          end_date: '',
+          end_time: '',
           //TODO: set the file IDs to the images value after they have been uploaded
           files: [],
         }}
@@ -77,19 +86,16 @@ const DiscountForm = () => {
           /* and other goodies */
         }) => (
           <div className="flex-grow">
-            <div class="p-8 grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-6">
-              <div class="md:col-span-2">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
+              <div class="sm:col-span-3 md:col-span-3 lg:col-span-2">
                 <section className="rounded bg-white shadow overflow-hidden p-3">
-                  <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
-                    Product Details
-                  </h2>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="w-full">
                       <label
                         className="block text-sm font-medium mb-1"
                         htmlFor="title"
                       >
-                        Title
+                        Discount Title
                       </label>
                       <input
                         id="title"
@@ -97,10 +103,10 @@ const DiscountForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.title}
-                        className="form-input"
+                        className="form-input w-full"
                         type="text"
-                        autoComplete="product-title"
-                        placeholder="Chilled beer"
+                        autoComplete="discount-title"
+                        placeholder="X-mas Sales"
                       />
                     </div>
                   </div>
@@ -115,10 +121,11 @@ const DiscountForm = () => {
                       <ReactQuill
                         theme="snow"
                         name="description"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
+                        onChange={e => setFieldValue('description', e)}
                         value={values.description}
-                        style={{ height: '14rem', marginBottom: '3rem' }}
+                        style={{
+                          maxHeight: '14rem',
+                        }}
                       />
                     </div>
                   </div>
@@ -128,7 +135,7 @@ const DiscountForm = () => {
                         className="block text-sm font-medium mb-1"
                         htmlFor="type"
                       >
-                        Type
+                        Discount Type
                       </label>
                       <select
                         name="type"
@@ -139,55 +146,140 @@ const DiscountForm = () => {
                         className="form-select block"
                       >
                         <option value="">Please Select</option>
-                        <option value="SITE">Automatic</option>
-                        <option value="VOUCHER">Manual</option>
+                        <option value="site">Automatic</option>
+                        <option value="voucher">Manual</option>
                       </select>
                     </div>
                   </div>
                 </section>
               </div>
-              <div class="md:col-span-2">
+              <div class="sm:col-span-3 md:col-span-3 lg:col-span-2">
                 <section className="rounded bg-white shadow overflow-hidden p-3">
-                  <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
-                    Incentive
-                  </h2>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="w-full">
+                    <div className="sm:w-full mt-1">
                       <label
                         className="block text-sm font-medium mb-1"
                         htmlFor="incentive_type"
                       >
                         Type
                       </label>
-                      <select
-                        name="incentive_type"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.incentive_type}
-                        id="incentive_type"
-                        className="form-select block"
-                      >
-                        <option value="">Please Select</option>
-                        <option value="Percentage">
-                          Discount is a percentage off of the product's value
-                        </option>
-                        <option value="Absolute">
-                          Discount is a fixed amount off of the product's value
-                        </option>
-                        <option value="MultiBuy">
-                          Discount is to give the cheapest product for free
-                        </option>
-                        <option value="FixedPricePerProduct">
-                          Discount is a fixed amount off of each product's value
-                          that match condition
-                        </option>
-                      </select>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="incentive_type"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('incentive_type', 'percentage')
+                            }
+                            value={
+                              values.requirements === 'percentage'
+                                ? true
+                                : false
+                            }
+                          />
+                          <span className="text-sm ml-2">Percentage</span>
+                        </label>
+                      </div>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="incentive_type"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('incentive_type', 'fixed_amount')
+                            }
+                            value={
+                              values.requirements === 'fixed_amount'
+                                ? true
+                                : false
+                            }
+                          />
+                          <span className="text-sm ml-2">Fixed amount</span>
+                        </label>
+                      </div>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="incentive_type"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('incentive_type', 'multibuy')
+                            }
+                            value={
+                              values.requirements === 'multibuy' ? true : false
+                            }
+                          />
+                          <span className="text-sm ml-2">Multibuy</span>
+                        </label>
+                      </div>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="incentive_type"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('incentive_type', 'fixed_price')
+                            }
+                            value={
+                              values.requirements === 'fixed_price'
+                                ? true
+                                : false
+                            }
+                          />
+                          <span className="text-sm ml-2">Fixed Price</span>
+                        </label>
+                      </div>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="incentive_type"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue(
+                                'incentive_type',
+                                'fixed_price_per_product',
+                              )
+                            }
+                            value={
+                              values.requirements === 'fixed_price_per_product'
+                                ? true
+                                : false
+                            }
+                          />
+                          <span className="text-sm ml-2">
+                            Fixed price per product
+                          </span>
+                        </label>
+                      </div>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="incentive_type"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('incentive_type', 'buy-x-get-y')
+                            }
+                            value={
+                              values.requirements === 'buy-x-get-y'
+                                ? true
+                                : false
+                            }
+                          />
+                          <span className="text-sm ml-2">Buy-X-Get-Y</span>
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </section>
               </div>
-              <div class="md:col-span-2">
-                <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+              <div class="sm:col-span-3 md:col-span-3 lg:col-span-2">
+                {/* <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                     Cover Image
                   </h2>
@@ -208,231 +300,689 @@ const DiscountForm = () => {
                         id="files"
                         name="files"
                         key="files"
-                        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                        labelIdle={``}
                       />
+                    </div>
+                  </div>
+                </section> */}
+                <section
+                  className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
+                    values.incentive_type === 'buy-x-get-y' ? 'block' : 'hidden'
+                  }`}
+                >
+                  <h2 className="block text-lg font-semibold mb-1">
+                    Customer buys
+                  </h2>
+                  <div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="buy_x_get_y_cond_value_int"
+                        >
+                          Quantity
+                        </label>
+                        <input
+                          id="buy_x_get_y_cond_value_int"
+                          name="buy_x_get_y_cond_value_int"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.buy_x_get_y_cond_value_int}
+                          className="form-input w-1/2"
+                          step={1}
+                          min={1}
+                          type="number"
+                          placeholder="1"
+                        />
+                      </div>
+                      <div className="w-full">
+                        <div className="w-full">
+                          <label
+                            className="block text-sm font-medium mb-1"
+                            htmlFor="buy_x_get_y_cond_range_type"
+                          >
+                            Any Items from
+                          </label>
+                          <select
+                            name="buy_x_get_y_cond_range_type"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.buy_x_get_y_cond_range_type}
+                            id="buy_x_get_y_cond_range_type"
+                            className="form-select block w-2/3"
+                          >
+                            <option value="specific_products">
+                              Specific products
+                            </option>
+                            <option value="specific_collections">
+                              Specific collections
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      {values.buy_x_get_y_cond_range_type ===
+                      'specific_products' ? (
+                        <div className="w-full">
+                          <div class="w-full">
+                            <div class="flex border-1 rounded">
+                              <input
+                                type="text"
+                                class="form-input w-full"
+                                placeholder="Search products..."
+                              />
+                              <button class="flex items-center justify-center px-4 border-l">
+                                <svg
+                                  class="w-6 h-6 text-gray-600"
+                                  fill="currentColor"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-full">
+                          <div class="w-full">
+                            <div class="flex border-1 rounded">
+                              <input
+                                type="text"
+                                class="form-input w-full"
+                                placeholder="Search collections..."
+                              />
+                              <button class="flex items-center justify-center px-4 border-l">
+                                <svg
+                                  class="w-6 h-6 text-gray-600"
+                                  fill="currentColor"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </section>
+                <section
+                  className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
+                    values.incentive_type === 'buy-x-get-y' ? 'block' : 'hidden'
+                  }`}
+                >
+                  <h2 className="block text-lg font-semibold mb-1">
+                    Customer gets
+                  </h2>
+                  <div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="buy_x_get_y_ben_value_int"
+                        >
+                          Quantity
+                        </label>
+                        <input
+                          id="buy_x_get_y_ben_value_int"
+                          name="buy_x_get_y_ben_value_int"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.buy_x_get_y_ben_value_int}
+                          className="form-input w-1/2"
+                          step={1}
+                          min={1}
+                          type="number"
+                          placeholder="1"
+                        />
+                      </div>
+                      <div className="w-full">
+                        <div className="w-full">
+                          <label
+                            className="block text-sm font-medium mb-1"
+                            htmlFor="buy_x_get_y_ben_range_type"
+                          >
+                            Any Items from
+                          </label>
+                          <select
+                            name="buy_x_get_y_ben_range_type"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.buy_x_get_y_ben_range_type}
+                            id="buy_x_get_y_ben_range_type"
+                            className="form-select block w-2/3"
+                          >
+                            <option value="specific_products">
+                              Specific products
+                            </option>
+                            <option value="specific_collections">
+                              Specific collections
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      {values.buy_x_get_y_ben_range_type ===
+                      'specific_products' ? (
+                        <div className="w-full">
+                          <div class="w-full">
+                            <div class="flex border-1 rounded">
+                              <input
+                                type="text"
+                                class="form-input w-full"
+                                placeholder="Search products..."
+                              />
+                              <button class="flex items-center justify-center px-4 border-l">
+                                <svg
+                                  class="w-6 h-6 text-gray-600"
+                                  fill="currentColor"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-full">
+                          <div class="w-full">
+                            <div class="flex border-1 rounded">
+                              <input
+                                type="text"
+                                class="form-input w-full"
+                                placeholder="Search collections..."
+                              />
+                              <button class="flex items-center justify-center px-4 border-l">
+                                <svg
+                                  class="w-6 h-6 text-gray-600"
+                                  fill="currentColor"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-full">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="applies_to"
+                        >
+                          AT A DISCOUNTED VALUE
+                        </label>
+                        <div className="m-3">
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              name="buy_x_get_y_discounted_value_type"
+                              className="form-radio"
+                              onChange={e =>
+                                setFieldValue(
+                                  'buy_x_get_y_discounted_value_type',
+                                  'percentage',
+                                )
+                              }
+                              value={
+                                values.buy_x_get_y_discounted_value_type ===
+                                'percentage'
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <span className="text-sm ml-2">Percentage</span>
+                          </label>
+                        </div>
+
+                        <div className="m-3">
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              name="buy_x_get_y_discounted_value_type"
+                              className="form-radio"
+                              onChange={e =>
+                                setFieldValue(
+                                  'buy_x_get_y_discounted_value_type',
+                                  'free',
+                                )
+                              }
+                              value={
+                                values.buy_x_get_y_discounted_value_type ===
+                                'free'
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <span className="text-sm ml-2">Free</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section className="rounded bg-white overflow-hidden p-3 mb-10">
+                  <div class="sm:col-span-3 md:col-span-3">
+                    <section
+                      className={`rounded bg-white overflow-hidden p-3 ${
+                        values.incentive_type === 'buy-x-get-y' ||
+                        values.incentive_type === 'multibuy'
+                          ? 'hidden'
+                          : 'block'
+                      }`}
+                    >
+                      <div className="sm:w-1/2 mb-4">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="value"
+                        >
+                          Value
+                        </label>
+                        <input
+                          id="value"
+                          name="value"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.value}
+                          className="form-input"
+                          type="number"
+                          step={1}
+                          min={0}
+                          placeholder="GHS 0.00"
+                        />
+                      </div>
+
+                      <Divider />
+                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                        <div className="w-full">
+                          <label
+                            className="block text-sm font-medium mb-1"
+                            htmlFor="applies_to"
+                          >
+                            APPLIES TO
+                          </label>
+                          <div className="m-3">
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="applies_to"
+                                className="form-radio"
+                                onChange={e =>
+                                  setFieldValue('applies_to', 'all_products')
+                                }
+                                value={
+                                  values.applies_to === 'all_products'
+                                    ? true
+                                    : false
+                                }
+                              />
+                              <span className="text-sm ml-2">All products</span>
+                            </label>
+                          </div>
+
+                          <div className="m-3">
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="applies_to"
+                                className="form-radio"
+                                onChange={e =>
+                                  setFieldValue(
+                                    'applies_to',
+                                    'specific_products',
+                                  )
+                                }
+                                value={
+                                  values.applies_to === 'specific_products'
+                                    ? true
+                                    : false
+                                }
+                              />
+                              <span className="text-sm ml-2">
+                                Specific products
+                              </span>
+                            </label>
+                          </div>
+                          <div className="m-3">
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="applies_to"
+                                className="form-radio"
+                                onChange={e =>
+                                  setFieldValue(
+                                    'applies_to',
+                                    'specific_collections',
+                                  )
+                                }
+                                value={
+                                  values.applies_to === 'specific_collections'
+                                    ? true
+                                    : false
+                                }
+                              />
+                              <span className="text-sm ml-2">
+                                Specific collections
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                    <div
+                      className={`sm:w-full mt-6 ${
+                        values.incentive_type === 'buy-x-get-y'
+                          ? 'hidden'
+                          : 'block'
+                      }`}
+                    >
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="min_requirements"
+                      >
+                        Requirements
+                      </label>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="min_requirements"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('min_requirements', 'none')
+                            }
+                            value={
+                              values.requirements === 'none' ? true : false
+                            }
+                          />
+                          <span className="text-sm ml-2">None</span>
+                        </label>
+                      </div>
+
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="min_requirements"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('min_requirements', 'value')
+                            }
+                            value={
+                              values.requirements === 'value' ? true : false
+                            }
+                          />
+                          <span className="text-sm ml-2">
+                            Minimum purchase amount
+                          </span>
+                        </label>
+                      </div>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="min_requirements"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('min_requirements', 'count')
+                            }
+                            value={
+                              values.requirements === 'count' ? true : false
+                            }
+                          />
+                          <span className="text-sm ml-2">
+                            Minimum quantity of items
+                          </span>
+                        </label>
+                      </div>
+                      <div className="m-3">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="min_requirements"
+                            className="form-radio"
+                            onChange={e =>
+                              setFieldValue('min_requirements', 'coverage')
+                            }
+                            value={
+                              values.requirements === 'coverage' ? true : false
+                            }
+                          />
+                          <span className="text-sm ml-2">
+                            Minimum quantity of distinct eligible items
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="sm:w-1/2 mt-6">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="customer_eligibility"
+                      >
+                        Customer Eligibility
+                      </label>
+                      <select
+                        name="customer_eligibility"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.customer_eligibility}
+                        id="customer_eligibility"
+                        className="form-select block"
+                      >
+                        <option value="">Please Select</option>
+                        <option value="everyone">Everyone</option>
+                        <option value="group">
+                          Specific group of customers
+                        </option>
+                        <option value="specific">Specific customers</option>
+                      </select>
+                    </div>
+                    <div>
+                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1 mt-6">
+                        Usage Limits
+                      </h2>
+                      <div className="flex m-3 items-center w-full">
+                        <input
+                          id="has_max_global_applications"
+                          name="has_max_global_applications"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.has_max_global_applications}
+                          type="checkbox"
+                        />
+                        <label
+                          className="block text-sm ml-2"
+                          htmlFor="has_max_global_applications"
+                        >
+                          Limit the number of times this offer can be applied in
+                          total
+                        </label>
+                      </div>
+                      {values.has_max_global_applications ? (
+                        <div className="w-1/2">
+                          <input
+                            id="max_global_applications"
+                            name="max_global_applications"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.max_global_applications}
+                            className="form-input block m-3"
+                            type="number"
+                            step={1}
+                            min={1}
+                            autoComplete="max_global_applications"
+                            placeholder="1"
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                      <div className="m-3 flex items-center w-full">
+                        <input
+                          name="has_max_user_applications"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.has_max_user_applications}
+                          id="has_max_user_applications"
+                          type="checkbox"
+                        />
+                        <label
+                          className="block text-sm ml-2"
+                          htmlFor="has_max_user_applications"
+                        >
+                          Limit the number of times this offer can be used per
+                          customer
+                        </label>
+                      </div>
+                      {values.has_max_user_applications ? (
+                        <div className="w-1/2">
+                          <input
+                            id="max_user_applications"
+                            name="max_user_applications"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.max_user_applications}
+                            className="form-input block m-3"
+                            type="number"
+                            step={1}
+                            min={1}
+                            autoComplete="max_user_applications"
+                            placeholder="1"
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                      <div className="flex m-3 items-center w-full">
+                        <input
+                          name="has_max_discount"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.has_max_discount}
+                          id="has_max_discount"
+                          type="checkbox"
+                        />
+                        <label
+                          className="block text-sm ml-2"
+                          htmlFor="has_max_discount"
+                        >
+                          Limit the total value of this discount
+                        </label>
+                      </div>
+                      {values.has_max_discount ? (
+                        <div className="w-1/2">
+                          <input
+                            id="max_discount"
+                            name="max_discount"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.max_discount}
+                            className="form-input block m-3"
+                            type="number"
+                            step={1}
+                            min={1}
+                            autoComplete="max_discount"
+                            placeholder="1"
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 </section>
                 <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                    Type
+                    Active Dates
                   </h2>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="sm:w-1/2">
                       <label
                         className="block text-sm font-medium mb-1"
-                        htmlFor="price"
+                        htmlFor="start_date"
                       >
-                        Price
+                        Start Date
                       </label>
                       <input
-                        id="price"
-                        name="price"
+                        id="start_date"
+                        name="start_date"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.price}
-                        className="form-input"
-                        type="text"
-                        placeholder="GHS 0.00"
-                      />
-                    </div>
-                    <div className="sm:w-1/2">
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="compare_at_price"
-                      >
-                        Compare at price
-                      </label>
-                      <input
-                        id="compare_at_price"
-                        name="compare_at_price"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.compare_at_price}
-                        className="form-input"
-                        type="text"
-                        placeholder="GHS 0.00"
-                      />
-                    </div>
-                  </div>
-                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="sm:w-1/2">
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="cost_per_item"
-                      >
-                        Cost per item
-                      </label>
-                      <input
-                        id="cost_per_item"
-                        name="cost_per_item"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.cost_per_item}
-                        className="form-input"
-                        type="text"
-                        placeholder="GHS 0.00"
-                      />
-                    </div>
-                    <div className="sm:w-1/2">
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="post-code"
-                      >
-                        Digital Address/Postal code
-                      </label>
-                      <input
-                        id="post-code"
-                        className="form-input"
-                        type="text"
-                        autoComplete="postal-code"
-                        placeholder="G7HS7893"
-                      />
-                    </div>
-                  </div>
-                </section>
-                <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                  <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                    Inventory
-                  </h2>
-                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="sm:w-1/2">
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="sku"
-                      >
-                        SKU (Stock Keeping Unit)
-                      </label>
-                      <input
-                        id="sku"
-                        name="sku"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.sku}
-                        className="form-input"
-                        type="text"
+                        value={values.start_date}
+                        className="form-input w-full"
+                        type="date"
                         placeholder="RS6TR"
                       />
                     </div>
                     <div className="sm:w-1/2">
                       <label
                         className="block text-sm font-medium mb-1"
-                        htmlFor="barcode"
+                        htmlFor="start_time"
                       >
-                        Barcode (ISBN, UPC, GTIN, etc)
+                        Start time
                       </label>
                       <input
-                        id="barcode"
-                        name="barcode"
+                        id="start_time"
+                        name="start_time"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.barcode}
+                        value={values.start_time}
                         className="form-input"
-                        type="text"
+                        type="time"
                         placeholder="217328189902301"
                       />
                     </div>
                   </div>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="flex items-center w-full">
-                      <input
-                        id="track_quantity"
-                        name="track_quantity"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.track_quantity}
-                        type="checkbox"
-                      />
-                      <label
-                        className="block text-sm ml-2"
-                        htmlFor="track_quantity"
-                      >
-                        Track quantity
-                      </label>
-                    </div>
-                    <div className=" flex items-center w-full">
-                      <input
-                        name="unlimited"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.unlimited}
-                        id="unlimited"
-                        type="checkbox"
-                      />
-                      <label className="block text-sm ml-2" htmlFor="unlimited">
-                        Continue selling when out of stock
-                      </label>
-                    </div>
-                  </div>
-                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="sm:w-1/2">
                       <label
                         className="block text-sm font-medium mb-1"
-                        htmlFor="quantity"
+                        htmlFor="end_date"
                       >
-                        Quantity
+                        End Date
                       </label>
                       <input
-                        id="quantity"
-                        name="quantity"
+                        id="end_date"
+                        name="end_date"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.quantity}
+                        value={values.end_date}
+                        className="form-input w-full"
+                        type="date"
+                        placeholder="RS6TR"
+                      />
+                    </div>
+                    <div className="sm:w-1/2">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="end_time"
+                      >
+                        End time
+                      </label>
+                      <input
+                        id="end_time"
+                        name="end_time"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.end_time}
                         className="form-input"
-                        type="number"
-                        step={1}
-                        min={0}
-                        placeholder="10"
+                        type="time"
+                        placeholder="217328189902301"
                       />
                     </div>
                   </div>
                 </section>
-                <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                  <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                    Shipping & Delivery
-                  </h2>
-                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="flex items-center w-full">
-                      <input
-                        name="shipping_required"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.shipping_required}
-                        id="shipping_required"
-                        type="checkbox"
-                      />
-                      <label
-                        className="block text-sm ml-2"
-                        htmlFor="shipping_required"
-                      >
-                        This is a physical product
-                      </label>
-                    </div>
-                  </div>
-                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="sm:w-1/2">
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="weight"
-                      >
-                        Weight
-                      </label>
-                      <input
-                        id="weight"
-                        name="weight"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.weight}
-                        className="form-input"
-                        type="number"
-                        step={0.1}
-                        min={0}
-                        autoComplete="weight"
-                      />
-                    </div>
-                  </div>
-                </section>
-
                 <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                     Search Engine Preview
@@ -497,7 +1047,7 @@ const DiscountForm = () => {
                           https://www.wearhebron.com/products/bikershorts
                         </a>
                         <button className="text-green-600">▼</button>
-                        <p className="w-full h-8 text-gray-600">
+                        <p className="w-full h-8 text-gray-600 mb-4 space-y-3">
                           A mutual exclusion (mutex) is a program object that
                           prevents simultaneous access to a shared resource.
                         </p>
@@ -510,7 +1060,7 @@ const DiscountForm = () => {
           </div>
         )}
       </Formik>
-    </>
+    </div>
   );
 };
 

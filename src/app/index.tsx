@@ -11,8 +11,6 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
 
-import '../css/style.scss';
-
 import { focusHandling } from 'cruip-js-toolkit';
 import './charts/ChartjsConfig';
 
@@ -22,7 +20,8 @@ import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import Customers from './pages/ecommerce/Customers';
 import Products from './pages/product/Products';
-import Inventories from './pages/inventory/Inventories';
+import Inventory from './pages/inventory/Inventory';
+import Discounts from './pages/discount/Discounts';
 import Collections from './pages/collection/Collections';
 import Orders from './pages/ecommerce/Orders';
 import Account from './pages/settings/Account';
@@ -77,7 +76,10 @@ export function App() {
           <Collections />
         </Route>
         <Route exact path="/shop/inventory">
-          <Inventories />
+          <Inventory />
+        </Route>
+        <Route exact path="/discounts">
+          <Discounts />
         </Route>
         <Route exact path="/analytics/live">
           <Dashboard />
@@ -110,7 +112,6 @@ export function App() {
         <Route exact path="/settings/feedback">
           <Feedback />
         </Route>
-
         <Route path="*">
           <PageNotFound />
         </Route>

@@ -17,6 +17,7 @@ import 'css/filepond.css';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const ProductForm = () => {
+  // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const [variantModalOpen, setVariantModalOpen] = useState(false);
 
@@ -574,7 +575,7 @@ const ProductForm = () => {
                         Options
                       </h2>
                       <div>
-                        <div className="flex align-baseline sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-2 mt-5">
+                        <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                           <div className="sm:w-1/5 md:w-1/5">
                             <label
                               className="block text-sm font-medium mb-1"
@@ -622,7 +623,7 @@ const ProductForm = () => {
                           </div>
                         </div>
 
-                        <div className="flex align-baseline sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-2 mt-5">
+                        <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                           <div className="sm:w-1/5 md:w-1/5">
                             <label
                               className="block text-sm font-medium mb-1"

@@ -9,12 +9,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family:'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family:'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: ${p => p.theme.background};
   }
 
   body.fontLoaded {
-    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   
   p,

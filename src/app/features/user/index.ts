@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProfileType } from 'app/models/user/profile';
+import { ProfileType, RegisterLogInType } from 'app/models/user/profile';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import userSaga from './saga';
 import { UserErrorType } from './types';
@@ -8,7 +8,9 @@ const userNamespace = 'user';
 
 export type UserState = {
   user: {};
+  session: {};
   profile: ProfileType;
+  isAuthenticated: boolean;
   loading: boolean;
   error?: UserErrorType | null;
 };
@@ -16,6 +18,8 @@ export type UserState = {
 export const initialState: UserState = {
   user: {},
   profile: {},
+  session: {},
+  isAuthenticated: false,
   loading: false,
   error: null,
 };
@@ -28,13 +32,56 @@ export const slice = createSlice({
   initialState, // same as initialState: initialState
 
   reducers: {
-    loadProfile: (state, action: PayloadAction<string>) => {},
-    updateProfile: (state, action: PayloadAction<ProfileType>) => {},
+    isAuthenticated: state => {
+      state.error = null;
+      state.loading = true;
+    },
+    authenticated: (state, action: PayloadAction<boolean>) => {
+      state.isAuthenticated = action.payload;
+      state.error = null;
+      state.loading = false;
+    },
+    signup: (state, action: PayloadAction<RegisterLogInType>) => {
+      state.error = null;
+      state.loading = true;
+    },
+    login: (state, action: PayloadAction<RegisterLogInType>) => {
+      state.error = null;
+      state.loading = true;
+    },
+    logout: state => {
+      state.error = null;
+      state.loading = true;
+    },
+    sessionLoaded: (state, action: PayloadAction<{}>) => {
+      state.session = action.payload;
+      state.error = null;
+      state.loading = false;
+    },
+    loadProfile: (state, action: PayloadAction<string>) => {
+      state.error = null;
+      state.loading = true;
+    },
+    updateProfile: (state, action: PayloadAction<ProfileType>) => {
+      state.error = null;
+      state.loading = true;
+    },
     profileLoaded: (state, action: PayloadAction<ProfileType>) => {
       state.profile = action?.payload;
+      state.error = null;
+      state.loading = false;
+    },
+    setUser: (state, action: PayloadAction<{}>) => {
+      state.user = action?.payload;
+      state.error = null;
+      state.loading = false;
     },
     userError(state, action: PayloadAction<UserErrorType>) {
       state.error = action.payload;
+      state.loading = false;
+    },
+    clearError(state) {
+      state.error = null;
       state.loading = false;
     },
   },

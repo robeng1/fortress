@@ -10,3 +10,8 @@ export interface ProfileType {
   gender?: string;
   skills_set?: string[];
 }
+
+export type RegisterLogInType = {
+  identifier: string;
+  password: string;
+};

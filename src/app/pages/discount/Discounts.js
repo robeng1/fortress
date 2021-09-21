@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import ProductForm from 'app/forms/product/Product';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import DeleteButton from '../../partials/actions/DeleteButton';
 import DateSelect from '../../components/DateSelect';
 import FilterButton from '../../components/DropdownFilter';
-import ProductsTable from '../../partials/products/ProductsTable';
+import DiscountTable from '../../partials/discount/DiscountTable';
 import PaginationClassic from '../../components/PaginationClassic';
+import DiscountForm from 'app/forms/discount/Discount';
 
-function Products() {
+function Discounts() {
   const [showForm, setShowForm] = React.useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -18,7 +18,7 @@ function Products() {
     setSelectedItems([...selectedItems]);
   };
 
-  const renderForm = () => {
+  const renderFormView = () => {
     return (
       <main>
         <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -49,18 +49,18 @@ function Products() {
               </div>
             </div>
             <div className="mb-4 sm:mb-0">
-              <h2>Hot Sauce Pepper Mint</h2>
+              <h2>SPRINGSALE</h2>
             </div>
           </div>
 
           {/* Form */}
-          <ProductForm />
+          <DiscountForm />
         </div>
       </main>
     );
   };
 
-  const renderProducts = () => {
+  const renderDiscountsView = () => {
     return (
       <main>
         <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -69,7 +69,7 @@ function Products() {
             {/* Left: Title */}
             <div className="mb-4 sm:mb-0">
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                All products
+                Discounts
               </h1>
             </div>
 
@@ -92,13 +92,13 @@ function Products() {
                 >
                   <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                 </svg>
-                <span className="hidden xs:block ml-2">Add Product</span>
+                <span className="hidden xs:block ml-2">Add Discount</span>
               </button>
             </div>
           </div>
 
           {/* Table */}
-          <ProductsTable selectedItems={handleSelectedItems} />
+          <DiscountTable selectedItems={handleSelectedItems} />
 
           {/* Pagination */}
           <div className="mt-8">
@@ -118,10 +118,10 @@ function Products() {
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        {!showForm ? renderProducts() : renderForm()}
+        {!showForm ? renderDiscountsView() : renderFormView()}
       </div>
     </div>
   );
 }
 
-export default Products;
+export default Discounts;

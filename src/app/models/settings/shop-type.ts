@@ -1,4 +1,4 @@
-export interface Address {
+export interface AddressType {
   street?: string;
   city?: string;
   area?: string;
@@ -6,19 +6,19 @@ export interface Address {
   country?: string;
 }
 
-export interface Currency {
+export interface CurrencyType {
   name?: string;
   iso_code?: string;
   symbol?: string;
 }
 
-export interface Policy {
+export interface PolicyType {
   p_type?: string;
   title?: string;
   body?: string;
 }
 
-export interface ShopLocale {
+export interface ShopLocaleType {
   endonym_name?: string;
   name?: string;
   primary?: boolean;
@@ -26,7 +26,7 @@ export interface ShopLocale {
   iso_code?: string;
 }
 
-export interface Shop {
+export interface ShopType {
   shop_id?: string;
   about_seller?: string;
   phone?: string;
@@ -37,14 +37,14 @@ export interface Shop {
   business_name?: string;
   business_display_name?: string;
   status?: string;
-  address?: Address | null;
+  address?: AddressType | null;
   account_id?: string;
   tags?: string[];
-  policies?: Policy[];
-  published_locales?: ShopLocale[];
+  policies?: PolicyType[];
+  published_locales?: ShopLocaleType[];
   enabled_payment_types?: string[];
-  currency?: Currency | null;
-  enabled_currencies?: Currency[];
+  currency?: CurrencyType | null;
+  enabled_currencies?: CurrencyType[];
   domain?: string;
   permanent_domain?: string;
   customer_accounts_enabled?: boolean;

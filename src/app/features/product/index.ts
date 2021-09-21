@@ -18,7 +18,6 @@ export type ProductState = {
   product_variants: {
     [key: string]: { [key: string]: ProductType | ProductType[] };
   };
-  shard: number;
   nextPageToken: string;
   count: number;
   loading: boolean;
@@ -28,7 +27,6 @@ export type ProductState = {
 export const initialState: ProductState = {
   products: {},
   product_variants: {},
-  shard: 0,
   nextPageToken: '',
   count: 0,
   loading: false,
@@ -68,7 +66,7 @@ export const slice = createSlice({
       state.error = null;
     },
     productsLoaded: (state, action: PayloadAction<ProductListType>) => {
-      const { product, next_page_token, bucket } = action?.payload;
+      const { product, next_page_token } = action?.payload;
       if (product && product.length > 0) {
         state.products = {
           ...state.products,
@@ -81,13 +79,11 @@ export const slice = createSlice({
       if (next_page_token) {
         state.nextPageToken = next_page_token;
       }
-      if (bucket) {
-        state.shard = bucket;
-      }
+
       state.loading = false;
     },
     variantsLoaded: (state, action: PayloadAction<ProductListType>) => {
-      const { product, next_page_token, bucket } = action?.payload;
+      const { product, next_page_token } = action?.payload;
       if (product && product.length > 0) {
         state.product_variants = {
           ...state.product_variants,
@@ -100,13 +96,14 @@ export const slice = createSlice({
       if (next_page_token) {
         state.nextPageToken = next_page_token;
       }
-      if (bucket) {
-        state.shard = bucket;
-      }
       state.loading = false;
     },
     productError(state, action: PayloadAction<ProductErrorType>) {
       state.error = action.payload;
+      state.loading = false;
+    },
+    clearError(state) {
+      state.error = null;
       state.loading = false;
     },
   },
