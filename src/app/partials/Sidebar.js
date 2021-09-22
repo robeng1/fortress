@@ -51,10 +51,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   }, [sidebarExpanded]);
 
   return (
-    <div className="hidden md:block">
+    <div className="block">
       {/* Sidebar backdrop (mobile only) */}
       <div
-        className={`fixed inset-0 bg-gray-900 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
+        className={`fixed inset-0 bg-indigo-200 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
           sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         aria-hidden="true"
@@ -64,7 +64,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-gray-800 p-4 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-gray-200 p-4 transition-all duration-200 ease-in-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-64'
         }`}
       >
@@ -133,50 +133,32 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         <div className="space-y-8">
           {/* Pages group */}
           <div>
-            <h3 className="text-xs uppercase text-gray-500 font-semibold pl-3">
-              <span
-                className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
-                aria-hidden="true"
-              >
-                •••
-              </span>
-              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                Pages
-              </span>
-            </h3>
-            <ul className="mt-3">
+            <ul className="mt-0">
               {/* Dashboard */}
               <li
                 className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname === '/' && 'bg-gray-900'
+                  pathname === '/' && 'bg-indigo-200'
                 }`}
               >
                 <NavLink
                   exact
                   to="/"
-                  className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
-                    pathname === '/' && 'hover:text-gray-200'
+                  className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                    pathname === '/' && 'text-gray-900'
                   }`}
                 >
                   <div className="flex">
-                    <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 h-6 w-6"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
                       <path
                         className={`fill-current text-gray-400 ${
                           pathname === '/' && '!text-indigo-500'
                         }`}
-                        d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z"
-                      />
-                      <path
-                        className={`fill-current text-gray-600 ${
-                          pathname === '/' && 'text-indigo-600'
-                        }`}
-                        d="M12 3c-4.963 0-9 4.037-9 9s4.037 9 9 9 9-4.037 9-9-4.037-9-9-9z"
-                      />
-                      <path
-                        className={`fill-current text-gray-400 ${
-                          pathname === '/' && 'text-indigo-200'
-                        }`}
-                        d="M12 15c-1.654 0-3-1.346-3-3 0-.462.113-.894.3-1.285L6 6l4.714 3.301A2.973 2.973 0 0112 9c1.654 0 3 1.346 3 3s-1.346 3-3 3z"
+                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -188,29 +170,30 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               {/* Orders */}
               <li
                 className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname.includes('orders') && 'bg-gray-900'
+                  pathname.includes('orders') && 'bg-indigo-200'
                 }`}
               >
                 <NavLink
                   exact
                   to="/orders"
-                  className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
-                    pathname.includes('orders') && 'hover:text-gray-200'
+                  className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                    pathname.includes('orders') && 'hover:text-gray-900'
                   }`}
                 >
                   <div className="flex">
-                    <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes('orders') && 'text-indigo-500'
-                        }`}
-                        d="M0 20h24v2H0z"
-                      />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 h-6 w-6"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
                       <path
                         className={`fill-current text-gray-400 ${
-                          pathname.includes('orders') && 'text-indigo-300'
+                          pathname.includes('orders') && '!text-indigo-500'
                         }`}
-                        d="M4 18h2a1 1 0 001-1V8a1 1 0 00-1-1H4a1 1 0 00-1 1v9a1 1 0 001 1zM11 18h2a1 1 0 001-1V3a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1zM17 12v5a1 1 0 001 1h2a1 1 0 001-1v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1z"
+                        fillRule="evenodd"
+                        d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
+                        clipRule="evenodd"
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -226,8 +209,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <React.Fragment>
                       <a
                         href="#0"
-                        className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
-                          pathname.includes('products') && 'hover:text-gray-200'
+                        className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                          pathname.includes('products') && 'hover:text-gray-900'
                         }`}
                         onClick={e => {
                           e.preventDefault();
@@ -239,27 +222,29 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="flex items-center justify-between">
                           <div className="flex">
                             <svg
+                              xmlns="http://www.w3.org/2000/svg"
                               className="flex-shrink-0 h-6 w-6"
                               viewBox="0 0 24 24"
+                              fill="currentColor"
                             >
                               <path
                                 className={`fill-current text-gray-400 ${
                                   pathname.includes('shop') && 'text-indigo-300'
                                 }`}
-                                d="M13 15l11-7L11.504.136a1 1 0 00-1.019.007L0 7l13 8z"
+                                d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"
                               />
                               <path
                                 className={`fill-current text-gray-700 ${
                                   pathname.includes('shop') &&
                                   '!text-indigo-600'
                                 }`}
-                                d="M13 15L0 7v9c0 .355.189.685.496.864L13 24v-9z"
+                                d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"
                               />
                               <path
                                 className={`fill-current text-gray-600 ${
                                   pathname.includes('shop') && 'text-indigo-500'
                                 }`}
-                                d="M13 15.047V24l10.573-7.181A.999.999 0 0024 16V8l-11 7.047z"
+                                d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"
                               />
                             </svg>
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -285,7 +270,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/shop/products"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -297,7 +282,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/shop/inventory"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -309,7 +294,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/shop/collections"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -326,29 +311,28 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               {/* Customers */}
               <li
                 className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname.includes('campaigns') && 'bg-gray-900'
+                  pathname.includes('customers') && 'bg-indigo-200'
                 }`}
               >
                 <NavLink
                   exact
                   to="/customers"
-                  className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
-                    pathname.includes('campaigns') && 'hover:text-gray-200'
+                  className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                    pathname.includes('customers') && 'hover:text-gray-900'
                   }`}
                 >
                   <div className="flex">
-                    <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 h-6 w-6"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
                       <path
                         className={`fill-current text-gray-600 ${
-                          pathname.includes('campaigns') && 'text-indigo-500'
+                          pathname.includes('customers') && '!text-indigo-500'
                         }`}
-                        d="M20 7a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 0120 7zM4 23a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 014 23z"
-                      />
-                      <path
-                        className={`fill-current text-gray-400 ${
-                          pathname.includes('campaigns') && 'text-indigo-300'
-                        }`}
-                        d="M17 23a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 010-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1zM7 13a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 112 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z"
+                        d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -366,9 +350,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <React.Fragment>
                       <a
                         href="#0"
-                        className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
+                        className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                           pathname.includes('analytics') &&
-                          'hover:text-gray-200'
+                          'hover:text-gray-900'
                         }`}
                         onClick={e => {
                           e.preventDefault();
@@ -380,29 +364,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="flex items-center justify-between">
                           <div className="flex">
                             <svg
+                              xmlns="http://www.w3.org/2000/svg"
                               className="flex-shrink-0 h-6 w-6"
                               viewBox="0 0 24 24"
+                              fill="currentColor"
                             >
-                              <path
-                                className={`fill-current text-gray-400 ${
-                                  pathname.includes('analytics') &&
-                                  'text-indigo-300'
-                                }`}
-                                d="M13 15l11-7L11.504.136a1 1 0 00-1.019.007L0 7l13 8z"
-                              />
-                              <path
-                                className={`fill-current text-gray-700 ${
-                                  pathname.includes('analytics') &&
-                                  '!text-indigo-600'
-                                }`}
-                                d="M13 15L0 7v9c0 .355.189.685.496.864L13 24v-9z"
-                              />
                               <path
                                 className={`fill-current text-gray-600 ${
                                   pathname.includes('analytics') &&
-                                  'text-indigo-500'
+                                  '!text-indigo-500'
                                 }`}
-                                d="M13 15.047V24l10.573-7.181A.999.999 0 0024 16V8l-11 7.047z"
+                                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
                               />
                             </svg>
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -428,7 +400,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/analytics/dashboards"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -440,7 +412,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/analytics/insights"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -452,7 +424,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/analytics/reports"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -464,7 +436,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/analytics/live"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -481,29 +453,33 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               {/* Offers */}
               <li
                 className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname.includes('discounts') && 'bg-gray-900'
+                  pathname.includes('discounts') && 'bg-indigo-200'
                 }`}
               >
                 <NavLink
                   exact
                   to="/discounts"
-                  className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
-                    pathname.includes('discounts') && 'hover:text-gray-200'
+                  className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                    pathname.includes('discounts') && 'hover:text-gray-900'
                   }`}
                 >
                   <div className="flex">
-                    <svg className="flex-shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 h-6 w-6"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
                       <path
-                        className={`fill-current text-gray-600 ${
-                          pathname.includes('discounts') && 'text-indigo-500'
-                        }`}
-                        d="M20 7a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 0120 7zM4 23a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 014 23z"
+                        fillRule="evenodd"
+                        d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
+                        clipRule="evenodd"
                       />
                       <path
-                        className={`fill-current text-gray-400 ${
-                          pathname.includes('discounts') && 'text-indigo-300'
+                        className={`fill-current text-gray-600 ${
+                          pathname.includes('discounts') && '!text-indigo-500'
                         }`}
-                        d="M17 23a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 010-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1zM7 13a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 112 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z"
+                        d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"
                       />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -535,8 +511,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <React.Fragment>
                       <a
                         href="#0"
-                        className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
-                          open && 'hover:text-gray-200'
+                        className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                          open && 'hover:text-gray-900'
                         }`}
                         onClick={e => {
                           e.preventDefault();
@@ -583,7 +559,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/signin"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Reo App
@@ -594,7 +570,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/signin"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Reo Chat
@@ -605,7 +581,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/signin"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Facebook
@@ -616,7 +592,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/signup"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Facebook Shop
@@ -627,7 +603,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/signin"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 WhatsApp
@@ -638,7 +614,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/reset-password"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Instagram
@@ -650,7 +626,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/reset-password"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 TikTok
@@ -661,7 +637,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/reset-password"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Point of Sale
@@ -672,7 +648,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/reset-password"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Twitter Business
@@ -683,7 +659,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/signin"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Buy Button
@@ -705,9 +681,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <React.Fragment>
                       <a
                         href="#0"
-                        className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
+                        className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                           pathname.includes('component') &&
-                          'hover:text-gray-200'
+                          'hover:text-gray-900'
                         }`}
                         onClick={e => {
                           e.preventDefault();
@@ -719,27 +695,21 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="flex items-center justify-between">
                           <div className="flex">
                             <svg
+                              xmlns="http://www.w3.org/2000/svg"
                               className="flex-shrink-0 h-6 w-6"
                               viewBox="0 0 24 24"
+                              fill="currentColor"
                             >
-                              <circle
+                              <path
                                 className={`fill-current text-gray-600 ${
                                   pathname.includes('component') &&
-                                  'text-indigo-500'
+                                  '!text-indigo-500'
                                 }`}
-                                cx="16"
-                                cy="8"
-                                r="8"
+                                fillRule="evenodd"
+                                d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                                clipRule="evenodd"
                               />
-                              <circle
-                                className={`fill-current text-gray-400 ${
-                                  pathname.includes('component') &&
-                                  'text-indigo-300'
-                                }`}
-                                cx="8"
-                                cy="16"
-                                r="8"
-                              />
+                              <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                             </svg>
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                               Online Store
@@ -764,7 +734,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/component/button"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -776,7 +746,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/component/form"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -788,7 +758,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/component/dropdown"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -800,7 +770,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/component/alert"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -837,8 +807,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <React.Fragment>
                       <a
                         href="#0"
-                        className={`block text-gray-200 hover:text-white truncate transition duration-150 ${
-                          pathname.includes('settings') && 'hover:text-gray-200'
+                        className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                          pathname.includes('settings') && 'hover:text-gray-900'
                         }`}
                         onClick={e => {
                           e.preventDefault();
@@ -850,36 +820,19 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="flex items-center justify-between">
                           <div className="flex">
                             <svg
+                              xmlns="http://www.w3.org/2000/svg"
                               className="flex-shrink-0 h-6 w-6"
                               viewBox="0 0 24 24"
+                              fill="currentColor"
                             >
                               <path
                                 className={`fill-current text-gray-600 ${
                                   pathname.includes('settings') &&
-                                  'text-indigo-500'
+                                  '!text-indigo-500'
                                 }`}
-                                d="M19.714 14.7l-7.007 7.007-1.414-1.414 7.007-7.007c-.195-.4-.298-.84-.3-1.286a3 3 0 113 3 2.969 2.969 0 01-1.286-.3z"
-                              />
-                              <path
-                                className={`fill-current text-gray-400 ${
-                                  pathname.includes('settings') &&
-                                  'text-indigo-300'
-                                }`}
-                                d="M10.714 18.3c.4-.195.84-.298 1.286-.3a3 3 0 11-3 3c.002-.446.105-.885.3-1.286l-6.007-6.007 1.414-1.414 6.007 6.007z"
-                              />
-                              <path
-                                className={`fill-current text-gray-600 ${
-                                  pathname.includes('settings') &&
-                                  'text-indigo-500'
-                                }`}
-                                d="M5.7 10.714c.195.4.298.84.3 1.286a3 3 0 11-3-3c.446.002.885.105 1.286.3l7.007-7.007 1.414 1.414L5.7 10.714z"
-                              />
-                              <path
-                                className={`fill-current text-gray-400 ${
-                                  pathname.includes('settings') &&
-                                  'text-indigo-300'
-                                }`}
-                                d="M19.707 9.292a3.012 3.012 0 00-1.415 1.415L13.286 5.7c-.4.195-.84.298-1.286.3a3 3 0 113-3 2.969 2.969 0 01-.3 1.286l5.007 5.006z"
+                                fillRule="evenodd"
+                                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                clipRule="evenodd"
                               />
                             </svg>
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -905,7 +858,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/settings/account"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -917,7 +870,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/settings/notifications"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -929,7 +882,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/settings/apps"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -941,7 +894,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/settings/plans"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -953,7 +906,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/settings/billing"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -965,7 +918,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <NavLink
                               exact
                               to="/settings/feedback"
-                              className="block text-gray-400 hover:text-gray-200 transition duration-150 truncate"
+                              className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               activeClassName="!text-indigo-500"
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">

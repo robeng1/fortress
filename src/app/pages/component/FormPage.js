@@ -26,7 +26,7 @@ function FormPage() {
             {/* Page header */}
             <div className="mb-8">
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Form ✨
+                Form
               </h1>
             </div>
 

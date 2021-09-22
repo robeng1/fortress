@@ -102,9 +102,9 @@ const ProductForm = () => {
           /* and other goodies */
         }) => (
           <div className="flex-grow">
-            <div class="p-8 grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-6">
-              <div class="md:col-span-2">
-                <section className="rounded bg-white shadow overflow-hidden p-3">
+            <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-6">
+              <div className="md:col-span-2">
+                <section className="rounded bg-white shadow overflow-auto p-3">
                   <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
                     Product Details
                   </h2>
@@ -122,7 +122,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.title}
-                        className="form-input"
+                        className="form-input w-full"
                         type="text"
                         autoComplete="product-title"
                         placeholder="Chilled beer"
@@ -143,14 +143,16 @@ const ProductForm = () => {
                         name="description"
                         onChange={e => setFieldValue('description', e)}
                         value={values.description}
-                        style={{ height: '14rem', marginBottom: '3rem' }}
+                        style={{
+                          paddingBottom: '1rem',
+                        }}
                       />
                     </div>
                   </div>
                 </section>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-1 md:gap-0 md:content-start md:gap-y-6 md:row-span-2">
-                <div class="rounded-lg p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-1 md:gap-0 md:content-start md:gap-y-6 md:row-span-2">
+                <div className="rounded-lg p-4">
                   <section>
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Organization
@@ -169,7 +171,7 @@ const ProductForm = () => {
                           onBlur={handleBlur}
                           value={values.type}
                           id="type"
-                          className="form-select block"
+                          className="form-select block w-full"
                         >
                           <option value="">Please Select</option>
                           <option value="GH">Ghana</option>
@@ -194,7 +196,7 @@ const ProductForm = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.vendor}
-                          className="form-input"
+                          className="form-input w-full"
                           type="text"
                           autoComplete="vendor"
                           placeholder="Nike"
@@ -215,7 +217,7 @@ const ProductForm = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.collections}
-                          className="form-select block"
+                          className="form-select block w-full"
                         >
                           <option value="">Please Select</option>
                           <option value="GH">Ghana</option>
@@ -240,7 +242,7 @@ const ProductForm = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.tags}
-                          className="form-select block"
+                          className="form-select block w-full"
                         >
                           <option value="">Please Select</option>
                           <option value="GH">Ghana</option>
@@ -253,7 +255,7 @@ const ProductForm = () => {
                     </div>
                   </section>
                 </div>
-                <div class="rounded-lg p-4">
+                <div className="rounded-lg p-4">
                   <section className="sm:mb-10">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Availability
@@ -272,7 +274,7 @@ const ProductForm = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.channels}
-                          className="form-select block"
+                          className="form-select block w-full"
                         >
                           <option value="">Please Select</option>
                           <option value="GH">Store</option>
@@ -284,7 +286,7 @@ const ProductForm = () => {
                     </div>
                   </section>
                 </div>
-                <div class="rounded-lg p-4">
+                <div className="rounded-lg p-4">
                   <section className="sm:mb-10">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Theme Templates
@@ -303,7 +305,7 @@ const ProductForm = () => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.template_suffix}
-                          className="form-select block"
+                          className="form-select block w-full"
                         >
                           <option value="">Please Select</option>
                           <option value="GH">Ghana</option>
@@ -315,7 +317,7 @@ const ProductForm = () => {
                   </section>
                 </div>
               </div>
-              <div class="md:col-span-2">
+              <div className="md:col-span-2">
                 <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                     Product Images

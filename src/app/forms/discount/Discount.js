@@ -81,8 +81,8 @@ const DiscountForm = () => {
           /* and other goodies */
         }) => (
           <div className="flex-grow">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
-              <div class="sm:col-span-3 md:col-span-3 lg:col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
+              <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
                 <section className="rounded bg-white shadow overflow-hidden p-3">
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="w-full">
@@ -148,7 +148,7 @@ const DiscountForm = () => {
                   </div>
                 </section>
               </div>
-              <div class="sm:col-span-3 md:col-span-3 lg:col-span-2">
+              <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
                 <section className="rounded bg-white shadow overflow-hidden p-3">
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="sm:w-full mt-1">
@@ -260,7 +260,7 @@ const DiscountForm = () => {
                   </div>
                 </section>
               </div>
-              <div class="sm:col-span-3 md:col-span-3 lg:col-span-2">
+              <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
                 {/* <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                     Cover Image
@@ -425,16 +425,16 @@ const DiscountForm = () => {
                       {values.buy_x_get_y_cond_range_type ===
                       'specific_products' ? (
                         <div className="w-full">
-                          <div class="w-full">
-                            <div class="flex border-1 rounded">
+                          <div className="w-full">
+                            <div className="flex border-1 rounded">
                               <input
                                 type="text"
-                                class="form-input w-full"
+                                className="form-input w-full"
                                 placeholder="Search products..."
                               />
-                              <button class="flex items-center justify-center px-4 border-l">
+                              <button className="flex items-center justify-center px-4 border-l">
                                 <svg
-                                  class="w-6 h-6 text-gray-600"
+                                  className="w-6 h-6 text-gray-600"
                                   fill="currentColor"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -447,16 +447,16 @@ const DiscountForm = () => {
                         </div>
                       ) : (
                         <div className="w-full">
-                          <div class="w-full">
-                            <div class="flex border-1 rounded">
+                          <div className="w-full">
+                            <div className="flex border-1 rounded">
                               <input
                                 type="text"
-                                class="form-input w-full"
+                                className="form-input w-full"
                                 placeholder="Search collections..."
                               />
-                              <button class="flex items-center justify-center px-4 border-l">
+                              <button className="flex items-center justify-center px-4 border-l">
                                 <svg
-                                  class="w-6 h-6 text-gray-600"
+                                  className="w-6 h-6 text-gray-600"
                                   fill="currentColor"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -531,16 +531,16 @@ const DiscountForm = () => {
                       {values.buy_x_get_y_ben_range_type ===
                       'specific_products' ? (
                         <div className="w-full">
-                          <div class="w-full">
-                            <div class="flex border-1 rounded">
+                          <div className="w-full">
+                            <div className="flex border-1 rounded">
                               <input
                                 type="text"
-                                class="form-input w-full"
+                                className="form-input w-full"
                                 placeholder="Search products..."
                               />
-                              <button class="flex items-center justify-center px-4 border-l">
+                              <button className="flex items-center justify-center px-4 border-l">
                                 <svg
-                                  class="w-6 h-6 text-gray-600"
+                                  className="w-6 h-6 text-gray-600"
                                   fill="currentColor"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -553,16 +553,16 @@ const DiscountForm = () => {
                         </div>
                       ) : (
                         <div className="w-full">
-                          <div class="w-full">
-                            <div class="flex border-1 rounded">
+                          <div className="w-full">
+                            <div className="flex border-1 rounded">
                               <input
                                 type="text"
-                                class="form-input w-full"
+                                className="form-input w-full"
                                 placeholder="Search collections..."
                               />
-                              <button class="flex items-center justify-center px-4 border-l">
+                              <button className="flex items-center justify-center px-4 border-l">
                                 <svg
-                                  class="w-6 h-6 text-gray-600"
+                                  className="w-6 h-6 text-gray-600"
                                   fill="currentColor"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -657,7 +657,7 @@ const DiscountForm = () => {
                   </div>
                 </section>
                 <section className="rounded bg-white overflow-hidden p-3 mb-10">
-                  <div class="sm:col-span-3 md:col-span-3">
+                  <div className="sm:col-span-3 md:col-span-3">
                     <section
                       className={`rounded bg-white overflow-hidden p-3 ${
                         values.incentive_type === 'buy-x-get-y' ||
@@ -785,16 +785,16 @@ const DiscountForm = () => {
                         >
                           {values.applies_to === 'specific_products' ? (
                             <div className="w-full">
-                              <div class="w-full">
-                                <div class="flex border-1 rounded">
+                              <div className="w-full">
+                                <div className="flex border-1 rounded">
                                   <input
                                     type="text"
-                                    class="form-input w-full"
+                                    className="form-input w-full"
                                     placeholder="Search products..."
                                   />
-                                  <button class="flex items-center justify-center px-4 border-l">
+                                  <button className="flex items-center justify-center px-4 border-l">
                                     <svg
-                                      class="w-6 h-6 text-gray-600"
+                                      className="w-6 h-6 text-gray-600"
                                       fill="currentColor"
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -807,16 +807,16 @@ const DiscountForm = () => {
                             </div>
                           ) : (
                             <div className="w-full">
-                              <div class="w-full">
-                                <div class="flex border-1 rounded">
+                              <div className="w-full">
+                                <div className="flex border-1 rounded">
                                   <input
                                     type="text"
-                                    class="form-input w-full"
+                                    className="form-input w-full"
                                     placeholder="Search collections..."
                                   />
-                                  <button class="flex items-center justify-center px-4 border-l">
+                                  <button className="flex items-center justify-center px-4 border-l">
                                     <svg
-                                      class="w-6 h-6 text-gray-600"
+                                      className="w-6 h-6 text-gray-600"
                                       fill="currentColor"
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"

@@ -76,6 +76,33 @@ const theme = createTheme({
     '0px 11px 14px -7px rgba(0,0,0,0.2),0px 23px 36px 3px rgba(0,0,0,0.14),0px 9px 44px 8px rgba(0,0,0,0.12)',
     '0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12)',
   ],
+  typography: {
+    h1: {
+      color: '#0A1929',
+      fontFamily:
+        'PlusJakartaSans-ExtraBold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
+      fontSize: 'clamp(2.625rem, 1.2857rem + 3.5714vw, 4rem)',
+      fontWeight: 800,
+      lineHeight: 1.1142857142857143,
+    },
+    h2: {
+      color: '#132F4C',
+      fontFamily:
+        '"PlusJakartaSans-ExtraBold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
+      fontSize: 'clamp(1.5rem, 0.9643rem + 1.4286vw, 2.25rem)',
+      fontWeight: 800,
+      lineHeight: 1.2222222222222223,
+    },
+  },
+  zIndex: {
+    appBar: 1100,
+    drawer: 1200,
+    mobileStepper: 1000,
+    modal: 1300,
+    snackbar: 1400,
+    speedDial: 1050,
+    tooltip: 1500,
+  },
 });
 
 export default theme;

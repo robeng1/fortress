@@ -58,7 +58,7 @@ export function App() {
       </Helmet>
       <Switch>
         <Route exact path={process.env.PUBLIC_URL + '/'}>
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics">
           <Analytics />
@@ -82,18 +82,17 @@ export function App() {
           <Discounts />
         </Route>
         <Route exact path="/analytics/live">
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics/reports">
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics/dashboards">
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics/insights">
-          <Dashboard />
+          <Analytics />
         </Route>
-
         <Route exact path="/settings/account">
           <Account />
         </Route>

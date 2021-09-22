@@ -13,6 +13,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import { BrowserRouter as Router } from 'react-router-dom';
+import '@fontsource/plus-jakarta-sans';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';

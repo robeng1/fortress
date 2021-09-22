@@ -373,7 +373,7 @@ function Campaigns() {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                  Campaigns ✨
+                  Campaigns
                 </h1>
               </div>
 

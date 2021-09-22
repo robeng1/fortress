@@ -25,7 +25,7 @@ function Shop2() {
             <div className="mb-5">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Find the right product for you ✨
+                Find the right product for you
               </h1>
             </div>
 

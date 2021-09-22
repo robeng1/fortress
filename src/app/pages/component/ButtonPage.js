@@ -21,7 +21,7 @@ function ButtonPage() {
             {/* Page header */}
             <div className="mb-8">
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Button ✨
+                Button
               </h1>
             </div>
 

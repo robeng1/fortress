@@ -24,7 +24,7 @@ function Notifications() {
             <div className="mb-8">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Settings ✨
+                Settings
               </h1>
             </div>
 

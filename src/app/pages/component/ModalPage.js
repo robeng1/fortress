@@ -43,7 +43,7 @@ function ModalPage() {
             {/* Page header */}
             <div className="mb-8">
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Modal ✨
+                Modal
               </h1>
             </div>
 
@@ -1057,7 +1057,7 @@ function ModalPage() {
                                         <span className="font-semibold text-gray-800">
                                           Mosaic Basic{' '}
                                           <span className="text-xs italic text-indigo-500 align-top">
-                                            Best Value ✨
+                                            Best Value
                                           </span>
                                         </span>
                                         <span>

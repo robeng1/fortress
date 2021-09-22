@@ -24,7 +24,7 @@ function Settings() {
             <div className="mb-8">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Account Settings ✨
+                Account Settings
               </h1>
             </div>
 

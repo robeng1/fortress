@@ -156,7 +156,7 @@ function Applications() {
             <div className="mb-5">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Find the app that’s right for you ✨
+                Find the app that’s right for you
               </h1>
             </div>
 
