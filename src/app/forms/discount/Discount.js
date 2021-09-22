@@ -5,7 +5,6 @@ import { FilePond, registerPlugin } from 'react-filepond';
 
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
-import Select from 'react-select';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css';
@@ -18,11 +17,6 @@ import 'css/filepond.css';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const DiscountForm = () => {
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
   return (
     <div>
       <Formik
@@ -38,11 +32,13 @@ const DiscountForm = () => {
           excluded_products: [],
           included_collections: [],
           incentive_type: '',
-          buy_x_get_y_cond_value_int: '',
+          buy_x_get_y_cond_value: '',
           conditon_value_money: '',
           buy_x_get_y_cond_range_type: '',
-          buy_x_get_y_value_type: 'quantity',
+          buy_x_get_y_cond_range_values: '',
+          buy_x_get_y_cond_value_type: 'quantity',
           buy_x_get_y_ben_range_type: '',
+          buy_x_get_y_ben_range_values: '',
           buy_x_get_y_ben_value_int: '',
           buy_x_get_y_discounted_value_type: '',
           requirements: '',
@@ -61,7 +57,6 @@ const DiscountForm = () => {
           start_time: '',
           end_date: '',
           end_time: '',
-          //TODO: set the file IDs to the images value after they have been uploaded
           files: [],
         }}
         onSubmit={(values, { setSubmitting }) => {
@@ -172,11 +167,8 @@ const DiscountForm = () => {
                             onChange={e =>
                               setFieldValue('incentive_type', 'percentage')
                             }
-                            value={
-                              values.requirements === 'percentage'
-                                ? true
-                                : false
-                            }
+                            checked={values.incentive_type === 'percentage'}
+                            value={values.incentive_type}
                           />
                           <span className="text-sm ml-2">Percentage</span>
                         </label>
@@ -190,11 +182,8 @@ const DiscountForm = () => {
                             onChange={e =>
                               setFieldValue('incentive_type', 'fixed_amount')
                             }
-                            value={
-                              values.requirements === 'fixed_amount'
-                                ? true
-                                : false
-                            }
+                            checked={values.incentive_type === 'fixed_amount'}
+                            value={values.incentive_type}
                           />
                           <span className="text-sm ml-2">Fixed amount</span>
                         </label>
@@ -208,9 +197,8 @@ const DiscountForm = () => {
                             onChange={e =>
                               setFieldValue('incentive_type', 'multibuy')
                             }
-                            value={
-                              values.requirements === 'multibuy' ? true : false
-                            }
+                            checked={values.incentive_type === 'multibuy'}
+                            value={values.incentive_type}
                           />
                           <span className="text-sm ml-2">Multibuy</span>
                         </label>
@@ -224,11 +212,8 @@ const DiscountForm = () => {
                             onChange={e =>
                               setFieldValue('incentive_type', 'fixed_price')
                             }
-                            value={
-                              values.requirements === 'fixed_price'
-                                ? true
-                                : false
-                            }
+                            checked={values.incentive_type === 'fixed_price'}
+                            value={values.incentive_type}
                           />
                           <span className="text-sm ml-2">Fixed Price</span>
                         </label>
@@ -245,11 +230,11 @@ const DiscountForm = () => {
                                 'fixed_price_per_product',
                               )
                             }
-                            value={
-                              values.requirements === 'fixed_price_per_product'
-                                ? true
-                                : false
+                            checked={
+                              values.incentive_type ===
+                              'fixed_price_per_product'
                             }
+                            value={values.incentive_type}
                           />
                           <span className="text-sm ml-2">
                             Fixed price per product
@@ -265,11 +250,8 @@ const DiscountForm = () => {
                             onChange={e =>
                               setFieldValue('incentive_type', 'buy-x-get-y')
                             }
-                            value={
-                              values.requirements === 'buy-x-get-y'
-                                ? true
-                                : false
-                            }
+                            checked={values.incentive_type === 'buy-x-get-y'}
+                            value={values.incentive_type}
                           />
                           <span className="text-sm ml-2">Buy-X-Get-Y</span>
                         </label>
@@ -313,27 +295,105 @@ const DiscountForm = () => {
                   <h2 className="block text-lg font-semibold mb-1">
                     Customer buys
                   </h2>
+                  <div className="m-3">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="buy_x_get_y_cond_value_type"
+                        className="form-radio"
+                        onChange={e =>
+                          setFieldValue(
+                            'buy_x_get_y_cond_value_type',
+                            'quantity',
+                          )
+                        }
+                        checked={
+                          values.buy_x_get_y_cond_value_type === 'quantity'
+                        }
+                        value={values.buy_x_get_y_cond_value_type}
+                      />
+                      <span className="text-sm ml-2">
+                        Minimum quantity of items
+                      </span>
+                    </label>
+                  </div>
+                  <div className="m-3">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="buy_x_get_y_cond_value_type"
+                        className="form-radio"
+                        onChange={e =>
+                          setFieldValue('buy_x_get_y_cond_value_type', 'amount')
+                        }
+                        checked={
+                          values.buy_x_get_y_cond_value_type === 'amount'
+                        }
+                        value={values.buy_x_get_y_cond_value_type}
+                      />
+                      <span className="text-sm ml-2">
+                        Minimum purchase amount
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* TODO: radios for customer to choose value type */}
                   <div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-1/2">
                         <label
                           className="block text-sm font-medium mb-1"
-                          htmlFor="buy_x_get_y_cond_value_int"
+                          htmlFor="buy_x_get_y_cond_value"
                         >
-                          Quantity
+                          {values.buy_x_get_y_cond_value_type === 'quantity'
+                            ? 'Quantity'
+                            : 'Amount'}
                         </label>
-                        <input
-                          id="buy_x_get_y_cond_value_int"
-                          name="buy_x_get_y_cond_value_int"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.buy_x_get_y_cond_value_int}
-                          className="form-input w-1/2"
-                          step={1}
-                          min={1}
-                          type="number"
-                          placeholder="1"
-                        />
+                        <div
+                          className={`relative ${
+                            values.buy_x_get_y_cond_value_type === 'quantity' ||
+                            values.buy_x_get_y_cond_value_type === ''
+                              ? 'hidden'
+                              : 'block'
+                          }`}
+                        >
+                          <input
+                            id="prefix"
+                            className="form-input w-full pl-12"
+                            type="text"
+                          />
+                          <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+                            <span className="text-sm text-gray-400 font-medium px-3">
+                              GHS
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          className={`relative ${
+                            values.buy_x_get_y_cond_value_type === 'amount' ||
+                            values.buy_x_get_y_cond_value_type === ''
+                              ? 'hidden'
+                              : 'block'
+                          }`}
+                        >
+                          <input
+                            id="buy_x_get_y_cond_value"
+                            name="buy_x_get_y_cond_value"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.buy_x_get_y_cond_value}
+                            className="form-input w-full pr-8"
+                            step={1}
+                            min={1}
+                            type="text"
+                            placeholder="1"
+                          />
+                          {/* <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
+                            <span className="text-sm text-gray-400 font-medium px-3">
+                              products
+                            </span>
+                          </div> */}
+                        </div>
                       </div>
                       <div className="w-full">
                         <div className="w-full">
@@ -535,12 +595,11 @@ const DiscountForm = () => {
                                   'percentage',
                                 )
                               }
-                              value={
+                              checked={
                                 values.buy_x_get_y_discounted_value_type ===
                                 'percentage'
-                                  ? true
-                                  : false
                               }
+                              value={values.buy_x_get_y_discounted_value_type}
                             />
                             <span className="text-sm ml-2">Percentage</span>
                           </label>
@@ -558,16 +617,41 @@ const DiscountForm = () => {
                                   'free',
                                 )
                               }
-                              value={
+                              checked={
                                 values.buy_x_get_y_discounted_value_type ===
                                 'free'
-                                  ? true
-                                  : false
                               }
+                              value={values.buy_x_get_y_discounted_value_type}
                             />
                             <span className="text-sm ml-2">Free</span>
                           </label>
                         </div>
+                      </div>
+                    </div>
+                    <div
+                      className={`relative w-1/2 ${
+                        values.buy_x_get_y_discounted_value_type === 'free' ||
+                        values.buy_x_get_y_cond_value_type === ''
+                          ? 'hidden'
+                          : 'block'
+                      }`}
+                    >
+                      <input
+                        id="buy_x_get_y_cond_value"
+                        name="buy_x_get_y_cond_value"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.buy_x_get_y_cond_value}
+                        className="form-input w-full pr-8"
+                        step={1}
+                        min={1}
+                        type="text"
+                        placeholder="1"
+                      />
+                      <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
+                        <span className="text-sm text-gray-400 font-medium px-3">
+                          %
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -589,18 +673,32 @@ const DiscountForm = () => {
                         >
                           Value
                         </label>
-                        <input
-                          id="value"
-                          name="value"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.value}
-                          className="form-input"
-                          type="number"
-                          step={1}
-                          min={0}
-                          placeholder="GHS 0.00"
-                        />
+                        <div className={`relative`}>
+                          <input
+                            id="value"
+                            name="value"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.value}
+                            className="form-input w-full pr-8"
+                            type="text"
+                          />
+                          {values.incentive_type === 'percentage' && (
+                            <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
+                              <span className="text-sm text-gray-400 font-medium px-3">
+                                %
+                              </span>
+                            </div>
+                          )}
+                          {(values.incentive_type === 'fixed_price' ||
+                            values.incentive_type === 'fixed_amount') && (
+                            <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+                              <span className="text-sm text-gray-400 font-medium px-3">
+                                GHS
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
 
                       <Divider />
@@ -621,11 +719,8 @@ const DiscountForm = () => {
                                 onChange={e =>
                                   setFieldValue('applies_to', 'all_products')
                                 }
-                                value={
-                                  values.applies_to === 'all_products'
-                                    ? true
-                                    : false
-                                }
+                                checked={values.applies_to === 'all_products'}
+                                value={values.applies_to}
                               />
                               <span className="text-sm ml-2">All products</span>
                             </label>
@@ -643,11 +738,10 @@ const DiscountForm = () => {
                                     'specific_products',
                                   )
                                 }
-                                value={
+                                checked={
                                   values.applies_to === 'specific_products'
-                                    ? true
-                                    : false
                                 }
+                                value={values.applies_to}
                               />
                               <span className="text-sm ml-2">
                                 Specific products
@@ -666,17 +760,74 @@ const DiscountForm = () => {
                                     'specific_collections',
                                   )
                                 }
-                                value={
+                                checked={
                                   values.applies_to === 'specific_collections'
-                                    ? true
-                                    : false
                                 }
+                                value={values.applies_to}
                               />
                               <span className="text-sm ml-2">
                                 Specific collections
                               </span>
                             </label>
                           </div>
+                        </div>
+                      </div>
+                      <div
+                        className={`${
+                          values.applies_to === 'all_products' ||
+                          values.applies_to === ''
+                            ? 'hidden'
+                            : 'block'
+                        }`}
+                      >
+                        <div
+                          className={`sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5`}
+                        >
+                          {values.applies_to === 'specific_products' ? (
+                            <div className="w-full">
+                              <div class="w-full">
+                                <div class="flex border-1 rounded">
+                                  <input
+                                    type="text"
+                                    class="form-input w-full"
+                                    placeholder="Search products..."
+                                  />
+                                  <button class="flex items-center justify-center px-4 border-l">
+                                    <svg
+                                      class="w-6 h-6 text-gray-600"
+                                      fill="currentColor"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="w-full">
+                              <div class="w-full">
+                                <div class="flex border-1 rounded">
+                                  <input
+                                    type="text"
+                                    class="form-input w-full"
+                                    placeholder="Search collections..."
+                                  />
+                                  <button class="flex items-center justify-center px-4 border-l">
+                                    <svg
+                                      class="w-6 h-6 text-gray-600"
+                                      fill="currentColor"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </section>
@@ -798,6 +949,7 @@ const DiscountForm = () => {
                           name="has_max_global_applications"
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          className="form-checkbox"
                           value={values.has_max_global_applications}
                           type="checkbox"
                         />
@@ -833,6 +985,7 @@ const DiscountForm = () => {
                           name="has_max_user_applications"
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          className="form-checkbox"
                           value={values.has_max_user_applications}
                           id="has_max_user_applications"
                           type="checkbox"
@@ -869,6 +1022,7 @@ const DiscountForm = () => {
                           name="has_max_discount"
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          className="form-checkbox"
                           value={values.has_max_discount}
                           id="has_max_discount"
                           type="checkbox"

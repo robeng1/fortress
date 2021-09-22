@@ -455,6 +455,7 @@ const ProductForm = () => {
                         name="track_quantity"
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        className="form-checkbox"
                         value={values.track_quantity}
                         type="checkbox"
                       />
@@ -472,6 +473,7 @@ const ProductForm = () => {
                         onBlur={handleBlur}
                         value={values.unlimited}
                         id="unlimited"
+                        className="form-checkbox"
                         type="checkbox"
                       />
                       <label className="block text-sm ml-2" htmlFor="unlimited">
@@ -514,6 +516,7 @@ const ProductForm = () => {
                         onBlur={handleBlur}
                         value={values.shipping_required}
                         id="shipping_required"
+                        className="form-checkbox"
                         type="checkbox"
                       />
                       <label
@@ -560,6 +563,7 @@ const ProductForm = () => {
                         onBlur={handleBlur}
                         value={values.is_parent}
                         id="is_parent"
+                        className="form-checkbox"
                         type="checkbox"
                       />
                       <label className="block text-sm ml-2" htmlFor="is_parent">
