@@ -20,7 +20,12 @@ function BillingPanel() {
         <section>
           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
             <div className="flex items-center sm:w-1/2">
-              <input id="reoapp" type="checkbox" required />
+              <input
+                id="reoapp"
+                type="checkbox"
+                required
+                className="form-checkbox"
+              />
               <label className="block text-sm ml-2" htmlFor="reoapp">
                 Reo App
               </label>
@@ -28,7 +33,12 @@ function BillingPanel() {
           </div>
           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
             <div className="flex items-center sm:w-1/2">
-              <input id="facebook" type="checkbox" required />
+              <input
+                id="facebook"
+                type="checkbox"
+                required
+                className="form-checkbox"
+              />
               <label className="block text-sm ml-2" htmlFor="facebook">
                 Facebook
               </label>
@@ -36,7 +46,12 @@ function BillingPanel() {
           </div>
           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
             <div className="flex items-center sm:w-1/2">
-              <input id="instagram" type="checkbox" required />
+              <input
+                id="instagram"
+                type="checkbox"
+                required
+                className="form-checkbox"
+              />
               <label className="block text-sm ml-2" htmlFor="instagram">
                 Instagram
               </label>
@@ -44,7 +59,12 @@ function BillingPanel() {
           </div>
           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
             <div className="flex items-center sm:w-1/2">
-              <input id="whatsapp" type="checkbox" required />
+              <input
+                id="whatsapp"
+                type="checkbox"
+                required
+                className="form-checkbox"
+              />
               <label className="block text-sm ml-2" htmlFor="whatsapp">
                 WhatsApp
               </label>
@@ -52,7 +72,12 @@ function BillingPanel() {
           </div>
           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
             <div className="flex items-center sm:w-1/2">
-              <input id="tiktok" type="checkbox" required />
+              <input
+                id="tiktok"
+                type="checkbox"
+                required
+                className="form-checkbox"
+              />
               <label className="block text-sm ml-2" htmlFor="tiktok">
                 TikTok
               </label>
@@ -60,7 +85,12 @@ function BillingPanel() {
           </div>
           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
             <div className="flex items-center sm:w-1/2">
-              <input id="snapchat" type="checkbox" required />
+              <input
+                id="snapchat"
+                type="checkbox"
+                required
+                className="form-checkbox"
+              />
               <label className="block text-sm ml-2" htmlFor="snapchat">
                 Snapchat
               </label>
