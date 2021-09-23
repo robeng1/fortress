@@ -16,21 +16,21 @@ import './charts/ChartjsConfig';
 
 import { useTranslation } from 'react-i18next';
 // Import pages
-import Dashboard from './pages/Dashboard';
-import Analytics from './pages/Analytics';
-import Customers from './pages/ecommerce/Customers';
-import Products from './pages/product/Products';
-import Inventory from './pages/inventory/Inventory';
-import Discounts from './pages/discount/Discounts';
-import Collections from './pages/collection/Collections';
-import Orders from './pages/ecommerce/Orders';
-import Account from './pages/settings/Account';
-import Notifications from './pages/settings/Notifications';
-import Apps from './pages/settings/Apps';
-import Plans from './pages/settings/Plans';
-import Billing from './pages/settings/Billing';
-import Feedback from './pages/settings/Feedback';
-import PageNotFound from './pages/utility/PageNotFound';
+
+import Analytics from 'app/pages/Analytics';
+import Customers from 'app/pages/ecommerce/Customers';
+import Products from 'app/pages/product/Products';
+import Inventory from 'app/pages/inventory/Inventory';
+import Discounts from 'app/pages/discount/Discounts';
+import Collections from 'app/pages/collection/Collections';
+import Orders from 'app/pages/ecommerce/Orders';
+import Account from 'app/pages/settings/Account';
+import Notifications from 'app/pages/settings/Notifications';
+import Apps from 'app/pages/settings/Apps';
+import Plans from 'app/pages/settings/Plans';
+import Billing from 'app/pages/settings/Billing';
+import Feedback from 'app/pages/settings/Feedback';
+import PageNotFound from 'app/pages/utility/PageNotFound';
 
 import { GlobalStyle } from 'styles/global-styles';
 

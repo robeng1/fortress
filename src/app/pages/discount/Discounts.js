@@ -48,7 +48,7 @@ function Discounts() {
                 </button>
               </div>
             </div>
-            <div className="mb-4 sm:mb-0">
+            <div className="mb-0   sm:mb-0">
               <h2>SPRINGSALE</h2>
             </div>
           </div>
