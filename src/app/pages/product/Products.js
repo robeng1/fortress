@@ -84,7 +84,7 @@ function Products() {
               {/* Add customer button */}
               <button
                 onClick={() => setShowForm(!showForm)}
-                className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                className="btn bg-purple-600 bg-opacity-100 hover:bg-indigo-600 text-white"
               >
                 <svg
                   className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
