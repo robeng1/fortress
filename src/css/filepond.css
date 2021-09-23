@@ -1,7 +1,10 @@
-/* .filepond--root,
+.filepond--root,
 .filepond--root .filepond--drop-label {
-  height: 200px;
-} */
+  width: auto;
+  height: auto;
+  padding: 0;
+  align-items: center;
+}
 .filepond--item {
   width: calc(50% - 0.5em);
   height: calc(50% - 0.5em) ;
@@ -10,6 +13,9 @@
   .filepond--item {
     width: calc(50% - 0.5em);
   }
+  .filepond--root {
+    justify-content: center;
+  }
 }
 
 @media (min-width: 50em) {
@@ -17,6 +23,6 @@
     width: calc(33.33% - 0.5em);
   }
   .filepond--root{
-    justify-content: start;
+    justify-content: center;
   }
 }

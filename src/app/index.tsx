@@ -16,7 +16,7 @@ import './charts/ChartjsConfig';
 
 import { useTranslation } from 'react-i18next';
 // Import pages
-import Dashboard from './pages/Dashboard';
+// import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
 import Customers from './pages/ecommerce/Customers';
 import Products from './pages/product/Products';
@@ -58,7 +58,7 @@ export function App() {
       </Helmet>
       <Switch>
         <Route exact path={process.env.PUBLIC_URL + '/'}>
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics">
           <Analytics />
@@ -82,18 +82,17 @@ export function App() {
           <Discounts />
         </Route>
         <Route exact path="/analytics/live">
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics/reports">
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics/dashboards">
-          <Dashboard />
+          <Analytics />
         </Route>
         <Route exact path="/analytics/insights">
-          <Dashboard />
+          <Analytics />
         </Route>
-
         <Route exact path="/settings/account">
           <Account />
         </Route>

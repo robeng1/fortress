@@ -7,6 +7,7 @@
     "@craco/craco": "6.3.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fontsource/plus-jakarta-sans": "4.5.0",
     "@headlessui/react": "1.4.1",
     "@heroicons/react": "1.0.4",
     "@mui/icons-material": "5.0.0",

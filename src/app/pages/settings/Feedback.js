@@ -24,7 +24,7 @@ function Feedback() {
             <div className="mb-8">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Feedback ✨
+                Feedback
               </h1>
             </div>
 

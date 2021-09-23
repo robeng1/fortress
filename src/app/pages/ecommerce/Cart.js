@@ -35,7 +35,7 @@ function Cart() {
                 <header className="mb-2">
                   {/* Title */}
                   <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                    Shopping Cart (3) ✨
+                    Shopping Cart (3)
                   </h1>
                 </header>
 

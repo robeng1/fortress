@@ -124,7 +124,7 @@ function PlansPanel() {
             <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
               Cancel
             </button>
-            <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3">
+            <button className="btn bg-purple-600 bg-opacity-100 hover:bg-indigo-600 text-white ml-3">
               Save Changes
             </button>
           </div>

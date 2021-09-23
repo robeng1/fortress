@@ -13,7 +13,7 @@ function Signin() {
           <div className="max-w-sm mx-auto min-h-screen flex flex-col justify-center px-4 py-8">
             <div className="w-full">
               <h1 className="text-3xl text-gray-800 font-bold mb-6">
-                Welcome back! ✨
+                Welcome back!
               </h1>
               {/* Form */}
               <form>

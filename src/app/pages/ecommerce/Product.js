@@ -42,7 +42,7 @@ function Product() {
                 <header className="mb-4">
                   {/* Title */}
                   <h1 className="text-2xl md:text-3xl text-gray-800 font-bold mb-2">
-                    Front-End Learning: Hands-On HTML & CSS In Real Web Apps ✨
+                    Front-End Learning: Hands-On HTML & CSS In Real Web Apps
                   </h1>
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -829,7 +829,7 @@ function Product() {
                           <span className="font-semibold text-gray-800">
                             Premium{' '}
                             <span className="text-xs italic text-indigo-500 align-top">
-                              Best Value ✨
+                              Best Value
                             </span>
                           </span>
                           <span className="font-medium text-green-600">
