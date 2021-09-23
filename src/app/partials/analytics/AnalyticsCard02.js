@@ -108,7 +108,9 @@ function AnalyticsCard02() {
                 {/* Row */}
                 <tr>
                   <td className="py-2">
-                    <div className="text-left">preview.cruip.com/open-pro/</div>
+                    <div className="text-left">
+                      preview.reoplex.com/open-pro/
+                    </div>
                   </td>
                   <td className="py-2">
                     <div className="font-medium text-right text-gray-800">
@@ -119,7 +121,7 @@ function AnalyticsCard02() {
                 {/* Row */}
                 <tr>
                   <td className="py-2">
-                    <div className="text-left">preview.cruip.com/simple/</div>
+                    <div className="text-left">preview.reoplex.com/simple/</div>
                   </td>
                   <td className="py-2">
                     <div className="font-medium text-right text-gray-800">
@@ -130,7 +132,7 @@ function AnalyticsCard02() {
                 {/* Row */}
                 <tr>
                   <td className="py-2">
-                    <div className="text-left">cruip.com/unlimited/</div>
+                    <div className="text-left">reoplex.com/unlimited/</div>
                   </td>
                   <td className="py-2">
                     <div className="font-medium text-right text-gray-800">
@@ -141,7 +143,7 @@ function AnalyticsCard02() {
                 {/* Row */}
                 <tr>
                   <td className="py-2">
-                    <div className="text-left">preview.cruip.com/twist/</div>
+                    <div className="text-left">preview.reoplex.com/twist/</div>
                   </td>
                   <td className="py-2">
                     <div className="font-medium text-right text-gray-800">
