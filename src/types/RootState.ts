@@ -1,4 +1,4 @@
-import { ThemeState } from 'styles/theme/slice/types';
+// import { ThemeState } from 'styles/theme/slice/types';
 import { CollectionState } from 'app/features/collection';
 import { DiscountState } from 'app/features/discount';
 import { InventoryState } from 'app/features/inventory';
@@ -16,7 +16,7 @@ import { UserState } from 'app/features/user';
   So, not available always
 */
 export interface RootState {
-  theme?: ThemeState;
+  // theme?: ThemeState;
   collection?: CollectionState;
   discount?: DiscountState;
   inventory?: InventoryState;

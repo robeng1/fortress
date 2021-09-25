@@ -33,7 +33,7 @@ import Billing from 'app/pages/settings/Billing';
 import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 
-import { GlobalStyle } from 'styles/global-styles';
+// import { GlobalStyle } from 'styles/global-styles';
 
 export function App() {
   const location = useLocation();
@@ -119,7 +119,7 @@ export function App() {
       <div className="md:hidden">
         <BottomNav />
       </div>
-      <GlobalStyle />
+      {/* <GlobalStyle /> */}
     </>
   );
 }

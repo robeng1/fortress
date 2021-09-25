@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@chakra-ui/react": "1.6.7",
     "@craco/craco": "6.3.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
@@ -40,7 +39,6 @@
     "chartjs-adapter-moment": "1.0.0",
     "cross-env": "7.0.3",
     "cruip-js-toolkit": "1.1.2",
-    "daisyui": "1.14.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-react-hooks": "4.2.0",
@@ -96,8 +94,6 @@
     "stylelint-processor-styled-components": "1.10.0",
     "styletron-engine-atomic": "1.4.8",
     "styletron-react": "6.0.1",
-    "suneditor": "2.41.3",
-    "suneditor-react": "3.3.0",
     "tailwindcss": "2.2.15",
     "tippy.js": "6.3.1",
     "ts-node": "10.0.0",
@@ -110,17 +106,13 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "test:generators": "ts-node --project=./internals/ts-node.tsconfig.json ./internals/testing/generators/test-generators.ts",
     "start:prod": "yarn run build && serve -s build",
     "checkTs": "tsc --noEmit",
     "eslint": "eslint --ext js,ts,tsx",
     "lint": "yarn run eslint src",
     "lint:fix": "yarn run eslint --fix src",
     "lint:css": "stylelint src/**/*.css",
-    "generate": "cross-env TS_NODE_PROJECT='./internals/ts-node.tsconfig.json' plop --plopfile internals/generators/plopfile.ts",
-    "cleanAndSetup": "ts-node --project=./internals/ts-node.tsconfig.json ./internals/scripts/clean.ts",
-    "prettify": "prettier --write",
-    "extract-messages": "i18next-scanner --config=internals/extractMessages/i18next-scanner.config.js"
+    "prettify": "prettier --write"
   },
   "eslintConfig": {
     "extends": "react-app"
