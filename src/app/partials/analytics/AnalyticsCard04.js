@@ -20,8 +20,8 @@ function AnalyticsCard04() {
       {
         label: 'Returning Visitors',
         data: [4000, 6500, 2200, 5800],
-        backgroundColor: tailwindConfig().theme.colors['light-blue'][400],
-        hoverBackgroundColor: tailwindConfig().theme.colors['light-blue'][500],
+        backgroundColor: tailwindConfig().theme.colors.blue[400],
+        hoverBackgroundColor: tailwindConfig().theme.colors.blue[500],
         categoryPercentage: 0.66,
       },
     ],

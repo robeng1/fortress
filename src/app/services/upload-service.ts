@@ -11,13 +11,15 @@ export const server = {
     abort: () => void,
   ) => {
     // TODO: request the signed url and use it to upload the file here
+    // examine the filetypes and generate the key
+
     // fieldName is the name of the input field
     // file is the actual file object to send
     const formData = new FormData();
     formData.append(fieldName, file, file.name);
 
     const request = new XMLHttpRequest();
-    request.open('POST', 'url-to-api');
+    request.open('PUT', 'url-to-api');
 
     // Should call the progress method to update the progress to 100% before calling load
     // Setting computable to false switches the loading indicator to infinite mode

@@ -36,7 +36,7 @@ export const slice = createSlice({
       state.error = null;
       state.loading = true;
     },
-    authenticated: (state, action: PayloadAction<boolean>) => {
+    setIsAuthenticated: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticated = action.payload;
       state.error = null;
       state.loading = false;

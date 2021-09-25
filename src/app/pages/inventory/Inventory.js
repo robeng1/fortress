@@ -46,7 +46,7 @@ function Inventories() {
                 {/* Filter button */}
                 <FilterButton align="right" />
                 {/* Add customer button */}
-                <button className="btn bg-gray-800 hover:bg-indigo-600 text-white">
+                <button className="btn bg-purple-700 bg-opacity-100 rounded-lg  text-white">
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                     viewBox="0 0 16 16"

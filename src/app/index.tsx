@@ -15,6 +15,7 @@ import { focusHandling } from 'cruip-js-toolkit';
 import './charts/ChartjsConfig';
 
 import { useTranslation } from 'react-i18next';
+import BottomNav from 'app/components/BottomNav';
 // Import pages
 
 import Analytics from 'app/pages/Analytics';
@@ -115,6 +116,9 @@ export function App() {
           <PageNotFound />
         </Route>
       </Switch>
+      <div className="md:hidden">
+        <BottomNav />
+      </div>
       <GlobalStyle />
     </>
   );

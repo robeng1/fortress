@@ -16,7 +16,7 @@ export function* register(action: PayloadAction<RegisterLogInType>) {
     });
     if (session) {
       yield put(actions.sessionLoaded(session));
-      yield put(actions.authenticated(true));
+      yield put(actions.setIsAuthenticated(true));
     }
   } catch (err) {
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
@@ -35,7 +35,7 @@ export function* login(action: PayloadAction<RegisterLogInType>) {
     });
     if (session) {
       yield put(actions.sessionLoaded(session));
-      yield put(actions.authenticated(true));
+      yield put(actions.setIsAuthenticated(true));
     }
   } catch (err) {
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
@@ -49,9 +49,9 @@ export function* isAuthenticated() {
   const requestURL = `${theKeepURL}/auth/sessions/is-authenticated`;
   try {
     const resp: boolean = yield call(request, requestURL);
-    yield put(actions.authenticated(resp));
+    yield put(actions.setIsAuthenticated(resp));
   } catch (err) {
-    yield put(actions.authenticated(false));
+    yield put(actions.setIsAuthenticated(false));
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
   }
 }
@@ -64,12 +64,12 @@ export function* logout() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _ = yield call(request, requestURL);
-    yield put(actions.authenticated(false));
+    yield put(actions.setIsAuthenticated(false));
     yield put(actions.profileLoaded({}));
     yield put(actions.sessionLoaded({}));
     yield put(actions.setUser({}));
   } catch (err) {
-    yield put(actions.authenticated(false));
+    yield put(actions.setIsAuthenticated(false));
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
   }
 }

@@ -22,7 +22,7 @@ function SettingsContent() {
                 alt="User upload"
               />
             </div>
-            <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white">
+            <button className="btn bg-purple-700 bg-opacity-100 rounded-lg  text-white">
               Change
             </button>
           </div>

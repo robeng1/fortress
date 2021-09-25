@@ -4,8 +4,9 @@ import { useInjectReducer } from 'utils/redux-injectors';
 import { getThemeFromStorage } from '../utils';
 import { ThemeKeyType, ThemeState } from './types';
 
+// Dark theme is disabled for now
 export const initialState: ThemeState = {
-  selected: getThemeFromStorage() || 'system',
+  selected: getThemeFromStorage() || 'light',
 };
 
 const slice = createSlice({

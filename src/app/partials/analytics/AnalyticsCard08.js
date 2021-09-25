@@ -13,12 +13,12 @@ function AnalyticsCard08() {
         data: [12, 50, 38],
         backgroundColor: [
           tailwindConfig().theme.colors.indigo[500],
-          tailwindConfig().theme.colors['light-blue'][400],
+          tailwindConfig().theme.colors.blue[400],
           tailwindConfig().theme.colors.indigo[800],
         ],
         hoverBackgroundColor: [
           tailwindConfig().theme.colors.indigo[600],
-          tailwindConfig().theme.colors['light-blue'][500],
+          tailwindConfig().theme.colors.blue[500],
           tailwindConfig().theme.colors.indigo[900],
         ],
         hoverBorderColor: tailwindConfig().theme.colors.white,
