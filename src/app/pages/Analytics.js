@@ -40,7 +40,7 @@ function Analytics() {
               </div>
 
               {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+              <div className="grid grid-flow-col sm:auto-cols-max justify-end sm:justify-end gap-2">
                 {/* Datepicker built with flatpickr */}
                 <Datepicker align="right" />
               </div>

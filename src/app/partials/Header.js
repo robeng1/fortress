@@ -9,7 +9,11 @@ function Header({ sidebarOpen, setSidebarOpen }) {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 bg-transparent border-b border-gray-200 z-30 shadow-sm backdrop-blur-xl">
+    <header
+      className={`sticky top-0 bg-transparent border-b border-gray-200 z-20 shadow-sm ${
+        !searchModalOpen && 'backdrop-blur-xl'
+      }`}
+    >
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center md:justify-between h-16 -mb-px">
           {/* Header: Left side */}

@@ -63,7 +63,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
           className="bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg"
         >
           {/* Search form */}
-          <form className="border-b border-gray-200">
+          <form className="border-b border-gray-200 z-20">
             <div className="relative">
               <label htmlFor={searchId} className="sr-only">
                 Search
