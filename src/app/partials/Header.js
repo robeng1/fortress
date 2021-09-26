@@ -11,7 +11,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
   return (
     <header
       className={`sticky top-0 bg-transparent border-b border-gray-200 z-20 shadow-sm ${
-        !searchModalOpen && 'backdrop-blur-xl'
+        !searchModalOpen && 'backdrop-blur-md'
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">

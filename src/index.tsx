@@ -11,9 +11,8 @@ import 'react-app-polyfill/stable';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import FontFaceObserver from 'fontfaceobserver';
 import { BrowserRouter as Router } from 'react-router-dom';
-// import '@fontsource/plus-jakarta-sans';
+import '@fontsource/plus-jakarta-sans';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
@@ -35,15 +34,6 @@ import reportWebVitals from 'reportWebVitals';
 import './locales/i18n';
 
 import theme from './styles/mui-theme/theme';
-
-// Observe loading of Inter (to remove 'Inter', remove the <link> tag in
-// the index.html file and this observer)
-const openSansObserver = new FontFaceObserver('Inter', {});
-
-// When Inter is loaded, add a font-family using Inter to the body
-openSansObserver.load().then(() => {
-  document.body.classList.add('fontLoaded');
-});
 
 const store = configureAppStore();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
