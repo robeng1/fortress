@@ -116,10 +116,9 @@ export function App() {
           <PageNotFound />
         </Route>
       </Switch>
-      <div className="md:hidden">
+      <div className={`md:hidden`}>
         <BottomNav />
       </div>
-      {/* <GlobalStyle /> */}
     </>
   );
 }

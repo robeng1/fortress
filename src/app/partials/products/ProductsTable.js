@@ -17,7 +17,7 @@ import ProductList from './mobile/ProductList';
 function ProductsTable({ selectedItems }) {
   const products = [
     {
-      id: '0',
+      id: '1',
       image: Image01,
       name: 'Bike short',
       inventory: '10 in stock',
@@ -26,7 +26,7 @@ function ProductsTable({ selectedItems }) {
       variants: '24',
     },
     {
-      id: '0',
+      id: '2',
       image: Image02,
       name: 'Bike short',
       inventory: 'Not tracked',
@@ -35,7 +35,7 @@ function ProductsTable({ selectedItems }) {
       variants: '24',
     },
     {
-      id: '0',
+      id: '3',
       image: Image03,
       name: 'Bike short',
       inventory: '0 in stock',
@@ -44,7 +44,7 @@ function ProductsTable({ selectedItems }) {
       variants: '24',
     },
     {
-      id: '0',
+      id: '4',
       image: Image04,
       name: 'Bike short',
       inventory: '10 in stock',
@@ -53,7 +53,7 @@ function ProductsTable({ selectedItems }) {
       variants: '24',
     },
     {
-      id: '0',
+      id: '5',
       image: Image05,
       name: 'Bike short',
       inventory: '10 in stock',
@@ -63,7 +63,7 @@ function ProductsTable({ selectedItems }) {
       fav: true,
     },
     {
-      id: '0',
+      id: '6',
       image: Image06,
       name: 'Bike short',
       inventory: '10 in stock',
@@ -73,7 +73,7 @@ function ProductsTable({ selectedItems }) {
       fav: true,
     },
     {
-      id: '0',
+      id: '7',
       image: Image07,
       name: 'Bike short',
       inventory: '10 in stock',
@@ -83,7 +83,7 @@ function ProductsTable({ selectedItems }) {
       fav: true,
     },
     {
-      id: '0',
+      id: '8',
       image: Image08,
       name: 'Bike short',
       inventory: '10 in stock',
@@ -93,7 +93,7 @@ function ProductsTable({ selectedItems }) {
       fav: false,
     },
     {
-      id: '0',
+      id: '9',
       image: Image09,
       name: 'Bike short',
       inventory: '10 in stock',
@@ -103,7 +103,7 @@ function ProductsTable({ selectedItems }) {
       fav: true,
     },
     {
-      id: '0',
+      id: '10',
       image: Image10,
       name: 'Bike short',
       inventory: '10 in stock',
