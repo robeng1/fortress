@@ -14,10 +14,16 @@ export default function BottomNav() {
   return (
     <>
       <Paper
-        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}
         elevation={3}
       >
         <BottomNavigation
+          style={{ padding: '12px !important' }}
           showLabels
           value={value}
           onChange={(event, newValue) => {
@@ -45,6 +51,33 @@ export default function BottomNav() {
                     pathname === '/' && '!text-indigo-500'
                   }`}
                   d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                />
+              </svg>
+            }
+          />
+          <BottomNavigationAction
+            label="Orders"
+            component={NavLink}
+            exact
+            to="/orders"
+            value="orders"
+            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
+              pathname === '/orders' && 'text-gray-900'
+            }`}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="flex-shrink-0 h-6 w-6"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  className={`fill-current text-gray-400 ${
+                    pathname.includes('orders') && '!text-indigo-500'
+                  }`}
+                  fillRule="evenodd"
+                  d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
+                  clipRule="evenodd"
                 />
               </svg>
             }
@@ -87,14 +120,14 @@ export default function BottomNav() {
             }
           />
           <BottomNavigationAction
-            label="Orders"
             component={NavLink}
             exact
-            to="/orders"
-            value="orders"
+            to="/discounts"
+            value="discounts"
             className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
-              pathname === '/orders' && 'text-gray-900'
+              pathname.includes('discounts') && 'text-gray-900'
             }`}
+            label="Discounts"
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -103,16 +136,20 @@ export default function BottomNav() {
                 fill="currentColor"
               >
                 <path
-                  className={`fill-current text-gray-400 ${
-                    pathname.includes('orders') && '!text-indigo-500'
-                  }`}
                   fillRule="evenodd"
-                  d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
+                  d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
                   clipRule="evenodd"
+                />
+                <path
+                  className={`fill-current text-gray-600 ${
+                    pathname.includes('discounts') && '!text-indigo-500'
+                  }`}
+                  d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"
                 />
               </svg>
             }
           />
+
           <BottomNavigationAction
             label="Settings"
             component={NavLink}

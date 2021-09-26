@@ -12,6 +12,7 @@ import Image07 from '../../images/user-40-07.jpg';
 import Image08 from '../../images/user-40-08.jpg';
 import Image09 from '../../images/user-40-09.jpg';
 import Image10 from '../../images/user-40-10.jpg';
+import ProductList from './mobile/ProductList';
 
 function ProductsTable({ selectedItems }) {
   const products = [
@@ -155,7 +156,8 @@ function ProductsTable({ selectedItems }) {
           All Products <span className="text-gray-400 font-medium">248</span>
         </h2>
       </header>
-      <div>
+      <ProductList />
+      <div className="hidden md:block">
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="table-auto w-full">
