@@ -7,20 +7,12 @@ import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
 import { NavLink, useLocation } from 'react-router-dom';
-
-const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
-];
 
 export default function BottomNav() {
   const [value, setValue] = React.useState(0);
@@ -29,6 +21,51 @@ export default function BottomNav() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const actions = [
+    { icon: <ShareIcon />, name: 'Store' },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="flex-shrink-0 h-6 w-6"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
+            clipRule="evenodd"
+          />
+          <path
+            className={`fill-current text-gray-600 ${
+              pathname.includes('discounts') && '!text-indigo-500'
+            }`}
+            d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"
+          />
+        </svg>
+      ),
+      name: 'Promos',
+    },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="flex-shrink-0 h-6 w-6"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            className={`fill-current text-gray-600 ${
+              pathname.includes('customers') && '!text-indigo-500'
+            }`}
+            d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+          />
+        </svg>
+      ),
+      name: 'Customers',
+    },
+  ];
 
   return (
     <>
@@ -58,7 +95,7 @@ export default function BottomNav() {
           left: 0,
           right: 0,
         }}
-        elevation={3}
+        // elevation={1}
       >
         <BottomNavigation
           showLabels
