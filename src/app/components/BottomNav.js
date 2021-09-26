@@ -1,18 +1,56 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Backdrop from '@mui/material/Backdrop';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
+const actions = [
+  { icon: <FileCopyIcon />, name: 'Copy' },
+  { icon: <SaveIcon />, name: 'Save' },
+  { icon: <PrintIcon />, name: 'Print' },
+  { icon: <ShareIcon />, name: 'Share' },
+];
+
 export default function BottomNav() {
   const [value, setValue] = React.useState(0);
   const location = useLocation();
   const { pathname } = location;
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <>
+      <Backdrop open={open} />
+      <SpeedDial
+        ariaLabel="SpeedDial tooltip example"
+        sx={{ position: 'absolute', bottom: 65, right: 8 }}
+        icon={<SpeedDialIcon />}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        open={open}
+      >
+        {actions.map(action => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            tooltipOpen
+            onClick={handleClose}
+          />
+        ))}
+      </SpeedDial>
       <Paper
         sx={{
           position: 'fixed',
@@ -23,7 +61,6 @@ export default function BottomNav() {
         elevation={3}
       >
         <BottomNavigation
-          style={{ padding: '12px !important' }}
           showLabels
           value={value}
           onChange={(event, newValue) => {
@@ -119,37 +156,6 @@ export default function BottomNav() {
               </svg>
             }
           />
-          <BottomNavigationAction
-            component={NavLink}
-            exact
-            to="/discounts"
-            value="discounts"
-            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
-              pathname.includes('discounts') && 'text-gray-900'
-            }`}
-            label="Discounts"
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="flex-shrink-0 h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
-                  clipRule="evenodd"
-                />
-                <path
-                  className={`fill-current text-gray-600 ${
-                    pathname.includes('discounts') && '!text-indigo-500'
-                  }`}
-                  d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"
-                />
-              </svg>
-            }
-          />
-
           <BottomNavigationAction
             label="Settings"
             component={NavLink}
