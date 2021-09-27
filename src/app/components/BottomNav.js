@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import NavigationIcon from '@mui/icons-material/Menu';
+import Fab from '@mui/material/Fab';
 import Backdrop from '@mui/material/Backdrop';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
 import ShareIcon from '@mui/icons-material/Share';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -18,6 +18,10 @@ export default function BottomNav() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const iOS =
+    typeof navigator !== 'undefined' &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const actions = [
     { icon: <ShareIcon />, name: 'Store' },
@@ -67,30 +71,42 @@ export default function BottomNav() {
   return (
     <>
       <Backdrop open={open} />
-      <div className={` ${pathname.includes('settings') && 'hidden'}`}>
-        <SpeedDial
-          ariaLabel="other settings"
-          sx={{
-            position: 'fixed',
-            bottom: 65,
-            right: 8,
-          }}
-          icon={<SpeedDialIcon />}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          open={open}
-        >
-          {actions.map(action => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-              tooltipOpen
-              onClick={handleClose}
-            />
-          ))}
-        </SpeedDial>
+      <div>
+        <React.Fragment>
+          <SwipeableDrawer
+            anchor="bottom"
+            open={open}
+            onClose={handleClose}
+            onOpen={handleOpen}
+            disableBackdropTransition={!iOS}
+            disableDiscovery={iOS}
+          >
+            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-purple-50 to-purple-100 bg-gray-300 p-5">
+              <div className="grid grid-cols-3 grid-rows-2 grid-flow-col gap-2">
+                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  Discounts
+                </div>
+                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  Customers
+                </div>
+                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  Collections
+                </div>
+                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  Inventory
+                </div>
+                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  Store
+                </div>
+                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  Settings
+                </div>
+              </div>
+            </div>
+          </SwipeableDrawer>
+        </React.Fragment>
       </div>
+
       <Paper
         sx={{
           position: 'fixed',
@@ -197,14 +213,10 @@ export default function BottomNav() {
             }
           />
           <BottomNavigationAction
-            label="Settings"
-            component={NavLink}
-            exact
-            to="/settings/account"
-            value="settings/account"
-            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
-              pathname.includes('settings') && 'text-gray-900'
-            }`}
+            label="More"
+            value="more"
+            onClick={handleOpen}
+            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150`}
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -213,11 +225,9 @@ export default function BottomNav() {
                 fill="currentColor"
               >
                 <path
-                  className={`fill-current text-gray-600 ${
-                    pathname.includes('settings') && '!text-indigo-500'
-                  }`}
+                  className={`fill-current text-gray-600`}
                   fillRule="evenodd"
-                  d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
                   clipRule="evenodd"
                 />
               </svg>
