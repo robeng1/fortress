@@ -127,7 +127,7 @@ export default function BottomNav() {
             exact
             to="/"
             value=""
-            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
+            className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
               pathname === '/' && 'text-gray-900'
             }`}
             icon={
@@ -152,7 +152,7 @@ export default function BottomNav() {
             exact
             to="/orders"
             value="orders"
-            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
+            className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
               pathname === '/orders' && 'text-gray-900'
             }`}
             icon={
@@ -178,7 +178,7 @@ export default function BottomNav() {
             exact
             to="/shop/products"
             value="shop/products"
-            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
+            className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
               pathname.includes('shop') && 'text-gray-900'
             }`}
             label="Products"
@@ -214,7 +214,7 @@ export default function BottomNav() {
             label="More"
             value="more"
             onClick={handleOpen}
-            className={`flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150`}
+            className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150`}
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
