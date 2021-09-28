@@ -151,11 +151,6 @@ function ProductsTable({ selectedItems }) {
 
   return (
     <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
-      <header className="px-5 py-4">
-        <h2 className="font-semibold text-gray-800">
-          All Products <span className="text-gray-400 font-medium">248</span>
-        </h2>
-      </header>
       <ProductList />
       <div className="hidden md:block">
         {/* Table */}

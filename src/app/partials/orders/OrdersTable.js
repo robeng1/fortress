@@ -188,11 +188,6 @@ function OrdersTable({ selectedItems }) {
 
   return (
     <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
-      <header className="px-5 py-4">
-        <h2 className="font-semibold text-gray-800">
-          All Orders <span className="text-gray-400 font-medium">442</span>
-        </h2>
-      </header>
       <div>
         <OrderList />
         {/* Table */}
