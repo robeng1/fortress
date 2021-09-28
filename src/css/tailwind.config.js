@@ -182,7 +182,7 @@ module.exports = {
           'Noto Color Emoji',
         ],
         body: [
-          'PlusJakartaSans',
+          'Inter',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',

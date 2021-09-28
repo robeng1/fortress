@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
 import Orders from './OrdersTableItem';
+import OrderList from './mobile/OrderList';
 
 import Image01 from '../../images/icon-01.svg';
 import Image02 from '../../images/icon-02.svg';
@@ -193,8 +194,9 @@ function OrdersTable({ selectedItems }) {
         </h2>
       </header>
       <div>
+        <OrderList />
         {/* Table */}
-        <div className="overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto">
           <table className="table-auto w-full divide-y divide-gray-200">
             {/* Table header */}
             <thead className="text-xs uppercase text-gray-500 bg-gray-50 border-t border-gray-200">

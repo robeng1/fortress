@@ -2,8 +2,6 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import NavigationIcon from '@mui/icons-material/Menu';
-import Fab from '@mui/material/Fab';
 import Backdrop from '@mui/material/Backdrop';
 import ShareIcon from '@mui/icons-material/Share';
 import BottomNavigation from '@mui/material/BottomNavigation';
