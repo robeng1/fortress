@@ -5,7 +5,7 @@ function BillingPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="p-6 space-y-6">
+      <div className="md:p-6 p-2 space-y-6">
         <div className="flex justify-between">
           <div>
             <h2 className="text-2xl text-gray-800 font-bold mb-4">Locations</h2>

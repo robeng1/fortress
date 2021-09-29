@@ -5,7 +5,7 @@ function AppsPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="p-6">
+      <div className="md:p-6 p-1">
         <h2 className="text-2xl text-gray-800 font-bold mb-5">Locations</h2>
         <section>
           <h3 className="text-xl leading-snug text-gray-800 font-bold mb-1">
@@ -18,7 +18,7 @@ function AppsPanel() {
           </div>
 
           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/2 sm:w-full">
               <label
                 className="block text-sm font-medium mb-1"
                 htmlFor="centre-name"

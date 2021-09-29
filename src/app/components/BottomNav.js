@@ -120,6 +120,7 @@ export default function BottomNav() {
           sx={{
             padddingX: '10px',
             paddingBottom: '5px',
+            paddingTop: '8px',
             fontWeight: '500',
             fontSize: '24px',
           }}

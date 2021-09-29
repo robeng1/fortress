@@ -9,7 +9,7 @@ function AccountPanel() {
     <>
       <form className="flex-grow">
         {/* Panel body */}
-        <div className="p-6 space-y-6">
+        <div className="md:p-6 p-2 space-y-6">
           <h2 className="text-2xl text-gray-800 font-bold mb-5">My Store</h2>
           {/* Picture */}
           <section>
@@ -46,7 +46,7 @@ function AccountPanel() {
                 </label>
                 <input
                   id="name"
-                  className="form-input"
+                  className="form-input w-full"
                   type="text"
                   autoComplete="business name"
                   placeholder="Rocketship"
@@ -64,7 +64,7 @@ function AccountPanel() {
                 </label>
                 <input
                   id="email"
-                  className="form-input"
+                  className="form-input w-full"
                   type="email"
                   autoComplete="email"
                   placeholder="romeo@reoplex.com"
@@ -79,7 +79,7 @@ function AccountPanel() {
                 </label>
                 <input
                   id="phone"
-                  className="form-input"
+                  className="form-input w-full"
                   type="tel"
                   autoComplete="phone"
                   placeholder="+233246493078"
@@ -107,7 +107,7 @@ function AccountPanel() {
                 </label>
                 <input
                   id="legal_name"
-                  className="form-input"
+                  className="form-input w-full"
                   type="text"
                   placeholder="Rocketship LLC."
                 />
@@ -123,7 +123,7 @@ function AccountPanel() {
                 </label>
                 <input
                   id="address-name"
-                  className="form-input"
+                  className="form-input w-full"
                   type="text"
                   autoComplete="street-address"
                   placeholder="8th Street"
@@ -141,7 +141,7 @@ function AccountPanel() {
                 <select
                   id="country"
                   autoComplete="country"
-                  className="form-select block"
+                  className="form-select block w-full"
                 >
                   <option value="">Please Select</option>
                   <option value="GH">Ghana</option>
@@ -176,7 +176,7 @@ function AccountPanel() {
                 </label>
                 <input
                   id="province"
-                  className="form-input"
+                  className="form-input w-full"
                   type="text"
                   autoComplete="region"
                   placeholder="Greater Accra"
@@ -192,7 +192,7 @@ function AccountPanel() {
                 </label>
                 <input
                   id="post-code"
-                  className="form-input"
+                  className="form-input w-full"
                   type="text"
                   autoComplete="postal-code"
                   placeholder="G7HSED23"
@@ -227,7 +227,7 @@ function AccountPanel() {
                 </label>
                 <select
                   id="primary-currency"
-                  className="form-select"
+                  className="form-select w-full"
                   placeholder="GHS"
                 >
                   <option value="">Please select</option>
