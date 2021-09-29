@@ -117,6 +117,12 @@ export default function BottomNav() {
         <BottomNavigation
           showLabels
           value={value}
+          sx={{
+            padddingX: '10px',
+            paddingBottom: '5px',
+            fontWeight: '500',
+            fontSize: '24px',
+          }}
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
@@ -133,15 +139,15 @@ export default function BottomNav() {
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="flex-shrink-0 h-6 w-6"
+                className="flex-shrink-0 h-5 w-5"
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >
                 <path
-                  className={`fill-current text-gray-400 ${
+                  className={`fill-current text-gray-900 ${
                     pathname === '/' && '!text-indigo-500'
                   }`}
-                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                  d="M19.664 8.252l-9-8a1 1 0 0 0-1.328 0L8 1.44V1a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v5.773L.336 8.252a1.001 1.001 0 0 0 1.328 1.496L2 9.449V19a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9.449l.336.299a.997.997 0 0 0 1.41-.083 1.001 1.001 0 0 0-.082-1.413zM16 18h-2v-5a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v5H4V7.671l6-5.333 6 5.333V18zm-8 0h4v-4H8v4zM4 2h2v1.218L4 4.996V2z"
                 />
               </svg>
             }
@@ -158,16 +164,16 @@ export default function BottomNav() {
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="flex-shrink-0 h-6 w-6"
+                className="flex-shrink-0 h-5 w-5"
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >
                 <path
-                  className={`fill-current text-gray-400 ${
+                  className={`fill-current text-gray-900 ${
                     pathname.includes('orders') && '!text-indigo-500'
                   }`}
                   fillRule="evenodd"
-                  d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
+                  d="M2 18v-4h3.382l.723 1.447c.17.339.516.553.895.553h6c.379 0 .725-.214.895-.553L14.618 14H18v4H2zM19 1a1 1 0 0 1 1 1v17a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h4a1 1 0 0 1 0 2H2v9h4c.379 0 .725.214.895.553L7.618 14h4.764l.723-1.447c.17-.339.516-.553.895-.553h4V3h-3a1 1 0 0 1 0-2h4zM6.293 6.707a.999.999 0 1 1 1.414-1.414L9 6.586V1a1 1 0 0 1 2 0v5.586l1.293-1.293a.999.999 0 1 1 1.414 1.414l-3 3a.997.997 0 0 1-1.414 0l-3-3z"
                   clipRule="evenodd"
                 />
               </svg>
@@ -185,27 +191,15 @@ export default function BottomNav() {
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="flex-shrink-0 h-6 w-6"
+                className="flex-shrink-0 h-5 w-5"
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >
                 <path
-                  className={`fill-current text-gray-400 ${
+                  className={`fill-current text-gray-900 ${
                     pathname.includes('shop') && 'text-indigo-300'
                   }`}
-                  d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"
-                />
-                <path
-                  className={`fill-current text-gray-700 ${
-                    pathname.includes('shop') && '!text-indigo-600'
-                  }`}
-                  d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"
-                />
-                <path
-                  className={`fill-current text-gray-600 ${
-                    pathname.includes('shop') && 'text-indigo-500'
-                  }`}
-                  d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"
+                  d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
                 />
               </svg>
             }

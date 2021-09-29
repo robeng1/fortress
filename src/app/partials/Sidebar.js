@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import BottomNav from 'app/components/BottomNav';
 
 import SidebarLinkGroup from './SidebarLinkGroup';
 
@@ -138,31 +139,36 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* Dashboard */}
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                    pathname === '/' && 'bg-indigo-200'
+                    pathname === '/' &&
+                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
                     exact
                     to="/"
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
-                      pathname === '/' && 'text-gray-900'
+                      pathname === '/' && 'text-gray-900 '
                     }`}
                   >
-                    <div className="flex">
+                    <div className="flex items-center align-middle">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-shrink-0 h-6 w-6"
-                        viewBox="0 0 24 24"
+                        className="flex-shrink-0 h-4"
+                        viewBox="0 0 20 20"
                         fill="currentColor"
                       >
                         <path
-                          className={`fill-current text-gray-400 ${
+                          className={`fill-current text-gray-900 ${
                             pathname === '/' && '!text-indigo-500'
                           }`}
-                          d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                          d="M19.664 8.252l-9-8a1 1 0 0 0-1.328 0L8 1.44V1a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v5.773L.336 8.252a1.001 1.001 0 0 0 1.328 1.496L2 9.449V19a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9.449l.336.299a.997.997 0 0 0 1.41-.083 1.001 1.001 0 0 0-.082-1.413zM16 18h-2v-5a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v5H4V7.671l6-5.333 6 5.333V18zm-8 0h4v-4H8v4zM4 2h2v1.218L4 4.996V2z"
                         />
                       </svg>
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <span
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === '/' && '!text-indigo-500'
+                        }`}
+                      >
                         Home
                       </span>
                     </div>
@@ -171,7 +177,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* Orders */}
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                    pathname.includes('orders') && 'bg-indigo-200'
+                    pathname.includes('orders') &&
+                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -181,23 +188,27 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       pathname.includes('orders') && 'hover:text-gray-900'
                     }`}
                   >
-                    <div className="flex">
+                    <div className="flex items-center align-middle">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-shrink-0 h-6 w-6"
-                        viewBox="0 0 24 24"
+                        className="flex-shrink-0 h-4"
+                        viewBox="0 0 20 20"
                         fill="currentColor"
                       >
                         <path
-                          className={`fill-current text-gray-400 ${
+                          className={`fill-current text-gray-900 ${
                             pathname.includes('orders') && '!text-indigo-500'
                           }`}
                           fillRule="evenodd"
-                          d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
+                          d="M2 18v-4h3.382l.723 1.447c.17.339.516.553.895.553h6c.379 0 .725-.214.895-.553L14.618 14H18v4H2zM19 1a1 1 0 0 1 1 1v17a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h4a1 1 0 0 1 0 2H2v9h4c.379 0 .725.214.895.553L7.618 14h4.764l.723-1.447c.17-.339.516-.553.895-.553h4V3h-3a1 1 0 0 1 0-2h4zM6.293 6.707a.999.999 0 1 1 1.414-1.414L9 6.586V1a1 1 0 0 1 2 0v5.586l1.293-1.293a.999.999 0 1 1 1.414 1.414l-3 3a.997.997 0 0 1-1.414 0l-3-3z"
                           clipRule="evenodd"
                         />
                       </svg>
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <span
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname.includes('orders') && '!text-indigo-500'
+                        }`}
+                      >
                         Orders
                       </span>
                     </div>
@@ -222,33 +233,19 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           }}
                         >
                           <div className="flex items-center justify-between">
-                            <div className="flex">
+                            <div className="flex items-center ali">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="flex-shrink-0 h-6 w-6"
-                                viewBox="0 0 24 24"
+                                className="flex-shrink-0 h-4"
+                                viewBox="0 0 20 20"
                                 fill="currentColor"
                               >
                                 <path
-                                  className={`fill-current text-gray-400 ${
+                                  className={`fill-current text-gray-900 ${
                                     pathname.includes('shop') &&
                                     'text-indigo-300'
                                   }`}
-                                  d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"
-                                />
-                                <path
-                                  className={`fill-current text-gray-700 ${
-                                    pathname.includes('shop') &&
-                                    '!text-indigo-600'
-                                  }`}
-                                  d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"
-                                />
-                                <path
-                                  className={`fill-current text-gray-600 ${
-                                    pathname.includes('shop') &&
-                                    'text-indigo-500'
-                                  }`}
-                                  d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"
+                                  d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
                                 />
                               </svg>
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -258,18 +255,22 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             {/* Icon */}
                             <div className="flex flex-shrink-0 ml-2">
                               <svg
-                                className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
-                                  open && 'transform rotate-180'
-                                }`}
-                                viewBox="0 0 12 12"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-gray-500"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
                               >
-                                <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                <path
+                                  fillRule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                                  clipRule="evenodd"
+                                />
                               </svg>
                             </div>
                           </div>
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
@@ -277,7 +278,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 activeClassName="!text-indigo-500"
                               >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('products') &&
+                                    '!text-indigo-500'
+                                  }`}
+                                >
                                   All Products
                                 </span>
                               </NavLink>
@@ -289,7 +295,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 activeClassName="!text-indigo-500"
                               >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('inventory') &&
+                                    '!text-indigo-500'
+                                  }`}
+                                >
                                   Inventory
                                 </span>
                               </NavLink>
@@ -315,7 +326,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* Customers */}
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                    pathname.includes('customers') && 'bg-indigo-200'
+                    pathname.includes('customers') &&
+                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -325,21 +337,25 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       pathname.includes('customers') && 'hover:text-gray-900'
                     }`}
                   >
-                    <div className="flex">
+                    <div className="flex items-center align-middle">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-shrink-0 h-6 w-6"
-                        viewBox="0 0 24 24"
+                        className="flex-shrink-0 h-4"
+                        viewBox="0 0 20 20"
                         fill="currentColor"
                       >
                         <path
-                          className={`fill-current text-gray-600 ${
+                          className={`fill-current text-gray-700 ${
                             pathname.includes('customers') && '!text-indigo-500'
                           }`}
-                          d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+                          d="M17.707 15.293a.999.999 0 0 1 .241 1.023l-1 3A.999.999 0 0 1 16 20H4a1 1 0 0 1-.949-.684l-1-3a.999.999 0 0 1 .242-1.023C2.427 15.158 5.635 12 10 12c4.364 0 7.572 3.158 7.707 3.293zM15.28 18l.562-1.687c-.92-.752-3.155-2.313-5.84-2.313-2.704 0-4.928 1.558-5.844 2.31L4.72 18h10.56zM10 2c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0 8c2.757 0 5-2.243 5-5s-2.243-5-5-5-5 2.243-5 5 2.243 5 5 5"
                         />
                       </svg>
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <span
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname.includes('customers') && '!text-indigo-500'
+                        }`}
+                      >
                         Customers
                       </span>
                     </div>
@@ -366,7 +382,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           }}
                         >
                           <div className="flex items-center justify-between">
-                            <div className="flex">
+                            <div className="flex align-baseline ">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="flex-shrink-0 h-6 w-6"
@@ -381,25 +397,29 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
                                 />
                               </svg>
-                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span className="text-sm font-medium ml-1 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Analytics
                               </span>
                             </div>
                             {/* Icon */}
                             <div className="flex flex-shrink-0 ml-2">
                               <svg
-                                className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
-                                  open && 'transform rotate-180'
-                                }`}
-                                viewBox="0 0 12 12"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-gray-500"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
                               >
-                                <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                <path
+                                  fillRule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                                  clipRule="evenodd"
+                                />
                               </svg>
                             </div>
                           </div>
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
@@ -457,7 +477,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* Offers */}
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                    pathname.includes('discounts') && 'bg-indigo-200'
+                    pathname.includes('discounts') &&
+                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -467,26 +488,75 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       pathname.includes('discounts') && 'hover:text-gray-900'
                     }`}
                   >
-                    <div className="flex">
+                    <div className="flex items-center align-middle">
                       <svg
+                        width="20"
+                        height="20"
+                        className="flex-shrink-0 h-5"
+                        viewBox="0 0 48 48"
+                        fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-shrink-0 h-6 w-6"
-                        viewBox="0 0 24 24"
+                      >
+                        <rect
+                          width="48"
+                          height="48"
+                          fill="white"
+                          fill-opacity="0.01"
+                        />
+                        <circle
+                          cx="11"
+                          cy="11"
+                          r="5"
+                          fill="none"
+                          stroke="#333"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <circle
+                          cx="37"
+                          cy="37"
+                          r="5"
+                          fill="none"
+                          stroke="#333"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M42 6L6 42"
+                          className={`fill-current text-white ${
+                            pathname.includes('discounts') && '!text-indigo-500'
+                          }`}
+                          stroke="#333"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      {/* <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="flex-shrink-0 h-5"
+                        viewBox="0 0 20 20"
                         fill="currentColor"
                       >
                         <path
                           fillRule="evenodd"
-                          d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
+                          d="M7.742 17.655a2.205 2.205 0 0 0-1.558-.646h-.991a2.202 2.202 0 0 1-2.202-2.202v-.991c0-.584-.233-1.145-.646-1.558l-.7-.7a2.203 2.203 0 0 1 0-3.115l.7-.7c.413-.413.646-.974.646-1.558v-.991c0-1.216.986-2.202 2.202-2.202h.991c.584 0 1.145-.233 1.558-.646l.7-.7c.86-.86 2.255-.86 3.115 0l.7.7c.414.413.974.646 1.558.646h.991c1.216 0 2.202.986 2.202 2.202v.991c0 .584.233 1.145.646 1.558l.7.7c.86.86.86 2.255 0 3.115l-.7.7a2.205 2.205 0 0 0-.646 1.558v.991a2.202 2.202 0 0 1-2.202 2.202h-.991c-.584 0-1.144.233-1.558.646l-.7.7c-.86.86-2.255.86-3.115 0l-.7-.7z"
                           clipRule="evenodd"
                         />
                         <path
-                          className={`fill-current text-gray-600 ${
+                          className={`fill-current text-white ${
                             pathname.includes('discounts') && '!text-indigo-500'
                           }`}
-                          d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"
+                          d="M19.06 7.734l-.7-.7a1.217 1.217 0 0 1-.353-.851v-.991a3.206 3.206 0 0 0-3.203-3.202h-.99c-.32 0-.623-.125-.85-.353l-.7-.7a3.207 3.207 0 0 0-4.53 0l-.7.7c-.229.228-.53.353-.852.353h-.99A3.206 3.206 0 0 0 1.99 5.192v.99c0 .317-.129.628-.352.852l-.7.7a3.207 3.207 0 0 0 0 4.529l.7.7c.223.224.352.534.352.85v.992a3.206 3.206 0 0 0 3.203 3.202h.99c.321 0 .623.125.851.353l.7.7a3.192 3.192 0 0 0 2.265.936c.82 0 1.64-.312 2.265-.936l.7-.7c.228-.228.53-.353.851-.353h.99a3.206 3.206 0 0 0 3.203-3.202v-.991c0-.317.13-.627.352-.851l.702-.7a3.208 3.208 0 0 0 0-4.53M12.288 6.29l-6 6a.999.999 0 1 0 1.414 1.414l6-6A.999.999 0 1 0 12.29 6.29M7.496 8.996a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m5 2a1.5 1.5 0 1 0 .001 3.001 1.5 1.5 0 0 0 0-3m5.15-.148l-.702.7a3.181 3.181 0 0 0-.938 2.265v.99c0 .664-.539 1.203-1.203 1.203h-.99a3.18 3.18 0 0 0-2.265.939l-.7.7a1.205 1.205 0 0 1-1.702 0l-.7-.7a3.178 3.178 0 0 0-2.265-.94h-.99a1.203 1.203 0 0 1-1.203-1.201v-.991c0-.856-.333-1.66-.938-2.265l-.7-.7a1.203 1.203 0 0 1 0-1.701l.7-.7c.605-.605.938-1.41.938-2.265v-.991c0-.663.54-1.202 1.203-1.202h.99c.856 0 1.66-.333 2.265-.94l.7-.7a1.205 1.205 0 0 1 1.702 0l.7.7a3.18 3.18 0 0 0 2.265.94h.99c.664 0 1.203.539 1.203 1.202v.99c0 .856.333 1.66.938 2.266l.701.7a1.204 1.204 0 0 1 0 1.7"
                         />
-                      </svg>
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      </svg> */}
+                      <span
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname.includes('discounts') && '!text-indigo-500'
+                        }`}
+                      >
                         Discounts
                       </span>
                     </div>
@@ -558,7 +628,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </div>
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
@@ -733,7 +803,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </div>
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
@@ -860,7 +930,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </div>
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
