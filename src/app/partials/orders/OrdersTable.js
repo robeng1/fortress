@@ -187,7 +187,7 @@ function OrdersTable({ selectedItems }) {
   }, [isCheck]);
 
   return (
-    <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
+    <div className="bg-white shadow rounded-md border border-gray-200 relative">
       <div>
         <OrderList />
         {/* Table */}
