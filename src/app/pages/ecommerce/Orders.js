@@ -28,7 +28,7 @@ function Orders() {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+          <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
             {/* Page header */}
             <div className="sm:flex sm:justify-between sm:items-center mb-5">
               {/* Left: Title */}
@@ -39,9 +39,11 @@ function Orders() {
               </div>
 
               {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
+              <div className="grid grid-flow-col sm:auto-cols-max md:justify-start gap-2">
                 {/* Search form */}
+
                 <SearchForm placeholder="Search order number…" />
+
                 {/* Add member button */}
                 <button className="btn bg-purple-700 hover:bg-indigo-600 text-white">
                   <svg
@@ -61,23 +63,18 @@ function Orders() {
               <div className="mb-4 sm:mb-0">
                 <ul className="flex flex-wrap -m-1">
                   <li className="m-1">
-                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
-                      All <span className="ml-1 text-indigo-200">67</span>
+                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
+                      New <span className="ml-1 text-gray-400">14</span>
                     </button>
                   </li>
                   <li className="m-1">
                     <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                      Paid <span className="ml-1 text-gray-400">14</span>
+                      Processing <span className="ml-1 text-gray-400">34</span>
                     </button>
                   </li>
                   <li className="m-1">
                     <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                      Due <span className="ml-1 text-gray-400">34</span>
-                    </button>
-                  </li>
-                  <li className="m-1">
-                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                      Overdue <span className="ml-1 text-gray-400">19</span>
+                      Dispatched <span className="ml-1 text-gray-400">19</span>
                     </button>
                   </li>
                 </ul>

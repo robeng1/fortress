@@ -34,8 +34,6 @@ import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import Locations from './pages/settings/Locations';
 
-// import { GlobalStyle } from 'styles/global-styles';
-
 export function App() {
   const location = useLocation();
 
