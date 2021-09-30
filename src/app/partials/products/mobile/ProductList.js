@@ -124,9 +124,9 @@ export default function ProductList() {
   return (
     <>
       <div className="md:hidden">
-        <div className="mt-8">
+        <div className="mt-0">
           <div className="flow-root">
-            <ul className="p-3 divide-y divide-gray-200">
+            <ul className="px-3 py-1 divide-y divide-gray-200">
               {products.map(product => (
                 <li key={product.id} className="flex pr-3 py-2">
                   <ProductCard product={product} />
