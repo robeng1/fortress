@@ -12,12 +12,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import '@fontsource/plus-jakarta-sans';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
 import 'css/style.scss';
-import 'css/general.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
