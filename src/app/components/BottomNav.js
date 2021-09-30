@@ -21,51 +21,6 @@ export default function BottomNav() {
     typeof navigator !== 'undefined' &&
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const actions = [
-    { icon: <ShareIcon />, name: 'Store' },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="flex-shrink-0 h-6 w-6"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
-            clipRule="evenodd"
-          />
-          <path
-            className={`fill-current text-gray-600 ${
-              pathname.includes('discounts') && '!text-indigo-500'
-            }`}
-            d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"
-          />
-        </svg>
-      ),
-      name: 'Promos',
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="flex-shrink-0 h-6 w-6"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-        >
-          <path
-            className={`fill-current text-gray-600 ${
-              pathname.includes('customers') && '!text-indigo-500'
-            }`}
-            d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
-          />
-        </svg>
-      ),
-      name: 'Customers',
-    },
-  ];
-
   return (
     <>
       <Backdrop open={open} />
@@ -79,25 +34,44 @@ export default function BottomNav() {
             disableBackdropTransition={!iOS}
             disableDiscovery={iOS}
           >
-            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-purple-50 to-purple-100 bg-gray-300 p-5">
-              <div className="grid grid-cols-3 grid-rows-2 grid-flow-col gap-2">
-                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
-                  Discounts
+            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-purple-50 to-purple-100 bg-gray-200 p-5">
+              <div className="grid grid-cols-3 grid-rows-1 grid-flow-col gap-2">
+                <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  <NavLink
+                    exact
+                    to="/discounts"
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname.includes('discounts') && 'hover:text-gray-900'
+                    }`}
+                  >
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        pathname.includes('discounts') && '!text-indigo-500'
+                      }`}
+                    >
+                      Discounts
+                    </span>
+                  </NavLink>
                 </div>
-                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
-                  Customers
-                </div>
-                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
-                  Collections
-                </div>
-                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
-                  Inventory
-                </div>
-                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
                   Store
                 </div>
-                <div className="bg-gray-200 rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
-                  Settings
+                <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
+                  <NavLink
+                    exact
+                    to="/settings/account"
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname.includes('settings') && 'hover:text-gray-900'
+                    }`}
+                  >
+                    <span
+                      className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        pathname.includes('settings') && '!text-indigo-500'
+                      }`}
+                    >
+                      Settings
+                    </span>
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -206,7 +180,6 @@ export default function BottomNav() {
             }
           />
           <BottomNavigationAction
-            label="More"
             value="more"
             onClick={handleOpen}
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150`}

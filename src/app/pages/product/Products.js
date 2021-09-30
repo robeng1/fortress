@@ -159,7 +159,10 @@ function Products() {
                             <FilterButton align="right" />
                           </div>
                           {/* Add member button */}
-                          <button className="btn bg-purple-700 hover:bg-indigo-600 text-white">
+                          <button
+                            onClick={() => setShowForm(!showForm)}
+                            className="btn bg-purple-700 hover:bg-indigo-600 text-white"
+                          >
                             <svg
                               className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                               viewBox="0 0 16 16"
@@ -248,7 +251,10 @@ function Products() {
                   <FilterButton align="right" />
                 </div>
                 {/* Add member button */}
-                <button className="btn bg-purple-700 hover:bg-indigo-600 text-white">
+                <button
+                  onClick={() => setShowForm(!showForm)}
+                  className="btn bg-purple-700 hover:bg-indigo-600 text-white"
+                >
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                     viewBox="0 0 16 16"
