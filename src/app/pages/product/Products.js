@@ -119,7 +119,7 @@ function Products() {
     return (
       <>
         <main className="md:hidden">
-          <div className="w-full max-w-md px-2 py-1">
+          <div className="w-full px-2 py-1 w-full max-w-9xl">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-gray-200 text-black">
                 {Object.keys(categories).map(category => (
@@ -154,7 +154,9 @@ function Products() {
                         {/* Right: Actions */}
                         <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
                           {/* Search form */}
+
                           <SearchForm placeholder="Search product" />
+
                           <div className="block md:hidden">
                             <FilterButton align="right" />
                           </div>

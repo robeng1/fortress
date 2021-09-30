@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Backdrop from '@mui/material/Backdrop';
-import ShareIcon from '@mui/icons-material/Share';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
@@ -13,9 +13,11 @@ export default function BottomNav() {
   const [value, setValue] = React.useState(0);
   const location = useLocation();
   const { pathname } = location;
+  let history = useHistory();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const pushLink = page => history.push(page);
 
   const iOS =
     typeof navigator !== 'undefined' &&
@@ -37,9 +39,12 @@ export default function BottomNav() {
             <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-purple-50 to-purple-100 bg-gray-200 p-5">
               <div className="grid grid-cols-3 grid-rows-1 grid-flow-col gap-2">
                 <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
-                  <NavLink
+                  <button
                     exact
-                    to="/discounts"
+                    onClick={() => {
+                      handleClose();
+                      pushLink('/discounts');
+                    }}
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                       pathname.includes('discounts') && 'hover:text-gray-900'
                     }`}
@@ -51,15 +56,18 @@ export default function BottomNav() {
                     >
                       Discounts
                     </span>
-                  </NavLink>
+                  </button>
                 </div>
                 <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
                   Store
                 </div>
                 <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
-                  <NavLink
+                  <button
                     exact
-                    to="/settings/account"
+                    onClick={() => {
+                      handleClose();
+                      pushLink('/settings/account');
+                    }}
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                       pathname.includes('settings') && 'hover:text-gray-900'
                     }`}
@@ -71,7 +79,7 @@ export default function BottomNav() {
                     >
                       Settings
                     </span>
-                  </NavLink>
+                  </button>
                 </div>
               </div>
             </div>
