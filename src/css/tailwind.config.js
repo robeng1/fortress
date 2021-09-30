@@ -159,13 +159,14 @@ module.exports = {
           800: '#99154B',
           900: '#751A3D',
         },
+        coolGray: colors.coolGray,
       },
       outline: {
         blue: '1px solid rgba(0, 112, 244, 0.5)',
       },
       fontFamily: {
         sans: [
-          'Inter',
+          'Noto Sans',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -182,7 +183,7 @@ module.exports = {
           'Noto Color Emoji',
         ],
         body: [
-          'Inter',
+          'Noto Sans',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',

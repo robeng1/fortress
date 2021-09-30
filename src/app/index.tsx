@@ -32,6 +32,7 @@ import Plans from 'app/pages/settings/Plans';
 import Billing from 'app/pages/settings/Billing';
 import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
+import Locations from './pages/settings/Locations';
 
 // import { GlobalStyle } from 'styles/global-styles';
 
@@ -111,6 +112,9 @@ export function App() {
         </Route>
         <Route exact path="/settings/feedback">
           <Feedback />
+        </Route>
+        <Route exact path="/settings/locations">
+          <Locations />
         </Route>
         <Route path="*">
           <PageNotFound />

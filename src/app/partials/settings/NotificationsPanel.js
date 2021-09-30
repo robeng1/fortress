@@ -8,7 +8,7 @@ function NotificationsPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="p-6 space-y-6">
+      <div className="md:p-6 p-2 space-y-6">
         <h2 className="text-2xl text-gray-800 font-bold mb-5">
           Payout settings
         </h2>
@@ -26,7 +26,7 @@ function NotificationsPanel() {
               </label>
               <input
                 id="name"
-                className="form-input"
+                className="form-input w-full"
                 type="text"
                 autoComplete="account-name"
                 placeholder="Romeo Obeng"
@@ -45,7 +45,7 @@ function NotificationsPanel() {
               <select
                 id="provider"
                 autoComplete="provider"
-                className="form-select block"
+                className="form-select block w-full"
               >
                 <option value="">Please Select</option>
                 <option value="MTN">MTN</option>
@@ -59,7 +59,7 @@ function NotificationsPanel() {
               </label>
               <input
                 id="phone"
-                className="form-input"
+                className="form-input w-full"
                 type="tel"
                 autoComplete="phone"
                 placeholder="+233246493078"
@@ -76,7 +76,7 @@ function NotificationsPanel() {
               </label>
               <input
                 id="payout-descriptor"
-                className="form-input"
+                className="form-input w-full"
                 type="text"
                 placeholder="Rocketship Store Revenue"
               />

@@ -17,6 +17,7 @@ import '@fontsource/plus-jakarta-sans';
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
 import 'css/style.scss';
+import 'css/general.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
