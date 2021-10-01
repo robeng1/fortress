@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
-import Orders from './OrdersTableItem';
+import OrderItem from './OrdersTableItem';
 import OrderList from './mobile/OrderList';
 
 import Image01 from '../../images/icon-01.svg';
 import Image02 from '../../images/icon-02.svg';
 import Image03 from '../../images/icon-03.svg';
 
-function OrdersTable({ selectedItems }) {
+function OrdersTable({ selectedItems, handleShow }) {
   const orders = [
     {
       id: '0',
@@ -189,7 +189,7 @@ function OrdersTable({ selectedItems }) {
   return (
     <div className="bg-white shadow rounded-md border border-gray-200 relative">
       <div>
-        <OrderList />
+        <OrderList handleShow={handleShow} />
         {/* Table */}
         <div className="hidden md:block overflow-x-auto">
           <table className="table-auto w-full divide-y divide-gray-200">
@@ -241,7 +241,8 @@ function OrdersTable({ selectedItems }) {
             {/* Table body */}
             {list.map(order => {
               return (
-                <Orders
+                <OrderItem
+                  handleShow={handleShow}
                   key={order.id}
                   id={order.id}
                   image={order.image}

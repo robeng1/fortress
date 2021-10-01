@@ -55,7 +55,10 @@ function OrdersTableItem(props) {
             </label>
           </div>
         </td>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <td
+          onClick={() => props.handleShow(true, '')}
+          className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"
+        >
           <div className="flex items-center text-gray-800">
             <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-3">
               <img
