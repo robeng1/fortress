@@ -43,7 +43,9 @@ ReactDOM.render(
       <HelmetProvider>
         <React.StrictMode>
           <Router>
-            <App />
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <App />
+            </React.Suspense>
           </Router>
         </React.StrictMode>
       </HelmetProvider>
