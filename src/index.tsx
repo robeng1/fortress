@@ -19,7 +19,7 @@ import 'css/style.scss';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
-import { App } from 'app';
+import { App, Loader } from 'app';
 
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -43,7 +43,7 @@ ReactDOM.render(
       <HelmetProvider>
         <React.StrictMode>
           <Router>
-            <React.Suspense fallback={<div>Loading...</div>}>
+            <React.Suspense fallback={<Loader />}>
               <App />
             </React.Suspense>
           </Router>
