@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import Image01 from '../../../images/user-40-01.jpg';
-export default function OrderCard() {
+export default function OrderCard({ handleShow }) {
   return (
-    <div className="block w-full">
+    <div onClick={() => handleShow(true, '')} className="block w-full">
       <div className="w-full flex flex-grow justify-between text-base font-medium text-gray-900">
         <p className={`text-sm text-gray-900 text-center`}>#22 15 Apr</p>
         <p className="ml-4 font-medium text-green-500">$12.00</p>

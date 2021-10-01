@@ -12,7 +12,7 @@ import Image08 from '../../../images/user-40-08.jpg';
 import Image09 from '../../../images/user-40-09.jpg';
 import Image10 from '../../../images/user-40-10.jpg';
 
-export default function OrderList() {
+export default function OrderList({ handleShow }) {
   const products = [
     {
       id: '1',
@@ -129,7 +129,7 @@ export default function OrderList() {
             <ul className="p-3 divide-y divide-gray-200  -mt-5">
               {products.map(product => (
                 <li key={product.id} className="flex pr-3 py-2">
-                  <OrderCard />
+                  <OrderCard handleShow={handleShow} />
                 </li>
               ))}
             </ul>
