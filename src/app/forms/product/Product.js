@@ -786,7 +786,7 @@ const ProductForm = () => {
                           https://www.wearhebron.com/products/bikershorts
                         </a>
                         <button className="text-green-600">▼</button>
-                        <p className="w-full h-12 text-gray-600 line-clamp-3">
+                        <p className="w-full h-12 text-gray-600 line-clamp-2">
                           A mutual exclusion (mutex) is a program object that
                           prevents simultaneous access to a shared resource.
                         </p>
