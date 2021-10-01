@@ -101,8 +101,8 @@ const ProductForm = () => {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
-            <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-6">
+          <div className="flex-grow mb-24">
+            <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-2">
               <div className="md:col-span-2">
                 <section className="rounded bg-white shadow overflow-auto p-3">
                   <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
