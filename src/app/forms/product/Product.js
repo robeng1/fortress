@@ -736,7 +736,7 @@ const ProductForm = () => {
                         className="block text-sm font-medium mb-1"
                         htmlFor="page_title"
                       >
-                        Page Title
+                        Page Meta Title
                       </label>
                       <input
                         id="page_title"
@@ -744,7 +744,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.page_title}
-                        className="form-input"
+                        className="form-input w-full"
                         type="text"
                         autoComplete="product-title"
                         placeholder="wearhebron.com/chilled-beer"
@@ -757,7 +757,7 @@ const ProductForm = () => {
                         className="block text-sm font-medium mb-1"
                         htmlFor="page_description"
                       >
-                        Page Description
+                        Page Meta Description
                       </label>
                       <textarea
                         id="page_description"

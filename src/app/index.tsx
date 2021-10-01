@@ -33,6 +33,7 @@ import Billing from 'app/pages/settings/Billing';
 import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import Locations from './pages/settings/Locations';
+import Signup from './pages/Signup';
 
 export function App() {
   const location = useLocation();
@@ -62,6 +63,9 @@ export function App() {
         </Route>
         <Route exact path="/analytics">
           <Analytics />
+        </Route>
+        <Route exact path="/register">
+          <Signup />
         </Route>
         <Route exact path="/customers">
           <Customers />
@@ -118,7 +122,11 @@ export function App() {
           <PageNotFound />
         </Route>
       </Switch>
-      <div className={`md:hidden`}>
+      <div
+        className={`md:hidden ${
+          location.pathname.includes('register') && 'hidden'
+        }`}
+      >
         <BottomNav />
       </div>
     </>
