@@ -5,7 +5,7 @@ function AppsPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="md:p-6 p-1">
+      <div className="md:p-6 p-4 space-y-6">
         <h2 className="text-2xl text-gray-800 font-bold mb-5">Locations</h2>
         <section>
           <h3 className="text-xl leading-snug text-gray-800 font-bold mb-1">

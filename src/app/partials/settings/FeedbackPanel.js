@@ -4,7 +4,7 @@ function FeedbackPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="md:p-6 p-2 space-y-6">
+      <div className="md:p-6 p-4 space-y-6">
         <div>
           <h2 className="text-2xl text-gray-800 font-bold mb-4">
             Give Feedback

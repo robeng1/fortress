@@ -6,7 +6,7 @@ function PlansPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="md:p-6 p-2 space-y-6">
+      <div className="md:p-6 p-4 space-y-6">
         {/* Plans */}
         <section>
           <div className="mb-8">
