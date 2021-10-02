@@ -1,149 +1,149 @@
-import React from 'react';
-const people = [
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    department: 'Optimization',
-    role: 'Admin',
-    email: 'jane.cooper@example.com',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-];
+import React, { useState, useEffect } from 'react';
+import { focusHandling } from 'cruip-js-toolkit';
+import InventoryTableItem from './InventoryTableItem';
+import InventoryList from './mobile/InventoryList';
 
-export default function InventoryTable() {
+import Image01 from '../../images/user-40-01.jpg';
+import Image02 from '../../images/user-40-02.jpg';
+import Image03 from '../../images/user-40-03.jpg';
+import Image04 from '../../images/user-40-04.jpg';
+
+const InventoryTable = ({ selectedItems, headings }) => {
+  const products = [
+    {
+      id: '0',
+      image: Image01,
+      name: 'Bike short',
+      inventory: 'Blue',
+      type: 'Small',
+      status: 'Active',
+      variants: '24',
+    },
+    {
+      id: '0',
+      image: Image02,
+      name: 'Bike short',
+      inventory: 'Green',
+      type: 'Medium',
+      status: 'Active',
+      variants: '24',
+    },
+    {
+      id: '0',
+      image: Image03,
+      name: 'Bike short',
+      inventory: 'White',
+      type: 'Large',
+      status: 'Active',
+      variants: '24',
+    },
+    {
+      id: '0',
+      image: Image04,
+      name: 'Bike short',
+      inventory: 'Blue',
+      type: 'Extra Large',
+      status: 'Active',
+      variants: '24',
+    },
+  ];
+
+  const [selectAll, setSelectAll] = useState(false);
+  const [isCheck, setIsCheck] = useState([]);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    setList(products);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    focusHandling('outline');
+  }, [list]);
+
+  const handleSelectAll = () => {
+    setSelectAll(!selectAll);
+    setIsCheck(list.map(li => li.id));
+    if (selectAll) {
+      setIsCheck([]);
+    }
+  };
+
+  const handleClick = e => {
+    const { id, checked } = e.target;
+    setSelectAll(false);
+    setIsCheck([...isCheck, id]);
+    if (!checked) {
+      setIsCheck(isCheck.filter(item => item !== id));
+    }
+  };
+
+  useEffect(() => {
+    selectedItems(isCheck);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCheck]);
+
   return (
-    <div className="flex flex-col">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Title
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Status
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Role
-                  </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Edit</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {people.map(person => (
-                  <tr key={person.email}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <img
-                            className="h-10 w-10 rounded"
-                            src={person.image}
-                            alt=""
-                          />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
-                            {person.name}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {person.email}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        {person.title}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {person.department}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Active
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {person.role}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-indigo-600 hover:text-indigo-900">
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
+      <InventoryList />
+      <div className="hidden md:block">
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full border border-gray-200">
+            {/* Table header */}
+            <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50 border border-gray-200">
+              <tr>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+                  <div className="flex items-center">
+                    <label className="inline-flex">
+                      <span className="sr-only">Select all</span>
+                      <input
+                        className="form-checkbox"
+                        type="checkbox"
+                        checked={selectAll}
+                        onChange={handleSelectAll}
+                      />
+                    </label>
+                  </div>
+                </th>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                  <div className="font-semibold">Product</div>
+                </th>
+                <th className="px-2 first:pl-5 text-left last:pr-5 py-3 whitespace-nowrap">
+                  <div className="font-semibold">SKU</div>
+                </th>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                  <div className="font-semibold">Price</div>
+                </th>
+                <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                  <div className="font-semibold">Available</div>
+                </th>
+              </tr>
+            </thead>
+            {/* Table body */}
+            <tbody className="text-sm border-gray-200 divide-y divide-gray-200">
+              {list.map(product => {
+                return (
+                  <InventoryTableItem
+                    key={product.id}
+                    id={product.id}
+                    image={product.image}
+                    name={product.name}
+                    inventory={product.inventory}
+                    type={product.type}
+                    status={product.status}
+                    variants={product.variants}
+                    fav={product.fav || false}
+                    handleClick={handleClick}
+                    isChecked={isCheck.includes(product.id)}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default InventoryTable;

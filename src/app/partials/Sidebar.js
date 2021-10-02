@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import BottomNav from 'app/components/BottomNav';
 
 import SidebarLinkGroup from './SidebarLinkGroup';
 
@@ -973,7 +972,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 </span>
                               </NavLink>
                             </li>
-                            <li className="mb-1 last:mb-0">
+                            {/* <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
                                 to="/settings/feedback"
@@ -984,7 +983,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Give Feedback
                                 </span>
                               </NavLink>
-                            </li>
+                            </li> */}
                           </ul>
                         </div>
                       </React.Fragment>

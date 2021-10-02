@@ -119,7 +119,7 @@ function Products() {
     return (
       <>
         <main className="md:hidden">
-          <div className="w-full px-2 py-1 w-full max-w-9xl">
+          <div className="w-full px-2 py-1 max-w-9xl">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-gray-200 text-black">
                 {Object.keys(categories).map(category => (

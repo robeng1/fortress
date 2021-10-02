@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
-import Product from './VariantItem';
+import VariantItem from './VariantItem';
 
 import Image01 from '../../images/user-40-01.jpg';
 import Image02 from '../../images/user-40-02.jpg';
@@ -132,7 +132,7 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
         <tbody className="text-sm border-gray-200 divide-y divide-gray-200">
           {list.map(product => {
             return (
-              <Product
+              <VariantItem
                 key={product.id}
                 id={product.id}
                 image={product.image}
