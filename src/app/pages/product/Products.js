@@ -116,7 +116,7 @@ function Products() {
       <main>
         <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
           {/* Page header */}
-          <div className="sm:flex sm:justify-between sm:items-center mb-5">
+          <div className="sm:flex sm:justify-between sm:items-center">
             {/* Right: Actions */}
             <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
               {/* Search form */}
@@ -131,7 +131,7 @@ function Products() {
           {/* More actions */}
           <div className="sm:flex sm:justify-between sm:items-center mb-5">
             {/* Left side */}
-            <div className="mb-0 md:mb-4">
+            {/* <div className="mb-0 md:mb-4">
               <ul className="flex flex-wrap -m-1">
                 <li className="m-1">
                   <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
@@ -158,7 +158,7 @@ function Products() {
                   </button>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             {/* Right side */}
             <div className="grid grid-flow-col sm:auto-cols-max justify-end md:justify-start gap-2">
@@ -186,7 +186,7 @@ function Products() {
     return (
       <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
         {/* Page header */}
-        <div className="sm:flex sm:justify-between sm:items-center mb-5">
+        <div className="sm:flex sm:justify-between sm:items-center">
           {/* Right: Actions */}
           <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
             {/* Search form */}
@@ -215,7 +215,7 @@ function Products() {
         {/* More actions */}
         <div className="sm:flex sm:justify-between sm:items-center mb-5">
           {/* Left side */}
-          <div className="mb-0 md:mb-4">
+          {/* <div className="mb-0 md:mb-4">
             <ul className="flex flex-wrap -m-1">
               <li className="m-1">
                 <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
@@ -242,7 +242,7 @@ function Products() {
                 </button>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Right side */}
           <div className="grid grid-flow-col sm:auto-cols-max justify-end md:justify-start gap-2">
@@ -324,39 +324,34 @@ function Products() {
         <main className="hidden md:block">
           <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
             {/* Page header */}
-            <div className="sm:flex sm:justify-between sm:items-center mb-5">
-              {/* Left: Title */}
-              <div className="mb-4 sm:mb-0">
-                <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                  Products
-                </h1>
-              </div>
-
-              {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
-                {/* Search form */}
-                <SearchForm placeholder="Search product" />
-                <div className="block md:hidden">
-                  <FilterButton align="right" />
-                </div>
-                {/* Add member button */}
-                <button
-                  onClick={() => setShowForm(!showForm)}
-                  className="btn bg-purple-700 hover:bg-indigo-600 text-white"
-                >
-                  <svg
-                    className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
-                    viewBox="0 0 16 16"
+            <div className="py-2 md:py-8 w-full max-w-9xl mx-auto">
+              <div className="sm:flex sm:justify-between sm:items-center">
+                <div className="flex justify-between gap-2 w-full">
+                  {/* Search form */}
+                  <div className="flex justify-start gap-2">
+                    <SearchForm placeholder="Search products..." />
+                    <div className="">
+                      <FilterButton align="right" />
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowForm(!showForm)}
+                    className="btn bg-purple-700 hover:bg-indigo-600 text-white"
                   >
-                    <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                  </svg>
-                  <span className="hidden xs:block ml-2">Create Product</span>
-                </button>
+                    <svg
+                      className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
+                    </svg>
+                    <span className="hidden xs:block ml-2">Create Product</span>
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* More actions */}
-            <div className="sm:flex sm:justify-between sm:items-center mb-5">
+            <div className="sm:flex sm:justify-between sm:items-center mb-3">
               {/* Left side */}
               <div className="mb-4 sm:mb-0">
                 <ul className="flex flex-wrap -m-1">
@@ -383,15 +378,6 @@ function Products() {
                   </li>
                 </ul>
               </div>
-
-              {/* Right side */}
-              <div className="grid grid-flow-col sm:auto-cols-max justify-end md:justify-start gap-2">
-                {/* Delete button */}
-                <DeleteButton selectedItems={selectedItems} />
-                <div className="hidden md:block">
-                  <FilterButton align="right" />
-                </div>
-              </div>
             </div>
 
             {/* Table */}
@@ -415,7 +401,11 @@ function Products() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location="Products"
+        />
         {!showForm ? renderView() : renderForm()}
       </div>
     </div>

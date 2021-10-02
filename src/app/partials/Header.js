@@ -5,7 +5,7 @@ import Notifications from '../components/DropdownNotifications';
 import Help from '../components/DropdownHelp';
 import UserMenu from '../components/DropdownProfile';
 
-function Header({ sidebarOpen, setSidebarOpen }) {
+function Header({ sidebarOpen, setSidebarOpen, location }) {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
@@ -16,6 +16,11 @@ function Header({ sidebarOpen, setSidebarOpen }) {
     >
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center md:justify-between h-16 -mb-px">
+          <div className="hidden md:block">
+            <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+              {location}
+            </h1>
+          </div>
           {/* Header: Left side */}
           <div className="hidden md:flex">
             {/* Hamburger button */}

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
-import DeleteButton from '../../partials/actions/DeleteButton';
-import DateSelect from '../../components/DateSelect';
+import SearchForm from '../../partials/actions/SearchForm';
 import FilterButton from '../../components/DropdownFilter';
 import DiscountTable from '../../partials/discount/DiscountTable';
 import PaginationClassic from '../../components/PaginationClassic';
@@ -49,7 +48,7 @@ function Discounts() {
                 </button>
               </div>
             </div>
-            <div className="mb-0   sm:mb-0">
+            <div className="mb-0 sm:mb-0">
               <h2>SPRINGSALE</h2>
             </div>
           </div>
@@ -64,37 +63,32 @@ function Discounts() {
   const renderDiscountsView = () => {
     return (
       <main>
-        <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+        <div className="px-4 sm:px-6 lg:px-8 w-full max-w-9xl mx-auto">
           {/* Page header */}
-          <div className="sm:flex sm:justify-between sm:items-center mb-8">
-            {/* Left: Title */}
-            <div className="mb-4 sm:mb-0">
-              <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Discounts
-              </h1>
-            </div>
-
-            {/* Right: Actions */}
-            <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-              {/* Delete button */}
-              <DeleteButton selectedItems={selectedItems} />
-              {/* Dropdown */}
-              <DateSelect />
-              {/* Filter button */}
-              <FilterButton align="right" />
-              {/* Add customer button */}
-              <button
-                onClick={() => setShowForm(!showForm)}
-                className="btn bg-purple-700 bg-opacity-100 rounded-lg  text-white"
-              >
-                <svg
-                  className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
-                  viewBox="0 0 16 16"
+          <div className="py-2 md:py-8 w-full max-w-9xl mx-auto">
+            {/* Page header */}
+            <div className="sm:flex sm:justify-between sm:items-center">
+              <div className="flex justify-between gap-2 w-full">
+                {/* Search form */}
+                <div className="flex justify-start gap-2">
+                  <SearchForm placeholder="Search discounts..." />
+                  <div className="">
+                    <FilterButton align="right" />
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowForm(!showForm)}
+                  className="btn bg-purple-700 hover:bg-indigo-600 text-white"
                 >
-                  <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                </svg>
-                <span className="hidden xs:block ml-2">Add Discount</span>
-              </button>
+                  <svg
+                    className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
+                  </svg>
+                  <span className="hidden xs:block ml-2">Create Discount</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -118,7 +112,11 @@ function Discounts() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location="Discounts"
+        />
         {!showForm ? renderDiscountsView() : renderFormView()}
       </div>
     </div>
