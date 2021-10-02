@@ -101,8 +101,8 @@ const ProductForm = () => {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
-            <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-6">
+          <div className="flex-grow mb-6">
+            <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-2">
               <div className="md:col-span-2">
                 <section className="rounded bg-white shadow overflow-auto p-3">
                   <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
@@ -736,7 +736,7 @@ const ProductForm = () => {
                         className="block text-sm font-medium mb-1"
                         htmlFor="page_title"
                       >
-                        Page Title
+                        Page Meta Title
                       </label>
                       <input
                         id="page_title"
@@ -744,7 +744,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.page_title}
-                        className="form-input"
+                        className="form-input w-full"
                         type="text"
                         autoComplete="product-title"
                         placeholder="wearhebron.com/chilled-beer"
@@ -757,7 +757,7 @@ const ProductForm = () => {
                         className="block text-sm font-medium mb-1"
                         htmlFor="page_description"
                       >
-                        Page Description
+                        Page Meta Description
                       </label>
                       <textarea
                         id="page_description"
@@ -774,7 +774,7 @@ const ProductForm = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="w-full mb-4">
+                    <div className="w-full mb-2">
                       <div className="bg-white ml-2">
                         <h2 className="mb-[0px] mt-[25px] font-normal text-blue-700">
                           Wearhebron | Bikershorts
@@ -786,7 +786,7 @@ const ProductForm = () => {
                           https://www.wearhebron.com/products/bikershorts
                         </a>
                         <button className="text-green-600">▼</button>
-                        <p className="w-full h-8 text-gray-600">
+                        <p className="w-full h-12 text-gray-600 line-clamp-2">
                           A mutual exclusion (mutex) is a program object that
                           prevents simultaneous access to a shared resource.
                         </p>

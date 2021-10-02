@@ -80,7 +80,7 @@ const DiscountForm = () => {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
+          <div className="flex-grow mb-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
               <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
                 <section className="rounded bg-white shadow overflow-hidden p-3">
@@ -1196,12 +1196,12 @@ const DiscountForm = () => {
                         </h2>
                         <a
                           href="https://reoplex.com"
-                          className="mb-[0px] text-green-600"
+                          className="mb-[0px] text-green-600 text-sm"
                         >
                           https://www.wearhebron.com/products/bikershorts
                         </a>
                         <button className="text-green-600">▼</button>
-                        <p className="w-full h-8 text-gray-600 mb-4 space-y-3">
+                        <p className="w-full h-12 text-gray-600 line-clamp-2">
                           A mutual exclusion (mutex) is a program object that
                           prevents simultaneous access to a shared resource.
                         </p>

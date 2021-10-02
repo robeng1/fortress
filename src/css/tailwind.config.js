@@ -166,7 +166,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'Noto Sans',
+          'Inter',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -175,7 +175,7 @@ module.exports = {
           'Roboto',
           'Helvetica Neue',
           'Arial',
-          'Noto Sans',
+          'Inter',
           'sans-serif',
           'Apple Color Emoji',
           'Segoe UI Emoji',
@@ -183,7 +183,7 @@ module.exports = {
           'Noto Color Emoji',
         ],
         body: [
-          'Noto Sans',
+          'Inter',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -192,7 +192,7 @@ module.exports = {
           'Roboto',
           'Helvetica Neue',
           'Arial',
-          'Noto Sans',
+          'Inter',
           'sans-serif',
           'Apple Color Emoji',
           'Segoe UI Emoji',
@@ -254,6 +254,7 @@ module.exports = {
   plugins: [
     // eslint-disable-next-line global-require
     require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
     // add custom variant for expanding sidebar
     plugin(({ addVariant, e }) => {
       addVariant('sidebar-expanded', ({ modifySelectors, separator }) => {

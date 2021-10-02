@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
@@ -15,24 +15,25 @@ import { focusHandling } from 'cruip-js-toolkit';
 import './charts/ChartjsConfig';
 
 import { useTranslation } from 'react-i18next';
-import BottomNav from 'app/components/BottomNav';
-// Import pages
 
-import Analytics from 'app/pages/Analytics';
-import Customers from 'app/pages/ecommerce/Customers';
-import Products from 'app/pages/product/Products';
-import Inventory from 'app/pages/inventory/Inventory';
-import Discounts from 'app/pages/discount/Discounts';
-import Collections from 'app/pages/collection/Collections';
-import Orders from 'app/pages/ecommerce/Orders';
-import Account from 'app/pages/settings/Account';
-import Notifications from 'app/pages/settings/Notifications';
-import Apps from 'app/pages/settings/Apps';
-import Plans from 'app/pages/settings/Plans';
-import Billing from 'app/pages/settings/Billing';
-import Feedback from 'app/pages/settings/Feedback';
-import PageNotFound from 'app/pages/utility/PageNotFound';
-import Locations from './pages/settings/Locations';
+// Import pages
+const BottomNav = lazy(() => import('app/components/BottomNav'));
+const Products = lazy(() => import('app/pages/product/Products'));
+const Inventory = lazy(() => import('app/pages/inventory/Inventory'));
+const Discounts = lazy(() => import('app/pages/discount/Discounts'));
+const Collections = lazy(() => import('app/pages/collection/Collections'));
+const Orders = lazy(() => import('app/pages/ecommerce/Orders'));
+const Account = lazy(() => import('app/pages/settings/Account'));
+const Notifications = lazy(() => import('app/pages/settings/Notifications'));
+const Apps = lazy(() => import('app/pages/settings/Apps'));
+const Plans = lazy(() => import('app/pages/settings/Plans'));
+const Billing = lazy(() => import('app/pages/settings/Billing'));
+const Feedback = lazy(() => import('app/pages/settings/Feedback'));
+const PageNotFound = lazy(() => import('app/pages/utility/PageNotFound'));
+const Locations = lazy(() => import('app/pages/settings/Locations'));
+const Analytics = lazy(() => import('app/pages/Analytics'));
+const Customers = lazy(() => import('app/pages/ecommerce/Customers'));
+const Signup = lazy(() => import('app/pages/Signup'));
 
 export function App() {
   const location = useLocation();
@@ -62,6 +63,9 @@ export function App() {
         </Route>
         <Route exact path="/analytics">
           <Analytics />
+        </Route>
+        <Route exact path="/register">
+          <Signup />
         </Route>
         <Route exact path="/customers">
           <Customers />
@@ -118,9 +122,24 @@ export function App() {
           <PageNotFound />
         </Route>
       </Switch>
-      <div className={`md:hidden`}>
+      <div
+        className={`md:hidden ${
+          location.pathname.includes('register') && 'hidden'
+        }`}
+      >
         <BottomNav />
       </div>
     </>
   );
 }
+
+export const Loader = () => {
+  return (
+    <div className="flex h-screen justify-center self-center align-middle items-center content-center">
+      <div
+        style={{ borderTopColor: 'transparent' }}
+        className="w-16 h-16 border-4 border-purple-400 border-solid rounded-full animate-spin"
+      ></div>
+    </div>
+  );
+};

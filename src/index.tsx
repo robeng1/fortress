@@ -14,12 +14,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // Use consistent styling
-// import 'sanitize.css/sanitize.css';
+import 'sanitize.css/sanitize.css';
 import 'css/style.scss';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
-import { App } from 'app';
+import { App, Loader } from 'app';
 
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -43,7 +43,9 @@ ReactDOM.render(
       <HelmetProvider>
         <React.StrictMode>
           <Router>
-            <App />
+            <React.Suspense fallback={<Loader />}>
+              <App />
+            </React.Suspense>
           </Router>
         </React.StrictMode>
       </HelmetProvider>
