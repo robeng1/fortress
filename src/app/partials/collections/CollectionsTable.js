@@ -12,6 +12,7 @@ import Image07 from '../../images/user-40-07.jpg';
 import Image08 from '../../images/user-40-08.jpg';
 import Image09 from '../../images/user-40-09.jpg';
 import Image10 from '../../images/user-40-10.jpg';
+import CollectionList from './mobile/CollectionList';
 
 function CollectionsTable({ selectedItems }) {
   const products = [
@@ -135,7 +136,8 @@ function CollectionsTable({ selectedItems }) {
 
   return (
     <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
-      <div>
+      <CollectionList />
+      <div className="hidden md:block">
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="table-auto w-full">

@@ -71,7 +71,7 @@ function Products() {
   const renderMobileCollectionView = () => {
     return (
       <main>
-        <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+        <div className="px-4 sm:px-6 lg:px-8 py-2 md:py-8 w-full max-w-9xl mx-auto">
           {/* Page header */}
           <div className="sm:flex sm:justify-between sm:items-center mb-5">
             {/* Right: Actions */}
@@ -83,47 +83,19 @@ function Products() {
               <div className="block md:hidden">
                 <FilterButton align="right" />
               </div>
-            </div>
-          </div>
-          {/* More actions */}
-          <div className="sm:flex sm:justify-between sm:items-center mb-5">
-            {/* Left side */}
-            {/* <div className="mb-4 sm:mb-0">
-              <ul className="flex flex-wrap -m-1">
-                <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
-                    All
-                    <span className="ml-1 text-indigo-200">67</span>
-                  </button>
-                </li>
-                <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                    In Stock
-                    <span className="ml-1 text-gray-400">14</span>
-                  </button>
-                </li>
-                <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                    Out of Stock
-                    <span className="ml-1 text-gray-400">34</span>
-                  </button>
-                </li>
-                <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                    Low Stock
-                    <span className="ml-1 text-gray-400">19</span>
-                  </button>
-                </li>
-              </ul>
-            </div> */}
-
-            {/* Right side */}
-            <div className="grid grid-flow-col sm:auto-cols-max justify-end md:justify-start gap-2">
-              {/* Delete button */}
-              <DeleteButton selectedItems={selectedItems} />
-              <div className="hidden md:block">
-                <FilterButton align="right" />
-              </div>
+              {/* Add member button */}
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="btn bg-purple-700 hover:bg-indigo-600 text-white"
+              >
+                <svg
+                  className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
+                </svg>
+                <span className="hidden xs:block ml-2">Create Collection</span>
+              </button>
             </div>
           </div>
 
@@ -142,7 +114,7 @@ function Products() {
   const renderMobileInventoryView = () => {
     return (
       <main>
-        <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto mb-3">
+        <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
           {/* Page header */}
           <div className="sm:flex sm:justify-between sm:items-center mb-5">
             {/* Right: Actions */}
@@ -159,7 +131,7 @@ function Products() {
           {/* More actions */}
           <div className="sm:flex sm:justify-between sm:items-center mb-5">
             {/* Left side */}
-            <div className="mb-4 sm:mb-0">
+            <div className="mb-0 md:mb-4">
               <ul className="flex flex-wrap -m-1">
                 <li className="m-1">
                   <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
@@ -243,7 +215,7 @@ function Products() {
         {/* More actions */}
         <div className="sm:flex sm:justify-between sm:items-center mb-5">
           {/* Left side */}
-          <div className="mb-4 sm:mb-0">
+          <div className="mb-0 md:mb-4">
             <ul className="flex flex-wrap -m-1">
               <li className="m-1">
                 <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
@@ -308,7 +280,7 @@ function Products() {
                         'w-full py-2.5 text-sm leading-5 font-medium rounded-sm',
                         'focus:outline-none ',
                         selected
-                          ? 'bg-white text-indigo-600 rounded-full shadow'
+                          ? 'bg-white text-indigo-600 !rounded-full shadow'
                           : 'text-gray-600 hover:bg-white/[0.12] hover:text-white',
                       )
                     }
