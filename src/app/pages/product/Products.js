@@ -316,7 +316,6 @@ function Products() {
         <main className="md:hidden">
           <div className="w-full px-2 py-1 max-w-9xl">
             <Tab.Group
-              selectedIndex={tabIndex}
               onChange={index => {
                 setTabIndex(index);
               }}
@@ -458,7 +457,7 @@ function Products() {
         />
         {!(showForm || showCollectionForm)
           ? renderView()
-          : tabIndex === 0
+          : showForm
           ? renderForm()
           : renderCollectionForm()}
       </div>
