@@ -54,13 +54,13 @@ function Inventories() {
             <InventoryTable selectedItems={handleSelectedItems} />
 
             {/* Pagination */}
-            <div className="mt-8">
+            <div className="mt-4 md:mt-8">
               <PaginationClassic />
             </div>
+            <BottomNav />
           </div>
         </main>
       </div>
-      <BottomNav />
     </div>
   );
 }

@@ -100,7 +100,7 @@ function Orders() {
           />
 
           {/* Pagination */}
-          <div className="mt-8">
+          <div className="mt-4 md:mt-8">
             <PaginationClassic />
           </div>
         </div>
@@ -123,8 +123,8 @@ function Orders() {
         />
 
         {showOrder ? <Order handleShow={handleShow} /> : renderList()}
+        <BottomNav />
       </div>
-      <BottomNav />
     </div>
   );
 }

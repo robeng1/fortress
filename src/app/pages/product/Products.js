@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import ProductForm from 'app/forms/product/Product';
@@ -148,7 +149,7 @@ function Products() {
           <CollectionsTable selectedItems={handleSelectedItems} />
 
           {/* Pagination */}
-          <div className="mt-8">
+          <div className="mt-4">
             <PaginationClassic />
           </div>
         </div>
@@ -219,7 +220,7 @@ function Products() {
           <InventoryTable selectedItems={handleSelectedItems} />
 
           {/* Pagination */}
-          <div className="mt-8">
+          <div className="mt-4">
             <PaginationClassic />
           </div>
         </div>
@@ -303,7 +304,7 @@ function Products() {
         <ProductsTable selectedItems={handleSelectedItems} />
 
         {/* Pagination */}
-        <div className="mt-8">
+        <div className="mt-4">
           <PaginationClassic />
         </div>
       </div>
@@ -433,7 +434,7 @@ function Products() {
             <ProductsTable selectedItems={handleSelectedItems} />
 
             {/* Pagination */}
-            <div className="mt-8">
+            <div className="md:mt-8">
               <PaginationClassic />
             </div>
           </div>
@@ -460,8 +461,8 @@ function Products() {
           : showForm
           ? renderForm()
           : renderCollectionForm()}
+        <BottomNav />
       </div>
-      <BottomNav />
     </div>
   );
 }

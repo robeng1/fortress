@@ -100,7 +100,7 @@ function Products() {
           <CollectionsTable selectedItems={handleSelectedItems} />
 
           {/* Pagination */}
-          <div className="mt-8">
+          <div className="mt-4 md:mt-8">
             <PaginationClassic />
           </div>
         </div>
@@ -122,9 +122,8 @@ function Products() {
         />
 
         {!showForm ? renderCollectionView() : renderFormView()}
+        <BottomNav />
       </div>
-
-      <BottomNav />
     </div>
   );
 }

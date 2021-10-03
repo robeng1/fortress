@@ -2,7 +2,7 @@ import React from 'react';
 
 function PaginationClassic() {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div className="mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between">
       <nav
         className="mb-4 sm:mb-0 sm:order-1"
         role="navigation"
