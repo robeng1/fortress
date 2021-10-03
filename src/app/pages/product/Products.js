@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import ProductForm from 'app/forms/product/Product';
+import CollectionForm from 'app/forms/collection/Collection';
 
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
@@ -19,6 +20,8 @@ function classNames(...classes) {
 
 function Products() {
   const [showForm, setShowForm] = React.useState(false);
+  const [showCollectionForm, setShowCollectionForm] = React.useState(false);
+  const [tabIndex, setTabIndex] = React.useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   let [categories] = useState(['Products', 'Inventory', 'Collections']);
@@ -68,6 +71,47 @@ function Products() {
       </main>
     );
   };
+  const renderCollectionForm = () => {
+    return (
+      <main>
+        <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+          {/* Page header */}
+          <div className="sm:flex sm:justify-start sm:items-center mb-8">
+            {/* Left: Title */}
+            <div className="mb-4 sm:mb-0">
+              <div className="m-1.5">
+                <button
+                  onClick={() => setShowCollectionForm(!showCollectionForm)}
+                  className="btn border-gray-200 hover:border-gray-300"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="mb-4 sm:mb-0">
+              <h2>Hot Sauce Pepper Mint</h2>
+            </div>
+          </div>
+
+          {/* Form */}
+          <CollectionForm />
+        </div>
+      </main>
+    );
+  };
 
   const renderMobileCollectionView = () => {
     return (
@@ -86,7 +130,7 @@ function Products() {
               </div>
               {/* Add member button */}
               <button
-                onClick={() => setShowForm(!showForm)}
+                onClick={() => setShowCollectionForm(!showCollectionForm)}
                 className="btn bg-purple-700 hover:bg-indigo-600 text-white"
               >
                 <svg
@@ -271,7 +315,12 @@ function Products() {
       <>
         <main className="md:hidden">
           <div className="w-full px-2 py-1 max-w-9xl">
-            <Tab.Group>
+            <Tab.Group
+              selectedIndex={tabIndex}
+              onChange={index => {
+                setTabIndex(index);
+              }}
+            >
               <Tab.List className="flex p-1 space-x-1 bg-gray-100 text-black">
                 {categories.map(category => (
                   <Tab
@@ -407,7 +456,11 @@ function Products() {
           setSidebarOpen={setSidebarOpen}
           location="Products"
         />
-        {!showForm ? renderView() : renderForm()}
+        {!(showForm || showCollectionForm)
+          ? renderView()
+          : tabIndex === 0
+          ? renderForm()
+          : renderCollectionForm()}
       </div>
       <BottomNav />
     </div>
