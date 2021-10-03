@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import ProductForm from 'app/forms/product/Product';
 
+import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import DeleteButton from '../../partials/actions/DeleteButton';
@@ -408,6 +409,7 @@ function Products() {
         />
         {!showForm ? renderView() : renderForm()}
       </div>
+      <BottomNav />
     </div>
   );
 }

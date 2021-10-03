@@ -24,7 +24,7 @@ export default function BottomNav() {
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   return (
-    <>
+    <div className="block md:hidden">
       <Backdrop open={open} />
       <div>
         <React.Fragment>
@@ -216,6 +216,6 @@ export default function BottomNav() {
           />
         </BottomNavigation>
       </Paper>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import SearchForm from '../../partials/actions/SearchForm';
@@ -119,6 +120,7 @@ function Discounts() {
         />
         {!showForm ? renderDiscountsView() : renderFormView()}
       </div>
+      <BottomNav />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import DeleteButton from '../../partials/actions/DeleteButton';
@@ -123,6 +124,7 @@ function Orders() {
 
         {showOrder ? <Order handleShow={handleShow} /> : renderList()}
       </div>
+      <BottomNav />
     </div>
   );
 }

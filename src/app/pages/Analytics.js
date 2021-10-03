@@ -14,6 +14,7 @@ import AnalyticsCard08 from '../partials/analytics/AnalyticsCard08';
 import AnalyticsCard09 from '../partials/analytics/AnalyticsCard09';
 import AnalyticsCard10 from '../partials/analytics/AnalyticsCard10';
 import AnalyticsCard11 from '../partials/analytics/AnalyticsCard11';
+import BottomNav from 'app/components/BottomNav';
 
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -74,6 +75,7 @@ function Analytics() {
           </div>
         </main>
       </div>
+      <BottomNav />
     </div>
   );
 }
