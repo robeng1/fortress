@@ -116,7 +116,7 @@ function Products() {
 
   const renderMobileCollectionView = () => {
     return (
-      <main>
+      <main className="mb-5 md:mb-0">
         <div className="px-4 sm:px-6 lg:px-8 py-2 md:py-8 w-full max-w-9xl mx-auto">
           {/* Page header */}
           <div className="sm:flex sm:justify-between sm:items-center mb-5">
@@ -159,7 +159,7 @@ function Products() {
 
   const renderMobileInventoryView = () => {
     return (
-      <main>
+      <main className="mb-5 md:mb-0">
         <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
           {/* Page header */}
           <div className="sm:flex sm:justify-between sm:items-center">
@@ -230,38 +230,39 @@ function Products() {
 
   const renderMobileProductsView = () => {
     return (
-      <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
-        {/* Page header */}
-        <div className="sm:flex sm:justify-between sm:items-center">
-          {/* Right: Actions */}
-          <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
-            {/* Search form */}
+      <main className="mb-5 md:mb-0">
+        <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
+          {/* Page header */}
+          <div className="sm:flex sm:justify-between sm:items-center">
+            {/* Right: Actions */}
+            <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
+              {/* Search form */}
 
-            <SearchForm placeholder="Search product" />
+              <SearchForm placeholder="Search product" />
 
-            <div className="block md:hidden">
-              <FilterButton align="right" />
-            </div>
-            {/* Add member button */}
-            <button
-              onClick={() => setShowForm(!showForm)}
-              className="btn bg-purple-700 hover:bg-indigo-600 text-white"
-            >
-              <svg
-                className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
-                viewBox="0 0 16 16"
+              <div className="block md:hidden">
+                <FilterButton align="right" />
+              </div>
+              {/* Add member button */}
+              <button
+                onClick={() => setShowForm(!showForm)}
+                className="btn bg-purple-700 hover:bg-indigo-600 text-white"
               >
-                <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-              </svg>
-              <span className="hidden xs:block ml-2">Create Product</span>
-            </button>
+                <svg
+                  className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
+                </svg>
+                <span className="hidden xs:block ml-2">Create Product</span>
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* More actions */}
-        <div className="sm:flex sm:justify-between sm:items-center mb-5">
-          {/* Left side */}
-          {/* <div className="mb-0 md:mb-4">
+          {/* More actions */}
+          <div className="sm:flex sm:justify-between sm:items-center mb-5">
+            {/* Left side */}
+            {/* <div className="mb-0 md:mb-4">
             <ul className="flex flex-wrap -m-1">
               <li className="m-1">
                 <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
@@ -290,24 +291,25 @@ function Products() {
             </ul>
           </div> */}
 
-          {/* Right side */}
-          <div className="grid grid-flow-col sm:auto-cols-max justify-end md:justify-start gap-2">
-            {/* Delete button */}
-            <DeleteButton selectedItems={selectedItems} />
-            <div className="hidden md:block">
-              <FilterButton align="right" />
+            {/* Right side */}
+            <div className="grid grid-flow-col sm:auto-cols-max justify-end md:justify-start gap-2">
+              {/* Delete button */}
+              <DeleteButton selectedItems={selectedItems} />
+              <div className="hidden md:block">
+                <FilterButton align="right" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Table */}
-        <ProductsTable selectedItems={handleSelectedItems} />
+          {/* Table */}
+          <ProductsTable selectedItems={handleSelectedItems} />
 
-        {/* Pagination */}
-        <div className="mt-4">
-          <PaginationClassic />
+          {/* Pagination */}
+          <div className="mt-4">
+            <PaginationClassic />
+          </div>
         </div>
-      </div>
+      </main>
     );
   };
 
