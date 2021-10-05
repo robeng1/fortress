@@ -36,14 +36,15 @@ const DiscountForm = () => {
           conditon_value_money: '',
           buy_x_get_y_cond_range_type: '',
           buy_x_get_y_cond_range_values: '',
-          buy_x_get_y_cond_value_type: 'quantity',
+          buy_x_get_y_cond_value_type: 'count',
           buy_x_get_y_ben_range_type: '',
           buy_x_get_y_ben_range_values: '',
-          buy_x_get_y_ben_value_int: '',
-          buy_x_get_y_discounted_value_type: '',
+          buy_x_get_y_ben_max_affected_items: 1,
+          buy_x_get_y_discounted_value_type: 'percentage',
+          buy_x_get_y_discounted_value: '',
           requirements: '',
           value: '',
-          applies_to: '',
+          applies_to: 'all_products',
           exclusive: true,
           customer_eligibility: '',
           has_max_global_applications: false,
@@ -180,9 +181,9 @@ const DiscountForm = () => {
                             name="incentive_type"
                             className="form-radio"
                             onChange={e =>
-                              setFieldValue('incentive_type', 'fixed_amount')
+                              setFieldValue('incentive_type', 'fixed_discount')
                             }
-                            checked={values.incentive_type === 'fixed_amount'}
+                            checked={values.incentive_type === 'fixed_discount'}
                             value={values.incentive_type}
                           />
                           <span className="text-sm ml-2">Fixed amount</span>
@@ -215,10 +216,10 @@ const DiscountForm = () => {
                             checked={values.incentive_type === 'fixed_price'}
                             value={values.incentive_type}
                           />
-                          <span className="text-sm ml-2">Fixed Price</span>
+                          <span className="text-sm ml-2">Fixed price</span>
                         </label>
                       </div>
-                      <div className="m-3">
+                      {/* <div className="m-3">
                         <label className="flex items-center">
                           <input
                             type="radio"
@@ -240,7 +241,7 @@ const DiscountForm = () => {
                             Fixed price per product
                           </span>
                         </label>
-                      </div>
+                      </div> */}
                       <div className="m-3">
                         <label className="flex items-center">
                           <input
@@ -253,7 +254,7 @@ const DiscountForm = () => {
                             checked={values.incentive_type === 'buy-x-get-y'}
                             value={values.incentive_type}
                           />
-                          <span className="text-sm ml-2">Buy-X-Get-Y</span>
+                          <span className="text-sm ml-2">Buy X Get Y</span>
                         </label>
                       </div>
                     </div>
@@ -303,14 +304,9 @@ const DiscountForm = () => {
                         name="buy_x_get_y_cond_value_type"
                         className="form-radio"
                         onChange={e =>
-                          setFieldValue(
-                            'buy_x_get_y_cond_value_type',
-                            'quantity',
-                          )
+                          setFieldValue('buy_x_get_y_cond_value_type', 'count')
                         }
-                        checked={
-                          values.buy_x_get_y_cond_value_type === 'quantity'
-                        }
+                        checked={values.buy_x_get_y_cond_value_type === 'count'}
                         value={values.buy_x_get_y_cond_value_type}
                       />
                       <span className="text-sm ml-2">
@@ -325,15 +321,35 @@ const DiscountForm = () => {
                         name="buy_x_get_y_cond_value_type"
                         className="form-radio"
                         onChange={e =>
-                          setFieldValue('buy_x_get_y_cond_value_type', 'amount')
+                          setFieldValue('buy_x_get_y_cond_value_type', 'value')
                         }
-                        checked={
-                          values.buy_x_get_y_cond_value_type === 'amount'
-                        }
+                        checked={values.buy_x_get_y_cond_value_type === 'value'}
                         value={values.buy_x_get_y_cond_value_type}
                       />
                       <span className="text-sm ml-2">
                         Minimum purchase amount
+                      </span>
+                    </label>
+                  </div>
+                  <div className="m-3">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="buy_x_get_y_cond_value_type"
+                        className="form-radio"
+                        onChange={e =>
+                          setFieldValue(
+                            'buy_x_get_y_cond_value_type',
+                            'coverage',
+                          )
+                        }
+                        checked={
+                          values.buy_x_get_y_cond_value_type === 'coverage'
+                        }
+                        value={values.buy_x_get_y_cond_value_type}
+                      />
+                      <span className="text-sm ml-2">
+                        Minimum quantity of distinct items
                       </span>
                     </label>
                   </div>
@@ -346,13 +362,15 @@ const DiscountForm = () => {
                           className="block text-sm font-medium mb-1"
                           htmlFor="buy_x_get_y_cond_value"
                         >
-                          {values.buy_x_get_y_cond_value_type === 'quantity'
+                          {values.buy_x_get_y_cond_value_type === 'count' ||
+                          values.buy_x_get_y_cond_value_type === 'coverage'
                             ? 'Quantity'
                             : 'Amount'}
                         </label>
                         <div
                           className={`relative ${
-                            values.buy_x_get_y_cond_value_type === 'quantity' ||
+                            values.buy_x_get_y_cond_value_type === 'count' ||
+                            values.buy_x_get_y_cond_value_type === 'coverage' ||
                             values.buy_x_get_y_cond_value_type === ''
                               ? 'hidden'
                               : 'block'
@@ -371,7 +389,7 @@ const DiscountForm = () => {
                         </div>
                         <div
                           className={`relative ${
-                            values.buy_x_get_y_cond_value_type === 'amount' ||
+                            values.buy_x_get_y_cond_value_type === 'value' ||
                             values.buy_x_get_y_cond_value_type === ''
                               ? 'hidden'
                               : 'block'
@@ -485,16 +503,16 @@ const DiscountForm = () => {
                       <div className="w-1/2">
                         <label
                           className="block text-sm font-medium mb-1"
-                          htmlFor="buy_x_get_y_ben_value_int"
+                          htmlFor="buy_x_get_y_ben_max_affected_items"
                         >
                           Quantity
                         </label>
                         <input
-                          id="buy_x_get_y_ben_value_int"
-                          name="buy_x_get_y_ben_value_int"
+                          id="buy_x_get_y_ben_max_affected_items"
+                          name="buy_x_get_y_ben_max_affected_items"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.buy_x_get_y_ben_value_int}
+                          value={values.buy_x_get_y_ben_max_affected_items}
                           className="form-input w-1/2"
                           step={1}
                           min={1}
@@ -605,7 +623,27 @@ const DiscountForm = () => {
                             <span className="text-sm ml-2">Percentage</span>
                           </label>
                         </div>
-
+                        <div className="m-3">
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              name="buy_x_get_y_discounted_value_type"
+                              className="form-radio"
+                              onChange={e =>
+                                setFieldValue(
+                                  'buy_x_get_y_discounted_value_type',
+                                  'fixed_discount',
+                                )
+                              }
+                              checked={
+                                values.buy_x_get_y_discounted_value_type ===
+                                'fixed_discount'
+                              }
+                              value={values.buy_x_get_y_discounted_value_type}
+                            />
+                            <span className="text-sm ml-2">Fixed discount</span>
+                          </label>
+                        </div>
                         <div className="m-3">
                           <label className="flex items-center">
                             <input
@@ -638,22 +676,44 @@ const DiscountForm = () => {
                       }`}
                     >
                       <input
-                        id="buy_x_get_y_cond_value"
-                        name="buy_x_get_y_cond_value"
+                        id="buy_x_get_y_discounted_value"
+                        name="buy_x_get_y_discounted_value"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.buy_x_get_y_cond_value}
-                        className="form-input w-full pr-8"
+                        value={values.buy_x_get_y_discounted_value}
+                        className={`form-input w-full pr-8 ${
+                          (values.buy_x_get_y_discounted_value_type ===
+                            'fixed_price' ||
+                            values.buy_x_get_y_discounted_value_type ===
+                              'fixed_discount' ||
+                            values.buy_x_get_y_discounted_value_type ===
+                              'fixed_discount') &&
+                          'pl-12'
+                        }`}
                         step={1}
                         min={1}
                         type="text"
-                        placeholder="1"
                       />
-                      <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
-                        <span className="text-sm text-gray-400 font-medium px-3">
-                          %
-                        </span>
-                      </div>
+                      {values.buy_x_get_y_discounted_value_type ===
+                        'percentage' && (
+                        <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
+                          <span className="text-sm text-gray-400 font-medium px-3">
+                            %
+                          </span>
+                        </div>
+                      )}
+                      {(values.buy_x_get_y_discounted_value_type ===
+                        'fixed_price' ||
+                        values.buy_x_get_y_discounted_value_type ===
+                          'fixed_discount' ||
+                        values.buy_x_get_y_discounted_value_type ===
+                          'fixed_discount') && (
+                        <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+                          <span className="text-sm text-gray-400 font-medium px-3">
+                            GHS
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </section>
@@ -692,7 +752,7 @@ const DiscountForm = () => {
                             </div>
                           )}
                           {(values.incentive_type === 'fixed_price' ||
-                            values.incentive_type === 'fixed_amount') && (
+                            values.incentive_type === 'fixed_discount') && (
                             <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
                               <span className="text-sm text-gray-400 font-medium px-3">
                                 GHS
