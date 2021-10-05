@@ -61,9 +61,9 @@ function Products() {
                 </button>
               </div>
             </div>
-            <div className="mb-4 sm:mb-0">
+            {/* <div className="mb-4 sm:mb-0">
               <h2>Hot Sauce Pepper Mint</h2>
-            </div>
+            </div> */}
           </div>
 
           {/* Form */}
@@ -102,9 +102,9 @@ function Products() {
                 </button>
               </div>
             </div>
-            <div className="mb-4 sm:mb-0">
+            {/* <div className="mb-4 sm:mb-0">
               <h2>Hot Sauce Pepper Mint</h2>
-            </div>
+            </div> */}
           </div>
 
           {/* Form */}

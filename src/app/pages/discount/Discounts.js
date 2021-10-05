@@ -6,7 +6,7 @@ import Header from '../../partials/Header';
 import SearchForm from '../../partials/actions/SearchForm';
 import FilterButton from '../../components/DropdownFilter';
 import DiscountTable from '../../partials/discount/DiscountTable';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationNumeric from '../../components/PaginationNumeric';
 import DiscountForm from 'app/forms/discount/Discount';
 
 function Discounts() {
@@ -49,9 +49,9 @@ function Discounts() {
                 </button>
               </div>
             </div>
-            <div className="mb-0 sm:mb-0">
+            {/* <div className="mb-0 sm:mb-0">
               <h2>SPRINGSALE</h2>
-            </div>
+            </div> */}
           </div>
 
           {/* Form */}
@@ -63,7 +63,7 @@ function Discounts() {
 
   const renderDiscountsView = () => {
     return (
-      <main>
+      <main className="mb-10 md:mb-0">
         <div className="px-4 sm:px-6 lg:px-8 w-full max-w-9xl mx-auto">
           {/* Page header */}
           <div className="py-2 md:py-8 w-full max-w-9xl mx-auto">
@@ -98,7 +98,7 @@ function Discounts() {
 
           {/* Pagination */}
           <div className="mt-4 md:mt-8">
-            <PaginationClassic />
+            <PaginationNumeric />
           </div>
         </div>
       </main>

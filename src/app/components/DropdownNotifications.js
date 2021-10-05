@@ -47,6 +47,20 @@ function DropdownNotifications({ align }) {
       >
         <span className="sr-only">Notifications</span>
         <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+          />
+        </svg>
+        {/* <svg
           className="w-4 h-4"
           viewBox="0 0 16 16"
           xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +73,7 @@ function DropdownNotifications({ align }) {
             className="fill-current text-gray-400"
             d="M16 9.5c0-.987-.429-1.897-1.147-2.639C14.124 10.348 10.66 13 6.5 13c-.103 0-.202-.018-.305-.021C7.231 13.617 8.556 14 10 14c.449 0 .886-.04 1.307-.11L15 16v-4h-.012C15.627 11.285 16 10.425 16 9.5z"
           />
-        </svg>
+        </svg> */}
         <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-black border-2 border-white rounded-full"></div>
       </button>
 

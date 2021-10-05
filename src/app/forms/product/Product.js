@@ -773,20 +773,20 @@ const ProductForm = () => {
                       />
                     </div>
                   </div>
-                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5 pr-9">
                     <div className="w-full mb-2">
-                      <div className="bg-white ml-2">
-                        <h2 className="mb-[0px] mt-[25px] font-normal text-blue-700">
+                      <div className="bg-white">
+                        <h2 className="mb-[0px] mt-[25px] font-normal text-sm text-blue-700">
                           Wearhebron | Bikershorts
                         </h2>
                         <a
                           href="https://reoplex.com"
-                          className="mb-[0px] text-green-600"
+                          className="mb-[0px] text-green-600 text-sm pr-9"
                         >
                           https://www.wearhebron.com/products/bikershorts
                         </a>
-                        <button className="text-green-600">▼</button>
-                        <p className="w-full h-12 text-gray-600 line-clamp-2">
+
+                        <p className="w-full text-sm md:h-12 text-gray-600 line-clamp-2">
                           A mutual exclusion (mutex) is a program object that
                           prevents simultaneous access to a shared resource.
                         </p>

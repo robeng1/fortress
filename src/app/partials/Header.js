@@ -10,17 +10,17 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
 
   return (
     <header
-      className={`sticky md:sticky w-full top-0 bg-white border-b border-gray-200 z-20 shadow-sm ${
+      className={`sticky md:sticky w-full top-0  z-20 ${
         !searchModalOpen && 'backdrop-blur-md'
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center md:justify-between h-16 -mb-px">
-          <div className="hidden md:block">
+          {/* <div className="hidden md:block">
             <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
               {location}
             </h1>
-          </div>
+          </div> */}
           {/* Header: Left side */}
           <div className="hidden md:flex">
             {/* Hamburger button */}
@@ -57,17 +57,17 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
             >
               <span className="sr-only">Search</span>
               <svg
-                className="w-4 h-4"
-                viewBox="0 0 16 16"
                 xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
                 <path
-                  className="fill-current text-gray-500"
-                  d="M7 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zM7 2C4.243 2 2 4.243 2 7s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"
-                />
-                <path
-                  className="fill-current text-gray-400"
-                  d="M15.707 14.293L13.314 11.9a8.019 8.019 0 01-1.414 1.414l2.393 2.393a.997.997 0 001.414 0 .999.999 0 000-1.414z"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
             </button>

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, lazy } from 'react';
 
-import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import DeleteButton from '../../partials/actions/DeleteButton';
@@ -11,7 +10,9 @@ import CollectionsTable from '../../partials/collections/CollectionsTable';
 import PaginationNumeric from '../../components/PaginationNumeric';
 import CollectionForm from 'app/forms/collection/Collection';
 
-function Products() {
+const BottomNav = lazy(() => import('app/components/BottomNav'));
+
+function Collections() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showForm, setShowForm] = React.useState(false);
@@ -51,9 +52,9 @@ function Products() {
                 </button>
               </div>
             </div>
-            <div className="mb-0 sm:mb-0">
+            {/* <div className="mb-0 sm:mb-0">
               <h2>SPRINGSALE</h2>
-            </div>
+            </div> */}
           </div>
 
           {/* Form */}
@@ -128,4 +129,4 @@ function Products() {
   );
 }
 
-export default Products;
+export default Collections;

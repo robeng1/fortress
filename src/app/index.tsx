@@ -17,7 +17,6 @@ import './charts/ChartjsConfig';
 import { useTranslation } from 'react-i18next';
 
 // Import pages
-
 const Products = lazy(() => import('app/pages/product/Products'));
 const Inventory = lazy(() => import('app/pages/inventory/Inventory'));
 const Discounts = lazy(() => import('app/pages/discount/Discounts'));
