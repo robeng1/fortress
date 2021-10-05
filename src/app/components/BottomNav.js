@@ -94,9 +94,10 @@ export default function BottomNav() {
           left: 0,
           right: 0,
         }}
-        elevation={10}
+        elevation={0}
       >
         <BottomNavigation
+          elevation={0}
           showLabels
           value={value}
           sx={{
