@@ -24,7 +24,7 @@ export default function BottomNav() {
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   return (
-    <>
+    <div className="block md:hidden">
       <Backdrop open={open} />
       <div>
         <React.Fragment>
@@ -51,7 +51,7 @@ export default function BottomNav() {
                   >
                     <span
                       className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                        pathname.includes('discounts') && '!text-indigo-500'
+                        pathname.includes('discounts') && '!text-blue-900'
                       }`}
                     >
                       Discounts
@@ -74,7 +74,7 @@ export default function BottomNav() {
                   >
                     <span
                       className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                        pathname.includes('settings') && '!text-indigo-500'
+                        pathname.includes('settings') && '!text-blue-900'
                       }`}
                     >
                       Settings
@@ -94,7 +94,7 @@ export default function BottomNav() {
           left: 0,
           right: 0,
         }}
-        elevation={3}
+        elevation={10}
       >
         <BottomNavigation
           showLabels
@@ -117,7 +117,7 @@ export default function BottomNav() {
             to="/"
             value=""
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
-              pathname === '/' && 'text-gray-900'
+              pathname === '/' && '!text-blue-900'
             }`}
             icon={
               <svg
@@ -128,7 +128,7 @@ export default function BottomNav() {
               >
                 <path
                   className={`fill-current text-gray-900 ${
-                    pathname === '/' && '!text-indigo-500'
+                    pathname === '/' && '!text-blue-900'
                   }`}
                   d="M19.664 8.252l-9-8a1 1 0 0 0-1.328 0L8 1.44V1a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v5.773L.336 8.252a1.001 1.001 0 0 0 1.328 1.496L2 9.449V19a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9.449l.336.299a.997.997 0 0 0 1.41-.083 1.001 1.001 0 0 0-.082-1.413zM16 18h-2v-5a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v5H4V7.671l6-5.333 6 5.333V18zm-8 0h4v-4H8v4zM4 2h2v1.218L4 4.996V2z"
                 />
@@ -142,7 +142,7 @@ export default function BottomNav() {
             to="/orders"
             value="orders"
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
-              pathname === '/orders' && 'text-gray-900'
+              pathname.includes('orders') && '!text-blue-900'
             }`}
             icon={
               <svg
@@ -153,7 +153,7 @@ export default function BottomNav() {
               >
                 <path
                   className={`fill-current text-gray-900 ${
-                    pathname.includes('orders') && '!text-indigo-500'
+                    pathname.includes('orders') && '!text-blue-900'
                   }`}
                   fillRule="evenodd"
                   d="M2 18v-4h3.382l.723 1.447c.17.339.516.553.895.553h6c.379 0 .725-.214.895-.553L14.618 14H18v4H2zM19 1a1 1 0 0 1 1 1v17a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h4a1 1 0 0 1 0 2H2v9h4c.379 0 .725.214.895.553L7.618 14h4.764l.723-1.447c.17-.339.516-.553.895-.553h4V3h-3a1 1 0 0 1 0-2h4zM6.293 6.707a.999.999 0 1 1 1.414-1.414L9 6.586V1a1 1 0 0 1 2 0v5.586l1.293-1.293a.999.999 0 1 1 1.414 1.414l-3 3a.997.997 0 0 1-1.414 0l-3-3z"
@@ -168,7 +168,7 @@ export default function BottomNav() {
             to="/shop/products"
             value="shop/products"
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
-              pathname.includes('shop') && 'text-gray-900'
+              pathname.includes('shop') && '!text-blue-900'
             }`}
             label="Products"
             icon={
@@ -180,7 +180,7 @@ export default function BottomNav() {
               >
                 <path
                   className={`fill-current text-gray-900 ${
-                    pathname.includes('shop') && 'text-indigo-300'
+                    pathname.includes('shop') && '!text-blue-900'
                   }`}
                   d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
                 />
@@ -196,19 +196,26 @@ export default function BottomNav() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="flex-shrink-0 h-6 w-6"
                 viewBox="0 0 24 24"
-                fill="currentColor"
+                fill="none"
+                stroke="currentColor"
               >
                 <path
-                  className={`fill-current text-gray-600`}
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
+                  className={`fill-current bg-gray-200 text-gray-700 ${
+                    (pathname.includes('settings') ||
+                      pathname.includes('discounts') ||
+                      pathname.includes('store')) &&
+                    '!text-blue-900'
+                  }`}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
                 />
               </svg>
             }
           />
         </BottomNavigation>
       </Paper>
-    </>
+    </div>
   );
 }

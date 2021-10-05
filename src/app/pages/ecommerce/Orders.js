@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import DeleteButton from '../../partials/actions/DeleteButton';
@@ -8,7 +9,7 @@ import FilterButton from '../../components/DropdownFilter';
 import SearchForm from '../../partials/actions/SearchForm';
 import OrdersTable from '../../partials/orders/OrdersTable';
 import Order from 'app/partials/orders/Order';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationNumeric from '../../components/PaginationNumeric';
 
 function Orders() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,22 +27,34 @@ function Orders() {
 
   const renderList = () => {
     return (
-      <main>
+      <main className="mb-10 md:mb-0">
         <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
+          <div className="md:hidden mb-3">
+            <SearchForm className="w-full" placeholder="Search order number…" />
+          </div>
           {/* Page header */}
-          <div className="sm:flex sm:justify-between sm:items-center mb-5">
-            {/* Left: Title */}
-            <div className="mb-4 sm:mb-0">
-              <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Orders
-              </h1>
-            </div>
-
+          <div className="sm:flex sm:justify-between sm:items-center mb-3">
             {/* Right: Actions */}
-            <div className="grid grid-flow-col sm:auto-cols-max md:justify-start gap-2">
+            <div className="flex justify-between sm:auto-cols-max w-full gap-2">
               {/* Search form */}
+              <div className="flex flex-grow justify-start gap-2">
+                <div className="hidden md:block">
+                  <SearchForm
+                    className="w-full"
+                    placeholder="Search order number…"
+                  />
+                </div>
 
-              <SearchForm placeholder="Search order number…" />
+                {/* Right side */}
+                <div className="grid grid-flow-col sm:auto-cols-max md:justify-start  justify-between gap-2">
+                  {/* Delete button */}
+                  <DeleteButton selectedItems={selectedItems} />
+                  {/* Dropdown */}
+                  <DateSelect />
+                  {/* Filter button */}
+                  <FilterButton align="right" />
+                </div>
+              </div>
 
               {/* Add member button */}
               <button className="btn bg-purple-700 hover:bg-indigo-600 text-white">
@@ -59,7 +72,7 @@ function Orders() {
           {/* More actions */}
           <div className="sm:flex sm:justify-between sm:items-center mb-5">
             {/* Left side */}
-            <div className="mb-4 sm:mb-0">
+            <div className="mb-4 sm:mb-0 hidden md:block">
               <ul className="flex flex-wrap -m-1">
                 <li className="m-1">
                   <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
@@ -78,16 +91,6 @@ function Orders() {
                 </li>
               </ul>
             </div>
-
-            {/* Right side */}
-            <div className="grid grid-flow-col sm:auto-cols-max md:justify-start  justify-between gap-2">
-              {/* Delete button */}
-              <DeleteButton selectedItems={selectedItems} />
-              {/* Dropdown */}
-              <DateSelect />
-              {/* Filter button */}
-              <FilterButton align="right" />
-            </div>
           </div>
 
           {/* Table */}
@@ -97,8 +100,8 @@ function Orders() {
           />
 
           {/* Pagination */}
-          <div className="mt-8">
-            <PaginationClassic />
+          <div className="mt-4 md:mt-8">
+            <PaginationNumeric />
           </div>
         </div>
       </main>
@@ -113,9 +116,14 @@ function Orders() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location="Orders"
+        />
 
         {showOrder ? <Order handleShow={handleShow} /> : renderList()}
+        <BottomNav />
       </div>
     </div>
   );

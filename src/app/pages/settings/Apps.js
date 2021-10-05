@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import SettingsSidebar from '../../partials/settings/SettingsSidebar';
@@ -38,6 +39,7 @@ function Apps() {
           </div>
         </main>
       </div>
+      <BottomNav />
     </div>
   );
 }

@@ -5,17 +5,22 @@ import Notifications from '../components/DropdownNotifications';
 import Help from '../components/DropdownHelp';
 import UserMenu from '../components/DropdownProfile';
 
-function Header({ sidebarOpen, setSidebarOpen }) {
+function Header({ sidebarOpen, setSidebarOpen, location }) {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
     <header
-      className={`sticky top-0 bg-transparent border-b border-gray-200 z-20 shadow-sm ${
+      className={`sticky md:sticky w-full top-0 bg-white border-b border-gray-200 z-20 shadow-sm ${
         !searchModalOpen && 'backdrop-blur-md'
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center md:justify-between h-16 -mb-px">
+          <div className="hidden md:block">
+            <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+              {location}
+            </h1>
+          </div>
           {/* Header: Left side */}
           <div className="hidden md:flex">
             {/* Hamburger button */}

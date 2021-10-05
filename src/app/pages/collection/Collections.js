@@ -1,52 +1,87 @@
 import React, { useState } from 'react';
 
+import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import DeleteButton from '../../partials/actions/DeleteButton';
 import DateSelect from '../../components/DateSelect';
+import SearchForm from '../../partials/actions/SearchForm';
 import FilterButton from '../../components/DropdownFilter';
 import CollectionsTable from '../../partials/collections/CollectionsTable';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationNumeric from '../../components/PaginationNumeric';
+import CollectionForm from 'app/forms/collection/Collection';
 
 function Products() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [showForm, setShowForm] = React.useState(false);
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
   };
 
-  return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Content area */}
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-        <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-            {/* Page header */}
-            <div className="sm:flex sm:justify-between sm:items-center mb-8">
-              {/* Left: Title */}
-              <div className="mb-4 sm:mb-0">
-                <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                  Collections
-                </h1>
+  const renderFormView = () => {
+    return (
+      <main>
+        <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+          {/* Page header */}
+          <div className="sm:flex sm:justify-start sm:items-center mb-8">
+            {/* Left: Title */}
+            <div className="mb-4 sm:mb-0">
+              <div className="m-1.5">
+                <button
+                  type="button"
+                  onClick={() => setShowForm(!showForm)}
+                  className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                  </svg>
+                </button>
               </div>
+            </div>
+            <div className="mb-0 sm:mb-0">
+              <h2>SPRINGSALE</h2>
+            </div>
+          </div>
 
-              {/* Right: Actions */}
-              <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-                {/* Delete button */}
-                <DeleteButton selectedItems={selectedItems} />
-                {/* Dropdown */}
-                <DateSelect />
-                {/* Filter button */}
-                <FilterButton align="right" />
-                {/* Add customer button */}
-                <button className="btn bg-purple-700 bg-opacity-100 rounded-lg  text-white">
+          {/* Form */}
+          <CollectionForm />
+        </div>
+      </main>
+    );
+  };
+
+  const renderCollectionView = () => {
+    return (
+      <main>
+        <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
+          {/* Page header */}
+          <div className="py-2 md:py-8 w-full max-w-9xl mx-auto">
+            <div className="sm:flex sm:justify-between sm:items-center">
+              <div className="flex justify-between gap-2 w-full">
+                {/* Search form */}
+                <div className="flex justify-start gap-2">
+                  <SearchForm placeholder="Search collections..." />
+                  <div className="">
+                    <FilterButton align="right" />
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowForm(!showForm)}
+                  className="btn bg-blue-900 hover:bg-indigo-600 text-white"
+                >
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                     viewBox="0 0 16 16"
@@ -59,16 +94,35 @@ function Products() {
                 </button>
               </div>
             </div>
-
-            {/* Table */}
-            <CollectionsTable selectedItems={handleSelectedItems} />
-
-            {/* Pagination */}
-            <div className="mt-8">
-              <PaginationClassic />
-            </div>
           </div>
-        </main>
+
+          {/* Table */}
+          <CollectionsTable selectedItems={handleSelectedItems} />
+
+          {/* Pagination */}
+          <div className="mt-4 md:mt-8">
+            <PaginationNumeric />
+          </div>
+        </div>
+      </main>
+    );
+  };
+  return (
+    <div className="flex h-screen overflow-hidden">
+      {/* Sidebar */}
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+      {/* Content area */}
+      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        {/*  Site header */}
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location="Collections"
+        />
+
+        {!showForm ? renderCollectionView() : renderFormView()}
+        <BottomNav />
       </div>
     </div>
   );

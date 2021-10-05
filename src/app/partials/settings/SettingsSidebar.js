@@ -49,13 +49,19 @@ function SettingsSidebar() {
               }`}
             >
               <svg
-                className={`w-4 h-4 flex-shrink-0 fill-current text-gray-400 mr-2 ${
+                className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
                   pathname.includes('/settings/notifications') &&
                   'text-indigo-400'
                 }`}
-                viewBox="0 0 16 16"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <path d="M14.3.3c.4-.4 1-.4 1.4 0 .4.4.4 1 0 1.4l-8 8c-.2.2-.4.3-.7.3-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l8-8zM15 7c.6 0 1 .4 1 1 0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8c.6 0 1 .4 1 1s-.4 1-1 1C4.7 2 2 4.7 2 8s2.7 6 6 6 6-2.7 6-6c0-.6.4-1 1-1z" />
+                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                <path
+                  fillRule="evenodd"
+                  d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span
                 className={`text-sm font-medium ${
@@ -77,12 +83,18 @@ function SettingsSidebar() {
               }`}
             >
               <svg
-                className={`w-4 h-4 flex-shrink-0 fill-current text-gray-400 mr-2 ${
+                xmlns="http://www.w3.org/2000/svg"
+                className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
                   pathname.includes('/settings/apps') && 'text-indigo-400'
                 }`}
-                viewBox="0 0 16 16"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <path d="M3.414 2L9 7.586V16H7V8.414l-5-5V6H0V1a1 1 0 011-1h5v2H3.414zM15 0a1 1 0 011 1v5h-2V3.414l-3.172 3.172-1.414-1.414L12.586 2H10V0h5z" />
+                <path
+                  fillRule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span
                 className={`text-sm font-medium ${
@@ -104,12 +116,18 @@ function SettingsSidebar() {
               }`}
             >
               <svg
-                className={`w-4 h-4 flex-shrink-0 fill-current text-gray-400 mr-2 ${
+                className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
                   pathname.includes('/settings/shipping') && 'text-indigo-400'
                 }`}
-                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <path d="M3.414 2L9 7.586V16H7V8.414l-5-5V6H0V1a1 1 0 011-1h5v2H3.414zM15 0a1 1 0 011 1v5h-2V3.414l-3.172 3.172-1.414-1.414L12.586 2H10V0h5z" />
+                <path
+                  fillRule="evenodd"
+                  d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span
                 className={`text-sm font-medium ${
@@ -118,7 +136,7 @@ function SettingsSidebar() {
                     : 'hover:text-gray-700'
                 }`}
               >
-                Shipping
+                Shipping Rates
               </span>
             </NavLink>
           </li>
@@ -131,12 +149,18 @@ function SettingsSidebar() {
               }`}
             >
               <svg
-                className={`w-4 h-4 flex-shrink-0 fill-current text-gray-400 mr-2 ${
+                className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
                   pathname.includes('/settings/plans') && 'text-indigo-400'
                 }`}
-                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <path d="M5 9h11v2H5V9zM0 9h3v2H0V9zm5 4h6v2H5v-2zm-5 0h3v2H0v-2zm5-8h7v2H5V5zM0 5h3v2H0V5zm5-4h11v2H5V1zM0 1h3v2H0V1z" />
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span
                 className={`text-sm font-medium ${
@@ -158,12 +182,18 @@ function SettingsSidebar() {
               }`}
             >
               <svg
-                className={`w-4 h-4 flex-shrink-0 fill-current text-gray-400 mr-2 ${
+                className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
                   pathname.includes('/settings/billing') && 'text-indigo-400'
                 }`}
-                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <path d="M15 4c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H3c-1.7 0-3-1.3-3-3V3c0-1.7 1.3-3 3-3h7c.6 0 1 .4 1 1v3h4zM2 3v1h7V2H3c-.6 0-1 .4-1 1zm12 11V6H2v7c0 .6.4 1 1 1h11zm-3-5h2v2h-2V9z" />
+                <path
+                  fillRule="evenodd"
+                  d="M5.05 3.636a1 1 0 010 1.414 7 7 0 000 9.9 1 1 0 11-1.414 1.414 9 9 0 010-12.728 1 1 0 011.414 0zm9.9 0a1 1 0 011.414 0 9 9 0 010 12.728 1 1 0 11-1.414-1.414 7 7 0 000-9.9 1 1 0 010-1.414zM7.879 6.464a1 1 0 010 1.414 3 3 0 000 4.243 1 1 0 11-1.415 1.414 5 5 0 010-7.07 1 1 0 011.415 0zm4.242 0a1 1 0 011.415 0 5 5 0 010 7.072 1 1 0 01-1.415-1.415 3 3 0 000-4.242 1 1 0 010-1.415zM10 9a1 1 0 011 1v.01a1 1 0 11-2 0V10a1 1 0 011-1z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span
                 className={`text-sm font-medium ${
@@ -179,7 +209,7 @@ function SettingsSidebar() {
         </ul>
       </div>
       {/* Group 2 */}
-      <div>
+      {/* <div>
         <div className="text-xs font-semibold text-gray-400 uppercase mb-3">
           Experience
         </div>
@@ -212,7 +242,7 @@ function SettingsSidebar() {
             </NavLink>
           </li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

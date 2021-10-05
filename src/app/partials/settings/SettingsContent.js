@@ -8,7 +8,7 @@ function SettingsContent() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="p-6 space-y-6">
+      <div className="md:p-6 p-4 space-y-6">
         {/* Picture */}
         <section>
           <h2 className="text-xl text-gray-800 font-bold mb-5">Picture</h2>

@@ -796,6 +796,18 @@ const ProductForm = () => {
                 </section>
               </div>
             </div>
+            <footer>
+              <div className="flex flex-col px-6 py-5 border-t border-gray-200">
+                <div className="flex self-end md:self-center">
+                  <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                    Cancel
+                  </button>
+                  <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </footer>
           </div>
         )}
       </Formik>

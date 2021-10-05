@@ -3,13 +3,11 @@ import React, { useState } from 'react';
 import Image from '../../images/user-avatar-80.png';
 
 function AccountPanel() {
-  const [sync, setSync] = useState(false);
-
   return (
     <>
       <form className="flex-grow">
         {/* Panel body */}
-        <div className="md:p-6 p-2 space-y-6">
+        <div className="md:p-6 p-4 space-y-6">
           <h2 className="text-2xl text-gray-800 font-bold mb-5">My Store</h2>
           {/* Picture */}
           <section>
@@ -249,7 +247,7 @@ function AccountPanel() {
               <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
                 Cancel
               </button>
-              <button className="btn bg-purple-700 bg-opacity-100 rounded-lg  text-white ml-3">
+              <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
                 Save Changes
               </button>
             </div>

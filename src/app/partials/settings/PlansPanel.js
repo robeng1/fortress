@@ -6,7 +6,7 @@ function PlansPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="md:p-6 p-2 space-y-6">
+      <div className="md:p-6 p-4 space-y-6">
         {/* Plans */}
         <section>
           <div className="mb-8">
@@ -124,7 +124,7 @@ function PlansPanel() {
             <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
               Cancel
             </button>
-            <button className="btn bg-purple-700 bg-opacity-100 rounded-lg  text-white ml-3">
+            <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
               Save Changes
             </button>
           </div>

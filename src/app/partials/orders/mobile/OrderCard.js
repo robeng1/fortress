@@ -12,12 +12,9 @@ export default function OrderCard({ handleShow }) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a
-                className="inline-flex font-medium rounded-md text-center px-2.5 py-0.5 bg-green-100 text-green-600"
-                href="/"
-              >
+              <div className="inline-flex font-medium rounded-md text-center px-2.5 py-0.5 bg-green-100 text-green-600">
                 Delivered
-              </a>
+              </div>
             </h3>
           </div>
         </div>
