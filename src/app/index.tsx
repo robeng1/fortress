@@ -50,7 +50,7 @@ export function App() {
   return (
     <>
       <Helmet
-        titleTemplate="%s - Reoplex Admin"
+        titleTemplate="%s - Reoplex | Admin"
         defaultTitle="Reoplex Admin"
         htmlAttributes={{ lang: i18n.language }}
       >
