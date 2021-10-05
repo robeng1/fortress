@@ -8,7 +8,7 @@ import DateSelect from '../../components/DateSelect';
 import SearchForm from '../../partials/actions/SearchForm';
 import FilterButton from '../../components/DropdownFilter';
 import CollectionsTable from '../../partials/collections/CollectionsTable';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationNumeric from '../../components/PaginationNumeric';
 import CollectionForm from 'app/forms/collection/Collection';
 
 function Products() {
@@ -101,7 +101,7 @@ function Products() {
 
           {/* Pagination */}
           <div className="mt-4 md:mt-8">
-            <PaginationClassic />
+            <PaginationNumeric />
           </div>
         </div>
       </main>

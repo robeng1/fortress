@@ -10,7 +10,7 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
 
   return (
     <header
-      className={`fixed md:sticky w-full top-0 bg-white border-b border-gray-200 z-20 shadow-sm ${
+      className={`sticky md:sticky w-full top-0 bg-white border-b border-gray-200 z-20 shadow-sm ${
         !searchModalOpen && 'backdrop-blur-md'
       }`}
     >

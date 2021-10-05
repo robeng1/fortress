@@ -11,7 +11,7 @@ import DeleteButton from '../../partials/actions/DeleteButton';
 import FilterButton from '../../components/DropdownFilter';
 import SearchForm from '../../partials/actions/SearchForm';
 import ProductsTable from '../../partials/products/ProductsTable';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationNumeric from '../../components/PaginationNumeric';
 import InventoryTable from '../../partials/inventory/InventoryTable';
 import CollectionsTable from '../../partials/collections/CollectionsTable';
 
@@ -150,7 +150,7 @@ function Products() {
 
           {/* Pagination */}
           <div className="mt-4">
-            <PaginationClassic />
+            <PaginationNumeric />
           </div>
         </div>
       </main>
@@ -221,7 +221,7 @@ function Products() {
 
           {/* Pagination */}
           <div className="mt-4">
-            <PaginationClassic />
+            <PaginationNumeric />
           </div>
         </div>
       </main>
@@ -306,7 +306,7 @@ function Products() {
 
           {/* Pagination */}
           <div className="mt-4">
-            <PaginationClassic />
+            <PaginationNumeric />
           </div>
         </div>
       </main>
@@ -316,7 +316,7 @@ function Products() {
   const renderView = () => {
     return (
       <>
-        <main className="md:hidden">
+        <main className="sm:block md:hidden">
           <div className="w-full px-2 py-1 max-w-9xl">
             <Tab.Group
               onChange={index => {
@@ -437,7 +437,7 @@ function Products() {
 
             {/* Pagination */}
             <div className="md:mt-8">
-              <PaginationClassic />
+              <PaginationNumeric />
             </div>
           </div>
         </main>

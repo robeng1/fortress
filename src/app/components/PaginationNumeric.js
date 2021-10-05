@@ -2,7 +2,7 @@ import React from 'react';
 
 function PaginationNumeric() {
   return (
-    <div className="flex justify-center">
+    <div className="flex mb-14 justify-center">
       <nav className="flex" role="navigation" aria-label="Navigation">
         <div className="mr-2">
           <span className="inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white border border-gray-200 text-gray-300">

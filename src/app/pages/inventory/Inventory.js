@@ -7,7 +7,7 @@ import DeleteButton from '../../partials/actions/DeleteButton';
 import DateSelect from '../../components/DateSelect';
 import FilterButton from '../../components/DropdownFilter';
 import InventoryTable from '../../partials/inventory/InventoryTable';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationNumeric from '../../components/PaginationNumeric';
 import SearchForm from '../../partials/actions/SearchForm';
 
 function Inventories() {
@@ -55,7 +55,7 @@ function Inventories() {
 
             {/* Pagination */}
             <div className="mt-4 md:mt-8">
-              <PaginationClassic />
+              <PaginationNumeric />
             </div>
             <BottomNav />
           </div>

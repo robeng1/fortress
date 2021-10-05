@@ -9,7 +9,7 @@ import FilterButton from '../../components/DropdownFilter';
 import SearchForm from '../../partials/actions/SearchForm';
 import OrdersTable from '../../partials/orders/OrdersTable';
 import Order from 'app/partials/orders/Order';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationNumeric from '../../components/PaginationNumeric';
 
 function Orders() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -27,7 +27,7 @@ function Orders() {
 
   const renderList = () => {
     return (
-      <main>
+      <main className="mb-10 md:mb-0">
         <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
           <div className="md:hidden mb-3">
             <SearchForm className="w-full" placeholder="Search order number…" />
@@ -101,7 +101,7 @@ function Orders() {
 
           {/* Pagination */}
           <div className="mt-4 md:mt-8">
-            <PaginationClassic />
+            <PaginationNumeric />
           </div>
         </div>
       </main>
