@@ -1,6 +1,17 @@
 import React from 'react';
 import { Formik } from 'formik';
+// Import React FilePond
+import { FilePond, registerPlugin } from 'react-filepond';
 import ReactQuill from 'react-quill';
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import './filepond.css';
+
+// Register the plugins
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function CollectionForm() {
   return (
@@ -10,6 +21,7 @@ export default function CollectionForm() {
           title: '',
           description: '',
           type: 'manual',
+          files: [],
         }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
@@ -52,8 +64,8 @@ export default function CollectionForm() {
                         value={values.title}
                         className="form-input w-full"
                         type="text"
-                        autoComplete="discount-title"
-                        placeholder="X-mas Sales"
+                        autoComplete="collection-title"
+                        placeholder="Shoes"
                       />
                     </div>
                   </div>
@@ -99,8 +111,47 @@ export default function CollectionForm() {
                     </div>
                   </div>
                 </section>
+                <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                  <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    Collection image
+                  </h2>
+                  <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                    <div className="w-full">
+                      <FilePond
+                        files={values.files}
+                        onupdatefiles={fileItems => {
+                          setFieldValue('files', [
+                            ...values.files,
+                            ...fileItems,
+                          ]);
+                        }}
+                        credits={{}}
+                        allowMultiple={true}
+                        maxFiles={1}
+                        server={null}
+                        instantUpload={false}
+                        id="files"
+                        name="files"
+                        key="files"
+                        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                      />
+                    </div>
+                  </div>
+                </section>
               </div>
             </div>
+            <footer>
+              <div className="flex flex-col px-6 py-5 border-t border-gray-200">
+                <div className="flex self-end md:self-center">
+                  <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                    Cancel
+                  </button>
+                  <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </footer>
           </div>
         )}
       </Formik>

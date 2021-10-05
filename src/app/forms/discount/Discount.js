@@ -261,7 +261,7 @@ const DiscountForm = () => {
                 </section>
               </div>
               <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
-                {/* <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                     Cover Image
                   </h2>
@@ -275,18 +275,19 @@ const DiscountForm = () => {
                             ...fileItems,
                           ]);
                         }}
-                        allowMultiple={true}
+                        credits={{}}
+                        allowMultiple={false}
                         maxFiles={1}
                         server={null}
                         instantUpload={false}
                         id="files"
                         name="files"
                         key="files"
-                        labelIdle={``}
+                        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
                       />
                     </div>
                   </div>
-                </section> */}
+                </section>
                 <section
                   className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
                     values.incentive_type === 'buy-x-get-y' ? 'block' : 'hidden'
@@ -1211,6 +1212,18 @@ const DiscountForm = () => {
                 </section>
               </div>
             </div>
+            <footer>
+              <div className="flex flex-col px-6 py-5 border-t border-gray-200">
+                <div className="flex self-end md:self-center">
+                  <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                    Cancel
+                  </button>
+                  <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </footer>
           </div>
         )}
       </Formik>
