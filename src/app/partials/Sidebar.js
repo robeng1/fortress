@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import BottomNav from 'app/components/BottomNav';
 
 import SidebarLinkGroup from './SidebarLinkGroup';
 
