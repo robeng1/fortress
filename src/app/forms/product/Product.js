@@ -39,7 +39,7 @@ const ProductForm = () => {
 
   const computeNames = values => {
     console.log(values);
-    return cartesian(values);
+    return values;
   };
 
   return (
@@ -77,7 +77,7 @@ const ProductForm = () => {
           //TODO: set the file IDs to the images value after they have been uploaded
           files: [],
         }}
-        oubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting }) => {
           //TODO:
         }}
       >
@@ -605,7 +605,7 @@ const ProductForm = () => {
                       <h2 className="text-sm uppercase leading-snug text-gray-800 font-medium mb-1 mt-5">
                         Options
                       </h2>
-                      {values.variation_options.map((option, index) => (
+                      {values.variation_options.map((op, index) => (
                         <div key={index}>
                           <div className="flex items-center justify-between mt-5">
                             <h1 className="mb-0">Option {index + 1}</h1>
@@ -631,8 +631,8 @@ const ProductForm = () => {
                               </label>
                               <CreatableSelect
                                 closeMenuOnSelect={true}
-                                defaultValue={option.attribute}
-                                value={option.attribute}
+                                defaultValue={op.attribute}
+                                value={op.attribute}
                                 isClearable
                                 isSearchable
                                 onChange={option => {
@@ -665,8 +665,8 @@ const ProductForm = () => {
                               </label>
                               <CreatableSelect
                                 closeMenuOnSelect={true}
-                                defaultValue={option.values}
-                                value={option.values}
+                                defaultValue={op.values}
+                                value={op.values}
                                 isClearable
                                 isSearchable
                                 isMulti
@@ -726,11 +726,9 @@ const ProductForm = () => {
                               </h2>
                               <VariantPreviewTable
                                 selectedItems={handleSelectedItems}
-                                // names={computeNames(
-                                //   ...values.variation_options
-                                //     .map(op => op.values)
-                                //     .map(v => v.map(a => a.label)),
-                                // ).map(ls => ls.join('/'))}
+                                names={computeNames(
+                                  ...values.variation_options,
+                                )}
                               />
                               {/* <h2 className="text-sm uppercase text-justify leading-snug text-gray-800 font-medium mt-5 mb-2">
                                 Home Office
