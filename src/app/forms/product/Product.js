@@ -31,15 +31,19 @@ const ProductForm = () => {
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const [showVariants, setShowVariants] = useState(false);
-  const [variantModalOpen, setVariantModalOpen] = useState(false);
+  // const [variantModalOpen, setVariantModalOpen] = useState(false);
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
   };
 
   const computeNames = values => {
-    console.log(values);
-    return values;
+    const valueList = values.map(v => v.values);
+    const labelList = valueList.map(vl => vl.map(a => a.label));
+    console.log(labelList);
+    const cartesianProduct = cartesian(labelList);
+    // console.log(cartesianProduct);
+    return cartesianProduct;
   };
 
   return (
@@ -726,9 +730,7 @@ const ProductForm = () => {
                               </h2>
                               <VariantPreviewTable
                                 selectedItems={handleSelectedItems}
-                                names={computeNames(
-                                  ...values.variation_options,
-                                )}
+                                names={computeNames(values.variation_options)}
                               />
                               {/* <h2 className="text-sm uppercase text-justify leading-snug text-gray-800 font-medium mt-5 mb-2">
                                 Home Office
