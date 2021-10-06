@@ -12,7 +12,7 @@ const VariantPreviewTable = ({ selectedItems, names }) => {
     {
       id: '0',
       image: Image01,
-      name: 'Bike short',
+      name: names[0],
       inventory: 'Blue',
       type: 'Small',
       status: 'Active',
@@ -22,7 +22,7 @@ const VariantPreviewTable = ({ selectedItems, names }) => {
     {
       id: '1',
       image: Image02,
-      name: 'Bike short',
+      name: names[1],
       inventory: 'Green',
       type: 'Medium',
       status: 'Active',

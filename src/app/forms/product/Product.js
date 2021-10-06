@@ -1,28 +1,36 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import makeAnimated from 'react-select/animated';
-// Import React FilePond
-import { FilePond, registerPlugin } from 'react-filepond';
-// import ModalBasic from 'app/components/ModalBasic';
+import Uppy from '@uppy/core';
+import Tus from '@uppy/tus';
+import { Dashboard } from '@uppy/react';
+import Webcam from '@uppy/webcam';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import { cartesian } from 'app/utils/cartesian';
 import VariantPreviewTable from './Variant';
 
-// Import FilePond styles
-import 'filepond/dist/filepond.min.css';
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import 'css/filepond.css';
+import '@uppy/status-bar/dist/style.css';
+import '@uppy/drag-drop/dist/style.css';
+import '@uppy/progress-bar/dist/style.css';
+import '@uppy/core/dist/style.css';
+import '@uppy/dashboard/dist/style.css';
 
 import colourStyles from './selectStyles';
 
 import { colourOptions, attributeOptions } from 'app/data/select';
+import GoogleDrive from '@uppy/google-drive';
+import Dropbox from '@uppy/dropbox';
+import Instagram from '@uppy/instagram';
+import Facebook from '@uppy/facebook';
+import OneDrive from '@uppy/onedrive';
+// import ScreenCapture from '@uppy/screen-capture';
+// import ImageEditor from '@uppy/image-editor';
 
-// Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+const Box = require('@uppy/box');
+// const DropTarget = require('@uppy/drop-target');
+const GoldenRetriever = require('@uppy/golden-retriever');
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -31,19 +39,82 @@ const ProductForm = () => {
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const [showVariants, setShowVariants] = useState(false);
-  // const [variantModalOpen, setVariantModalOpen] = useState(false);
+  const uppy = React.useMemo(() => {
+    return (
+      new Uppy({
+        autoProceed: false,
+        restrictions: {
+          maxFileSize: 1000000,
+          maxNumberOfFiles: 3,
+          minNumberOfFiles: 2,
+          allowedFileTypes: ['image/*', 'video/*'],
+          requiredMetaFields: ['caption'],
+        },
+        allowedFileTypes: [
+          '.bmp',
+          '.csr',
+          '.csv',
+          '.doc',
+          '.docx',
+          '.eml',
+          '.jpg',
+          '.msg',
+          '.p7m',
+          '.pdf',
+          '.png',
+          '.ppt',
+          '.pptx',
+          '.tif',
+          '.tiff',
+          '.txt',
+          '.vsd',
+          '.xls',
+          '.xlsx',
+          '.xml',
+          '.xps',
+          '.zip',
+        ],
+      })
+        .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+        .use(GoogleDrive, {
+          companionUrl: 'https://companion.uppy.io',
+        })
+        .use(Dropbox, {
+          companionUrl: 'https://companion.uppy.io',
+        })
+        .use(Box, {
+          companionUrl: 'https://companion.uppy.io',
+        })
+        .use(Instagram, {
+          companionUrl: 'https://companion.uppy.io',
+        })
+        .use(Facebook, {
+          companionUrl: 'https://companion.uppy.io',
+        })
+        .use(OneDrive, {
+          companionUrl: 'https://companion.uppy.io',
+        })
+        // .use(ScreenCapture, { target: Dashboard })
+        // .use(ImageEditor)
+        .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' })
+      // .use(DropTarget)
+      // .use(GoldenRetriever)
+    );
+  }, []);
+
+  React.useEffect(() => {
+    return () => uppy.close();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
   };
 
-  const computeNames = values => {
-    const valueList = values.map(v => v.values);
-    const labelList = valueList.map(vl => vl.map(a => a.label));
-    console.log(labelList);
-    const cartesianProduct = cartesian(labelList);
-    // console.log(cartesianProduct);
-    return cartesianProduct;
+  const computeNames = variationOptions => {
+    const attributeValues = variationOptions.map(v => v.values);
+    const labels = attributeValues.map(vl => vl.map(a => a.label));
+    return cartesian(...labels);
   };
 
   return (
@@ -78,7 +149,6 @@ const ProductForm = () => {
           height: '',
           locations: [],
           cartesian_values: [],
-          //TODO: set the file IDs to the images value after they have been uploaded
           files: [],
         }}
         onSubmit={(values, { setSubmitting }) => {
@@ -354,23 +424,29 @@ const ProductForm = () => {
                   </h2>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="w-full">
-                      <FilePond
-                        files={values.files}
-                        onupdatefiles={fileItems => {
-                          setFieldValue('files', [
-                            ...values.files,
-                            ...fileItems,
-                          ]);
-                        }}
-                        credits={{}}
-                        allowMultiple={true}
-                        maxFiles={6}
-                        server={null}
-                        instantUpload={false}
-                        id="files"
-                        name="files"
-                        key="files"
-                        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                      <Dashboard
+                        uppy={uppy}
+                        proudlyDisplayPoweredByUppy={false}
+                        showProgressDetails={true}
+                        metaFields={[
+                          {
+                            id: 'name',
+                            name: 'Name',
+                            placeholder: 'file name',
+                          },
+                          {
+                            id: 'caption',
+                            name: 'Caption',
+                            placeholder: 'describe what the image is about',
+                          },
+                        ]}
+                        browserBackButtonClose={false}
+                        plugins={[
+                          'Webcam',
+                          'Instagram',
+                          'GoogleDrive',
+                          'Dropbox',
+                        ]}
                       />
                     </div>
                   </div>
@@ -730,7 +806,9 @@ const ProductForm = () => {
                               </h2>
                               <VariantPreviewTable
                                 selectedItems={handleSelectedItems}
-                                names={computeNames(values.variation_options)}
+                                names={computeNames(
+                                  values.variation_options,
+                                ).map(v => v.join('/'))}
                               />
                               {/* <h2 className="text-sm uppercase text-justify leading-snug text-gray-800 font-medium mt-5 mb-2">
                                 Home Office
