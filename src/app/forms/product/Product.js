@@ -80,8 +80,8 @@ const ProductForm = () => {
           //TODO: set the file IDs to the images value after they have been uploaded
           files: [],
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          //TODO: construct the product type here
+        oubmit={(values, { setSubmitting }) => {
+          //TODO:
         }}
       >
         {({
