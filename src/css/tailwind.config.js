@@ -160,6 +160,15 @@ module.exports = {
           900: '#751A3D',
         },
         coolGray: colors.coolGray,
+        social: {
+          facebook: '#3b5998',
+          'facebook-hover': '#35508a',
+          twitter: '#1da1f2',
+          instagram: '#e1306c',
+          youtube: '#ff0000',
+          google: '#4285f4',
+          'google-hover': '#3574de',
+        },
       },
       outline: {
         blue: '1px solid rgba(0, 112, 244, 0.5)',
@@ -253,7 +262,9 @@ module.exports = {
   },
   plugins: [
     // eslint-disable-next-line global-require
-    require('@tailwindcss/forms'),
+    require('@tailwindcss/forms')({
+      strategy: 'class',
+    }),
     require('@tailwindcss/line-clamp'),
     // add custom variant for expanding sidebar
     plugin(({ addVariant, e }) => {
