@@ -7,7 +7,7 @@ import Image02 from '../../images/user-40-02.jpg';
 import Image03 from '../../images/user-40-03.jpg';
 import Image04 from '../../images/user-40-04.jpg';
 
-const VariantPreviewTable = ({ selectedItems, headings }) => {
+const VariantPreviewTable = ({ selectedItems, names }) => {
   const products = [
     {
       id: '0',
@@ -16,7 +16,8 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
       inventory: 'Blue',
       type: 'Small',
       status: 'Active',
-      variants: '24',
+      price: '43.0',
+      quantity: '24',
     },
     {
       id: '0',
@@ -25,7 +26,8 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
       inventory: 'Green',
       type: 'Medium',
       status: 'Active',
-      variants: '24',
+      price: '43.0',
+      quantity: '24',
     },
     {
       id: '0',
@@ -34,7 +36,8 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
       inventory: 'White',
       type: 'Large',
       status: 'Active',
-      variants: '24',
+      price: '43.0',
+      quantity: '24',
     },
     {
       id: '0',
@@ -43,7 +46,8 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
       inventory: 'Blue',
       type: 'Extra Large',
       status: 'Active',
-      variants: '24',
+      price: '43.0',
+      quantity: '24',
     },
   ];
 
@@ -84,11 +88,11 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="table-auto w-full border border-gray-200">
+      <table className="table-fixed border border-gray-200">
         {/* Table header */}
         <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50 border border-gray-200">
           <tr>
-            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
               <div className="flex items-center">
                 <label className="inline-flex">
                   <span className="sr-only">Select all</span>
@@ -101,30 +105,14 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
                 </label>
               </div>
             </th>
-
-            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"></th>
-            {headings.map(h => (
-              <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                <div className="font-semibold text-left">{h}</div>
-              </th>
-            ))}
-            {/* <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-              <div className="font-semibold text-left">Color</div>
+            <th className="w-1/2 py-3 whitespace-nowrap">
+              <div className="font-semibold text-left"></div>
             </th>
-            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-              <div className="font-semibold text-left">Size</div>
+            <th className="w-1/4 py-3 whitespace-nowrap">
+              <div className="font-semibold text-left">Quantity</div>
             </th>
-            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-              <div className="font-semibold text-left">Material</div>
-            </th> */}
-            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-              <div className="font-semibold">Price</div>
-            </th>
-            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-              <div className="font-semibold">Quantity</div>
-            </th>
-            <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-              <div className="font-semibold">SKU</div>
+            <th className="w-1/4 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+              <div className="font-semibold text-left">Price</div>
             </th>
           </tr>
         </thead>
@@ -139,8 +127,8 @@ const VariantPreviewTable = ({ selectedItems, headings }) => {
                 name={product.name}
                 inventory={product.inventory}
                 type={product.type}
-                status={product.status}
-                variants={product.variants}
+                price={product.price}
+                quantity={product.quantity}
                 fav={product.fav || false}
                 handleClick={handleClick}
                 isChecked={isCheck.includes(product.id)}

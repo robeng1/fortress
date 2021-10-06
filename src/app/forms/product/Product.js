@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
+import makeAnimated from 'react-select/animated';
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond';
-import ModalBasic from 'app/components/ModalBasic';
+// import ModalBasic from 'app/components/ModalBasic';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
+import { cartesian } from 'app/utils/cartesian';
 import VariantPreviewTable from './Variant';
 
 // Import FilePond styles
@@ -13,34 +17,31 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'css/filepond.css';
 
+import colourStyles from './selectStyles';
+
+import { colourOptions, attributeOptions } from 'app/data/select';
+
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+
+// animated components for react select
+const animatedComponents = makeAnimated();
 
 const ProductForm = () => {
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
+  const [showVariants, setShowVariants] = useState(false);
   const [variantModalOpen, setVariantModalOpen] = useState(false);
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
   };
-  const filteredOpts = (options, alreadySelected) =>
-    Object.keys(options)
-      .filter(key => !alreadySelected.includes(key))
-      .reduce((obj, key) => {
-        obj[key] = options[key];
-        return obj;
-      }, {});
 
-  let options = {
-    size: 'Size',
-    color: 'Color',
-    scent: 'Scent',
-    flavour: 'Flavour',
-    material: 'Material',
-    model: 'Model',
-    style: 'Style',
+  const computeNames = values => {
+    console.log(values);
+    return cartesian(values);
   };
+
   return (
     <>
       <Formik
@@ -54,6 +55,8 @@ const ProductForm = () => {
           type: '',
           collections: [],
           stock_records: {},
+          variants: [],
+          variation_options: [],
           images: [],
           tags: [],
           vendor: '',
@@ -69,14 +72,8 @@ const ProductForm = () => {
           length: '',
           wdith: '',
           height: '',
-          option_one: '',
-          option_one_values: [],
-          option_two: '',
-          option_two_values: [],
-          option_three: '',
-          option_three_values: [],
           locations: [],
-          comb_options: [],
+          cartesian_values: [],
           //TODO: set the file IDs to the images value after they have been uploaded
           files: [],
         }}
@@ -162,21 +159,26 @@ const ProductForm = () => {
                         >
                           Product Type
                         </label>
-                        <select
-                          name="type"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
+                        <Select
+                          closeMenuOnSelect={true}
+                          defaultValue={values.type}
                           value={values.type}
-                          id="type"
-                          className="form-select block w-full"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Ghana</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="RW">Rwanda</option>
-                          <option value="KY">Kenya</option>
-                          <option value="SA">South Africa</option>
-                        </select>
+                          // isClearable
+                          isSearchable
+                          onChange={option => setFieldValue('type', option)}
+                          components={animatedComponents}
+                          options={colourOptions}
+                          styles={{
+                            input: base => ({
+                              ...base,
+                              'input:focus': {
+                                boxShadow: 'none',
+                              },
+                            }),
+                            ...colourStyles,
+                          }}
+                          className="w-full"
+                        />
                       </div>
                     </div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -208,21 +210,31 @@ const ProductForm = () => {
                         >
                           Collections
                         </label>
-                        <select
+                        <Select
                           id="collections"
                           name="collections"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
+                          closeMenuOnSelect={true}
+                          defaultValue={values.collections}
                           value={values.collections}
-                          className="form-select block w-full"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Ghana</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="RW">Rwanda</option>
-                          <option value="KY">Kenya</option>
-                          <option value="SA">South Africa</option>
-                        </select>
+                          isClearable
+                          isSearchable
+                          isMulti
+                          onChange={option =>
+                            setFieldValue('collections', option)
+                          }
+                          components={animatedComponents}
+                          options={colourOptions}
+                          styles={{
+                            input: base => ({
+                              ...base,
+                              'input:focus': {
+                                boxShadow: 'none',
+                              },
+                            }),
+                            ...colourStyles,
+                          }}
+                          className="w-full"
+                        />
                       </div>
                     </div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -233,21 +245,29 @@ const ProductForm = () => {
                         >
                           Tags
                         </label>
-                        <select
+                        <Select
                           id="tags"
                           name="tags"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
+                          closeMenuOnSelect={true}
+                          defaultValue={values.tags}
                           value={values.tags}
-                          className="form-select block w-full"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Ghana</option>
-                          <option value="NG">Nigeria</option>
-                          <option value="RW">Rwanda</option>
-                          <option value="KY">Kenya</option>
-                          <option value="SA">South Africa</option>
-                        </select>
+                          isClearable
+                          isSearchable
+                          isMulti
+                          onChange={option => setFieldValue('tags', option)}
+                          components={animatedComponents}
+                          options={colourOptions}
+                          styles={{
+                            input: base => ({
+                              ...base,
+                              'input:focus': {
+                                boxShadow: 'none',
+                              },
+                            }),
+                            ...colourStyles,
+                          }}
+                          className="w-full"
+                        />
                       </div>
                     </div>
                   </section>
@@ -265,20 +285,29 @@ const ProductForm = () => {
                         >
                           Channels
                         </label>
-                        <select
+                        <Select
                           id="channels"
                           name="channels"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
+                          closeMenuOnSelect={true}
+                          defaultValue={values.channels}
                           value={values.channels}
-                          className="form-select block w-full"
-                        >
-                          <option value="">Please Select</option>
-                          <option value="GH">Store</option>
-                          <option value="NG">Facebook</option>
-                          <option value="RW">Instagram</option>
-                          <option value="KY">TikTok</option>
-                        </select>
+                          isClearable
+                          isSearchable
+                          isMulti
+                          onChange={option => setFieldValue('channels', option)}
+                          components={animatedComponents}
+                          options={colourOptions}
+                          styles={{
+                            input: base => ({
+                              ...base,
+                              'input:focus': {
+                                boxShadow: 'none',
+                              },
+                            }),
+                            ...colourStyles,
+                          }}
+                          className="w-full"
+                        />
                       </div>
                     </div>
                   </section>
@@ -573,145 +602,144 @@ const ProductForm = () => {
                   </div>
                   {values.is_parent ? (
                     <>
-                      <div className="w-full block border-1 border-black mt-4"></div>
-                      <h2 className="text-sm uppercase leading-snug text-gray-800 font-medium mb-1">
+                      <h2 className="text-sm uppercase leading-snug text-gray-800 font-medium mb-1 mt-5">
                         Options
                       </h2>
+                      {values.variation_options.map((option, index) => (
+                        <div key={index}>
+                          <div className="flex items-center justify-between mt-5">
+                            <h1 className="mb-0">Option {index + 1}</h1>
+                            <button
+                              onClick={() => {
+                                let opts = values.variation_options;
+                                opts.splice(index, 1);
+                                setFieldValue('variation_options', opts);
+                              }}
+                              type="button"
+                              className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                          <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <div className="sm:w-2/5 md:w-2/5">
+                              <label
+                                className="block text-sm font-medium mb-1"
+                                htmlFor="option"
+                              >
+                                Attribute name
+                              </label>
+                              <CreatableSelect
+                                closeMenuOnSelect={true}
+                                defaultValue={option.attribute}
+                                value={option.attribute}
+                                isClearable
+                                isSearchable
+                                onChange={option => {
+                                  let opt = values.variation_options[index];
+                                  opt.attribute = option;
+                                  let opts = values.variation_options;
+                                  opts[index] = opt;
+                                  setFieldValue('variation_options', opts);
+                                }}
+                                components={animatedComponents}
+                                options={attributeOptions}
+                                styles={{
+                                  input: base => ({
+                                    ...base,
+                                    'input:focus': {
+                                      boxShadow: 'none',
+                                    },
+                                  }),
+                                  ...colourStyles,
+                                }}
+                                className="w-full"
+                              />
+                            </div>
+                            <div className="sm:w-3/5 md:w-3/5">
+                              <label
+                                className="block text-sm font-medium mb-1"
+                                htmlFor="values"
+                              >
+                                Attribute values
+                              </label>
+                              <CreatableSelect
+                                closeMenuOnSelect={true}
+                                defaultValue={option.values}
+                                value={option.values}
+                                isClearable
+                                isSearchable
+                                isMulti
+                                onChange={option => {
+                                  let opt = values.variation_options[index];
+                                  opt.values = option;
+                                  let opts = values.variation_options;
+                                  opts[index] = opt;
+                                  setFieldValue('variation_options', opts);
+                                }}
+                                components={animatedComponents}
+                                options={colourOptions}
+                                styles={{
+                                  input: base => ({
+                                    ...base,
+                                    'input:focus': {
+                                      boxShadow: 'none',
+                                    },
+                                  }),
+                                  ...colourStyles,
+                                }}
+                                className="w-full"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="mt-5">
+                        <button
+                          onClick={() => {
+                            setFieldValue('variation_options', [
+                              ...values.variation_options,
+                              { attribute: {}, values: [] },
+                            ]);
+                          }}
+                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
+                        >
+                          <span className="ml-2">Add Option</span>
+                        </button>
+                      </div>
                       <div>
-                        <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                          <div className="sm:w-1/5 md:w-1/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_one"
-                            >
-                              Option 1
-                            </label>
-                            <select
-                              id="option_one"
-                              name="option_one"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_one}
-                              className="form-select block"
-                            >
-                              {Object.entries(
-                                filteredOpts(options, [
-                                  values.option_two,
-                                  values.option_three,
-                                ]),
-                              ).map(([k, v], i) => (
-                                <option key={`${k}-${i}-option_one`} value={k}>
-                                  {v}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="sm:w-4/5 md:w-4/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_one_values"
-                            >
-                              Option 1 Values
-                            </label>
-                            <input
-                              id="option_one_values"
-                              name="option_one_values"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_one_values}
-                              className="form-input capitalize"
-                              type="text"
-                              placeholder="Red, Yellow"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                          <div className="sm:w-1/5 md:w-1/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_two"
-                            >
-                              Option 2
-                            </label>
-                            <select
-                              id="option_two"
-                              name="option_two"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_two}
-                              className="form-select block"
-                            >
-                              {Object.entries(
-                                filteredOpts(options, [
-                                  values.option_one,
-                                  values.option_three,
-                                ]),
-                              ).map(([k, v], i) => (
-                                <option key={`${k}-${i}-option_two`} value={k}>
-                                  {v}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="sm:w-4/5 md:w-4/5">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="option_two_values"
-                            >
-                              Option 2 Values
-                            </label>
-                            <input
-                              id="option_two_values"
-                              name="option_two_values"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.option_two_values}
-                              className="form-input capitalize"
-                              type="text"
-                              placeholder="Red, Yellow"
-                            />
-                          </div>
-                        </div>
-                        <div className="rounded bg-white shadow p-3 mt-4 mb-10">
+                        <div className="rounded bg-white shadow p-3 mt-6 mb-10">
                           <button
                             onClick={e => {
                               e.stopPropagation();
-                              setVariantModalOpen(true);
+                              setShowVariants(!showVariants);
                             }}
-                            className="text-sm uppercase leading-snug text-gray-800 font-bold mb-5"
+                            className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
                           >
-                            Edit Variants
+                            Show Variants
                           </button>
-                          <ModalBasic
-                            id="feedback-modal"
-                            modalOpen={variantModalOpen}
-                            setModalOpen={setVariantModalOpen}
-                            title="Variants"
-                          >
-                            <h2 className="text-sm uppercase text-center leading-snug text-gray-800 font-medium mb-5">
-                              East Coast Warehouse
-                            </h2>
-                            <VariantPreviewTable
-                              headings={[
-                                values.option_one,
-                                values.option_two,
-                                // values.option_three,
-                              ]}
-                              selectedItems={handleSelectedItems}
-                            />
-                            <h2 className="text-sm uppercase text-justify leading-snug text-gray-800 font-medium mt-5 mb-5">
-                              Home Office
-                            </h2>
-                            <VariantPreviewTable
-                              headings={[
-                                values.option_one,
-                                values.option_two,
-                                // values.option_three,
-                              ]}
-                              selectedItems={handleSelectedItems}
-                            />
-                          </ModalBasic>
+
+                          {showVariants && (
+                            <>
+                              <h2 className="text-sm uppercase text-left leading-snug text-gray-800 font-medium mb-2">
+                                East Coast Warehouse
+                              </h2>
+                              <VariantPreviewTable
+                                selectedItems={handleSelectedItems}
+                                // names={computeNames(
+                                //   ...values.variation_options
+                                //     .map(op => op.values)
+                                //     .map(v => v.map(a => a.label)),
+                                // ).map(ls => ls.join('/'))}
+                              />
+                              {/* <h2 className="text-sm uppercase text-justify leading-snug text-gray-800 font-medium mt-5 mb-2">
+                                Home Office
+                              </h2>
+                              <VariantPreviewTable
+                                selectedItems={handleSelectedItems}
+                              /> */}
+                            </>
+                          )}
                         </div>
                       </div>
                     </>

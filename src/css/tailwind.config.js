@@ -253,7 +253,9 @@ module.exports = {
   },
   plugins: [
     // eslint-disable-next-line global-require
-    require('@tailwindcss/forms'),
+    require('@tailwindcss/forms')({
+      strategy: 'class',
+    }),
     require('@tailwindcss/line-clamp'),
     // add custom variant for expanding sidebar
     plugin(({ addVariant, e }) => {
