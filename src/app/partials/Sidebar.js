@@ -52,7 +52,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
   return (
     <>
-      <div className="hidden md:block">
+      <div className="block">
         {/* Sidebar backdrop (mobile only) */}
         <div
           className={`fixed inset-0 bg-gray-100 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
@@ -160,7 +160,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <ul className="mt-0">
                 {/* Dashboard */}
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                  className={`px-3 py-2 rounded-sm mb-0.5 hidden md:block last:mb-0 ${
                     pathname === '/' &&
                     'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
                   }`}
@@ -198,7 +198,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </li>
                 {/* Orders */}
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                  className={`px-3 py-2 rounded-sm hidden md:block mb-0.5 last:mb-0 ${
                     pathname.includes('orders') &&
                     'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
                   }`}
@@ -240,7 +240,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <SidebarLinkGroup activecondition={pathname.includes('shop')}>
                   {(handleClick, open) => {
                     return (
-                      <React.Fragment>
+                      <div className="hidden md:block">
                         <a
                           href="#0"
                           className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
@@ -341,7 +341,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                           </ul>
                         </div>
-                      </React.Fragment>
+                      </div>
                     );
                   }}
                 </SidebarLinkGroup>
@@ -389,7 +389,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   {(handleClick, open) => {
                     return (
-                      <React.Fragment>
+                      <div className="hidden md:block">
                         <a
                           href="#0"
                           className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
@@ -492,7 +492,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                           </ul>
                         </div>
-                      </React.Fragment>
+                      </div>
                     );
                   }}
                 </SidebarLinkGroup>

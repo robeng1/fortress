@@ -22,7 +22,7 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
             </h1>
           </div> */}
           {/* Header: Left side */}
-          <div className="hidden md:flex">
+          <div className="flex">
             {/* Hamburger button */}
             <button
               className="text-gray-500 hover:text-gray-600 lg:hidden"
