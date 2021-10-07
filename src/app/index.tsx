@@ -33,6 +33,7 @@ const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Analytics = lazy(() => import('app/pages/Analytics'));
 const Customers = lazy(() => import('app/pages/ecommerce/Customers'));
 const Signup = lazy(() => import('app/pages/Signup'));
+const Signin = lazy(() => import('app/pages/Signin'));
 
 export function App() {
   const location = useLocation();
@@ -62,9 +63,6 @@ export function App() {
         </Route>
         <Route exact path="/analytics">
           <Analytics />
-        </Route>
-        <Route exact path="/register">
-          <Signup />
         </Route>
         <Route exact path="/customers">
           <Customers />
@@ -116,6 +114,12 @@ export function App() {
         </Route>
         <Route exact path="/settings/locations">
           <Locations />
+        </Route>
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
+        <Route exact path="/signin">
+          <Signin />
         </Route>
         <Route path="*">
           <PageNotFound />

@@ -157,7 +157,7 @@ function ProductsTable({ selectedItems }) {
         <div className="overflow-x-auto">
           <table className="table-auto w-full">
             {/* Table header */}
-            <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50 border-t border-b border-gray-200">
+            <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
               <tr>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
                   <div className="flex items-center">
