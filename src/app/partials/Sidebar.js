@@ -237,114 +237,117 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   </NavLink>
                 </li>
                 {/* Products */}
-                <SidebarLinkGroup activecondition={pathname.includes('shop')}>
-                  {(handleClick, open) => {
-                    return (
-                      <div className="hidden md:block">
-                        <a
-                          href="#0"
-                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
-                            pathname.includes('products') &&
-                            'hover:text-gray-900'
-                          }`}
-                          onClick={e => {
-                            e.preventDefault();
-                            sidebarExpanded
-                              ? handleClick()
-                              : setSidebarExpanded(true);
-                          }}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center ali">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="flex-shrink-0 h-4"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  className={`fill-current text-gray-900 ${
-                                    pathname.includes('shop') &&
-                                    'text-indigo-300'
-                                  }`}
-                                  d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
-                                />
-                              </svg>
-                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Products
-                              </span>
-                            </div>
-                            {/* Icon */}
-                            <div className="flex flex-shrink-0 ml-2">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 text-gray-500"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                        </a>
-                        <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/shop/products"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-indigo-500"
-                              >
-                                <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                                    pathname.includes('products') &&
-                                    '!text-indigo-500'
-                                  }`}
+                <div className="hidden md:block">
+                  <SidebarLinkGroup activecondition={pathname.includes('shop')}>
+                    {(handleClick, open) => {
+                      return (
+                        <div>
+                          <a
+                            href="#0"
+                            className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                              pathname.includes('products') &&
+                              'hover:text-gray-900'
+                            }`}
+                            onClick={e => {
+                              e.preventDefault();
+                              sidebarExpanded
+                                ? handleClick()
+                                : setSidebarExpanded(true);
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center ali">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="flex-shrink-0 h-4"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
                                 >
-                                  All Products
-                                </span>
-                              </NavLink>
-                            </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/shop/inventory"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-indigo-500"
-                              >
-                                <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                                    pathname.includes('inventory') &&
-                                    '!text-indigo-500'
-                                  }`}
-                                >
-                                  Inventory
-                                </span>
-                              </NavLink>
-                            </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/shop/collections"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-indigo-500"
-                              >
+                                  <path
+                                    className={`fill-current text-gray-900 ${
+                                      pathname.includes('shop') &&
+                                      'text-indigo-300'
+                                    }`}
+                                    d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
+                                  />
+                                </svg>
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Collections
+                                  Products
                                 </span>
-                              </NavLink>
-                            </li>
-                          </ul>
+                              </div>
+                              {/* Icon */}
+                              <div className="flex flex-shrink-0 ml-2">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-gray-500"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          </a>
+                          <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                            <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  exact
+                                  to="/shop/products"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                  activeClassName="!text-indigo-500"
+                                >
+                                  <span
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                      pathname.includes('products') &&
+                                      '!text-indigo-500'
+                                    }`}
+                                  >
+                                    All Products
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  exact
+                                  to="/shop/inventory"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                  activeClassName="!text-indigo-500"
+                                >
+                                  <span
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                      pathname.includes('inventory') &&
+                                      '!text-indigo-500'
+                                    }`}
+                                  >
+                                    Inventory
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  exact
+                                  to="/shop/collections"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                  activeClassName="!text-indigo-500"
+                                >
+                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Collections
+                                  </span>
+                                </NavLink>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  }}
-                </SidebarLinkGroup>
+                      );
+                    }}
+                  </SidebarLinkGroup>
+                </div>
+
                 {/* Customers */}
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${

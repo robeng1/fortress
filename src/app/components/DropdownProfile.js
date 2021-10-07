@@ -52,10 +52,10 @@ function DropdownProfile({ align }) {
           height="32"
           alt="User"
         />
-        <div className="flex items-center truncate">
-          {/* <span className="truncate ml-2 text-sm font-medium group-hover:text-gray-800">
+        <div className="hidden md:flex  items-center truncate">
+          <span className="truncate ml-2 text-sm font-medium group-hover:text-gray-800">
             Reoplex Inc.
-          </span> */}
+          </span>
           <svg
             className="w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400"
             viewBox="0 0 12 12"

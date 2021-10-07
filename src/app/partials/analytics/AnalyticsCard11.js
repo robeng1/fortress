@@ -12,7 +12,7 @@ import Image11 from '../../images/user-28-11.jpg';
 
 function AnalyticsCard11() {
   return (
-    <div className="col-span-full border border-transparent focus:outline-none rounded shadow bg-white px-2 pl-8 appearance-none">
+    <div className="col-span-full border border-transparent focus:outline-none rounded shadow bg-white  appearance-none">
       <header className="px-5 py-4 border-b border-gray-100">
         <h2 className="font-semibold text-gray-800">Top Products</h2>
       </header>

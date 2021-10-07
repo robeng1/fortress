@@ -236,8 +236,8 @@ const ProductForm = () => {
                 </section>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-1 md:gap-0 md:content-start md:gap-y-6 md:row-span-2">
-                <div className="rounded-lg p-4">
-                  <section className="rounded bg-white shadow">
+                <div className="col-span-2 md:col-span-1">
+                  <section className="rounded bg-white shadow p-3">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Organization
                     </h2>
@@ -254,6 +254,7 @@ const ProductForm = () => {
                           defaultValue={values.type}
                           value={values.type}
                           // isClearable
+                          menuPortalTarget={document.body}
                           isSearchable
                           onChange={option => setFieldValue('type', option)}
                           components={animatedComponents}
@@ -308,6 +309,7 @@ const ProductForm = () => {
                           value={values.collections}
                           isClearable
                           isSearchable
+                          menuPortalTarget={document.body}
                           isMulti
                           onChange={option =>
                             setFieldValue('collections', option)
@@ -343,6 +345,7 @@ const ProductForm = () => {
                           value={values.tags}
                           isClearable
                           isSearchable
+                          menuPortalTarget={document.body}
                           isMulti
                           onChange={option => setFieldValue('tags', option)}
                           components={animatedComponents}
@@ -362,8 +365,9 @@ const ProductForm = () => {
                     </div>
                   </section>
                 </div>
-                <div className="rounded-lg p-4">
-                  <section className="sm:mb-10">
+
+                <div className="col-span-2 md:col-span-1 w-full mt-4">
+                  <section className="rounded bg-white shadow p-3">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Availability
                     </h2>
@@ -402,8 +406,9 @@ const ProductForm = () => {
                     </div>
                   </section>
                 </div>
-                <div className="rounded-lg p-4">
-                  <section className="sm:mb-10">
+
+                <div className="col-span-2 md:col-span-1 mt-4">
+                  <section className="rounded bg-white shadow p-3 sm:mb-10">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Theme Templates
                     </h2>
@@ -444,6 +449,8 @@ const ProductForm = () => {
                         uppy={uppy}
                         proudlyDisplayPoweredByUppy={false}
                         showProgressDetails={true}
+                        width={'100%'}
+                        theme="light"
                         note="Images and video only, 2–6 files, up to 1 MB"
                         metaFields={[
                           {
@@ -683,7 +690,7 @@ const ProductForm = () => {
                   </div>
                 </section>
 
-                <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                <section className="rounded bg-white shadow overflow-hidden relative p-3 mb-10">
                   <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-8">
                     Variants
                   </h2>
@@ -739,6 +746,7 @@ const ProductForm = () => {
                                 value={op.attribute}
                                 isClearable
                                 isSearchable
+                                menuPortalTarget={document.body}
                                 onChange={option => {
                                   let opt = values.variation_options[index];
                                   opt.attribute = option;
@@ -772,6 +780,7 @@ const ProductForm = () => {
                                 defaultValue={op.values}
                                 value={op.values}
                                 isClearable
+                                menuPortalTarget={document.body}
                                 isSearchable
                                 isMulti
                                 onChange={option => {

@@ -8,8 +8,8 @@ const selectStyles = {
     paddingRight: 16,
     paddingTop: 12,
     paddingBottom: 12,
+    zIndex: 999999,
     cursor: 'pointer',
-    borderBottom: '1px solid #E5E7EB',
     backgroundColor: state.isSelected
       ? '#E5E7EB'
       : state.isFocused
@@ -44,7 +44,6 @@ const selectStyles = {
     color: state.isFocused ? '#9CA3AF' : '#cccccc',
     padding: 0,
     cursor: 'pointer',
-
     '&:hover': {
       color: '#9CA3AF',
     },
@@ -53,12 +52,15 @@ const selectStyles = {
     ...provided,
     borderRadius: 5,
     border: '1px solid #E5E7EB',
+    zIndex: 999999,
+
+    // position: 'fixed',
     boxShadow:
       '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
   }),
   valueContainer: (provided: any, _: any) => ({
     ...provided,
-    paddingLeft: 16,
+    paddingLeft: 5,
   }),
   singleValue: (provided: any, _: any) => ({
     ...provided,

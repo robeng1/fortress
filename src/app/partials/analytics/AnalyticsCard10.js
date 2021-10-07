@@ -27,7 +27,7 @@ function AnalyticsCard10() {
   };
 
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 border border-transparent focus:outline-none rounded shadow bg-white px-2 pl-8 appearance-none">
+    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 border border-transparent focus:outline-none rounded shadow bg-white  appearance-none">
       <header className="px-5 py-4 border-b border-gray-100">
         <h2 className="font-semibold text-gray-800">Sessions By Gender</h2>
       </header>

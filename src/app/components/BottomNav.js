@@ -189,28 +189,29 @@ export default function BottomNav() {
             }
           />
           <BottomNavigationAction
-            value="more"
-            onClick={handleOpen}
-            className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150`}
+            component={NavLink}
+            exact
+            to="/store"
+            value="store"
+            className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
+              pathname.includes('store') && '!text-blue-900'
+            }`}
+            label="Store"
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="flex-shrink-0 h-6 w-6"
+                className="flex-shrink-0 h-5 w-5"
                 viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
+                fill="currentColor"
               >
                 <path
-                  className={`fill-current bg-gray-200 text-gray-700 ${
-                    (pathname.includes('settings') ||
-                      pathname.includes('discounts') ||
-                      pathname.includes('store')) &&
-                    '!text-blue-900'
+                  className={`fill-current text-gray-900 ${
+                    pathname.includes('store') && '!text-blue-900'
                   }`}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                 />
               </svg>
             }
