@@ -15,14 +15,14 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-center md:justify-between h-16 -mb-px">
+        <div className="flex items-center justify-between md:justify-between h-16 -mb-px">
           {/* <div className="hidden md:block">
             <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
               {location}
             </h1>
           </div> */}
           {/* Header: Left side */}
-          <div className="flex">
+          <div className="flex justify-between">
             {/* Hamburger button */}
             <button
               className="text-gray-500 hover:text-gray-600 lg:hidden"
