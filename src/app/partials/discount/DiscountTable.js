@@ -59,7 +59,7 @@ const people = [
 
 export default function InventoryTable() {
   return (
-    <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
+    <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
       <DiscountList />
       <div className="md:flex flex-col hidden">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -75,17 +75,17 @@ function Orders() {
             <div className="mb-4 sm:mb-0 hidden md:block">
               <ul className="flex flex-wrap -m-1">
                 <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
+                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
                     New <span className="ml-1 text-gray-400">14</span>
                   </button>
                 </li>
                 <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
+                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
                     Processing <span className="ml-1 text-gray-400">34</span>
                   </button>
                 </li>
                 <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
+                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
                     Dispatched <span className="ml-1 text-gray-400">19</span>
                   </button>
                 </li>

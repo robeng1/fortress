@@ -84,7 +84,7 @@ const InventoryTable = ({ selectedItems, headings }) => {
   }, [isCheck]);
 
   return (
-    <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
+    <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
       <InventoryList />
       <div className="hidden md:block">
         <div className="overflow-x-auto">

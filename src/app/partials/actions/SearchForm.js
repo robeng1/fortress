@@ -8,7 +8,7 @@ function SearchForm({ placeholder }) {
       </label>
       <input
         id="action-search"
-        className="form-input w-full pl-9 focus:border-gray-300"
+        className="form-input w-full border border-transparent focus:outline-none rounded shadow bg-white px-2 pl-8 appearance-none leading-normal ds-input"
         type="search"
         placeholder={placeholder}
       />

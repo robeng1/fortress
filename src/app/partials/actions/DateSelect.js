@@ -61,7 +61,7 @@ function DateSelect() {
     <div className="relative">
       <button
         ref={trigger}
-        className="btn justify-between min-w-44 bg-white border-gray-200 hover:border-gray-300 text-gray-500 hover:text-gray-600"
+        className="btn justify-between min-w-44 border border-transparent focus:outline-none rounded shadow bg-white appearance-none hover:border-gray-300 text-gray-500 hover:text-gray-600"
         aria-label="Select date range"
         aria-haspopup="true"
         onClick={() => setDropdownOpen(!dropdownOpen)}

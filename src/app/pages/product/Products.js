@@ -42,7 +42,7 @@ function Products() {
               <div className="m-1.5">
                 <button
                   onClick={() => setShowForm(!showForm)}
-                  className="btn border-gray-200 hover:border-gray-300"
+                  className="btn border border-transparent focus:outline-none rounded shadow bg-white appearance-none"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

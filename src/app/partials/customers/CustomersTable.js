@@ -173,7 +173,7 @@ function CustomersTable({ selectedItems }) {
   }, [isCheck]);
 
   return (
-    <div className="bg-white shadow-lg rounded-sm border border-gray-200 relative">
+    <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
       <header className="px-5 py-4">
         <h2 className="font-semibold text-gray-800">
           All Customers <span className="text-gray-400 font-medium">248</span>

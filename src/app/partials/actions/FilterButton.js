@@ -37,7 +37,7 @@ function FilterButton() {
     <div className="relative inline-flex">
       <button
         ref={trigger}
-        className="btn bg-white border-gray-200 hover:border-gray-300 text-gray-500 hover:text-gray-600"
+        className="btn border border-transparent focus:outline-none rounded shadow bg-white appearance-none text-gray-500 hover:text-gray-600"
         aria-haspopup="true"
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}

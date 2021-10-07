@@ -188,7 +188,7 @@ const ProductForm = () => {
           <div className="flex-grow mb-6">
             <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-2">
               <div className="md:col-span-2">
-                <section className="rounded bg-white shadow overflow-auto p-3">
+                <section className="rounded bg-white shadow p-3">
                   <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
                     Product Details
                   </h2>
@@ -237,7 +237,7 @@ const ProductForm = () => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-1 md:gap-0 md:content-start md:gap-y-6 md:row-span-2">
                 <div className="rounded-lg p-4">
-                  <section>
+                  <section className="rounded bg-white shadow p-3">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Organization
                     </h2>

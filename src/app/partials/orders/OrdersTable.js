@@ -187,7 +187,7 @@ function OrdersTable({ selectedItems, handleShow }) {
   }, [isCheck]);
 
   return (
-    <div className="bg-white shadow rounded-md border border-gray-200 relative">
+    <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
       <div>
         <OrderList handleShow={handleShow} />
         {/* Table */}

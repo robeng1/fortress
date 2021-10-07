@@ -28,7 +28,7 @@ function AnalyticsCard04() {
   };
 
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 bg-white rounded-lg shadow border border-gray-200">
+    <div className="flex flex-col col-span-full sm:col-span-6 border border-transparent focus:outline-none rounded shadow bg-white px-2 pl-8 appearance-none">
       <header className="px-5 py-4 border-b border-gray-100">
         <h2 className="font-semibold text-gray-800">Audience Overview</h2>
       </header>
