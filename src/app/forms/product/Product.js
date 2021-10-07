@@ -25,12 +25,11 @@ import Dropbox from '@uppy/dropbox';
 import Instagram from '@uppy/instagram';
 import Facebook from '@uppy/facebook';
 import OneDrive from '@uppy/onedrive';
-// import ScreenCapture from '@uppy/screen-capture';
-// import ImageEditor from '@uppy/image-editor';
+import ImageEditor from '@uppy/image-editor';
 
 const Box = require('@uppy/box');
-// const DropTarget = require('@uppy/drop-target');
-const GoldenRetriever = require('@uppy/golden-retriever');
+const DropTarget = require('@uppy/drop-target');
+// const GoldenRetriever = require('@uppy/golden-retriever');
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -40,66 +39,83 @@ const ProductForm = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [showVariants, setShowVariants] = useState(false);
   const uppy = React.useMemo(() => {
-    return (
-      new Uppy({
-        autoProceed: false,
-        restrictions: {
-          maxFileSize: 1000000,
-          maxNumberOfFiles: 3,
-          minNumberOfFiles: 2,
-          allowedFileTypes: ['image/*', 'video/*'],
-          requiredMetaFields: ['caption'],
-        },
-        allowedFileTypes: [
-          '.bmp',
-          '.csr',
-          '.csv',
-          '.doc',
-          '.docx',
-          '.eml',
-          '.jpg',
-          '.msg',
-          '.p7m',
-          '.pdf',
-          '.png',
-          '.ppt',
-          '.pptx',
-          '.tif',
-          '.tiff',
-          '.txt',
-          '.vsd',
-          '.xls',
-          '.xlsx',
-          '.xml',
-          '.xps',
-          '.zip',
-        ],
+    return new Uppy({
+      id: 'product',
+      autoProceed: false,
+      restrictions: {
+        maxFileSize: 15 * 1024 * 1024,
+        maxNumberOfFiles: 6,
+        minNumberOfFiles: 1,
+        allowedFileTypes: ['image/*', 'video/*'],
+        requiredMetaFields: ['caption'],
+      },
+      // allowedFileTypes: [
+      //   '.bmp',
+      //   '.csr',
+      //   '.csv',
+      //   '.doc',
+      //   '.docx',
+      //   '.eml',
+      //   '.jpg',
+      //   '.msg',
+      //   '.p7m',
+      //   '.pdf',
+      //   '.png',
+      //   '.ppt',
+      //   '.pptx',
+      //   '.tif',
+      //   '.tiff',
+      //   '.txt',
+      //   '.vsd',
+      //   '.xls',
+      //   '.xlsx',
+      //   '.xml',
+      //   '.xps',
+      //   '.zip',
+      // ],
+    })
+      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+      .use(GoogleDrive, {
+        companionUrl: 'https://companion.uppy.io',
       })
-        .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-        .use(GoogleDrive, {
-          companionUrl: 'https://companion.uppy.io',
-        })
-        .use(Dropbox, {
-          companionUrl: 'https://companion.uppy.io',
-        })
-        .use(Box, {
-          companionUrl: 'https://companion.uppy.io',
-        })
-        .use(Instagram, {
-          companionUrl: 'https://companion.uppy.io',
-        })
-        .use(Facebook, {
-          companionUrl: 'https://companion.uppy.io',
-        })
-        .use(OneDrive, {
-          companionUrl: 'https://companion.uppy.io',
-        })
-        // .use(ScreenCapture, { target: Dashboard })
-        // .use(ImageEditor)
-        .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' })
-      // .use(DropTarget)
-      // .use(GoldenRetriever)
-    );
+      .use(Dropbox, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(Box, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(Instagram, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(Facebook, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(OneDrive, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(ImageEditor, {
+        // quality: 0.8,
+        // cropperOptions: {
+        //   viewMode: 1,
+        //   background: false,
+        //   autoCropArea: 1,
+        //   responsive: true,
+        //   croppedCanvasOptions: {},
+        // },
+        actions: {
+          revert: true,
+          rotate: true,
+          granularRotate: true,
+          flip: true,
+          zoomIn: true,
+          zoomOut: true,
+          cropSquare: true,
+          cropWidescreen: true,
+          cropWidescreenVertical: true,
+        },
+      })
+      .use(DropTarget, { target: document.body })
+      .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' });
   }, []);
 
   React.useEffect(() => {
@@ -428,6 +444,7 @@ const ProductForm = () => {
                         uppy={uppy}
                         proudlyDisplayPoweredByUppy={false}
                         showProgressDetails={true}
+                        note="Images and video only, 2–6 files, up to 1 MB"
                         metaFields={[
                           {
                             id: 'name',
@@ -439,6 +456,11 @@ const ProductForm = () => {
                             name: 'Caption',
                             placeholder: 'describe what the image is about',
                           },
+                          {
+                            id: 'alt',
+                            name: 'Alt',
+                            placeholder: 'describe what the image is about',
+                          },
                         ]}
                         browserBackButtonClose={false}
                         plugins={[
@@ -446,6 +468,8 @@ const ProductForm = () => {
                           'Instagram',
                           'GoogleDrive',
                           'Dropbox',
+                          'Box',
+                          'ImageEditor',
                         ]}
                       />
                     </div>
@@ -469,7 +493,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.price}
-                        className="form-input"
+                        className="form-input w-full md:w-min"
                         type="text"
                         placeholder="GHS 0.00"
                       />
@@ -477,7 +501,7 @@ const ProductForm = () => {
                     <div className="sm:w-1/2">
                       <label
                         className="block text-sm font-medium mb-1"
-                        htmlFor="compare_at_price"
+                        htmlFor="compare_at_price w-full md:w-min"
                       >
                         Compare at price
                       </label>
@@ -487,7 +511,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.compare_at_price}
-                        className="form-input"
+                        className="form-input w-full md:w-min"
                         type="text"
                         placeholder="GHS 0.00"
                       />
@@ -507,7 +531,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.cost_per_item}
-                        className="form-input"
+                        className="form-input w-full md:w-min"
                         type="text"
                         placeholder="GHS 0.00"
                       />
@@ -532,7 +556,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.sku}
-                        className="form-input"
+                        className="form-input w-full md:w-min"
                         type="text"
                         placeholder="RS6TR"
                       />
@@ -550,7 +574,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.barcode}
-                        className="form-input"
+                        className="form-input w-full md:w-min"
                         type="text"
                         placeholder="217328189902301"
                       />
@@ -590,7 +614,7 @@ const ProductForm = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                    <div className="sm:w-1/2">
+                    <div className="">
                       <label
                         className="block text-sm font-medium mb-1"
                         htmlFor="quantity"
@@ -603,7 +627,7 @@ const ProductForm = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.quantity}
-                        className="form-input"
+                        className="form-input w-full md:w-min"
                         type="number"
                         step={1}
                         min={0}
