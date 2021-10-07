@@ -27,7 +27,7 @@ function Signin() {
                     </label>
                     <input
                       id="email"
-                      className="form-input w-full"
+                      className="form-input w-full border focus:outline-none rounded shadow bg-white"
                       type="email"
                     />
                   </div>
@@ -40,7 +40,7 @@ function Signin() {
                     </label>
                     <input
                       id="password"
-                      className="form-input w-full"
+                      className="form-input w-full border focus:outline-none rounded shadow bg-white"
                       type="password"
                       autoComplete="on"
                     />
