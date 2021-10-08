@@ -276,7 +276,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 </span>
                               </div>
                               {/* Icon */}
-                              <div className="flex flex-shrink-0 ml-2">
+                              {/* <div className="flex flex-shrink-0 ml-2">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   className="h-5 w-5 text-gray-500"
@@ -289,7 +289,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                     clipRule="evenodd"
                                   />
                                 </svg>
-                              </div>
+                              </div> */}
                             </div>
                           </a>
                           <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
@@ -427,7 +427,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </div>
                             {/* Icon */}
-                            <div className="flex flex-shrink-0 ml-2">
+                            {/* <div className="flex flex-shrink-0 ml-2">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5 text-gray-500"
@@ -440,7 +440,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   clipRule="evenodd"
                                 />
                               </svg>
-                            </div>
+                            </div> */}
                           </div>
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
@@ -636,7 +636,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
-                            <li className="mb-1 last:mb-0">
+                            {/* <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
                                 to="/signin"
@@ -657,7 +657,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Reo Chat
                                 </span>
                               </NavLink>
-                            </li>
+                            </li> */}
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
