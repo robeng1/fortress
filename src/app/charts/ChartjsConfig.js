@@ -6,7 +6,7 @@ import { tailwindConfig } from '../utils/utils';
 Chart.register(Tooltip);
 
 // Define Chart.js default settings
-Chart.defaults.font.family = '"Mulish", sans-serif';
+Chart.defaults.font.family = '"DM Sans", sans-serif';
 Chart.defaults.font.weight = '500';
 Chart.defaults.color = tailwindConfig().theme.colors.gray[400];
 Chart.defaults.scale.grid.color = tailwindConfig().theme.colors.gray[100];
