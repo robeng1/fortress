@@ -79,7 +79,8 @@ function Signup() {
                         </div>
                       </div>
                       <div className="text-xs mt-1 text-green-500">
-                        This is link to your website Eg. whatutype.reoplex.com
+                        This is link to your website Eg. https://<b>name</b>
+                        .reoplex.com
                       </div>
                     </div>
                     {/* End */}
