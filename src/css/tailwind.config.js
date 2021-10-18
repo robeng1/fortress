@@ -175,7 +175,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'Open Sans',
+          'Inter',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -184,7 +184,7 @@ module.exports = {
           'Roboto',
           'Helvetica Neue',
           'Arial',
-          'Open Sans',
+          'Inter',
           'sans-serif',
           'Apple Color Emoji',
           'Segoe UI Emoji',
@@ -192,7 +192,7 @@ module.exports = {
           'Noto Color Emoji',
         ],
         body: [
-          'Open Sans',
+          'Inter',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -201,7 +201,7 @@ module.exports = {
           'Roboto',
           'Helvetica Neue',
           'Arial',
-          'Open Sans',
+          'Inter',
           'sans-serif',
           'Apple Color Emoji',
           'Segoe UI Emoji',
