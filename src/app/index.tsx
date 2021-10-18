@@ -30,24 +30,12 @@ import Plans from 'app/pages/settings/Plans';
 import Billing from 'app/pages/settings/Billing';
 import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
+import ProtectedRoute from './components/ProtectedRoutes';
 
-// Import pages
-// const Products = lazy(() => import('app/pages/product/Products'));
-// const Inventory = lazy(() => import('app/pages/inventory/Inventory'));
-// const Discounts = lazy(() => import('app/pages/discount/Discounts'));
-// const Collections = lazy(() => import('app/pages/collection/Collections'));
-// const Orders = lazy(() => import('app/pages/ecommerce/Orders'));
-// const Account = lazy(() => import('app/pages/settings/Account'));
-// const Notifications = lazy(() => import('app/pages/settings/Notifications'));
-// const Apps = lazy(() => import('app/pages/settings/Apps'));
-// const Plans = lazy(() => import('app/pages/settings/Plans'));
-// const Billing = lazy(() => import('app/pages/settings/Billing'));
-// const Feedback = lazy(() => import('app/pages/settings/Feedback'));
-// const PageNotFound = lazy(() => import('app/pages/utility/PageNotFound'));
 const Locations = lazy(() => import('app/pages/settings/Locations'));
-// const Customers = lazy(() => import('app/pages/ecommerce/Customers'));
 const Signup = lazy(() => import('app/pages/Signup'));
 const Signin = lazy(() => import('app/pages/Signin'));
+const ResetPassword = lazy(() => import('app/pages/ResetPassword'));
 
 export function App() {
   const location = useLocation();
@@ -72,68 +60,111 @@ export function App() {
         <meta name="description" content="Reoplex Merchant Admin" />
       </Helmet>
       <Switch>
-        <Route exact path={process.env.PUBLIC_URL + '/'}>
-          <Analytics />
-        </Route>
-        <Route exact path="/analytics">
-          <Analytics />
-        </Route>
-        <Route exact path="/customers">
-          <Customers />
-        </Route>
-        <Route exact path="/orders">
-          <Orders />
-        </Route>
-        <Route exact path="/shop/products">
-          <Products />
-        </Route>
-        <Route exact path="/shop/collections">
-          <Collections />
-        </Route>
-        <Route exact path="/shop/inventory">
-          <Inventory />
-        </Route>
-        <Route exact path="/discounts">
-          <Discounts />
-        </Route>
-        <Route exact path="/analytics/live">
-          <Analytics />
-        </Route>
-        <Route exact path="/analytics/reports">
-          <Analytics />
-        </Route>
-        <Route exact path="/analytics/dashboards">
-          <Analytics />
-        </Route>
-        <Route exact path="/analytics/insights">
-          <Analytics />
-        </Route>
-        <Route exact path="/settings/account">
-          <Account />
-        </Route>
-        <Route exact path="/settings/notifications">
-          <Notifications />
-        </Route>
-        <Route exact path="/settings/apps">
-          <Apps />
-        </Route>
-        <Route exact path="/settings/plans">
-          <Plans />
-        </Route>
-        <Route exact path="/settings/billing">
-          <Billing />
-        </Route>
-        <Route exact path="/settings/feedback">
-          <Feedback />
-        </Route>
-        <Route exact path="/settings/locations">
-          <Locations />
-        </Route>
+        <ProtectedRoute
+          exact
+          path={process.env.PUBLIC_URL + '/'}
+          component={Analytics}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/analytics"
+          component={Analytics}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/customers"
+          component={Customers}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/orders"
+          component={Orders}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/shop/products"
+          component={Products}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/shop/collections"
+          component={Collections}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/shop/inventory"
+          component={Inventory}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/discounts"
+          component={Discounts}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/analytics/live"
+          component={Analytics}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/analytics/reports"
+          component={Analytics}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/analytics/dashboards"
+          component={Analytics}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/analytics/insights"
+          component={Analytics}
+        ></ProtectedRoute>
+
+        <ProtectedRoute
+          exact
+          path="/settings/account"
+          component={Account}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/notifications"
+          component={Notifications}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/apps"
+          component={Apps}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/plans"
+          component={Plans}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/billing"
+          component={Billing}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/feedback"
+          component={Feedback}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/locations"
+          component={Locations}
+        ></ProtectedRoute>
+
         <Route exact path="/signup">
           <Signup />
         </Route>
         <Route exact path="/signin">
           <Signin />
+        </Route>
+        <Route exact path="/reset-password">
+          <ResetPassword />
         </Route>
         <Route path="*">
           <PageNotFound />

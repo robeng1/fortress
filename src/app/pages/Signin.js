@@ -75,7 +75,7 @@ function Signin() {
                   </Link>
                 </div>
                 {/* Warning */}
-                <div className="mt-5">
+                {/* <div className="mt-5">
                   <div className="bg-yellow-100 text-yellow-600 px-3 py-2 rounded">
                     <svg
                       className="inline w-3 h-3 flex-shrink-0 fill-current mr-2"
@@ -88,7 +88,7 @@ function Signin() {
                       free until March 31st.
                     </span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
