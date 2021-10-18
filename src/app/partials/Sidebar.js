@@ -754,117 +754,119 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup>
                 {/* Online Store */}
-                <SidebarLinkGroup
-                  activecondition={pathname.includes('component')}
-                >
-                  {(handleClick, open) => {
-                    return (
-                      <React.Fragment>
-                        <a
-                          href="#0"
-                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
-                            pathname.includes('component') &&
-                            'hover:text-gray-900'
-                          }`}
-                          onClick={e => {
-                            e.preventDefault();
-                            sidebarExpanded
-                              ? handleClick()
-                              : setSidebarExpanded(true);
-                          }}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="flex-shrink-0 h-6 w-6"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                              >
-                                <path
-                                  className={`fill-current text-gray-600 ${
-                                    pathname.includes('component') &&
-                                    '!text-indigo-500'
+                <div className="hidden md:block">
+                  <SidebarLinkGroup
+                    activecondition={pathname.includes('component')}
+                  >
+                    {(handleClick, open) => {
+                      return (
+                        <React.Fragment>
+                          <a
+                            href="#0"
+                            className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                              pathname.includes('component') &&
+                              'hover:text-gray-900'
+                            }`}
+                            onClick={e => {
+                              e.preventDefault();
+                              sidebarExpanded
+                                ? handleClick()
+                                : setSidebarExpanded(true);
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="flex-shrink-0 h-6 w-6"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                >
+                                  <path
+                                    className={`fill-current text-gray-600 ${
+                                      pathname.includes('component') &&
+                                      '!text-indigo-500'
+                                    }`}
+                                    fillRule="evenodd"
+                                    d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                                    clipRule="evenodd"
+                                  />
+                                  <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+                                </svg>
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Online Store
+                                </span>
+                              </div>
+                              {/* Icon */}
+                              <div className="flex flex-shrink-0 ml-2">
+                                <svg
+                                  className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
+                                    open && 'transform rotate-180'
                                   }`}
-                                  fillRule="evenodd"
-                                  d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                                  clipRule="evenodd"
-                                />
-                                <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-                              </svg>
-                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Online Store
-                              </span>
+                                  viewBox="0 0 12 12"
+                                >
+                                  <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                </svg>
+                              </div>
                             </div>
-                            {/* Icon */}
-                            <div className="flex flex-shrink-0 ml-2">
-                              <svg
-                                className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
-                                  open && 'transform rotate-180'
-                                }`}
-                                viewBox="0 0 12 12"
-                              >
-                                <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                              </svg>
-                            </div>
+                          </a>
+                          <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                            <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  exact
+                                  to="/component/button"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                  activeClassName="!text-indigo-500"
+                                >
+                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Themes
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  exact
+                                  to="/component/form"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                  activeClassName="!text-indigo-500"
+                                >
+                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Domains
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  exact
+                                  to="/component/dropdown"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                  activeClassName="!text-indigo-500"
+                                >
+                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Navigation
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li className="mb-1 last:mb-0">
+                                <NavLink
+                                  exact
+                                  to="/component/alert"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                  activeClassName="!text-indigo-500"
+                                >
+                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Preferences
+                                  </span>
+                                </NavLink>
+                              </li>
+                            </ul>
                           </div>
-                        </a>
-                        <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/component/button"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-indigo-500"
-                              >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Themes
-                                </span>
-                              </NavLink>
-                            </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/component/form"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-indigo-500"
-                              >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Domains
-                                </span>
-                              </NavLink>
-                            </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/component/dropdown"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-indigo-500"
-                              >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Navigation
-                                </span>
-                              </NavLink>
-                            </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/component/alert"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-indigo-500"
-                              >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Preferences
-                                </span>
-                              </NavLink>
-                            </li>
-                          </ul>
-                        </div>
-                      </React.Fragment>
-                    );
-                  }}
-                </SidebarLinkGroup>
+                        </React.Fragment>
+                      );
+                    }}
+                  </SidebarLinkGroup>
+                </div>
               </ul>
             </div>
             {/* Settings*/}
