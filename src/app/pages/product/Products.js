@@ -1,19 +1,27 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, lazy } from 'react';
 import { Tab } from '@headlessui/react';
 import ProductForm from 'app/forms/product/Product';
 import CollectionForm from 'app/forms/collection/Collection';
 
 import BottomNav from 'app/components/BottomNav';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import DeleteButton from '../../partials/actions/DeleteButton';
-import FilterButton from '../../components/DropdownFilter';
-import SearchForm from '../../partials/actions/SearchForm';
-import ProductsTable from '../../partials/products/ProductsTable';
-import PaginationNumeric from '../../components/PaginationNumeric';
-import InventoryTable from '../../partials/inventory/InventoryTable';
-import CollectionsTable from '../../partials/collections/CollectionsTable';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import DeleteButton from 'app/partials/actions/DeleteButton';
+import FilterButton from 'app/components/DropdownFilter';
+import SearchForm from 'app/partials/actions/SearchForm';
+// import ProductsTable from 'app/partials/products/ProductsTable';
+import PaginationNumeric from 'app/components/PaginationNumeric';
+// import InventoryTable from 'app/partials/inventory/InventoryTable';
+// import CollectionsTable from 'app/partials/collections/CollectionsTable';
+
+const ProductsTable = lazy(() => import('app/partials/products/ProductsTable'));
+const InventoryTable = lazy(() =>
+  import('app/partials/inventory/InventoryTable'),
+);
+const CollectionsTable = lazy(() =>
+  import('app/partials/collections/CollectionsTable'),
+);
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
