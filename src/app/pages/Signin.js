@@ -12,9 +12,16 @@ function Signin() {
         <div className="md:w-1/2">
           <div className="max-w-sm mx-auto min-h-screen flex flex-col justify-center px-4 py-8">
             <div className="w-full">
-              <h1 className="text-3xl text-gray-800 font-bold mb-6">
-                Welcome back!
-              </h1>
+              <div>
+                <img
+                  className="mx-auto h-12 w-auto"
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  alt="Workflow"
+                />
+                <h1 className="text-3xl mt-5 text-gray-800 font-bold mb-6">
+                  Welcome back!
+                </h1>
+              </div>
               {/* Form */}
               <form>
                 <div className="space-y-4">

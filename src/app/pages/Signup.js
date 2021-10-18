@@ -10,11 +10,19 @@ function Signup() {
       <div className="relative md:flex">
         {/* Content */}
         <div className="md:w-1/2">
-          <div className="max-w-sm mx-auto min-h-screen flex flex-col justify-center px-4 py-8">
+          <div className="max-w-sm mx-auto min-h-screen flex flex-col justify-center px-4 py-2">
             <div className="w-full">
-              <h1 className="text-3xl text-gray-800 font-bold mb-6">
-                Create your Account
-              </h1>
+              <div>
+                <img
+                  className="mx-auto h-12 w-auto"
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  alt="Workflow"
+                />
+                <h1 className="text-3xl mt-5 text-gray-800 font-bold mb-6">
+                  Create account
+                </h1>
+              </div>
+
               {/* Form */}
               <form>
                 <div className="space-y-4">
@@ -47,12 +55,12 @@ function Signup() {
                   <div>
                     <label
                       className="block text-sm font-medium mb-1"
-                      htmlFor="name"
+                      htmlFor="store_name"
                     >
                       Your store name <span className="text-red-500">*</span>
                     </label>
                     <input
-                      id="name"
+                      id="store_name"
                       className="form-input w-full"
                       type="text"
                     />
@@ -62,13 +70,13 @@ function Signup() {
                     <div>
                       <label
                         className="block text-sm font-medium mb-1"
-                        htmlFor="suffix"
+                        htmlFor="url_name"
                       >
                         Your store URL
                       </label>
                       <div className="relative">
                         <input
-                          id="suffix"
+                          id="url_name"
                           className="form-input w-full pr-8"
                           type="text"
                         />
@@ -79,7 +87,7 @@ function Signup() {
                         </div>
                       </div>
                       <div className="text-xs mt-1 text-green-500">
-                        This is link to your website Eg. https://<b>name</b>
+                        Link to your website eg. https://<b>name</b>
                         .reoplex.com
                       </div>
                     </div>
