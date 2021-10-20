@@ -25,7 +25,6 @@ import Dropbox from '@uppy/dropbox';
 import Instagram from '@uppy/instagram';
 import Facebook from '@uppy/facebook';
 import OneDrive from '@uppy/onedrive';
-import ImageEditor from '@uppy/image-editor';
 
 const Box = require('@uppy/box');
 const DropTarget = require('@uppy/drop-target');
@@ -34,7 +33,7 @@ const DropTarget = require('@uppy/drop-target');
 // animated components for react select
 const animatedComponents = makeAnimated();
 
-const ProductForm = () => {
+const ProductForm = ({ storeID }) => {
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const [showVariants, setShowVariants] = useState(false);
@@ -46,33 +45,22 @@ const ProductForm = () => {
         maxFileSize: 15 * 1024 * 1024,
         maxNumberOfFiles: 6,
         minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*', 'video/*'],
+        allowedFileTypes: ['image/*'],
         requiredMetaFields: ['caption'],
       },
-      // allowedFileTypes: [
-      //   '.bmp',
-      //   '.csr',
-      //   '.csv',
-      //   '.doc',
-      //   '.docx',
-      //   '.eml',
-      //   '.jpg',
-      //   '.msg',
-      //   '.p7m',
-      //   '.pdf',
-      //   '.png',
-      //   '.ppt',
-      //   '.pptx',
-      //   '.tif',
-      //   '.tiff',
-      //   '.txt',
-      //   '.vsd',
-      //   '.xls',
-      //   '.xlsx',
-      //   '.xml',
-      //   '.xps',
-      //   '.zip',
-      // ],
+      onBeforeUpload: files => {
+        const datename = Date.now();
+        for (var prop in files) {
+          files[
+            prop
+          ].name = `products/${storeID}/images/${files[prop].name}_${datename}`;
+          files[
+            prop
+          ].meta.name = `products/${storeID}/images/${files[prop].meta.name}_${datename}`;
+        }
+        this.files = files;
+        Promise.resolve();
+      },
     })
       .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
       .use(GoogleDrive, {
@@ -93,29 +81,8 @@ const ProductForm = () => {
       .use(OneDrive, {
         companionUrl: 'https://companion.uppy.io',
       })
-      .use(ImageEditor, {
-        // quality: 0.8,
-        // cropperOptions: {
-        //   viewMode: 1,
-        //   background: false,
-        //   autoCropArea: 1,
-        //   responsive: true,
-        //   croppedCanvasOptions: {},
-        // },
-        actions: {
-          revert: true,
-          rotate: true,
-          granularRotate: true,
-          flip: true,
-          zoomIn: true,
-          zoomOut: true,
-          cropSquare: true,
-          cropWidescreen: true,
-          cropWidescreenVertical: true,
-        },
-      })
       .use(DropTarget, { target: document.body })
-      .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' });
+      .use(Tus, { endpoint: 'https://storage.reoplex.com/api/v1/files/' });
   }, []);
 
   React.useEffect(() => {
