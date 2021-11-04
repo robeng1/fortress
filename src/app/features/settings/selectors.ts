@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'types';
 
 // First select the relevant part from the state
-const selectUser = (state: RootState) => state?.user;
+const selectUser = (state: RootState) => state?.authn;
 
 export const selectUserId = createSelector(
   [selectUser],

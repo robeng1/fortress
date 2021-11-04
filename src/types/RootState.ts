@@ -6,7 +6,7 @@ import { OrderState } from 'app/features/order';
 import { PaymentState } from 'app/features/payment';
 import { ProductState } from 'app/features/product';
 import { SettingsState } from 'app/features/settings';
-import { UserState } from 'app/features/user';
+import { AuthnState } from 'app/features/authn';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /* 
@@ -24,6 +24,6 @@ export interface RootState {
   payment?: PaymentState;
   product?: ProductState;
   settings?: SettingsState;
-  user?: UserState;
+  authn?: AuthnState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

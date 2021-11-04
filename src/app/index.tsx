@@ -31,6 +31,7 @@ import Billing from 'app/pages/settings/Billing';
 import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoutes';
+import PublicRoute from './components/PublicRoute';
 
 const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Signup = lazy(() => import('app/pages/Signup'));
@@ -157,15 +158,13 @@ export function App() {
           component={Locations}
         ></ProtectedRoute>
 
-        <Route exact path="/signup">
-          <Signup />
-        </Route>
-        <Route exact path="/signin">
-          <Signin />
-        </Route>
-        <Route exact path="/reset-password">
-          <ResetPassword />
-        </Route>
+        <PublicRoute exact path="/signup" component={Signup}></PublicRoute>
+        <PublicRoute exact path="/signin" component={Signin}></PublicRoute>
+        <PublicRoute
+          exact
+          path="/reset-password"
+          component={ResetPassword}
+        ></PublicRoute>
         <Route path="*">
           <PageNotFound />
         </Route>

@@ -11,6 +11,7 @@ import { createReducer } from './reducers';
 export function configureAppStore() {
   const reduxSagaMonitorOptions = {};
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
+
   const { run: runSaga } = sagaMiddleware;
 
   // Create the store with saga middleware

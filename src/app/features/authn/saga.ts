@@ -1,7 +1,7 @@
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request } from 'utils/request';
 import { ProfileType, RegisterLogInType } from 'app/models/user/profile';
-import { userActions as actions } from '.';
+import { authnActions as actions } from '.';
 import { UserErrorType } from './types';
 import { selectUserId } from './selectors';
 import { theKeepURL } from 'app/endpoints/urls';
@@ -35,6 +35,8 @@ export function* login(action: PayloadAction<RegisterLogInType>) {
     });
     if (session) {
       yield put(actions.sessionLoaded(session));
+      localStorage.setItem('session', JSON.stringify(session));
+      localStorage.setItem('isAuthenticated', 'true');
       yield put(actions.setIsAuthenticated(true));
     }
   } catch (err) {
@@ -101,7 +103,7 @@ export function* watchLoadProfile() {
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* userSaga() {
+export default function* authnSaga() {
   yield all([
     fork(watchLoadProfile),
     fork(watchSignup),

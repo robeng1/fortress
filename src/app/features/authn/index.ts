@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProfileType, RegisterLogInType } from 'app/models/user/profile';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import userSaga from './saga';
+import authnSaga from './saga';
 import { UserErrorType } from './types';
 
-const userNamespace = 'user';
+const authnNamespace = 'authn';
 
-export type UserState = {
+export type AuthnState = {
   user: {};
   session: {};
   profile: ProfileType;
@@ -15,7 +15,7 @@ export type UserState = {
   error?: UserErrorType | null;
 };
 
-export const initialState: UserState = {
+export const initialState: AuthnState = {
   user: {},
   profile: {},
   session: {},
@@ -26,7 +26,7 @@ export const initialState: UserState = {
 
 export const slice = createSlice({
   /*namespace for separating related states. Namespaces are like modules*/
-  name: userNamespace,
+  name: authnNamespace,
 
   // initialState is the default value of this namespace/module and it is required.
   initialState, // same as initialState: initialState
@@ -48,6 +48,7 @@ export const slice = createSlice({
     login: (state, action: PayloadAction<RegisterLogInType>) => {
       state.error = null;
       state.loading = true;
+      console.log({ ...action.payload });
     },
     logout: state => {
       state.error = null;
@@ -87,10 +88,10 @@ export const slice = createSlice({
   },
 });
 
-export const { actions: userActions, reducer } = slice;
+export const { actions: authnActions, reducer } = slice;
 
-export const useUserSlice = () => {
+export const useAuthnSlice = () => {
   useInjectReducer({ key: slice.name, reducer: slice.reducer });
-  useInjectSaga({ key: slice.name, saga: userSaga });
+  useInjectSaga({ key: slice.name, saga: authnSaga });
   return { actions: slice.actions };
 };
