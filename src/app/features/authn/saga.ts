@@ -2,6 +2,7 @@ import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request } from 'utils/request';
 import { ProfileType, RegisterLogInType } from 'app/models/user/profile';
 import { authnActions as actions } from '.';
+import { uiActions } from 'app/features/ui';
 import { UserErrorType } from './types';
 import { selectUserId } from './selectors';
 import { theKeepURL } from 'app/endpoints/urls';
@@ -29,6 +30,7 @@ export function* watchSignup() {
 export function* login(action: PayloadAction<RegisterLogInType>) {
   const requestURL = `${theKeepURL}/auth/login`;
   try {
+    yield put(uiActions.startAction(action));
     const session: {} = yield call(request, requestURL, {
       method: 'POST',
       body: JSON.stringify({ ...action.payload }),
@@ -41,6 +43,8 @@ export function* login(action: PayloadAction<RegisterLogInType>) {
     }
   } catch (err) {
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 export function* watchLogin() {

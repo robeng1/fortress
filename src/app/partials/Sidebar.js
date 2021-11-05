@@ -526,7 +526,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           width="48"
                           height="48"
                           fill="white"
-                          fill-opacity="0.01"
+                          fillOpacity="0.01"
                         />
                         <circle
                           cx="11"

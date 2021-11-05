@@ -32,6 +32,7 @@ import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoutes';
 import PublicRoute from './components/PublicRoute';
+import { useUISlice } from './features/ui';
 
 const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Signup = lazy(() => import('app/pages/Signup'));
@@ -40,6 +41,7 @@ const ResetPassword = lazy(() => import('app/pages/ResetPassword'));
 
 export function App() {
   const location = useLocation();
+  useUISlice();
 
   useEffect(() => {
     //@ts-ignore

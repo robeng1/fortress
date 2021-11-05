@@ -10,7 +10,11 @@ export const selectUserId = createSelector(
   auth => auth?.profile.account_id,
 );
 
-export const isAuthenticated = createSelector(
+export const selectIsAuthenticated = createSelector(
   [authnState],
   auth => auth?.isAuthenticated,
+);
+export const selectIsLoading = createSelector(
+  [authnState],
+  auth => auth?.loading,
 );

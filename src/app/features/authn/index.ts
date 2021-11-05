@@ -48,7 +48,6 @@ export const slice = createSlice({
     login: (state, action: PayloadAction<RegisterLogInType>) => {
       state.error = null;
       state.loading = true;
-      console.log({ ...action.payload });
     },
     logout: state => {
       state.error = null;
