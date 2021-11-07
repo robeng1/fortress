@@ -1,30 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import uniqBy from 'lodash/uniqBy';
 import {
   DiscountType,
   DiscountListType,
+  DiscountViewType,
 } from 'app/models/discount/discount-type';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import DiscountSaga from './saga';
 import { DiscountErrorType } from './types';
+import { objectify } from 'app/utils/utils';
 
 const discountNamespace = 'discount';
 
 export type DiscountState = {
-  offers: DiscountType[];
+  discounts: { [key: string]: DiscountType };
   shard: number;
+  views: DiscountViewType[];
+  offset: number;
+  num_per_page: number;
   nextPageToken: string;
   count: number;
-  loading: boolean;
   error?: DiscountErrorType | null;
 };
 
 export const initialState: DiscountState = {
-  offers: [],
+  discounts: {},
   shard: 0,
   nextPageToken: '',
+  views: [],
+  num_per_page: 20,
+  offset: 0,
   count: 0,
-  loading: false,
   error: null,
 };
 
@@ -36,35 +42,53 @@ const slice = createSlice({
   initialState, // same as initialState: initialState
 
   reducers: {
+    getDiscount: (state, action: PayloadAction<string>) => {
+      state.error = null;
+    },
     createDiscount: (state, action: PayloadAction<DiscountType>) => {
-      state.loading = true;
       state.error = null;
     },
     updateDiscount: (state, action: PayloadAction<DiscountType>) => {
-      state.loading = true;
+      state.error = null;
+    },
+    loadViews: state => {
+      state.error = null;
+    },
+    viewsLoaded: (state, action: PayloadAction<DiscountViewType[]>) => {
+      const views = action.payload;
+      if (views.length > 0) {
+        state.views = uniqBy([...views, ...state.views], 'discount_id');
+      }
+      // this will serve as the offset when fetching
+      state.offset = views.length;
       state.error = null;
     },
     loadDiscounts: state => {
-      state.loading = true;
       state.error = null;
     },
+    setDiscount: (state, action: PayloadAction<DiscountType>) => {
+      state.discounts = {
+        ...state.discounts,
+        [action.payload.discount_id]: action.payload,
+      };
+    },
     discountsLoaded: (state, action: PayloadAction<DiscountListType>) => {
-      const { offers, next_page_token } = action?.payload;
-      if (offers) {
-        state.offers = [...offers, ...state.offers];
+      const { discounts, next_page_token } = action?.payload;
+      if (discounts) {
+        state.discounts = {
+          ...state.discounts,
+          ...objectify(discounts, 'discount_id'),
+        };
         if (next_page_token) {
           state.nextPageToken = next_page_token;
         }
       }
-      state.loading = false;
     },
     discountError(state, action: PayloadAction<DiscountErrorType>) {
       state.error = action.payload;
-      state.loading = false;
     },
     clearError(state) {
       state.error = null;
-      state.loading = false;
     },
   },
 });

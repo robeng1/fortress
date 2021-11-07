@@ -1,24 +1,36 @@
-import React, { useState, lazy } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectHasCollections } from 'app/features/collection/selectors';
 
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import DeleteButton from '../../partials/actions/DeleteButton';
-import DateSelect from '../../components/DateSelect';
-import SearchForm from '../../partials/actions/SearchForm';
-import FilterButton from '../../components/DropdownFilter';
-import CollectionsTable from '../../partials/collections/CollectionsTable';
-import PaginationNumeric from '../../components/PaginationNumeric';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import DeleteButton from 'app/partials/actions/DeleteButton';
+import SearchForm from 'app/partials/actions/SearchForm';
+import FilterButton from 'app/components/DropdownFilter';
+import CollectionsTable from 'app/partials/collections/CollectionsTable';
+import PaginationNumeric from 'app/components/PaginationNumeric';
 import CollectionForm from 'app/forms/collection/Collection';
-
-const BottomNav = lazy(() => import('app/components/BottomNav'));
+import { useCollectionSlice } from 'app/features/collection';
+import BottomNav from 'app/components/BottomNav';
 
 function Collections() {
+  const { actions } = useCollectionSlice();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showForm, setShowForm] = React.useState(false);
+  const hasCollections = useSelector(selectHasCollections);
+  const dispatch = useDispatch();
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
+  };
+
+  const handleShow = (display, collectionId) => {
+    setShowForm(display);
+    // dispatch an action to go get the order
+    if (collectionId && collectionId !== '') {
+      dispatch(actions.getCollection(collectionId));
+    }
   };
 
   const renderFormView = () => {
@@ -78,6 +90,9 @@ function Collections() {
                   <div className="">
                     <FilterButton align="right" />
                   </div>
+                  <div className="">
+                    <DeleteButton align="right" selectedItems={selectedItems} />
+                  </div>
                 </div>
                 <button
                   onClick={() => setShowForm(!showForm)}
@@ -98,12 +113,17 @@ function Collections() {
           </div>
 
           {/* Table */}
-          <CollectionsTable selectedItems={handleSelectedItems} />
+          <CollectionsTable
+            selectedItems={handleSelectedItems}
+            handleShow={handleShow}
+          />
 
           {/* Pagination */}
-          <div className="mt-4 md:mt-8">
-            <PaginationNumeric />
-          </div>
+          {hasCollections && (
+            <div className="mt-4 md:mt-8">
+              <PaginationNumeric />
+            </div>
+          )}
         </div>
       </main>
     );

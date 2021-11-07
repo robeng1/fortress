@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { selectHasDiscounts } from 'app/features/discount/selectors';
 import BottomNav from 'app/components/BottomNav';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import SearchForm from '../../partials/actions/SearchForm';
-import FilterButton from '../../components/DropdownFilter';
-import DiscountTable from '../../partials/discount/DiscountTable';
-import PaginationNumeric from '../../components/PaginationNumeric';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import SearchForm from 'app/partials/actions/SearchForm';
+import FilterButton from 'app/components/DropdownFilter';
+import DiscountTable from 'app/partials/discount/DiscountTable';
+import PaginationNumeric from 'app/components/PaginationNumeric';
 import DiscountForm from 'app/forms/discount/Discount';
+import { useDiscountSlice } from 'app/features/discount';
 
 function Discounts() {
-  const [showForm, setShowForm] = React.useState(false);
+  const { actions } = useDiscountSlice();
+  const [showForm, setShowForm] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
+  const hasDiscounts = useSelector(selectHasDiscounts);
+  const dispatch = useDispatch();
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
+  };
+
+  const handleShow = (display, discountId) => {
+    setShowForm(display);
+    // dispatch an action to go get the order
+    if (discountId && discountId !== '') {
+      dispatch(actions.getDiscount(discountId));
+    }
   };
 
   const renderFormView = () => {
@@ -92,14 +106,17 @@ function Discounts() {
               </div>
             </div>
           </div>
-
           {/* Table */}
-          <DiscountTable selectedItems={handleSelectedItems} />
-
+          <DiscountTable
+            selectedItems={handleSelectedItems}
+            handleShow={handleShow}
+          />
           {/* Pagination */}
-          <div className="mt-4 md:mt-8">
-            <PaginationNumeric />
-          </div>
+          {hasDiscounts && (
+            <div className="mt-4 md:mt-8">
+              <PaginationNumeric />
+            </div>
+          )}
         </div>
       </main>
     );

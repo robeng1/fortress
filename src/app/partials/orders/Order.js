@@ -1,16 +1,41 @@
 import * as React from 'react';
-import { orderActions } from 'app/features/order';
+import { orderActions, useOrderSlice } from 'app/features/order';
 import { selectOrderById } from 'app/features/order/selectors';
 import { checkIfLoading } from 'app/features/ui/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from 'app/components/Loader';
+import money from 'app/utils/money';
+import { OrderStatusType } from 'app/models/order/order-type';
 
 export default function Order({ handleShow, orderId }) {
+  const { actions } = useOrderSlice();
+  const dispatch = useDispatch();
   const order = useSelector(state => selectOrderById(state, orderId));
   const isLoading = useSelector(state =>
     checkIfLoading(state, orderActions.getOrder.type),
   );
+
+  const handleMarkAsFulfilled = e => {
+    e.preventDefault();
+    dispatch(
+      actions.updateOrderStatus(orderId, OrderStatusType.ORDER_COMPLETED),
+    );
+  };
+
+  const handleMarkAsProcessing = e => {
+    e.preventDefault();
+    dispatch(
+      actions.updateOrderStatus(orderId, OrderStatusType.ORDER_PROCESSING),
+    );
+  };
+  // TODO: (romeo) cancellation and refund have subtle diff, fix this shit
+  const handleCancellation = e => {
+    e.preventDefault();
+    dispatch(
+      actions.updateOrderStatus(orderId, OrderStatusType.ORDER_DECLINED),
+    );
+  };
   return (
     <>
       {isLoading ? (
@@ -57,7 +82,7 @@ export default function Order({ handleShow, orderId }) {
             <div className="flex md:flex-row flex-col flex-initial items-baseline align-middle shadow justify-start rounded-lg px-3 py-3">
               <h1 className="font-semibold text-2xl">#{order.number}</h1>
               <p className="pl-3 text-gray-700">
-                {new Date(order.created_at).toDateString()} from Draft Orders
+                {new Date(order.created_at).toString()} from Draft Orders
               </p>
               {/* <span className="bg-gray-300 border-2 border-white inline-flex items-center leading-none ml-3 px-2 py-1 rounded-full text-gray-700 text-sm">
               Paid
@@ -97,7 +122,11 @@ export default function Order({ handleShow, orderId }) {
                 <header className="flex items-center pb-3 pl-6 pr-3 pt-5">
                   <span className="font-semibold inline-flex items-center text-gray-700">
                     <i className="border-2 border-dashed border-yellow-700 h-5 inline-block mr-3 rounded-full w-5 shadow-yellow-large"></i>
-                    <span>Unfulfilled</span>
+                    <span>
+                      {!(order.status === OrderStatusType.ORDER_COMPLETED)
+                        ? 'Unfulfilled'
+                        : 'FulFilled'}
+                    </span>
                   </span>
 
                   <button className="hidden md:inline-flex focus:bg-gray-300 focus:outline-none hover:text-gray-800 leading-snug ml-auto px-2 py-2 rounded text-gray-600">
@@ -111,76 +140,54 @@ export default function Order({ handleShow, orderId }) {
                     </svg>
                   </button>
                 </header>
-
-                <div className="border-b flex mx-5 py-2">
-                  <div className="flex-shrink-0 w-[60px] md:w-[48px]  align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
-                    <img
-                      src="https://about.canva.com/wp-content/uploads/sites/3/2015/01/music_poster.png"
-                      alt=""
-                      className="w-full h-full object-center object-cover"
-                    />
-                  </div>
-                  <div className="flex md:flex-row flex-col justify-between w-full">
-                    <div className="pl-2">
-                      <p className="text-blue-600 text-sm overflow-ellipsis">
-                        Daft Punk - Random Access
-                      </p>
-                      <span className="block md:mt-px text-gray-600 text-sm">
-                        SKU: 90991822
-                      </span>
+                {order.lines.map(line => (
+                  <div className="border-b flex mx-5 py-2">
+                    <div className="flex-shrink-0 w-[60px] md:w-[48px]  align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
+                      <img
+                        src={line.product.image}
+                        alt={line.product.title}
+                        className="w-full h-full object-center object-cover"
+                      />
                     </div>
-                    <div className="flex gap-x-5 md:gap-28 md:self-center self-start pl-2">
-                      <div className="font-medium text-green-900 text-sm">
-                        $70.00 x 1
+                    <div className="flex md:flex-row flex-col justify-between w-full">
+                      <div className="pl-2">
+                        <p className="text-blue-600 text-sm overflow-ellipsis">
+                          {line.product.title}
+                        </p>
+                        <span className="block md:mt-px text-gray-600 text-sm">
+                          SKU: {line.centre_sku}
+                        </span>
                       </div>
-                      <div className="font-medium text-green-900 text-sm">
-                        $70.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="border-b flex mx-5 py-2">
-                  <div className="flex-shrink-0 w-[60px] md:w-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
-                    <img
-                      src="https://about.canva.com/wp-content/uploads/sites/3/2015/01/volleyball_poster.png"
-                      alt=""
-                      className="w-full h-full object-center object-cover"
-                    />
-                  </div>
-                  <div className="flex md:flex-row flex-col justify-between w-full">
-                    <div className="pl-2">
-                      <p className="text-blue-600 text-sm overflow-ellipsis">
-                        Daft Punk - Random Access
-                      </p>
-                      <span className="block md:mt-px text-gray-600 text-sm">
-                        SKU: 90991822
-                      </span>
-                    </div>
-                    <div className="flex gap-5 md:gap-28 md:self-center self-start pl-2">
-                      <div className="font-medium text-green-900 text-sm">
-                        $70.00 x 1
-                      </div>
-                      <div className="font-medium text-green-900 text-sm">
-                        $70.00
+                      <div className="flex gap-x-5 md:gap-28 md:self-center self-start pl-2">
+                        <div className="font-medium text-green-900 text-sm">
+                          {money.toString(line.unit_price_incl_tax)} x{' '}
+                          {line.quantity}
+                        </div>
+                        <div className="font-medium text-green-900 text-sm">
+                          {money.toString(line.line_price_incl_tax)}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ))}
 
                 <footer className="border-t flex md:flex-row flex-col justify-end px-5 py-4">
                   <button
+                    onClick={handleMarkAsProcessing}
                     type="button"
                     class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
                   >
                     Mark as processing
                   </button>
                   <button
+                    onClick={handleMarkAsFulfilled}
                     type="button"
                     class="text-white bg-blue-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
                   >
                     Mark as fulfilled
                   </button>
                   <button
+                    onClick={handleCancellation}
                     type="button"
                     class="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
                   >
@@ -196,30 +203,49 @@ export default function Order({ handleShow, orderId }) {
 
                 <div className="flex mt-4 mx-5 py-2 text-gray-700 text-sm">
                   <span>Subtotal</span>
-                  <span className="ml-auto">$120.00</span>
+                  <span className="ml-auto">
+                    {money.toString(money.sum(order.total_excl_tax))}
+                  </span>
                 </div>
 
                 <div className="flex mx-5 pb-2 text-gray-700 text-sm">
                   <span className="w-1/6">Shipping</span>
                   <span className="">Manual (0.0kg)</span>
-                  <span className="ml-auto">$9.50</span>
+                  <span className="ml-auto">
+                    {money.toString(order.shipping_incl_tax)}
+                  </span>
                 </div>
                 <div className="flex mx-5 pb-2 text-gray-700 text-sm">
                   <span className="w-1/6">Tax</span>
-                  <span>HST 13%</span>
-                  <span className="ml-auto">$15.60</span>
+                  <span className="ml-auto">
+                    {money.toString(
+                      money.subtract(
+                        order.total_incl_tax,
+                        order.total_excl_tax,
+                      ),
+                    )}
+                  </span>
                 </div>
                 <div className="border-b flex font-bold mx-5 pb-2 text-gray-700 text-sm">
                   <span>Total</span>
-                  <span className="ml-auto">$145.10</span>
+                  <span className="ml-auto">
+                    {money.toString(
+                      money.sum(order.total_incl_tax, order.shipping_incl_tax),
+                    )}
+                  </span>
                 </div>
 
                 <div className="flex mx-5 pb-6 pt-3 text-gray-700 text-sm">
                   <span>Paid by customer</span>
-                  <span className="ml-auto">$145.10</span>
+                  <span className="ml-auto">
+                    {money.toString(
+                      money.sum(order.total_incl_tax, order.shipping_incl_tax),
+                    )}
+                  </span>
                 </div>
                 <footer className="border-t flex justify-end px-5 py-4">
                   <button
+                    onClick={handleCancellation}
                     type="button"
                     class="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
                   >
@@ -255,7 +281,9 @@ export default function Order({ handleShow, orderId }) {
                     </svg>
                   </span>
                 </header>
-                <p className="mt-4 px-5 text-blue-500 text-sm">Paa Kwesi</p>
+                <p className="mt-4 px-5 text-blue-500 text-sm">
+                  {order.customer_name}
+                </p>
                 <span className="block mb-5 px-5 text-gray-600 text-sm">
                   1 order
                 </span>
@@ -268,10 +296,12 @@ export default function Order({ handleShow, orderId }) {
                     <button className="ml-auto text-blue-500">Edit</button>
                   </header>
                   <span className="block mb-5 mt-1 text-blue-500 text-sm">
-                    romeo@reoplex.com
+                    {order.guest_email !== ''
+                      ? order.guest_email
+                      : order.customer_email}
                   </span>
                   <span className="block mb-5 mt-1 text-blue-500 text-sm">
-                    +233246493078
+                    {order.customer_phone}
                   </span>
                 </div>
 
@@ -286,15 +316,17 @@ export default function Order({ handleShow, orderId }) {
                   </header>
 
                   <p className="py-4 text-gray-600 text-sm">
-                    Paa Kwesi
+                    {order.customer_name}
                     <br />
-                    150 Elgin Street <br />
-                    Floor 8 <br />
-                    Ottawa OW K2P LP4
+                    {order.shipping_address.data.street} <br />
+                    {order.shipping_address.data.city}
                     <br />
-                    Canada
+                    {order.shipping_address.data.province}
+                    <br />
+                    {order.shipping_address.data.country}
                   </p>
 
+                  {/* TODO: (romeo) use the coordinates to allow opening map */}
                   <a href="/" className="block mb-5 text-blue-500 text-sm">
                     View map
                   </a>

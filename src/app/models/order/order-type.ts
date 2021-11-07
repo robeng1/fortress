@@ -69,7 +69,7 @@ export interface ShippingEvent {
 
 export interface OrderDiscountType {
   category?: number;
-  offer_id?: string;
+  discount_id?: string;
   offer_name?: string;
   voucher_id?: string;
   voucher_code?: string;
@@ -112,7 +112,7 @@ export interface ShopOrderListType {
   next_page_token?: string;
 }
 export interface OrderType {
-  number?: string;
+  number: string;
   billing_address?: UserAddressType | null;
   account_id?: string;
   total_incl_tax?: MoneyType | null;
@@ -135,6 +135,11 @@ export interface OrderType {
   job_id?: string;
   basket_id?: string;
   created_at?: string;
+  customer_id?: string;
+  customer_name?: string;
+  customer_email?: string;
+  customer_phone?: string;
+  customer_profile_image_url?: string;
 }
 
 export interface OrderListType {
@@ -144,7 +149,7 @@ export interface OrderListType {
 
 export interface OrderViewType {
   num_item: number;
-  total: number;
+  total_int: number;
   potential_earning: number;
   shop_id: string;
   order_id: string;

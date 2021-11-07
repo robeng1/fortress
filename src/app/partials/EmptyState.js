@@ -53,7 +53,10 @@ function EmptyState({ heading, msg, action }) {
                 </h2>
                 <div className="mb-6">{msg}</div>
                 {action && (
-                  <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
+                  <button
+                    onclick={action.func}
+                    className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                  >
                     <svg
                       className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                       viewBox="0 0 16 16"

@@ -6,6 +6,7 @@ import OrderList from './mobile/OrderList';
 
 import { selectOrderViews } from 'app/features/order/selectors';
 import EmptyState from 'app/partials/EmptyState';
+import money from 'app/utils/money';
 
 function OrdersTable({ selectedItems, handleShow }) {
   const orders = useSelector(selectOrderViews);
@@ -101,7 +102,7 @@ function OrdersTable({ selectedItems, handleShow }) {
                       order={order.order_id}
                       date={new Date(order.updated_at).toISOString()}
                       customer={order.customer_name}
-                      total={`${order.currency}${order.total}`}
+                      total={money.intToString(order.total_int, order.currency)}
                       status={order.status}
                       location={order.location}
                       items={order.num_item}

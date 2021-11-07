@@ -4,8 +4,8 @@ import { BenefitType } from './benefit-type';
 import { ConditionType } from './condition-type';
 
 export interface DiscountType {
-  shop_id?: string;
-  offer_id?: string;
+  shop_id: string;
+  discount_id: string;
   name?: string;
   short_name?: string;
   slug?: string;
@@ -36,6 +36,30 @@ export interface DiscountType {
 }
 
 export interface DiscountListType {
-  offers?: DiscountType[];
+  discounts?: DiscountType[];
   next_page_token?: string;
+}
+
+export interface DiscountViewType {
+  shop_id: string;
+  discount_id: string;
+  name: string;
+  title: string;
+  slug: string;
+  cover_photo?: string;
+  type: string;
+  status?: string;
+  keywords?: string[];
+  categories?: string[];
+  active?: boolean;
+  description?: string;
+  start_date_time?: number;
+  end_date_time?: number;
+  created_at?: number;
+  updated_at?: number;
+  num_applications?: number;
+  num_orders?: number;
+  total_discount_int?: number;
+  currency?: string;
+  deleted?: boolean;
 }

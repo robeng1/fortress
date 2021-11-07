@@ -15,3 +15,25 @@ export const selectNextPageToken = createSelector(
   [discountState],
   discounts => discounts?.nextPageToken || '',
 );
+
+export const selectOffset = createSelector(
+  [discountState],
+  d => d?.offset || 1,
+);
+export const selectCount = createSelector(
+  [discountState],
+  d => d?.num_per_page || 20,
+);
+
+export const selectDiscountViews = createSelector(
+  [discountState],
+  d => d?.views || [],
+);
+
+export const selectHasDiscounts = createSelector(
+  [selectDiscountViews],
+  d => d && d.length > 0,
+);
+
+export const selectDiscountById = (state: RootState, discountId: string) =>
+  state.discount?.discounts[discountId];

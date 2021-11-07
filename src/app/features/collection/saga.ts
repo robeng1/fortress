@@ -4,15 +4,22 @@ import {
   CollectionListType,
   CollectionProductType,
   CollectionType,
+  CollectionViewType,
 } from 'app/models/collection/collection-type';
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request, ResponseError } from 'utils/request';
 import { collectionActions as actions } from '.';
 import { uiActions } from '../ui';
-import { selectCollectionsNextPageToken, selectShopId } from './selectors';
+import {
+  selectCollectionsNextPageToken,
+  selectCount,
+  selectOffset,
+  selectShopId,
+} from './selectors';
 import { CollectionErrorType } from './types';
 
 export function* getCollections() {
+  yield put(uiActions.startAction(actions.loadCollections()));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
@@ -39,11 +46,85 @@ export function* getCollections() {
     } else {
       yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
     }
+  } finally {
+    yield put(uiActions.stopAction(actions.loadCollections()));
   }
 }
 
 export function* watchLoadCollections() {
   yield takeLatest(actions.loadCollections.type, getCollections);
+}
+
+export function* getCollection(action: PayloadAction<string>) {
+  const collectionId = action.payload;
+  yield put(uiActions.startAction(action));
+  const shopId: string = yield select(selectShopId);
+  if (shopId.length === 0) {
+    yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
+    return;
+  }
+  const requestURL = `${fortressURL}/shops/${shopId}/collections/${collectionId}`;
+  try {
+    const collection: CollectionType = yield call(request, requestURL);
+    if (collection) {
+      yield put(actions.setCollection(collection));
+    } else {
+      // this will be quite weird
+      yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
+    }
+  } catch (err) {
+    if ((err as ResponseError).response?.status === 404) {
+      yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
+    } else {
+      yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
+    }
+  } finally {
+    yield put(uiActions.stopAction(action));
+  }
+}
+
+export function* watchGetCollection() {
+  yield takeLatest(actions.getCollection.type, getCollection);
+}
+
+export function* getViews() {
+  yield put(uiActions.startAction(actions.loadViews()));
+  const shopId: string = yield select(selectShopId);
+  if (shopId.length === 0) {
+    yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
+    return;
+  }
+  const offset: number = yield select(selectOffset);
+  const countPerPage = yield select(selectCount);
+  const requestURL = `${fortressURL}/shops/${shopId}/collectionsq`;
+  // TODO: query fetches only the most recent 20 collections but will be changed to add filters etc later
+  // with 20 per page pagination
+  const query = `SELECT * FROM collections WHERE shop_id = ${shopId} ORDER BY updated_at DESC LIMIT ${offset}, ${countPerPage}`;
+  try {
+    const views: CollectionViewType[] = yield call(request, requestURL, {
+      method: 'POST',
+      body: query,
+    });
+    if (views && views.length > 0) {
+      yield put(actions.viewsLoaded(views));
+    } else {
+      yield put(
+        actions.collectionError(CollectionErrorType.SHOP_HAS_NO_COLLECTION),
+      );
+    }
+  } catch (err) {
+    if ((err as ResponseError).response?.status === 404) {
+      yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
+    } else {
+      yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
+    }
+  } finally {
+    yield put(uiActions.stopAction(actions.loadViews()));
+  }
+}
+
+export function* watchLoadViews() {
+  yield takeLatest(actions.loadViews.type, getViews);
 }
 
 export function* createCollection(action: PayloadAction<CollectionType>) {
@@ -150,8 +231,10 @@ export function* watchloadCollectionProducts() {
 export default function* collectionSaga() {
   yield all([
     fork(watchLoadCollections),
+    fork(watchLoadViews),
     fork(watchCreateCollection),
     fork(watchUpdateCollection),
+    fork(watchGetCollection),
     fork(watchloadCollectionProducts),
   ]);
 }

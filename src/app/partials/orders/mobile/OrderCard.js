@@ -1,3 +1,4 @@
+import money from 'app/utils/money';
 import * as React from 'react';
 export default function OrderCard({ handleShow, order }) {
   return (
@@ -7,11 +8,10 @@ export default function OrderCard({ handleShow, order }) {
     >
       <div className="w-full flex flex-grow justify-between text-base font-medium text-gray-900">
         <p className={`text-sm text-gray-900 text-center`}>
-          #{new Date(order.updated_at).toISOString()}
+          #{new Date(order.updated_at).toString()}
         </p>
         <p className="ml-4 font-medium text-green-500">
-          {order.currency}
-          {order.total}
+          {money.intToString(order.total, order.currency)}
         </p>
       </div>
       <div className="">

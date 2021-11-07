@@ -24,7 +24,7 @@ export interface CollectionTagType {
 
 export interface CollectionType {
   shop_id?: string;
-  collection_id?: string;
+  collection_id: string;
   handle?: string;
   all_tags?: string[];
   default_sort_by?: string;
@@ -48,4 +48,23 @@ export interface CollectionType {
 export interface CollectionListType {
   collections?: CollectionType[];
   next_page_token?: string;
+}
+
+export interface CollectionViewType {
+  title?: string;
+  description?: string;
+  handle?: string;
+  all_products_count?: number;
+  shop_id: string;
+  collection_id: string;
+  image?: string;
+  active: boolean;
+  all_tags: string[];
+  sales_channels: string[];
+  position?: number;
+  shard_key?: number;
+  created_at: number;
+  updated_at: number;
+  published_at?: number;
+  publishing_date?: number;
 }

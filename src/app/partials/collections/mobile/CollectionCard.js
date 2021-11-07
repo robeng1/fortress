@@ -1,13 +1,15 @@
 import React from 'react';
-import Image01 from '../../../images/user-40-01.jpg';
 
-export default function CollectionCard({ collection }) {
+export default function CollectionCard({ collection, handleShow }) {
   return (
     <>
-      <div className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
+      <div
+        onClick={() => handleShow(true, collection.collection_id)}
+        className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
+      >
         <img
-          src={Image01}
-          alt={''}
+          src={collection.image}
+          alt={collection.title}
           className="w-full h-full object-center object-cover"
         />
       </div>
@@ -16,14 +18,14 @@ export default function CollectionCard({ collection }) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="/">My Collection</a>
+              <a href="/">{collection.title}</a>
             </h3>
           </div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <p
               className={`text-sm text-gray-500 rounded-full text-center py-0.5`}
             >
-              Men, Fashion
+              {collection.Condtions}
             </p>
           </div>
         </div>
@@ -31,7 +33,7 @@ export default function CollectionCard({ collection }) {
           <p
             className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5`}
           >
-            20 items
+            {collection.all_products_count}
           </p>
         </div>
       </div>

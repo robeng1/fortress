@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import uniqBy from 'lodash/uniqBy';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
   CollectionListType,
   CollectionProductType,
   CollectionType,
+  CollectionViewType,
 } from 'app/models/collection/collection-type';
 import { CollectionErrorType } from './types';
 import collectionSaga from './saga';
@@ -15,9 +17,11 @@ export type CollectionState = {
   collections: { [key: string]: CollectionType };
   products: { [key: string]: { [key: string]: CollectionProductType } };
   shard: number;
+  offset: number;
+  num_per_page: number;
+  views: CollectionViewType[];
   collectionsNextPageToken: string;
   collectionsCount: number;
-  loading: boolean;
   error?: CollectionErrorType | null;
 };
 
@@ -25,9 +29,11 @@ export const initialState: CollectionState = {
   collections: {},
   products: {},
   shard: 1,
+  views: [],
+  num_per_page: 20,
+  offset: 0,
   collectionsNextPageToken: '',
   collectionsCount: 0,
-  loading: false,
   error: null,
 };
 
@@ -39,34 +45,49 @@ const slice = createSlice({
   initialState, // same as initialState: initialState
 
   reducers: {
+    getCollection: (state, action: PayloadAction<string>) => {
+      state.error = null;
+    },
     createCollection: (state, action: PayloadAction<CollectionType>) => {
-      state.loading = true;
       state.error = null;
     },
     updateCollection: (state, action: PayloadAction<CollectionType>) => {
-      state.loading = true;
       state.error = null;
     },
     createCollectionProduct: (
       state,
       action: PayloadAction<CollectionProductType>,
     ) => {
-      state.loading = true;
       state.error = null;
     },
     updateCollectionProduct: (
       state,
       action: PayloadAction<CollectionProductType>,
     ) => {
-      state.loading = true;
       state.error = null;
     },
+    loadViews: state => {
+      state.error = null;
+    },
+    viewsLoaded: (state, action: PayloadAction<CollectionViewType[]>) => {
+      const views = action.payload;
+      if (views.length > 0) {
+        state.views = uniqBy([...views, ...state.views], 'collection_id');
+      }
+      // this will serve as the offset when fetching
+      state.offset = views.length;
+      state.error = null;
+    },
+    setCollection: (state, action: PayloadAction<CollectionType>) => {
+      state.collections = {
+        ...state.collections,
+        [action.payload.collection_id]: action.payload,
+      };
+    },
     loadCollections: state => {
-      state.loading = true;
       state.error = null;
     },
     loadProducts: (state, action: PayloadAction<string>) => {
-      state.loading = true;
       state.error = null;
     },
     productsLoaded: (state, action: PayloadAction<CollectionProductType[]>) => {
@@ -79,7 +100,6 @@ const slice = createSlice({
           },
         };
       }
-      state.loading = false;
     },
     collectionsLoaded: (state, action: PayloadAction<CollectionListType>) => {
       const { collections, next_page_token } = action?.payload;
@@ -92,15 +112,12 @@ const slice = createSlice({
           state.collectionsNextPageToken = next_page_token;
         }
       }
-      state.loading = false;
     },
     collectionError(state, action: PayloadAction<CollectionErrorType>) {
       state.error = action.payload;
-      state.loading = false;
     },
     clearError(state) {
       state.error = null;
-      state.loading = false;
     },
   },
 });

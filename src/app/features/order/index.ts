@@ -89,7 +89,7 @@ const slice = createSlice({
     setOrder: (state, action: PayloadAction<OrderType>) => {
       state.orders = {
         ...state.orders,
-        order_id: action.payload,
+        [action.payload.number]: action.payload,
       };
     },
     ordersLoaded: (state, action: PayloadAction<OrderListType>) => {
