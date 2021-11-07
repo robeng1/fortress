@@ -1,8 +1,17 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
-import { ProductListType, ProductType } from 'app/models/product/product-type';
+import {
+  ProductListType,
+  ProductType,
+  ProductViewType,
+} from 'app/models/product/product-type';
 import { productActions as actions } from '.';
-import { selectNextPageToken, selectShopId } from './selectors';
+import {
+  selectCount,
+  selectNextPageToken,
+  selectOffset,
+  selectShopId,
+} from './selectors';
 import { ProductErrorType } from './types';
 import { fortressURL } from 'app/endpoints/urls';
 import { request, ResponseError } from 'utils/request';
@@ -34,6 +43,44 @@ export function* getProducts() {
 
 export function* watchLoadProducts() {
   yield takeLatest(actions.loadProducts.type, getProducts);
+}
+
+export function* getViews() {
+  yield put(uiActions.startAction(actions.loadViews()));
+  const shopId: string = yield select(selectShopId);
+  if (shopId.length === 0) {
+    yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
+    return;
+  }
+  const offset: number = yield select(selectOffset);
+  const countPerPage = yield select(selectCount);
+  const requestURL = `${fortressURL}/shops/${shopId}/productq`;
+  // TODO: query fetches only the most recent 20 products but will be changed to add filters etc later
+  // with 20 per page pagination
+  const query = `SELECT * FROM products WHERE shop_id = ${shopId} ORDER BY updated_at DESC LIMIT ${offset}, ${countPerPage}`;
+  try {
+    const views: ProductViewType[] = yield call(request, requestURL, {
+      method: 'POST',
+      body: query,
+    });
+    if (views && views.length > 0) {
+      yield put(actions.viewsLoaded(views));
+    } else {
+      yield put(actions.productError(ProductErrorType.SHOP_HAS_NO_PRODUCTS));
+    }
+  } catch (err) {
+    if ((err as ResponseError).response?.status === 404) {
+      yield put(actions.productError(ProductErrorType.SHOP_NOT_FOUND));
+    } else {
+      yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
+    }
+  } finally {
+    yield put(uiActions.stopAction(actions.loadViews()));
+  }
+}
+
+export function* watchLoadViews() {
+  yield takeLatest(actions.loadViews.type, getViews);
 }
 
 export function* getChildren(action: PayloadAction<string>) {
@@ -82,7 +129,7 @@ export function* createProduct(action: PayloadAction<ProductType>) {
     });
 
     if (product) {
-      yield put(actions.productsLoaded({ product: [product] }));
+      yield put(actions.setProduct(product));
     }
   } catch (err) {
     yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
@@ -110,7 +157,7 @@ export function* updateProduct(action: PayloadAction<ProductType>) {
     });
 
     if (product) {
-      yield put(actions.productsLoaded({ product: [product] }));
+      yield put(actions.setProduct(product));
     }
   } catch (err) {
     yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
@@ -127,5 +174,6 @@ export default function* productSaga() {
     fork(watchLoadChildren),
     fork(watchCreateProduct),
     fork(watchUpdateProduct),
+    fork(watchLoadViews),
   ]);
 }

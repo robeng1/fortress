@@ -15,3 +15,28 @@ export const selectNextPageToken = createSelector(
   [inventoryState],
   inventory => inventory?.nextPageToken || '',
 );
+export const selectOffset = createSelector(
+  [inventoryState],
+  d => d?.offset || 1,
+);
+export const selectCount = createSelector(
+  [inventoryState],
+  d => d?.num_per_page || 20,
+);
+
+export const selectRecordViews = createSelector(
+  [inventoryState],
+  d => d?.views || [],
+);
+
+export const selectHasRecords = createSelector(
+  [selectRecordViews],
+  d => d && d.length > 0,
+);
+
+export const selectRecordById = (
+  state: RootState,
+  productId: string,
+  variantId: string,
+  centreId: string,
+) => state.inventory?.stock_records[productId][variantId][centreId] || {};

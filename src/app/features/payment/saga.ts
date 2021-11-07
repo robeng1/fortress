@@ -116,6 +116,10 @@ export function* withdraw(action: PayloadAction<TransferType>) {
     yield put(uiActions.stopAction(action));
   }
 }
+
+export function* watchWithdraw() {
+  yield takeLatest(actions.withdraw.type, withdraw);
+}
 /**
  * Root saga manages watcher lifecycle
  */
@@ -124,5 +128,6 @@ export default function* accountSaga() {
     fork(watchCreateAccount),
     fork(watchUpdateAccount),
     fork(watchGetAccount),
+    fork(watchWithdraw),
   ]);
 }

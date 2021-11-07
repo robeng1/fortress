@@ -15,3 +15,22 @@ export const selectNextPageToken = createSelector(
   [productState],
   products => products?.nextPageToken || '',
 );
+
+export const selectOffset = createSelector([productState], d => d?.offset || 1);
+export const selectCount = createSelector(
+  [productState],
+  d => d?.num_per_page || 20,
+);
+
+export const selectProductViews = createSelector(
+  [productState],
+  d => d?.views || [],
+);
+
+export const selectHasProducts = createSelector(
+  [selectProductViews],
+  d => d && d.length > 0,
+);
+
+export const selectProductById = (state: RootState, productId: string) =>
+  state.product?.products[productId];

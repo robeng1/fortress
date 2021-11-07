@@ -5,6 +5,7 @@ import { useAuthnSlice } from 'app/features/authn';
 
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
+
 import { checkIfLoading } from 'app/features/ui/selectors';
 import { selectIsAuthenticated } from 'app/features/authn/selectors';
 
@@ -39,11 +40,9 @@ function Signin() {
           <div className="max-w-sm mx-auto min-h-screen flex flex-col justify-center px-4 py-8">
             <div className="w-full">
               <div>
-                <img
-                  className="mx-auto h-12 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-purple-600.svg"
-                  alt="Workflow"
-                />
+                <h1 className="mx-auto h-12 text-center text-3xl text-purple-800 w-auto">
+                  Reoplex
+                </h1>
                 <h1 className="text-3xl mt-5 text-gray-800 font-bold mb-6">
                   Welcome back!
                 </h1>
@@ -123,7 +122,7 @@ function Signin() {
                 <div className="text-sm">
                   Don’t you have an account?{' '}
                   <Link
-                    className="font-medium text-purple-500 hover:text-purple-600"
+                    className="font-medium text-indigo-500 hover:text-indigo-600"
                     to="/signup"
                   >
                     Sign Up

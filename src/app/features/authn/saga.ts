@@ -42,6 +42,7 @@ export function* login(action: PayloadAction<RegisterLogInType>) {
   } catch (err) {
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
   } finally {
+    yield put(actions.setIsAuthenticated(true));
     yield put(uiActions.stopAction(action));
   }
 }

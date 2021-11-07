@@ -45,9 +45,9 @@ export interface VariationTheme {
 }
 
 export interface ProductType {
-  product_id?: string;
+  product_id: string;
   upc?: string;
-  shop_id?: string;
+  shop_id: string;
   attributes?: { [key: string]: any };
   title?: string;
   description?: string;
@@ -93,4 +93,23 @@ export interface ProductListType {
   product?: ProductType[];
   next_page_token?: string;
   bucket?: number;
+}
+
+export interface ProductViewType {
+  rating?: number;
+  num_variants: number;
+  price_int: number;
+  title?: string;
+  description: string;
+  sku: string;
+  vendor?: string;
+  shop_id: string;
+  handle: string;
+  channels?: string[];
+  num_in_stock: number;
+  currency: string;
+  num_of_stock: string;
+  categories: string[];
+  product_type: string;
+  track_stock: boolean;
 }

@@ -133,11 +133,7 @@ export function* createDiscount(action: PayloadAction<DiscountType>) {
     });
 
     if (offer) {
-      yield put(
-        actions.discountsLoaded({
-          discounts: [offer],
-        }),
-      );
+      yield put(actions.setDiscount(offer));
     }
   } catch (err) {
     yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
@@ -166,11 +162,7 @@ export function* updateDiscount(action: PayloadAction<DiscountType>) {
     });
 
     if (offer) {
-      yield put(
-        actions.discountsLoaded({
-          discounts: [offer],
-        }),
-      );
+      yield put(actions.setDiscount(offer));
     }
   } catch (err) {
     yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
@@ -192,5 +184,6 @@ export default function* DiscountSaga() {
     fork(watchCreateDiscount),
     fork(watchUpdateDiscount),
     fork(watchLoadViews),
+    fork(watchGetDiscount),
   ]);
 }

@@ -142,11 +142,7 @@ export function* createCollection(action: PayloadAction<CollectionType>) {
     });
 
     if (collection) {
-      yield put(
-        actions.collectionsLoaded({
-          collections: [collection],
-        }),
-      );
+      yield put(actions.setCollection(collection));
     }
   } catch (err) {
     yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
@@ -175,11 +171,7 @@ export function* updateCollection(action: PayloadAction<CollectionType>) {
     });
 
     if (collection) {
-      yield put(
-        actions.collectionsLoaded({
-          collections: [collection],
-        }),
-      );
+      yield put(actions.setCollection(collection));
     }
   } catch (err) {
     yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));

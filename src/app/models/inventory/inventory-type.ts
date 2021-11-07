@@ -18,9 +18,9 @@ export interface LocationType {
 }
 
 export interface InventoryType {
-  variant_id?: string;
-  product_id?: string;
-  centre_id?: string;
+  variant_id: string;
+  product_id: string;
+  centre_id: string;
   centre_sku?: string;
   num_in_stock?: number;
   num_allocated?: number;
@@ -38,9 +38,35 @@ export interface InventoryType {
   track_quantity?: boolean;
   unlimited?: boolean;
   shard?: number;
+  stock_id?: number;
 }
 
 export interface InventoryListType {
   stock_records?: InventoryType[];
   next_page_token?: string;
+}
+
+export interface InventoryViewType {
+  num_allocated: number;
+  num_in_stock: number;
+  price_excl_tax_int: number;
+  compare_at_price_int: number;
+  cost_per_item_int: number;
+  title: string;
+  description: string;
+  sku: string;
+  image_url: string;
+  shop_id: string;
+  product_id: string;
+  variant_id: string;
+  centre_id: string;
+  created_at?: number;
+  updated_at?: number;
+  centre_sku: string;
+  item_condition: string;
+  currency: string;
+  deleted: boolean;
+  attributes: string;
+  track_quantity: boolean;
+  stock_id: string;
 }

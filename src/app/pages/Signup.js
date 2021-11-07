@@ -11,7 +11,6 @@ import { selectIsAuthenticated } from 'app/features/authn/selectors';
 
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
-
 function Signup() {
   const { actions } = useAuthnSlice();
   const isLoading = useSelector(state =>
@@ -47,14 +46,12 @@ function Signup() {
           <div className="max-w-sm mx-auto min-h-screen flex flex-col justify-center px-4 py-2">
             <div className="w-full">
               <div>
-                <img
-                  className="mx-auto h-12 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-purple-600.svg"
-                  alt="Workflow"
-                />
-                <h1 className="text-3xl mt-5 text-gray-800 font-bold mb-6">
-                  Create account
+                <h1 className="mx-auto h-12 text-center text-3xl text-purple-800 w-auto">
+                  Reoplex
                 </h1>
+                {/* <h1 className="text-2xl mt-5 text-gray-800 font-bold mb-6">
+                  Create account
+                </h1> */}
               </div>
               <Formik
                 initialValues={{

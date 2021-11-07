@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import uniqBy from 'lodash/uniqBy';
 
 import {
   ProductImage,
   ProductListType,
   ProductType,
+  ProductViewType,
 } from 'app/models/product/product-type';
 import { objectify } from 'app/utils/utils';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -16,11 +18,13 @@ export type ProductState = {
   products: { [key: string]: ProductType };
   // this is keyed by the product ID and they keyed again by the variant id
   product_variants: {
-    [key: string]: { [key: string]: ProductType | ProductType[] };
+    [key: string]: { [key: string]: ProductType[] };
   };
+  views: ProductViewType[];
+  offset: number;
+  num_per_page: number;
   nextPageToken: string;
   count: number;
-  loading: boolean;
   error?: ProductErrorType | null;
 };
 
@@ -28,8 +32,10 @@ export const initialState: ProductState = {
   products: {},
   product_variants: {},
   nextPageToken: '',
+  views: [],
+  num_per_page: 20,
+  offset: 0,
   count: 0,
-  loading: false,
   error: null,
 };
 
@@ -42,28 +48,40 @@ export const slice = createSlice({
 
   reducers: {
     createProduct: (state, action: PayloadAction<ProductType>) => {
-      state.loading = true;
       state.error = null;
     },
     updateProduct: (state, action: PayloadAction<ProductType>) => {
-      state.loading = true;
       state.error = null;
     },
     loadProducts: state => {
-      state.loading = true;
+      state.error = null;
+    },
+    loadViews: state => {
+      state.error = null;
+    },
+    viewsLoaded: (state, action: PayloadAction<ProductViewType[]>) => {
+      const views = action.payload;
+      if (views.length > 0) {
+        state.views = uniqBy([...views, ...state.views], 'product_id');
+      }
+      // this will serve as the offset when fetching
+      state.offset = views.length;
       state.error = null;
     },
     loadVariants: (state, action: PayloadAction<string>) => {
-      state.loading = true;
       state.error = null;
     },
     getProduct: (state, action: PayloadAction<string>) => {
-      state.loading = true;
       state.error = null;
     },
     setProductImage: (state, action: PayloadAction<ProductImage>) => {
-      state.loading = true;
       state.error = null;
+    },
+    setProduct: (state, action: PayloadAction<ProductType>) => {
+      state.products = {
+        ...state.products,
+        [action.payload.product_id]: action.payload,
+      };
     },
     productsLoaded: (state, action: PayloadAction<ProductListType>) => {
       const { product, next_page_token } = action?.payload;
@@ -79,8 +97,6 @@ export const slice = createSlice({
       if (next_page_token) {
         state.nextPageToken = next_page_token;
       }
-
-      state.loading = false;
     },
     variantsLoaded: (state, action: PayloadAction<ProductListType>) => {
       const { product, next_page_token } = action?.payload;
@@ -96,15 +112,12 @@ export const slice = createSlice({
       if (next_page_token) {
         state.nextPageToken = next_page_token;
       }
-      state.loading = false;
     },
     productError(state, action: PayloadAction<ProductErrorType>) {
       state.error = action.payload;
-      state.loading = false;
     },
     clearError(state) {
       state.error = null;
-      state.loading = false;
     },
   },
 });
