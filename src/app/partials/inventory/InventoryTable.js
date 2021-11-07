@@ -2,68 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
 import InventoryTableItem from './InventoryTableItem';
 import InventoryList from './mobile/InventoryList';
-
-import Image01 from '../../images/user-40-01.jpg';
-import Image02 from '../../images/user-40-02.jpg';
-import Image03 from '../../images/user-40-03.jpg';
-import Image04 from '../../images/user-40-04.jpg';
+import EmptyState from 'app/partials/EmptyState';
+import { selectRecordViews } from 'app/features/inventory/selectors';
+import { useSelector } from 'react-redux';
+import money from 'app/utils/money';
 
 const InventoryTable = ({ selectedItems, headings }) => {
-  const products = [
-    {
-      id: '0',
-      image: Image01,
-      name: 'Bike short',
-      inventory: 'Blue',
-      type: 'Small',
-      status: 'Active',
-      variants: '24',
-    },
-    {
-      id: '0',
-      image: Image02,
-      name: 'Bike short',
-      inventory: 'Green',
-      type: 'Medium',
-      status: 'Active',
-      variants: '24',
-    },
-    {
-      id: '0',
-      image: Image03,
-      name: 'Bike short',
-      inventory: 'White',
-      type: 'Large',
-      status: 'Active',
-      variants: '24',
-    },
-    {
-      id: '0',
-      image: Image04,
-      name: 'Bike short',
-      inventory: 'Blue',
-      type: 'Extra Large',
-      status: 'Active',
-      variants: '24',
-    },
-  ];
+  const records = useSelector(selectRecordViews);
 
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    setList(products);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     focusHandling('outline');
-  }, [list]);
+  }, [records]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setIsCheck(list.map(li => li.id));
+    setIsCheck(
+      records.map(li => `${li.product_id}-${li.variant_id}-${li.centre_id}`),
+    );
     if (selectAll) {
       setIsCheck([]);
     }
@@ -84,65 +42,79 @@ const InventoryTable = ({ selectedItems, headings }) => {
   }, [isCheck]);
 
   return (
-    <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
-      <InventoryList />
-      <div className="hidden md:block">
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full">
-            {/* Table header */}
-            <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
-              <tr>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
-                  <div className="flex items-center">
-                    <label className="inline-flex">
-                      <span className="sr-only">Select all</span>
-                      <input
-                        className="form-checkbox"
-                        type="checkbox"
-                        checked={selectAll}
-                        onChange={handleSelectAll}
+    <>
+      {records.length > 0 ? (
+        <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
+          <InventoryList />
+          <div className="hidden md:block">
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full">
+                {/* Table header */}
+                <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
+                  <tr>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+                      <div className="flex items-center">
+                        <label className="inline-flex">
+                          <span className="sr-only">Select all</span>
+                          <input
+                            className="form-checkbox"
+                            type="checkbox"
+                            checked={selectAll}
+                            onChange={handleSelectAll}
+                          />
+                        </label>
+                      </div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                      <div className="font-semibold">Product</div>
+                    </th>
+                    <th className="px-2 first:pl-5 text-left last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold">SKU</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                      <div className="font-semibold">Price</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                      <div className="font-semibold">Available</div>
+                    </th>
+                  </tr>
+                </thead>
+                {/* Table body */}
+                <tbody className="text-sm border-gray-200 divide-y divide-gray-200">
+                  {records.map(product => {
+                    return (
+                      <InventoryTableItem
+                        key={`${product.product_id}-${product.variant_id}-${product.centre_id}`}
+                        id={`${product.product_id}-${product.variant_id}-${product.centre_id}`}
+                        image={product.image_url}
+                        name={product.title}
+                        inventory={product.sku}
+                        type={product.item_condition}
+                        status={money.intToString(
+                          product.price_excl_tax_int,
+                          product.currency,
+                        )}
+                        variants={product.num_in_stock}
+                        fav={false}
+                        handleClick={handleClick}
+                        isChecked={isCheck.includes(
+                          `${product.product_id}-${product.variant_id}-${product.centre_id}`,
+                        )}
                       />
-                    </label>
-                  </div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
-                  <div className="font-semibold">Product</div>
-                </th>
-                <th className="px-2 first:pl-5 text-left last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold">SKU</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
-                  <div className="font-semibold">Price</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
-                  <div className="font-semibold">Available</div>
-                </th>
-              </tr>
-            </thead>
-            {/* Table body */}
-            <tbody className="text-sm border-gray-200 divide-y divide-gray-200">
-              {list.map(product => {
-                return (
-                  <InventoryTableItem
-                    key={product.id}
-                    id={product.id}
-                    image={product.image}
-                    name={product.name}
-                    inventory={product.inventory}
-                    type={product.type}
-                    status={product.status}
-                    variants={product.variants}
-                    fav={product.fav || false}
-                    handleClick={handleClick}
-                    isChecked={isCheck.includes(product.id)}
-                  />
-                );
-              })}
-            </tbody>
-          </table>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <EmptyState
+          heading="No inventory yet"
+          msg="Inventory will appear here when you add products"
+        />
+      )}
+    </>
   );
 };
 

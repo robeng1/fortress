@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 
 import BottomNav from 'app/components/BottomNav';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import DeleteButton from '../../partials/actions/DeleteButton';
-import DateSelect from '../../components/DateSelect';
-import FilterButton from '../../components/DropdownFilter';
-import InventoryTable from '../../partials/inventory/InventoryTable';
-import PaginationNumeric from '../../components/PaginationNumeric';
-import SearchForm from '../../partials/actions/SearchForm';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+// import DeleteButton from 'app/partials/actions/DeleteButton';
+// import DateSelect from 'app/components/DateSelect';
+import FilterButton from 'app/components/DropdownFilter';
+import InventoryTable from 'app/partials/inventory/InventoryTable';
+import PaginationNumeric from 'app/components/PaginationNumeric';
+import SearchForm from 'app/partials/actions/SearchForm';
+import { selectHasRecords } from 'app/features/inventory/selectors';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Inventories() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-
+  const hasRecords = useSelector(selectHasRecords);
+  const dispatch = useDispatch();
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
   };
@@ -54,9 +57,11 @@ function Inventories() {
             <InventoryTable selectedItems={handleSelectedItems} />
 
             {/* Pagination */}
-            <div className="mt-4 md:mt-8">
-              <PaginationNumeric />
-            </div>
+            {hasRecords && (
+              <div className="mt-4 md:mt-8">
+                <PaginationNumeric />
+              </div>
+            )}
             <BottomNav />
           </div>
         </main>

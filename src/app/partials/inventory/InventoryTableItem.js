@@ -29,7 +29,7 @@ function InventoryTableItem(props) {
               alt={props.name}
             />
           </div>
-          <div className="font-medium text-gray-800">White lab</div>
+          <div className="font-medium text-gray-800">{props.name}</div>
         </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">

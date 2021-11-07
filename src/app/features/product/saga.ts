@@ -54,7 +54,7 @@ export function* getViews() {
   }
   const offset: number = yield select(selectOffset);
   const countPerPage = yield select(selectCount);
-  const requestURL = `${fortressURL}/shops/${shopId}/productq`;
+  const requestURL = `${fortressURL}/shops/${shopId}/productsq`;
   // TODO: query fetches only the most recent 20 products but will be changed to add filters etc later
   // with 20 per page pagination
   const query = `SELECT * FROM products WHERE shop_id = ${shopId} ORDER BY updated_at DESC LIMIT ${offset}, ${countPerPage}`;
@@ -81,6 +81,38 @@ export function* getViews() {
 
 export function* watchLoadViews() {
   yield takeLatest(actions.loadViews.type, getViews);
+}
+
+export function* getProduct(action: PayloadAction<string>) {
+  const productId = action.payload;
+  yield put(uiActions.startAction(action));
+  const shopId: string = yield select(selectShopId);
+  if (shopId.length === 0) {
+    yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
+    return;
+  }
+  const requestURL = `${fortressURL}/shops/${shopId}/products/${productId}`;
+  try {
+    const product: ProductType = yield call(request, requestURL);
+    if (product) {
+      yield put(actions.setProduct(product));
+    } else {
+      // this will be quite weird
+      yield put(actions.productError(ProductErrorType.SHOP_NOT_FOUND));
+    }
+  } catch (err) {
+    if ((err as ResponseError).response?.status === 404) {
+      yield put(actions.productError(ProductErrorType.SHOP_NOT_FOUND));
+    } else {
+      yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
+    }
+  } finally {
+    yield put(uiActions.stopAction(action));
+  }
+}
+
+export function* watchGetProduct() {
+  yield takeLatest(actions.getProduct.type, getProduct);
 }
 
 export function* getChildren(action: PayloadAction<string>) {
@@ -175,5 +207,6 @@ export default function* productSaga() {
     fork(watchCreateProduct),
     fork(watchUpdateProduct),
     fork(watchLoadViews),
+    fork(watchGetProduct),
   ]);
 }
