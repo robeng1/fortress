@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectHasOrders } from 'app/features/order/selectors';
 
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
-import DeleteButton from '../partials/actions/DeleteButton';
-import DateSelect from '../partials/actions/DateSelect';
-import FilterButton from '../partials/actions/FilterButton';
+// import DeleteButton from '../partials/actions/DeleteButton';
+// import DateSelect from '../partials/actions/DateSelect';
+// import FilterButton from '../partials/actions/FilterButton';
 import OrdersTable from '../partials/orders/OrdersTable';
 import PaginationClassic from '../partials/PaginationClassic';
 
 function Orders() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
+  const hasOrders = useSelector(selectHasOrders);
+  console.log(hasOrders);
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
@@ -42,9 +46,11 @@ function Orders() {
             <OrdersTable selectedItems={handleSelectedItems} />
 
             {/* Pagination */}
-            <div className="mt-8">
-              <PaginationClassic />
-            </div>
+            {hasOrders && (
+              <div className="mt-8">
+                <PaginationClassic />
+              </div>
+            )}
           </div>
         </main>
       </div>

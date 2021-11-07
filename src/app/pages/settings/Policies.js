@@ -4,9 +4,9 @@ import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import AppsPanel from '../../partials/settings/AppsPanel';
+import PoliciesPanel from '../../partials/settings/PoliciesPanel';
 
-function Apps() {
+function Policies() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ function Apps() {
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
                 <SettingsSidebar />
-                <AppsPanel />
+                <PoliciesPanel />
               </div>
             </div>
           </div>
@@ -44,4 +44,4 @@ function Apps() {
   );
 }
 
-export default Apps;
+export default Policies;

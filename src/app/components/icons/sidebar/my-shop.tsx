@@ -1,4 +1,4 @@
-export const MyShopIcon: React.FC<React.SVGAttributes<{}>> = (props) => (
+export const MyShopIcon: React.FC<React.SVGAttributes<{}>> = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.828 14.8" {...props}>
     <g
       data-name="my shop"

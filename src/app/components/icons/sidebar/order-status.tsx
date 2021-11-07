@@ -1,4 +1,4 @@
-export const OrdersStatusIcon: React.FC<React.SVGAttributes<{}>> = (props) => (
+export const OrdersStatusIcon: React.FC<React.SVGAttributes<{}>> = props => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 17.717 20.3"

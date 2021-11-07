@@ -56,3 +56,11 @@ export interface ShopType {
   page_description?: string;
   is_registered?: boolean;
 }
+
+export interface StartType {
+  email?: string;
+  business_display_name?: string;
+  permanent_domain: string;
+  handle?: string;
+  password?: string;
+}

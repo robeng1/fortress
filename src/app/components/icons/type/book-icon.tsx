@@ -1,5 +1,5 @@
 import React from 'react';
-export const BookIcon: React.FC<React.SVGAttributes<{}>> = (props) => {
+export const BookIcon: React.FC<React.SVGAttributes<{}>> = props => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

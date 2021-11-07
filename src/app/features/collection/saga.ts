@@ -8,6 +8,7 @@ import {
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request, ResponseError } from 'utils/request';
 import { collectionActions as actions } from '.';
+import { uiActions } from '../ui';
 import { selectCollectionsNextPageToken, selectShopId } from './selectors';
 import { CollectionErrorType } from './types';
 
@@ -52,6 +53,7 @@ export function* createCollection(action: PayloadAction<CollectionType>) {
     return;
   }
   const requestURL = `${fortressURL}/shops/${shopID}/collections`;
+  yield put(uiActions.startAction(action));
   try {
     const collection: CollectionType = yield call(request, requestURL, {
       method: 'POST',
@@ -67,6 +69,8 @@ export function* createCollection(action: PayloadAction<CollectionType>) {
     }
   } catch (err) {
     yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -82,6 +86,7 @@ export function* updateCollection(action: PayloadAction<CollectionType>) {
   }
   const body = action?.payload;
   const requestURL = `${fortressURL}/shops/${shopID}/collections/${body.collection_id}`;
+  yield put(uiActions.startAction(action));
   try {
     const collection: CollectionType = yield call(request, requestURL, {
       method: 'PATCH',
@@ -97,6 +102,8 @@ export function* updateCollection(action: PayloadAction<CollectionType>) {
     }
   } catch (err) {
     yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -112,6 +119,7 @@ export function* getCollectionProducts(action: PayloadAction<string>) {
   }
   const collectionId = action?.payload;
   const requestURL = `${fortressURL}/shops/${shopID}/collections/${collectionId}/products`;
+  yield put(uiActions.startAction(action));
   try {
     const products: CollectionProductType[] = yield call(request, requestURL);
     if (products && products.length > 0) {
@@ -127,6 +135,8 @@ export function* getCollectionProducts(action: PayloadAction<string>) {
     } else {
       yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
     }
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 

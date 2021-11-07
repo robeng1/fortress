@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuthnSlice } from 'app/features/authn';
 
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
 import { checkIfLoading } from 'app/features/ui/selectors';
+import { selectIsAuthenticated } from 'app/features/authn/selectors';
 
 function Signin() {
   const { actions } = useAuthnSlice();
+  const history = useHistory();
+  const { state = {} } = history.location;
+  const { from } = state;
   const isLoading = useSelector(state =>
-    checkIfLoading(state, [actions.login.type]),
+    checkIfLoading(state, actions.login.type),
   );
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  useEffect(() => {}, [isLoading]);
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(actions.login({ identifier, password }));
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push(from || '/');
+    }
+  }, [isAuthenticated, history, from]);
+
   return (
     <main className="bg-white">
       <div className="relative md:flex">
@@ -35,7 +46,6 @@ function Signin() {
                 />
                 <h1 className="text-3xl mt-5 text-gray-800 font-bold mb-6">
                   Welcome back!
-                  {isLoading && 'Yeah'}
                 </h1>
               </div>
               {/* Form */}

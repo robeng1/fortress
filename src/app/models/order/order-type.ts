@@ -141,3 +141,25 @@ export interface OrderListType {
   orders?: OrderType[];
   next_page_token?: string;
 }
+
+export interface OrderViewType {
+  num_item: number;
+  total: number;
+  potential_earning: number;
+  shop_id: string;
+  order_id: string;
+  datename: string;
+  status: string;
+  customer_name: string;
+  customer_id: string;
+  location: string;
+  item_images: string[];
+  order_type: string;
+  currency: string;
+  date_placed: number;
+  created_at: number;
+  updated_at: number;
+  job_id: string;
+  archived: boolean;
+  tags: string[];
+}

@@ -1,10 +1,44 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import slugify from 'slugify';
+import { useDispatch, useSelector } from 'react-redux';
+import { Formik } from 'formik';
+import { request } from 'utils/request';
+import { domainURL } from 'app/endpoints/urls';
+import { useAuthnSlice } from 'app/features/authn';
+import { checkIfLoading } from 'app/features/ui/selectors';
+import { selectIsAuthenticated } from 'app/features/authn/selectors';
 
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
 
 function Signup() {
+  const { actions } = useAuthnSlice();
+  const isLoading = useSelector(state =>
+    checkIfLoading(state, actions.signup.type),
+  );
+  const history = useHistory();
+  const { state = {} } = history.location;
+  const { from } = state;
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const dispatch = useDispatch();
+  const handleSubmit = values => {
+    dispatch(actions.signup({ ...values }));
+  };
+  const slugit = txt =>
+    slugify(txt, {
+      replacement: '-',
+      lower: true,
+      strict: true,
+      trim: true,
+    });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push(from || '/');
+    }
+  }, [isAuthenticated, history, from]);
+
   return (
     <main className="bg-white">
       <div className="relative md:flex">
@@ -15,123 +49,197 @@ function Signup() {
               <div>
                 <img
                   className="mx-auto h-12 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  src="https://tailwindui.com/img/logos/workflow-mark-purple-600.svg"
                   alt="Workflow"
                 />
                 <h1 className="text-3xl mt-5 text-gray-800 font-bold mb-6">
                   Create account
                 </h1>
               </div>
-
-              {/* Form */}
-              <form>
-                <div className="space-y-4">
-                  <div>
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="email"
-                    >
-                      Email address <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="email"
-                      className="form-input w-full"
-                      type="email"
-                    />
-                  </div>
-                  {/* <div>
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="name"
-                    >
-                      Full name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="name"
-                      className="form-input w-full"
-                      type="text"
-                    />
-                  </div> */}
-                  <div>
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="store_name"
-                    >
-                      Your store name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="store_name"
-                      className="form-input w-full"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    {/* Start */}
-                    <div>
-                      <label
-                        className="block text-sm font-medium mb-1"
-                        htmlFor="url_name"
-                      >
-                        Your store URL
-                      </label>
-                      <div className="relative">
+              <Formik
+                initialValues={{
+                  email: '',
+                  password: '',
+                  business_display_name: '',
+                  handle: '',
+                }}
+                validateOnChange={false}
+                validateOnBlur={true}
+                validate={values => {
+                  const errors = {};
+                  if (!values.email) {
+                    errors.email = 'Required';
+                  } else if (
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                      values.email,
+                    )
+                  ) {
+                    errors.email = 'Invalid email address';
+                  }
+                  if (!values.password) {
+                    errors.password = 'Required';
+                  }
+                  if (!values.business_display_name) {
+                    errors.business_display_name = 'Required';
+                  }
+                  if (!values.handle) {
+                    errors.handle = 'Required';
+                  } else {
+                    const handle = slugit(values.handle);
+                    const requestURL = `${domainURL}/ask?domain=${handle}`;
+                    const exists = request(requestURL)
+                      .then(v => v)
+                      .catch(() => false);
+                    if (exists === true) {
+                      errors.handle = 'Name already taken';
+                    }
+                  }
+                  console.log(errors);
+                  return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                  handleSubmit({
+                    ...values,
+                    permanent_domain: slugit(values.handle),
+                  });
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                }) => (
+                  <form>
+                    <div className="space-y-4">
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="email"
+                        >
+                          Email address <span className="text-red-500">*</span>
+                        </label>
                         <input
-                          id="url_name"
-                          className="form-input w-full pr-8"
+                          id="email"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="email"
+                          value={values.email}
+                          className="form-input w-full"
+                          type="email"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="password"
+                        >
+                          Password
+                        </label>
+                        <input
+                          id="password"
+                          name="password"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.password}
+                          className="form-input w-full"
+                          type="password"
+                          autoComplete="on"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="business_display_name"
+                        >
+                          Your store name
+                          <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          id="business_display_name"
+                          name="business_display_name"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.business_display_name}
+                          className="form-input w-full"
                           type="text"
                         />
-                        <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
-                          <span className="text-sm text-gray-400 font-medium px-3">
-                            .reoplex.com
-                          </span>
+                      </div>
+
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="handle"
+                        >
+                          Your store URL
+                        </label>
+                        <div className="relative">
+                          <input
+                            id="handle"
+                            name="handle"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.handle}
+                            className="form-input w-full pr-8"
+                            type="text"
+                          />
+                          <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
+                            <span className="text-sm text-gray-400 font-medium px-3">
+                              .reoplex.com
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-xs mt-1 text-green-500">
+                          Your store link eg. https://
+                          <b>
+                            {values.handle ? slugit(values.handle) : 'name'}
+                          </b>
+                          .reoplex.com
                         </div>
                       </div>
-                      <div className="text-xs mt-1 text-green-500">
-                        Link to your website eg. https://<b>name</b>
-                        .reoplex.com
-                      </div>
                     </div>
-                    {/* End */}
-                  </div>
 
-                  <div>
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      id="password"
-                      className="form-input w-full"
-                      type="password"
-                      autoComplete="on"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mt-6">
-                  <div className="mr-1">
-                    <label className="flex items-center">
-                      <input type="checkbox" className="form-checkbox" />
-                      <span className="text-sm ml-2">
-                        Email me about product news.
-                      </span>
-                    </label>
-                  </div>
-                  <Link
-                    className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3 whitespace-nowrap"
-                    to="/"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-              </form>
+                    <div className="flex items-right justify-end mt-6">
+                      {isLoading && (
+                        <div className="m-1.5">
+                          <button
+                            className="btn bg-purple-500 hover:bg-purple-600 text-white disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed shadow-none ml-3"
+                            disabled
+                          >
+                            <svg
+                              className="animate-spin w-4 h-4 fill-current flex-shrink-0"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M8 16a7.928 7.928 0 01-3.428-.77l.857-1.807A6.006 6.006 0 0014 8c0-3.309-2.691-6-6-6a6.006 6.006 0 00-5.422 8.572l-1.806.859A7.929 7.929 0 010 8c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" />
+                            </svg>
+                            <span className="ml-2">Loading</span>
+                          </button>
+                        </div>
+                      )}
+                      {!isLoading && (
+                        <div className="m-1.5">
+                          <button
+                            className="btn bg-purple-500 hover:bg-purple-600 text-white ml-3"
+                            onClick={handleSubmit}
+                          >
+                            Create your store
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </form>
+                )}
+              </Formik>
+
               {/* Footer */}
               <div className="pt-5 mt-6 border-t border-gray-200">
                 <div className="text-sm">
                   Have an account?{' '}
                   <Link
-                    className="font-medium text-indigo-500 hover:text-indigo-600"
+                    className="font-medium text-purple-500 hover:text-purple-600"
                     to="/signin"
                   >
                     Sign In

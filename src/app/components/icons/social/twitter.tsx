@@ -1,4 +1,4 @@
-export const TwitterIcon: React.FC<React.SVGAttributes<{}>> = (props) => (
+export const TwitterIcon: React.FC<React.SVGAttributes<{}>> = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.747 12" {...props}>
     <path
       data-name="_ionicons_svg_logo-twitter (5)"

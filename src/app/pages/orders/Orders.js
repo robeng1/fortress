@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectHasOrders } from 'app/features/order/selectors';
 
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
@@ -10,11 +12,16 @@ import SearchForm from '../../partials/actions/SearchForm';
 import OrdersTable from '../../partials/orders/OrdersTable';
 import Order from 'app/partials/orders/Order';
 import PaginationNumeric from '../../components/PaginationNumeric';
+import { useOrderSlice } from 'app/features/order';
 
 function Orders() {
+  const { actions } = useOrderSlice();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showOrder, setShowOrder] = useState(false);
+  const [currentlyShowingOrderId, setCurrentlyShowingOrderId] = useState('');
+  const hasOrders = useSelector(selectHasOrders);
+  const dispatch = useDispatch();
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
@@ -22,9 +29,10 @@ function Orders() {
 
   const handleShow = (display, orderId) => {
     setShowOrder(display);
-    // TODO: set the currently showing order here
+    setCurrentlyShowingOrderId(orderId);
+    // dispatch an action to go get the order
+    dispatch(actions.getOrder(orderId));
   };
-
   const renderList = () => {
     return (
       <main className="mb-10 md:mb-0">
@@ -70,28 +78,30 @@ function Orders() {
           </div>
 
           {/* More actions */}
-          <div className="sm:flex sm:justify-between sm:items-center mb-5">
-            {/* Left side */}
-            <div className="mb-4 sm:mb-0 hidden md:block">
-              <ul className="flex flex-wrap -m-1">
-                <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
-                    New <span className="ml-1 text-gray-400">14</span>
-                  </button>
-                </li>
-                <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
-                    Processing <span className="ml-1 text-gray-400">34</span>
-                  </button>
-                </li>
-                <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
-                    Dispatched <span className="ml-1 text-gray-400">19</span>
-                  </button>
-                </li>
-              </ul>
+          {hasOrders && (
+            <div className="sm:flex sm:justify-between sm:items-center mb-5">
+              {/* Left side */}
+              <div className="mb-4 sm:mb-0 hidden md:block">
+                <ul className="flex flex-wrap -m-1">
+                  <li className="m-1">
+                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
+                      New <span className="ml-1 text-gray-400">14</span>
+                    </button>
+                  </li>
+                  <li className="m-1">
+                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
+                      Processing <span className="ml-1 text-gray-400">34</span>
+                    </button>
+                  </li>
+                  <li className="m-1">
+                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent focus:outline-none shadow bg-white appearance-none text-gray-500 duration-150 ease-in-out">
+                      Dispatched <span className="ml-1 text-gray-400">19</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Table */}
           <OrdersTable
@@ -100,9 +110,11 @@ function Orders() {
           />
 
           {/* Pagination */}
-          <div className="mt-4 md:mt-8">
-            <PaginationNumeric />
-          </div>
+          {hasOrders && (
+            <div className="mt-4 md:mt-8">
+              <PaginationNumeric />
+            </div>
+          )}
         </div>
       </main>
     );
@@ -122,7 +134,11 @@ function Orders() {
           location="Orders"
         />
 
-        {showOrder ? <Order handleShow={handleShow} /> : renderList()}
+        {showOrder ? (
+          <Order orderId={currentlyShowingOrderId} handleShow={handleShow} />
+        ) : (
+          renderList()
+        )}
         <BottomNav />
       </div>
     </div>

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function PlansPanel() {
-  const [annual, setAnnual] = useState(true);
-
+function PoliciesPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
@@ -134,4 +132,4 @@ function PlansPanel() {
   );
 }
 
-export default PlansPanel;
+export default PoliciesPanel;

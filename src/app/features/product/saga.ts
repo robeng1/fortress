@@ -6,6 +6,7 @@ import { selectNextPageToken, selectShopId } from './selectors';
 import { ProductErrorType } from './types';
 import { fortressURL } from 'app/endpoints/urls';
 import { request, ResponseError } from 'utils/request';
+import { uiActions } from '../ui';
 
 export function* getProducts() {
   const shopId: string = yield select(selectShopId);
@@ -36,6 +37,7 @@ export function* watchLoadProducts() {
 }
 
 export function* getChildren(action: PayloadAction<string>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -56,6 +58,8 @@ export function* getChildren(action: PayloadAction<string>) {
     } else {
       yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
     }
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -64,6 +68,7 @@ export function* watchLoadChildren() {
 }
 
 export function* createProduct(action: PayloadAction<ProductType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -81,6 +86,8 @@ export function* createProduct(action: PayloadAction<ProductType>) {
     }
   } catch (err) {
     yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -88,6 +95,7 @@ export function* watchCreateProduct() {
   yield takeLatest(actions.createProduct.type, createProduct);
 }
 export function* updateProduct(action: PayloadAction<ProductType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -106,6 +114,8 @@ export function* updateProduct(action: PayloadAction<ProductType>) {
     }
   } catch (err) {
     yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 export function* watchUpdateProduct() {

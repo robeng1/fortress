@@ -8,6 +8,7 @@ import {
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request, ResponseError } from 'utils/request';
 import { inventoryActions as actions } from '.';
+import { uiActions } from '../ui';
 import { selectNextPageToken, selectShopId } from './selectors';
 import { InventoryErrorType } from './types';
 
@@ -41,6 +42,7 @@ export function* watchLoadLocations() {
 }
 
 export function* createLocation(action: PayloadAction<LocationType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -58,6 +60,8 @@ export function* createLocation(action: PayloadAction<LocationType>) {
     }
   } catch (err) {
     yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -66,6 +70,7 @@ export function* watchCreateLocation() {
 }
 
 export function* updateLocation(action: PayloadAction<LocationType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -84,6 +89,8 @@ export function* updateLocation(action: PayloadAction<LocationType>) {
     }
   } catch (err) {
     yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -126,6 +133,7 @@ export function* watchLoadInventory() {
 }
 
 export function* createInventory(action: PayloadAction<InventoryType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -148,6 +156,8 @@ export function* createInventory(action: PayloadAction<InventoryType>) {
     }
   } catch (err) {
     yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -156,6 +166,7 @@ export function* watchCreateInventory() {
 }
 
 export function* updateInventory(action: PayloadAction<InventoryType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -178,6 +189,8 @@ export function* updateInventory(action: PayloadAction<InventoryType>) {
     }
   } catch (err) {
     yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 

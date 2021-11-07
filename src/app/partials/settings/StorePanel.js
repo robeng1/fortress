@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from '../../images/user-avatar-80.png';
 
-function AccountPanel() {
+function StorePanel() {
   return (
     <>
       <form className="flex-grow">
@@ -258,4 +258,4 @@ function AccountPanel() {
   );
 }
 
-export default AccountPanel;
+export default StorePanel;

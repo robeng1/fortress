@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ShopType } from 'app/models/settings/shop-type';
+import { ShopType, StartType } from 'app/models/settings/shop-type';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import settingsSaga from './saga';
 import { SettingsErrorType } from './type';
@@ -27,29 +27,14 @@ export const slice = createSlice({
   initialState, // same as initialState: initialState
 
   reducers: {
-    ask: (state, action: PayloadAction<string>) => {
-      state.loading = true;
-      state.error = null;
-    },
-    getShopByMerchantId: state => {
-      state.loading = true;
-      state.error = null;
-    },
-    getShop: (state, action: PayloadAction<string>) => {
-      state.loading = true;
-      state.error = null;
-    },
-    updateShop: (state, action: PayloadAction<ShopType>) => {
-      state.loading = true;
-      state.error = null;
-    },
-    createShop: (state, action: PayloadAction<ShopType>) => {
-      state.loading = true;
-      state.error = null;
-    },
+    ask: (state, action: PayloadAction<string>) => {},
+    getShopByMerchantId: state => {},
+    getShop: (state, action: PayloadAction<string>) => {},
+    updateShop: (state, action: PayloadAction<ShopType>) => {},
+    createShop: (state, action: PayloadAction<ShopType>) => {},
+    getStarted: (state, action: PayloadAction<StartType>) => {},
     setShop: (state, action: PayloadAction<ShopType>) => {
       state.shop = action?.payload;
-      state.loading = false;
     },
     settingsError(state, action: PayloadAction<SettingsErrorType>) {
       state.error = action.payload;

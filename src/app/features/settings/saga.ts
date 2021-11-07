@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { domainURL, fortressURL } from 'app/endpoints/urls';
-import { ShopType } from 'app/models/settings/shop-type';
+import { ShopType, StartType } from 'app/models/settings/shop-type';
 import {
   all,
   call,
@@ -14,15 +14,20 @@ import { request } from 'utils/request';
 import { settingsActions as actions } from '.';
 import { selectUserId } from './selectors';
 import { SettingsErrorType } from './type';
+import { authnActions } from '../authn';
+import { uiActions } from '../ui';
 
 export function* ask(action: PayloadAction<string>) {
   const requestURL = `${domainURL}/ask?domain=${action.payload}`;
+  yield put(uiActions.startAction(action));
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _ = yield call(request, requestURL);
     yield put(actions.settingsError(SettingsErrorType.SHOP_NAME_ALREADY_TAKEN));
   } catch (err) {
     yield put(actions.clearError());
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -33,6 +38,7 @@ export function* watchAsk() {
 export function* createShop(action: PayloadAction<ShopType>) {
   const body = action.payload;
   const requestURL = `${fortressURL}/shops/`;
+  yield put(uiActions.startAction(action));
   try {
     const shop: ShopType = yield call(request, requestURL, {
       method: 'POST',
@@ -44,11 +50,40 @@ export function* createShop(action: PayloadAction<ShopType>) {
     }
   } catch (err) {
     yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
 export function* watchCreateShop() {
   yield takeLatest(actions.createShop.type, createShop);
+}
+
+export function* getStarted(action: PayloadAction<StartType>) {
+  const body = action.payload;
+  const requestURL = `${fortressURL}/shops/get-started`;
+  yield put(uiActions.startAction(action));
+  try {
+    const { shop, session } = yield call(request, requestURL, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+    if (session) {
+      yield put(authnActions.sessionLoaded(session));
+      yield put(authnActions.setIsAuthenticated(true));
+    }
+    if (shop) {
+      yield put(actions.setShop(shop));
+    }
+  } catch (err) {
+    yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
+  }
+}
+
+export function* watchGetStarted() {
+  yield takeLatest(actions.getStarted.type, getStarted);
 }
 
 export function* updateShop(action: PayloadAction<ShopType>) {
@@ -58,6 +93,7 @@ export function* updateShop(action: PayloadAction<ShopType>) {
     return;
   }
   const requestURL = `${fortressURL}/shops/${body.shop_id}`;
+  yield put(uiActions.startAction(action));
   try {
     const shop: ShopType = yield call(request, requestURL, {
       method: 'PATCH',
@@ -69,6 +105,8 @@ export function* updateShop(action: PayloadAction<ShopType>) {
     }
   } catch (err) {
     yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -83,6 +121,7 @@ export function* getShop(action: PayloadAction<string>) {
     return;
   }
   const requestURL = `${fortressURL}/shops/${shopId}`;
+  yield put(uiActions.startAction(action));
   try {
     const shop: ShopType = yield call(request, requestURL);
     if (shop) {
@@ -90,6 +129,8 @@ export function* getShop(action: PayloadAction<string>) {
     }
   } catch (err) {
     yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -126,6 +167,7 @@ export default function* settingsSaga() {
   yield all([
     fork(watchUpdateShop),
     fork(watchCreateShop),
+    fork(watchGetStarted),
     fork(watchGetShop),
     fork(watchGetShopByMerchantId),
     fork(watchAsk),

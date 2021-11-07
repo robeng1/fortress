@@ -7,6 +7,7 @@ import {
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request, ResponseError } from 'utils/request';
 import { discountActions as actions } from '.';
+import { uiActions } from '../ui';
 import { selectNextPageToken, selectShopId } from './selectors';
 import { DiscountErrorType } from './types';
 
@@ -39,6 +40,7 @@ export function* watchLoadDiscounts() {
 }
 
 export function* createDiscount(action: PayloadAction<DiscountType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.discountError(DiscountErrorType.SHOPID_EMPTY));
@@ -60,6 +62,8 @@ export function* createDiscount(action: PayloadAction<DiscountType>) {
     }
   } catch (err) {
     yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 
@@ -68,6 +72,7 @@ export function* watchCreateDiscount() {
 }
 
 export function* updateDiscount(action: PayloadAction<DiscountType>) {
+  yield put(uiActions.startAction(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.discountError(DiscountErrorType.SHOPID_EMPTY));
@@ -90,6 +95,8 @@ export function* updateDiscount(action: PayloadAction<DiscountType>) {
     }
   } catch (err) {
     yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 

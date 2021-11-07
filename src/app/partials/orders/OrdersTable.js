@@ -1,172 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { focusHandling } from 'cruip-js-toolkit';
 import OrderItem from './OrdersTableItem';
 import OrderList from './mobile/OrderList';
 
-import Image01 from '../../images/icon-01.svg';
-import Image02 from '../../images/icon-02.svg';
-import Image03 from '../../images/icon-03.svg';
+import { selectOrderViews } from 'app/features/order/selectors';
+import EmptyState from 'app/partials/EmptyState';
 
 function OrdersTable({ selectedItems, handleShow }) {
-  const orders = [
-    {
-      id: '0',
-      image: Image01,
-      order: '#123567',
-      date: '22/01/2021',
-      customer: 'Patricia Semklo',
-      total: '$129.00',
-      status: 'Refunded',
-      items: '1',
-      location: '🇨🇳 Shanghai, CN',
-      type: 'Subscription',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '1',
-      image: Image01,
-      order: '#779912',
-      date: '22/01/2021',
-      customer: 'Dominik Lamakani',
-      total: '$89.00',
-      status: 'Approved',
-      items: '2',
-      location: '🇲🇽 Mexico City, MX',
-      type: 'Subscription',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '2',
-      image: Image02,
-      order: '#889924',
-      date: '22/01/2021',
-      customer: 'Ivan Mesaros',
-      total: '$89.00',
-      status: 'Approved',
-      items: '2',
-      location: '🇮🇹 Milan, IT',
-      type: 'One-time',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '3',
-      image: Image01,
-      order: '#897726',
-      date: '22/01/2021',
-      customer: 'Maria Martinez',
-      total: '$59.00',
-      status: 'Pending',
-      items: '1',
-      location: '🇮🇹 Bologna, IT',
-      type: 'One-time',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '4',
-      image: Image03,
-      order: '#123567',
-      date: '22/01/2021',
-      customer: 'Vicky Jung',
-      total: '$39.00',
-      status: 'Refunded',
-      items: '1',
-      location: '🇬🇧 London, UK',
-      type: 'Subscription',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '5',
-      image: Image01,
-      order: '#896644',
-      date: '21/01/2021',
-      customer: 'Tisho Yanchev',
-      total: '$59.00',
-      status: 'Approved',
-      items: '1',
-      location: '🇫🇷 Paris, FR',
-      type: 'One-time',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '6',
-      image: Image03,
-      order: '#136988',
-      date: '21/01/2021',
-      customer: 'James Cameron',
-      total: '$89.00',
-      status: 'Approved',
-      items: '1',
-      location: '🇫🇷 Marseille, FR',
-      type: 'Subscription',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '7',
-      image: Image03,
-      order: '#442206',
-      date: '21/01/2021',
-      customer: 'Haruki Masuno',
-      total: '$129.00',
-      status: 'Approved',
-      items: '2',
-      location: '🇺🇸 New York, USA',
-      type: 'Subscription',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '8',
-      image: Image02,
-      order: '#764321',
-      date: '21/01/2021',
-      customer: 'Joe Huang',
-      total: '$89.00',
-      status: 'Pending',
-      items: '2',
-      location: '🇨🇳 Shanghai, CN',
-      type: 'One-time',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-    {
-      id: '9',
-      image: Image01,
-      order: '#908764',
-      date: '21/01/2021',
-      customer: 'Carolyn McNeail',
-      total: '$59.00',
-      status: 'Refunded',
-      items: '1',
-      location: '🇬🇧 Sheffield, UK',
-      type: 'Subscription',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    },
-  ];
+  const orders = useSelector(selectOrderViews);
 
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    setList(orders);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     focusHandling('outline');
-  }, [list]);
+  }, [orders]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setIsCheck(list.map(li => li.id));
+    setIsCheck(orders.map(li => li.order_id));
     if (selectAll) {
       setIsCheck([]);
     }
@@ -187,83 +40,88 @@ function OrdersTable({ selectedItems, handleShow }) {
   }, [isCheck]);
 
   return (
-    <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
-      <div>
-        <OrderList handleShow={handleShow} />
-        {/* Table */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="table-auto w-full divide-y divide-gray-200">
-            {/* Table header */}
-            <thead className="text-xs uppercase text-gray-500 bg-gray-50">
-              <tr>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
-                  <div className="flex items-center">
-                    <label className="inline-flex">
-                      <span className="sr-only">Select all</span>
-                      <input
-                        className="form-checkbox"
-                        type="checkbox"
-                        checked={selectAll}
-                        onChange={handleSelectAll}
-                      />
-                    </label>
-                  </div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Order</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Date</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Customer</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Total</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Status</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold">Items</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Location</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Payment type</div>
-                </th>
-                <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <span className="sr-only">Menu</span>
-                </th>
-              </tr>
-            </thead>
-            {/* Table body */}
-            {list.map(order => {
-              return (
-                <OrderItem
-                  handleShow={handleShow}
-                  key={order.id}
-                  id={order.id}
-                  image={order.image}
-                  order={order.order}
-                  date={order.date}
-                  customer={order.customer}
-                  total={order.total}
-                  status={order.status}
-                  items={order.items}
-                  location={order.location}
-                  type={order.type}
-                  description={order.description}
-                  handleClick={handleClick}
-                  isChecked={isCheck.includes(order.id)}
-                />
-              );
-            })}
-          </table>
+    <>
+      {orders.length > 0 ? (
+        <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
+          <div>
+            <OrderList handleShow={handleShow} />
+            {/* Table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="table-auto w-full divide-y divide-gray-200">
+                {/* Table header */}
+                <thead className="text-xs uppercase text-gray-500 bg-gray-50">
+                  <tr>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+                      <div className="flex items-center">
+                        <label className="inline-flex">
+                          <span className="sr-only">Select all</span>
+                          <input
+                            className="form-checkbox"
+                            type="checkbox"
+                            checked={selectAll}
+                            onChange={handleSelectAll}
+                          />
+                        </label>
+                      </div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold text-left">Order</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold text-left">Date</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold text-left">Customer</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold text-left">Total</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold text-left">Status</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold">Items</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <div className="font-semibold text-left">Location</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                      <span className="sr-only">Menu</span>
+                    </th>
+                  </tr>
+                </thead>
+                {/* Table body */}
+                {orders.map(order => {
+                  return (
+                    <OrderItem
+                      handleShow={handleShow}
+                      key={order.order_id}
+                      id={order.order_id}
+                      image={order.item_images[0]}
+                      order={order.order_id}
+                      date={new Date(order.updated_at).toISOString()}
+                      customer={order.customer_name}
+                      total={`${order.currency}${order.total}`}
+                      status={order.status}
+                      location={order.location}
+                      items={order.num_item}
+                      type={order.order_type}
+                      handleClick={handleClick}
+                      isChecked={isCheck.includes(order.order_id)}
+                    />
+                  );
+                })}
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <EmptyState
+          heading="No orders yet"
+          msg="Your orders will appear here as they come in"
+        />
+      )}
+    </>
   );
 }
 

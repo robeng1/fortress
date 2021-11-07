@@ -955,7 +955,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
-                                to="/settings/notifications"
+                                to="/settings/payments"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 activeClassName="!text-indigo-500"
                               >
@@ -967,7 +967,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
-                                to="/settings/apps"
+                                to="/settings/locations"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 activeClassName="!text-indigo-500"
                               >
@@ -979,7 +979,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
-                                to="/settings/plans"
+                                to="/settings/policies"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 activeClassName="!text-indigo-500"
                               >
@@ -991,7 +991,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
-                                to="/settings/billing"
+                                to="/settings/sales-channels"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 activeClassName="!text-indigo-500"
                               >

@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import uniqBy from 'lodash/uniqBy';
 
 import {
   OrderListType,
   OrderType,
+  OrderViewType,
   ShopOrderListType,
   ShopOrderType,
 } from 'app/models/order/order-type';
@@ -16,20 +18,22 @@ const orderNamespace = 'order';
 export type OrderState = {
   canonical_orders: { [key: string]: ShopOrderType };
   shard: number;
-  orders: OrderType[];
+  orders: { [key: string]: OrderType };
+  views: OrderViewType[];
   nextPageToken: string;
-  count: number;
-  loading: boolean;
+  offset: number;
+  num_per_page: number;
   error?: OrderErrorType | null;
 };
 
 export const initialState: OrderState = {
   canonical_orders: {},
-  orders: [],
+  orders: {},
+  views: [],
   shard: 0,
   nextPageToken: '',
-  count: 0,
-  loading: false,
+  num_per_page: 20,
+  offset: 0,
   error: null,
 };
 
@@ -42,23 +46,30 @@ const slice = createSlice({
 
   reducers: {
     updateOrder: (state, action: PayloadAction<OrderType>) => {
-      state.loading = true;
       state.error = null;
     },
     loadOrders: state => {
-      state.loading = true;
       state.error = null;
     },
     getOrder: (state, action: PayloadAction<string>) => {
-      state.loading = true;
       state.error = null;
     },
     updateOrderStatus: (
       state,
-      action: PayloadAction<{ orderId: string; status: string }>,
+      action: PayloadAction<{ orderId: string; status: number }>,
     ) => {
-      state.loading = true;
       state.error = null;
+    },
+    loadViews: state => {
+      state.error = null;
+    },
+    viewsLoaded: (state, action: PayloadAction<OrderViewType[]>) => {
+      const views = action.payload;
+      if (views.length > 0) {
+        state.views = uniqBy([...views, ...state.views], 'order_id');
+      }
+      // this will serve as the offset when fetching
+      state.offset = views.length;
     },
     canonicalOrdersLoaded: (
       state,
@@ -74,7 +85,12 @@ const slice = createSlice({
           state.nextPageToken = next_page_token;
         }
       }
-      state.loading = false;
+    },
+    setOrder: (state, action: PayloadAction<OrderType>) => {
+      state.orders = {
+        ...state.orders,
+        order_id: action.payload,
+      };
     },
     ordersLoaded: (state, action: PayloadAction<OrderListType>) => {
       const { orders, next_page_token } = action?.payload;
@@ -87,15 +103,12 @@ const slice = createSlice({
           state.nextPageToken = next_page_token;
         }
       }
-      state.loading = false;
     },
     orderError(state, action: PayloadAction<OrderErrorType>) {
       state.error = action.payload;
-      state.loading = false;
     },
     clearError(state) {
       state.error = null;
-      state.loading = false;
     },
   },
 });

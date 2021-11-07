@@ -12,6 +12,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { throttle } from 'lodash';
 
 import 'css/style.scss';
 import 'tippy.js/dist/tippy.css';
@@ -31,8 +32,20 @@ import reportWebVitals from 'reportWebVitals';
 import './locales/i18n';
 
 import theme from './styles/mui-theme/theme';
+import { loadState, saveState } from 'store/state';
 
-const store = configureAppStore();
+// Create redux store with history
+const initialState = loadState();
+const { store } = configureAppStore(initialState);
+
+store.subscribe(
+  throttle(() => {
+    //saveState(store.getState()) store the complete state, but I just need the user object so:
+    saveState({
+      ...store.getState(), // note I am using immutablejs
+    });
+  }, 1000),
+); // don't persist on disk too often, once per second maybe...
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(

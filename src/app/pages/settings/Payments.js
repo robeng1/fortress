@@ -4,9 +4,9 @@ import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import NotificationsPanel from '../../partials/settings/NotificationsPanel';
+import PaymentPanel from '../../partials/settings/PaymentsPanel';
 
-function Notifications() {
+function Payments() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ function Notifications() {
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
                 <SettingsSidebar />
-                <NotificationsPanel />
+                <PaymentPanel />
               </div>
             </div>
           </div>
@@ -44,4 +44,4 @@ function Notifications() {
   );
 }
 
-export default Notifications;
+export default Payments;

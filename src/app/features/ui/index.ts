@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useInjectReducer } from 'utils/redux-injectors';
 import isEqual from 'lodash/isEqual';
+import { Err } from './type';
 
 const uiNamespace = 'ui';
 
@@ -8,6 +9,7 @@ export type UIState = {
   loader: {
     actions: PayloadAction<any>[];
     refreshes: PayloadAction<any>[];
+    errors: Err[];
   };
 };
 
@@ -15,6 +17,7 @@ export const initialState: UIState = {
   loader: {
     actions: [],
     refreshes: [],
+    errors: [],
   },
 };
 
@@ -26,26 +29,41 @@ export const slice = createSlice({
   initialState, // same as initialState: initialState
 
   reducers: {
-    startAction: (state, action: PayloadAction<any>) => {
-      const { actions } = state.loader;
-      state.loader.actions = [...actions, action];
+    startAction: (state, action: PayloadAction<PayloadAction<any>>) => {
+      const trackedAction = action.payload;
+      state.loader.actions = [...state.loader.actions, trackedAction];
     },
-    stopAction: (state, action: PayloadAction<any>) => {
-      const { actions } = state.loader;
-      state.loader.actions = actions.filter(
+    stopAction: (state, action: PayloadAction<PayloadAction<any>>) => {
+      const trackedAction = action.payload;
+      state.loader.actions = state.loader.actions.filter(
         act =>
-          act.type !== action.type && !isEqual(act.payload, action.payload),
+          act.type !== trackedAction.type &&
+          !isEqual(act.payload, trackedAction.payload),
       );
     },
-    startRefreshing: (state, action: PayloadAction<any>) => {
-      const { refreshes } = state.loader;
-      state.loader.refreshes = [...refreshes, action];
+    startRefreshing: (state, action: PayloadAction<PayloadAction<any>>) => {
+      const trackedAction = action.payload;
+      state.loader.refreshes = [...state.loader.refreshes, trackedAction];
     },
-    stopRefreshing: (state, action: PayloadAction<any>) => {
-      const { refreshes } = state.loader;
-      state.loader.refreshes = refreshes.filter(
+    stopRefreshing: (state, action: PayloadAction<PayloadAction<any>>) => {
+      const trackedAction = action.payload;
+      state.loader.refreshes = state.loader.refreshes.filter(
         act =>
-          act.type !== action.type && !isEqual(act.payload, action.payload),
+          act.type !== trackedAction.type &&
+          !isEqual(act.payload, trackedAction.payload),
+      );
+    },
+    actionFailed: (state, action: PayloadAction<Err>) => {
+      const failedAction = action.payload;
+      state.loader.errors = [...state.loader.errors, failedAction];
+    },
+
+    actionSucceeded: (state, action: PayloadAction<PayloadAction<any>>) => {
+      const trackedAction = action.payload;
+      state.loader.errors = state.loader.errors.filter(
+        act =>
+          act.action.type !== trackedAction.type &&
+          !isEqual(act.action.payload, trackedAction.payload),
       );
     },
   },

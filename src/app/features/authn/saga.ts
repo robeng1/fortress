@@ -29,16 +29,14 @@ export function* watchSignup() {
 
 export function* login(action: PayloadAction<RegisterLogInType>) {
   const requestURL = `${theKeepURL}/auth/login`;
+  yield put(uiActions.startAction(action));
   try {
-    yield put(uiActions.startAction(action));
     const session: {} = yield call(request, requestURL, {
       method: 'POST',
       body: JSON.stringify({ ...action.payload }),
     });
     if (session) {
       yield put(actions.sessionLoaded(session));
-      localStorage.setItem('session', JSON.stringify(session));
-      localStorage.setItem('isAuthenticated', 'true');
       yield put(actions.setIsAuthenticated(true));
     }
   } catch (err) {
@@ -112,6 +110,7 @@ export default function* authnSaga() {
     fork(watchLoadProfile),
     fork(watchSignup),
     fork(watchLogin),
+    fork(watchLogout),
     fork(watchIsAuthenticated),
   ]);
 }

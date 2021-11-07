@@ -4,9 +4,9 @@ import BottomNav from 'app/components/BottomNav';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import BillingPanel from '../../partials/settings/BillingPanel';
+import LocationsPanel from '../../partials/settings/Locations';
 
-function Billing() {
+function Locations() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ function Billing() {
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
                 <SettingsSidebar />
-                <BillingPanel />
+                <LocationsPanel />
               </div>
             </div>
           </div>
@@ -44,4 +44,4 @@ function Billing() {
   );
 }
 
-export default Billing;
+export default Locations;

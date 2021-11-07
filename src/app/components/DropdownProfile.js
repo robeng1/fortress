@@ -1,14 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Transition from '../utils/transition';
+import { useAuthnSlice } from 'app/features/authn';
 
 import UserAvatar from '../images/user-avatar-32.png';
 
 function DropdownProfile({ align }) {
+  const { actions } = useAuthnSlice();
+  const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
+
+  const handleLogout = e => {
+    e.preventDefault();
+    dispatch(actions.logout());
+  };
 
   // close on click outside
   useEffect(() => {
@@ -89,21 +98,23 @@ function DropdownProfile({ align }) {
           <ul>
             <li>
               <Link
-                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3"
-                to="/settings"
+                className="font-medium text-sm text-purple-500 hover:text-purple-600 flex items-center py-1 px-3"
+                to="/settings/account"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Settings
               </Link>
             </li>
             <li>
-              <Link
-                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3"
-                to="/signin"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
+              <button
+                className="font-medium text-sm text-purple-500 hover:text-purple-600 flex items-center py-1 px-3"
+                onClick={e => {
+                  setDropdownOpen(!dropdownOpen);
+                  handleLogout(e);
+                }}
               >
                 Sign Out
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

@@ -17,32 +17,34 @@ import './charts/ChartjsConfig';
 import { useTranslation } from 'react-i18next';
 // import Dashboard from 'app/pages/Dashboard';
 import Analytics from 'app/pages/Analytics';
-import Customers from 'app/pages/ecommerce/Customers';
+import Customers from 'app/pages/customers/Customers';
 import Products from 'app/pages/product/Products';
 import Inventory from 'app/pages/inventory/Inventory';
 import Discounts from 'app/pages/discount/Discounts';
 import Collections from 'app/pages/collection/Collections';
-import Orders from 'app/pages/ecommerce/Orders';
+import Orders from 'app/pages/orders/Orders';
 import Account from 'app/pages/settings/Account';
-import Notifications from 'app/pages/settings/Notifications';
-import Apps from 'app/pages/settings/Apps';
-import Plans from 'app/pages/settings/Plans';
-import Billing from 'app/pages/settings/Billing';
+import Payments from 'app/pages/settings/Payments';
+import Locations from 'app/pages/settings/Centres';
+import Policies from 'app/pages/settings/Policies';
+import SalesChannels from 'app/pages/settings/SalesChannels';
 import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoutes';
-import PublicRoute from './components/PublicRoute';
 import { useUISlice } from './features/ui';
+import { useAuthnSlice } from './features/authn';
 
-const Locations = lazy(() => import('app/pages/settings/Locations'));
+// const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Signup = lazy(() => import('app/pages/Signup'));
 const Signin = lazy(() => import('app/pages/Signin'));
 const ResetPassword = lazy(() => import('app/pages/ResetPassword'));
 
 export function App() {
-  const location = useLocation();
+  // hook up these two reducers when the app starts
+  // since they are used throughout the app
   useUISlice();
-
+  useAuthnSlice();
+  const location = useLocation();
   useEffect(() => {
     //@ts-ignore
     document.querySelector('html').style.scrollBehavior = 'auto';
@@ -131,42 +133,38 @@ export function App() {
         ></ProtectedRoute>
         <ProtectedRoute
           exact
-          path="/settings/notifications"
-          component={Notifications}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/settings/apps"
-          component={Apps}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/settings/plans"
-          component={Plans}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/settings/billing"
-          component={Billing}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/settings/feedback"
-          component={Feedback}
+          path="/settings/payments"
+          component={Payments}
         ></ProtectedRoute>
         <ProtectedRoute
           exact
           path="/settings/locations"
           component={Locations}
         ></ProtectedRoute>
-
-        <PublicRoute exact path="/signup" component={Signup}></PublicRoute>
-        <PublicRoute exact path="/signin" component={Signin}></PublicRoute>
-        <PublicRoute
+        <ProtectedRoute
           exact
-          path="/reset-password"
-          component={ResetPassword}
-        ></PublicRoute>
+          path="/settings/policies"
+          component={Policies}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/sales-channels"
+          component={SalesChannels}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/settings/feedback"
+          component={Feedback}
+        ></ProtectedRoute>
+        {/* <ProtectedRoute
+          exact
+          path="/settings/locations"
+          component={Locations}
+        ></ProtectedRoute> */}
+
+        <Route exact path="/signup" component={Signup}></Route>
+        <Route exact path="/signin" component={Signin}></Route>
+        <Route exact path="/reset-password" component={ResetPassword}></Route>
         <Route path="*">
           <PageNotFound />
         </Route>
