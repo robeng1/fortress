@@ -26,7 +26,7 @@ function MessagesFooter() {
           </div>
           <button
             type="submit"
-            className="btn bg-indigo-500 hover:bg-indigo-600 text-white whitespace-nowrap"
+            className="btn bg-purple-500 hover:bg-purple-600 text-white whitespace-nowrap"
           >
             Send -&gt;
           </button>

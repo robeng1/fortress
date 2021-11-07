@@ -136,7 +136,7 @@ function SearchModal() {
               <ul className="text-sm">
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >
@@ -151,7 +151,7 @@ function SearchModal() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >
@@ -166,7 +166,7 @@ function SearchModal() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >
@@ -181,7 +181,7 @@ function SearchModal() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >
@@ -196,7 +196,7 @@ function SearchModal() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >
@@ -211,7 +211,7 @@ function SearchModal() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >
@@ -234,7 +234,7 @@ function SearchModal() {
               <ul className="text-sm">
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >
@@ -254,7 +254,7 @@ function SearchModal() {
                 </li>
                 <li>
                   <Link
-                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-indigo-500 rounded group"
+                    className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
                     to="#0"
                     onClick={() => setSearchOpen(!searchOpen)}
                   >

@@ -21,7 +21,7 @@ function StorePanel() {
                   alt="User upload"
                 />
               </div>
-              <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white">
+              <button className="btn-sm bg-purple-500 hover:bg-purple-600 text-white">
                 Change
               </button>
             </div>

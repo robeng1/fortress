@@ -15,13 +15,13 @@ function PaginationNumeric() {
         </div>
         <ul className="inline-flex text-sm font-medium -space-x-px shadow-sm">
           <li>
-            <span className="inline-flex items-center justify-center rounded-l leading-5 px-3.5 py-2 bg-white border border-gray-200 text-indigo-500">
+            <span className="inline-flex items-center justify-center rounded-l leading-5 px-3.5 py-2 bg-white border border-gray-200 text-purple-500">
               1
             </span>
           </li>
           <li>
             <a
-              className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-indigo-500 border border-gray-200 text-gray-600 hover:text-white"
+              className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-purple-500 border border-gray-200 text-gray-600 hover:text-white"
               href="#0"
             >
               2
@@ -29,7 +29,7 @@ function PaginationNumeric() {
           </li>
           <li>
             <a
-              className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-indigo-500 border border-gray-200 text-gray-600 hover:text-white"
+              className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-purple-500 border border-gray-200 text-gray-600 hover:text-white"
               href="#0"
             >
               3
@@ -42,7 +42,7 @@ function PaginationNumeric() {
           </li>
           <li>
             <a
-              className="inline-flex items-center justify-center rounded-r leading-5 px-3.5 py-2 bg-white hover:bg-indigo-500 border border-gray-200 text-gray-600 hover:text-white"
+              className="inline-flex items-center justify-center rounded-r leading-5 px-3.5 py-2 bg-white hover:bg-purple-500 border border-gray-200 text-gray-600 hover:text-white"
               href="#0"
             >
               9
@@ -52,7 +52,7 @@ function PaginationNumeric() {
         <div className="ml-2">
           <a
             href="#0"
-            className="inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-indigo-500 border border-gray-200 text-gray-600 hover:text-white shadow-sm"
+            className="inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-purple-500 border border-gray-200 text-gray-600 hover:text-white shadow-sm"
           >
             <span className="sr-only">Next</span>
             <wbr />

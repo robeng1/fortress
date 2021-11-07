@@ -38,7 +38,7 @@ function Task08() {
           <div className="text-sm">
             Publishing industries for previewing layouts and visual{' '}
             <a
-              className="font-medium text-indigo-500 hover:text-indigo-600"
+              className="font-medium text-purple-500 hover:text-purple-600"
               href="#0"
             >
               #family
@@ -61,7 +61,7 @@ function Task08() {
         {/* Right side */}
         <div className="flex items-center">
           {/* Like button */}
-          <button className="flex items-center text-gray-400 hover:text-indigo-500 ml-3">
+          <button className="flex items-center text-gray-400 hover:text-purple-500 ml-3">
             <svg
               className="w-4 h-4 flex-shrink-0 fill-current mr-1.5"
               viewBox="0 0 16 16"
@@ -71,7 +71,7 @@ function Task08() {
             <div className="text-sm text-gray-500">4</div>
           </button>
           {/* Replies button */}
-          <button className="flex items-center text-gray-400 hover:text-indigo-500 ml-3">
+          <button className="flex items-center text-gray-400 hover:text-purple-500 ml-3">
             <svg
               className="w-4 h-4 flex-shrink-0 fill-current mr-1.5"
               viewBox="0 0 16 16"

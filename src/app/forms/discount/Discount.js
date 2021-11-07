@@ -35,7 +35,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
   );
   const uppy = React.useMemo(() => {
     return new Uppy({
-      id: 'product',
+      id: 'discount',
       autoProceed: false,
       restrictions: {
         maxFileSize: 15 * 1024 * 1024,

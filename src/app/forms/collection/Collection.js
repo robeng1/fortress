@@ -36,7 +36,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
   );
   const uppy = React.useMemo(() => {
     return new Uppy({
-      id: 'product',
+      id: 'collection',
       autoProceed: false,
       restrictions: {
         maxFileSize: 15 * 1024 * 1024,

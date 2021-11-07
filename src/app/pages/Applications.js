@@ -193,7 +193,7 @@ function Applications() {
             <div className="mb-4 border-b border-gray-200">
               <ul className="text-sm font-medium flex flex-nowrap -mx-4 sm:-mx-6 lg:-mx-8 overflow-x-scroll no-scrollbar">
                 <li className="pb-3 mr-6 last:mr-0 first:pl-4 sm:first:pl-6 lg:first:pl-8 last:pr-4 sm:last:pr-6 lg:last:pr-8">
-                  <Link className="text-indigo-500 whitespace-nowrap" to="#0">
+                  <Link className="text-purple-500 whitespace-nowrap" to="#0">
                     View All
                   </Link>
                 </li>

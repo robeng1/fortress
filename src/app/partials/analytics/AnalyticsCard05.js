@@ -20,7 +20,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '82%' }}
                 ></div>
@@ -32,7 +32,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '70%' }}
                 ></div>
@@ -44,7 +44,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '60%' }}
                 ></div>
@@ -56,7 +56,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '44%' }}
                 ></div>
@@ -68,7 +68,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '40%' }}
                 ></div>
@@ -80,7 +80,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '30%' }}
                 ></div>
@@ -92,7 +92,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '22%' }}
                 ></div>
@@ -104,7 +104,7 @@ function AnalyticsCard05() {
               {/* Item */}
               <li className="relative px-2 py-1">
                 <div
-                  className="absolute inset-0 bg-indigo-100"
+                  className="absolute inset-0 bg-purple-100"
                   aria-hidden="true"
                   style={{ width: '12%' }}
                 ></div>
@@ -118,7 +118,7 @@ function AnalyticsCard05() {
           {/* Card footer */}
           <div className="text-center pt-4 pb-1 border-t border-gray-100">
             <Link
-              className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+              className="text-sm font-medium text-purple-500 hover:text-purple-600"
               to="#0"
             >
               Channels Report -&gt;

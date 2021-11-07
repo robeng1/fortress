@@ -103,7 +103,7 @@ function PoliciesPanel() {
                 qui officia deserunt mollit anim id est laborum in voluptate
                 velit esse cillum dolore eu fugiat{' '}
                 <a
-                  className="font-medium text-indigo-500 hover:text-indigo-600"
+                  className="font-medium text-purple-500 hover:text-purple-600"
                   href="#0"
                 >
                   contact us

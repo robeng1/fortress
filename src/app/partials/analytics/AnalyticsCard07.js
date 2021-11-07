@@ -118,7 +118,7 @@ function AnalyticsCard07() {
           {/* Card footer */}
           <div className="text-center pt-4 pb-1 border-t border-gray-100">
             <Link
-              className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+              className="text-sm font-medium text-purple-500 hover:text-purple-600"
               to="#0"
             >
               Countries Report -&gt;

@@ -86,7 +86,7 @@ export default function DiscountTable({ selectedItems, handleShow }) {
                             {person.num_applications}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button className="text-indigo-600 hover:text-indigo-900">
+                            <button className="text-purple-600 hover:text-purple-900">
                               Edit
                             </button>
                           </td>

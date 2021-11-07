@@ -16,7 +16,7 @@ function DirectMessages({ setMsgSidebarOpen }) {
       <ul className="mb-6">
         <li className="-mx-2">
           <button
-            className="flex items-center justify-between w-full p-2 rounded bg-indigo-100"
+            className="flex items-center justify-between w-full p-2 rounded bg-purple-100"
             onClick={() => setMsgSidebarOpen(false)}
           >
             <div className="flex items-center">
@@ -34,7 +34,7 @@ function DirectMessages({ setMsgSidebarOpen }) {
               </div>
             </div>
             <div className="flex items-center ml-2">
-              <div className="text-xs inline-flex font-medium bg-indigo-400 text-white rounded-full text-center leading-5 px-2">
+              <div className="text-xs inline-flex font-medium bg-purple-400 text-white rounded-full text-center leading-5 px-2">
                 2
               </div>
             </div>
@@ -60,7 +60,7 @@ function DirectMessages({ setMsgSidebarOpen }) {
               </div>
             </div>
             <div className="flex items-center ml-2">
-              <div className="text-xs inline-flex font-medium bg-indigo-400 text-white rounded-full text-center leading-5 px-2">
+              <div className="text-xs inline-flex font-medium bg-purple-400 text-white rounded-full text-center leading-5 px-2">
                 4
               </div>
             </div>

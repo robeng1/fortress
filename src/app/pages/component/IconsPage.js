@@ -37,7 +37,7 @@ function IconsPage() {
                 <div>
                   <div className="flex items-start space-x-3 mb-6">
                     <h2 className="text-2xl text-gray-800 font-bold">Nucleo</h2>
-                    <div className="text-xs inline-flex font-medium bg-indigo-100 text-indigo-600 rounded-full text-center px-2.5 py-1">
+                    <div className="text-xs inline-flex font-medium bg-purple-100 text-purple-600 rounded-full text-center px-2.5 py-1">
                       Recommended
                     </div>
                   </div>
@@ -48,7 +48,7 @@ function IconsPage() {
                     </div>
                     <div className="inline-flex space-x-3">
                       <a
-                        className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                        className="btn bg-purple-500 hover:bg-purple-600 text-white"
                         href="https://nucleoapp.com/pricing"
                         target="_blank"
                         rel="noreferrer"
@@ -84,7 +84,7 @@ function IconsPage() {
                     </div>
                     <div className="inline-flex space-x-3">
                       <a
-                        className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                        className="btn bg-purple-500 hover:bg-purple-600 text-white"
                         href="https://tablericons.com/"
                         target="_blank"
                         rel="noreferrer"

@@ -12,13 +12,13 @@ function AnalyticsCard09() {
         label: 'Visit By Age Category',
         data: [30, 50, 5, 15],
         backgroundColor: [
-          tailwindConfig().theme.colors.indigo[500],
+          tailwindConfig().theme.colors.purple[500],
           tailwindConfig().theme.colors.blue[400],
           tailwindConfig().theme.colors.red[500],
           tailwindConfig().theme.colors.green[500],
         ],
         hoverBackgroundColor: [
-          tailwindConfig().theme.colors.indigo[600],
+          tailwindConfig().theme.colors.purple[600],
           tailwindConfig().theme.colors.blue[500],
           tailwindConfig().theme.colors.red[600],
           tailwindConfig().theme.colors.green[600],

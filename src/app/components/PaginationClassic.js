@@ -32,7 +32,7 @@ function PaginationClassic() {
           </li>
           <li className="ml-3 first:ml-0">
             <a
-              className="btn bg-white border-gray-200 hover:border-gray-300 text-indigo-500"
+              className="btn bg-white border-gray-200 hover:border-gray-300 text-purple-500"
               href="#0"
             >
               Next

@@ -36,14 +36,14 @@ function ButtonPage() {
                   <div className="flex flex-wrap items-center -m-1.5">
                     <div className="m-1.5">
                       {/* Start */}
-                      <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
+                      <button className="btn bg-purple-500 hover:bg-purple-600 text-white">
                         Primary
                       </button>
                       {/* End */}
                     </div>
                     <div className="m-1.5">
                       {/* Start */}
-                      <button className="btn border-gray-200 hover:border-gray-300 text-indigo-500">
+                      <button className="btn border-gray-200 hover:border-gray-300 text-purple-500">
                         Secondary
                       </button>
                       {/* End */}
@@ -95,7 +95,7 @@ function ButtonPage() {
                     <div className="m-1.5">
                       {/* Start */}
                       <button
-                        className="btn bg-indigo-500 hover:bg-indigo-600 text-white disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed shadow-none"
+                        className="btn bg-purple-500 hover:bg-purple-600 text-white disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed shadow-none"
                         disabled
                       >
                         Disabled
@@ -105,7 +105,7 @@ function ButtonPage() {
                     <div className="m-1.5">
                       {/* Start */}
                       <button
-                        className="btn bg-indigo-500 hover:bg-indigo-600 text-white disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed shadow-none"
+                        className="btn bg-purple-500 hover:bg-purple-600 text-white disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed shadow-none"
                         disabled
                       >
                         <svg
@@ -129,28 +129,28 @@ function ButtonPage() {
                   <div className="flex flex-wrap items-center -m-1.5">
                     <div className="m-1.5">
                       {/* Start */}
-                      <button className="btn-xs bg-indigo-500 hover:bg-indigo-600 text-white">
+                      <button className="btn-xs bg-purple-500 hover:bg-purple-600 text-white">
                         Button
                       </button>
                       {/* End */}
                     </div>
                     <div className="m-1.5">
                       {/* Start */}
-                      <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white">
+                      <button className="btn-sm bg-purple-500 hover:bg-purple-600 text-white">
                         Button
                       </button>
                       {/* End */}
                     </div>
                     <div className="m-1.5">
                       {/* Start */}
-                      <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
+                      <button className="btn bg-purple-500 hover:bg-purple-600 text-white">
                         Button
                       </button>
                       {/* End */}
                     </div>
                     <div className="m-1.5">
                       {/* Start */}
-                      <button className="btn-lg bg-indigo-500 hover:bg-indigo-600 text-white">
+                      <button className="btn-lg bg-purple-500 hover:bg-purple-600 text-white">
                         Button
                       </button>
                       {/* End */}
@@ -166,7 +166,7 @@ function ButtonPage() {
                   <div className="flex flex-wrap items-center -m-1.5">
                     <div className="m-1.5">
                       {/* Start */}
-                      <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
+                      <button className="btn bg-purple-500 hover:bg-purple-600 text-white">
                         <svg
                           className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                           viewBox="0 0 16 16"
@@ -240,7 +240,7 @@ function ButtonPage() {
                       {/* Start */}
                       <button className="btn border-gray-200 hover:border-gray-300">
                         <svg
-                          className="w-4 h-4 fill-current text-indigo-500 flex-shrink-0"
+                          className="w-4 h-4 fill-current text-purple-500 flex-shrink-0"
                           viewBox="0 0 16 16"
                         >
                           <path d="M14.3 2.3L5 11.6 1.7 8.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l4 4c.2.2.4.3.7.3.3 0 .5-.1.7-.3l10-10c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0z" />
@@ -260,13 +260,13 @@ function ButtonPage() {
                     <div className="m-1.5">
                       {/* Start */}
                       <div className="flex flex-wrap -space-x-px">
-                        <button className="btn bg-indigo-600 text-white rounded-none border-l-indigo-400 first:rounded-l last:rounded-r first:border-r-transparent">
+                        <button className="btn bg-purple-600 text-white rounded-none border-l-purple-400 first:rounded-l last:rounded-r first:border-r-transparent">
                           Weekly
                         </button>
-                        <button className="btn bg-indigo-500 hover:bg-indigo-600 text-indigo-100 rounded-none border-l-indigo-400 first:rounded-l last:rounded-r first:border-r-transparent">
+                        <button className="btn bg-purple-500 hover:bg-purple-600 text-purple-100 rounded-none border-l-purple-400 first:rounded-l last:rounded-r first:border-r-transparent">
                           Monthly
                         </button>
-                        <button className="btn bg-indigo-500 hover:bg-indigo-600 text-indigo-100 rounded-none border-l-indigo-400 first:rounded-l last:rounded-r first:border-r-transparent">
+                        <button className="btn bg-purple-500 hover:bg-purple-600 text-purple-100 rounded-none border-l-purple-400 first:rounded-l last:rounded-r first:border-r-transparent">
                           Yearly
                         </button>
                       </div>
@@ -275,7 +275,7 @@ function ButtonPage() {
                     <div className="m-1.5">
                       {/* Start */}
                       <div className="flex flex-wrap -space-x-px">
-                        <button className="btn bg-gray-50 border-gray-200 hover:bg-gray-50 text-indigo-500 rounded-none first:rounded-l last:rounded-r">
+                        <button className="btn bg-gray-50 border-gray-200 hover:bg-gray-50 text-purple-500 rounded-none first:rounded-l last:rounded-r">
                           Weekly
                         </button>
                         <button className="btn bg-white border-gray-200 hover:bg-gray-50 text-gray-600 rounded-none first:rounded-l last:rounded-r">

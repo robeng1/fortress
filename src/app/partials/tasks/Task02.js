@@ -19,7 +19,7 @@ function Task02() {
       {/* Footer */}
       <div className="flex items-center justify-between">
         {/* Left side */}
-        <button className="p-2 flex-shrink-0 rounded-full bg-white border border-gray-200 hover:border-gray-300 text-indigo-500 transition duration-150">
+        <button className="p-2 flex-shrink-0 rounded-full bg-white border border-gray-200 hover:border-gray-300 text-purple-500 transition duration-150">
           <span className="sr-only">Add</span>
           <svg className="w-3 h-3 fill-current" viewBox="0 0 12 12">
             <path d="M11 5H7V1a1 1 0 00-2 0v4H1a1 1 0 000 2h4v4a1 1 0 002 0V7h4a1 1 0 000-2z" />
@@ -38,7 +38,7 @@ function Task02() {
             <div className="text-sm text-yellow-600">Mar 27</div>
           </div>
           {/* Replies button */}
-          <button className="flex items-center text-gray-400 hover:text-indigo-500 ml-3">
+          <button className="flex items-center text-gray-400 hover:text-purple-500 ml-3">
             <svg
               className="w-4 h-4 flex-shrink-0 fill-current mr-1.5"
               viewBox="0 0 16 16"
@@ -48,7 +48,7 @@ function Task02() {
             <div className="text-sm text-gray-500">6</div>
           </button>
           {/* Attach button */}
-          <button className="text-gray-400 hover:text-indigo-500 ml-3">
+          <button className="text-gray-400 hover:text-purple-500 ml-3">
             <svg
               className="w-4 h-4 flex-shrink-0 fill-current mr-1.5"
               viewBox="0 0 16 16"

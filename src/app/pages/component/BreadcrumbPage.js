@@ -39,7 +39,7 @@ function BreadcrumbPage() {
                       <ul className="inline-flex flex-wrap text-sm font-medium">
                         <li className="after:content-['/'] last:after:hidden after:text-gray-400 after:px-2">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Home
@@ -47,7 +47,7 @@ function BreadcrumbPage() {
                         </li>
                         <li className="after:content-['/'] last:after:hidden after:text-gray-400 after:px-2">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Settings
@@ -55,7 +55,7 @@ function BreadcrumbPage() {
                         </li>
                         <li className="after:content-['/'] last:after:hidden after:text-gray-400 after:px-2">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Notifications
@@ -78,7 +78,7 @@ function BreadcrumbPage() {
                       <ul className="inline-flex flex-wrap text-sm font-medium">
                         <li className="after:content-['·'] last:after:hidden after:text-gray-400 after:px-2">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Home
@@ -86,7 +86,7 @@ function BreadcrumbPage() {
                         </li>
                         <li className="after:content-['·'] last:after:hidden after:text-gray-400 after:px-2">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Settings
@@ -94,7 +94,7 @@ function BreadcrumbPage() {
                         </li>
                         <li className="after:content-['·'] last:after:hidden after:text-gray-400 after:px-2">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Notifications
@@ -117,7 +117,7 @@ function BreadcrumbPage() {
                       <ul className="inline-flex flex-wrap text-sm font-medium">
                         <li className="flex items-center">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Home
@@ -131,7 +131,7 @@ function BreadcrumbPage() {
                         </li>
                         <li className="flex items-center">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Settings
@@ -145,7 +145,7 @@ function BreadcrumbPage() {
                         </li>
                         <li className="flex items-center">
                           <a
-                            className="text-gray-500 hover:text-indigo-500"
+                            className="text-gray-500 hover:text-purple-500"
                             href="#0"
                           >
                             Notifications

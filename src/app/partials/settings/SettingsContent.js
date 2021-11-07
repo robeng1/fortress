@@ -81,7 +81,7 @@ function SettingsContent() {
               </label>
               <input id="email" className="form-input" type="email" />
             </div>
-            <button className="btn border-gray-200 hover:border-gray-300 shadow-sm text-indigo-500">
+            <button className="btn border-gray-200 hover:border-gray-300 shadow-sm text-purple-500">
               Change
             </button>
           </div>
@@ -94,7 +94,7 @@ function SettingsContent() {
             login codes.
           </div>
           <div className="mt-5">
-            <button className="btn border-gray-200 shadow-sm text-indigo-500">
+            <button className="btn border-gray-200 shadow-sm text-purple-500">
               Set New Password
             </button>
           </div>
@@ -134,7 +134,7 @@ function SettingsContent() {
             <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
               Cancel
             </button>
-            <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3">
+            <button className="btn bg-purple-500 hover:bg-purple-600 text-white ml-3">
               Save Changes
             </button>
           </div>

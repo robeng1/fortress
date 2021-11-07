@@ -111,7 +111,9 @@ function CollectionsTable({ selectedItems, handleShow }) {
           msg="Create some collections to get started"
           action={{
             name: 'Create collection',
-            func: () => handleShow(true, ''),
+            func: () => {
+              handleShow(true, '');
+            },
           }}
         />
       )}

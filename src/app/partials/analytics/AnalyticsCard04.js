@@ -12,8 +12,8 @@ function AnalyticsCard04() {
       {
         label: 'New Visitors',
         data: [8000, 3800, 5350, 7800],
-        backgroundColor: tailwindConfig().theme.colors.indigo[500],
-        hoverBackgroundColor: tailwindConfig().theme.colors.indigo[600],
+        backgroundColor: tailwindConfig().theme.colors.purple[500],
+        hoverBackgroundColor: tailwindConfig().theme.colors.purple[600],
         categoryPercentage: 0.66,
       },
       // Light blue bars

@@ -61,7 +61,7 @@ export default function Login() {
             </a>
             .
           </div>
-          <button className="bg-indigo border border-indigo h-10 rounded text-white w-full">
+          <button className="bg-purple border border-purple h-10 rounded text-white w-full">
             Sign Up
           </button>
 

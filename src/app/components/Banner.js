@@ -51,7 +51,7 @@ function Banner({ children, className, type, open, setOpen }) {
       case 'success':
         return 'bg-green-500';
       default:
-        return 'bg-indigo-500';
+        return 'bg-purple-500';
     }
   };
 

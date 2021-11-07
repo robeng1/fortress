@@ -33,7 +33,7 @@ const DropTarget = require('@uppy/drop-target');
 // animated components for react select
 const animatedComponents = makeAnimated();
 
-const ProductForm = ({ storeID }) => {
+const ProductForm = ({ handleShow, shopId }) => {
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const [showVariants, setShowVariants] = useState(false);
@@ -49,15 +49,15 @@ const ProductForm = ({ storeID }) => {
         requiredMetaFields: ['caption'],
       },
       onBeforeUpload: files => {
-        const datename = Date.now();
-        for (var prop in files) {
-          files[
-            prop
-          ].name = `products/${storeID}/images/${files[prop].name}_${datename}`;
-          files[
-            prop
-          ].meta.name = `products/${storeID}/images/${files[prop].meta.name}_${datename}`;
-        }
+        // const datename = Date.now();
+        // for (var prop in files) {
+        //   files[
+        //     prop
+        //   ].name = `products/${storeID}/images/${files[prop].name}_${datename}`;
+        //   files[
+        //     prop
+        //   ].meta.name = `products/${storeID}/images/${files[prop].meta.name}_${datename}`;
+        // }
         this.files = files;
         Promise.resolve();
       },

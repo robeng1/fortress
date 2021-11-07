@@ -48,7 +48,7 @@ function Dashboard() {
                 {/* Datepicker built with flatpickr */}
                 <Datepicker align="right" />
                 {/* Add view button */}
-                <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
+                <button className="btn bg-purple-500 hover:bg-purple-600 text-white">
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                     viewBox="0 0 16 16"

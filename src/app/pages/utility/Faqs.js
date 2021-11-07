@@ -58,7 +58,7 @@ function Faqs() {
               <div className="mb-8 border-b border-gray-200">
                 <ul className="text-sm font-medium flex flex-nowrap -mx-4 sm:-mx-6 lg:-mx-8 overflow-x-scroll no-scrollbar">
                   <li className="pb-3 mr-6 last:mr-0 first:pl-4 sm:first:pl-6 lg:first:pl-8 last:pr-4 sm:last:pr-6 lg:last:pr-8">
-                    <a className="text-indigo-500 whitespace-nowrap" href="#0">
+                    <a className="text-purple-500 whitespace-nowrap" href="#0">
                       Popular
                     </a>
                   </li>
@@ -111,11 +111,11 @@ function Faqs() {
                         viewBox="0 0 16 16"
                       >
                         <path
-                          className="text-indigo-300"
+                          className="text-purple-300"
                           d="M4 8H0v4.9c0 1 .7 1.9 1.7 2.1 1.2.2 2.3-.8 2.3-2V8z"
                         />
                         <path
-                          className="text-indigo-500"
+                          className="text-purple-500"
                           d="M15 1H7c-.6 0-1 .4-1 1v11c0 .7-.2 1.4-.6 2H13c1.7 0 3-1.3 3-3V2c0-.6-.4-1-1-1z"
                         />
                       </svg>
@@ -134,7 +134,7 @@ function Faqs() {
                     <ul className="flex flex-wrap">
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           General
@@ -142,7 +142,7 @@ function Faqs() {
                       </li>
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Marketing
@@ -160,11 +160,11 @@ function Faqs() {
                         viewBox="0 0 16 16"
                       >
                         <path
-                          className="text-indigo-300"
+                          className="text-purple-300"
                           d="M4 8H0v4.9c0 1 .7 1.9 1.7 2.1 1.2.2 2.3-.8 2.3-2V8z"
                         />
                         <path
-                          className="text-indigo-500"
+                          className="text-purple-500"
                           d="M15 1H7c-.6 0-1 .4-1 1v11c0 .7-.2 1.4-.6 2H13c1.7 0 3-1.3 3-3V2c0-.6-.4-1-1-1z"
                         />
                       </svg>
@@ -183,7 +183,7 @@ function Faqs() {
                     <ul className="flex flex-wrap">
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Development
@@ -191,7 +191,7 @@ function Faqs() {
                       </li>
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Acessibility
@@ -209,11 +209,11 @@ function Faqs() {
                         viewBox="0 0 16 16"
                       >
                         <path
-                          className="text-indigo-300"
+                          className="text-purple-300"
                           d="M4 8H0v4.9c0 1 .7 1.9 1.7 2.1 1.2.2 2.3-.8 2.3-2V8z"
                         />
                         <path
-                          className="text-indigo-500"
+                          className="text-purple-500"
                           d="M15 1H7c-.6 0-1 .4-1 1v11c0 .7-.2 1.4-.6 2H13c1.7 0 3-1.3 3-3V2c0-.6-.4-1-1-1z"
                         />
                       </svg>
@@ -232,7 +232,7 @@ function Faqs() {
                     <ul className="flex flex-wrap">
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Development
@@ -240,7 +240,7 @@ function Faqs() {
                       </li>
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Plans
@@ -258,11 +258,11 @@ function Faqs() {
                         viewBox="0 0 16 16"
                       >
                         <path
-                          className="text-indigo-300"
+                          className="text-purple-300"
                           d="M4 8H0v4.9c0 1 .7 1.9 1.7 2.1 1.2.2 2.3-.8 2.3-2V8z"
                         />
                         <path
-                          className="text-indigo-500"
+                          className="text-purple-500"
                           d="M15 1H7c-.6 0-1 .4-1 1v11c0 .7-.2 1.4-.6 2H13c1.7 0 3-1.3 3-3V2c0-.6-.4-1-1-1z"
                         />
                       </svg>
@@ -282,7 +282,7 @@ function Faqs() {
                     <ul className="flex flex-wrap">
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Development
@@ -290,7 +290,7 @@ function Faqs() {
                       </li>
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Account
@@ -308,11 +308,11 @@ function Faqs() {
                         viewBox="0 0 16 16"
                       >
                         <path
-                          className="text-indigo-300"
+                          className="text-purple-300"
                           d="M4 8H0v4.9c0 1 .7 1.9 1.7 2.1 1.2.2 2.3-.8 2.3-2V8z"
                         />
                         <path
-                          className="text-indigo-500"
+                          className="text-purple-500"
                           d="M15 1H7c-.6 0-1 .4-1 1v11c0 .7-.2 1.4-.6 2H13c1.7 0 3-1.3 3-3V2c0-.6-.4-1-1-1z"
                         />
                       </svg>
@@ -331,7 +331,7 @@ function Faqs() {
                     <ul className="flex flex-wrap">
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           General
@@ -339,7 +339,7 @@ function Faqs() {
                       </li>
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Accessibility
@@ -357,11 +357,11 @@ function Faqs() {
                         viewBox="0 0 16 16"
                       >
                         <path
-                          className="text-indigo-300"
+                          className="text-purple-300"
                           d="M4 8H0v4.9c0 1 .7 1.9 1.7 2.1 1.2.2 2.3-.8 2.3-2V8z"
                         />
                         <path
-                          className="text-indigo-500"
+                          className="text-purple-500"
                           d="M15 1H7c-.6 0-1 .4-1 1v11c0 .7-.2 1.4-.6 2H13c1.7 0 3-1.3 3-3V2c0-.6-.4-1-1-1z"
                         />
                       </svg>
@@ -380,7 +380,7 @@ function Faqs() {
                     <ul className="flex flex-wrap">
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Marketing
@@ -388,7 +388,7 @@ function Faqs() {
                       </li>
                       <li className="flex items-center after:block after:content-['·'] last:after:content-[''] after:text-sm after:text-gray-400 after:px-2">
                         <a
-                          className="text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                          className="text-sm font-medium text-purple-500 hover:text-purple-600"
                           href="#0"
                         >
                           Plans
@@ -403,7 +403,7 @@ function Faqs() {
               <div className="mt-6">
                 <div className="flex justify-end">
                   <a
-                    className="btn bg-white border-gray-200 hover:border-gray-300 text-indigo-500"
+                    className="btn bg-white border-gray-200 hover:border-gray-300 text-purple-500"
                     href="#0"
                   >
                     See All Questions -&gt;

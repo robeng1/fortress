@@ -41,7 +41,7 @@ function Signin() {
               <div>
                 <img
                   className="mx-auto h-12 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  src="https://tailwindui.com/img/logos/workflow-mark-purple-600.svg"
                   alt="Workflow"
                 />
                 <h1 className="text-3xl mt-5 text-gray-800 font-bold mb-6">
@@ -123,7 +123,7 @@ function Signin() {
                 <div className="text-sm">
                   Don’t you have an account?{' '}
                   <Link
-                    className="font-medium text-indigo-500 hover:text-indigo-600"
+                    className="font-medium text-purple-500 hover:text-purple-600"
                     to="/signup"
                   >
                     Sign Up

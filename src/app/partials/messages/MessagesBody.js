@@ -35,7 +35,7 @@ function MessagesBody() {
           alt="User 02"
         />
         <div>
-          <div className="text-sm bg-indigo-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
+          <div className="text-sm bg-purple-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
             Hey Dominik Lamakani 👋
             <br />
             Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
@@ -113,7 +113,7 @@ function MessagesBody() {
           alt="User 02"
         />
         <div>
-          <div className="text-sm bg-indigo-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
+          <div className="text-sm bg-purple-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
             Sed euismod nisi porta lorem mollis. Tellus elementum sagittis vitae
             et leo duis. Viverra justo nec ultrices dui.
             <br />
@@ -147,7 +147,7 @@ function MessagesBody() {
           alt="User 02"
         />
         <div>
-          <div className="text-sm bg-indigo-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
+          <div className="text-sm bg-purple-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
             Can you join{' '}
             <a className="font-medium" href="#0">
               @dominik

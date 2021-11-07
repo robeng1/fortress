@@ -39,7 +39,7 @@ function Task07() {
             <div className="text-sm text-gray-500">2/2</div>
           </div>
           {/* Attach button */}
-          <button className="text-gray-400 hover:text-indigo-500 ml-3">
+          <button className="text-gray-400 hover:text-purple-500 ml-3">
             <svg
               className="w-4 h-4 flex-shrink-0 fill-current mr-1.5"
               viewBox="0 0 16 16"

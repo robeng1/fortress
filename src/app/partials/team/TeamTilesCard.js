@@ -93,7 +93,7 @@ function TeamTilesCard(props) {
         <div className="border-t border-gray-200">
           <div className="flex divide-x divide-gray-200r">
             <Link
-              className="block flex-1 text-center text-sm text-indigo-500 hover:text-indigo-600 font-medium px-3 py-4"
+              className="block flex-1 text-center text-sm text-purple-500 hover:text-purple-600 font-medium px-3 py-4"
               to="/messages"
             >
               <div className="flex items-center justify-center">

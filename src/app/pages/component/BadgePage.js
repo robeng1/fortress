@@ -36,7 +36,7 @@ function BadgePage() {
                   <div className="flex flex-wrap items-center -m-1.5">
                     <div className="m-1.5">
                       {/* Start */}
-                      <div className="text-xs inline-flex font-medium bg-indigo-100 text-indigo-600 rounded-full text-center px-2.5 py-1">
+                      <div className="text-xs inline-flex font-medium bg-purple-100 text-purple-600 rounded-full text-center px-2.5 py-1">
                         Working on
                       </div>
                       {/* End */}
@@ -101,7 +101,7 @@ function BadgePage() {
                   <div className="flex flex-wrap items-center -m-1.5">
                     <div className="m-1.5">
                       {/* Start */}
-                      <div className="text-sm inline-flex font-medium bg-indigo-100 text-indigo-600 rounded-full text-center px-2.5 py-1">
+                      <div className="text-sm inline-flex font-medium bg-purple-100 text-purple-600 rounded-full text-center px-2.5 py-1">
                         Working on
                       </div>
                       {/* End */}

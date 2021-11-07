@@ -38,7 +38,7 @@ function TabsPage() {
                     <ul className="text-sm font-medium flex flex-nowrap -mx-4 sm:-mx-6 lg:-mx-8 overflow-x-scroll no-scrollbar">
                       <li className="pb-3 mr-6 last:mr-0 first:pl-4 sm:first:pl-6 lg:first:pl-8 last:pr-4 sm:last:pr-6 lg:last:pr-8">
                         <a
-                          className="text-indigo-500 whitespace-nowrap"
+                          className="text-purple-500 whitespace-nowrap"
                           href="#0"
                         >
                           Account
@@ -95,7 +95,7 @@ function TabsPage() {
                     <ul className="relative text-sm font-medium flex flex-nowrap -mx-4 sm:-mx-6 lg:-mx-8 overflow-x-scroll no-scrollbar">
                       <li className="mr-6 last:mr-0 first:pl-4 sm:first:pl-6 lg:first:pl-8 last:pr-4 sm:last:pr-6 lg:last:pr-8">
                         <a
-                          className="block pb-3 text-indigo-500 whitespace-nowrap border-b-2 border-indigo-500"
+                          className="block pb-3 text-purple-500 whitespace-nowrap border-b-2 border-purple-500"
                           href="#0"
                         >
                           Account
@@ -148,7 +148,7 @@ function TabsPage() {
                     <ul className="text-sm font-medium flex flex-nowrap -mx-4 sm:-mx-6 lg:-mx-8 overflow-x-scroll no-scrollbar">
                       <li className="pb-3 mr-6 last:mr-0 first:pl-4 sm:first:pl-6 lg:first:pl-8 last:pr-4 sm:last:pr-6 lg:last:pr-8">
                         <a
-                          className="text-indigo-500 whitespace-nowrap flex items-center"
+                          className="text-purple-500 whitespace-nowrap flex items-center"
                           href="#0"
                         >
                           <svg
@@ -229,7 +229,7 @@ function TabsPage() {
                   {/* Start */}
                   <ul className="flex flex-wrap -m-1">
                     <li className="m-1">
-                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
+                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-purple-500 text-white duration-150 ease-in-out">
                         Account
                       </button>
                     </li>
