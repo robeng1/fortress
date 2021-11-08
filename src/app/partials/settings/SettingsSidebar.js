@@ -36,7 +36,7 @@ function SettingsSidebar() {
                     : 'hover:text-gray-700'
                 }`}
               >
-                General
+                Account
               </span>
             </NavLink>
           </li>

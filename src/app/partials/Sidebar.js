@@ -933,7 +933,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 activeClassName="!text-purple-500"
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  General
+                                  Account
                                 </span>
                               </NavLink>
                             </li>
