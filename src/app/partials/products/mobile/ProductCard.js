@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, handleShow }) {
   const statusColor = status => {
     switch (status) {
       case 'Not tracked':
@@ -13,7 +13,7 @@ export default function ProductCard({ product }) {
   };
   const { image, imageAlt, name, price, inventory } = product;
   return (
-    <>
+    <div onClick={handleShow}>
       <div className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
         <img
           src={image}
@@ -41,6 +41,6 @@ export default function ProductCard({ product }) {
           <p className="ml-4 text-sm text-gray-500">{price}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }

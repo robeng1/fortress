@@ -112,4 +112,7 @@ export interface ProductViewType {
   categories: string[];
   product_type: string;
   track_stock: boolean;
+  product_status?: string;
+  product_id: string;
+  image_url: string;
 }

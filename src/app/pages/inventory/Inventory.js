@@ -14,8 +14,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function Inventories() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const hasRecords = useSelector(selectHasRecords);
+  // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);

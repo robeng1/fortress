@@ -27,7 +27,10 @@ function ProductTableItem(props) {
           </label>
         </div>
       </td>
-      <td className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td
+        onClick={props.handleShow}
+        className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"
+      >
         <div className="flex items-center">
           <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
             <img

@@ -33,7 +33,7 @@ const DropTarget = require('@uppy/drop-target');
 // animated components for react select
 const animatedComponents = makeAnimated();
 
-const ProductForm = ({ handleShow, shopId }) => {
+const ProductForm = ({ handleShow, productId }) => {
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const [showVariants, setShowVariants] = useState(false);

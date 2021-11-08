@@ -3,6 +3,11 @@ import React, { useState, lazy } from 'react';
 import { Tab } from '@headlessui/react';
 import ProductForm from 'app/forms/product/Product';
 import CollectionForm from 'app/forms/collection/Collection';
+import { useCollectionSlice } from 'app/features/collection';
+import { useProductSlice } from 'app/features/product';
+import { selectHasCollections } from 'app/features/collection/selectors';
+import { selectHasProducts } from 'app/features/product/selectors';
+import { selectHasRecords } from 'app/features/inventory/selectors';
 
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
@@ -10,10 +15,8 @@ import Header from 'app/partials/Header';
 import DeleteButton from 'app/partials/actions/DeleteButton';
 import FilterButton from 'app/components/DropdownFilter';
 import SearchForm from 'app/partials/actions/SearchForm';
-// import ProductsTable from 'app/partials/products/ProductsTable';
 import PaginationNumeric from 'app/components/PaginationNumeric';
-// import InventoryTable from 'app/partials/inventory/InventoryTable';
-// import CollectionsTable from 'app/partials/collections/CollectionsTable';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ProductsTable = lazy(() => import('app/partials/products/ProductsTable'));
 const InventoryTable = lazy(() =>
@@ -28,15 +31,47 @@ function classNames(...classes) {
 }
 
 function Products() {
+  const { actions: collectionActions } = useCollectionSlice();
+  const { actions: productActions } = useProductSlice();
   const [showForm, setShowForm] = React.useState(false);
   const [showCollectionForm, setShowCollectionForm] = React.useState(false);
   const [tabIndex, setTabIndex] = React.useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-  let [categories] = useState(['Products', 'Inventory', 'Collections']);
+  const [currentlyBeingEditedProductId, setCurrentlyBeingEditedProductId] =
+    useState('');
+  const [
+    currentlyBeingEditedCollectionId,
+    setCurrentlyBeingEditedCollectionId,
+  ] = useState('');
 
+  let [categories] = useState(['Products', 'Inventory', 'Collections']);
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
+  };
+  const dispatch = useDispatch();
+
+  // inventory
+  const hasRecords = useSelector(selectHasRecords);
+
+  // collections
+  const hasCollections = useSelector(selectHasCollections);
+  const handleShowCollectionForm = (display, collectionId) => {
+    setShowCollectionForm(display);
+    setCurrentlyBeingEditedCollectionId(collectionId);
+    if (collectionId && collectionId !== '') {
+      dispatch(collectionActions.getCollection(collectionId));
+    }
+  };
+
+  // products
+  const hasProducts = useSelector(selectHasProducts);
+  const handleShowProductForm = (display, productId) => {
+    setShowForm(display);
+    setCurrentlyBeingEditedProductId(productId);
+    if (productId && productId !== '') {
+      dispatch(productActions.getProduct(productId));
+    }
   };
 
   const renderForm = () => {
@@ -75,7 +110,10 @@ function Products() {
           </div>
 
           {/* Form */}
-          <ProductForm />
+          <ProductForm
+            handleShow={handleShowProductForm}
+            productId={currentlyBeingEditedProductId}
+          />
         </div>
       </main>
     );
@@ -116,7 +154,10 @@ function Products() {
           </div>
 
           {/* Form */}
-          <CollectionForm />
+          <CollectionForm
+            handleShow={handleShowCollectionForm}
+            collectionId={currentlyBeingEditedCollectionId}
+          />
         </div>
       </main>
     );
@@ -140,7 +181,7 @@ function Products() {
               {/* Add member button */}
               <button
                 onClick={() => setShowCollectionForm(!showCollectionForm)}
-                className="btn bg-purple-700 hover:bg-purple-600 text-white"
+                className="btn bg-purple-700 hover:bg-indigo-600 text-white"
               >
                 <svg
                   className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
@@ -154,12 +195,17 @@ function Products() {
           </div>
 
           {/* Table */}
-          <CollectionsTable selectedItems={handleSelectedItems} />
+          <CollectionsTable
+            selectedItems={handleSelectedItems}
+            handleShow={handleShowCollectionForm}
+          />
 
           {/* Pagination */}
-          <div className="mt-4">
-            <PaginationNumeric />
-          </div>
+          {hasCollections && (
+            <div className="mt-4">
+              <PaginationNumeric />
+            </div>
+          )}
         </div>
       </main>
     );
@@ -188,9 +234,9 @@ function Products() {
             {/* <div className="mb-0 md:mb-4">
               <ul className="flex flex-wrap -m-1">
                 <li className="m-1">
-                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-purple-500 text-white duration-150 ease-in-out">
+                  <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
                     All
-                    <span className="ml-1 text-purple-200">67</span>
+                    <span className="ml-1 text-indigo-200">67</span>
                   </button>
                 </li>
                 <li className="m-1">
@@ -228,9 +274,11 @@ function Products() {
           <InventoryTable selectedItems={handleSelectedItems} />
 
           {/* Pagination */}
-          <div className="mt-4">
-            <PaginationNumeric />
-          </div>
+          {hasRecords && (
+            <div className="mt-4">
+              <PaginationNumeric />
+            </div>
+          )}
         </div>
       </main>
     );
@@ -254,7 +302,7 @@ function Products() {
               {/* Add member button */}
               <button
                 onClick={() => setShowForm(!showForm)}
-                className="btn bg-purple-700 hover:bg-purple-600 text-white"
+                className="btn bg-purple-700 hover:bg-indigo-600 text-white"
               >
                 <svg
                   className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
@@ -273,9 +321,9 @@ function Products() {
             {/* <div className="mb-0 md:mb-4">
             <ul className="flex flex-wrap -m-1">
               <li className="m-1">
-                <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-purple-500 text-white duration-150 ease-in-out">
+                <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
                   All
-                  <span className="ml-1 text-purple-200">67</span>
+                  <span className="ml-1 text-indigo-200">67</span>
                 </button>
               </li>
               <li className="m-1">
@@ -313,9 +361,11 @@ function Products() {
           <ProductsTable selectedItems={handleSelectedItems} />
 
           {/* Pagination */}
-          <div className="mt-4">
-            <PaginationNumeric />
-          </div>
+          {hasProducts && (
+            <div className="mt-4">
+              <PaginationNumeric />
+            </div>
+          )}
         </div>
       </main>
     );
@@ -340,7 +390,7 @@ function Products() {
                         'w-full py-2.5 text-sm leading-5 font-medium rounded-sm',
                         'focus:outline-none ',
                         selected
-                          ? 'bg-white text-purple-600 !rounded-full shadow'
+                          ? 'bg-white text-indigo-600 !rounded-full shadow'
                           : 'text-gray-600 hover:bg-white/[0.12] hover:text-white',
                       )
                     }
@@ -396,7 +446,7 @@ function Products() {
                   </div>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="btn bg-blue-900 hover:bg-purple-600 text-white"
+                    className="btn bg-blue-900 hover:bg-indigo-600 text-white"
                   >
                     <svg
                       className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
@@ -411,42 +461,46 @@ function Products() {
             </div>
 
             {/* More actions */}
-            <div className="sm:flex sm:justify-between sm:items-center mb-3">
-              {/* Left side */}
-              <div className="mb-4 sm:mb-0">
-                <ul className="flex flex-wrap -m-1">
-                  <li className="m-1">
-                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-purple-500 text-white duration-150 ease-in-out">
-                      All <span className="ml-1 text-purple-200">67</span>
-                    </button>
-                  </li>
-                  <li className="m-1">
-                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                      In Stock <span className="ml-1 text-gray-400">14</span>
-                    </button>
-                  </li>
-                  <li className="m-1">
-                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                      Out of Stock{' '}
-                      <span className="ml-1 text-gray-400">34</span>
-                    </button>
-                  </li>
-                  <li className="m-1">
-                    <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
-                      Draft <span className="ml-1 text-gray-400">19</span>
-                    </button>
-                  </li>
-                </ul>
+            {hasProducts && (
+              <div className="sm:flex sm:justify-between sm:items-center mb-3">
+                {/* Left side */}
+                <div className="mb-4 sm:mb-0">
+                  <ul className="flex flex-wrap -m-1">
+                    <li className="m-1">
+                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
+                        All <span className="ml-1 text-indigo-200">67</span>
+                      </button>
+                    </li>
+                    <li className="m-1">
+                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
+                        In Stock <span className="ml-1 text-gray-400">14</span>
+                      </button>
+                    </li>
+                    <li className="m-1">
+                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
+                        Out of Stock{' '}
+                        <span className="ml-1 text-gray-400">34</span>
+                      </button>
+                    </li>
+                    <li className="m-1">
+                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-gray-200 hover:border-gray-300 shadow-sm bg-white text-gray-500 duration-150 ease-in-out">
+                        Draft <span className="ml-1 text-gray-400">19</span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Table */}
             <ProductsTable selectedItems={handleSelectedItems} />
 
             {/* Pagination */}
-            <div className="md:mt-8">
-              <PaginationNumeric />
-            </div>
+            {hasProducts && (
+              <div className="md:mt-8">
+                <PaginationNumeric />
+              </div>
+            )}
           </div>
         </main>
       </>
