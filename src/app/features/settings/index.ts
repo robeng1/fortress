@@ -9,13 +9,11 @@ const settingsNamespace = 'settings';
 
 export type SettingsState = {
   shop: ShopType;
-  loading: boolean;
   error?: SettingsErrorType | null;
 };
 
 export const initialState: SettingsState = {
   shop: {},
-  loading: false,
   error: null,
 };
 
@@ -38,11 +36,9 @@ export const slice = createSlice({
     },
     settingsError(state, action: PayloadAction<SettingsErrorType>) {
       state.error = action.payload;
-      state.loading = false;
     },
     clearError(state) {
       state.error = null;
-      state.loading = false;
     },
   },
 });
