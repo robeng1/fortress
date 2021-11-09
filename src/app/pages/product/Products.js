@@ -422,7 +422,7 @@ function Products() {
                   {renderMobileInventoryView()}
                 </Tab.Panel>
                 <Tab.Panel
-                  key={2}
+                  key={3}
                   className={classNames(
                     'bg-white rounded-lg',
                     'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',

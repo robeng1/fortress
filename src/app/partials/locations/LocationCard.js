@@ -16,7 +16,7 @@ export default function LocationCard() {
               <h4 className="text-sm md:text-lg font-semibold text-left">
                 100 South Barrington
               </h4>
-              <span class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full hidden md:block">
+              <span className="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full hidden md:block">
                 Default
               </span>
             </div>

@@ -40,7 +40,6 @@ export default function BottomNav() {
               <div className="grid grid-cols-3 grid-rows-1 grid-flow-col gap-2">
                 <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
                   <button
-                    exact
                     onClick={() => {
                       handleClose();
                       pushLink('/discounts');
@@ -63,7 +62,6 @@ export default function BottomNav() {
                 </div>
                 <div className="bg-white shadow rounded-md h-12 flex items-center justify-center text-black text-xs font-medium">
                   <button
-                    exact
                     onClick={() => {
                       handleClose();
                       pushLink('/settings/account');

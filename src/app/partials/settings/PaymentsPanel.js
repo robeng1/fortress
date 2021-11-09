@@ -80,7 +80,7 @@ function NotificationsPanel() {
                 type="text"
                 placeholder="Rocketship Store Revenue"
               />
-              <p class="text-blue-500 text-xs">
+              <p className="text-blue-500 text-xs">
                 This will used as Mobile Money Reference/Bank Invoice name
                 during payout
               </p>

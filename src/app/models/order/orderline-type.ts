@@ -1,4 +1,4 @@
-import { LatLng } from '../latLng';
+import { LatLng } from '../coordinate';
 import { MoneyType } from '../money';
 import { Photo } from '../photo';
 

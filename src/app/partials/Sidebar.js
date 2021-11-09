@@ -307,7 +307,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                       '!text-purple-500'
                                     }`}
                                   >
-                                    All Products
+                                    All products
                                   </span>
                                 </NavLink>
                               </li>
@@ -485,7 +485,124 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup> */}
                 {/* Offers */}
-                <li
+                <SidebarLinkGroup
+                  activecondition={pathname.includes('discounts')}
+                >
+                  {(handleClick, open) => {
+                    return (
+                      <div className="block">
+                        <a
+                          href="#0"
+                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                            pathname.includes('discounts') &&
+                            'hover:text-gray-900'
+                          }`}
+                          onClick={e => {
+                            e.preventDefault();
+                            sidebarExpanded
+                              ? handleClick()
+                              : setSidebarExpanded(true);
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex align-baseline ">
+                              <svg
+                                width="20"
+                                height="20"
+                                className="flex-shrink-0 h-5"
+                                viewBox="0 0 48 48"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <rect
+                                  width="48"
+                                  height="48"
+                                  fill="white"
+                                  fillOpacity="0.01"
+                                />
+                                <circle
+                                  cx="11"
+                                  cy="11"
+                                  r="5"
+                                  fill="none"
+                                  stroke="#333"
+                                  strokeWidth="4"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <circle
+                                  cx="37"
+                                  cy="37"
+                                  r="5"
+                                  fill="none"
+                                  stroke="#333"
+                                  strokeWidth="4"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M42 6L6 42"
+                                  className={`fill-current text-white ${
+                                    pathname.includes('discounts') &&
+                                    '!text-purple-500'
+                                  }`}
+                                  stroke="#333"
+                                  strokeWidth="4"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                              <span className="text-sm font-medium ml-1 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Discounts
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                        <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
+                            <li className={`mb-1 last:mb-0 `}>
+                              <NavLink
+                                exact
+                                to="/discounts"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                activeClassName="!text-purple-500"
+                              >
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  All discounts
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                exact
+                                to="/discounts/sets"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                activeClassName="!text-purple-500"
+                              >
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Voucher sets
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                exact
+                                to="/discounts/vouchers"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                activeClassName="!text-purple-500"
+                              >
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Vouchers
+                                </span>
+                              </NavLink>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  }}
+                </SidebarLinkGroup>
+                {/* <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname.includes('discounts') &&
                     'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
@@ -553,7 +670,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       </span>
                     </div>
                   </NavLink>
-                </li>
+                </li> */}
               </ul>
             </div>
             {/* More group */}
@@ -821,7 +938,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   </span>
                                 </NavLink>
                               </li>
-                              <li className="mb-1 last:mb-0">
+                              {/* <li className="mb-1 last:mb-0">
                                 <NavLink
                                   exact
                                   to="/component/dropdown"
@@ -832,8 +949,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                     Navigation
                                   </span>
                                 </NavLink>
-                              </li>
-                              <li className="mb-1 last:mb-0">
+                              </li> */}
+                              {/* <li className="mb-1 last:mb-0">
                                 <NavLink
                                   exact
                                   to="/component/alert"
@@ -844,7 +961,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                     Preferences
                                   </span>
                                 </NavLink>
-                              </li>
+                              </li> */}
                             </ul>
                           </div>
                         </React.Fragment>

@@ -28,17 +28,17 @@ export function* watchSignup() {
 }
 
 export function* login(action: PayloadAction<RegisterLogInType>) {
-  const requestURL = `${theKeepURL}/auth/login`;
+  // const requestURL = `${theKeepURL}/auth/login`;
   yield put(uiActions.startAction(action));
   try {
-    const session: {} = yield call(request, requestURL, {
-      method: 'POST',
-      body: JSON.stringify({ ...action.payload }),
-    });
-    if (session) {
-      yield put(actions.sessionLoaded(session));
-      yield put(actions.setIsAuthenticated(true));
-    }
+    // const session: {} = yield call(request, requestURL, {
+    //   method: 'POST',
+    //   body: JSON.stringify({ ...action.payload }),
+    // });
+    // if (session) {
+    //   yield put(actions.sessionLoaded(session));
+    //   yield put(actions.setIsAuthenticated(true));
+    // }
   } catch (err) {
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
   } finally {
@@ -65,10 +65,10 @@ export function* watchIsAuthenticated() {
 }
 
 export function* logout() {
-  const requestURL = `${theKeepURL}/auth/logout`;
+  // const requestURL = `${theKeepURL}/auth/logout`;
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _ = yield call(request, requestURL);
+    // const _ = yield call(request, requestURL);
     yield put(actions.setIsAuthenticated(false));
     yield put(actions.profileLoaded({}));
     yield put(actions.sessionLoaded({}));
@@ -76,6 +76,8 @@ export function* logout() {
   } catch (err) {
     yield put(actions.setIsAuthenticated(false));
     yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
+  } finally {
+    yield put(actions.setIsAuthenticated(false));
   }
 }
 export function* watchLogout() {

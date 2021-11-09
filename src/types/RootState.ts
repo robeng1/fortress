@@ -8,6 +8,8 @@ import { ProductState } from 'app/features/product';
 import { SettingsState } from 'app/features/settings';
 import { AuthnState } from 'app/features/authn';
 import { UIState } from 'app/features/ui';
+import { VoucherSetState } from 'app/features/coupon/voucherset';
+import { VoucherState } from 'app/features/coupon/voucher';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /* 
@@ -27,5 +29,7 @@ export interface RootState {
   settings?: SettingsState;
   authn?: AuthnState;
   ui?: UIState;
+  voucherset?: VoucherSetState;
+  voucher?: VoucherState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

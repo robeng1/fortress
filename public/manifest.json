@@ -1,6 +1,6 @@
 {
-  "short_name": "Reoplex Admin",
-  "name": "Reoplex Admin",
+  "short_name": "Reoplex Seller",
+  "name": "Reoplex Seller Dashboard",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,17 +8,17 @@
       "type": "image/x-icon"
     },
     {
-      "src": "Reoplex.png",
+      "src": "./reoplex.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "Reoplex.png",
+      "src": "./reoplex.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "admin.reoplex.com",
+  "start_url": "app.reoplex.com",
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff"

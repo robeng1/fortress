@@ -95,8 +95,8 @@ function StorePanel() {
               <br /> The address you use here will appear on your invoices
             </div>
 
-            <div class="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-              <div class="w-full md:w-1/2">
+            <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+              <div className="w-full md:w-1/2">
                 <label
                   className="block text-sm font-medium mb-1"
                   htmlFor="legal_name"
@@ -111,8 +111,8 @@ function StorePanel() {
                 />
               </div>
             </div>
-            <div class="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-              <div class="w-full md:w-1/2">
+            <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+              <div className="w-full md:w-1/2">
                 <label
                   className="block text-sm font-medium mb-1"
                   htmlFor="address-name"
