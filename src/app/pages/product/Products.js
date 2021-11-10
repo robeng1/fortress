@@ -496,7 +496,10 @@ function Products() {
             )}
 
             {/* Table */}
-            <ProductsTable selectedItems={handleSelectedItems} />
+            <ProductsTable
+              selectedItems={handleSelectedItems}
+              handleShow={handleShowProductForm}
+            />
 
             {/* Pagination */}
             {hasProducts && (
