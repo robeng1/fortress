@@ -117,6 +117,11 @@ const DiscountForm = ({ handleShow, discountId }) => {
               end_date: '',
               end_time: '',
               files: [],
+              code_type: 'single',
+              code: '',
+              code_usage: '',
+              code_length: '',
+              number_of_codes: 1,
             }}
             onSubmit={(values, { setSubmitting }) => {
               if (discount) {
@@ -1310,6 +1315,145 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         </div>
                       </div>
                     </section>
+                    {values.type === 'voucher' && (
+                      <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                        <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                          Voucher
+                        </h2>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="incentive_type"
+                        >
+                          Code type
+                        </label>
+                        <div className="m-3">
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              name="code_type"
+                              className="form-radio"
+                              onChange={e =>
+                                setFieldValue('code_type', 'single')
+                              }
+                              checked={values.code_type === 'single'}
+                              value={values.code_type}
+                            />
+                            <span className="text-sm ml-2">Single</span>
+                          </label>
+                        </div>
+                        <div className="m-3">
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              name="code_type"
+                              className="form-radio"
+                              onChange={e => setFieldValue('code_type', 'set')}
+                              checked={values.code_type === 'set'}
+                              value={values.code_type}
+                            />
+                            <span className="text-sm ml-2">Multi</span>
+                          </label>
+                        </div>
+                        {values.code_type === 'single' && (
+                          <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                            <div className="w-full">
+                              <label
+                                className="block text-sm font-medium mb-1"
+                                htmlFor="code"
+                              >
+                                Code
+                              </label>
+                              <input
+                                id="code"
+                                name="code"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.code}
+                                className="form-input"
+                                type="text"
+                                placeholder="SPRNGSALE"
+                              />
+                            </div>
+                          </div>
+                        )}
+                        {values.code_type === 'set' && (
+                          <>
+                            <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                              <div className="w-full">
+                                <label
+                                  className="block text-sm font-medium mb-1"
+                                  htmlFor="code_length"
+                                >
+                                  Code Length
+                                </label>
+                                <input
+                                  id="code_length"
+                                  name="code_length"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.code_length}
+                                  className="form-input"
+                                  type="number"
+                                  min={1}
+                                  step={1}
+                                  max={10}
+                                  placeholder="1"
+                                />
+                              </div>
+                            </div>
+                            <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                              <div className="w-full">
+                                <label
+                                  className="block text-sm font-medium mb-1"
+                                  htmlFor="number_of_codes"
+                                >
+                                  Number of codes
+                                </label>
+                                <input
+                                  id="number_of_codes"
+                                  name="number_of_codes"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.number_of_codes}
+                                  className="form-input"
+                                  type="number"
+                                  min={1}
+                                  step={1}
+                                  placeholder="1"
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                        <div className="sm:w-1/2 mt-6">
+                          <label
+                            className="block text-sm font-medium mb-1"
+                            htmlFor="code_usage"
+                          >
+                            Usage
+                          </label>
+                          <select
+                            name="code_usage"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.code_usage}
+                            id="code_usage"
+                            className="form-select block"
+                          >
+                            <option value="">Please Select</option>
+                            <option value="multi_use">
+                              Can be used multiple times by multiple customers
+                            </option>
+                            <option value="single_use">
+                              Can be used once by one customer
+                            </option>
+                            <option value="once_per_customer">
+                              Can only be used once per customer
+                            </option>
+                          </select>
+                        </div>
+                      </section>
+                    )}
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                       <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                         Search Engine Preview

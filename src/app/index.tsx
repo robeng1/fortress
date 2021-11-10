@@ -15,7 +15,7 @@ import { focusHandling } from 'cruip-js-toolkit';
 import './charts/ChartjsConfig';
 
 import { useTranslation } from 'react-i18next';
-import Dashboard from 'app/pages/Dashboard';
+// import Dashboard from 'app/pages/Dashboard';
 import Analytics from 'app/pages/Analytics';
 // import Customers from 'app/pages/customers/Customers';
 import Products from 'app/pages/product/Products';

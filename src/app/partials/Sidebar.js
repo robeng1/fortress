@@ -580,11 +580,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 activeClassName="!text-purple-500"
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Voucher sets
+                                  Codes
                                 </span>
                               </NavLink>
                             </li>
-                            <li className="mb-1 last:mb-0">
+                            {/* <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
                                 to="/discounts/vouchers"
@@ -595,7 +595,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Vouchers
                                 </span>
                               </NavLink>
-                            </li>
+                            </li> */}
                           </ul>
                         </div>
                       </div>

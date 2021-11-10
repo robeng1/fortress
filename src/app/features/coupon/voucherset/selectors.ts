@@ -35,5 +35,5 @@ export const selectHasVoucherSets = createSelector(
   d => d && d.length > 0,
 );
 
-export const selectVoucherSetById = (state: RootState, voucherSetId: string) =>
-  state.discount?.discounts[voucherSetId];
+// export const selectVoucherSetById = (state: RootState, voucherSetId: string) =>
+//   state.voucherset?.voucherset[voucherSetId];
