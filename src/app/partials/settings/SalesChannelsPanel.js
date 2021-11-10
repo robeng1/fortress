@@ -1,6 +1,6 @@
 import React from 'react';
 
-function BillingPanel() {
+function SalesChannelsPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
@@ -116,4 +116,4 @@ function BillingPanel() {
   );
 }
 
-export default BillingPanel;
+export default SalesChannelsPanel;

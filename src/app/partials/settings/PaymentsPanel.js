@@ -1,6 +1,6 @@
 import React from 'react';
 
-function NotificationsPanel() {
+function PaymentsPanel() {
   // const [comments, setComments] = useState(true);
   // const [messages, setMessages] = useState(true);
   // const [mentions, setMentions] = useState(false);
@@ -124,4 +124,4 @@ function NotificationsPanel() {
   );
 }
 
-export default NotificationsPanel;
+export default PaymentsPanel;

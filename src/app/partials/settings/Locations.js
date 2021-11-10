@@ -1,7 +1,7 @@
 import React from 'react';
 
 // TODO: add hidden longitude and latitude inputs
-function AppsPanel() {
+function Locations() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
@@ -214,4 +214,4 @@ function AppsPanel() {
   );
 }
 
-export default AppsPanel;
+export default Locations;

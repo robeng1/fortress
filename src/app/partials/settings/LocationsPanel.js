@@ -1,7 +1,7 @@
 import React from 'react';
 import LocationCard from '../locations/LocationCard';
 
-function BillingPanel() {
+function LocationsPanel() {
   return (
     <div className="flex-grow">
       {/* Panel body */}
@@ -51,4 +51,4 @@ function BillingPanel() {
   );
 }
 
-export default BillingPanel;
+export default LocationsPanel;
