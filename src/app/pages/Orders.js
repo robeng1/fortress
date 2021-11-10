@@ -12,6 +12,7 @@ import PaginationClassic from '../partials/PaginationClassic';
 
 function Orders() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const hasOrders = useSelector(selectHasOrders);
   console.log(hasOrders);

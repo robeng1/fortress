@@ -114,7 +114,7 @@ export default function BottomNav() {
             component={NavLink}
             exact
             to="/"
-            value=""
+            value="home"
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
               pathname === '/' && '!text-blue-900'
             }`}
