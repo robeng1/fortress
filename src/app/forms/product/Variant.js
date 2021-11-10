@@ -2,16 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
 import VariantItem from './VariantItem';
 
-import Image01 from '../../images/user-40-01.jpg';
-import Image02 from '../../images/user-40-02.jpg';
-import Image03 from '../../images/user-40-03.jpg';
-import Image04 from '../../images/user-40-04.jpg';
-
 const VariantPreviewTable = ({ selectedItems, names }) => {
   const products = [
     {
       id: '0',
-      image: Image01,
+      image: '',
       name: names[0],
       inventory: 'Blue',
       type: 'Small',
@@ -21,7 +16,7 @@ const VariantPreviewTable = ({ selectedItems, names }) => {
     },
     {
       id: '1',
-      image: Image02,
+      image: '',
       name: names[1],
       inventory: 'Green',
       type: 'Medium',
@@ -31,7 +26,7 @@ const VariantPreviewTable = ({ selectedItems, names }) => {
     },
     {
       id: '2',
-      image: Image03,
+      image: '',
       name: 'Bike short',
       inventory: 'White',
       type: 'Large',
@@ -41,7 +36,7 @@ const VariantPreviewTable = ({ selectedItems, names }) => {
     },
     {
       id: '3',
-      image: Image04,
+      image: '',
       name: 'Bike short',
       inventory: 'Blue',
       type: 'Extra Large',

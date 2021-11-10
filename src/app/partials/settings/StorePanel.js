@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Image from '../../images/user-avatar-80.png';
+import Image from '../../images/user-header.png';
 
 function StorePanel() {
   return (

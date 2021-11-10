@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Transition from '../utils/transition';
 import { useAuthnSlice } from 'app/features/authn';
 
-import UserAvatar from '../images/user-avatar-32.png';
+import UserAvatar from '../images/user-header.png';
 
 function DropdownProfile({ align }) {
   const { actions } = useAuthnSlice();

@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
-import Datepicker from '../components/Datepicker';
-import AnalyticsCard01 from '../partials/analytics/AnalyticsCard01';
-import AnalyticsCard02 from '../partials/analytics/AnalyticsCard02';
-import AnalyticsCard03 from '../partials/analytics/AnalyticsCard03';
-import AnalyticsCard04 from '../partials/analytics/AnalyticsCard04';
-import AnalyticsCard05 from '../partials/analytics/AnalyticsCard05';
-import AnalyticsCard06 from '../partials/analytics/AnalyticsCard06';
-import AnalyticsCard07 from '../partials/analytics/AnalyticsCard07';
-import AnalyticsCard08 from '../partials/analytics/AnalyticsCard08';
-import AnalyticsCard09 from '../partials/analytics/AnalyticsCard09';
-import AnalyticsCard10 from '../partials/analytics/AnalyticsCard10';
-import AnalyticsCard11 from '../partials/analytics/AnalyticsCard11';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import Datepicker from 'app/components/Datepicker';
+import AnalyticsCard01 from 'app/partials/analytics/AnalyticsCard01';
+import AnalyticsCard02 from 'app/partials/analytics/AnalyticsCard02';
+import AnalyticsCard03 from 'app/partials/analytics/AnalyticsCard03';
+import AnalyticsCard04 from 'app/partials/analytics/AnalyticsCard04';
+import AnalyticsCard05 from 'app/partials/analytics/AnalyticsCard05';
+import AnalyticsCard06 from 'app/partials/analytics/AnalyticsCard06';
+import AnalyticsCard07 from 'app/partials/analytics/AnalyticsCard07';
+import AnalyticsCard08 from 'app/partials/analytics/AnalyticsCard08';
+import AnalyticsCard09 from 'app/partials/analytics/AnalyticsCard09';
+import AnalyticsCard10 from 'app/partials/analytics/AnalyticsCard10';
 import BottomNav from 'app/components/BottomNav';
 
 function Analytics() {
@@ -69,8 +68,6 @@ function Analytics() {
               <AnalyticsCard09 />
               {/* Polar chart (Sessions By Gender) */}
               <AnalyticsCard10 />
-              {/* Table (Top Products) */}
-              <AnalyticsCard11 />
             </div>
           </div>
         </main>
