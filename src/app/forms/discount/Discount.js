@@ -64,7 +64,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
         companionUrl: 'https://companion.uppy.io',
       })
       .use(DropTarget, { target: document.body })
-      .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' });
+      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
   }, []);
 
   React.useEffect(() => {

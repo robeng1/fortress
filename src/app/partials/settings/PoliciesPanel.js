@@ -68,51 +68,6 @@ function PoliciesPanel() {
             </div>
           </div>
         </section>
-
-        {/* FAQs */}
-        <section>
-          <div className="my-8">
-            <h2 className="text-2xl text-gray-800 font-bold">FAQs</h2>
-          </div>
-          <ul className="space-y-5">
-            <li>
-              <div className="font-semibold text-gray-800 mb-1">
-                What is the difference between the three versions?
-              </div>
-              <div className="text-sm">
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit.
-              </div>
-            </li>
-            <li>
-              <div className="font-semibold text-gray-800 mb-1">
-                Is there any difference between Basic and Plus licenses?
-              </div>
-              <div className="text-sm">
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit anim id est laborum in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur.
-              </div>
-            </li>
-            <li>
-              <div className="font-semibold text-gray-800 mb-1">
-                Got more questions?
-              </div>
-              <div className="text-sm">
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit anim id est laborum in voluptate
-                velit esse cillum dolore eu fugiat{' '}
-                <a
-                  className="font-medium text-purple-500 hover:text-purple-600"
-                  href="#0"
-                >
-                  contact us
-                </a>
-                .
-              </div>
-            </li>
-          </ul>
-        </section>
       </div>
 
       {/* Panel footer */}
