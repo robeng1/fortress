@@ -1,5 +1,7 @@
 import { MoneyType } from '../money';
 import { Photo } from '../photo';
+import { VoucherType } from '../voucher/voucher';
+import { VoucherSetType } from '../voucher/voucherset';
 import { BenefitType } from './benefit-type';
 import { ConditionType } from './condition-type';
 
@@ -33,6 +35,8 @@ export interface DiscountType {
   keywords?: string[];
   page_title?: string;
   page_description?: string;
+  vouchers?: VoucherType[];
+  voucher_sets?: VoucherSetType[];
 }
 
 export interface DiscountListType {

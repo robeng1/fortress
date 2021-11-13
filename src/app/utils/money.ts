@@ -60,6 +60,10 @@ export default class money {
     return a;
   };
 
+  static toDouble = (units: number, nanos: number): string => {
+    return `${units}.${nanos}`;
+  };
+
   static intToString = (d: number, code: string): string => {
     const parsed = money.parseInt(d, code);
     return `${parsed.currency_code}${parsed.units}.${money.pad(parsed.nanos)}`;

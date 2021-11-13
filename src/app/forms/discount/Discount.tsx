@@ -30,7 +30,11 @@ import { ConditionType } from 'app/models/discount/condition-type';
 import money from 'app/utils/money';
 import { selectShop } from 'app/features/settings/selectors';
 import { BenefitType } from 'app/models/discount/benefit-type';
+import { RangeType } from 'app/models/discount/range-type';
+import { VoucherType } from 'app/models/voucher/voucher';
+import { VoucherSetType } from 'app/models/voucher/voucherset';
 
+// FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
 interface Values {
   title: string;
   description: string;
@@ -46,21 +50,22 @@ interface Values {
   excluded_products: string[];
   included_collections: string[];
   incentive_type: string;
-  buy_x_get_y_cond_value: string;
-  conditon_value_money: string;
-  buy_x_get_y_cond_range_type: string;
-  buy_x_get_y_cond_range_values: string;
+  condition_value_money: string;
+  condition_value_int: number;
+  buy_x_get_y_condition_value: string | number;
+  buy_x_get_y_condition_range_type: string;
+  buy_x_get_y_condition_range_keys: string[];
   // default 'count'
-  buy_x_get_y_cond_value_type: string;
+  buy_x_get_y_condition_type: string;
   buy_x_get_y_ben_range_type: string;
-  buy_x_get_y_ben_range_values: string;
+  buy_x_get_y_ben_range_keys: string[];
   // default 1
   buy_x_get_y_ben_max_affected_items: number;
   // default 'percentage'
   buy_x_get_y_discounted_value_type: string;
   buy_x_get_y_discounted_value: string;
   condition_type: string;
-  value: string;
+  value: string | number;
   // default 'all_products'
   applies_to: string;
   exclusive: true;
@@ -71,7 +76,7 @@ interface Values {
   has_max_user_applications: boolean;
   // default false
   has_max_discount: boolean;
-  max_basket_applications: 1;
+  max_basket_applications: number;
   max_discount: string;
   max_user_applications?: number;
   max_global_applications?: number;
@@ -84,8 +89,8 @@ interface Values {
   code_type: string;
   code: string;
   code_usage: string;
-  code_length: string;
-  // default 1
+  code_length: number;
+  // default 2
   number_of_codes: number;
 }
 
@@ -101,16 +106,17 @@ const initialValues: Values = {
   excluded_products: [],
   included_collections: [],
   incentive_type: '',
-  buy_x_get_y_cond_value: '',
-  conditon_value_money: '',
-  buy_x_get_y_cond_range_type: '',
-  buy_x_get_y_cond_range_values: '',
-  buy_x_get_y_cond_value_type: 'count',
+  buy_x_get_y_condition_value: '',
+  buy_x_get_y_condition_range_type: '',
+  buy_x_get_y_condition_range_keys: [],
+  buy_x_get_y_condition_type: 'count',
   buy_x_get_y_ben_range_type: '',
-  buy_x_get_y_ben_range_values: '',
+  buy_x_get_y_ben_range_keys: [],
   buy_x_get_y_ben_max_affected_items: 1,
   buy_x_get_y_discounted_value_type: 'percentage',
   buy_x_get_y_discounted_value: '',
+  condition_value_money: '',
+  condition_value_int: 1,
   condition_type: '',
   value: '',
   applies_to: 'all_products',
@@ -131,10 +137,11 @@ const initialValues: Values = {
   code_type: 'single',
   code: '',
   code_usage: '',
-  code_length: '',
-  number_of_codes: 1,
+  code_length: 6,
+  number_of_codes: 2,
 };
 
+// TODO: (romeo) refactor duplicated piece of logic
 const DiscountForm = ({ handleShow, discountId }) => {
   const { actions } = useDiscountSlice();
   const dispatch = useDispatch();
@@ -143,103 +150,458 @@ const DiscountForm = ({ handleShow, discountId }) => {
   const isLoading = useSelector(state =>
     checkIfLoading(state, actions.getDiscount.type),
   );
-  const makeDiscountPresentable = (d: DiscountType | undefined): Values => {
+  const flattenDiscount = (d: DiscountType | undefined): Values => {
     if (!d) {
       return initialValues;
     }
-    return initialValues;
+    const disc: Values = {
+      ...initialValues,
+      title: d.name || initialValues.title,
+      description: d.description || initialValues.description,
+      type: d.offer_type || initialValues.type,
+      max_basket_applications: d.max_basket_applications || 1,
+      max_global_applications: d.max_global_applications,
+      max_user_applications: d.max_user_applications,
+      page_title: d.page_title || initialValues.page_title,
+      page_description: d.page_description || initialValues.page_description,
+    };
+    if (
+      d.benefit?.benefit_type === 'fixed_discount' ||
+      d.benefit?.benefit_type === 'fixed_price' ||
+      d.benefit?.benefit_type === 'multibuy' ||
+      d.benefit?.benefit_type === 'percentage'
+    ) {
+      // condition deconstruction
+      disc.condition_type =
+        d.condition?.condition_type || initialValues.condition_type;
+      if (
+        d.condition?.condition_type === 'coverage' ||
+        d.condition?.condition_type === 'count'
+      ) {
+        disc.condition_value_int =
+          d.condition.value_int || initialValues.condition_value_int;
+      } else if (d.condition?.condition_type === 'value') {
+        // will be quite weird that these values would not exist
+        // at the time when they are needed
+        disc.condition_value_money = money.toDouble(
+          d.condition.money_value?.units || 0,
+          d.condition.money_value?.nanos || 0,
+        );
+      } else {
+        // TODO:(romeo) remove this block as it's weird as we should NEVER! reach here
+      }
+
+      // benefit deconstruction
+      if (d.benefit) {
+        disc.incentive_type =
+          d.benefit.benefit_type || initialValues.incentive_type;
+        disc.applies_to = d.benefit.collection?.includes_all_products
+          ? 'all_products'
+          : '';
+        if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_collections &&
+          d.benefit.collection?.included_collections?.length > 0
+        ) {
+          disc.applies_to = 'specific_collections';
+          disc.included_collections =
+            d.benefit.collection?.included_collections;
+        } else if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_products &&
+          d.benefit.collection?.included_products?.length > 0
+        ) {
+          disc.applies_to = 'specific_products';
+          disc.included_products = d.benefit.collection?.included_products;
+        }
+        if (d.benefit.value_m) {
+          disc.value = money.toDouble(
+            d.benefit.value_m.units,
+            d.benefit.value_m.nanos,
+          );
+        } else if (d.benefit.value_i) {
+          disc.value = d.benefit.value_i;
+        }
+      }
+    } else {
+      // deconstructing buy-x-get-y
+      if (d.condition) {
+        disc.buy_x_get_y_condition_type =
+          d.condition?.condition_type ||
+          initialValues.buy_x_get_y_condition_type;
+        if (
+          d.condition?.condition_type === 'coverage' ||
+          d.condition?.condition_type === 'count'
+        ) {
+          disc.buy_x_get_y_condition_value =
+            d.condition.value_int || initialValues.buy_x_get_y_condition_value;
+        } else if (d.condition?.condition_type === 'value') {
+          // will be quite weird that these values would not exist
+          // at the time when they are needed
+          disc.buy_x_get_y_condition_value = money.toDouble(
+            d.condition.money_value?.units || 0,
+            d.condition.money_value?.nanos || 0,
+          );
+        } else {
+          // TODO:(romeo)  remove this block as it's weird as we should NEVER! reach here
+        }
+        // deconstructing the condition range
+        disc.buy_x_get_y_condition_range_type = d.condition.collection
+          ?.includes_all_products
+          ? 'all_products'
+          : '';
+        if (
+          d.condition.collection &&
+          d.condition.collection?.included_collections &&
+          d.condition.collection?.included_collections?.length > 0
+        ) {
+          disc.buy_x_get_y_condition_range_type = 'specific_collections';
+          disc.buy_x_get_y_condition_range_keys =
+            d.condition.collection?.included_collections ||
+            initialValues.buy_x_get_y_condition_range_keys;
+        } else if (
+          d.condition.collection &&
+          d.condition.collection?.included_products &&
+          d.condition.collection?.included_products?.length > 0
+        ) {
+          disc.buy_x_get_y_condition_range_type = 'specific_products';
+          disc.buy_x_get_y_condition_range_keys =
+            d.condition.collection?.included_products ||
+            initialValues.buy_x_get_y_condition_range_keys;
+        }
+      }
+
+      // benefit deconstruction
+      if (d.benefit) {
+        disc.buy_x_get_y_discounted_value_type =
+          d.benefit.benefit_type ||
+          initialValues.buy_x_get_y_discounted_value_type;
+
+        // deconstructing the benefit range
+        disc.buy_x_get_y_ben_range_type = d.benefit.collection
+          ?.includes_all_products
+          ? 'all_products'
+          : '';
+        if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_collections &&
+          d.benefit.collection?.included_collections?.length > 0
+        ) {
+          disc.buy_x_get_y_ben_range_type = 'specific_collections';
+          disc.buy_x_get_y_ben_range_keys =
+            d.benefit.collection?.included_collections;
+        } else if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_products &&
+          d.benefit.collection?.included_products?.length > 0
+        ) {
+          disc.buy_x_get_y_ben_range_type = 'specific_products';
+          disc.buy_x_get_y_ben_range_keys =
+            d.benefit.collection?.included_products;
+        }
+        if (d.benefit.value_m) {
+          disc.buy_x_get_y_discounted_value = money.toDouble(
+            d.benefit.value_m.units,
+            d.benefit.value_m.nanos,
+          );
+        } else if (d.benefit.value_i) {
+          disc.buy_x_get_y_discounted_value = d.benefit.value_i as string;
+        }
+        disc.buy_x_get_y_ben_max_affected_items =
+          d.benefit.max_affected_items ||
+          initialValues.buy_x_get_y_ben_max_affected_items;
+      }
+    }
+    // if (d.type === 'voucher') {
+    //   if (d.code_type === 'single') {
+    //     const voucher: VoucherType = {
+    //       voucher_id: '',
+    //       code: d.code,
+    //       shop_id: shop.shop_id,
+    //       discount_id: discountId,
+    //       usage: d.code_usage,
+    //     };
+    //     disc.vouchers = [voucher];
+    //   } else if (d.code_type === 'set') {
+    //     const voucherSet: VoucherSetType = {
+    //       set_id: '',
+    //       shop_id: shop.shop_id,
+    //       usage: d.code_usage,
+    //       discount_id: discountId,
+    //       code_length: d.code_length,
+    //       count: d.number_of_codes,
+    //     };
+    //     disc.voucher_sets = [voucherSet];
+    //   }
+    // }
+    return disc;
   };
   const makeDiscountSavable = (d: Values): DiscountType => {
     const disc: DiscountType = {
-      shop_id: '',
+      shop_id: shop.shop_id || '',
       discount_id: discountId,
       name: d.title,
       description: d.description,
       offer_type: d.type,
       max_basket_applications: d.max_basket_applications,
       max_global_applications: d.max_global_applications,
+      max_user_applications: d.max_user_applications,
       page_title: d.page_title,
       page_description: d.page_description,
     };
-    if (d.type === 'site') {
-      switch (d.incentive_type) {
-        case 'fixed_discount': {
-          const condition: ConditionType = {
-            condition_type: d.condition_type,
-          };
-          // condition.money_value = money.parseDouble(
-          //   d.value,
-          //   shop.currency?.iso_code || 'GHS',
-          // );
-
-          disc.condition = condition;
-          // benefit construction
-          const benefit: BenefitType = {
-            benefit_type: d.incentive_type,
-            value_m: money.parseDouble(
-              d.value,
-              shop.currency?.iso_code || 'GHS',
-            ),
-          };
-          disc.benefit = benefit;
-          break;
+    switch (d.incentive_type) {
+      case 'fixed_discount': {
+        const condition: ConditionType = {
+          condition_type: d.condition_type,
+        };
+        if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+          condition.value_int = d.condition_value_int;
+        } else if (d.condition_type === 'value') {
+          condition.money_value = money.parseDouble(
+            d.condition_value_money,
+            shop.currency?.iso_code || 'GHS',
+          );
+        } else {
+          condition.value_int = 0;
+          condition.money_value = money.parseDouble(
+            '0.00',
+            shop.currency?.iso_code || 'GHS',
+          );
         }
-        case 'percentage': {
-          const condition: ConditionType = {
-            condition_type: d.condition_type,
-            // value_int: parseInt(d.value),
-          };
-          disc.condition = condition;
+        disc.condition = condition;
 
-          // benefit construction
-          const benefit: BenefitType = {
-            benefit_type: d.incentive_type,
-            value_i: parseInt(d.value),
-          };
-          disc.benefit = benefit;
-          break;
+        // benefit construction
+        const benefit: BenefitType = {
+          benefit_type: d.incentive_type,
+          value_m: money.parseDouble(
+            d.value as string,
+            shop.currency?.iso_code || 'GHS',
+          ),
+        };
+        const benRange: RangeType = {
+          includes_all_products: d.applies_to === 'all_products',
+        };
+        if (d.applies_to === 'specific_products') {
+          benRange.included_products = d.included_products;
         }
-        case 'multibuy':
-          const condition: ConditionType = {
-            condition_type: d.condition_type,
-          };
-          disc.condition = condition;
-          const benefit: BenefitType = {
-            benefit_type: d.incentive_type,
-          };
-          disc.benefit = benefit;
-          break;
-        case 'fixed_price': {
-          const condition: ConditionType = {
-            condition_type: d.condition_type,
-          };
-          // condition.money_value = money.parseDouble(
-          //   d.value,
-          //   shop.currency?.iso_code || 'GHS',
-          // );
-
-          disc.condition = condition;
-
-          // benefit construction
-          const benefit: BenefitType = {
-            benefit_type: d.incentive_type,
-            value_m: money.parseDouble(
-              d.value,
-              shop.currency?.iso_code || 'GHS',
-            ),
-          };
-          disc.benefit = benefit;
-          break;
+        if (d.applies_to === 'specific_collections') {
+          benRange.included_collections = d.included_collections;
         }
-        case 'buy-x-get-y':
-          alert('Too big');
-          break;
-        default:
-          alert("I don't know such values");
+        benefit.collection = benRange;
+        disc.benefit = benefit;
+        break;
       }
-      // do what needs to be done here
-    } else if (d.type === 'voucher') {
-      // look sharp here too
+      case 'percentage': {
+        const condition: ConditionType = {
+          condition_type: d.condition_type,
+        };
+        if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+          condition.value_int = d.condition_value_int;
+        } else if (d.condition_type === 'value') {
+          condition.money_value = money.parseDouble(
+            d.condition_value_money,
+            shop.currency?.iso_code || 'GHS',
+          );
+        } else {
+          condition.value_int = 0;
+          condition.money_value = money.parseDouble(
+            '0.00',
+            shop.currency?.iso_code || 'GHS',
+          );
+        }
+        disc.condition = condition;
+
+        // benefit construction
+        const benefit: BenefitType = {
+          benefit_type: d.incentive_type,
+          value_i: parseInt(d.value as string),
+        };
+        const benRange: RangeType = {
+          includes_all_products: d.applies_to === 'all_products',
+        };
+        if (d.applies_to === 'specific_products') {
+          benRange.included_products = d.included_products;
+        }
+        if (d.applies_to === 'specific_collections') {
+          benRange.included_collections = d.included_collections;
+        }
+        benefit.collection = benRange;
+        disc.benefit = benefit;
+        break;
+      }
+      case 'multibuy':
+        const condition: ConditionType = {
+          condition_type: d.condition_type,
+        };
+        if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+          condition.value_int = d.condition_value_int;
+        } else if (d.condition_type === 'value') {
+          condition.money_value = money.parseDouble(
+            d.condition_value_money,
+            shop.currency?.iso_code || 'GHS',
+          );
+        } else {
+          condition.value_int = 0;
+          condition.money_value = money.parseDouble(
+            '0.00',
+            shop.currency?.iso_code || 'GHS',
+          );
+        }
+        disc.condition = condition;
+
+        // Multibuy does not require a value and max_affected_items
+        const benefit: BenefitType = {
+          benefit_type: d.incentive_type,
+        };
+        const benRange: RangeType = {
+          includes_all_products: d.applies_to === 'all_products',
+        };
+        if (d.applies_to === 'specific_products') {
+          benRange.included_products = d.included_products;
+        }
+        if (d.applies_to === 'specific_collections') {
+          benRange.included_collections = d.included_collections;
+        }
+        benefit.collection = benRange;
+        disc.benefit = benefit;
+        break;
+      case 'fixed_price': {
+        const condition: ConditionType = {
+          condition_type: d.condition_type,
+        };
+        if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+          condition.value_int = d.condition_value_int;
+        } else if (d.condition_type === 'value') {
+          condition.money_value = money.parseDouble(
+            d.condition_value_money,
+            shop.currency?.iso_code || 'GHS',
+          );
+        } else {
+          condition.value_int = 0;
+          condition.money_value = money.parseDouble(
+            '0.00',
+            shop.currency?.iso_code || 'GHS',
+          );
+        }
+        disc.condition = condition;
+
+        // benefit construction
+        const benefit: BenefitType = {
+          benefit_type: d.incentive_type,
+          value_m: money.parseDouble(
+            d.value as string,
+            shop.currency?.iso_code || 'GHS',
+          ),
+        };
+        const benRange: RangeType = {
+          includes_all_products: d.applies_to === 'all_products',
+        };
+        if (d.applies_to === 'specific_products') {
+          benRange.included_products = d.included_products;
+        }
+        if (d.applies_to === 'specific_collections') {
+          benRange.included_collections = d.included_collections;
+        }
+        benefit.collection = benRange;
+        disc.benefit = benefit;
+        break;
+      }
+      case 'buy-x-get-y': {
+        const condition: ConditionType = {
+          condition_type: d.buy_x_get_y_condition_type,
+        };
+        if (
+          d.buy_x_get_y_condition_type === 'coverage' ||
+          d.buy_x_get_y_condition_type === 'count'
+        ) {
+          condition.value_int = d.buy_x_get_y_condition_value as number;
+        } else if (d.buy_x_get_y_condition_type === 'value') {
+          condition.money_value = money.parseDouble(
+            d.buy_x_get_y_condition_value as string,
+            shop.currency?.iso_code || 'GHS',
+          );
+        } else {
+          condition.value_int = 0;
+          condition.money_value = money.parseDouble(
+            '0.00',
+            shop.currency?.iso_code || 'GHS',
+          );
+        }
+        const condRange: RangeType = {
+          includes_all_products: false,
+        };
+        if (d.buy_x_get_y_condition_range_type === 'specific_products') {
+          condRange.included_products = d.buy_x_get_y_condition_range_keys;
+        }
+        if (d.buy_x_get_y_condition_range_type === 'specific_collections') {
+          condRange.included_collections = d.buy_x_get_y_condition_range_keys;
+        }
+        // assign range to condition
+        condition.collection = condRange;
+        // assign condition to discount
+        disc.condition = condition;
+
+        // benefit construction
+        const benefit: BenefitType = {
+          benefit_type: d.buy_x_get_y_discounted_value_type,
+        };
+        if (d.buy_x_get_y_discounted_value_type === 'fixed_discount') {
+          benefit.value_m = money.parseDouble(
+            d.buy_x_get_y_discounted_value,
+            shop.currency?.iso_code || 'GHS',
+          );
+        } else if (d.buy_x_get_y_discounted_value_type === 'percentage') {
+          benefit.value_i = parseInt(d.buy_x_get_y_discounted_value);
+        } else if (d.buy_x_get_y_discounted_value_type === 'free') {
+          benefit.benefit_type = 'percentage';
+          benefit.value_i = 100;
+        }
+
+        benefit.max_affected_items = d.buy_x_get_y_ben_max_affected_items;
+
+        // range
+        const benRange: RangeType = {
+          includes_all_products:
+            d.buy_x_get_y_ben_range_type === 'all_products',
+        };
+        if (d.buy_x_get_y_ben_range_type === 'specific_products') {
+          benRange.included_products = d.buy_x_get_y_ben_range_keys;
+        }
+        if (d.buy_x_get_y_ben_range_type === 'specific_collections') {
+          benRange.included_collections = d.buy_x_get_y_ben_range_keys;
+        }
+        // assign range to benefit
+        benefit.collection = benRange;
+
+        // assign benefit to discount
+        disc.benefit = benefit;
+        break;
+      }
+      default: {
+        // wierd like how did we get here?
+      }
+    }
+    if (d.type === 'voucher') {
+      if (d.code_type === 'single') {
+        const voucher: VoucherType = {
+          voucher_id: '',
+          code: d.code,
+          shop_id: shop.shop_id,
+          discount_id: discountId,
+          usage: d.code_usage,
+        };
+        disc.vouchers = [voucher];
+      } else if (d.code_type === 'set') {
+        const voucherSet: VoucherSetType = {
+          set_id: '',
+          shop_id: shop.shop_id,
+          usage: d.code_usage,
+          discount_id: discountId,
+          code_length: d.code_length,
+          count: d.number_of_codes,
+        };
+        disc.voucher_sets = [voucherSet];
+      }
     }
     return disc;
   };
@@ -257,22 +619,22 @@ const DiscountForm = ({ handleShow, discountId }) => {
     })
       .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
       .use(GoogleDrive, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Dropbox, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Box, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Instagram, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Facebook, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(OneDrive, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(DropTarget, { target: document.body })
       .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
@@ -291,7 +653,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
           <Formik
             initialValues={{
               ...initialValues,
-              ...makeDiscountPresentable(discount),
+              ...flattenDiscount(discount),
             }}
             onSubmit={(values, { setSubmitting }) => {
               if (discount) {
@@ -563,18 +925,18 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         <label className="flex items-center">
                           <input
                             type="radio"
-                            name="buy_x_get_y_cond_value_type"
+                            name="buy_x_get_y_condition_type"
                             className="form-radio"
                             onChange={e =>
                               setFieldValue(
-                                'buy_x_get_y_cond_value_type',
+                                'buy_x_get_y_condition_type',
                                 'count',
                               )
                             }
                             checked={
-                              values.buy_x_get_y_cond_value_type === 'count'
+                              values.buy_x_get_y_condition_type === 'count'
                             }
-                            value={values.buy_x_get_y_cond_value_type}
+                            value={values.buy_x_get_y_condition_type}
                           />
                           <span className="text-sm ml-2">
                             Minimum quantity of items
@@ -585,18 +947,18 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         <label className="flex items-center">
                           <input
                             type="radio"
-                            name="buy_x_get_y_cond_value_type"
+                            name="buy_x_get_y_condition_type"
                             className="form-radio"
                             onChange={e =>
                               setFieldValue(
-                                'buy_x_get_y_cond_value_type',
+                                'buy_x_get_y_condition_type',
                                 'value',
                               )
                             }
                             checked={
-                              values.buy_x_get_y_cond_value_type === 'value'
+                              values.buy_x_get_y_condition_type === 'value'
                             }
-                            value={values.buy_x_get_y_cond_value_type}
+                            value={values.buy_x_get_y_condition_type}
                           />
                           <span className="text-sm ml-2">
                             Minimum purchase amount
@@ -607,18 +969,18 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         <label className="flex items-center">
                           <input
                             type="radio"
-                            name="buy_x_get_y_cond_value_type"
+                            name="buy_x_get_y_condition_type"
                             className="form-radio"
                             onChange={e =>
                               setFieldValue(
-                                'buy_x_get_y_cond_value_type',
+                                'buy_x_get_y_condition_type',
                                 'coverage',
                               )
                             }
                             checked={
-                              values.buy_x_get_y_cond_value_type === 'coverage'
+                              values.buy_x_get_y_condition_type === 'coverage'
                             }
-                            value={values.buy_x_get_y_cond_value_type}
+                            value={values.buy_x_get_y_condition_type}
                           />
                           <span className="text-sm ml-2">
                             Minimum quantity of distinct items
@@ -632,28 +994,31 @@ const DiscountForm = ({ handleShow, discountId }) => {
                           <div className="w-1/2">
                             <label
                               className="block text-sm font-medium mb-1"
-                              htmlFor="buy_x_get_y_cond_value"
+                              htmlFor="buy_x_get_y_condition_value"
                             >
-                              {values.buy_x_get_y_cond_value_type === 'count' ||
-                              values.buy_x_get_y_cond_value_type === 'coverage'
+                              {values.buy_x_get_y_condition_type === 'count' ||
+                              values.buy_x_get_y_condition_type === 'coverage'
                                 ? 'Quantity'
                                 : 'Amount'}
                             </label>
                             <div
                               className={`relative ${
-                                values.buy_x_get_y_cond_value_type ===
-                                  'count' ||
-                                values.buy_x_get_y_cond_value_type ===
+                                values.buy_x_get_y_condition_type === 'count' ||
+                                values.buy_x_get_y_condition_type ===
                                   'coverage' ||
-                                values.buy_x_get_y_cond_value_type === ''
+                                values.buy_x_get_y_condition_type === ''
                                   ? 'hidden'
                                   : 'block'
                               }`}
                             >
                               <input
-                                id="prefix"
                                 className="form-input w-full pl-12"
                                 type="text"
+                                id="buy_x_get_y_condition_value"
+                                name="buy_x_get_y_condition_value"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.buy_x_get_y_condition_value}
                               />
                               <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
                                 <span className="text-sm text-gray-400 font-medium px-3">
@@ -663,23 +1028,22 @@ const DiscountForm = ({ handleShow, discountId }) => {
                             </div>
                             <div
                               className={`relative ${
-                                values.buy_x_get_y_cond_value_type ===
-                                  'value' ||
-                                values.buy_x_get_y_cond_value_type === ''
+                                values.buy_x_get_y_condition_type === 'value' ||
+                                values.buy_x_get_y_condition_type === ''
                                   ? 'hidden'
                                   : 'block'
                               }`}
                             >
                               <input
-                                id="buy_x_get_y_cond_value"
-                                name="buy_x_get_y_cond_value"
+                                id="buy_x_get_y_condition_value"
+                                name="buy_x_get_y_condition_value"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.buy_x_get_y_cond_value}
+                                value={values.buy_x_get_y_condition_value}
                                 className="form-input w-full pr-8"
                                 step={1}
                                 min={1}
-                                type="text"
+                                type="number"
                                 placeholder="1"
                               />
                               {/* <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
@@ -693,16 +1057,16 @@ const DiscountForm = ({ handleShow, discountId }) => {
                             <div className="w-full">
                               <label
                                 className="block text-sm font-medium mb-1"
-                                htmlFor="buy_x_get_y_cond_range_type"
+                                htmlFor="buy_x_get_y_condition_range_type"
                               >
                                 Any Items from
                               </label>
                               <select
-                                name="buy_x_get_y_cond_range_type"
+                                name="buy_x_get_y_condition_range_type"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.buy_x_get_y_cond_range_type}
-                                id="buy_x_get_y_cond_range_type"
+                                value={values.buy_x_get_y_condition_range_type}
+                                id="buy_x_get_y_condition_range_type"
                                 className="form-select block w-2/3"
                               >
                                 <option value="specific_products">
@@ -716,7 +1080,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                           </div>
                         </div>
                         <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                          {values.buy_x_get_y_cond_range_type ===
+                          {values.buy_x_get_y_condition_range_type ===
                           'specific_products' ? (
                             <div className="w-full">
                               <div className="w-full">
@@ -955,8 +1319,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         <div
                           className={`relative w-1/2 ${
                             values.buy_x_get_y_discounted_value_type ===
-                              'free' ||
-                            values.buy_x_get_y_cond_value_type === ''
+                              'free' || values.buy_x_get_y_condition_type === ''
                               ? 'hidden'
                               : 'block'
                           }`}
@@ -976,8 +1339,8 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                   'fixed_discount') &&
                               'pl-12'
                             }`}
-                            step={1}
-                            min={1}
+                            // step={1}
+                            // min={1}
                             type="text"
                           />
                           {values.buy_x_get_y_discounted_value_type ===
@@ -1278,6 +1641,66 @@ const DiscountForm = ({ handleShow, discountId }) => {
                               </span>
                             </label>
                           </div>
+                          <div className="w-1/2">
+                            {!(values.condition_type === 'none') && (
+                              <label
+                                className="block text-sm font-medium mb-1"
+                                htmlFor="condition_value_*"
+                              >
+                                {values.condition_type === 'count' ||
+                                values.condition_type === 'coverage'
+                                  ? 'Quantity'
+                                  : 'Amount'}
+                              </label>
+                            )}
+                            <div
+                              className={`relative ${
+                                values.condition_type === 'count' ||
+                                values.condition_type === 'coverage' ||
+                                values.condition_type === '' ||
+                                values.condition_type === 'none'
+                                  ? 'hidden'
+                                  : 'block'
+                              }`}
+                            >
+                              <input
+                                id="condition_value_int"
+                                className="form-input w-full pl-12"
+                                type="text"
+                                name="condition_value_int"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.condition_value_int}
+                              />
+                              <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+                                <span className="text-sm text-gray-400 font-medium px-3">
+                                  GHS
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              className={`relative ${
+                                values.condition_type === 'value' ||
+                                values.condition_type === '' ||
+                                values.condition_type === 'none'
+                                  ? 'hidden'
+                                  : 'block'
+                              }`}
+                            >
+                              <input
+                                id="condition_value_money"
+                                name="condition_value_money"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.condition_value_money}
+                                className="form-input w-full pr-8"
+                                step={1}
+                                min={1}
+                                type="text"
+                                placeholder="1"
+                              />
+                            </div>
+                          </div>
                         </div>
                         <div className="sm:w-1/2 mt-6">
                           <label
@@ -1500,7 +1923,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         </div>
                       </div>
                     </section>
-                    {values.type === 'voucher' && (
+                    {!discountId && values.type === 'voucher' && (
                       <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                         <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                           Voucher
@@ -1718,7 +2141,13 @@ const DiscountForm = ({ handleShow, discountId }) => {
                       <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
                         Cancel
                       </button>
-                      <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
+                      <button
+                        onClick={e => {
+                          e.preventDefault();
+                          handleSubmit();
+                        }}
+                        className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
+                      >
                         Save Changes
                       </button>
                     </div>

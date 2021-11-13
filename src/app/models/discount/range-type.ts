@@ -7,6 +7,7 @@ export interface RangeType {
   is_public?: boolean;
   includes_all_products?: boolean;
   included_products?: string[];
+  included_collections?: string[];
   excluded_products?: string[];
   classes?: string[];
 }
