@@ -344,10 +344,16 @@ const VoucherForm = ({ handleShow, id, codeType }) => {
                 <footer>
                   <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                     <div className="flex self-end md:self-center">
-                      <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                      <button
+                        onClick={() => handleShow(false, '')}
+                        className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                      >
                         Cancel
                       </button>
-                      <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
+                      <button
+                        onClick={handleSubmit}
+                        className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
+                      >
                         Save Changes
                       </button>
                     </div>

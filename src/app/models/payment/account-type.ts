@@ -58,9 +58,9 @@ export enum TxnKind {
 }
 
 export interface Transaction {
-  transaction_id?: string;
+  transaction_id: string;
   transfer_id?: string;
-  account_id?: string;
+  account_id: string;
   amount?: MoneyType | null;
   unit_amount?: number | string;
   created_at?: string;

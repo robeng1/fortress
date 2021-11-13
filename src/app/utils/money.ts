@@ -48,6 +48,18 @@ export default class money {
     return a;
   };
 
+  static parseDouble = (str: string, code: string): MoneyType => {
+    let d = parseFloat(str);
+    const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
+    while (d >= 10) {
+      a.units += 1;
+      d -= 10;
+    }
+    a.nanos = d;
+    a.currency_code = code;
+    return a;
+  };
+
   static intToString = (d: number, code: string): string => {
     const parsed = money.parseInt(d, code);
     return `${parsed.currency_code}${parsed.units}.${money.pad(parsed.nanos)}`;

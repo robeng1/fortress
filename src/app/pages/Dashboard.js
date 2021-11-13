@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
-import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
-import DashboardAvatars from '../partials/dashboard/DashboardAvatars';
-import FilterButton from '../components/DropdownFilter';
-import Datepicker from '../components/Datepicker';
-import DashboardCard01 from '../partials/dashboard/DashboardCard01';
-import DashboardCard02 from '../partials/dashboard/DashboardCard02';
-import DashboardCard03 from '../partials/dashboard/DashboardCard03';
-import DashboardCard04 from '../partials/dashboard/DashboardCard04';
-import DashboardCard05 from '../partials/dashboard/DashboardCard05';
-import DashboardCard06 from '../partials/dashboard/DashboardCard06';
-import DashboardCard07 from '../partials/dashboard/DashboardCard07';
-import DashboardCard08 from '../partials/dashboard/DashboardCard08';
-import DashboardCard09 from '../partials/dashboard/DashboardCard09';
-import DashboardCard10 from '../partials/dashboard/DashboardCard10';
-import DashboardCard11 from '../partials/dashboard/DashboardCard11';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import WelcomeBanner from 'app/partials/dashboard/WelcomeBanner';
+import DashboardAvatars from 'app/partials/dashboard/DashboardAvatars';
+import FilterButton from 'app/components/DropdownFilter';
+import Datepicker from 'app/components/Datepicker';
+import DashboardCard01 from 'app/partials/dashboard/DashboardCard01';
+import DashboardCard02 from 'app/partials/dashboard/DashboardCard02';
+import DashboardCard03 from 'app/partials/dashboard/DashboardCard03';
+import DashboardCard04 from 'app/partials/dashboard/DashboardCard04';
+import DashboardCard05 from 'app/partials/dashboard/DashboardCard05';
+import DashboardCard06 from 'app/partials/dashboard/DashboardCard06';
+import DashboardCard07 from 'app/partials/dashboard/DashboardCard07';
+import DashboardCard08 from 'app/partials/dashboard/DashboardCard08';
+import DashboardCard09 from 'app/partials/dashboard/DashboardCard09';
+import DashboardCard10 from 'app/partials/dashboard/DashboardCard10';
+import DashboardCard11 from 'app/partials/dashboard/DashboardCard11';
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

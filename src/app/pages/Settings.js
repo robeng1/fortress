@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
-import SettingsSidebar from '../partials/settings/SettingsSidebar';
-import SettingsContent from '../partials/settings/SettingsContent';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
+import SettingsContent from 'app/partials/settings/SettingsContent';
 
 function Settings() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

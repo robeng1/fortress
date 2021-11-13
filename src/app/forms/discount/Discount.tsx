@@ -23,16 +23,227 @@ import { useDiscountSlice } from 'app/features/discount';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIfLoading } from 'app/features/ui/selectors';
 import { selectDiscountById } from 'app/features/discount/selectors';
-const Box = require('@uppy/box');
-const DropTarget = require('@uppy/drop-target');
+import Box from '@uppy/box';
+import DropTarget from '@uppy/drop-target';
+import { DiscountType } from 'app/models/discount/discount-type';
+import { ConditionType } from 'app/models/discount/condition-type';
+import money from 'app/utils/money';
+import { selectShop } from 'app/features/settings/selectors';
+import { BenefitType } from 'app/models/discount/benefit-type';
+
+interface Values {
+  title: string;
+  description: string;
+  page_title: string;
+  page_description: string;
+  // default 'site'
+  type: string;
+  // default false
+  all_products: boolean;
+  // default false
+  specific_products: boolean;
+  included_products: string[];
+  excluded_products: string[];
+  included_collections: string[];
+  incentive_type: string;
+  buy_x_get_y_cond_value: string;
+  conditon_value_money: string;
+  buy_x_get_y_cond_range_type: string;
+  buy_x_get_y_cond_range_values: string;
+  // default 'count'
+  buy_x_get_y_cond_value_type: string;
+  buy_x_get_y_ben_range_type: string;
+  buy_x_get_y_ben_range_values: string;
+  // default 1
+  buy_x_get_y_ben_max_affected_items: number;
+  // default 'percentage'
+  buy_x_get_y_discounted_value_type: string;
+  buy_x_get_y_discounted_value: string;
+  condition_type: string;
+  value: string;
+  // default 'all_products'
+  applies_to: string;
+  exclusive: true;
+  customer_eligibility: string;
+  // default false
+  has_max_global_applications: boolean;
+  // default false
+  has_max_user_applications: boolean;
+  // default false
+  has_max_discount: boolean;
+  max_basket_applications: 1;
+  max_discount: string;
+  max_user_applications?: number;
+  max_global_applications?: number;
+  start_date: string;
+  start_time: string;
+  end_date: string;
+  end_time: string;
+  files: string[];
+  // default 'single'
+  code_type: string;
+  code: string;
+  code_usage: string;
+  code_length: string;
+  // default 1
+  number_of_codes: number;
+}
+
+const initialValues: Values = {
+  title: '',
+  description: '',
+  page_title: '',
+  page_description: '',
+  type: 'site',
+  all_products: false,
+  specific_products: false,
+  included_products: [],
+  excluded_products: [],
+  included_collections: [],
+  incentive_type: '',
+  buy_x_get_y_cond_value: '',
+  conditon_value_money: '',
+  buy_x_get_y_cond_range_type: '',
+  buy_x_get_y_cond_range_values: '',
+  buy_x_get_y_cond_value_type: 'count',
+  buy_x_get_y_ben_range_type: '',
+  buy_x_get_y_ben_range_values: '',
+  buy_x_get_y_ben_max_affected_items: 1,
+  buy_x_get_y_discounted_value_type: 'percentage',
+  buy_x_get_y_discounted_value: '',
+  condition_type: '',
+  value: '',
+  applies_to: 'all_products',
+  exclusive: true,
+  customer_eligibility: '',
+  has_max_global_applications: false,
+  has_max_user_applications: false,
+  has_max_discount: false,
+  max_basket_applications: 1,
+  max_discount: '',
+  max_user_applications: undefined,
+  max_global_applications: undefined,
+  start_date: '',
+  start_time: '',
+  end_date: '',
+  end_time: '',
+  files: [],
+  code_type: 'single',
+  code: '',
+  code_usage: '',
+  code_length: '',
+  number_of_codes: 1,
+};
 
 const DiscountForm = ({ handleShow, discountId }) => {
   const { actions } = useDiscountSlice();
   const dispatch = useDispatch();
+  const shop = useSelector(selectShop);
   const discount = useSelector(state => selectDiscountById(state, discountId));
   const isLoading = useSelector(state =>
     checkIfLoading(state, actions.getDiscount.type),
   );
+  const makeDiscountPresentable = (d: DiscountType | undefined): Values => {
+    if (!d) {
+      return initialValues;
+    }
+    return initialValues;
+  };
+  const makeDiscountSavable = (d: Values): DiscountType => {
+    const disc: DiscountType = {
+      shop_id: '',
+      discount_id: discountId,
+      name: d.title,
+      description: d.description,
+      offer_type: d.type,
+      max_basket_applications: d.max_basket_applications,
+      max_global_applications: d.max_global_applications,
+      page_title: d.page_title,
+      page_description: d.page_description,
+    };
+    if (d.type === 'site') {
+      switch (d.incentive_type) {
+        case 'fixed_discount': {
+          const condition: ConditionType = {
+            condition_type: d.condition_type,
+          };
+          // condition.money_value = money.parseDouble(
+          //   d.value,
+          //   shop.currency?.iso_code || 'GHS',
+          // );
+
+          disc.condition = condition;
+          // benefit construction
+          const benefit: BenefitType = {
+            benefit_type: d.incentive_type,
+            value_m: money.parseDouble(
+              d.value,
+              shop.currency?.iso_code || 'GHS',
+            ),
+          };
+          disc.benefit = benefit;
+          break;
+        }
+        case 'percentage': {
+          const condition: ConditionType = {
+            condition_type: d.condition_type,
+            // value_int: parseInt(d.value),
+          };
+          disc.condition = condition;
+
+          // benefit construction
+          const benefit: BenefitType = {
+            benefit_type: d.incentive_type,
+            value_i: parseInt(d.value),
+          };
+          disc.benefit = benefit;
+          break;
+        }
+        case 'multibuy':
+          const condition: ConditionType = {
+            condition_type: d.condition_type,
+          };
+          disc.condition = condition;
+          const benefit: BenefitType = {
+            benefit_type: d.incentive_type,
+          };
+          disc.benefit = benefit;
+          break;
+        case 'fixed_price': {
+          const condition: ConditionType = {
+            condition_type: d.condition_type,
+          };
+          // condition.money_value = money.parseDouble(
+          //   d.value,
+          //   shop.currency?.iso_code || 'GHS',
+          // );
+
+          disc.condition = condition;
+
+          // benefit construction
+          const benefit: BenefitType = {
+            benefit_type: d.incentive_type,
+            value_m: money.parseDouble(
+              d.value,
+              shop.currency?.iso_code || 'GHS',
+            ),
+          };
+          disc.benefit = benefit;
+          break;
+        }
+        case 'buy-x-get-y':
+          alert('Too big');
+          break;
+        default:
+          alert("I don't know such values");
+      }
+      // do what needs to be done here
+    } else if (d.type === 'voucher') {
+      // look sharp here too
+    }
+    return disc;
+  };
+
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'discount',
@@ -79,55 +290,23 @@ const DiscountForm = ({ handleShow, discountId }) => {
         <div>
           <Formik
             initialValues={{
-              title: '',
-              description: '',
-              page_title: '',
-              page_description: '',
-              type: 'site',
-              all_products: false,
-              specific_products: false,
-              included_products: [],
-              excluded_products: [],
-              included_collections: [],
-              incentive_type: '',
-              buy_x_get_y_cond_value: '',
-              conditon_value_money: '',
-              buy_x_get_y_cond_range_type: '',
-              buy_x_get_y_cond_range_values: '',
-              buy_x_get_y_cond_value_type: 'count',
-              buy_x_get_y_ben_range_type: '',
-              buy_x_get_y_ben_range_values: '',
-              buy_x_get_y_ben_max_affected_items: 1,
-              buy_x_get_y_discounted_value_type: 'percentage',
-              buy_x_get_y_discounted_value: '',
-              requirements: '',
-              value: '',
-              applies_to: 'all_products',
-              exclusive: true,
-              customer_eligibility: '',
-              has_max_global_applications: false,
-              has_max_user_applications: false,
-              has_max_discount: false,
-              max_basket_applications: 1,
-              max_discount: '',
-              max_user_applications: '',
-              max_global_applications: '',
-              start_date: '',
-              start_time: '',
-              end_date: '',
-              end_time: '',
-              files: [],
-              code_type: 'single',
-              code: '',
-              code_usage: '',
-              code_length: '',
-              number_of_codes: 1,
+              ...initialValues,
+              ...makeDiscountPresentable(discount),
             }}
             onSubmit={(values, { setSubmitting }) => {
               if (discount) {
-                dispatch(actions.updateDiscount({ ...discount, ...values }));
+                dispatch(
+                  actions.updateDiscount({
+                    ...discount,
+                    ...makeDiscountSavable({ ...values }),
+                  }),
+                );
               } else {
-                dispatch(actions.createDiscount({ ...values }));
+                dispatch(
+                  actions.createDiscount({
+                    ...makeDiscountSavable({ ...values }),
+                  }),
+                );
               }
               setSubmitting(false);
             }}
@@ -181,7 +360,8 @@ const DiscountForm = ({ handleShow, discountId }) => {
                           </label>
                           <ReactQuill
                             theme="snow"
-                            name="description"
+                            // name="description"
+                            // id="description"
                             onChange={e => setFieldValue('description', e)}
                             value={values.description}
                             style={{
@@ -357,7 +537,6 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                 placeholder: 'describe what the image is about',
                               },
                             ]}
-                            browserBackButtonClose={false}
                             plugins={[
                               'Webcam',
                               'Instagram',
@@ -1016,7 +1195,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         >
                           <label
                             className="block text-sm font-medium mb-1"
-                            htmlFor="min_requirements"
+                            htmlFor="condition_type"
                           >
                             Requirements
                           </label>
@@ -1024,13 +1203,15 @@ const DiscountForm = ({ handleShow, discountId }) => {
                             <label className="flex items-center">
                               <input
                                 type="radio"
-                                name="min_requirements"
+                                name="condition_type"
                                 className="form-radio"
                                 onChange={e =>
-                                  setFieldValue('min_requirements', 'none')
+                                  setFieldValue('condition_type', 'none')
                                 }
-                                value={
-                                  values.requirements === 'none' ? true : false
+                                checked={
+                                  values.condition_type === 'none'
+                                    ? true
+                                    : false
                                 }
                               />
                               <span className="text-sm ml-2">None</span>
@@ -1041,13 +1222,15 @@ const DiscountForm = ({ handleShow, discountId }) => {
                             <label className="flex items-center">
                               <input
                                 type="radio"
-                                name="min_requirements"
+                                name="condition_type"
                                 className="form-radio"
                                 onChange={e =>
-                                  setFieldValue('min_requirements', 'value')
+                                  setFieldValue('condition_type', 'value')
                                 }
-                                value={
-                                  values.requirements === 'value' ? true : false
+                                checked={
+                                  values.condition_type === 'value'
+                                    ? true
+                                    : false
                                 }
                               />
                               <span className="text-sm ml-2">
@@ -1059,13 +1242,15 @@ const DiscountForm = ({ handleShow, discountId }) => {
                             <label className="flex items-center">
                               <input
                                 type="radio"
-                                name="min_requirements"
+                                name="condition_type"
                                 className="form-radio"
                                 onChange={e =>
-                                  setFieldValue('min_requirements', 'count')
+                                  setFieldValue('condition_type', 'count')
                                 }
-                                value={
-                                  values.requirements === 'count' ? true : false
+                                checked={
+                                  values.condition_type === 'count'
+                                    ? true
+                                    : false
                                 }
                               />
                               <span className="text-sm ml-2">
@@ -1077,13 +1262,13 @@ const DiscountForm = ({ handleShow, discountId }) => {
                             <label className="flex items-center">
                               <input
                                 type="radio"
-                                name="min_requirements"
+                                name="condition_type"
                                 className="form-radio"
                                 onChange={e =>
-                                  setFieldValue('min_requirements', 'coverage')
+                                  setFieldValue('condition_type', 'coverage')
                                 }
-                                value={
-                                  values.requirements === 'coverage'
+                                checked={
+                                  values.condition_type === 'coverage'
                                     ? true
                                     : false
                                 }
@@ -1128,7 +1313,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               className="form-checkbox"
-                              value={values.has_max_global_applications}
+                              checked={values.has_max_global_applications}
                               type="checkbox"
                             />
                             <label
@@ -1164,7 +1349,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               className="form-checkbox"
-                              value={values.has_max_user_applications}
+                              checked={values.has_max_user_applications}
                               id="has_max_user_applications"
                               type="checkbox"
                             />
@@ -1201,7 +1386,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               className="form-checkbox"
-                              value={values.has_max_discount}
+                              checked={values.has_max_discount}
                               id="has_max_discount"
                               type="checkbox"
                             />
@@ -1498,8 +1683,6 @@ const DiscountForm = ({ handleShow, discountId }) => {
                             onBlur={handleBlur}
                             value={values.page_description}
                             className="form-textarea w-full"
-                            type="text"
-                            multiple
                             rows={5}
                             placeholder="E.g. Rocketship Kumasi warehouse, near Santasi somewhere"
                           />
