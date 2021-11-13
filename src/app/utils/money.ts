@@ -60,7 +60,7 @@ export default class money {
     return a;
   };
 
-  static toDouble = (units: number, nanos: number): string => {
+  static valuesToString = (units: number, nanos: number): string => {
     return `${units}.${nanos}`;
   };
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import moment from 'moment';
 import Divider from '@mui/material/Divider';
 
 import { Formik } from 'formik';
@@ -50,6 +51,7 @@ interface Values {
   excluded_products: string[];
   included_collections: string[];
   incentive_type: string;
+  max_affected_items: number | null;
   condition_value_money: string;
   condition_value_int: number;
   buy_x_get_y_condition_value: string | number;
@@ -106,6 +108,7 @@ const initialValues: Values = {
   excluded_products: [],
   included_collections: [],
   incentive_type: '',
+  max_affected_items: null,
   buy_x_get_y_condition_value: '',
   buy_x_get_y_condition_range_type: '',
   buy_x_get_y_condition_range_keys: [],
@@ -145,6 +148,9 @@ const initialValues: Values = {
 const DiscountForm = ({ handleShow, discountId }) => {
   const { actions } = useDiscountSlice();
   const dispatch = useDispatch();
+  if (discountId) {
+    dispatch(actions.getDiscount(discountId));
+  }
   const shop = useSelector(selectShop);
   const discount = useSelector(state => selectDiscountById(state, discountId));
   const isLoading = useSelector(state =>
@@ -164,6 +170,10 @@ const DiscountForm = ({ handleShow, discountId }) => {
       max_user_applications: d.max_user_applications,
       page_title: d.page_title || initialValues.page_title,
       page_description: d.page_description || initialValues.page_description,
+      start_date: moment(d.start).format('YYYY-MM-DD'),
+      start_time: moment(d.start).format('HH:mm:ss'),
+      end_date: moment(d.end).format('YYYY-MM-DD'),
+      end_time: moment(d.end).format('HH:mm:ss'),
     };
     if (
       d.benefit?.benefit_type === 'fixed_discount' ||
@@ -183,7 +193,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
       } else if (d.condition?.condition_type === 'value') {
         // will be quite weird that these values would not exist
         // at the time when they are needed
-        disc.condition_value_money = money.toDouble(
+        disc.condition_value_money = money.valuesToString(
           d.condition.money_value?.units || 0,
           d.condition.money_value?.nanos || 0,
         );
@@ -215,7 +225,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
           disc.included_products = d.benefit.collection?.included_products;
         }
         if (d.benefit.value_m) {
-          disc.value = money.toDouble(
+          disc.value = money.valuesToString(
             d.benefit.value_m.units,
             d.benefit.value_m.nanos,
           );
@@ -238,7 +248,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
         } else if (d.condition?.condition_type === 'value') {
           // will be quite weird that these values would not exist
           // at the time when they are needed
-          disc.buy_x_get_y_condition_value = money.toDouble(
+          disc.buy_x_get_y_condition_value = money.valuesToString(
             d.condition.money_value?.units || 0,
             d.condition.money_value?.nanos || 0,
           );
@@ -300,7 +310,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
             d.benefit.collection?.included_products;
         }
         if (d.benefit.value_m) {
-          disc.buy_x_get_y_discounted_value = money.toDouble(
+          disc.buy_x_get_y_discounted_value = money.valuesToString(
             d.benefit.value_m.units,
             d.benefit.value_m.nanos,
           );
@@ -312,28 +322,10 @@ const DiscountForm = ({ handleShow, discountId }) => {
           initialValues.buy_x_get_y_ben_max_affected_items;
       }
     }
-    // if (d.type === 'voucher') {
-    //   if (d.code_type === 'single') {
-    //     const voucher: VoucherType = {
-    //       voucher_id: '',
-    //       code: d.code,
-    //       shop_id: shop.shop_id,
-    //       discount_id: discountId,
-    //       usage: d.code_usage,
-    //     };
-    //     disc.vouchers = [voucher];
-    //   } else if (d.code_type === 'set') {
-    //     const voucherSet: VoucherSetType = {
-    //       set_id: '',
-    //       shop_id: shop.shop_id,
-    //       usage: d.code_usage,
-    //       discount_id: discountId,
-    //       code_length: d.code_length,
-    //       count: d.number_of_codes,
-    //     };
-    //     disc.voucher_sets = [voucherSet];
-    //   }
-    // }
+    disc.max_discount = money.valuesToString(
+      d.max_discount?.units || 0,
+      d.max_discount?.nanos || 0,
+    );
     return disc;
   };
   const makeDiscountSavable = (d: Values): DiscountType => {
@@ -348,7 +340,13 @@ const DiscountForm = ({ handleShow, discountId }) => {
       max_user_applications: d.max_user_applications,
       page_title: d.page_title,
       page_description: d.page_description,
+      start: moment(d.start_date + ' ' + d.start_time).toISOString(),
+      end: moment(d.end_date + ' ' + d.end_time).toISOString(),
     };
+    disc.max_discount = money.parseDouble(
+      d.max_discount,
+      shop.currency?.iso_code || 'GHS',
+    );
     switch (d.incentive_type) {
       case 'fixed_discount': {
         const condition: ConditionType = {
