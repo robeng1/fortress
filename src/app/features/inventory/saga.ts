@@ -20,6 +20,12 @@ import { InventoryErrorType } from './types';
 
 export function* getLocations() {
   const shopID: string = yield select(selectShopId);
+  yield put(
+    actions.locationsLoaded([
+      { centre_id: 'centre_id1' },
+      { centre_id: 'centre_id2' },
+    ]),
+  );
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
     return;

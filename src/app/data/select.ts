@@ -6,7 +6,11 @@ export interface ColourOption {
   readonly isDisabled?: boolean;
 }
 
-export const attributeOptions: readonly {}[] = [
+declare interface AttrOption {
+  value: string;
+  label: string;
+}
+export const attributeOptions: readonly AttrOption[] = [
   { value: 'size', label: 'Size' },
   { value: 'color', label: 'Color' },
   { value: 'scent', label: 'Scent' },

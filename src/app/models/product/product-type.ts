@@ -61,7 +61,7 @@ export interface ProductType {
   status?: string;
   item_condition?: string;
   swatch_image_url?: string;
-  type?: ProductType | null;
+  type?: string;
   product_type_id?: string;
   is_discountable?: boolean;
   options?: ProductOption[];
@@ -85,8 +85,8 @@ export interface ProductType {
   page_description?: string;
   images?: ProductImage[];
   shard?: number;
-  collections: CollectionType[];
-  stock_records: InventoryType[];
+  collections?: CollectionType[];
+  stock_records?: InventoryType[];
 }
 
 export interface ProductListType {

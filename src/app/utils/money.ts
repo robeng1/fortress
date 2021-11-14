@@ -51,13 +51,29 @@ export default class money {
   static parseDouble = (str: string, code: string): MoneyType => {
     let d = parseFloat(str);
     const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
-    while (d >= 10) {
+    while (d >= 1) {
       a.units += 1;
-      d -= 10;
+      d -= 1;
     }
-    a.nanos = d;
+    a.nanos = d * 100;
     a.currency_code = code;
     return a;
+  };
+
+  static doubleToMoney = (d: number, code: string): MoneyType => {
+    const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
+    while (d >= 1) {
+      a.units += 1;
+      d -= 1;
+    }
+    a.nanos = d * 100;
+    a.currency_code = code;
+    return a;
+  };
+
+  static toDouble = (x: MoneyType): number => {
+    const str = `${x.units}.${x.nanos}`;
+    return parseFloat(str);
   };
 
   static valuesToString = (units: number, nanos: number): string => {
@@ -69,7 +85,7 @@ export default class money {
     return `${parsed.currency_code}${parsed.units}.${money.pad(parsed.nanos)}`;
   };
   static toString = (x: MoneyType): string => {
-    return `${x.currency_code}${x.units}.${money.pad(x.nanos)}`;
+    return `${x.currency_code} ${x.units}.${money.pad(x.nanos)}`;
   };
 
   static toInt = (a: MoneyType): number => {

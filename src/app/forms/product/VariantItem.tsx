@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import money from 'app/utils/money';
 
-function VariantItem(props) {
+function ProductVariant(props) {
+  const [price, setPrice] = useState<string>('');
+  const [quantity, setQuantity] = useState<number>();
+  useEffect(() => {
+    setPrice(money.toDouble(props.price).toFixed(2));
+    setQuantity(props.quantity);
+  }, [props.price, props.quantity]);
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
@@ -23,7 +30,7 @@ function VariantItem(props) {
           <div className="w-10 h-10 flex-shrink-0 sm:mr-3">
             <img
               className="rounded"
-              src={props.image}
+              src={props.image || 'https://via.placeholder.com/150'}
               width="40"
               height="40"
               alt={props.name}
@@ -36,26 +43,28 @@ function VariantItem(props) {
           </div>
         </div>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-1 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
           type="number"
           step={1}
           min={0}
-          className="form-input w-20 md:w-2/3 rounded-sm"
-          value={props.quantity}
+          onBlur={e => props.updateQuantity(props.index, quantity)}
+          onChange={e => setQuantity(parseInt(e.target.value))}
+          className="form-input md:w-4/5 rounded-sm"
+          value={quantity}
         ></input>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-1 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
-          className="form-input w-20 md:w-4/5 rounded-sm"
-          type="number"
-          step={1}
-          min={0}
-          value={props.price}
+          className="form-input md:w-4/5 rounded-sm"
+          type="text"
+          onBlur={e => props.updatePrice(props.index, price)}
+          onChange={e => setPrice(e.target.value)}
+          value={price}
         ></input>
       </td>
     </tr>
   );
 }
 
-export default VariantItem;
+export default ProductVariant;

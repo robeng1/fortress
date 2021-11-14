@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import * as _ from 'lodash';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import makeAnimated from 'react-select/animated';
-import Uppy from '@uppy/core';
+import Uppy, { UppyFile } from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
 import Webcam from '@uppy/webcam';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import { cartesian } from 'app/utils/cartesian';
-import VariantPreviewTable from './Variant';
+import ProdutVariantPreview from 'app/forms/product/Variant';
 
 import '@uppy/status-bar/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
@@ -17,7 +18,7 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-import colourStyles from './selectStyles';
+import colourStyles from 'app/forms/product/selectStyles';
 
 import { colourOptions, attributeOptions } from 'app/data/select';
 import GoogleDrive from '@uppy/google-drive';
@@ -25,16 +26,187 @@ import Dropbox from '@uppy/dropbox';
 import Instagram from '@uppy/instagram';
 import Facebook from '@uppy/facebook';
 import OneDrive from '@uppy/onedrive';
+import { useProductSlice } from 'app/features/product';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectShop } from 'app/features/settings/selectors';
+import { checkIfLoading } from 'app/features/ui/selectors';
+import { selectProductById } from 'app/features/product/selectors';
 
-const Box = require('@uppy/box');
-const DropTarget = require('@uppy/drop-target');
+import Box from '@uppy/box';
+import DropTarget from '@uppy/drop-target';
+import {
+  ProductImage,
+  ProductStructure,
+  ProductType,
+} from 'app/models/product/product-type';
+import { InventoryType } from 'app/models/inventory/inventory-type';
+import money from 'app/utils/money';
+import { useInventorySlice } from 'app/features/inventory';
+import { selectLocations } from 'app/features/inventory/selectors';
+import slugify from 'slugify';
 // const GoldenRetriever = require('@uppy/golden-retriever');
 
 // animated components for react select
 const animatedComponents = makeAnimated();
+const defaultCurrency = 'GHS';
+
+interface VarOption {
+  attribute: Record<string, string>;
+  values: Record<string, string>[];
+}
+
+interface Values {
+  title: string;
+  description: string;
+  is_parent: boolean;
+  shipping_required: boolean;
+  track_quantity: boolean;
+  quantity: number;
+  type: string;
+  collections: string[];
+  stock_records: InventoryType[];
+  variants: ProductType[];
+  locations: string[];
+  variation_options: VarOption[];
+  images: ProductImage[];
+  tags: string[];
+  vendor: string;
+  channels: string[];
+  template_suffix: string;
+  price: string;
+  compare_at_price: string;
+  cost_per_item: string;
+  sku: string;
+  barcode: string;
+  unlimited: boolean;
+  weight: string;
+  length: string;
+  wdith: string;
+  height: string;
+  files: string[];
+  page_title: string;
+  page_description: string;
+}
 
 const ProductForm = ({ handleShow, productId }) => {
+  const { actions } = useProductSlice();
+  const dispatch = useDispatch();
+  if (productId) {
+    dispatch(actions.getProduct(productId));
+  }
+
+  const { actions: inventoryActions } = useInventorySlice();
+  // reload the locations if they do not exist already
+  // dispatch(inventoryActions.loadLoactions());
+
+  const shop = useSelector(selectShop);
+  const locations = useSelector(selectLocations);
+  const product = useSelector(state => selectProductById(state, productId));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const isLoading = useSelector(state =>
+    checkIfLoading(state, actions.getProduct.type),
+  );
+  useEffect(() => {
+    dispatch(inventoryActions.loadLoactions());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const initialValues: Values = {
+    title: '',
+    description: '',
+    is_parent: false,
+    shipping_required: false,
+    track_quantity: true,
+    quantity: 0,
+    type: '',
+    collections: [],
+    stock_records: [],
+    variants: [],
+    variation_options: [],
+    images: [],
+    tags: [],
+    vendor: '',
+    channels: [],
+    template_suffix: 'product',
+    price: '',
+    compare_at_price: '',
+    cost_per_item: '',
+    sku: '',
+    barcode: '',
+    unlimited: true,
+    weight: '',
+    length: '',
+    wdith: '',
+    height: '',
+    locations: Object.keys(locations || {}),
+    files: [],
+    page_title: '',
+    page_description: '',
+  };
+  const flattenProduct = (d: ProductType | undefined): Values => {
+    if (!d) {
+      return initialValues;
+    }
+    return initialValues;
+  };
+  const cleanProduct = (d: Values): ProductType => {
+    const p: ProductType = {
+      shop_id: shop.shop_id!,
+      product_id: productId,
+      title: d.title,
+      description: d.description,
+      tags: d.tags,
+      channels: d.channels,
+      shipping_required: d.shipping_required,
+      upc: d.barcode,
+      sku: d.sku,
+      page_title: d.page_title,
+      page_description: d.page_description,
+      vendor: d.vendor,
+      stock_records: [],
+      collections: [],
+      variants: [],
+    };
+    if (d.is_parent) {
+      p.structure = ProductStructure.PARENT;
+      p.variants = d.variants.map(v => {
+        v.structure = ProductStructure.CHILD;
+        v.shop_id = shop.shop_id!;
+        // v.stock_records = d.stock_records[v.title!];
+        return v;
+      });
+    } else {
+      p.structure = ProductStructure.STANDALONE;
+      const record: InventoryType = {
+        variant_id: productId || '',
+        product_id: productId || '',
+        num_in_stock: d.quantity,
+        // TODO: centreId && centreSku should be replaced with correct on
+        centre_id: '',
+        centre_sku: '',
+        cost_per_item: money.parseDouble(
+          d.cost_per_item,
+          shop.currency?.iso_code || defaultCurrency,
+        ),
+        price_excl_tax: money.parseDouble(
+          d.price,
+          shop.currency?.iso_code || defaultCurrency,
+        ),
+        compare_at_price: money.parseDouble(
+          d.compare_at_price,
+          shop.currency?.iso_code || defaultCurrency,
+        ),
+        unlimited: d.unlimited,
+        track_quantity: d.track_quantity,
+        taxable: false,
+      };
+      p.stock_records = [record];
+    }
+    return p;
+  };
+
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
   const [showVariants, setShowVariants] = useState(false);
   const uppy = React.useMemo(() => {
@@ -46,96 +218,170 @@ const ProductForm = ({ handleShow, productId }) => {
         maxNumberOfFiles: 6,
         minNumberOfFiles: 1,
         allowedFileTypes: ['image/*'],
-        requiredMetaFields: ['caption'],
       },
-      onBeforeUpload: files => {
-        // const datename = Date.now();
-        // for (var prop in files) {
-        //   files[
-        //     prop
-        //   ].name = `products/${storeID}/images/${files[prop].name}_${datename}`;
-        //   files[
-        //     prop
-        //   ].meta.name = `products/${storeID}/images/${files[prop].meta.name}_${datename}`;
-        // }
-        this.files = files;
-        Promise.resolve();
+      onBeforeUpload: (files: {
+        [key: string]: UppyFile<Record<string, unknown>>;
+      }): { [key: string]: UppyFile<Record<string, unknown>> } | boolean => {
+        const datename = Date.now();
+        for (var prop in files) {
+          files[
+            prop
+          ].name = `products/${shop.shop_id}/images/${files[prop].name}_${datename}`;
+          files[
+            prop
+          ].meta.name = `products/${shop.shop_id}/images/${files[prop].meta.name}_${datename}`;
+        }
+        return files;
+        // Promise.resolve();
+        // return true;
       },
     })
       .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
       .use(GoogleDrive, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Dropbox, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Box, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Instagram, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(Facebook, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(OneDrive, {
-        companionUrl: 'https://companion.uppy.io',
+        companionUrl: 'https://companion.reoplex.com',
       })
       .use(DropTarget, { target: document.body })
-      .use(Tus, { endpoint: 'https://storage.reoplex.com/api/v1/files/' });
-  }, []);
+      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
+  }, [shop.shop_id]);
+  uppy.on('complete', result => {
+    console.log('successful files:', result.successful);
+    console.log('failed files:', result.failed);
+  });
 
   React.useEffect(() => {
     return () => uppy.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSelectedItems = selectedItems => {
+  const handleSelectedItems = (selectedItems: never[]) => {
     setSelectedItems([...selectedItems]);
   };
 
-  const computeNames = variationOptions => {
+  const updatePrice =
+    (
+      values: Values,
+      setFieldValue: (
+        field: string,
+        value: any,
+        shouldValidate?: boolean | undefined,
+      ) => void,
+    ) =>
+    (index: number, newValue: string) => {
+      const variants = values.variants;
+      const va = values.variants[index];
+      va.stock_records![0].price_excl_tax = money.parseDouble(
+        newValue,
+        shop.currency?.iso_code || defaultCurrency,
+      );
+      variants[index] = va;
+      setFieldValue('variants', variants);
+    };
+
+  const updateQuantity =
+    (
+      values: Values,
+      setFieldValue: (
+        field: string,
+        value: any,
+        shouldValidate?: boolean | undefined,
+      ) => void,
+    ) =>
+    (index: number, newValue: number) => {
+      const variants = values.variants;
+      const va = values.variants[index];
+      va.stock_records![0].num_in_stock = newValue;
+      variants[index] = va;
+      setFieldValue('variants', variants);
+    };
+
+  const validateVarOptions = (options: VarOption[]): boolean => {
+    let isValid = options.length > 0;
+    options.forEach(opt => {
+      if (_.isEmpty(opt.attribute) || _.isEmpty(opt.values)) isValid = false;
+    });
+    return isValid;
+  };
+  const setChildren = (
+    values: Values,
+    setFieldValue: (
+      field: string,
+      value: any,
+      shouldValidate?: boolean | undefined,
+    ) => void,
+  ) => {
+    const variationOptions = values.variation_options;
     const attributeValues = variationOptions.map(v => v.values);
     const labels = attributeValues.map(vl => vl.map(a => a.label));
-    return cartesian(...labels);
+    const titles = cartesian(...labels).map((v: string[] | string) =>
+      typeof v === 'string' ? v : v.join('-'),
+    );
+    const untouchedTitles = titles.filter(
+      (t: string) => !values.variants.some(v => v.title === t),
+    );
+    const products: ProductType[] = untouchedTitles.map((t: string) => {
+      const p: ProductType = {
+        title: t,
+        shop_id: shop.shop_id!,
+        product_id: productId || '',
+        structure: ProductStructure.CHILD,
+      };
+      p.stock_records = values.locations.map((locationId: string) => {
+        const record: InventoryType = {
+          variant_id: productId || '',
+          product_id: productId || '',
+          num_in_stock: values.quantity,
+          // TODO: centreId && centreSku should be replaced with correct on
+          centre_id: locationId,
+          centre_sku: slugify(t),
+          cost_per_item: money.parseDouble(
+            values.cost_per_item,
+            shop.currency?.iso_code || defaultCurrency,
+          ),
+          price_excl_tax: money.parseDouble(
+            values.price,
+            shop.currency?.iso_code || defaultCurrency,
+          ),
+          compare_at_price: money.parseDouble(
+            values.compare_at_price,
+            shop.currency?.iso_code || defaultCurrency,
+          ),
+          unlimited: values.unlimited,
+          track_quantity: values.track_quantity,
+          taxable: false,
+        };
+        return record;
+      });
+      return p;
+    });
+    setFieldValue('variants', [...values.variants, ...products]);
   };
 
   return (
     <>
       <Formik
-        initialValues={{
-          title: '',
-          description: '',
-          is_parent: false,
-          shipping_required: false,
-          track_quantity: true,
-          quantity: 0,
-          type: '',
-          collections: [],
-          stock_records: {},
-          variants: [],
-          variation_options: [],
-          images: [],
-          tags: [],
-          vendor: '',
-          channels: [],
-          template_suffix: 'product',
-          price: '',
-          compare_at_price: '',
-          cost_per_item: '',
-          sku: '',
-          barcode: '',
-          unlimited: '',
-          weight: '',
-          length: '',
-          wdith: '',
-          height: '',
-          locations: [],
-          cartesian_values: [],
-          files: [],
-        }}
+        initialValues={{ ...flattenProduct(product) }}
         onSubmit={(values, { setSubmitting }) => {
-          //TODO:
+          if (productId) {
+            dispatch(actions.createProduct(cleanProduct({ ...values })));
+          } else {
+            dispatch(actions.updateProduct(cleanProduct({ ...values })));
+          }
+          setSubmitting(false);
         }}
       >
         {({
@@ -191,7 +437,7 @@ const ProductForm = ({ handleShow, productId }) => {
                       <ReactQuill
                         id="description"
                         theme="snow"
-                        name="description"
+                        // name="description"
                         onChange={e => setFieldValue('description', e)}
                         value={values.description}
                         style={{
@@ -436,7 +682,6 @@ const ProductForm = ({ handleShow, productId }) => {
                             placeholder: 'describe what the image is about',
                           },
                         ]}
-                        browserBackButtonClose={false}
                         plugins={[
                           'Webcam',
                           'Instagram',
@@ -562,7 +807,7 @@ const ProductForm = ({ handleShow, productId }) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form-checkbox"
-                        value={values.track_quantity}
+                        checked={values.track_quantity}
                         type="checkbox"
                       />
                       <label
@@ -577,7 +822,7 @@ const ProductForm = ({ handleShow, productId }) => {
                         name="unlimited"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.unlimited}
+                        checked={values.unlimited}
                         id="unlimited"
                         className="form-checkbox"
                         type="checkbox"
@@ -620,7 +865,7 @@ const ProductForm = ({ handleShow, productId }) => {
                         name="shipping_required"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.shipping_required}
+                        checked={values.shipping_required}
                         id="shipping_required"
                         className="form-checkbox"
                         type="checkbox"
@@ -667,7 +912,7 @@ const ProductForm = ({ handleShow, productId }) => {
                         name="is_parent"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.is_parent}
+                        checked={values.is_parent}
                         id="is_parent"
                         className="form-checkbox"
                         type="checkbox"
@@ -716,13 +961,23 @@ const ProductForm = ({ handleShow, productId }) => {
                                 menuPortalTarget={document.body}
                                 onChange={option => {
                                   let opt = values.variation_options[index];
-                                  opt.attribute = option;
+                                  opt.attribute = option as Record<
+                                    string,
+                                    string
+                                  >;
+
                                   let opts = values.variation_options;
                                   opts[index] = opt;
                                   setFieldValue('variation_options', opts);
                                 }}
                                 components={animatedComponents}
-                                options={attributeOptions}
+                                options={attributeOptions.filter(
+                                  attr =>
+                                    !values.variation_options.some(
+                                      opt =>
+                                        attr.value === opt.attribute?.value,
+                                    ),
+                                )}
                                 styles={{
                                   input: base => ({
                                     ...base,
@@ -752,7 +1007,10 @@ const ProductForm = ({ handleShow, productId }) => {
                                 isMulti
                                 onChange={option => {
                                   let opt = values.variation_options[index];
-                                  opt.values = option;
+                                  opt.values = option as Record<
+                                    string,
+                                    string
+                                  >[];
                                   let opts = values.variation_options;
                                   opts[index] = opt;
                                   setFieldValue('variation_options', opts);
@@ -779,7 +1037,11 @@ const ProductForm = ({ handleShow, productId }) => {
                           onClick={() => {
                             setFieldValue('variation_options', [
                               ...values.variation_options,
-                              { attribute: {}, values: [] },
+                              {
+                                attribute: null,
+
+                                values: [],
+                              },
                             ]);
                           }}
                           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
@@ -790,32 +1052,37 @@ const ProductForm = ({ handleShow, productId }) => {
                       <div>
                         <div className="rounded bg-white shadow p-3 mt-6 mb-10">
                           <button
+                            disabled={validateVarOptions(
+                              values.variation_options,
+                            )}
                             onClick={e => {
                               e.stopPropagation();
+                              if (!showVariants) {
+                                setChildren(values, setFieldValue);
+                              }
                               setShowVariants(!showVariants);
                             }}
                             className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
                           >
-                            Show Variants
+                            Edit Variants
                           </button>
-
                           {showVariants && (
                             <>
                               <h2 className="text-sm uppercase text-left leading-snug text-gray-800 font-medium mb-2">
                                 East Coast Warehouse
                               </h2>
-                              <VariantPreviewTable
+                              <ProdutVariantPreview
                                 selectedItems={handleSelectedItems}
-                                names={computeNames(
-                                  values.variation_options,
-                                ).map(v => v.join('/'))}
+                                productVariants={values.variants}
+                                updatePrice={updatePrice(values, setFieldValue)}
+                                updateQuantity={updateQuantity(
+                                  values,
+                                  setFieldValue,
+                                )}
+                                currency={
+                                  shop.currency?.iso_code || defaultCurrency
+                                }
                               />
-                              {/* <h2 className="text-sm uppercase text-justify leading-snug text-gray-800 font-medium mt-5 mb-2">
-                                Home Office
-                              </h2>
-                              <VariantPreviewTable
-                                selectedItems={handleSelectedItems}
-                              /> */}
                             </>
                           )}
                         </div>
@@ -869,8 +1136,6 @@ const ProductForm = ({ handleShow, productId }) => {
                         onBlur={handleBlur}
                         value={values.page_description}
                         className="form-textarea w-full"
-                        type="text"
-                        multiple
                         rows={5}
                         placeholder="E.g. Rocketship Kumasi warehouse, near Santasi somewhere"
                       />
@@ -905,7 +1170,10 @@ const ProductForm = ({ handleShow, productId }) => {
                   <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
                     Cancel
                   </button>
-                  <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
+                  <button
+                    onClick={e => handleSubmit}
+                    className="btn bg-purple-900 bg-opacity-100 rounded-lg  text-white ml-3"
+                  >
                     Save Changes
                   </button>
                 </div>

@@ -30,7 +30,10 @@ export type InventoryState = {
 
 export const initialState: InventoryState = {
   stock_records: {},
-  locations: {},
+  locations: {
+    centre1: { centre_id: 'centre_id1' },
+    centre2: { centre_id: 'centre_id2' },
+  },
   shard: 1,
   nextPageToken: '',
   count: 0,

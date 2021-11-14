@@ -40,3 +40,8 @@ export const selectRecordById = (
   variantId: string,
   centreId: string,
 ) => state.inventory?.stock_records[productId][variantId][centreId] || {};
+
+export const selectLocations = createSelector(
+  [inventoryState],
+  inv => inv?.locations,
+);

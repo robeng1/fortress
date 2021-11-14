@@ -1,67 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { focusHandling } from 'cruip-js-toolkit';
-import VariantItem from './VariantItem';
+// import { focusHandling } from 'cruip-js-toolkit';
+import ProductVariant from './VariantItem';
+import { ProductType } from 'app/models/product/product-type';
 
-const VariantPreviewTable = ({ selectedItems, names }) => {
-  const products = [
-    {
-      id: '0',
-      image: '',
-      name: names[0],
-      inventory: 'Blue',
-      type: 'Small',
-      status: 'Active',
-      price: '43.0',
-      quantity: '24',
-    },
-    {
-      id: '1',
-      image: '',
-      name: names[1],
-      inventory: 'Green',
-      type: 'Medium',
-      status: 'Active',
-      price: '43.0',
-      quantity: '24',
-    },
-    {
-      id: '2',
-      image: '',
-      name: 'Bike short',
-      inventory: 'White',
-      type: 'Large',
-      status: 'Active',
-      price: '43.0',
-      quantity: '24',
-    },
-    {
-      id: '3',
-      image: '',
-      name: 'Bike short',
-      inventory: 'Blue',
-      type: 'Extra Large',
-      status: 'Active',
-      price: '43.0',
-      quantity: '24',
-    },
-  ];
-
+const ProdutVariantPreview = ({
+  selectedItems,
+  productVariants,
+  updatePrice,
+  updateQuantity,
+  currency,
+}) => {
   const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState([]);
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    setList(products);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    focusHandling('outline');
-  }, [list]);
+  const [isCheck, setIsCheck] = useState<string[]>([]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setIsCheck(list.map(li => li.id));
+    setIsCheck(productVariants.map((li: ProductType) => li.title));
     if (selectAll) {
       setIsCheck([]);
     }
@@ -101,32 +55,32 @@ const VariantPreviewTable = ({ selectedItems, names }) => {
               </div>
             </th>
             <th className="w-1/2 py-3 whitespace-nowrap">
-              <div className="font-semibold text-left"></div>
+              <div className="font-semibold text-left">Variant</div>
             </th>
             <th className="w-1/4 py-3 whitespace-nowrap">
               <div className="font-semibold text-left">Quantity</div>
             </th>
             <th className="w-1/4 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-              <div className="font-semibold text-left">Price</div>
+              <div className="font-semibold text-left">Price({currency})</div>
             </th>
           </tr>
         </thead>
         {/* Table body */}
         <tbody className="text-sm border-gray-200 divide-y divide-gray-200">
-          {list.map(product => {
+          {productVariants.map((product: ProductType, index: number) => {
             return (
-              <VariantItem
-                key={product.id}
-                id={product.id}
+              <ProductVariant
+                key={product.title}
+                index={index}
+                id={product.title}
+                updatePrice={updatePrice}
+                updateQuantity={updateQuantity}
                 image={product.image}
-                name={product.name}
-                inventory={product.inventory}
-                type={product.type}
-                price={product.price}
-                quantity={product.quantity}
-                fav={product.fav || false}
+                name={product.title}
+                price={product.stock_records![0].price_excl_tax}
+                quantity={product.stock_records![0].num_in_stock}
                 handleClick={handleClick}
-                isChecked={isCheck.includes(product.id)}
+                isChecked={isCheck.includes(product.title!)}
               />
             );
           })}
@@ -136,4 +90,4 @@ const VariantPreviewTable = ({ selectedItems, names }) => {
   );
 };
 
-export default VariantPreviewTable;
+export default ProdutVariantPreview;
