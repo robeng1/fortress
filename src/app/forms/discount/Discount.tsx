@@ -146,18 +146,32 @@ const initialValues: Values = {
   number_of_codes: 2,
 };
 
-// TODO: (romeo) refactor duplicated piece of logic
+// TODO: (romeo) refactor duplicated pieces of logic
 const DiscountForm = ({ handleShow, discountId }) => {
   const [searchIncludedProductsOpen, setSearchIncludedProductsOpen] =
     useState(false);
   const [searchIncludedCollectionsOpen, setSearchIncludedCollectionsOpen] =
     useState(false);
-  // const [searchBXGYIncludedProductsOpen, setSearchBXGYIncludedProductsOpen] =
-  //   useState(false);
-  // const [
-  //   searchBXGYIncludedCollectionsOpen,
-  //   setSearchBXGYIncludedCollectionsOpen,
-  // ] = useState(false);
+
+  // for condition range
+  const [
+    searchBXGYCondRangeIncludedProductsOpen,
+    setSearchBXGYCondRangeIncludedProductsOpen,
+  ] = useState(false);
+  const [
+    searchBXGYCondRangeIncludedCollectionsOpen,
+    setSearchBXGYCondRangeIncludedCollectionsOpen,
+  ] = useState(false);
+
+  // for benefit range
+  const [
+    searchBXGYBenRangeIncludedProductsOpen,
+    setSearchBXGYBenRangeIncludedProductsOpen,
+  ] = useState(false);
+  const [
+    searchBXGYBenRangeIncludedCollectionsOpen,
+    setSearchBXGYBenRangeIncludedCollectionsOpen,
+  ] = useState(false);
   const { actions } = useDiscountSlice();
   const dispatch = useDispatch();
   if (discountId) {
@@ -1094,7 +1108,15 @@ const DiscountForm = ({ handleShow, discountId }) => {
                           'specific_products' ? (
                             <div className="w-full">
                               <div className="w-full">
-                                <div className="flex border-1 rounded">
+                                <div
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    setSearchBXGYCondRangeIncludedProductsOpen(
+                                      !searchBXGYCondRangeIncludedProductsOpen,
+                                    );
+                                  }}
+                                  className="flex border-1 rounded"
+                                >
                                   <input
                                     type="text"
                                     className="form-input w-full"
@@ -1111,12 +1133,30 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                     </svg>
                                   </button>
                                 </div>
+                                <ModalSearch
+                                  id="quick-find-modal-cr"
+                                  searchId="quick-find-cr"
+                                  modalOpen={
+                                    searchBXGYCondRangeIncludedProductsOpen
+                                  }
+                                  setModalOpen={
+                                    setSearchBXGYCondRangeIncludedProductsOpen
+                                  }
+                                />
                               </div>
                             </div>
                           ) : (
                             <div className="w-full">
                               <div className="w-full">
-                                <div className="flex border-1 rounded">
+                                <div
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    setSearchBXGYCondRangeIncludedCollectionsOpen(
+                                      !searchBXGYCondRangeIncludedCollectionsOpen,
+                                    );
+                                  }}
+                                  className="flex border-1 rounded"
+                                >
                                   <input
                                     type="text"
                                     className="form-input w-full"
@@ -1133,6 +1173,16 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                     </svg>
                                   </button>
                                 </div>
+                                <ModalSearch
+                                  id="quick-find-modal-cr"
+                                  searchId="quick-find-cr"
+                                  modalOpen={
+                                    searchBXGYCondRangeIncludedCollectionsOpen
+                                  }
+                                  setModalOpen={
+                                    setSearchBXGYCondRangeIncludedCollectionsOpen
+                                  }
+                                />
                               </div>
                             </div>
                           )}
@@ -1202,7 +1252,15 @@ const DiscountForm = ({ handleShow, discountId }) => {
                           'specific_products' ? (
                             <div className="w-full">
                               <div className="w-full">
-                                <div className="flex border-1 rounded">
+                                <div
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    setSearchBXGYBenRangeIncludedProductsOpen(
+                                      !searchBXGYBenRangeIncludedProductsOpen,
+                                    );
+                                  }}
+                                  className="flex border-1 rounded"
+                                >
                                   <input
                                     type="text"
                                     className="form-input w-full"
@@ -1219,12 +1277,30 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                     </svg>
                                   </button>
                                 </div>
+                                <ModalSearch
+                                  id="quick-find-modal-br"
+                                  searchId="quick-find-br"
+                                  modalOpen={
+                                    searchBXGYBenRangeIncludedProductsOpen
+                                  }
+                                  setModalOpen={
+                                    setSearchBXGYBenRangeIncludedProductsOpen
+                                  }
+                                />
                               </div>
                             </div>
                           ) : (
                             <div className="w-full">
                               <div className="w-full">
-                                <div className="flex border-1 rounded">
+                                <div
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    setSearchBXGYBenRangeIncludedCollectionsOpen(
+                                      !searchBXGYBenRangeIncludedCollectionsOpen,
+                                    );
+                                  }}
+                                  className="flex border-1 rounded"
+                                >
                                   <input
                                     type="text"
                                     className="form-input w-full"
@@ -1241,6 +1317,16 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                     </svg>
                                   </button>
                                 </div>
+                                <ModalSearch
+                                  id="quick-find-modal-br"
+                                  searchId="quick-find-br"
+                                  modalOpen={
+                                    searchBXGYBenRangeIncludedCollectionsOpen
+                                  }
+                                  setModalOpen={
+                                    setSearchBXGYBenRangeIncludedCollectionsOpen
+                                  }
+                                />
                               </div>
                             </div>
                           )}
@@ -2185,7 +2271,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
                       </button>
                       <button
                         onClick={e => {
-                          e.preventDefault();
+                          e.stopPropagation();
                           handleSubmit();
                         }}
                         className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
