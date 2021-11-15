@@ -34,6 +34,8 @@ import { BenefitType } from 'app/models/discount/benefit-type';
 import { RangeType } from 'app/models/discount/range-type';
 import { VoucherType } from 'app/models/voucher/voucher';
 import { VoucherSetType } from 'app/models/voucher/voucherset';
+import { useState } from 'react';
+import ModalSearch from 'app/components/ModalSearch';
 
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
 interface Values {
@@ -146,6 +148,16 @@ const initialValues: Values = {
 
 // TODO: (romeo) refactor duplicated piece of logic
 const DiscountForm = ({ handleShow, discountId }) => {
+  const [searchIncludedProductsOpen, setSearchIncludedProductsOpen] =
+    useState(false);
+  const [searchIncludedCollectionsOpen, setSearchIncludedCollectionsOpen] =
+    useState(false);
+  // const [searchBXGYIncludedProductsOpen, setSearchBXGYIncludedProductsOpen] =
+  //   useState(false);
+  // const [
+  //   searchBXGYIncludedCollectionsOpen,
+  //   setSearchBXGYIncludedCollectionsOpen,
+  // ] = useState(false);
   const { actions } = useDiscountSlice();
   const dispatch = useDispatch();
   if (discountId) {
@@ -1502,7 +1514,15 @@ const DiscountForm = ({ handleShow, discountId }) => {
                               {values.applies_to === 'specific_products' ? (
                                 <div className="w-full">
                                   <div className="w-full">
-                                    <div className="flex border-1 rounded">
+                                    <div
+                                      onClick={e => {
+                                        e.stopPropagation();
+                                        setSearchIncludedProductsOpen(
+                                          !searchIncludedProductsOpen,
+                                        );
+                                      }}
+                                      className="flex border-1 rounded"
+                                    >
                                       <input
                                         type="text"
                                         className="form-input w-full"
@@ -1519,12 +1539,28 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                         </svg>
                                       </button>
                                     </div>
+                                    <ModalSearch
+                                      id="quick-find-modal-ip"
+                                      searchId="quick-find-ip"
+                                      modalOpen={searchIncludedProductsOpen}
+                                      setModalOpen={
+                                        setSearchIncludedProductsOpen
+                                      }
+                                    />
                                   </div>
                                 </div>
                               ) : (
                                 <div className="w-full">
                                   <div className="w-full">
-                                    <div className="flex border-1 rounded">
+                                    <div
+                                      onClick={e => {
+                                        e.stopPropagation();
+                                        setSearchIncludedCollectionsOpen(
+                                          !searchIncludedCollectionsOpen,
+                                        );
+                                      }}
+                                      className="flex border-1 rounded"
+                                    >
                                       <input
                                         type="text"
                                         className="form-input w-full"
@@ -1541,6 +1577,14 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                         </svg>
                                       </button>
                                     </div>
+                                    <ModalSearch
+                                      id="quick-find-modal"
+                                      searchId="quick-find"
+                                      modalOpen={searchIncludedCollectionsOpen}
+                                      setModalOpen={
+                                        setSearchIncludedCollectionsOpen
+                                      }
+                                    />
                                   </div>
                                 </div>
                               )}
