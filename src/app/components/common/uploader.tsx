@@ -1,9 +1,10 @@
+/* eslint-disable array-callback-return */
 import { UploadIcon } from 'app/components/icons/upload-icon';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Attachment } from 'app/ts-types/generated';
 import { CloseIcon } from 'app/components/icons/close-icon';
-import Loader from 'app/components/ui/loader/loader';
+// import Loader from 'app/components/ui/loader/loader';
 // import { useTranslation } from 'next-i18next';
 // import { useUploadMutation } from '@data/upload/use-upload.mutation';
 const getPreviewImage = (value: any) => {
@@ -51,6 +52,7 @@ export default function Uploader({ onChange, value, multiple }: any) {
       onChange(images);
     }
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const thumbs = files?.map((file: any, idx) => {
     if (file.id) {
       return (

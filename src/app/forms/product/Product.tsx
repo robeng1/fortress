@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import * as _ from 'lodash';
+import * as Yup from 'yup';
+import _ from 'lodash';
 import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
+// import { AsyncPaginate } from 'react-select-async-paginate';
 import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
 import Tus from '@uppy/tus';
@@ -44,8 +45,43 @@ import money from 'app/utils/money';
 import { useInventorySlice } from 'app/features/inventory';
 import { selectLocations } from 'app/features/inventory/selectors';
 import slugify from 'slugify';
-// const GoldenRetriever = require('@uppy/golden-retriever');
+import {
+  loadCollectionsAsOptions,
+  loadProductTypesAsOptions,
+  loadTagsAsOptions,
+} from 'app/services/options-loaders';
+import type { ReactElement } from 'react';
+import type { GroupBase } from 'react-select';
+import Creatable from 'react-select/creatable';
+import type { CreatableProps } from 'react-select/creatable';
 
+import { withAsyncPaginate } from 'react-select-async-paginate';
+import type {
+  UseAsyncPaginateParams,
+  ComponentProps,
+} from 'react-select-async-paginate';
+
+type AsyncPaginateCreatableProps<
+  OptionType,
+  Group extends GroupBase<OptionType>,
+  Additional,
+  IsMulti extends boolean,
+> = CreatableProps<OptionType, IsMulti, Group> &
+  UseAsyncPaginateParams<OptionType, Group, Additional> &
+  ComponentProps<OptionType, Group, IsMulti>;
+
+type AsyncPaginateCreatableType = <
+  OptionType,
+  Group extends GroupBase<OptionType>,
+  Additional,
+  IsMulti extends boolean = false,
+>(
+  props: AsyncPaginateCreatableProps<OptionType, Group, Additional, IsMulti>,
+) => ReactElement;
+
+const CreatableAsyncPaginate = withAsyncPaginate(
+  Creatable,
+) as AsyncPaginateCreatableType;
 // animated components for react select
 const animatedComponents = makeAnimated();
 const defaultCurrency = 'GHS';
@@ -62,7 +98,7 @@ interface Values {
   shipping_required: boolean;
   track_quantity: boolean;
   quantity: number;
-  type: string;
+  type: unknown;
   collections: string[];
   stock_records: InventoryType[];
   variants: ProductType[];
@@ -87,6 +123,14 @@ interface Values {
   page_title: string;
   page_description: string;
 }
+
+const ProductSchema = Yup.object().shape({
+  title: Yup.string().required('Required'),
+  description: Yup.string().required('Required'),
+  quantity: Yup.number().positive('Must be positive').required('Required'),
+  type: Yup.string().required('Required'),
+  price: Yup.string().required('Required'),
+});
 
 const ProductForm = ({ handleShow, productId }) => {
   const { actions } = useProductSlice();
@@ -258,6 +302,7 @@ const ProductForm = ({ handleShow, productId }) => {
       .use(DropTarget, { target: document.body })
       .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
   }, [shop.shop_id]);
+
   uppy.on('complete', result => {
     console.log('successful files:', result.successful);
     console.log('failed files:', result.failed);
@@ -272,6 +317,7 @@ const ProductForm = ({ handleShow, productId }) => {
     setSelectedItems([...selectedItems]);
   };
 
+  // passed down to variants table for updating price
   const updatePrice =
     (
       values: Values,
@@ -292,6 +338,7 @@ const ProductForm = ({ handleShow, productId }) => {
       setFieldValue('variants', variants);
     };
 
+  // passed down to variants table for updating quantity of child products
   const updateQuantity =
     (
       values: Values,
@@ -309,6 +356,8 @@ const ProductForm = ({ handleShow, productId }) => {
       setFieldValue('variants', variants);
     };
 
+  // validates variation options before allowing variants to be
+  // generated from options
   const validateVarOptions = (options: VarOption[]): boolean => {
     let isValid = options.length > 0;
     options.forEach(opt => {
@@ -375,6 +424,7 @@ const ProductForm = ({ handleShow, productId }) => {
     <>
       <Formik
         initialValues={{ ...flattenProduct(product) }}
+        validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
           if (productId) {
             dispatch(actions.createProduct(cleanProduct({ ...values })));
@@ -426,6 +476,11 @@ const ProductForm = ({ handleShow, productId }) => {
                       />
                     </div>
                   </div>
+                  {touched.title && errors.title && (
+                    <div className="text-xs mt-1 text-red-500">
+                      {errors.title}
+                    </div>
+                  )}
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                     <div className="w-full">
                       <label
@@ -446,6 +501,11 @@ const ProductForm = ({ handleShow, productId }) => {
                       />
                     </div>
                   </div>
+                  {touched.description && errors.description && (
+                    <div className="text-xs mt-1 text-red-500">
+                      {errors.description}
+                    </div>
+                  )}
                 </section>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-1 md:gap-0 md:content-start md:gap-y-6 md:row-span-2">
@@ -462,16 +522,15 @@ const ProductForm = ({ handleShow, productId }) => {
                         >
                           Product Type
                         </label>
-                        <Select
-                          closeMenuOnSelect={true}
-                          defaultValue={values.type}
-                          value={values.type}
-                          // isClearable
+                        <CreatableAsyncPaginate
+                          // SelectComponent={Creatable}
                           menuPortalTarget={document.body}
                           isSearchable
+                          // isDisabled={isAddingInProgress}
+                          value={values.type}
+                          loadOptions={loadProductTypesAsOptions}
+                          // onCreateOption={onCreateOption}
                           onChange={option => setFieldValue('type', option)}
-                          components={animatedComponents}
-                          options={colourOptions}
                           styles={{
                             input: base => ({
                               ...base,
@@ -482,6 +541,7 @@ const ProductForm = ({ handleShow, productId }) => {
                             ...colourStyles,
                           }}
                           className="w-full"
+                          // cacheUniqs={[cacheUniq]}
                         />
                       </div>
                     </div>
@@ -514,7 +574,7 @@ const ProductForm = ({ handleShow, productId }) => {
                         >
                           Collections
                         </label>
-                        <Select
+                        <CreatableAsyncPaginate
                           id="collections"
                           name="collections"
                           closeMenuOnSelect={true}
@@ -527,8 +587,10 @@ const ProductForm = ({ handleShow, productId }) => {
                           onChange={option =>
                             setFieldValue('collections', option)
                           }
-                          components={animatedComponents}
-                          options={colourOptions}
+                          // isDisabled={isAddingInProgress}
+                          loadOptions={loadCollectionsAsOptions(shop.shop_id!)}
+                          // onCreateOption={onCreateOption}
+
                           styles={{
                             input: base => ({
                               ...base,
@@ -539,6 +601,7 @@ const ProductForm = ({ handleShow, productId }) => {
                             ...colourStyles,
                           }}
                           className="w-full"
+                          // cacheUniqs={[cacheUniq]}
                         />
                       </div>
                     </div>
@@ -550,7 +613,7 @@ const ProductForm = ({ handleShow, productId }) => {
                         >
                           Tags
                         </label>
-                        <Select
+                        <CreatableAsyncPaginate
                           id="tags"
                           name="tags"
                           closeMenuOnSelect={true}
@@ -561,8 +624,10 @@ const ProductForm = ({ handleShow, productId }) => {
                           menuPortalTarget={document.body}
                           isMulti
                           onChange={option => setFieldValue('tags', option)}
-                          components={animatedComponents}
-                          options={colourOptions}
+                          // isDisabled={isAddingInProgress}
+                          loadOptions={loadTagsAsOptions(shop.shop_id!)}
+                          // onCreateOption={onCreateOption}
+
                           styles={{
                             input: base => ({
                               ...base,
@@ -573,6 +638,7 @@ const ProductForm = ({ handleShow, productId }) => {
                             ...colourStyles,
                           }}
                           className="w-full"
+                          // cacheUniqs={[cacheUniq]}
                         />
                       </div>
                     </div>
@@ -716,7 +782,13 @@ const ProductForm = ({ handleShow, productId }) => {
                         type="text"
                         placeholder="GHS 0.00"
                       />
+                      {touched.price && errors.price && (
+                        <div className="text-xs mt-1 text-red-500">
+                          {errors.price}
+                        </div>
+                      )}
                     </div>
+
                     <div className="sm:w-1/2">
                       <label
                         className="block text-sm font-medium mb-1"
@@ -734,6 +806,11 @@ const ProductForm = ({ handleShow, productId }) => {
                         type="text"
                         placeholder="GHS 0.00"
                       />
+                      {touched.compare_at_price && errors.compare_at_price && (
+                        <div className="text-xs mt-1 text-red-500">
+                          {errors.compare_at_price}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -754,6 +831,11 @@ const ProductForm = ({ handleShow, productId }) => {
                         type="text"
                         placeholder="GHS 0.00"
                       />
+                      {touched.cost_per_item && errors.cost_per_item && (
+                        <div className="text-xs mt-1 text-red-500">
+                          {errors.cost_per_item}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </section>
@@ -852,6 +934,11 @@ const ProductForm = ({ handleShow, productId }) => {
                         min={0}
                         placeholder="10"
                       />
+                      {touched.quantity && errors.quantity && (
+                        <div className="text-xs mt-1 text-red-500">
+                          {errors.quantity}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </section>
@@ -952,7 +1039,7 @@ const ProductForm = ({ handleShow, productId }) => {
                               >
                                 Attribute name
                               </label>
-                              <CreatableSelect
+                              <Creatable
                                 closeMenuOnSelect={true}
                                 defaultValue={op.attribute}
                                 value={op.attribute}
@@ -997,7 +1084,7 @@ const ProductForm = ({ handleShow, productId }) => {
                               >
                                 Attribute values
                               </label>
-                              <CreatableSelect
+                              <Creatable
                                 closeMenuOnSelect={true}
                                 defaultValue={op.values}
                                 value={op.values}
@@ -1051,21 +1138,32 @@ const ProductForm = ({ handleShow, productId }) => {
                       </div>
                       <div>
                         <div className="rounded bg-white shadow p-3 mt-6 mb-10">
-                          <button
-                            disabled={validateVarOptions(
-                              values.variation_options,
-                            )}
-                            onClick={e => {
-                              e.stopPropagation();
-                              if (!showVariants) {
-                                setChildren(values, setFieldValue);
-                              }
-                              setShowVariants(!showVariants);
-                            }}
-                            className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
-                          >
-                            Edit Variants
-                          </button>
+                          {validateVarOptions(values.variation_options) && (
+                            <button
+                              onClick={e => {
+                                e.stopPropagation();
+                                if (!showVariants) {
+                                  setChildren(values, setFieldValue);
+                                }
+                                setShowVariants(!showVariants);
+                              }}
+                              className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
+                            >
+                              Edit Variants
+                            </button>
+                          )}
+                          {!validateVarOptions(values.variation_options) && (
+                            <div className="m-1.5">
+                              {/* Start */}
+                              <button
+                                className="btn bg-indigo-500 hover:bg-indigo-600 text-white disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed shadow-none"
+                                disabled
+                              >
+                                Edit Variants
+                              </button>
+                              {/* End */}
+                            </div>
+                          )}
                           {showVariants && (
                             <>
                               <h2 className="text-sm uppercase text-left leading-snug text-gray-800 font-medium mb-2">
@@ -1167,7 +1265,10 @@ const ProductForm = ({ handleShow, productId }) => {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end md:self-center">
-                  <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                  <button
+                    onClick={() => handleShow(false, '')}
+                    className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                  >
                     Cancel
                   </button>
                   <button
