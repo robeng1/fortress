@@ -22,8 +22,8 @@ import { selectCollectionById } from 'app/features/collection/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIfLoading } from 'app/features/ui/selectors';
 
-const Box = require('@uppy/box');
-const DropTarget = require('@uppy/drop-target');
+import Box from '@uppy/box';
+import DropTarget from '@uppy/drop-target';
 
 export default function CollectionForm({ handleShow, collectionId }) {
   const { actions } = useCollectionSlice();
@@ -91,7 +91,9 @@ export default function CollectionForm({ handleShow, collectionId }) {
                   actions.updateCollection({ ...collection, ...values }),
                 );
               } else {
-                dispatch(actions.createCollection({ ...values }));
+                dispatch(
+                  actions.createCollection({ ...values, collection_id: '' }),
+                );
               }
               setSubmitting(false);
             }}
@@ -145,7 +147,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
                           </label>
                           <ReactQuill
                             theme="snow"
-                            name="description"
+                            id="description"
                             onChange={e => setFieldValue('description', e)}
                             value={values.description}
                             style={{
@@ -198,7 +200,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
                                 placeholder: 'describe what the image is about',
                               },
                             ]}
-                            browserBackButtonClose={false}
+                            // browserBackButtonClose={false}
                             plugins={[
                               'Webcam',
                               'Instagram',
@@ -245,7 +247,10 @@ export default function CollectionForm({ handleShow, collectionId }) {
                       <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
                         Cancel
                       </button>
-                      <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
+                      <button
+                        onClick={e => handleSubmit()}
+                        className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
+                      >
                         Save Changes
                       </button>
                     </div>
