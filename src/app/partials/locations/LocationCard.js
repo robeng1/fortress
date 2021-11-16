@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default function LocationCard() {
+export default function LocationCard({ handleShow, location }) {
   return (
     <>
       <div className="py-1 px-3 mb-4 md:p-5 text-coolGray-800 shadow rounded-lg">
@@ -14,7 +14,7 @@ export default function LocationCard() {
           <div className="flex flex-col px-3 md:px-0">
             <div className="flex md:space-x-6 flex-row">
               <h4 className="text-sm md:text-lg font-semibold text-left">
-                100 South Barrington
+                {location.name}
               </h4>
               <span className="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full hidden md:block">
                 Default
@@ -22,12 +22,11 @@ export default function LocationCard() {
             </div>
 
             <p className="text-coolGray-600 font-medium text-sm md:text-md">
-              100 South Barrington Avenue, Los Angeles, California, United
-              States, 900049
+              {location.description}
             </p>
-            <p className="text-coolGray-600 font-medium text-sm md:text-md">
+            {/* <p className="text-coolGray-600 font-medium text-sm md:text-md">
               +12345678901321
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

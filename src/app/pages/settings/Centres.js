@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 import BottomNav from 'app/components/BottomNav';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import LocationsPanel from '../../partials/settings/Locations';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
+import LocationsPanel from 'app/partials/settings/LocationsPanel';
 
 function Locations() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

@@ -1,52 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+import isEmpty from 'lodash';
 import LocationCard from '../locations/LocationCard';
+import LocationForm from 'app/forms/locations/Location';
+import { useSelector } from 'react-redux';
+import { selectionLocations } from 'app/features/inventory/selectors';
 
 function LocationsPanel() {
+  const locations = useSelector(selectionLocations);
+  const [showLocationForm, setShowLocationForm] = useState(false);
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      <div className="md:p-6 p-4 space-y-6">
-        <div className="flex justify-between">
-          <div>
-            <h2 className="text-2xl text-gray-800 font-bold mb-4">Locations</h2>
-          </div>
-          <button
-            type="button"
-            className="text-white bg-blue-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
-          >
-            Add Location
-          </button>
-        </div>
-        <div className="text-sm">
-          Locations that you ship/deliver your orders from
-        </div>
-
-        <section>
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-        </section>
-      </div>
-
-      {/* Panel footer */}
-      <footer>
-        <div className="flex flex-col px-6 py-5 border-t border-gray-200">
-          <div className="flex self-end">
-            <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
-              Cancel
-            </button>
-            <button className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3">
-              Save Changes
+      {showLocationForm && <LocationForm />}
+      {!showLocationForm && (
+        <div className="md:p-6 p-4 space-y-6">
+          <div className="flex justify-between">
+            <div>
+              <h2 className="text-2xl text-gray-800 font-bold mb-4">
+                Locations
+              </h2>
+            </div>
+            <button
+              onClick={() => setShowLocationForm(!showLocationForm)}
+              type="button"
+              className="text-white bg-blue-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
+            >
+              Add Location
             </button>
           </div>
+          <div className="text-sm">
+            Locations that you ship/deliver your orders from
+          </div>
+
+          {!isEmpty(locations) ? (
+            <section>
+              {Object.values(locations).map((loc, index) => (
+                <LocationCard
+                  centreId={loc.centre_id}
+                  key={index}
+                  location={loc}
+                  handleShow={setShowLocationForm}
+                />
+              ))}
+            </section>
+          ) : (
+            'No locations to show'
+          )}
         </div>
-      </footer>
+      )}
     </div>
   );
 }

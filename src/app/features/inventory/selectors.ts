@@ -45,3 +45,10 @@ export const selectLocations = createSelector(
   [inventoryState],
   inv => inv?.locations,
 );
+
+export const selectLocationById = (state: RootState, centreId: string) =>
+  state.inventory?.locations[centreId];
+export const selectionLocations = createSelector(
+  [inventoryState],
+  inv => inv?.locations,
+);
