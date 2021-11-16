@@ -135,7 +135,7 @@ function SettingsSidebar() {
                     : 'hover:text-gray-700'
                 }`}
               >
-                Shipping Rates
+                Delivery Fees
               </span>
             </NavLink>
           </li>
@@ -172,7 +172,7 @@ function SettingsSidebar() {
               </span>
             </NavLink>
           </li>
-          <li className="mr-0.5 md:mr-0 md:mb-0.5">
+          {/* <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
               exact
               to="/settings/sales-channels"
@@ -205,7 +205,7 @@ function SettingsSidebar() {
                 Sales Channel
               </span>
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       </div>
       {/* Group 2 */}

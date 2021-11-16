@@ -14,9 +14,10 @@ function PoliciesPanel() {
       <Formik
         initialValues={{
           refund_policy:
-            shop.policies.find(p => p.p_type === 'refund_policy')?.body || '',
+            shop?.policies?.find(p => p.p_type === 'refund_policy')?.body || '',
           shipping_policy:
-            shop.policies.find(p => p.p_type === 'shipping_policy')?.body || '',
+            shop?.policies?.find(p => p.p_type === 'shipping_policy')?.body ||
+            '',
         }}
         onSubmit={(values, { setSubmitting }) => {
           let policies = [];
@@ -32,7 +33,7 @@ function PoliciesPanel() {
           if (
             values.shipping_policy !== '' &&
             values.refund_policy !==
-              shop.policies.find(p => p.p_type === 'shipping_policy')?.body
+              shop?.policies?.find(p => p.p_type === 'shipping_policy')?.body
           ) {
             policies = [
               {
@@ -100,7 +101,7 @@ function PoliciesPanel() {
                       type="text"
                       values={values.refund_policy}
                       onChange={handleChange}
-                      onBlue={handleBlur}
+                      onBlur={handleBlur}
                       multiple
                       rows={10}
                       placeholder="E.g. Rocketship Kumasi warehouse, near Santasi somewhere"
@@ -129,7 +130,7 @@ function PoliciesPanel() {
                       name="shipping_policy"
                       values={values.shipping_policy}
                       onChange={handleChange}
-                      onBlue={handleBlur}
+                      onBlur={handleBlur}
                       className="form-textarea w-full"
                       type="text"
                       multiple

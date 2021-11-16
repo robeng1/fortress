@@ -11,9 +11,9 @@ import AnalyticsCard04 from 'app/partials/analytics/AnalyticsCard04';
 import AnalyticsCard05 from 'app/partials/analytics/AnalyticsCard05';
 import AnalyticsCard06 from 'app/partials/analytics/AnalyticsCard06';
 import AnalyticsCard07 from 'app/partials/analytics/AnalyticsCard07';
-import AnalyticsCard08 from 'app/partials/analytics/AnalyticsCard08';
-import AnalyticsCard09 from 'app/partials/analytics/AnalyticsCard09';
-import AnalyticsCard10 from 'app/partials/analytics/AnalyticsCard10';
+// import AnalyticsCard08 from 'app/partials/analytics/AnalyticsCard08';
+// import AnalyticsCard09 from 'app/partials/analytics/AnalyticsCard09';
+// import AnalyticsCard10 from 'app/partials/analytics/AnalyticsCard10';
 
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -61,11 +61,11 @@ function Analytics() {
             {/* Report card (Top Countries) */}
             <AnalyticsCard07 />
             {/* Doughnut chart (Sessions By Device) */}
-            <AnalyticsCard08 />
+            {/* <AnalyticsCard08 /> */}
             {/* Doughnut chart (Visit By Age Category) */}
-            <AnalyticsCard09 />
+            {/* <AnalyticsCard09 /> */}
             {/* Polar chart (Sessions By Gender) */}
-            <AnalyticsCard10 />
+            {/* <AnalyticsCard10 /> */}
           </div>
         </div>
         <BottomNav />

@@ -675,7 +675,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
             {/* More group */}
             <div>
-              <h3 className="text-xs uppercase text-gray-500 font-semibold pl-3">
+              {/* <h3 className="text-xs uppercase text-gray-500 font-semibold pl-3">
                 <span
                   className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
                   aria-hidden="true"
@@ -685,10 +685,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                   Sales Channels
                 </span>
-              </h3>
+              </h3> */}
               <ul className="mt-3">
-                {/* Channels */}
-                <SidebarLinkGroup>
+                {/* <SidebarLinkGroup>
                   {(handleClick, open) => {
                     return (
                       <React.Fragment>
@@ -723,7 +722,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 Channels
                               </span>
                             </div>
-                            {/* Icon */}
                             <div className="flex flex-shrink-0 ml-2">
                               <svg
                                 className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
@@ -738,28 +736,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
-                            {/* <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/signin"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                              >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Reo App
-                                </span>
-                              </NavLink>
-                            </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                exact
-                                to="/signin"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                              >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Reo Chat
-                                </span>
-                              </NavLink>
-                            </li> */}
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
@@ -854,9 +830,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       </React.Fragment>
                     );
                   }}
-                </SidebarLinkGroup>
+                </SidebarLinkGroup> */}
                 {/* Online Store */}
-                <div className="hidden md:block">
+                {/* <div className="hidden md:block">
                   <SidebarLinkGroup
                     activecondition={pathname.includes('component')}
                   >
@@ -899,7 +875,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Online Store
                                 </span>
                               </div>
-                              {/* Icon */}
+
                               <div className="flex flex-shrink-0 ml-2">
                                 <svg
                                   className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
@@ -938,37 +914,13 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   </span>
                                 </NavLink>
                               </li>
-                              {/* <li className="mb-1 last:mb-0">
-                                <NavLink
-                                  exact
-                                  to="/component/dropdown"
-                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  activeClassName="!text-purple-500"
-                                >
-                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Navigation
-                                  </span>
-                                </NavLink>
-                              </li> */}
-                              {/* <li className="mb-1 last:mb-0">
-                                <NavLink
-                                  exact
-                                  to="/component/alert"
-                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  activeClassName="!text-purple-500"
-                                >
-                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                    Preferences
-                                  </span>
-                                </NavLink>
-                              </li> */}
                             </ul>
                           </div>
                         </React.Fragment>
                       );
                     }}
                   </SidebarLinkGroup>
-                </div>
+                </div> */}
               </ul>
             </div>
             {/* Settings*/}
@@ -1081,6 +1033,18 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
+                                to="/settings/shipping"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                activeClassName="!text-purple-500"
+                              >
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Delivery Fees
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                exact
                                 to="/settings/policies"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 activeClassName="!text-purple-500"
@@ -1090,7 +1054,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 </span>
                               </NavLink>
                             </li>
-                            <li className="mb-1 last:mb-0">
+                            {/* <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
                                 to="/settings/sales-channels"
@@ -1101,7 +1065,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Sales Channels
                                 </span>
                               </NavLink>
-                            </li>
+                            </li> */}
                             {/* <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
