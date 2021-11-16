@@ -484,8 +484,77 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     );
                   }}
                 </SidebarLinkGroup> */}
+                <li
+                  className={`px-3 py-2 rounded-sm mb-0.5 hidden md:block last:mb-0 ${
+                    pathname === '/discounts' &&
+                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
+                  }`}
+                >
+                  <NavLink
+                    exact
+                    to="/discounts"
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname === '/discounts' && 'text-gray-900 '
+                    }`}
+                  >
+                    <div className="flex items-center align-middle">
+                      <svg
+                        width="20"
+                        height="20"
+                        className="flex-shrink-0 h-5"
+                        viewBox="0 0 48 48"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="48"
+                          height="48"
+                          fill="white"
+                          fillOpacity="0.01"
+                        />
+                        <circle
+                          cx="11"
+                          cy="11"
+                          r="5"
+                          fill="none"
+                          stroke="#333"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <circle
+                          cx="37"
+                          cy="37"
+                          r="5"
+                          fill="none"
+                          stroke="#333"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M42 6L6 42"
+                          className={`fill-current text-white ${
+                            pathname.includes('discounts') && '!text-purple-500'
+                          }`}
+                          stroke="#333"
+                          strokeWidth="4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === '/discounts' && '!text-purple-500'
+                        }`}
+                      >
+                        Discounts
+                      </span>
+                    </div>
+                  </NavLink>
+                </li>
                 {/* Offers */}
-                <SidebarLinkGroup
+                {/* <SidebarLinkGroup
                   activecondition={pathname.includes('discounts')}
                 >
                   {(handleClick, open) => {
@@ -584,7 +653,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 </span>
                               </NavLink>
                             </li>
-                            {/* <li className="mb-1 last:mb-0">
+                            <li className="mb-1 last:mb-0">
                               <NavLink
                                 exact
                                 to="/discounts/vouchers"
@@ -595,13 +664,13 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Vouchers
                                 </span>
                               </NavLink>
-                            </li> */}
+                            </li>
                           </ul>
                         </div>
                       </div>
                     );
                   }}
-                </SidebarLinkGroup>
+                </SidebarLinkGroup> */}
                 {/* <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname.includes('discounts') &&

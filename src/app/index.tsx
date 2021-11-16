@@ -27,8 +27,8 @@ import Account from 'app/pages/settings/Account';
 import Payments from 'app/pages/settings/Payments';
 import Locations from 'app/pages/settings/Centres';
 import Policies from 'app/pages/settings/Policies';
-import SalesChannels from 'app/pages/settings/SalesChannels';
-import Feedback from 'app/pages/settings/Feedback';
+// import SalesChannels from 'app/pages/settings/SalesChannels';
+// import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoutes';
 import { useUISlice } from './features/ui';
@@ -146,16 +146,16 @@ export function App() {
           path="/settings/policies"
           component={Policies}
         ></ProtectedRoute>
-        <ProtectedRoute
+        {/* <ProtectedRoute
           exact
           path="/settings/sales-channels"
           component={SalesChannels}
-        ></ProtectedRoute>
-        <ProtectedRoute
+        ></ProtectedRoute> */}
+        {/* <ProtectedRoute
           exact
           path="/settings/feedback"
           component={Feedback}
-        ></ProtectedRoute>
+        ></ProtectedRoute> */}
         {/* <ProtectedRoute
           exact
           path="/settings/locations"
