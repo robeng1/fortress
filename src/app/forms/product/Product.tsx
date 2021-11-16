@@ -251,7 +251,7 @@ const ProductForm = ({ handleShow, productId }) => {
 
   // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
   const uppy = React.useMemo(() => {
     return new Uppy({
@@ -313,7 +313,7 @@ const ProductForm = ({ handleShow, productId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSelectedItems = (selectedItems: never[]) => {
+  const handleSelectedItems = (selectedItems: unknown[]) => {
     setSelectedItems([...selectedItems]);
   };
 

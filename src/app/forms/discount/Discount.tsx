@@ -38,6 +38,7 @@ import { useState } from 'react';
 import ModalSearch from 'app/components/ModalSearch';
 
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
+// TODO:(fix range keys)
 interface Values {
   title: string;
   description: string;
@@ -148,6 +149,15 @@ const initialValues: Values = {
 
 // TODO: (romeo) refactor duplicated pieces of logic
 const DiscountForm = ({ handleShow, discountId }) => {
+  const handleSelectedResults =
+    (
+      setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
+      field: string,
+    ) =>
+    (selectedResults: unknown[]) => {
+      setFieldValue(field, [...selectedResults]);
+    };
+  // for normal offers benefit range
   const [searchIncludedProductsOpen, setSearchIncludedProductsOpen] =
     useState(false);
   const [searchIncludedCollectionsOpen, setSearchIncludedCollectionsOpen] =
@@ -172,6 +182,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
     searchBXGYBenRangeIncludedCollectionsOpen,
     setSearchBXGYBenRangeIncludedCollectionsOpen,
   ] = useState(false);
+
   const { actions } = useDiscountSlice();
   const dispatch = useDispatch();
   if (discountId) {

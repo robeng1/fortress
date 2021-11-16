@@ -10,6 +10,7 @@ import 'react-app-polyfill/stable';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { throttle } from 'lodash';
@@ -34,6 +35,7 @@ import './locales/i18n';
 import theme from './styles/mui-theme/theme';
 import { loadState, saveState } from 'store/state';
 
+const queryClient = new QueryClient();
 // Create redux store with history
 const initialState = loadState();
 const { store } = configureAppStore(initialState);
@@ -55,7 +57,9 @@ ReactDOM.render(
         <React.StrictMode>
           <Router>
             <React.Suspense fallback={<Loader />}>
-              <App />
+              <QueryClientProvider client={queryClient}>
+                <App />
+              </QueryClientProvider>
             </React.Suspense>
           </Router>
         </React.StrictMode>
