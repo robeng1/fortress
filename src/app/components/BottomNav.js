@@ -186,7 +186,7 @@ export default function BottomNav() {
               </svg>
             }
           />
-          <BottomNavigationAction
+          {/* <BottomNavigationAction
             component={NavLink}
             exact
             to="/store"
@@ -213,7 +213,7 @@ export default function BottomNav() {
                 />
               </svg>
             }
-          />
+          /> */}
         </BottomNavigation>
       </Paper>
     </div>
