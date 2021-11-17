@@ -149,14 +149,14 @@ const initialValues: Values = {
 
 // TODO: (romeo) refactor duplicated pieces of logic
 const DiscountForm = ({ handleShow, discountId }) => {
-  const handleSelectedResults =
-    (
-      setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
-      field: string,
-    ) =>
-    (selectedResults: unknown[]) => {
-      setFieldValue(field, [...selectedResults]);
-    };
+  // const handleSelectedResults =
+  //   (
+  //     setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
+  //     field: string,
+  //   ) =>
+  //   (selectedResults: unknown[]) => {
+  //     setFieldValue(field, [...selectedResults]);
+  //   };
   // for normal offers benefit range
   const [searchIncludedProductsOpen, setSearchIncludedProductsOpen] =
     useState(false);
