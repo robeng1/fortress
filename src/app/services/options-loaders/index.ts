@@ -21,7 +21,7 @@ export const loadCollectionsAsOptions =
     );
     const responseJSON = await response.json();
     return {
-      options: responseJSON,
+      options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
       // additional: {
       //   page: searchQuery ? 2 : page + 1,
@@ -49,7 +49,7 @@ export const loadProductsAsOptions =
     );
     const responseJSON = await response.json();
     return {
-      options: responseJSON,
+      options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
       // additional: {
       //   page: searchQuery ? 2 : page + 1,
@@ -75,7 +75,7 @@ export const loadDiscountsAsOptions =
     );
     const responseJSON = await response.json();
     return {
-      options: responseJSON,
+      options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
       // additional: {
       //   page: searchQuery ? 2 : page + 1,
@@ -103,7 +103,7 @@ export const loadTagsAsOptions =
     );
     const responseJSON = await response.json();
     return {
-      options: responseJSON,
+      options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
       // additional: {
       //   page: searchQuery ? 2 : page + 1,
@@ -125,7 +125,7 @@ export const loadProductTypesAsOptions = async (
   });
   const responseJSON = await response.json();
   return {
-    options: responseJSON,
+    options: responseJSON.result,
     hasMore: responseJSON.length >= 1,
     // additional: {
     //   page: searchQuery ? 2 : page + 1,

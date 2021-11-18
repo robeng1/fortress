@@ -13,6 +13,7 @@ function SelectableResultSearchModal({
   modalOpen,
   setModalOpen,
   queryURL,
+  buildQuery,
   qk,
   handleResultSelected,
   alreadySelected,
@@ -24,7 +25,12 @@ function SelectableResultSearchModal({
   // const { status, data, error, isFetching }
   const { data } = useQuery(
     [qk, debouncedValue],
-    () => ky(`${queryURL}?q=${debouncedValue}`).json<Result>(),
+    () =>
+      ky
+        .post(`${queryURL}`, {
+          body: JSON.stringify(buildQuery(debouncedValue)),
+        })
+        .json<Result>(),
     {
       enabled: Boolean(debouncedValue),
     },
