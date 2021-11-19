@@ -58,7 +58,7 @@ function AnalyticsCard02() {
   };
 
   return (
-    <div className="flex flex-col col-span-full xl:col-span-4 border border-transparent focus:outline-none rounded shadow bg-white  appearance-none">
+    <div className="flex flex-col col-span-full xl:col-span-4 border border-transparent focus:outline-none rounded shadow-xl bg-white  appearance-none">
       <header className="px-5 py-4 border-b border-gray-100">
         <h2 className="font-semibold text-gray-800">Active Users Right Now</h2>
       </header>

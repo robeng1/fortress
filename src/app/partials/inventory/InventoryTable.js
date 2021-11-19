@@ -44,7 +44,7 @@ const InventoryTable = ({ selectedItems, headings }) => {
   return (
     <>
       {records.length > 0 ? (
-        <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
+        <div className="border border-transparent focus:outline-none rounded shadow-lg bg-white appearance-none relative">
           <InventoryList />
           <div className="hidden md:block">
             <div className="overflow-x-auto">

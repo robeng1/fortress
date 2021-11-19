@@ -10,12 +10,12 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
 
   return (
     <header
-      className={`sticky md:sticky w-full top-0  z-20 ${
-        !searchModalOpen && 'backdrop-blur-md'
+      className={`sticky md:sticky w-full top-0 z-20 max-w-9xl ${
+        !searchModalOpen && 'bg-white'
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between md:justify-between h-16 -mb-px">
+        <div className="flex items-center justify-between md:justify-between h-14  -mb-px">
           {/* <div className="hidden md:block">
             <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
               {location}

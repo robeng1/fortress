@@ -913,39 +913,6 @@ const DiscountForm = ({ handleShow, discountId }) => {
                     </section>
                   </div>
                   <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
-                    <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                        Cover Image
-                      </h2>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        <div className="w-full">
-                          <Dashboard
-                            uppy={uppy}
-                            proudlyDisplayPoweredByUppy={false}
-                            showProgressDetails={true}
-                            width="100%"
-                            height="400px"
-                            theme="light"
-                            note="Images and video only, 2–6 files, up to 1 MB"
-                            metaFields={[
-                              {
-                                id: 'alt',
-                                name: 'Alt',
-                                placeholder: 'describe what the image is about',
-                              },
-                            ]}
-                            plugins={[
-                              'Webcam',
-                              'Instagram',
-                              'GoogleDrive',
-                              'Dropbox',
-                              'Box',
-                              'ImageEditor',
-                            ]}
-                          />
-                        </div>
-                      </div>
-                    </section>
                     <section
                       className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
                         values.incentive_type === 'buy-x-get-y'
@@ -2201,6 +2168,39 @@ const DiscountForm = ({ handleShow, discountId }) => {
                         </div>
                       </section>
                     )}
+                    <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                        Cover Image
+                      </h2>
+                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                        <div className="w-full">
+                          <Dashboard
+                            uppy={uppy}
+                            proudlyDisplayPoweredByUppy={false}
+                            showProgressDetails={true}
+                            width="100%"
+                            height="400px"
+                            theme="light"
+                            note="Images and video only, 2–6 files, up to 1 MB"
+                            metaFields={[
+                              {
+                                id: 'alt',
+                                name: 'Alt',
+                                placeholder: 'describe what the image is about',
+                              },
+                            ]}
+                            plugins={[
+                              'Webcam',
+                              'Instagram',
+                              'GoogleDrive',
+                              'Dropbox',
+                              'Box',
+                              'ImageEditor',
+                            ]}
+                          />
+                        </div>
+                      </div>
+                    </section>
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                       <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                         Search Engine Preview

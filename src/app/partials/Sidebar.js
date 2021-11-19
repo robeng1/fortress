@@ -65,7 +65,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         <div
           id="sidebar"
           ref={sidebar}
-          className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-gray-100 p-4 transition-all duration-200 ease-in-out ${
+          className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-gray-100 p-4 transition-all duration-100 ease-in-out ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-64'
           }`}
         >
@@ -88,6 +88,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
               </svg>
             </button>
+            <NavLink exact to="/" className="block">
+              <h1 className="mx-auto h-12 text-center text-3xl text-purple-800 w-auto">
+                Reoplex
+              </h1>
+            </NavLink>
             {/* Logo */}
             <NavLink exact to="/" className="block">
               {/* <svg
