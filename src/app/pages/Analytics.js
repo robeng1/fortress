@@ -6,8 +6,8 @@ import Datepicker from 'app/components/Datepicker';
 import BottomNav from 'app/components/BottomNav';
 import AnalyticsCard01 from 'app/partials/analytics/AnalyticsCard01';
 import AnalyticsCard02 from 'app/partials/analytics/AnalyticsCard02';
-import AnalyticsCard03 from 'app/partials/analytics/AnalyticsCard03';
-import AnalyticsCard04 from 'app/partials/analytics/AnalyticsCard04';
+// import AnalyticsCard03 from 'app/partials/analytics/AnalyticsCard03';
+// import AnalyticsCard04 from 'app/partials/analytics/AnalyticsCard04';
 import AnalyticsCard05 from 'app/partials/analytics/AnalyticsCard05';
 import AnalyticsCard06 from 'app/partials/analytics/AnalyticsCard06';
 import AnalyticsCard07 from 'app/partials/analytics/AnalyticsCard07';
@@ -51,9 +51,9 @@ function Analytics() {
             {/*  Line chart (Active Users Right Now) */}
             <AnalyticsCard02 />
             {/* Stacked bar chart (Acquisition Channels) */}
-            <AnalyticsCard03 />
+            {/* <AnalyticsCard03 /> */}
             {/* Horizontal bar chart (Audience Overview) */}
-            <AnalyticsCard04 />
+            {/* <AnalyticsCard04 /> */}
             {/* Report card (Top Channels) */}
             <AnalyticsCard05 />
             {/* Report card (Top Pages) */}
