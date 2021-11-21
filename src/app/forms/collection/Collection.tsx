@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import Uppy from '@uppy/core';
@@ -34,6 +34,21 @@ export default function CollectionForm({ handleShow, collectionId }) {
   const isLoading = useSelector(state =>
     checkIfLoading(state, actions.getCollection.type),
   );
+  const [image, setImage] = useState(collection?.image?.image_url);
+  const onUploadComplete = result => {
+    const url = result.successful[0].uploadURL;
+    // const fileName = file.name;
+    setImage(url);
+    // const li = document.createElement('li');
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.target = '_blank';
+    // a.appendChild(document.createTextNode(fileName));
+    // li.appendChild(a);
+
+    // document.querySelector(elForUploadedFiles).appendChild(li);
+  };
+
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'collection',
@@ -65,6 +80,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
         companionUrl: 'https://companion.uppy.io',
       })
       .use(DropTarget, { target: document.body })
+      .on('complete', onUploadComplete)
       .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' });
   }, []);
 
@@ -83,16 +99,23 @@ export default function CollectionForm({ handleShow, collectionId }) {
               title: collection?.title || '',
               description: collection?.description || '',
               type: 'manual',
-              files: [],
             }}
             onSubmit={(values, { setSubmitting }) => {
               if (collection) {
                 dispatch(
-                  actions.updateCollection({ ...collection, ...values }),
+                  actions.updateCollection({
+                    ...collection,
+                    ...values,
+                    image: { image_url: image },
+                  }),
                 );
               } else {
                 dispatch(
-                  actions.createCollection({ ...values, collection_id: '' }),
+                  actions.createCollection({
+                    ...values,
+                    collection_id: '',
+                    image: { image_url: image },
+                  }),
                 );
               }
               setSubmitting(false);

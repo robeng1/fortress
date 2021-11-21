@@ -133,6 +133,11 @@ const ProductSchema = Yup.object().shape({
 });
 
 const ProductForm = ({ handleShow, productId }) => {
+  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedItems, setSelectedItems] = useState<unknown>([]);
+  const [showVariants, setShowVariants] = useState(false);
+  const [images, setImages] = useState([]);
   const { actions } = useProductSlice();
   const dispatch = useDispatch();
   if (productId) {
@@ -204,6 +209,7 @@ const ProductForm = ({ handleShow, productId }) => {
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
+      images: images,
       page_title: d.page_title,
       page_description: d.page_description,
       vendor: d.vendor,
@@ -249,10 +255,24 @@ const ProductForm = ({ handleShow, productId }) => {
     return p;
   };
 
-  // eslint-disable-next-line no-unused-vars
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedItems, setSelectedItems] = useState<unknown>([]);
-  const [showVariants, setShowVariants] = useState(false);
+  const onUploadComplete = result => {
+    console.log('successful files:', result.successful);
+    console.log('failed files:', result.failed);
+    const urls = result.successful.map(f => {
+      return { image_url: f.uploadURL };
+    });
+    // const url = result.successful[0].uploadURL;
+    // const fileName = file.name;
+    setImages(urls);
+    // const li = document.createElement('li');
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.target = '_blank';
+    // a.appendChild(document.createTextNode(fileName));
+    // li.appendChild(a);
+
+    // document.querySelector(elForUploadedFiles).appendChild(li);
+  };
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'product',
@@ -300,13 +320,9 @@ const ProductForm = ({ handleShow, productId }) => {
         companionUrl: 'https://companion.reoplex.com',
       })
       .use(DropTarget, { target: document.body })
+      .on('complete', onUploadComplete)
       .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
   }, [shop.shop_id]);
-
-  uppy.on('complete', result => {
-    console.log('successful files:', result.successful);
-    console.log('failed files:', result.failed);
-  });
 
   React.useEffect(() => {
     return () => uppy.close();

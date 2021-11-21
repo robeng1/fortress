@@ -89,7 +89,7 @@ interface Values {
   start_time: string;
   end_date: string;
   end_time: string;
-  files: string[];
+  cover_photo: string;
   // default 'single'
   code_type: string;
   code: string;
@@ -139,7 +139,7 @@ const initialValues: Values = {
   start_time: '',
   end_date: '',
   end_time: '',
-  files: [],
+  cover_photo: '',
   code_type: 'single',
   code: '',
   code_usage: '',
@@ -149,6 +149,9 @@ const initialValues: Values = {
 
 // TODO: (romeo) refactor duplicated pieces of logic
 const DiscountForm = ({ handleShow, discountId }) => {
+  const shop = useSelector(selectShop);
+  const discount = useSelector(state => selectDiscountById(state, discountId));
+  const [image, setImage] = useState(discount?.cover_photo?.image_url);
   // const handleSelectedResults =
   //   (
   //     setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
@@ -188,8 +191,6 @@ const DiscountForm = ({ handleShow, discountId }) => {
   if (discountId) {
     dispatch(actions.getDiscount(discountId));
   }
-  const shop = useSelector(selectShop);
-  const discount = useSelector(state => selectDiscountById(state, discountId));
   const isLoading = useSelector(state =>
     checkIfLoading(state, actions.getDiscount.type),
   );
@@ -379,6 +380,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
       page_description: d.page_description,
       start: moment(d.start_date + ' ' + d.start_time).toISOString(),
       end: moment(d.end_date + ' ' + d.end_time).toISOString(),
+      cover_photo: { image_url: image },
     };
     disc.max_discount = money.parseDouble(
       d.max_discount,
@@ -641,6 +643,20 @@ const DiscountForm = ({ handleShow, discountId }) => {
     return disc;
   };
 
+  const onUploadComplete = result => {
+    const url = result.successful[0].uploadURL;
+    // const fileName = file.name;
+    setImage(url);
+    // const li = document.createElement('li');
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.target = '_blank';
+    // a.appendChild(document.createTextNode(fileName));
+    // li.appendChild(a);
+
+    // document.querySelector(elForUploadedFiles).appendChild(li);
+  };
+
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'discount',
@@ -672,8 +688,16 @@ const DiscountForm = ({ handleShow, discountId }) => {
         companionUrl: 'https://companion.reoplex.com',
       })
       .use(DropTarget, { target: document.body })
+      .on('complete', onUploadComplete)
       .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
   }, []);
+
+  Object.keys(uppy.state.files).forEach(fileID => {
+    // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
+    uppy.setFileState(fileID, {
+      progress: { uploadComplete: true, uploadStarted: true },
+    });
+  });
 
   React.useEffect(() => {
     return () => uppy.close();
