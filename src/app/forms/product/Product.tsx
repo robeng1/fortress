@@ -7,7 +7,6 @@ import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
-import Webcam from '@uppy/webcam';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import { cartesian } from 'app/utils/cartesian';
@@ -22,18 +21,19 @@ import '@uppy/dashboard/dist/style.css';
 import colourStyles from 'app/forms/product/selectStyles';
 
 import { colourOptions, attributeOptions } from 'app/data/select';
-import GoogleDrive from '@uppy/google-drive';
-import Dropbox from '@uppy/dropbox';
-import Instagram from '@uppy/instagram';
-import Facebook from '@uppy/facebook';
-import OneDrive from '@uppy/onedrive';
+// import GoogleDrive from '@uppy/google-drive';
+// import Webcam from '@uppy/webcam';
+// import Dropbox from '@uppy/dropbox';
+// import Instagram from '@uppy/instagram';
+// import Facebook from '@uppy/facebook';
+// import OneDrive from '@uppy/onedrive';
+// import Box from '@uppy/box';
 import { useProductSlice } from 'app/features/product';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectShop } from 'app/features/settings/selectors';
 import { checkIfLoading } from 'app/features/ui/selectors';
 import { selectProductById } from 'app/features/product/selectors';
 
-import Box from '@uppy/box';
 import DropTarget from '@uppy/drop-target';
 import {
   ProductImage,
@@ -274,55 +274,90 @@ const ProductForm = ({ handleShow, productId }) => {
     // document.querySelector(elForUploadedFiles).appendChild(li);
   };
   const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'product',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 6,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*'],
-      },
-      onBeforeUpload: (files: {
-        [key: string]: UppyFile<Record<string, unknown>>;
-      }): { [key: string]: UppyFile<Record<string, unknown>> } | boolean => {
-        const datename = Date.now();
-        for (var prop in files) {
-          files[
-            prop
-          ].name = `products/${shop.shop_id}/images/${files[prop].name}_${datename}`;
-          files[
-            prop
-          ].meta.name = `products/${shop.shop_id}/images/${files[prop].meta.name}_${datename}`;
-        }
-        return files;
-        // Promise.resolve();
-        // return true;
-      },
-    })
-      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-      .use(GoogleDrive, {
-        companionUrl: 'https://companion.reoplex.com',
+    return (
+      new Uppy({
+        id: 'product',
+        autoProceed: false,
+        restrictions: {
+          maxFileSize: 15 * 1024 * 1024,
+          maxNumberOfFiles: 6,
+          minNumberOfFiles: 1,
+          allowedFileTypes: ['image/*'],
+        },
+        onBeforeUpload: (files: {
+          [key: string]: UppyFile<Record<string, unknown>>;
+        }): { [key: string]: UppyFile<Record<string, unknown>> } | boolean => {
+          const datename = Date.now();
+          for (var prop in files) {
+            files[
+              prop
+            ].name = `products/${shop.shop_id}/images/${files[prop].name}_${datename}`;
+            files[
+              prop
+            ].meta.name = `products/${shop.shop_id}/images/${files[prop].meta.name}_${datename}`;
+          }
+          return files;
+        },
       })
-      .use(Dropbox, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(Box, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(Instagram, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(Facebook, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(OneDrive, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(DropTarget, { target: document.body })
-      .on('complete', onUploadComplete)
-      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
+        // .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+        // .use(GoogleDrive, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Dropbox, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Box, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Instagram, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Facebook, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(OneDrive, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        .use(DropTarget, { target: document.body })
+        .on('complete', onUploadComplete)
+        .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' })
+    );
   }, [shop.shop_id]);
+  const addFiles = files => {
+    files.forEach(e => {
+      uppy.addFile({
+        name: e.name,
+        type: e.type,
+        data: e.blob, // changed blob -> data
+      });
+    });
+
+    Object.keys(uppy.state.files).forEach(fileID => {
+      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
+      uppy.setFileState(fileID, {
+        progress: { uploadComplete: true, uploadStarted: true },
+      });
+    });
+  };
+
+  React.useEffect(() => {
+    product &&
+      product.images?.forEach(img => {
+        img.image?.image_url &&
+          fetch(img.image?.image_url)
+            .then(response => response.blob()) // returns a Blob
+            .then(blob => {
+              addFiles([
+                {
+                  name: img?.caption,
+                  type: blob.type,
+                  data: blob, // changed blob -> data
+                },
+              ]);
+            });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product]);
 
   React.useEffect(() => {
     return () => uppy.close();
@@ -764,14 +799,14 @@ const ProductForm = ({ handleShow, productId }) => {
                             placeholder: 'describe what the image is about',
                           },
                         ]}
-                        plugins={[
-                          'Webcam',
-                          'Instagram',
-                          'GoogleDrive',
-                          'Dropbox',
-                          'Box',
-                          'ImageEditor',
-                        ]}
+                        // plugins={[
+                        //   'Webcam',
+                        //   'Instagram',
+                        //   'GoogleDrive',
+                        //   'Dropbox',
+                        //   'Box',
+                        //   'ImageEditor',
+                        // ]}
                       />
                     </div>
                   </div>

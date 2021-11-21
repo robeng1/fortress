@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
-import Webcam from '@uppy/webcam';
+
 import '@uppy/status-bar/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-import GoogleDrive from '@uppy/google-drive';
-import Dropbox from '@uppy/dropbox';
-import Instagram from '@uppy/instagram';
-import Facebook from '@uppy/facebook';
-import OneDrive from '@uppy/onedrive';
+// import GoogleDrive from '@uppy/google-drive';
+// import Dropbox from '@uppy/dropbox';
+// import Instagram from '@uppy/instagram';
+// import Facebook from '@uppy/facebook';
+// import OneDrive from '@uppy/onedrive';
+// import Box from '@uppy/box';
+// import Webcam from '@uppy/webcam';
 import { Loader } from 'app/components/Loader';
 import { useCollectionSlice } from 'app/features/collection';
 import { selectCollectionById } from 'app/features/collection/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIfLoading } from 'app/features/ui/selectors';
 
-import Box from '@uppy/box';
 import DropTarget from '@uppy/drop-target';
 
 export default function CollectionForm({ handleShow, collectionId }) {
@@ -50,41 +51,79 @@ export default function CollectionForm({ handleShow, collectionId }) {
   };
 
   const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'collection',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 1,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*', 'video/*'],
-      },
-    })
-      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-      .use(GoogleDrive, {
-        companionUrl: 'https://companion.uppy.io',
+    return (
+      new Uppy({
+        id: 'collection',
+        autoProceed: false,
+        restrictions: {
+          maxFileSize: 15 * 1024 * 1024,
+          maxNumberOfFiles: 1,
+          minNumberOfFiles: 1,
+          allowedFileTypes: ['image/*', 'video/*'],
+        },
       })
-      .use(Dropbox, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(Box, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(Instagram, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(Facebook, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(OneDrive, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(DropTarget, { target: document.body })
-      .on('complete', onUploadComplete)
-      .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' });
+        // .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+        // .use(GoogleDrive, {
+        //   companionUrl: 'https://companion.uppy.io',
+        // })
+        // .use(Dropbox, {
+        //   companionUrl: 'https://companion.uppy.io',
+        // })
+        // .use(Box, {
+        //   companionUrl: 'https://companion.uppy.io',
+        // })
+        // .use(Instagram, {
+        //   companionUrl: 'https://companion.uppy.io',
+        // })
+        // .use(Facebook, {
+        //   companionUrl: 'https://companion.uppy.io',
+        // })
+        // .use(OneDrive, {
+        //   companionUrl: 'https://companion.uppy.io',
+        // })
+        .use(DropTarget, { target: document.body })
+        .on('complete', onUploadComplete)
+        .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' })
+    );
   }, []);
 
-  React.useEffect(() => {
+  const addFiles = files => {
+    files.forEach(e => {
+      uppy.addFile({
+        name: e.name,
+        type: e.type,
+        data: e.blob, // changed blob -> data
+      });
+    });
+
+    Object.keys(uppy.state.files).forEach(fileID => {
+      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
+      uppy.setFileState(fileID, {
+        progress: { uploadComplete: true, uploadStarted: true },
+      });
+    });
+  };
+
+  useEffect(() => {
+    // assuming the image lives on a server somewhere
+    collection?.image?.image_url &&
+      collection?.image?.image_url !== '' &&
+      collection?.image?.image_url !== undefined &&
+      fetch(collection?.image?.image_url)
+        .then(response => response.blob()) // returns a Blob
+        .then(blob => {
+          addFiles([
+            {
+              name: collection?.handle,
+              type: blob.type,
+              data: blob, // changed blob -> data
+            },
+          ]);
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collection]);
+
+  useEffect(() => {
     return () => uppy.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -224,14 +263,14 @@ export default function CollectionForm({ handleShow, collectionId }) {
                               },
                             ]}
                             // browserBackButtonClose={false}
-                            plugins={[
-                              'Webcam',
-                              'Instagram',
-                              'GoogleDrive',
-                              'Dropbox',
-                              'Box',
-                              'ImageEditor',
-                            ]}
+                            // plugins={[
+                            //   'Webcam',
+                            //   'Instagram',
+                            //   'GoogleDrive',
+                            //   'Dropbox',
+                            //   'Box',
+                            //   'ImageEditor',
+                            // ]}
                           />
                         </div>
                       </div>

@@ -7,24 +7,24 @@ import ReactQuill from 'react-quill';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
-import Webcam from '@uppy/webcam';
 import '@uppy/status-bar/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-import GoogleDrive from '@uppy/google-drive';
-import Dropbox from '@uppy/dropbox';
-import Instagram from '@uppy/instagram';
-import Facebook from '@uppy/facebook';
-import OneDrive from '@uppy/onedrive';
+// import Webcam from '@uppy/webcam';
+// import GoogleDrive from '@uppy/google-drive';
+// import Dropbox from '@uppy/dropbox';
+// import Instagram from '@uppy/instagram';
+// import Facebook from '@uppy/facebook';
+// import OneDrive from '@uppy/onedrive';
+// import Box from '@uppy/box';
 import { Loader } from 'app/components/Loader';
 import { useDiscountSlice } from 'app/features/discount';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkIfLoading } from 'app/features/ui/selectors';
 import { selectDiscountById } from 'app/features/discount/selectors';
-import Box from '@uppy/box';
 import DropTarget from '@uppy/drop-target';
 import { DiscountType } from 'app/models/discount/discount-type';
 import { ConditionType } from 'app/models/discount/condition-type';
@@ -658,46 +658,77 @@ const DiscountForm = ({ handleShow, discountId }) => {
   };
 
   const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'discount',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 1,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*', 'video/*'],
-      },
-    })
-      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-      .use(GoogleDrive, {
-        companionUrl: 'https://companion.reoplex.com',
+    return (
+      new Uppy({
+        id: 'discount',
+        autoProceed: false,
+        restrictions: {
+          maxFileSize: 15 * 1024 * 1024,
+          maxNumberOfFiles: 1,
+          minNumberOfFiles: 1,
+          allowedFileTypes: ['image/*', 'video/*'],
+        },
       })
-      .use(Dropbox, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(Box, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(Instagram, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(Facebook, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(OneDrive, {
-        companionUrl: 'https://companion.reoplex.com',
-      })
-      .use(DropTarget, { target: document.body })
-      .on('complete', onUploadComplete)
-      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
+        // .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+        // .use(GoogleDrive, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Dropbox, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Box, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Instagram, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(Facebook, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        // .use(OneDrive, {
+        //   companionUrl: 'https://companion.reoplex.com',
+        // })
+        .use(DropTarget, { target: document.body })
+        .on('complete', onUploadComplete)
+        .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' })
+    );
   }, []);
 
-  Object.keys(uppy.state.files).forEach(fileID => {
-    // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
-    uppy.setFileState(fileID, {
-      progress: { uploadComplete: true, uploadStarted: true },
+  const addFiles = files => {
+    files.forEach(e => {
+      uppy.addFile({
+        name: e.name,
+        type: e.type,
+        data: e.blob, // changed blob -> data
+      });
     });
-  });
+
+    Object.keys(uppy.state.files).forEach(fileID => {
+      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
+      uppy.setFileState(fileID, {
+        progress: { uploadComplete: true, uploadStarted: true },
+      });
+    });
+  };
+
+  React.useEffect(() => {
+    // assuming the image lives on a server somewhere
+    discount?.cover_photo?.image_url &&
+      discount?.cover_photo?.image_url !== '' &&
+      discount?.cover_photo?.image_url !== undefined &&
+      fetch(discount?.cover_photo?.image_url)
+        .then(response => response.blob()) // returns a Blob
+        .then(blob => {
+          addFiles([
+            {
+              name: discount?.slug,
+              type: blob.type,
+              data: blob, // changed blob -> data
+            },
+          ]);
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discount]);
 
   React.useEffect(() => {
     return () => uppy.close();
@@ -2213,14 +2244,14 @@ const DiscountForm = ({ handleShow, discountId }) => {
                                 placeholder: 'describe what the image is about',
                               },
                             ]}
-                            plugins={[
-                              'Webcam',
-                              'Instagram',
-                              'GoogleDrive',
-                              'Dropbox',
-                              'Box',
-                              'ImageEditor',
-                            ]}
+                            // plugins={[
+                            //   'Webcam',
+                            //   'Instagram',
+                            //   'GoogleDrive',
+                            //   'Dropbox',
+                            //   'Box',
+                            //   'ImageEditor',
+                            // ]}
                           />
                         </div>
                       </div>
