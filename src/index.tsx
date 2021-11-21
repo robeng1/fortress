@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { throttle } from 'lodash';
+import { ToastContainer } from 'react-toastify';
 
 import 'css/style.scss';
 import 'tippy.js/dist/tippy.css';
@@ -59,6 +60,7 @@ ReactDOM.render(
             <React.Suspense fallback={<Loader />}>
               <QueryClientProvider client={queryClient}>
                 <App />
+                <ToastContainer />
               </QueryClientProvider>
             </React.Suspense>
           </Router>

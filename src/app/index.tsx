@@ -10,6 +10,7 @@ import React, { useEffect, lazy } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { focusHandling } from 'cruip-js-toolkit';
 import './charts/ChartjsConfig';

@@ -1,5 +1,5 @@
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
-import { request } from 'utils/request';
+import { request, ResponseError } from 'utils/request';
 import { ProfileType, RegisterLogInType } from 'app/models/user/profile';
 import { authnActions as actions } from '.';
 import { uiActions } from 'app/features/ui';
@@ -9,6 +9,8 @@ import { theKeepURL } from 'app/endpoints/urls';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 export function* register(action: PayloadAction<RegisterLogInType>) {
+  yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const requestURL = `${theKeepURL}/auth/register`;
   try {
     const session: {} = yield call(request, requestURL, {
@@ -18,9 +20,14 @@ export function* register(action: PayloadAction<RegisterLogInType>) {
     if (session) {
       yield put(actions.sessionLoaded(session));
       yield put(actions.setIsAuthenticated(true));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({ action, error: (err as ResponseError).message }),
+    );
+  } finally {
+    yield put(uiActions.stopAction(action));
   }
 }
 export function* watchSignup() {
@@ -28,19 +35,23 @@ export function* watchSignup() {
 }
 
 export function* login(action: PayloadAction<RegisterLogInType>) {
-  // const requestURL = `${theKeepURL}/auth/login`;
+  const requestURL = `${theKeepURL}/auth/login`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
-    // const session: {} = yield call(request, requestURL, {
-    //   method: 'POST',
-    //   body: JSON.stringify({ ...action.payload }),
-    // });
-    // if (session) {
-    //   yield put(actions.sessionLoaded(session));
-    //   yield put(actions.setIsAuthenticated(true));
-    // }
+    const session: {} = yield call(request, requestURL, {
+      method: 'POST',
+      body: JSON.stringify({ ...action.payload }),
+    });
+    if (session) {
+      yield put(actions.sessionLoaded(session));
+      yield put(actions.setIsAuthenticated(true));
+      yield put(uiActions.actionSucceeded(action));
+    }
   } catch (err) {
-    yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({ action, error: (err as ResponseError).message }),
+    );
   } finally {
     yield put(actions.setIsAuthenticated(true));
     yield put(uiActions.stopAction(action));
@@ -65,17 +76,23 @@ export function* watchIsAuthenticated() {
 }
 
 export function* logout() {
-  // const requestURL = `${theKeepURL}/auth/logout`;
+  const requestURL = `${theKeepURL}/auth/logout`;
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // const _ = yield call(request, requestURL);
+    const _ = yield call(request, requestURL);
     yield put(actions.setIsAuthenticated(false));
     yield put(actions.profileLoaded({}));
     yield put(actions.sessionLoaded({}));
     yield put(actions.setUser({}));
+    yield put(uiActions.actionSucceeded(actions.logout()));
   } catch (err) {
     yield put(actions.setIsAuthenticated(false));
-    yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action: actions.logout(),
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(actions.setIsAuthenticated(false));
   }
@@ -84,7 +101,7 @@ export function* watchLogout() {
   yield takeLatest(actions.logout.type, logout);
 }
 
-export function* getProfile() {
+export function* getProfile(action: PayloadAction<string>) {
   const userId: string = yield select(selectUserId);
   if (userId.length === 0) {
     yield put(actions.userError(UserErrorType.USERID_EMPTY));
@@ -95,9 +112,15 @@ export function* getProfile() {
     const profile: ProfileType = yield call(request, requestURL);
     if (profile) {
       yield put(actions.profileLoaded(profile));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.userError(UserErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   }
 }
 

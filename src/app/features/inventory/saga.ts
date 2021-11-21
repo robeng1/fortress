@@ -55,6 +55,7 @@ export function* watchLoadLocations() {
 
 export function* createLocation(action: PayloadAction<LocationType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -69,9 +70,15 @@ export function* createLocation(action: PayloadAction<LocationType>) {
 
     if (location) {
       yield put(actions.locationsLoaded([location]));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -83,6 +90,7 @@ export function* watchCreateLocation() {
 
 export function* updateLocation(action: PayloadAction<LocationType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -98,9 +106,15 @@ export function* updateLocation(action: PayloadAction<LocationType>) {
 
     if (location) {
       yield put(actions.locationsLoaded([location]));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -126,6 +140,7 @@ export function* getRecords() {
       inventoryList.stock_records.length > 0
     ) {
       yield put(actions.recordsLoaded(inventoryList));
+      yield put(uiActions.actionSucceeded(actions.loadRecords()));
     } else {
       yield put(
         actions.inventoryError(InventoryErrorType.SHOP_HAS_NO_INVENTORY),
@@ -146,6 +161,7 @@ export function* watchLoadInventory() {
 
 export function* getViews() {
   yield put(uiActions.startAction(actions.loadViews()));
+  yield put(uiActions.clearError(actions.loadViews()));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -164,17 +180,19 @@ export function* getViews() {
     });
     if (views && views.length > 0) {
       yield put(actions.viewsLoaded(views));
+      yield put(uiActions.actionSucceeded(actions.loadViews()));
     } else {
       yield put(
         actions.inventoryError(InventoryErrorType.SHOP_HAS_NO_INVENTORY),
       );
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.inventoryError(InventoryErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action: actions.loadViews(),
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(actions.loadViews()));
   }
@@ -193,6 +211,7 @@ export function* getRecord(
 ) {
   const { productId, variantId, centreId } = action.payload;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -203,16 +222,18 @@ export function* getRecord(
     const inventory: InventoryType = yield call(request, requestURL);
     if (inventory) {
       yield put(actions.setRecord(inventory));
+      yield put(uiActions.actionSucceeded(action));
     } else {
       // this will be quite weird
       yield put(actions.inventoryError(InventoryErrorType.SHOP_NOT_FOUND));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.inventoryError(InventoryErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -224,6 +245,7 @@ export function* watchGetRecord() {
 
 export function* createInventory(action: PayloadAction<InventoryType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -239,9 +261,15 @@ export function* createInventory(action: PayloadAction<InventoryType>) {
 
     if (inventory) {
       yield put(actions.setRecord(inventory));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -253,6 +281,7 @@ export function* watchCreateInventory() {
 
 export function* updateInventory(action: PayloadAction<InventoryType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
@@ -268,9 +297,15 @@ export function* updateInventory(action: PayloadAction<InventoryType>) {
 
     if (inventory) {
       yield put(actions.setRecord(inventory));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.inventoryError(InventoryErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }

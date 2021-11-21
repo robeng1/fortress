@@ -20,6 +20,7 @@ import { CollectionErrorType } from './types';
 
 export function* getCollections() {
   yield put(uiActions.startAction(actions.loadCollections()));
+  yield put(uiActions.clearError(actions.loadCollections()));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
@@ -35,17 +36,19 @@ export function* getCollections() {
       collectionList.collections.length > 0
     ) {
       yield put(actions.collectionsLoaded(collectionList));
+      yield put(uiActions.actionSucceeded(actions.loadCollections()));
     } else {
       yield put(
         actions.collectionError(CollectionErrorType.SHOP_HAS_NO_COLLECTION),
       );
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action: actions.loadCollections(),
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(actions.loadCollections()));
   }
@@ -58,6 +61,7 @@ export function* watchLoadCollections() {
 export function* getCollection(action: PayloadAction<string>) {
   const collectionId = action.payload;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
@@ -68,16 +72,18 @@ export function* getCollection(action: PayloadAction<string>) {
     const collection: CollectionType = yield call(request, requestURL);
     if (collection) {
       yield put(actions.setCollection(collection));
+      yield put(uiActions.actionSucceeded(action));
     } else {
       // this will be quite weird
       yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -89,6 +95,7 @@ export function* watchGetCollection() {
 
 export function* getViews() {
   yield put(uiActions.startAction(actions.loadViews()));
+  yield put(uiActions.clearError(actions.loadViews()));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.collectionError(CollectionErrorType.SHOPID_EMPTY));
@@ -107,17 +114,19 @@ export function* getViews() {
     });
     if (views && views.length > 0) {
       yield put(actions.viewsLoaded(views));
+      yield put(uiActions.actionSucceeded(actions.loadViews()));
     } else {
       yield put(
         actions.collectionError(CollectionErrorType.SHOP_HAS_NO_COLLECTION),
       );
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action: actions.loadViews(),
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(actions.loadViews()));
   }
@@ -135,6 +144,7 @@ export function* createCollection(action: PayloadAction<CollectionType>) {
   }
   const requestURL = `${fortressURL}/shops/${shopID}/collections`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     const collection: CollectionType = yield call(request, requestURL, {
       method: 'POST',
@@ -143,9 +153,15 @@ export function* createCollection(action: PayloadAction<CollectionType>) {
 
     if (collection) {
       yield put(actions.setCollection(collection));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -164,6 +180,7 @@ export function* updateCollection(action: PayloadAction<CollectionType>) {
   const body = action?.payload;
   const requestURL = `${fortressURL}/shops/${shopID}/collections/${body.collection_id}`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     const collection: CollectionType = yield call(request, requestURL, {
       method: 'PATCH',
@@ -172,9 +189,15 @@ export function* updateCollection(action: PayloadAction<CollectionType>) {
 
     if (collection) {
       yield put(actions.setCollection(collection));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -193,21 +216,24 @@ export function* getCollectionProducts(action: PayloadAction<string>) {
   const collectionId = action?.payload;
   const requestURL = `${fortressURL}/shops/${shopID}/collections/${collectionId}/products`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     const products: CollectionProductType[] = yield call(request, requestURL);
     if (products && products.length > 0) {
       yield put(actions.productsLoaded(products));
+      yield put(uiActions.actionSucceeded(action));
     } else {
       yield put(
         actions.collectionError(CollectionErrorType.COLLECTION_HAS_NO_PRODUCTS),
       );
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.collectionError(CollectionErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.collectionError(CollectionErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }

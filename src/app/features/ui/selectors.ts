@@ -39,5 +39,5 @@ export const checkIfRefreshing = (state: RootState, actionToCheck: string) =>
 
 export const checkIfHasError = (state: RootState, actionToCheck: string) =>
   state.ui?.loader.errors.some(
-    (action: Err) => actionToCheck === action.action.type,
+    (action: Err) => actionToCheck === action?.action?.type,
   );

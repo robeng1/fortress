@@ -19,6 +19,7 @@ import { DiscountErrorType } from './types';
 
 export function* getDiscounts() {
   yield put(uiActions.startAction(actions.loadDiscounts()));
+  yield put(uiActions.clearError(actions.loadDiscounts()));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.discountError(DiscountErrorType.SHOPID_EMPTY));
@@ -30,15 +31,17 @@ export function* getDiscounts() {
     const offerList: DiscountListType = yield call(request, requestURL);
     if (offerList && offerList.discounts && offerList.discounts.length > 0) {
       yield put(actions.discountsLoaded(offerList));
+      yield put(uiActions.actionSucceeded(actions.loadDiscounts()));
     } else {
       yield put(actions.discountError(DiscountErrorType.SHOP_HAS_NO_OFFERS));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.discountError(DiscountErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action: actions.loadDiscounts(),
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.startAction(actions.loadDiscounts()));
   }
@@ -51,6 +54,7 @@ export function* watchLoadDiscounts() {
 export function* getDiscount(action: PayloadAction<string>) {
   const discountId = action.payload;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.discountError(DiscountErrorType.SHOPID_EMPTY));
@@ -61,16 +65,18 @@ export function* getDiscount(action: PayloadAction<string>) {
     const discount: DiscountType = yield call(request, requestURL);
     if (discount) {
       yield put(actions.setDiscount(discount));
+      yield put(uiActions.actionSucceeded(action));
     } else {
       // this will be quite weird
       yield put(actions.discountError(DiscountErrorType.SHOP_NOT_FOUND));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.discountError(DiscountErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -82,6 +88,7 @@ export function* watchGetDiscount() {
 
 export function* getViews() {
   yield put(uiActions.startAction(actions.loadViews()));
+  yield put(uiActions.clearError(actions.loadViews()));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.discountError(DiscountErrorType.SHOPID_EMPTY));
@@ -100,15 +107,17 @@ export function* getViews() {
     });
     if (views && views.length > 0) {
       yield put(actions.viewsLoaded(views));
+      yield put(uiActions.actionSucceeded(actions.loadViews()));
     } else {
       yield put(actions.discountError(DiscountErrorType.SHOP_HAS_NO_OFFERS));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.discountError(DiscountErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action: actions.loadViews(),
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(actions.loadViews()));
   }
@@ -120,6 +129,7 @@ export function* watchLoadViews() {
 
 export function* createDiscount(action: PayloadAction<DiscountType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.discountError(DiscountErrorType.SHOPID_EMPTY));
@@ -134,9 +144,15 @@ export function* createDiscount(action: PayloadAction<DiscountType>) {
 
     if (offer) {
       yield put(actions.setDiscount(offer));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -148,6 +164,7 @@ export function* watchCreateDiscount() {
 
 export function* updateDiscount(action: PayloadAction<DiscountType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.discountError(DiscountErrorType.SHOPID_EMPTY));
@@ -163,9 +180,15 @@ export function* updateDiscount(action: PayloadAction<DiscountType>) {
 
     if (offer) {
       yield put(actions.setDiscount(offer));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.discountError(DiscountErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }

@@ -62,8 +62,14 @@ export const slice = createSlice({
       const trackedAction = action.payload;
       state.loader.errors = state.loader.errors.filter(
         act =>
-          act.action.type !== trackedAction.type &&
-          !isEqual(act.action.payload, trackedAction.payload),
+          act?.action?.type !== trackedAction.type &&
+          !isEqual(act?.action?.payload, trackedAction.payload),
+      );
+    },
+    clearError: (state, action: PayloadAction<PayloadAction<any>>) => {
+      const trackedAction = action.payload;
+      state.loader.errors = state.loader.errors.filter(
+        act => act?.action?.type !== trackedAction.type,
       );
     },
   },

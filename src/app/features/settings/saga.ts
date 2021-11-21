@@ -10,7 +10,7 @@ import {
   takeLatest,
   throttle,
 } from 'redux-saga/effects';
-import { request } from 'utils/request';
+import { request, ResponseError } from 'utils/request';
 import { settingsActions as actions } from '.';
 import { selectUserId } from './selectors';
 import { SettingsErrorType } from './type';
@@ -20,12 +20,18 @@ import { uiActions } from '../ui';
 export function* ask(action: PayloadAction<string>) {
   const requestURL = `${domainURL}/ask?domain=${action.payload}`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _ = yield call(request, requestURL);
     yield put(actions.settingsError(SettingsErrorType.SHOP_NAME_ALREADY_TAKEN));
   } catch (err) {
-    yield put(actions.clearError());
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -39,6 +45,7 @@ export function* createShop(action: PayloadAction<ShopType>) {
   const body = action.payload;
   const requestURL = `${fortressURL}/shops/`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     const shop: ShopType = yield call(request, requestURL, {
       method: 'POST',
@@ -47,9 +54,15 @@ export function* createShop(action: PayloadAction<ShopType>) {
 
     if (shop) {
       yield put(actions.setShop(shop));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -63,6 +76,7 @@ export function* getStarted(action: PayloadAction<StartType>) {
   const body = action.payload;
   const requestURL = `${fortressURL}/shops/get-started`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     const { shop, session } = yield call(request, requestURL, {
       method: 'POST',
@@ -75,8 +89,14 @@ export function* getStarted(action: PayloadAction<StartType>) {
     if (shop) {
       yield put(actions.setShop(shop));
     }
+    yield put(uiActions.actionSucceeded(action));
   } catch (err) {
-    yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -94,6 +114,7 @@ export function* updateShop(action: PayloadAction<ShopType>) {
   }
   const requestURL = `${fortressURL}/shops/${body.shop_id}`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     const shop: ShopType = yield call(request, requestURL, {
       method: 'PATCH',
@@ -102,9 +123,15 @@ export function* updateShop(action: PayloadAction<ShopType>) {
 
     if (shop) {
       yield put(actions.setShop(shop));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -122,13 +149,20 @@ export function* getShop(action: PayloadAction<string>) {
   }
   const requestURL = `${fortressURL}/shops/${shopId}`;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   try {
     const shop: ShopType = yield call(request, requestURL);
     if (shop) {
       yield put(actions.setShop(shop));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.settingsError(SettingsErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }

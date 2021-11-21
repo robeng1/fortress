@@ -29,6 +29,7 @@ export function* getProducts() {
     const productList: ProductListType = yield call(request, requestURL);
     if (productList && productList.product && productList.product.length > 0) {
       yield put(actions.productsLoaded(productList));
+      yield put(uiActions.actionSucceeded(actions.loadProducts()));
     } else {
       yield put(actions.productError(ProductErrorType.SHOP_HAS_NO_PRODUCTS));
     }
@@ -47,6 +48,7 @@ export function* watchLoadProducts() {
 
 export function* getViews() {
   yield put(uiActions.startAction(actions.loadViews()));
+  yield put(uiActions.clearError(actions.loadViews()));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -65,15 +67,17 @@ export function* getViews() {
     });
     if (views && views.length > 0) {
       yield put(actions.viewsLoaded(views));
+      yield put(uiActions.actionSucceeded(actions.loadViews()));
     } else {
       yield put(actions.productError(ProductErrorType.SHOP_HAS_NO_PRODUCTS));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.productError(ProductErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action: actions.loadViews(),
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(actions.loadViews()));
   }
@@ -86,6 +90,7 @@ export function* watchLoadViews() {
 export function* getProduct(action: PayloadAction<string>) {
   const productId = action.payload;
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopId: string = yield select(selectShopId);
   if (shopId.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -96,16 +101,18 @@ export function* getProduct(action: PayloadAction<string>) {
     const product: ProductType = yield call(request, requestURL);
     if (product) {
       yield put(actions.setProduct(product));
+      yield put(uiActions.actionSucceeded(action));
     } else {
       // this will be quite weird
       yield put(actions.productError(ProductErrorType.SHOP_NOT_FOUND));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.productError(ProductErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -117,6 +124,7 @@ export function* watchGetProduct() {
 
 export function* getChildren(action: PayloadAction<string>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -128,15 +136,17 @@ export function* getChildren(action: PayloadAction<string>) {
     const variants: ProductListType = yield call(request, requestURL);
     if (variants && variants.product && variants.product.length > 0) {
       yield put(actions.variantsLoaded(variants));
+      yield put(uiActions.actionSucceeded(action));
     } else {
       yield put(actions.productError(ProductErrorType.SHOP_HAS_NO_PRODUCTS));
     }
   } catch (err) {
-    if ((err as ResponseError).response?.status === 404) {
-      yield put(actions.productError(ProductErrorType.SHOP_NOT_FOUND));
-    } else {
-      yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
-    }
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -148,6 +158,7 @@ export function* watchLoadChildren() {
 
 export function* createProduct(action: PayloadAction<ProductType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -162,9 +173,15 @@ export function* createProduct(action: PayloadAction<ProductType>) {
 
     if (product) {
       yield put(actions.setProduct(product));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -175,6 +192,7 @@ export function* watchCreateProduct() {
 }
 export function* updateProduct(action: PayloadAction<ProductType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const shopID: string = yield select(selectShopId);
   if (shopID.length === 0) {
     yield put(actions.productError(ProductErrorType.SHOPID_EMPTY));
@@ -190,9 +208,15 @@ export function* updateProduct(action: PayloadAction<ProductType>) {
 
     if (product) {
       yield put(actions.setProduct(product));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.productError(ProductErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }

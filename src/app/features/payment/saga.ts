@@ -3,7 +3,7 @@ import { paymentURL } from 'app/endpoints/urls';
 import { Account } from 'app/models/payment/account-type';
 import { TransferType } from 'app/models/payment/transfer';
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
-import { request } from 'utils/request';
+import { request, ResponseError } from 'utils/request';
 import { paymentActions as actions } from '.';
 import { uiActions } from '../ui';
 import { selectUserID } from './selectors';
@@ -11,6 +11,7 @@ import { PaymentErrorType } from './types';
 
 export function* createAccount(action: PayloadAction<Account>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const userID: string = yield select(selectUserID);
   if (userID.length === 0) {
     yield put(actions.paymentError(PaymentErrorType.USERID_EMPTY));
@@ -25,9 +26,15 @@ export function* createAccount(action: PayloadAction<Account>) {
 
     if (account) {
       yield put(actions.setAccount(account));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.paymentError(PaymentErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -39,6 +46,7 @@ export function* watchCreateAccount() {
 
 export function* updateAccount(action: PayloadAction<Account>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const userID: string = yield select(selectUserID);
   if (userID.length === 0) {
     yield put(actions.paymentError(PaymentErrorType.USERID_EMPTY));
@@ -55,9 +63,15 @@ export function* updateAccount(action: PayloadAction<Account>) {
 
     if (account) {
       yield put(actions.setAccount(account));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.paymentError(PaymentErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -69,6 +83,7 @@ export function* watchUpdateAccount() {
 
 export function* getAccount(action: PayloadAction<string>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const userID: string = yield select(selectUserID);
   if (userID.length === 0) {
     yield put(actions.paymentError(PaymentErrorType.USERID_EMPTY));
@@ -80,9 +95,15 @@ export function* getAccount(action: PayloadAction<string>) {
     const account: Account = yield call(request, requestURL);
     if (account) {
       yield put(actions.setAccount(account));
+      yield put(uiActions.actionSucceeded(action));
     }
   } catch (err) {
-    yield put(actions.paymentError(PaymentErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
@@ -94,6 +115,7 @@ export function* watchGetAccount() {
 
 export function* withdraw(action: PayloadAction<TransferType>) {
   yield put(uiActions.startAction(action));
+  yield put(uiActions.clearError(action));
   const userID: string = yield select(selectUserID);
   if (userID.length === 0) {
     yield put(actions.paymentError(PaymentErrorType.USERID_EMPTY));
@@ -111,7 +133,12 @@ export function* withdraw(action: PayloadAction<TransferType>) {
       // the withrawal succeeded, do sth with the it
     }
   } catch (err) {
-    yield put(actions.paymentError(PaymentErrorType.RESPONSE_ERROR));
+    yield put(
+      uiActions.actionFailed({
+        action,
+        error: (err as ResponseError).message,
+      }),
+    );
   } finally {
     yield put(uiActions.stopAction(action));
   }
