@@ -27,13 +27,16 @@ function parseJSON(response: Response) {
  *
  * @return {object|undefined} Returns either the response, or throws an error
  */
-function checkStatus(response: Response) {
+async function checkStatus(response: Response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
   const error = new ResponseError(response);
   error.response = response;
-  throw error;
+  const text = await response.text();
+  const parsedText = JSON.parse(text);
+  const parts = (parsedText['error']['message'] as string).split('=');
+  throw new Error(parts[parts.length - 1]);
 }
 
 /**
@@ -49,6 +52,6 @@ export async function request(
   options?: RequestInit,
 ): Promise<{} | { err: ResponseError }> {
   const fetchResponse = await fetch(url, options);
-  const response = checkStatus(fetchResponse);
+  const response = await checkStatus(fetchResponse);
   return parseJSON(response);
 }

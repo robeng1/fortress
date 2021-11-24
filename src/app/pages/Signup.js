@@ -5,16 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { request } from 'utils/request';
 import { domainURL } from 'app/endpoints/urls';
-import { useAuthnSlice } from 'app/features/authn';
 import { checkIfLoading } from 'app/features/ui/selectors';
 import { selectIsAuthenticated } from 'app/features/authn/selectors';
 
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
+import { useSettingSlice } from 'app/features/settings';
 function Signup() {
-  const { actions } = useAuthnSlice();
+  const { actions } = useSettingSlice();
   const isLoading = useSelector(state =>
-    checkIfLoading(state, actions.signup.type),
+    checkIfLoading(state, actions.getStarted.type),
   );
   const history = useHistory();
   const { state = {} } = history.location;
@@ -22,7 +22,7 @@ function Signup() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch = useDispatch();
   const handleSubmit = values => {
-    dispatch(actions.signup({ ...values }));
+    dispatch(actions.getStarted({ ...values }));
   };
   const slugit = txt =>
     slugify(txt, {

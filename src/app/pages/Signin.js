@@ -6,17 +6,27 @@ import { useAuthnSlice } from 'app/features/authn';
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
 
-import { checkIfLoading } from 'app/features/ui/selectors';
+import {
+  checkIfHasError,
+  checkIfLoading,
+  selectError,
+} from 'app/features/ui/selectors';
 import { selectIsAuthenticated } from 'app/features/authn/selectors';
+import { useUISlice } from 'app/features/ui';
 
 function Signin() {
   const { actions } = useAuthnSlice();
+  const { actions: uiActions } = useUISlice();
   const history = useHistory();
   const { state = {} } = history.location;
   const { from } = state;
   const isLoading = useSelector(state =>
     checkIfLoading(state, actions.login.type),
   );
+  const hasError = useSelector(state =>
+    checkIfHasError(state, actions.login.type),
+  );
+  const err = useSelector(state => selectError(state, actions.login.type));
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -27,9 +37,11 @@ function Signin() {
   };
 
   useEffect(() => {
+    dispatch(uiActions.clearError(actions.login({ identifier, password })));
     if (isAuthenticated) {
       history.push(from || '/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, history, from]);
 
   return (
@@ -80,6 +92,7 @@ function Signin() {
                     />
                   </div>
                 </div>
+                {hasError && <span>{err.error}</span>}
                 <div className="flex items-center justify-between mt-6">
                   <div className="mr-1">
                     <Link

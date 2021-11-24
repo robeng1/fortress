@@ -50,10 +50,10 @@ export function* login(action: PayloadAction<RegisterLogInType>) {
     }
   } catch (err) {
     yield put(
-      uiActions.actionFailed({ action, error: (err as ResponseError).message }),
+      uiActions.actionFailed({ action, error: (err as Error).message }),
     );
   } finally {
-    yield put(actions.setIsAuthenticated(true));
+    // yield put(actions.setIsAuthenticated(true));
     yield put(uiActions.stopAction(action));
   }
 }

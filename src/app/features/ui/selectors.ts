@@ -41,3 +41,8 @@ export const checkIfHasError = (state: RootState, actionToCheck: string) =>
   state.ui?.loader.errors.some(
     (action: Err) => actionToCheck === action?.action?.type,
   );
+
+export const selectError = (state: RootState, actionToCheck: string) =>
+  state.ui?.loader.errors.find(
+    (action: Err) => actionToCheck === action?.action?.type,
+  );
