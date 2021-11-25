@@ -36,7 +36,11 @@ async function checkStatus(response: Response) {
   const text = await response.text();
   const parsedText = JSON.parse(text);
   const parts = (parsedText['error']['message'] as string).split('=');
-  throw new Error(parts[parts.length - 1]);
+  if (parts.length > 0) {
+    throw new Error(parts[parts.length - 1]);
+  } else {
+    throw new Error(text);
+  }
 }
 
 /**
@@ -51,7 +55,10 @@ export async function request(
   url: string,
   options?: RequestInit,
 ): Promise<{} | { err: ResponseError }> {
-  const fetchResponse = await fetch(url, options);
+  const fetchResponse = await fetch(url, {
+    ...options,
+    headers: { ...options?.headers, 'Content-Type': 'application/json' },
+  });
   const response = await checkStatus(fetchResponse);
   return parseJSON(response);
 }

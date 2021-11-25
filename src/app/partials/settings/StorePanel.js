@@ -53,6 +53,7 @@ function StorePanel() {
   }, []);
 
   React.useEffect(() => {
+    dispatch(actions.getShopByMerchantId());
     return () => uppy.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
