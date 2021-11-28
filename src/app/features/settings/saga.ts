@@ -178,7 +178,7 @@ export function* getShopByMerchantId() {
     yield put(actions.settingsError(SettingsErrorType.USERID_EMPTY));
     return;
   }
-  const requestURL = `${fortressURL}/${userID}/shops`;
+  const requestURL = `${fortressURL}/accounts/${userID}/shops`;
   try {
     const shop: ShopType = yield call(request, requestURL);
 

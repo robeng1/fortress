@@ -8,7 +8,7 @@ const authnNamespace = 'authn';
 
 export type AuthnState = {
   user: {};
-  session: {};
+  session: Record<string, any>;
   profile: ProfileType;
   isAuthenticated: boolean;
   error?: UserErrorType | null;

@@ -3,6 +3,7 @@ import { request, ResponseError } from 'utils/request';
 import { ProfileType, RegisterLogInType } from 'app/models/user/profile';
 import { authnActions as actions } from '.';
 import { uiActions } from 'app/features/ui';
+import { settingsActions } from 'app/features/settings';
 import { UserErrorType } from './types';
 import { selectUserId } from './selectors';
 import { theKeepURL } from 'app/endpoints/urls';
@@ -21,6 +22,7 @@ export function* register(action: PayloadAction<RegisterLogInType>) {
       yield put(actions.sessionLoaded(session));
       yield put(actions.setIsAuthenticated(true));
       yield put(uiActions.actionSucceeded(action));
+      yield put(settingsActions.getShopByMerchantId());
     }
   } catch (err) {
     yield put(
@@ -47,6 +49,7 @@ export function* login(action: PayloadAction<RegisterLogInType>) {
       yield put(actions.sessionLoaded(session));
       yield put(actions.setIsAuthenticated(true));
       yield put(uiActions.actionSucceeded(action));
+      yield put(settingsActions.getShopByMerchantId());
     }
   } catch (err) {
     yield put(

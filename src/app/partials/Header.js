@@ -4,8 +4,11 @@ import SearchModal from '../components/ModalSearch';
 import Notifications from '../components/DropdownNotifications';
 import Help from '../components/DropdownHelp';
 import UserMenu from '../components/DropdownProfile';
+import { useSelector } from 'react-redux';
+import { selectShopName } from 'app/features/settings/selectors';
 
 function Header({ sidebarOpen, setSidebarOpen, location }) {
+  const shopName = useSelector(selectShopName);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
@@ -81,7 +84,7 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
             <Help align="right" />
             {/*  Divider */}
             <hr className="w-px h-6 bg-gray-200 mx-3" />
-            <UserMenu align="right" />
+            <UserMenu align="right" shopName={shopName} />
           </div>
         </div>
       </div>

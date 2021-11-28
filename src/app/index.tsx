@@ -34,6 +34,7 @@ import PageNotFound from 'app/pages/utility/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoutes';
 import { useUISlice } from './features/ui';
 import { useAuthnSlice } from './features/authn';
+import { useSettingSlice } from './features/settings';
 
 // const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Signup = lazy(() => import('app/pages/Signup'));
@@ -45,6 +46,7 @@ export function App() {
   // since they are used throughout the app
   useUISlice();
   useAuthnSlice();
+  useSettingSlice();
   const location = useLocation();
   useEffect(() => {
     //@ts-ignore

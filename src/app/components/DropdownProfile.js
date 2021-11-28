@@ -6,7 +6,7 @@ import { useAuthnSlice } from 'app/features/authn';
 
 import UserAvatar from '../images/user-header.png';
 
-function DropdownProfile({ align }) {
+function DropdownProfile({ align, shopName }) {
   const { actions } = useAuthnSlice();
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -63,7 +63,7 @@ function DropdownProfile({ align }) {
         />
         <div className="hidden md:flex  items-center truncate">
           <span className="truncate ml-2 text-sm font-medium group-hover:text-gray-800">
-            Reoplex Inc.
+            {shopName.charAt(0).toUpperCase() + shopName.slice(1)}
           </span>
           <svg
             className="w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400"
@@ -92,7 +92,9 @@ function DropdownProfile({ align }) {
           onBlur={() => setDropdownOpen(false)}
         >
           <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200">
-            <div className="font-medium text-gray-800">Reoplex Inc.</div>
+            <div className="font-medium text-gray-800">
+              {shopName.charAt(0).toUpperCase() + shopName.slice(1)}
+            </div>
             <div className="text-xs text-gray-500 italic">Admin</div>
           </div>
           <ul>
