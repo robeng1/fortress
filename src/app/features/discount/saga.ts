@@ -96,14 +96,14 @@ export function* getViews() {
   }
   const offset: number = yield select(selectOffset);
   const countPerPage = yield select(selectCount);
-  const requestURL = `${fortressURL}/shops/${shopId}/discountsq`;
+  const requestURL = `${fortressURL}/shops/${shopId}/discount-views`;
   // TODO: query fetches only the most recent 20 discounts but will be changed to add filters etc later
   // with 20 per page pagination
-  const query = `SELECT * FROM discounts WHERE shop_id = ${shopId} ORDER BY updated_at DESC LIMIT ${offset}, ${countPerPage}`;
+  const query = `SELECT * FROM discount WHERE shop_id = '${shopId}' ORDER BY updated_at DESC LIMIT ${offset}, ${countPerPage}`;
   try {
     const views: DiscountViewType[] = yield call(request, requestURL, {
       method: 'POST',
-      body: query,
+      body: JSON.stringify(query),
     });
     if (views && views.length > 0) {
       yield put(actions.viewsLoaded(views));
