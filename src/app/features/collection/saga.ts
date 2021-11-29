@@ -103,14 +103,14 @@ export function* getViews() {
   }
   const offset: number = yield select(selectOffset);
   const countPerPage = yield select(selectCount);
-  const requestURL = `${fortressURL}/shops/${shopId}/collectionsq`;
+  const requestURL = `${fortressURL}/shops/${shopId}/collection-views`;
   // TODO: query fetches only the most recent 20 collections but will be changed to add filters etc later
   // with 20 per page pagination
-  const query = `SELECT * FROM collections WHERE shop_id = ${shopId} ORDER BY updated_at DESC LIMIT ${offset}, ${countPerPage}`;
+  const query = `SELECT * FROM collection WHERE shop_id = '${shopId}' ORDER BY updated_at DESC LIMIT ${offset}, ${countPerPage}`;
   try {
     const views: CollectionViewType[] = yield call(request, requestURL, {
       method: 'POST',
-      body: query,
+      body: JSON.stringify(query),
     });
     if (views && views.length > 0) {
       yield put(actions.viewsLoaded(views));

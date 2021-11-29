@@ -7,9 +7,9 @@ export const loadCollectionsAsOptions =
     searchQuery: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM collections WHERE shop_id = ${shopId}`;
+    let query = `SELECT * FROM collection WHERE shop_id = '${shopId}'`;
     if (searchQuery !== '') {
-      query = `SELECT * FROM collections WHERE shop_id = ${shopId} AND TEXT_MATCH(search_col, '${searchQuery}')`;
+      query = `SELECT * FROM collection WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
     }
 
     const response = await fetch(
@@ -17,9 +17,11 @@ export const loadCollectionsAsOptions =
       {
         method: 'POST',
         body: JSON.stringify({ query }),
+        headers: { 'Content-Type': 'application/json' },
       },
     );
     const responseJSON = await response.json();
+    console.log(responseJSON);
     return {
       options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
@@ -35,9 +37,9 @@ export const loadProductsAsOptions =
     searchQuery: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM products WHERE shop_id = ${shopId}`;
+    let query = `SELECT * FROM product WHERE shop_id = '${shopId}'`;
     if (searchQuery !== '') {
-      query = `SELECT * FROM products WHERE shop_id = ${shopId} AND TEXT_MATCH(search_col, '${searchQuery}')`;
+      query = `SELECT * FROM product WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
     }
 
     const response = await fetch(
@@ -45,6 +47,7 @@ export const loadProductsAsOptions =
       {
         method: 'POST',
         body: JSON.stringify({ query }),
+        headers: { 'Content-Type': 'application/json' },
       },
     );
     const responseJSON = await response.json();
@@ -62,15 +65,16 @@ export const loadDiscountsAsOptions =
     searchQuery: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM discounts WHERE shop_id = ${shopId}`;
+    let query = `SELECT * FROM discount WHERE shop_id = '${shopId}'`;
     if (searchQuery !== '') {
-      query = `SELECT * FROM discounts WHERE shop_id = ${shopId} AND TEXT_MATCH(search_col, '${searchQuery}')`;
+      query = `SELECT * FROM discount WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
     }
     const response = await fetch(
       `${fortressURL}/shops/${shopId}/discounts/option-search`,
       {
         method: 'POST',
         body: JSON.stringify({ query }),
+        headers: { 'Content-Type': 'application/json' },
       },
     );
     const responseJSON = await response.json();
@@ -89,9 +93,9 @@ export const loadTagsAsOptions =
     searchQuery: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM tags WHERE shop_id = ${shopId}`;
+    let query = `SELECT * FROM tag WHERE shop_id = '${shopId}'`;
     if (searchQuery !== '') {
-      query = `SELECT * FROM tags WHERE shop_id = ${shopId} AND TEXT_MATCH(search_col, '${searchQuery}')`;
+      query = `SELECT * FROM tag WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
     }
 
     const response = await fetch(
@@ -99,6 +103,7 @@ export const loadTagsAsOptions =
       {
         method: 'POST',
         body: JSON.stringify({ query }),
+        headers: { 'Content-Type': 'application/json' },
       },
     );
     const responseJSON = await response.json();
@@ -115,13 +120,14 @@ export const loadProductTypesAsOptions = async (
   searchQuery: string,
   prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
 ) => {
-  let query = `SELECT * FROM product_types `;
+  let query = `SELECT * FROM product_type `;
   if (searchQuery !== '') {
-    query = `SELECT * FROM product_types WHERE TEXT_MATCH(search_col, '${searchQuery}')`;
+    query = `SELECT * FROM product_type WHERE TEXT_MATCH(search_col, '${searchQuery}')`;
   }
   const response = await fetch(`${fortressURL}/product-types/option-search`, {
     method: 'POST',
     body: JSON.stringify({ query }),
+    headers: { 'Content-Type': 'application/json' },
   });
   const responseJSON = await response.json();
   return {

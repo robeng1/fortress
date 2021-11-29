@@ -17,6 +17,11 @@ export interface LocationType {
   shop_id?: string;
 }
 
+export interface LocationListType {
+  stores?: LocationType[];
+  next_page_token?: string;
+}
+
 export interface InventoryType {
   variant_id: string;
   product_id: string;

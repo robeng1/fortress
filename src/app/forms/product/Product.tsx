@@ -471,17 +471,19 @@ const ProductForm = ({ handleShow, productId }) => {
     setFieldValue('variants', [...values.variants, ...products]);
   };
   const handleSubmit = values => {
+    const p = cleanProduct({ ...values });
+    console.log(p);
     if (!productId || productId === '') {
-      dispatch(actions.createProduct(cleanProduct({ ...values })));
+      dispatch(actions.createProduct(p));
     } else {
-      dispatch(actions.updateProduct(cleanProduct({ ...values })));
+      dispatch(actions.updateProduct(p));
     }
   };
   return (
     <>
       <Formik
         initialValues={{ ...flattenProduct(product) }}
-        validationSchema={ProductSchema}
+        // validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
           console.log('fewfwef');
           handleSubmit({

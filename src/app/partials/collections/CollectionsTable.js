@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from 'app/partials/EmptyState';
 import Collection from './CollectionTableItem';
 import { selectCollectionViews } from 'app/features/collection/selectors';
 import CollectionList from './mobile/CollectionList';
+import { useCollectionSlice } from 'app/features/collection';
 
 function CollectionsTable({ selectedItems, handleShow }) {
+  const dispatch = useDispatch();
+  const { actions } = useCollectionSlice();
   const collections = useSelector(selectCollectionViews);
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
@@ -14,6 +17,11 @@ function CollectionsTable({ selectedItems, handleShow }) {
   useEffect(() => {
     focusHandling('outline');
   }, [collections]);
+
+  useEffect(() => {
+    dispatch(actions.loadViews());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);

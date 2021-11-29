@@ -1,3 +1,4 @@
+import currency from 'currency.js';
 import { MoneyType } from 'app/models/money';
 
 export default class money {
@@ -49,24 +50,23 @@ export default class money {
   };
 
   static parseDouble = (str: string, code: string): MoneyType => {
-    let d = parseFloat(str);
+    let d = currency(str);
     const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
-    while (d >= 1) {
-      a.units += 1;
-      d -= 1;
+    if (d.dollars() > 0) {
+      a.units = d.dollars();
     }
-    a.nanos = d * 100;
+    a.nanos = d.cents();
     a.currency_code = code;
     return a;
   };
 
-  static doubleToMoney = (d: number, code: string): MoneyType => {
+  static doubleToMoney = (m: number, code: string): MoneyType => {
+    let d = currency(m);
     const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
-    while (d >= 1) {
-      a.units += 1;
-      d -= 1;
+    if (d.dollars() > 0) {
+      a.units = d.dollars();
     }
-    a.nanos = d * 100;
+    a.nanos = d.cents();
     a.currency_code = code;
     return a;
   };

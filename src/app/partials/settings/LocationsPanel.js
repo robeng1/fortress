@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import isEmpty from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import LocationCard from '../locations/LocationCard';
 import LocationForm from 'app/forms/locations/Location';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useInventorySlice } from 'app/features/inventory';
 import { selectionLocations } from 'app/features/inventory/selectors';
 
 function LocationsPanel() {
+  const dispatch = useDispatch();
+  const { actions } = useInventorySlice();
   const locations = useSelector(selectionLocations);
+  React.useEffect(() => {
+    dispatch(actions.loadLoactions());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [showLocationForm, setShowLocationForm] = useState(false);
   return (
     <div className="flex-grow">

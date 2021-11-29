@@ -5,6 +5,7 @@ import {
   InventoryListType,
   LocationType,
   InventoryViewType,
+  LocationListType,
 } from 'app/models/inventory/inventory-type';
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { request, ResponseError } from 'utils/request';
@@ -20,21 +21,15 @@ import { InventoryErrorType } from './types';
 
 export function* getLocations() {
   const shopID: string = yield select(selectShopId);
-  yield put(
-    actions.locationsLoaded([
-      { centre_id: 'centre_id1' },
-      { centre_id: 'centre_id2' },
-    ]),
-  );
   if (shopID.length === 0) {
     yield put(actions.inventoryError(InventoryErrorType.SHOPID_EMPTY));
     return;
   }
   const requestURL = `${fortressURL}/shops/${shopID}/centres`;
   try {
-    const locations: LocationType[] = yield call(request, requestURL);
-    if (locations && locations.length > 0) {
-      yield put(actions.locationsLoaded(locations));
+    const locations: LocationListType = yield call(request, requestURL);
+    if (locations && locations.stores && locations.stores.length > 0) {
+      yield put(actions.locationsLoaded(locations.stores));
     } else {
       yield put(
         actions.inventoryError(InventoryErrorType.SHOP_HAS_NO_LOCATIONS),

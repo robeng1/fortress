@@ -8,7 +8,7 @@ export default function CollectionCard({ collection, handleShow }) {
         className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
       >
         <img
-          src={collection.image}
+          src={collection.image || 'https://via.placeholder.com/150'}
           alt={collection.title}
           className="w-full h-full object-center object-cover"
         />

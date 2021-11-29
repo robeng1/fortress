@@ -39,7 +39,7 @@ function CollectionItemTable(props) {
           <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={props.image}
+              src={props.image || 'https://via.placeholder.com/150'}
               width="40"
               height="40"
               alt={props.name}

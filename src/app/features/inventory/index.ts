@@ -30,10 +30,7 @@ export type InventoryState = {
 
 export const initialState: InventoryState = {
   stock_records: {},
-  locations: {
-    centre1: { centre_id: 'centre_id1' },
-    centre2: { centre_id: 'centre_id2' },
-  },
+  locations: {},
   shard: 1,
   nextPageToken: '',
   count: 0,
@@ -80,9 +77,7 @@ const slice = createSlice({
       if (locations && locations.length > 0) {
         state.locations = {
           ...state.locations,
-          [locations[0].centre_id!]: {
-            ...objectify(locations, 'centre_id'),
-          },
+          ...objectify(locations, 'centre_id'),
         };
       }
     },

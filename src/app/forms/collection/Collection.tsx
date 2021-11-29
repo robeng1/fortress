@@ -25,10 +25,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkIfLoading } from 'app/features/ui/selectors';
 
 import DropTarget from '@uppy/drop-target';
+import { selectShop } from 'app/features/settings/selectors';
 
 export default function CollectionForm({ handleShow, collectionId }) {
   const { actions } = useCollectionSlice();
   const dispatch = useDispatch();
+  const shop = useSelector(selectShop);
   const collection = useSelector(state =>
     selectCollectionById(state, collectionId),
   );
@@ -145,6 +147,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
                   actions.updateCollection({
                     ...collection,
                     ...values,
+                    shop_id: shop.shop_id,
                     image: { image_url: image },
                   }),
                 );
@@ -153,6 +156,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
                   actions.createCollection({
                     ...values,
                     collection_id: '',
+                    shop_id: shop.shop_id,
                     image: { image_url: image },
                   }),
                 );

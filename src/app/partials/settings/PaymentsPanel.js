@@ -80,8 +80,8 @@ function PaymentsPanel() {
                       id="name"
                       name="name"
                       value={values.name}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       className="form-input w-full"
                       type="text"
                       autoComplete="account-name"
@@ -102,8 +102,8 @@ function PaymentsPanel() {
                       id="wallet.merchant"
                       name="wallet.merchant"
                       value={values.wallet.merchant}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       autoComplete="provider"
                       className="form-select block w-full"
                     >
@@ -126,8 +126,8 @@ function PaymentsPanel() {
                       className="form-input w-full"
                       type="tel"
                       value={values.wallet.number}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       autoComplete="phone"
                       placeholder="+233246493078"
                     />
@@ -182,7 +182,7 @@ function PaymentsPanel() {
                     Cancel
                   </button>
                   <button
-                    onclick={handleSubmit}
+                    onClick={handleSubmit}
                     className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes
