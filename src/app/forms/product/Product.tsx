@@ -227,30 +227,33 @@ const ProductForm = ({ handleShow, productId }) => {
       });
     } else {
       p.structure = ProductStructure.STANDALONE;
-      const record: InventoryType = {
-        variant_id: productId || '',
-        product_id: productId || '',
-        num_in_stock: d.quantity,
-        // TODO: centreId && centreSku should be replaced with correct on
-        centre_id: '',
-        centre_sku: '',
-        cost_per_item: money.parseDouble(
-          d.cost_per_item,
-          shop.currency?.iso_code || defaultCurrency,
-        ),
-        price_excl_tax: money.parseDouble(
-          d.price,
-          shop.currency?.iso_code || defaultCurrency,
-        ),
-        compare_at_price: money.parseDouble(
-          d.compare_at_price,
-          shop.currency?.iso_code || defaultCurrency,
-        ),
-        unlimited: d.unlimited,
-        track_quantity: d.track_quantity,
-        taxable: false,
-      };
-      p.stock_records = [record];
+      p.stock_records = Object.keys(locations ?? {}).map(id => {
+        const record: InventoryType = {
+          variant_id: productId || '',
+          product_id: productId || '',
+          shop_id: shop.shop_id,
+          num_in_stock: d.quantity,
+          // TODO: centreId && centreSku should be replaced with correct on
+          centre_id: id,
+          centre_sku: '',
+          cost_per_item: money.parseDouble(
+            d.cost_per_item,
+            shop.currency?.iso_code || defaultCurrency,
+          ),
+          price_excl_tax: money.parseDouble(
+            d.price,
+            shop.currency?.iso_code || defaultCurrency,
+          ),
+          compare_at_price: money.parseDouble(
+            d.compare_at_price,
+            shop.currency?.iso_code || defaultCurrency,
+          ),
+          unlimited: d.unlimited,
+          track_quantity: d.track_quantity,
+          taxable: false,
+        };
+        return record;
+      });
     }
     return p;
   };
