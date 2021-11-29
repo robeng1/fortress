@@ -483,7 +483,7 @@ const ProductForm = ({ handleShow, productId }) => {
     <>
       <Formik
         initialValues={{ ...flattenProduct(product) }}
-        // validationSchema={ProductSchema}
+        validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
           console.log('fewfwef');
           handleSubmit({
