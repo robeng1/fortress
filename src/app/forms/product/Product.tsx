@@ -65,18 +65,18 @@ type AsyncPaginateCreatableProps<
   OptionType,
   Group extends GroupBase<OptionType>,
   Additional,
-  IsMulti extends boolean,
-> = CreatableProps<OptionType, IsMulti, Group> &
+  isMulti extends boolean,
+> = CreatableProps<OptionType, isMulti, Group> &
   UseAsyncPaginateParams<OptionType, Group, Additional> &
-  ComponentProps<OptionType, Group, IsMulti>;
+  ComponentProps<OptionType, Group, isMulti>;
 
 type AsyncPaginateCreatableType = <
   OptionType,
   Group extends GroupBase<OptionType>,
   Additional,
-  IsMulti extends boolean = false,
+  isMulti extends boolean = false,
 >(
-  props: AsyncPaginateCreatableProps<OptionType, Group, Additional, IsMulti>,
+  props: AsyncPaginateCreatableProps<OptionType, Group, Additional, isMulti>,
 ) => ReactElement;
 
 const CreatableAsyncPaginate = withAsyncPaginate(
@@ -166,7 +166,7 @@ const ProductForm = ({ handleShow, productId }) => {
     is_parent: false,
     shipping_required: false,
     track_quantity: true,
-    quantity: 0,
+    quantity: 1,
     type: '',
     collections: [],
     stock_records: [],
@@ -235,7 +235,7 @@ const ProductForm = ({ handleShow, productId }) => {
           num_in_stock: d.quantity,
           // TODO: centreId && centreSku should be replaced with correct on
           centre_id: id,
-          centre_sku: '',
+          centre_sku: slugify(d.title),
           cost_per_item: money.parseDouble(
             d.cost_per_item,
             shop.currency?.iso_code || defaultCurrency,
@@ -443,13 +443,13 @@ const ProductForm = ({ handleShow, productId }) => {
         product_id: productId || '',
         structure: ProductStructure.CHILD,
       };
-      p.stock_records = values.locations.map((locationId: string) => {
+      p.stock_records = Object.keys(locations ?? {}).map((centreId: string) => {
         const record: InventoryType = {
           variant_id: productId || '',
           product_id: productId || '',
           num_in_stock: values.quantity,
           // TODO: centreId && centreSku should be replaced with correct on
-          centre_id: locationId,
+          centre_id: centreId,
           centre_sku: slugify(t),
           cost_per_item: money.parseDouble(
             values.cost_per_item,
@@ -488,11 +488,10 @@ const ProductForm = ({ handleShow, productId }) => {
         initialValues={{ ...flattenProduct(product) }}
         validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
-          console.log('fewfwef');
           handleSubmit({
             ...values,
           });
-          // setSubmitting(false);
+          setSubmitting(false);
         }}
       >
         {({

@@ -28,8 +28,8 @@ export function* getLocations() {
   const requestURL = `${fortressURL}/shops/${shopID}/centres`;
   try {
     const locations: LocationListType = yield call(request, requestURL);
-    if (locations && locations.stores && locations.stores.length > 0) {
-      yield put(actions.locationsLoaded(locations.stores));
+    if (locations) {
+      yield put(actions.locationsLoaded(locations?.stores || []));
     } else {
       yield put(
         actions.inventoryError(InventoryErrorType.SHOP_HAS_NO_LOCATIONS),

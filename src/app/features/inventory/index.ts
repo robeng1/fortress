@@ -74,9 +74,8 @@ const slice = createSlice({
     },
     locationsLoaded: (state, action: PayloadAction<LocationType[]>) => {
       const locations = action?.payload;
-      if (locations && locations.length > 0) {
+      if (locations) {
         state.locations = {
-          ...state.locations,
           ...objectify(locations, 'centre_id'),
         };
       }
