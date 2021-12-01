@@ -21,10 +21,14 @@ export const loadCollectionsAsOptions =
       },
     );
     const responseJSON = await response.json();
-    console.log(responseJSON);
+    let options = responseJSON.result;
+    const slicedOptions = options.slice(
+      prevOptions.length,
+      prevOptions.length + 10,
+    );
     return {
-      options: responseJSON.result,
-      hasMore: responseJSON.length >= 1,
+      options: slicedOptions,
+      hasMore: true,
       // additional: {
       //   page: searchQuery ? 2 : page + 1,
       // },

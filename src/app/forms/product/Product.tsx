@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import _ from 'lodash';
 import Select from 'react-select';
-// import { AsyncPaginate } from 'react-select-async-paginate';
+import { AsyncPaginate } from 'react-select-async-paginate';
 import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
 import Tus from '@uppy/tus';
@@ -50,38 +50,8 @@ import {
   loadProductTypesAsOptions,
   loadTagsAsOptions,
 } from 'app/services/options-loaders';
-import type { ReactElement } from 'react';
-import type { GroupBase } from 'react-select';
 import Creatable from 'react-select/creatable';
-import type { CreatableProps } from 'react-select/creatable';
 
-import { withAsyncPaginate } from 'react-select-async-paginate';
-import type {
-  UseAsyncPaginateParams,
-  ComponentProps,
-} from 'react-select-async-paginate';
-
-type AsyncPaginateCreatableProps<
-  OptionType,
-  Group extends GroupBase<OptionType>,
-  Additional,
-  isMulti extends boolean,
-> = CreatableProps<OptionType, isMulti, Group> &
-  UseAsyncPaginateParams<OptionType, Group, Additional> &
-  ComponentProps<OptionType, Group, isMulti>;
-
-type AsyncPaginateCreatableType = <
-  OptionType,
-  Group extends GroupBase<OptionType>,
-  Additional,
-  isMulti extends boolean = false,
->(
-  props: AsyncPaginateCreatableProps<OptionType, Group, Additional, isMulti>,
-) => ReactElement;
-
-const CreatableAsyncPaginate = withAsyncPaginate(
-  Creatable,
-) as AsyncPaginateCreatableType;
 // animated components for react select
 const animatedComponents = makeAnimated();
 const defaultCurrency = 'GHS';
@@ -583,7 +553,7 @@ const ProductForm = ({ handleShow, productId }) => {
                           >
                             Product Type
                           </label>
-                          <CreatableAsyncPaginate
+                          <AsyncPaginate
                             // SelectComponent={Creatable}
                             menuPortalTarget={document.body}
                             isSearchable
@@ -635,19 +605,18 @@ const ProductForm = ({ handleShow, productId }) => {
                           >
                             Collections
                           </label>
-                          <CreatableAsyncPaginate
-                            id="collections"
-                            name="collections"
-                            closeMenuOnSelect={true}
-                            defaultValue={values.collections}
+                          <AsyncPaginate
+                            // id="collections"
+                            // name="collections"
                             value={values.collections}
-                            isClearable
-                            isSearchable
-                            menuPortalTarget={document.body}
+                            // menuPortalTarget={document.body}
                             isMulti
+                            debounceTimeout={300}
+                            closeMenuOnSelect={false}
                             onChange={option =>
                               setFieldValue('collections', option)
                             }
+                            placeholder="Select collections"
                             // isDisabled={isAddingInProgress}
                             loadOptions={loadCollectionsAsOptions(
                               shop.shop_id!,
@@ -676,7 +645,7 @@ const ProductForm = ({ handleShow, productId }) => {
                           >
                             Tags
                           </label>
-                          <CreatableAsyncPaginate
+                          <AsyncPaginate
                             id="tags"
                             name="tags"
                             closeMenuOnSelect={true}
