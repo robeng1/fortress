@@ -293,7 +293,7 @@ const ProductForm = ({ handleShow, productId }) => {
         // })
         .use(DropTarget, { target: document.body })
         .on('complete', onUploadComplete)
-        .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' })
+        .use(Tus, { endpoint: 'https://api.reoplex.com/storage/files/' })
     );
   }, [shop.shop_id]);
   const addFiles = files => {
