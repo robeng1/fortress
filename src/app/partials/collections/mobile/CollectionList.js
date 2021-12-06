@@ -1,10 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectCollectionViews } from 'app/features/collection/selectors';
 import CollectionCard from './CollectionCard';
 
-export default function CollectionList({ handleShow }) {
-  const collections = useSelector(selectCollectionViews);
+export default function CollectionList({ handleShow, collections }) {
   return (
     <>
       <div className="md:hidden">

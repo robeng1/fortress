@@ -1,27 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
-import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from 'app/partials/EmptyState';
 import Collection from './CollectionTableItem';
-import { selectCollectionViews } from 'app/features/collection/selectors';
 import CollectionList from './mobile/CollectionList';
-import { useCollectionSlice } from 'app/features/collection';
 
-function CollectionsTable({ selectedItems, handleShow }) {
-  const dispatch = useDispatch();
-  const { actions } = useCollectionSlice();
-  const collections = useSelector(selectCollectionViews);
+function CollectionsTable({ selectedItems, handleShow, collections }) {
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
   useEffect(() => {
     focusHandling('outline');
   }, [collections]);
-
-  useEffect(() => {
-    dispatch(actions.loadViews());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -49,7 +38,7 @@ function CollectionsTable({ selectedItems, handleShow }) {
     <>
       {collections.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
-          <CollectionList handleShow={handleShow} />
+          <CollectionList handleShow={handleShow} collections={collections} />
           <div className="hidden md:block">
             {/* Table */}
             <div className="overflow-x-auto">

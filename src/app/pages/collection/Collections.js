@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHasCollections } from 'app/features/collection/selectors';
+import Pagination from '@material-ui/lab/Pagination';
+import { fortressURL } from 'app/endpoints/urls';
 
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
@@ -8,18 +10,39 @@ import DeleteButton from 'app/partials/actions/DeleteButton';
 import SearchForm from 'app/partials/actions/SearchForm';
 import FilterButton from 'app/components/DropdownFilter';
 import CollectionsTable from 'app/partials/collections/CollectionsTable';
-import PaginationNumeric from 'app/components/PaginationNumeric';
 import CollectionForm from 'app/forms/collection/Collection';
 import { useCollectionSlice } from 'app/features/collection';
 import BottomNav from 'app/components/BottomNav';
+import { selectShop } from 'app/features/settings/selectors';
 
 function Collections() {
   const { actions } = useCollectionSlice();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showForm, setShowForm] = React.useState(false);
-  const hasCollections = useSelector(selectHasCollections);
+  const shop = useSelector(selectShop);
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [itemsPerPage, setItemsPerPage] = useState(15);
+
+  const query = `SELECT * FROM collection WHERE shop_id = '${
+    shop.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1
+  }, ${itemsPerPage}`;
+
+  const { data } = useQuery(
+    ['collections', page],
+    async () =>
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/collection-views`, {
+        method: 'POST',
+        body: JSON.stringify(query),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(result => result.json()),
+    { keepPreviousData: true },
+  );
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
@@ -116,13 +139,19 @@ function Collections() {
           <CollectionsTable
             selectedItems={handleSelectedItems}
             handleShow={handleShow}
+            collections={data?.views || []}
           />
 
           {/* Pagination */}
-          {hasCollections && (
-            <div className="mt-4 md:mt-8">
-              <PaginationNumeric />
-            </div>
+          {data && (
+            <Pagination
+              count={data?.total / itemsPerPage}
+              variant="outlined"
+              color="primary"
+              className="mt-4 md:mt-8"
+              page={page}
+              onChange={setPage}
+            />
           )}
         </div>
       </main>
