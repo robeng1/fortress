@@ -1,22 +1,21 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, lazy } from 'react';
+import { useQuery } from 'react-query';
+import Pagination from '@mui/material/Pagination';
 import { Tab } from '@headlessui/react';
 import ProductForm from 'app/forms/product/Product';
 import CollectionForm from 'app/forms/collection/Collection';
 import { useCollectionSlice } from 'app/features/collection';
 import { useProductSlice } from 'app/features/product';
-import { selectHasCollections } from 'app/features/collection/selectors';
-import { selectHasProducts } from 'app/features/product/selectors';
-import { selectHasRecords } from 'app/features/inventory/selectors';
-
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import DeleteButton from 'app/partials/actions/DeleteButton';
 import FilterButton from 'app/components/DropdownFilter';
 import SearchForm from 'app/partials/actions/SearchForm';
-import PaginationNumeric from 'app/components/PaginationNumeric';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectShop } from 'app/features/settings/selectors';
+import { fortressURL } from 'app/endpoints/urls';
 
 const ProductsTable = lazy(() => import('app/partials/products/ProductsTable'));
 const InventoryTable = lazy(() =>
@@ -31,6 +30,7 @@ function classNames(...classes) {
 }
 
 function Products() {
+  const shop = useSelector(selectShop);
   const { actions: collectionActions } = useCollectionSlice();
   const { actions: productActions } = useProductSlice();
   const [showForm, setShowForm] = React.useState(false);
@@ -46,16 +46,55 @@ function Products() {
   ] = useState('');
 
   let [categories] = useState(['Products', 'Inventory', 'Collections']);
+
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
   };
   const dispatch = useDispatch();
 
   // inventory
-  const hasRecords = useSelector(selectHasRecords);
+  const [inventoryPage, setInventoryPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [inventoryItemsPerPage, setInventoryItemsPerPage] = useState(15);
+  const inventoryQuery = `SELECT * FROM inventory WHERE shop_id = '${
+    shop.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (inventoryPage - 1) * inventoryItemsPerPage + 1
+  }, ${inventoryItemsPerPage}`;
+
+  const { data: inventoryData } = useQuery(
+    ['inventory', inventoryPage],
+    async () =>
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/inventory-views`, {
+        method: 'POST',
+        body: JSON.stringify(inventoryQuery),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(result => result.json()),
+    { keepPreviousData: true },
+  );
 
   // collections
-  const hasCollections = useSelector(selectHasCollections);
+  const [collectionPage, setCollectionPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [collectionItemsPerPage, setCollectionItemsPerPage] = useState(15);
+
+  const collectionQuery = `SELECT * FROM collection WHERE shop_id = '${
+    shop.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (collectionPage - 1) * collectionItemsPerPage + 1
+  }, ${collectionItemsPerPage}`;
+
+  const { data: collectionData } = useQuery(
+    ['collection', collectionPage],
+    async () =>
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/collection-views`, {
+        method: 'POST',
+        body: JSON.stringify(collectionQuery),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(result => result.json()),
+    { keepPreviousData: true },
+  );
+
   const handleShowCollectionForm = (display, collectionId) => {
     setShowCollectionForm(display);
     setCurrentlyBeingEditedCollectionId(collectionId);
@@ -65,7 +104,26 @@ function Products() {
   };
 
   // products
-  const hasProducts = useSelector(selectHasProducts);
+  const [productPage, setProductPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [productItemsPerPage, setProductItemsPerPage] = useState(15);
+
+  const productQuery = `SELECT * FROM product WHERE shop_id = '${
+    shop.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (productPage - 1) * productItemsPerPage + 1
+  }, ${productItemsPerPage}`;
+
+  const { data: productData } = useQuery(
+    ['product', productPage],
+    async () =>
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/product-views`, {
+        method: 'POST',
+        body: JSON.stringify(productQuery),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(result => result.json()),
+    { keepPreviousData: true },
+  );
   const handleShowProductForm = (display, productId) => {
     setShowForm(display);
     setCurrentlyBeingEditedProductId(productId);
@@ -198,13 +256,19 @@ function Products() {
           <CollectionsTable
             selectedItems={handleSelectedItems}
             handleShow={handleShowCollectionForm}
+            collections={collectionData?.views || []}
           />
 
           {/* Pagination */}
-          {hasCollections && (
-            <div className="mt-4">
-              <PaginationNumeric />
-            </div>
+          {collectionData && (
+            <Pagination
+              count={collectionData?.total / collectionItemsPerPage}
+              variant="outlined"
+              color="primary"
+              className="mt-4 md:mt-8"
+              page={collectionPage}
+              onChange={setCollectionPage}
+            />
           )}
         </div>
       </main>
@@ -271,13 +335,21 @@ function Products() {
           </div>
 
           {/* Table */}
-          <InventoryTable selectedItems={handleSelectedItems} />
+          <InventoryTable
+            selectedItems={handleSelectedItems}
+            records={inventoryData?.views || []}
+          />
 
           {/* Pagination */}
-          {hasRecords && (
-            <div className="mt-4">
-              <PaginationNumeric />
-            </div>
+          {inventoryData && (
+            <Pagination
+              count={inventoryData?.total / inventoryItemsPerPage}
+              variant="outlined"
+              color="primary"
+              className="mt-4 md:mt-8"
+              page={inventoryPage}
+              onChange={setInventoryPage}
+            />
           )}
         </div>
       </main>
@@ -361,13 +433,19 @@ function Products() {
           <ProductsTable
             selectedItems={handleSelectedItems}
             handleShow={handleShowProductForm}
+            products={productData?.views || []}
           />
 
           {/* Pagination */}
-          {hasProducts && (
-            <div className="mt-4">
-              <PaginationNumeric />
-            </div>
+          {productData && (
+            <Pagination
+              count={productData?.total / productItemsPerPage}
+              variant="outlined"
+              color="primary"
+              className="mt-4 md:mt-8"
+              page={productPage}
+              onChange={setProductPage}
+            />
           )}
         </div>
       </main>
@@ -464,7 +542,7 @@ function Products() {
             </div>
 
             {/* More actions */}
-            {hasProducts && (
+            {productData && (
               <div className="sm:flex sm:justify-between sm:items-center mb-3">
                 {/* Left side */}
                 <div className="mb-4 sm:mb-0">
@@ -494,18 +572,23 @@ function Products() {
                 </div>
               </div>
             )}
-
             {/* Table */}
             <ProductsTable
               selectedItems={handleSelectedItems}
               handleShow={handleShowProductForm}
+              products={productData?.views || []}
             />
 
             {/* Pagination */}
-            {hasProducts && (
-              <div className="md:mt-8">
-                <PaginationNumeric />
-              </div>
+            {productData && (
+              <Pagination
+                count={productData?.total / productItemsPerPage}
+                variant="outlined"
+                color="primary"
+                className="mt-4 md:mt-8"
+                page={productPage}
+                onChange={setProductPage}
+              />
             )}
           </div>
         </main>

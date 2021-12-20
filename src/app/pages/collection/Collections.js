@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from '@material-ui/lab/Pagination';
+import Pagination from '@mui/material/Pagination';
 import { fortressURL } from 'app/endpoints/urls';
 
 import Sidebar from 'app/partials/Sidebar';
@@ -50,7 +50,7 @@ function Collections() {
 
   const handleShow = (display, collectionId) => {
     setShowForm(display);
-    // dispatch an action to go get the order
+    // dispatch an action to go get the collection
     if (collectionId && collectionId !== '') {
       dispatch(actions.getCollection(collectionId));
     }

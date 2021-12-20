@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
 import Product from './ProductTableItem';
 import ProductList from './mobile/ProductList';
-import { useSelector } from 'react-redux';
-import { selectProductViews } from 'app/features/product/selectors';
 import EmptyState from 'app/partials/EmptyState';
-function ProductsTable({ selectedItems, handleShow }) {
-  const products = useSelector(selectProductViews);
+function ProductsTable({ selectedItems, handleShow, products }) {
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -40,7 +37,7 @@ function ProductsTable({ selectedItems, handleShow }) {
     <>
       {products.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
-          <ProductList handleShow={handleShow} />
+          <ProductList handleShow={handleShow} products={products} />
           <div className="hidden md:block">
             {/* Table */}
             <div className="overflow-x-auto">

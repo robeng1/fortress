@@ -1,16 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import EmptyState from 'app/partials/EmptyState';
-import { selectDiscountViews } from 'app/features/discount/selectors';
 import DiscountList from './mobile/DiscountList';
 
-export default function DiscountTable({ selectedItems, handleShow }) {
-  const discounts = useSelector(selectDiscountViews);
+export default function DiscountTable({
+  selectedItems,
+  handleShow,
+  discounts,
+}) {
   return (
     <>
       {discounts.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded shadow-lg bg-white appearance-none relative">
-          <DiscountList handleShow={handleShow} />
+          <DiscountList handleShow={handleShow} discounts={discounts} />
           <div className="md:flex flex-col hidden">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -48,30 +49,30 @@ export default function DiscountTable({ selectedItems, handleShow }) {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {discounts.map(person => (
-                        <tr key={person.discount_id}>
+                      {discounts.map(discount => (
+                        <tr key={discount.discount_id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="flex-shrink-0 h-10 w-10">
                                 <img
                                   className="h-10 w-10 rounded"
-                                  src={person.cover_photo}
-                                  alt={person.name}
+                                  src={discount.cover_photo}
+                                  alt={discount.name}
                                 />
                               </div>
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">
-                                  {person.name}
+                                  {discount.name}
                                 </div>
                                 <div className="text-sm text-gray-500">
-                                  {person.title}
+                                  {discount.title}
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {person.type}
+                              {discount.type}
                             </div>
                             {/* <div className="text-sm text-gray-500">
                               {person.status}
@@ -79,11 +80,11 @@ export default function DiscountTable({ selectedItems, handleShow }) {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              {person.status}
+                              {discount.status}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {person.num_applications}
+                            {discount.num_applications}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button className="text-purple-600 hover:text-purple-900">

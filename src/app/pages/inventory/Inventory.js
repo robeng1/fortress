@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { useQuery } from 'react-query';
+import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
@@ -7,18 +8,39 @@ import Header from 'app/partials/Header';
 // import DateSelect from 'app/components/DateSelect';
 import FilterButton from 'app/components/DropdownFilter';
 import InventoryTable from 'app/partials/inventory/InventoryTable';
-import PaginationNumeric from 'app/components/PaginationNumeric';
 import SearchForm from 'app/partials/actions/SearchForm';
-import { selectHasRecords } from 'app/features/inventory/selectors';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectShop } from 'app/features/settings/selectors';
+import { fortressURL } from 'app/endpoints/urls';
 
 function Inventories() {
+  const shop = useSelector(selectShop);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
-  const hasRecords = useSelector(selectHasRecords);
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [itemsPerPage, setItemsPerPage] = useState(15);
+
+  const query = `SELECT * FROM inventory WHERE shop_id = '${
+    shop.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1
+  }, ${itemsPerPage}`;
+
+  const { data } = useQuery(
+    ['inventory', page],
+    async () =>
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/inventory-views`, {
+        method: 'POST',
+        body: JSON.stringify(query),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(result => result.json()),
+    { keepPreviousData: true },
+  );
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
   };
@@ -56,13 +78,21 @@ function Inventories() {
             </div>
 
             {/* Table */}
-            <InventoryTable selectedItems={handleSelectedItems} />
+            <InventoryTable
+              selectedItems={handleSelectedItems}
+              records={data?.views || []}
+            />
 
             {/* Pagination */}
-            {hasRecords && (
-              <div className="mt-4 md:mt-8">
-                <PaginationNumeric />
-              </div>
+            {data && (
+              <Pagination
+                count={data?.total / itemsPerPage}
+                variant="outlined"
+                color="primary"
+                className="mt-4 md:mt-8"
+                page={page}
+                onChange={setPage}
+              />
             )}
             <BottomNav />
           </div>

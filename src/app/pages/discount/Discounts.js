@@ -1,24 +1,47 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHasDiscounts } from 'app/features/discount/selectors';
+import { useQuery } from 'react-query';
+import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SearchForm from 'app/partials/actions/SearchForm';
 import FilterButton from 'app/components/DropdownFilter';
 import DiscountTable from 'app/partials/discount/DiscountTable';
-import PaginationNumeric from 'app/components/PaginationNumeric';
 import DiscountForm from 'app/forms/discount/Discount';
 import { useDiscountSlice } from 'app/features/discount';
+import { selectShop } from 'app/features/settings/selectors';
+import { fortressURL } from 'app/endpoints/urls';
 
 function Discounts() {
+  const shop = useSelector(selectShop);
   const { actions } = useDiscountSlice();
   const [showForm, setShowForm] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [selectedItems, setSelectedItems] = useState([]);
-  const hasDiscounts = useSelector(selectHasDiscounts);
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [itemsPerPage, setItemsPerPage] = useState(15);
+
+  const query = `SELECT * FROM discount WHERE shop_id = '${
+    shop.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1
+  }, ${itemsPerPage}`;
+
+  const { data } = useQuery(
+    ['discounts', page],
+    async () =>
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/discount-views`, {
+        method: 'POST',
+        body: JSON.stringify(query),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(result => result.json()),
+    { keepPreviousData: true },
+  );
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
@@ -110,12 +133,18 @@ function Discounts() {
           <DiscountTable
             selectedItems={handleSelectedItems}
             handleShow={handleShow}
+            discounts={data?.views || []}
           />
           {/* Pagination */}
-          {hasDiscounts && (
-            <div className="mt-4 md:mt-8">
-              <PaginationNumeric />
-            </div>
+          {data && (
+            <Pagination
+              count={data?.total / itemsPerPage}
+              variant="outlined"
+              color="primary"
+              className="mt-4 md:mt-8"
+              page={page}
+              onChange={setPage}
+            />
           )}
         </div>
       </main>

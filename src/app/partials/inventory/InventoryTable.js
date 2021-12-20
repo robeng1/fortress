@@ -3,13 +3,9 @@ import { focusHandling } from 'cruip-js-toolkit';
 import InventoryTableItem from './InventoryTableItem';
 import InventoryList from './mobile/InventoryList';
 import EmptyState from 'app/partials/EmptyState';
-import { selectRecordViews } from 'app/features/inventory/selectors';
-import { useSelector } from 'react-redux';
 import money from 'app/utils/money';
 
-const InventoryTable = ({ selectedItems, headings }) => {
-  const records = useSelector(selectRecordViews);
-
+const InventoryTable = ({ selectedItems, headings, records }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -45,7 +41,7 @@ const InventoryTable = ({ selectedItems, headings }) => {
     <>
       {records.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded shadow-lg bg-white appearance-none relative">
-          <InventoryList />
+          <InventoryList records={records} />
           <div className="hidden md:block">
             <div className="overflow-x-auto">
               <table className="table-auto w-full">

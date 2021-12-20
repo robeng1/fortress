@@ -1,11 +1,7 @@
 import * as React from 'react';
 import InventoryCard from './InventoryCard';
-import { selectRecordViews } from 'app/features/inventory/selectors';
-import { useSelector } from 'react-redux';
 import money from 'app/utils/money';
-export default function InventoryList() {
-  const records = useSelector(selectRecordViews);
-
+export default function InventoryList({ records }) {
   return (
     <>
       <div className="md:hidden">

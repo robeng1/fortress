@@ -1,10 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectDiscountViews } from 'app/features/discount/selectors';
 import DiscountCard from './DiscountCard';
 
-export default function DiscountList({ handleShow }) {
-  const discounts = useSelector(selectDiscountViews);
+export default function DiscountList({ handleShow, discounts }) {
   return (
     <>
       <div className="md:hidden">
