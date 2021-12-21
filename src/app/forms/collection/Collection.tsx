@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import Uppy from '@uppy/core';
@@ -11,33 +12,100 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-// import GoogleDrive from '@uppy/google-drive';
-// import Dropbox from '@uppy/dropbox';
-// import Instagram from '@uppy/instagram';
-// import Facebook from '@uppy/facebook';
-// import OneDrive from '@uppy/onedrive';
-// import Box from '@uppy/box';
-// import Webcam from '@uppy/webcam';
+import GoogleDrive from '@uppy/google-drive';
+import Dropbox from '@uppy/dropbox';
+import Instagram from '@uppy/instagram';
+import Facebook from '@uppy/facebook';
+import OneDrive from '@uppy/onedrive';
+import Box from '@uppy/box';
+import Webcam from '@uppy/webcam';
 import { Loader } from 'app/components/Loader';
-import { useCollectionSlice } from 'app/features/collection';
-import { selectCollectionById } from 'app/features/collection/selectors';
-import { useDispatch, useSelector } from 'react-redux';
-import { checkIfLoading } from 'app/features/ui/selectors';
+import { useSelector } from 'react-redux';
 
 import DropTarget from '@uppy/drop-target';
 import { selectShop } from 'app/features/settings/selectors';
+import { fortressURL } from 'app/endpoints/urls';
+import PaginationClassic from 'app/components/PaginationClassic';
+import { CollectionType } from 'app/models/collection/collection-type';
+import { request, ResponseError } from 'utils/request';
 
-export default function CollectionForm({ handleShow, collectionId }) {
-  const { actions } = useCollectionSlice();
-  const dispatch = useDispatch();
+export default function CollectionForm({ handleShow, id }) {
+  const queryClient = useQueryClient();
   const shop = useSelector(selectShop);
-  const collection = useSelector(state =>
-    selectCollectionById(state, collectionId),
+  const requestURL = `${fortressURL}/shops/${shop.shop_id}/collections`;
+  const [collectionId, setCollectionId] = useState(id);
+
+  // query for getting the collection
+  const { data: collection, isLoading } = useQuery<CollectionType>(
+    ['collection', collectionId],
+    async () => await request(`${requestURL}/${collectionId}`),
+    {
+      // The query will not execute until the collectionId exists
+      enabled: !!collectionId,
+      keepPreviousData: true,
+    },
   );
-  const isLoading = useSelector(state =>
-    checkIfLoading(state, actions.getCollection.type),
-  );
+
+  // set the image if one already exists
   const [image, setImage] = useState(collection?.image?.image_url);
+
+  const [page, setPage] = useState<String>('');
+  const [previousPage, setPreviousPage] = useState<String>('');
+  const itemsPerPage = 20;
+
+  const {
+    data: { next_page_token, products },
+  } = useQuery(
+    ['collection-products', page],
+    async () =>
+      await request(
+        `${requestURL}/${collectionId}/products?page=${page}&num=${itemsPerPage}`,
+      ),
+
+    { keepPreviousData: true, enabled: !!collectionId },
+  );
+
+  // create the colletion
+  const {
+    mutate: createCollection,
+    // isLoading: isCreatingCollection,
+    // isError: collectionCreationFailed,
+    // error: collectionCreationError,
+  } = useMutation(
+    (collectionData: CollectionType) =>
+      request(requestURL, {
+        method: 'POST',
+        body: JSON.stringify(collectionData),
+      }),
+    {
+      onSuccess: (newCollection: CollectionType) => {
+        setCollectionId(newCollection.collection_id);
+        queryClient.setQueryData(['collection', collectionId], newCollection);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // update the collection
+  const {
+    mutate: updateCollection,
+    // isLoading: isUpdatingCollection,
+    // isError: collectionUpdateFailed,
+    // error: collectionUpdateError,
+  } = useMutation(
+    (collectionData: CollectionType) =>
+      request(`${requestURL}/${collectionId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(collectionData),
+      }),
+    {
+      onSuccess: (newCollection: CollectionType) => {
+        setCollectionId(newCollection.collection_id);
+        queryClient.setQueryData(['collection', collectionId], newCollection);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
   const onUploadComplete = result => {
     const url = result.successful[0].uploadURL;
     // const fileName = file.name;
@@ -53,40 +121,38 @@ export default function CollectionForm({ handleShow, collectionId }) {
   };
 
   const uppy = React.useMemo(() => {
-    return (
-      new Uppy({
-        id: 'collection',
-        autoProceed: false,
-        restrictions: {
-          maxFileSize: 15 * 1024 * 1024,
-          maxNumberOfFiles: 1,
-          minNumberOfFiles: 1,
-          allowedFileTypes: ['image/*', 'video/*'],
-        },
+    return new Uppy({
+      id: 'collection',
+      autoProceed: false,
+      restrictions: {
+        maxFileSize: 15 * 1024 * 1024,
+        maxNumberOfFiles: 1,
+        minNumberOfFiles: 1,
+        allowedFileTypes: ['image/*', 'video/*'],
+      },
+    })
+      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+      .use(GoogleDrive, {
+        companionUrl: 'https://companion.uppy.io',
       })
-        // .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-        // .use(GoogleDrive, {
-        //   companionUrl: 'https://companion.uppy.io',
-        // })
-        // .use(Dropbox, {
-        //   companionUrl: 'https://companion.uppy.io',
-        // })
-        // .use(Box, {
-        //   companionUrl: 'https://companion.uppy.io',
-        // })
-        // .use(Instagram, {
-        //   companionUrl: 'https://companion.uppy.io',
-        // })
-        // .use(Facebook, {
-        //   companionUrl: 'https://companion.uppy.io',
-        // })
-        // .use(OneDrive, {
-        //   companionUrl: 'https://companion.uppy.io',
-        // })
-        .use(DropTarget, { target: document.body })
-        .on('complete', onUploadComplete)
-        .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' })
-    );
+      .use(Dropbox, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(Box, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(Instagram, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(Facebook, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(OneDrive, {
+        companionUrl: 'https://companion.uppy.io',
+      })
+      .use(DropTarget, { target: document.body })
+      .on('complete', onUploadComplete)
+      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
   }, []);
 
   const addFiles = files => {
@@ -129,6 +195,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
     return () => uppy.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       {isLoading ? (
@@ -142,24 +209,21 @@ export default function CollectionForm({ handleShow, collectionId }) {
               type: 'manual',
             }}
             onSubmit={(values, { setSubmitting }) => {
-              if (collection) {
-                dispatch(
-                  actions.updateCollection({
-                    ...collection,
-                    ...values,
-                    shop_id: shop.shop_id,
-                    image: { image_url: image },
-                  }),
-                );
+              if (collectionId || collection) {
+                updateCollection({
+                  ...collection,
+                  ...values,
+                  collection_id: collectionId,
+                  shop_id: shop.shop_id,
+                  image: { image_url: image },
+                });
               } else {
-                dispatch(
-                  actions.createCollection({
-                    ...values,
-                    collection_id: '',
-                    shop_id: shop.shop_id,
-                    image: { image_url: image },
-                  }),
-                );
+                createCollection({
+                  ...values,
+                  collection_id: '',
+                  shop_id: shop.shop_id,
+                  image: { image_url: image },
+                });
               }
               setSubmitting(false);
             }}
@@ -258,7 +322,7 @@ export default function CollectionForm({ handleShow, collectionId }) {
                             width="100%"
                             height="400px"
                             theme="light"
-                            note="Images and video only, 2–6 files, up to 1 MB"
+                            note="Images and video only, 2-6 files, up to 1 MB"
                             metaFields={[
                               {
                                 id: 'alt',
@@ -279,32 +343,60 @@ export default function CollectionForm({ handleShow, collectionId }) {
                         </div>
                       </div>
                     </section>
-                    <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                      Products
-                      <div>
-                        <div className="w-full">
+                    {collectionId && (
+                      <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                        Products
+                        <div>
                           <div className="w-full">
-                            <div className="flex border-1 rounded">
-                              <input
-                                type="text"
-                                className="form-input w-full"
-                                placeholder="Search products..."
-                              />
-                              <button className="flex items-center justify-center px-4 border-l">
-                                <svg
-                                  className="w-6 h-6 text-gray-600"
-                                  fill="currentColor"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                </svg>
-                              </button>
+                            <div className="w-full">
+                              <div className="flex border-1 rounded">
+                                <input
+                                  type="text"
+                                  className="form-input w-full"
+                                  placeholder="Search products..."
+                                />
+                                <button className="flex items-center justify-center px-4 border-l">
+                                  <svg
+                                    className="w-6 h-6 text-gray-600"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </section>
+                        {products && (
+                          <div>
+                            {products.map(product => (
+                              <div></div>
+                            ))}
+                          </div>
+                        )}
+                        {products && (
+                          <div>
+                            <PaginationClassic
+                              previous={{
+                                disabled: previousPage === '',
+                                callBack: setPage(previousPage),
+                              }}
+                              next={{
+                                disabled:
+                                  next_page_token === '' ||
+                                  next_page_token === undefined,
+                                callBack: () => {
+                                  setPreviousPage(page);
+                                  setPage(next_page_token);
+                                },
+                              }}
+                            />
+                          </div>
+                        )}
+                      </section>
+                    )}
                   </div>
                 </div>
                 <footer>

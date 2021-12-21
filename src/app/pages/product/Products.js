@@ -70,7 +70,7 @@ function Products() {
         body: JSON.stringify(inventoryQuery),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
-    { keepPreviousData: true },
+    { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 
   // collections
@@ -85,14 +85,14 @@ function Products() {
   }, ${collectionItemsPerPage}`;
 
   const { data: collectionData } = useQuery(
-    ['collection', collectionPage],
+    ['collections', collectionPage],
     async () =>
       await fetch(`${fortressURL}/shops/${shop.shop_id}/collection-views`, {
         method: 'POST',
         body: JSON.stringify(collectionQuery),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
-    { keepPreviousData: true },
+    { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 
   const handleShowCollectionForm = (display, collectionId) => {
@@ -115,14 +115,14 @@ function Products() {
   }, ${productItemsPerPage}`;
 
   const { data: productData } = useQuery(
-    ['product', productPage],
+    ['products', productPage],
     async () =>
       await fetch(`${fortressURL}/shops/${shop.shop_id}/product-views`, {
         method: 'POST',
         body: JSON.stringify(productQuery),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
-    { keepPreviousData: true },
+    { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
   const handleShowProductForm = (display, productId) => {
     setShowForm(display);

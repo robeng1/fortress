@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PaginationClassic() {
+function PaginationClassic({ previous, next }) {
   return (
     <div className="mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between">
       <nav
@@ -11,9 +11,17 @@ function PaginationClassic() {
         <ul className="flex justify-center">
           <li className="ml-3 first:ml-0">
             <a
-              className="btn bg-white border-gray-200 text-gray-300 cursor-not-allowed"
+              className={` ${
+                previous.disabled
+                  ? 'btn bg-white border-gray-200 text-gray-300 cursor-not-allowed'
+                  : 'btn bg-white border-gray-200 hover:border-gray-300 text-purple-500'
+              }`}
               href="#0"
-              disabled
+              disabled={previous.disabled}
+              onClick={e => {
+                e.stopPropagation();
+                previous.callBack();
+              }}
             >
               <svg
                 className="w-5 h-5 mr-2"
@@ -32,8 +40,17 @@ function PaginationClassic() {
           </li>
           <li className="ml-3 first:ml-0">
             <a
-              className="btn bg-white border-gray-200 hover:border-gray-300 text-purple-500"
+              className={` ${
+                next.disabled
+                  ? 'btn bg-white border-gray-200 text-gray-300 cursor-not-allowed'
+                  : 'btn bg-white border-gray-200 hover:border-gray-300 text-purple-500'
+              }`}
               href="#0"
+              disabled={previous.disabled}
+              onClick={e => {
+                e.stopPropagation();
+                next.callBack();
+              }}
             >
               Next
               <svg
@@ -52,11 +69,11 @@ function PaginationClassic() {
           </li>
         </ul>
       </nav>
-      <div className="text-sm text-gray-500 text-center sm:text-left">
+      {/* <div className="text-sm text-gray-500 text-center sm:text-left">
         Showing <span className="font-medium text-gray-600">1</span> to{' '}
         <span className="font-medium text-gray-600">10</span> of{' '}
         <span className="font-medium text-gray-600">467</span> results
-      </div>
+      </div> */}
     </div>
   );
 }

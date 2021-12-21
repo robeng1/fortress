@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import moment from 'moment';
 import Divider from '@mui/material/Divider';
 
@@ -21,10 +22,8 @@ import '@uppy/dashboard/dist/style.css';
 // import OneDrive from '@uppy/onedrive';
 // import Box from '@uppy/box';
 import { Loader } from 'app/components/Loader';
-import { useDiscountSlice } from 'app/features/discount';
-import { useDispatch, useSelector } from 'react-redux';
-import { checkIfLoading } from 'app/features/ui/selectors';
-import { selectDiscountById } from 'app/features/discount/selectors';
+import { useSelector } from 'react-redux';
+import { fortressURL } from 'app/endpoints/urls';
 import DropTarget from '@uppy/drop-target';
 import { DiscountType } from 'app/models/discount/discount-type';
 import { ConditionType } from 'app/models/discount/condition-type';
@@ -36,6 +35,7 @@ import { VoucherType } from 'app/models/voucher/voucher';
 import { VoucherSetType } from 'app/models/voucher/voucherset';
 import { useState } from 'react';
 import ModalSearch from 'app/components/ModalSearch';
+import { request, ResponseError } from 'utils/request';
 
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
 // TODO:(fix range keys)
@@ -110,7 +110,7 @@ const initialValues: Values = {
   included_products: [],
   excluded_products: [],
   included_collections: [],
-  incentive_type: '',
+  incentive_type: 'percentage',
   max_affected_items: null,
   buy_x_get_y_condition_value: '',
   buy_x_get_y_condition_range_type: '',
@@ -148,9 +148,23 @@ const initialValues: Values = {
 };
 
 // TODO: (romeo) refactor duplicated pieces of logic
-const DiscountForm = ({ handleShow, discountId }) => {
+const DiscountForm = ({ handleShow, id }) => {
+  const queryClient = useQueryClient();
   const shop = useSelector(selectShop);
-  const discount = useSelector(state => selectDiscountById(state, discountId));
+  const requestURL = `${fortressURL}/shops/${shop.shop_id}/offers`;
+  const [discountId, setDiscountId] = useState(id);
+
+  // query for getting the discount
+  const { data: discount, isLoading } = useQuery<DiscountType>(
+    ['discount', discountId],
+    async () => await request(`${requestURL}/${discountId}`),
+    {
+      // The query will not execute until the discountId exists
+      enabled: !!discountId,
+      keepPreviousData: true,
+    },
+  );
+
   const [image, setImage] = useState(discount?.cover_photo?.image_url);
   // const handleSelectedResults =
   //   (
@@ -186,14 +200,6 @@ const DiscountForm = ({ handleShow, discountId }) => {
     setSearchBXGYBenRangeIncludedCollectionsOpen,
   ] = useState(false);
 
-  const { actions } = useDiscountSlice();
-  const dispatch = useDispatch();
-  if (discountId) {
-    dispatch(actions.getDiscount(discountId));
-  }
-  const isLoading = useSelector(state =>
-    checkIfLoading(state, actions.getDiscount.type),
-  );
   const flattenDiscount = (d: DiscountType | undefined): Values => {
     if (!d) {
       return initialValues;
@@ -366,7 +372,7 @@ const DiscountForm = ({ handleShow, discountId }) => {
     );
     return disc;
   };
-  const makeDiscountSavable = (d: Values): DiscountType => {
+  const cleanDiscount = (d: Values): DiscountType => {
     const disc: DiscountType = {
       shop_id: shop.shop_id || '',
       discount_id: discountId,
@@ -643,6 +649,48 @@ const DiscountForm = ({ handleShow, discountId }) => {
     return disc;
   };
 
+  // create the colletion
+  const {
+    mutate: createDiscount,
+    // isLoading: isCreatingDiscount,
+    // isError: discountCreationFailed,
+    // error: discountCreationError,
+  } = useMutation(
+    (discountData: DiscountType) =>
+      request(requestURL, {
+        method: 'POST',
+        body: JSON.stringify(discountData),
+      }),
+    {
+      onSuccess: (newDiscount: DiscountType) => {
+        setDiscountId(newDiscount.discount_id);
+        queryClient.setQueryData(['discount', discountId], newDiscount);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // update the collection
+  const {
+    mutate: updateDiscount,
+    // isLoading: isUpdatingDiscount,
+    // isError: discountUpdateFailed,
+    // error: discountUpdateError,
+  } = useMutation(
+    (discountData: DiscountType) =>
+      request(`${requestURL}/${discountId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(discountData),
+      }),
+    {
+      onSuccess: (newDiscount: DiscountType) => {
+        setDiscountId(newDiscount.discount_id);
+        queryClient.setQueryData(['discount', discountId], newDiscount);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
   const onUploadComplete = result => {
     const url = result.successful[0].uploadURL;
     // const fileName = file.name;
@@ -747,18 +795,14 @@ const DiscountForm = ({ handleShow, discountId }) => {
             }}
             onSubmit={(values, { setSubmitting }) => {
               if (discount) {
-                dispatch(
-                  actions.updateDiscount({
-                    ...discount,
-                    ...makeDiscountSavable({ ...values }),
-                  }),
-                );
+                updateDiscount({
+                  ...discount,
+                  ...cleanDiscount({ ...values }),
+                });
               } else {
-                dispatch(
-                  actions.createDiscount({
-                    ...makeDiscountSavable({ ...values }),
-                  }),
-                );
+                createDiscount({
+                  ...cleanDiscount({ ...values }),
+                });
               }
               setSubmitting(false);
             }}

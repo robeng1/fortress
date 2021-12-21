@@ -22,12 +22,12 @@ export const loadCollectionsAsOptions =
     );
     const responseJSON = await response.json();
     let options = responseJSON.result;
-    const slicedOptions = options.slice(
-      prevOptions.length,
-      prevOptions.length + 10,
-    );
+    // const slicedOptions = options.slice(
+    //   prevOptions.length,
+    //   prevOptions.length + 10,
+    // );
     return {
-      options: slicedOptions,
+      options: options,
       hasMore: true,
       // additional: {
       //   page: searchQuery ? 2 : page + 1,

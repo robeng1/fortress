@@ -1,10 +1,7 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
-import { selectOrderViews } from 'app/features/order/selectors';
 import OrderCard from './OrderCard';
 
-export default function OrderList({ handleShow }) {
-  const orders = useSelector(selectOrderViews);
+export default function OrderList({ handleShow, orders }) {
   return (
     <>
       <div className="md:hidden">

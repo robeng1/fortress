@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { focusHandling } from 'cruip-js-toolkit';
 import OrderItem from './OrdersTableItem';
 import OrderList from './mobile/OrderList';
-
-import { selectOrderViews } from 'app/features/order/selectors';
 import EmptyState from 'app/partials/EmptyState';
 import money from 'app/utils/money';
 
-function OrdersTable({ selectedItems, handleShow }) {
-  const orders = useSelector(selectOrderViews);
-
+function OrdersTable({ selectedItems, handleShow, orders }) {
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -45,7 +40,7 @@ function OrdersTable({ selectedItems, handleShow }) {
       {orders.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded shadow-lg bg-white appearance-none relative">
           <div>
-            <OrderList handleShow={handleShow} />
+            <OrderList handleShow={handleShow} orders={orders} />
             {/* Table */}
             <div className="hidden md:block overflow-x-auto">
               <table className="table-auto w-full divide-y divide-gray-200">

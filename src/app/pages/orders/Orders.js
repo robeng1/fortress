@@ -1,27 +1,49 @@
 import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHasOrders } from 'app/features/order/selectors';
-
+import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import DeleteButton from '../../partials/actions/DeleteButton';
-import DateSelect from '../../components/DateSelect';
-import FilterButton from '../../components/DropdownFilter';
-import SearchForm from '../../partials/actions/SearchForm';
-import OrdersTable from '../../partials/orders/OrdersTable';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import DeleteButton from 'app/partials/actions/DeleteButton';
+import DateSelect from 'app/components/DateSelect';
+import FilterButton from 'app/components/DropdownFilter';
+import SearchForm from 'app/partials/actions/SearchForm';
+import OrdersTable from 'app/partials/orders/OrdersTable';
 import Order from 'app/partials/orders/Order';
-import PaginationNumeric from '../../components/PaginationNumeric';
 import { useOrderSlice } from 'app/features/order';
+import { selectShop } from 'app/features/settings/selectors';
+import { fortressURL } from 'app/endpoints/urls';
 
 function Orders() {
+  const shop = useSelector(selectShop);
   const { actions } = useOrderSlice();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showOrder, setShowOrder] = useState(false);
   const [currentlyShowingOrderId, setCurrentlyShowingOrderId] = useState('');
-  const hasOrders = useSelector(selectHasOrders);
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [itemsPerPage, setItemsPerPage] = useState(15);
+
+  const query = `SELECT * FROM order WHERE shop_id = '${
+    shop.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1
+  }, ${itemsPerPage}`;
+
+  const { data } = useQuery(
+    ['orders', page],
+    async () =>
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/order-views`, {
+        method: 'POST',
+        body: JSON.stringify(query),
+        headers: { 'Content-Type': 'application/json' },
+      }).then(result => result.json()),
+    { keepPreviousData: true, enabled: !!shop?.shop_id },
+  );
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
@@ -78,7 +100,7 @@ function Orders() {
           </div>
 
           {/* More actions */}
-          {hasOrders && (
+          {data && (
             <div className="sm:flex sm:justify-between sm:items-center mb-5">
               {/* Left side */}
               <div className="mb-4 sm:mb-0 hidden md:block">
@@ -107,13 +129,19 @@ function Orders() {
           <OrdersTable
             handleShow={handleShow}
             selectedItems={handleSelectedItems}
+            orders={data?.views || []}
           />
 
           {/* Pagination */}
-          {hasOrders && (
-            <div className="mt-4 md:mt-8">
-              <PaginationNumeric />
-            </div>
+          {data && (
+            <Pagination
+              count={data?.total / itemsPerPage}
+              variant="outlined"
+              color="primary"
+              className="mt-4 md:mt-8"
+              page={page}
+              onChange={setPage}
+            />
           )}
         </div>
       </main>

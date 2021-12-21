@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';
 import Select from 'react-select';
@@ -11,6 +12,7 @@ import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import { cartesian } from 'app/utils/cartesian';
 import ProdutVariantPreview from 'app/forms/product/Variant';
+import { fortressURL } from 'app/endpoints/urls';
 
 import '@uppy/status-bar/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
@@ -21,18 +23,15 @@ import '@uppy/dashboard/dist/style.css';
 import colourStyles from 'app/forms/product/selectStyles';
 
 import { colourOptions, attributeOptions } from 'app/data/select';
-// import GoogleDrive from '@uppy/google-drive';
-// import Webcam from '@uppy/webcam';
-// import Dropbox from '@uppy/dropbox';
-// import Instagram from '@uppy/instagram';
-// import Facebook from '@uppy/facebook';
-// import OneDrive from '@uppy/onedrive';
-// import Box from '@uppy/box';
-import { useProductSlice } from 'app/features/product';
+import GoogleDrive from '@uppy/google-drive';
+import Webcam from '@uppy/webcam';
+import Dropbox from '@uppy/dropbox';
+import Instagram from '@uppy/instagram';
+import Facebook from '@uppy/facebook';
+import OneDrive from '@uppy/onedrive';
+import Box from '@uppy/box';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectShop } from 'app/features/settings/selectors';
-import { checkIfLoading } from 'app/features/ui/selectors';
-import { selectProductById } from 'app/features/product/selectors';
 
 import DropTarget from '@uppy/drop-target';
 import {
@@ -51,6 +50,7 @@ import {
   loadTagsAsOptions,
 } from 'app/services/options-loaders';
 import Creatable from 'react-select/creatable';
+import { request, ResponseError } from 'utils/request';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -102,29 +102,35 @@ const ProductSchema = Yup.object().shape({
   price: Yup.string().required('Required'),
 });
 
-const ProductForm = ({ handleShow, productId }) => {
+const ProductForm = ({ handleShow, id }) => {
+  const queryClient = useQueryClient();
+  const shop = useSelector(selectShop);
+  const requestURL = `${fortressURL}/shops/${shop.shop_id}/products`;
+  const [productId, setProductId] = useState(id);
+
   // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
   const [images, setImages] = useState([]);
-  const { actions } = useProductSlice();
   const dispatch = useDispatch();
-  if (productId) {
-    dispatch(actions.getProduct(productId));
-  }
 
   const { actions: inventoryActions } = useInventorySlice();
   // reload the locations if they do not exist already
   // dispatch(inventoryActions.loadLoactions());
-
-  const shop = useSelector(selectShop);
   const locations = useSelector(selectLocations);
-  const product = useSelector(state => selectProductById(state, productId));
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const isLoading = useSelector(state =>
-    checkIfLoading(state, actions.getProduct.type),
+
+  // query for getting the product
+  const { data: product } = useQuery<ProductType>(
+    ['product', productId],
+    async () => await request(`${requestURL}/${productId}`),
+    {
+      // The query will not execute until the productId exists
+      enabled: !!productId,
+      keepPreviousData: true,
+    },
   );
+
   useEffect(() => {
     dispatch(inventoryActions.loadLoactions());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,6 +234,47 @@ const ProductForm = ({ handleShow, productId }) => {
     return p;
   };
 
+  // create the product
+  const {
+    mutate: createProduct,
+    // isLoading: isCreatingProduct,
+    // isError: productCreationFailed,
+    // error: productCreationError,
+  } = useMutation(
+    (productData: ProductType) =>
+      request(requestURL, {
+        method: 'POST',
+        body: JSON.stringify(productData),
+      }),
+    {
+      onSuccess: (newProduct: ProductType) => {
+        setProductId(newProduct.product_id);
+        queryClient.setQueryData(['product', productId], newProduct);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // update the collection
+  const {
+    mutate: updateProduct,
+    // isLoading: isUpdatingProduct,
+    // isError: productUpdateFailed,
+    // error: productUpdateError,
+  } = useMutation(
+    (productData: ProductType) =>
+      request(`${requestURL}/${productId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(productData),
+      }),
+    {
+      onSuccess: (newProduct: ProductType) => {
+        setProductId(newProduct.product_id);
+        queryClient.setQueryData(['product', productId], newProduct);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
   const onUploadComplete = result => {
     console.log('successful files:', result.successful);
     console.log('failed files:', result.failed);
@@ -247,54 +294,52 @@ const ProductForm = ({ handleShow, productId }) => {
     // document.querySelector(elForUploadedFiles).appendChild(li);
   };
   const uppy = React.useMemo(() => {
-    return (
-      new Uppy({
-        id: 'product',
-        autoProceed: false,
-        restrictions: {
-          maxFileSize: 15 * 1024 * 1024,
-          maxNumberOfFiles: 6,
-          minNumberOfFiles: 1,
-          allowedFileTypes: ['image/*'],
-        },
-        onBeforeUpload: (files: {
-          [key: string]: UppyFile<Record<string, unknown>>;
-        }): { [key: string]: UppyFile<Record<string, unknown>> } | boolean => {
-          const datename = Date.now();
-          for (var prop in files) {
-            files[
-              prop
-            ].name = `products/${shop.shop_id}/images/${files[prop].name}_${datename}`;
-            files[
-              prop
-            ].meta.name = `products/${shop.shop_id}/images/${files[prop].meta.name}_${datename}`;
-          }
-          return files;
-        },
+    return new Uppy({
+      id: 'product',
+      autoProceed: false,
+      restrictions: {
+        maxFileSize: 15 * 1024 * 1024,
+        maxNumberOfFiles: 6,
+        minNumberOfFiles: 1,
+        allowedFileTypes: ['image/*'],
+      },
+      onBeforeUpload: (files: {
+        [key: string]: UppyFile<Record<string, unknown>>;
+      }): { [key: string]: UppyFile<Record<string, unknown>> } | boolean => {
+        const datename = Date.now();
+        for (var prop in files) {
+          files[
+            prop
+          ].name = `products/${shop.shop_id}/images/${files[prop].name}_${datename}`;
+          files[
+            prop
+          ].meta.name = `products/${shop.shop_id}/images/${files[prop].meta.name}_${datename}`;
+        }
+        return files;
+      },
+    })
+      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+      .use(GoogleDrive, {
+        companionUrl: 'https://companion.reoplex.com',
       })
-        // .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-        // .use(GoogleDrive, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Dropbox, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Box, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Instagram, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Facebook, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(OneDrive, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        .use(DropTarget, { target: document.body })
-        .on('complete', onUploadComplete)
-        .use(Tus, { endpoint: 'https://api.reoplex.com/storage/files/' })
-    );
+      .use(Dropbox, {
+        companionUrl: 'https://companion.reoplex.com',
+      })
+      .use(Box, {
+        companionUrl: 'https://companion.reoplex.com',
+      })
+      .use(Instagram, {
+        companionUrl: 'https://companion.reoplex.com',
+      })
+      .use(Facebook, {
+        companionUrl: 'https://companion.reoplex.com',
+      })
+      .use(OneDrive, {
+        companionUrl: 'https://companion.reoplex.com',
+      })
+      .use(DropTarget, { target: document.body })
+      .on('complete', onUploadComplete)
+      .use(Tus, { endpoint: 'https://api.reoplex.com/storage/files/' });
   }, [shop.shop_id]);
   const addFiles = files => {
     files.forEach(e => {
@@ -447,9 +492,9 @@ const ProductForm = ({ handleShow, productId }) => {
     const p = cleanProduct({ ...values });
     console.log(p);
     if (!productId || productId === '') {
-      dispatch(actions.createProduct(p));
+      createProduct(p);
     } else {
-      dispatch(actions.updateProduct(p));
+      updateProduct(p);
     }
   };
   return (
@@ -1179,7 +1224,10 @@ const ProductForm = ({ handleShow, productId }) => {
                         </div>
                         <div>
                           <div className="rounded bg-white shadow p-3 mt-6 mb-10">
-                            {validateVarOptions(values.variation_options) && (
+                            {(
+                              productId &&
+                              validateVarOptions(values.variation_options)
+                            )(
                               <button
                                 onClick={e => {
                                   e.stopPropagation();
@@ -1191,9 +1239,12 @@ const ProductForm = ({ handleShow, productId }) => {
                                 className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
                               >
                                 Edit Variants
-                              </button>
+                              </button>,
                             )}
-                            {!validateVarOptions(values.variation_options) && (
+                            {(!productId ||
+                              !validateVarOptions(
+                                values.variation_options,
+                              )) && (
                               <div className="m-1.5">
                                 {/* Start */}
                                 <button

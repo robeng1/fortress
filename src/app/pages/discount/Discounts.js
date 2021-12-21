@@ -40,7 +40,7 @@ function Discounts() {
         body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
-    { keepPreviousData: true },
+    { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 
   const handleSelectedItems = selectedItems => {
