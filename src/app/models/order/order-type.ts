@@ -113,21 +113,21 @@ export interface ShopOrderListType {
 }
 export interface OrderType {
   number: string;
-  billing_address?: UserAddressType | null;
+  billing_address?: UserAddressType;
   account_id?: string;
-  total_incl_tax?: MoneyType | null;
-  total_excl_tax?: MoneyType | null;
-  shipping_incl_tax?: MoneyType | null;
-  shipping_excl_tax?: MoneyType | null;
-  shipping_address?: UserAddressType | null;
+  total_incl_tax: MoneyType;
+  total_excl_tax: MoneyType;
+  shipping_incl_tax: MoneyType;
+  shipping_excl_tax: MoneyType;
+  shipping_address: UserAddressType;
   shipping_templates?: Template[];
-  lines?: OrderLineType[];
+  lines: OrderLineType[];
   date_placed?: string;
   discounts?: OrderDiscountType[];
   payment_events?: PaymentEvent[];
   shipping_events?: ShippingEvent[];
   status_changes?: OrderStatusChangeType[];
-  status?: OrderStatusType | keyof typeof OrderStatusType;
+  status: OrderStatusType | keyof typeof OrderStatusType;
   guest_email?: string;
   group_id?: string;
   shipping_plan?: MethodType | keyof typeof MethodType;
@@ -135,7 +135,7 @@ export interface OrderType {
   job_id?: string;
   basket_id?: string;
   created_at?: string;
-  customer_id?: string;
+  customer_id: string;
   customer_name?: string;
   customer_email?: string;
   customer_phone?: string;

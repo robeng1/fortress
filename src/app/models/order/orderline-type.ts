@@ -98,12 +98,12 @@ export interface OrderLineType {
   centre_sku?: string;
   centre_line_reference?: string;
   stock?: StockType | null;
-  product?: OrderProductType | null;
+  product?: OrderProductType;
   quantity?: number;
-  line_price_excl_tax?: MoneyType | null;
-  line_price_incl_tax?: MoneyType | null;
-  unit_price_excl_tax?: MoneyType | null;
-  unit_price_incl_tax?: MoneyType | null;
+  line_price_excl_tax: MoneyType;
+  line_price_incl_tax: MoneyType;
+  unit_price_excl_tax: MoneyType;
+  unit_price_incl_tax: MoneyType;
   centre_status?: LineStatusType | keyof typeof LineStatusType;
   options?: LineOptionType[];
   prices?: LinePriceType[];

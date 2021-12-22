@@ -89,8 +89,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </svg>
             </button>
             <NavLink exact to="/" className="block">
-              <h1 className="mx-auto h-12 text-center text-3xl text-purple-800 w-auto">
-                Reoplex
+              <h1 className="mx-auto h-12 text-center text-2xl text-purple-800 w-auto">
+                REOPLEX
               </h1>
             </NavLink>
             {/* Logo */}
@@ -167,7 +167,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 hidden md:block last:mb-0 ${
                     pathname === '/' &&
-                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -209,7 +209,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <li
                   className={`px-3 py-2 rounded-sm hidden md:block mb-0.5 last:mb-0 ${
                     pathname.includes('orders') &&
-                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -361,7 +361,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname.includes('customers') &&
-                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -496,7 +496,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname === '/discounts' &&
-                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -683,7 +683,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname.includes('discounts') &&
-                    'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink

@@ -11,7 +11,7 @@ export interface AddressDataType {
   description?: string;
 }
 export interface UserAddressType {
-  data?: AddressDataType | null;
+  data: AddressDataType;
   account_id?: string;
   is_default_for_shipping?: boolean;
   is_default_for_billing?: boolean;

@@ -11,7 +11,7 @@ function SidebarLinkGroup({ children, activecondition }) {
     <li
       className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 font-semibold ${
         activecondition &&
-        'w-full bg-white rounded-lg shadow ease-out transition-transform transition-medium'
+        'w-full bg-white shadow-lg ease-out transition-transform transition-medium'
       }`}
     >
       {children(handleClick, open)}

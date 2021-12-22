@@ -20,6 +20,7 @@ import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
 import { request } from 'utils/request';
 import { WebAnalyticResponseBody } from 'app/models/stats/stats-type';
+import AnalyticsCard00 from 'app/partials/analytics/AnalyticsCard00';
 
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -61,7 +62,15 @@ function Analytics() {
               <Datepicker align="left" />
             </div>
           </div>
-
+          <div className="sm:flex sm:justify-between sm:items-center mb-8">
+            <AnalyticsCard00
+              totalSales={undefined}
+              totalCustomers={undefined}
+              totalNewCustomers={undefined}
+              grossRevenue={undefined}
+              netRevenue={undefined}
+            />
+          </div>
           {/* Cards */}
           <div className="grid grid-cols-12 gap-6">
             {/* Line chart (Analytics) */}
