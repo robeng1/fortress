@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Pagination from '@mui/material/Pagination';
 import { fortressURL } from 'app/endpoints/urls';
 
@@ -11,17 +11,14 @@ import SearchForm from 'app/partials/actions/SearchForm';
 import FilterButton from 'app/components/DropdownFilter';
 import CollectionsTable from 'app/partials/collections/CollectionsTable';
 import CollectionForm from 'app/forms/collection/Collection';
-import { useCollectionSlice } from 'app/features/collection';
 import BottomNav from 'app/components/BottomNav';
 import { selectShop } from 'app/features/settings/selectors';
 
 function Collections() {
-  const { actions } = useCollectionSlice();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showForm, setShowForm] = React.useState(false);
   const shop = useSelector(selectShop);
-  const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
   // eslint-disable-next-line no-unused-vars
@@ -50,10 +47,6 @@ function Collections() {
 
   const handleShow = (display, collectionId) => {
     setShowForm(display);
-    // dispatch an action to go get the collection
-    if (collectionId && collectionId !== '') {
-      dispatch(actions.getCollection(collectionId));
-    }
   };
 
   const renderFormView = () => {

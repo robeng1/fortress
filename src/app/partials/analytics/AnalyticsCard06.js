@@ -1,7 +1,8 @@
+import { formatThousands } from 'app/utils/utils';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function AnalyticsCard06() {
+function AnalyticsCard06({ topPages }) {
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 border border-transparent focus:outline-none rounded shadow-2xl bg-white appearance-none">
       <header className="px-5 py-4 border-b border-gray-100">
@@ -17,102 +18,22 @@ function AnalyticsCard06() {
             </ul>
 
             <ul className="space-y-1 text-sm text-gray-800 mt-3 mb-4">
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '82%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>reoplex.com/</div>
-                  <div className="font-medium">28K</div>
-                </div>
-              </li>
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '70%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>preview.reoplex.com/open-pro/</div>
-                  <div className="font-medium">12K</div>
-                </div>
-              </li>
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '60%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>preview.reoplex.com/appy/</div>
-                  <div className="font-medium">9.7K</div>
-                </div>
-              </li>
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '44%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>reoplex.com/unlimited/</div>
-                  <div className="font-medium">9.2K</div>
-                </div>
-              </li>
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '40%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>preview.reoplex.com/simple/</div>
-                  <div className="font-medium">7K</div>
-                </div>
-              </li>
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '30%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>reoplex.com/about-us/</div>
-                  <div className="font-medium">6.4K</div>
-                </div>
-              </li>
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '22%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>docs.reoplex.com/</div>
-                  <div className="font-medium">5.4K</div>
-                </div>
-              </li>
-              {/* Item */}
-              <li className="relative px-2 py-1">
-                <div
-                  className="absolute inset-0 bg-green-100"
-                  aria-hidden="true"
-                  style={{ width: '12%' }}
-                ></div>
-                <div className="relative flex justify-between space-x-2">
-                  <div>preview.reoplex.com/twist/</div>
-                  <div className="font-medium">2.2K</div>
-                </div>
-              </li>
+              {!!topPages &&
+                topPages.map(({ key, value }, index) => (
+                  <li className="relative px-2 py-1" key={index}>
+                    <div
+                      className="absolute inset-0 bg-green-100"
+                      aria-hidden="true"
+                      style={{ width: `${100 - 10 * index}%` }}
+                    ></div>
+                    <div className="relative flex justify-between space-x-2">
+                      <div>{key}</div>
+                      <div className="font-medium">
+                        {formatThousands(value)}
+                      </div>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
           {/* Card footer */}

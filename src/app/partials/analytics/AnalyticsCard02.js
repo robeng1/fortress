@@ -3,45 +3,15 @@ import LineChart from '../../charts/LineChart04';
 import { Link } from 'react-router-dom';
 
 // Import utilities
-import { tailwindConfig, hexToRGB } from '../../utils/utils';
+import { tailwindConfig, hexToRGB, formatThousands } from '../../utils/utils';
 
-function AnalyticsCard02() {
+function AnalyticsCard02({ liveVisitors, topPages }) {
   const chartData = {
-    labels: [
-      '12-01-2020',
-      '01-01-2021',
-      '02-01-2021',
-      '03-01-2021',
-      '04-01-2021',
-      '05-01-2021',
-      '06-01-2021',
-      '07-01-2021',
-      '08-01-2021',
-      '09-01-2021',
-      '10-01-2021',
-      '11-01-2021',
-      '12-01-2021',
-      '01-01-2022',
-      '02-01-2022',
-      '03-01-2022',
-      '04-01-2022',
-      '05-01-2022',
-      '06-01-2022',
-      '07-01-2022',
-      '08-01-2022',
-      '09-01-2022',
-      '10-01-2022',
-      '11-01-2022',
-      '12-01-2022',
-      '01-01-2023',
-    ],
+    labels: !!topPages ? topPages.map(s => s.key) : [],
     datasets: [
       // Indigo line
       {
-        data: [
-          732, 610, 610, 504, 504, 504, 349, 349, 504, 342, 504, 610, 391, 192,
-          154, 273, 191, 191, 126, 263, 349, 252, 423, 622, 470, 532,
-        ],
+        data: !!topPages ? topPages.map(s => s.value) : [],
         fill: true,
         backgroundColor: `rgba(${hexToRGB(
           tailwindConfig().theme.colors.blue[500],
@@ -76,7 +46,9 @@ function AnalyticsCard02() {
             </div>
             {/* Vistors number */}
             <div>
-              <div className="text-3xl font-bold text-gray-800 mr-2">347</div>
+              <div className="text-3xl font-bold text-gray-800 mr-2">
+                {!!liveVisitors ? formatThousands(liveVisitors) : '-'}
+              </div>
               <div className="text-sm text-gray-500">Live visitors</div>
             </div>
           </div>
@@ -105,52 +77,20 @@ function AnalyticsCard02() {
               </thead>
               {/* Table body */}
               <tbody className="text-sm divide-y divide-gray-100">
+                {!!topPages &&
+                  topPages.map(({ key, value }, index) => (
+                    <tr key={index}>
+                      <td className="py-2">
+                        <div className="text-left">{key}</div>
+                      </td>
+                      <td className="py-2">
+                        <div className="font-medium text-right text-gray-800">
+                          {formatThousands(value)}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 {/* Row */}
-                <tr>
-                  <td className="py-2">
-                    <div className="text-left">
-                      preview.reoplex.com/open-pro/
-                    </div>
-                  </td>
-                  <td className="py-2">
-                    <div className="font-medium text-right text-gray-800">
-                      94
-                    </div>
-                  </td>
-                </tr>
-                {/* Row */}
-                <tr>
-                  <td className="py-2">
-                    <div className="text-left">preview.reoplex.com/simple/</div>
-                  </td>
-                  <td className="py-2">
-                    <div className="font-medium text-right text-gray-800">
-                      42
-                    </div>
-                  </td>
-                </tr>
-                {/* Row */}
-                <tr>
-                  <td className="py-2">
-                    <div className="text-left">reoplex.com/unlimited/</div>
-                  </td>
-                  <td className="py-2">
-                    <div className="font-medium text-right text-gray-800">
-                      12
-                    </div>
-                  </td>
-                </tr>
-                {/* Row */}
-                <tr>
-                  <td className="py-2">
-                    <div className="text-left">preview.reoplex.com/twist/</div>
-                  </td>
-                  <td className="py-2">
-                    <div className="font-medium text-right text-gray-800">
-                      4
-                    </div>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>

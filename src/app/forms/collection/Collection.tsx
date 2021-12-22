@@ -53,9 +53,7 @@ export default function CollectionForm({ handleShow, id }) {
   const [previousPage, setPreviousPage] = useState<String>('');
   const itemsPerPage = 20;
 
-  const {
-    data: { next_page_token, products },
-  } = useQuery(
+  const { data: collectionProducts } = useQuery(
     ['collection-products', page],
     async () =>
       await request(
@@ -369,14 +367,14 @@ export default function CollectionForm({ handleShow, id }) {
                             </div>
                           </div>
                         </div>
-                        {products && (
+                        {collectionProducts?.products && (
                           <div>
-                            {products.map(product => (
+                            {collectionProducts?.products.map(product => (
                               <div></div>
                             ))}
                           </div>
                         )}
-                        {products && (
+                        {collectionProducts?.products && (
                           <div>
                             <PaginationClassic
                               previous={{
@@ -385,11 +383,12 @@ export default function CollectionForm({ handleShow, id }) {
                               }}
                               next={{
                                 disabled:
-                                  next_page_token === '' ||
-                                  next_page_token === undefined,
+                                  collectionProducts?.next_page_token === '' ||
+                                  collectionProducts?.next_page_token ===
+                                    undefined,
                                 callBack: () => {
                                   setPreviousPage(page);
-                                  setPage(next_page_token);
+                                  setPage(collectionProducts?.next_page_token);
                                 },
                               }}
                             />
