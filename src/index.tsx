@@ -13,7 +13,6 @@ import * as ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { throttle } from 'lodash';
 import { ToastContainer } from 'react-toastify';
 
 import 'css/style.scss';
@@ -34,21 +33,12 @@ import reportWebVitals from 'reportWebVitals';
 import './locales/i18n';
 
 import theme from './styles/mui-theme/theme';
-import { loadState, saveState } from 'store/state';
+import { loadState } from 'store/state';
 
 const queryClient = new QueryClient();
 // Create redux store with history
 const initialState = loadState();
 const { store } = configureAppStore(initialState);
-
-store.subscribe(
-  throttle(() => {
-    //saveState(store.getState()) store the complete state, but I just need the user object so:
-    saveState({
-      ...store.getState(), // note I am using immutablejs
-    });
-  }, 1000),
-); // don't persist on disk too often, once per second maybe...
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(

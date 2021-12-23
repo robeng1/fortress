@@ -4,9 +4,9 @@ import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
-import LocationsPanel from 'app/partials/settings/LocationsPanel';
+import PoliciesPanel from 'app/partials/settings/PoliciesPanel';
 
-function Locations() {
+function Policies() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -17,7 +17,11 @@ function Locations() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location={undefined}
+        />
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -33,7 +37,7 @@ function Locations() {
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
                 <SettingsSidebar />
-                <LocationsPanel />
+                <PoliciesPanel />
               </div>
             </div>
           </div>
@@ -44,4 +48,4 @@ function Locations() {
   );
 }
 
-export default Locations;
+export default Policies;

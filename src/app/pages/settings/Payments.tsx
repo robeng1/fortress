@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 import BottomNav from 'app/components/BottomNav';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import SalesChannelsPanel from '../../partials/settings/SalesChannelsPanel';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
+import PaymentPanel from 'app/partials/settings/PaymentsPanel';
 
-function SalesChannels() {
+function Payments() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -17,7 +17,11 @@ function SalesChannels() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location={undefined}
+        />
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -33,7 +37,7 @@ function SalesChannels() {
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
                 <SettingsSidebar />
-                <SalesChannelsPanel />
+                <PaymentPanel />
               </div>
             </div>
           </div>
@@ -44,4 +48,4 @@ function SalesChannels() {
   );
 }
 
-export default SalesChannels;
+export default Payments;

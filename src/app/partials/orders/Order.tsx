@@ -16,7 +16,7 @@ export default function Order({ handleShow, id }) {
   const requestURL = `${fortressURL}/shops/${shop.shop_id}/orders`;
 
   // query for getting the order
-  const { data: order, isLoading } = useQuery<OrderType>(
+  const { data: order, isLoading } = useQuery<OrderType, ResponseError>(
     ['order', orderId],
     async () => await request(`${requestURL}/${orderId}`),
     {
@@ -70,7 +70,7 @@ export default function Order({ handleShow, id }) {
             <main className="flex-1 pt-12 px-2 md:px-4 w-full h-full overflow-auto bg-gray-100 mb-3">
               <header className="flex">
                 <button
-                  onClick={() => handleShow(false, orderId)}
+                  onClick={() => handleShow(false, undefined)}
                   className="inline-flex text-gray-600"
                 >
                   <svg

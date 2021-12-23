@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';
@@ -30,8 +30,6 @@ import Instagram from '@uppy/instagram';
 import Facebook from '@uppy/facebook';
 import OneDrive from '@uppy/onedrive';
 import Box from '@uppy/box';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectShop } from 'app/features/settings/selectors';
 
 import DropTarget from '@uppy/drop-target';
 import {
@@ -41,8 +39,6 @@ import {
 } from 'app/models/product/product-type';
 import { InventoryType } from 'app/models/inventory/inventory-type';
 import money from 'app/utils/money';
-import { useInventorySlice } from 'app/features/inventory';
-import { selectLocations } from 'app/features/inventory/selectors';
 import slugify from 'slugify';
 import {
   loadCollectionsAsOptions,
@@ -51,6 +47,9 @@ import {
 } from 'app/services/options-loaders';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
+import { locationsAtom } from 'store/atoms/location';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -104,7 +103,7 @@ const ProductSchema = Yup.object().shape({
 
 const ProductForm = ({ handleShow, id }) => {
   const queryClient = useQueryClient();
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
   const requestURL = `${fortressURL}/shops/${shop.shop_id}/products`;
   const [productId, setProductId] = useState(id);
 
@@ -113,12 +112,7 @@ const ProductForm = ({ handleShow, id }) => {
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
   const [images, setImages] = useState([]);
-  const dispatch = useDispatch();
-
-  const { actions: inventoryActions } = useInventorySlice();
-  // reload the locations if they do not exist already
-  // dispatch(inventoryActions.loadLoactions());
-  const locations = useSelector(selectLocations);
+  const [locations] = useAtom(locationsAtom);
 
   // query for getting the product
   const { data: product } = useQuery<ProductType>(
@@ -130,12 +124,6 @@ const ProductForm = ({ handleShow, id }) => {
       keepPreviousData: true,
     },
   );
-
-  useEffect(() => {
-    dispatch(inventoryActions.loadLoactions());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const initialValues: Values = {
     title: '',
     description: '',

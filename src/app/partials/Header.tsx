@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import { useAtom } from 'jotai';
 
-import SearchModal from '../components/ModalSearch';
-import Notifications from '../components/DropdownNotifications';
-import Help from '../components/DropdownHelp';
-import UserMenu from '../components/DropdownProfile';
-import { useSelector } from 'react-redux';
-import { selectShopName } from 'app/features/settings/selectors';
+import SearchModal from 'app/components/ModalSearch';
+import Notifications from 'app/components/DropdownNotifications';
+import Help from 'app/components/DropdownHelp';
+import UserMenu from 'app/components/DropdownProfile';
+import { shopAtom } from 'store/atoms/shop';
 
 function Header({ sidebarOpen, setSidebarOpen, location }) {
-  const shopName = useSelector(selectShopName);
+  const [shop] = useAtom(shopAtom);
+  const shopName = shop.business_display_name;
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (

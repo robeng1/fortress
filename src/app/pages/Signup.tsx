@@ -1,41 +1,51 @@
 import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import isEmpty from 'lodash/isEmpty';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import slugify from 'slugify';
-import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
-import { request } from 'utils/request';
-import { domainURL } from 'app/endpoints/urls';
-import {
-  checkIfHasError,
-  checkIfLoading,
-  selectError,
-} from 'app/features/ui/selectors';
-import { selectIsAuthenticated } from 'app/features/authn/selectors';
-
+import { request, ResponseError } from 'utils/request';
+import { domainURL, fortressURL } from 'app/endpoints/urls';
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
-import { useSettingSlice } from 'app/features/settings';
-import { useUISlice } from 'app/features/ui';
+import { StartType } from 'app/models/settings/shop-type';
+import { useAtom } from 'jotai';
+import { useMutation } from 'react-query';
+import { sessionAtom } from 'store/atoms/authorization-atom';
+import { shopAtom } from 'store/atoms/shop';
 
 function Signup() {
-  const { actions } = useSettingSlice();
-  const { actions: uiActions } = useUISlice();
-  const isLoading = useSelector(state =>
-    checkIfLoading(state, actions.getStarted.type),
+  const requestURL = `${fortressURL}/shops/get-started`;
+  const [session, setSession] = useAtom(sessionAtom);
+  const [, setShop] = useAtom(shopAtom);
+  const {
+    mutate: getStarted,
+    isLoading,
+    isError,
+    error: err,
+  } = useMutation(
+    (payload: StartType) =>
+      request(requestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (resp: Record<string, any>) => {
+        setSession(resp.session);
+        // TODO: make a call to get the shop
+        setShop(resp.shop);
+      },
+      onError: (e: ResponseError) => {},
+    },
   );
-  const hasError = useSelector(state =>
-    checkIfHasError(state, actions.getStarted.type),
-  );
-  const err = useSelector(state => selectError(state, actions.getStarted.type));
   const history = useHistory();
-  const { state = {} } = history.location;
-  const { from } = state;
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const dispatch = useDispatch();
-  const handleSubmit = values => {
-    dispatch(actions.getStarted({ ...values }));
+  const location = useLocation<Record<string, any>>();
+  const { state } = location;
+
+  const isAuthenticated = !isEmpty(session);
+  const handleSubmit = (values: StartType) => {
+    getStarted({ ...values });
   };
-  const slugit = txt =>
+  const slugit = (txt: string) =>
     slugify(txt, {
       replacement: '-',
       lower: true,
@@ -44,12 +54,11 @@ function Signup() {
     });
 
   useEffect(() => {
-    dispatch(uiActions.clearError(actions.getStarted({})));
     if (isAuthenticated) {
-      history.push(from || '/');
+      history.push(state?.from || '/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, history, from]);
+  }, [isAuthenticated, history, state?.from]);
 
   return (
     <main className="bg-white">
@@ -75,8 +84,8 @@ function Signup() {
                 }}
                 validateOnChange={false}
                 validateOnBlur={true}
-                validate={values => {
-                  const errors = {};
+                validate={async values => {
+                  const errors: Record<string, any> = {};
                   if (!values.email) {
                     errors.email = 'Required';
                   } else if (
@@ -97,7 +106,7 @@ function Signup() {
                   } else {
                     const handle = slugit(values.handle);
                     const requestURL = `${domainURL}/ask?domain=${handle}`;
-                    const exists = request(requestURL)
+                    const exists = await request(requestURL)
                       .then(v => v)
                       .catch(() => false);
                     if (exists === true) {
@@ -210,7 +219,7 @@ function Signup() {
                         </div>
                       </div>
                     </div>
-                    {hasError && (
+                    {isError && (
                       <div className="bg-red-100 p-5 w-full sm:w-1/2">
                         <div className="flex space-x-3">
                           <svg
@@ -225,7 +234,7 @@ function Signup() {
                               Something went wrong
                             </div>
                             <div className="flex-1 leading-snug text-sm text-red-600">
-                              {err.error}
+                              {err?.message}
                             </div>
                           </div>
                         </div>
@@ -252,7 +261,7 @@ function Signup() {
                         <div className="m-1.5">
                           <button
                             className="btn bg-purple-500 hover:bg-purple-600 text-white ml-3"
-                            onClick={handleSubmit}
+                            onClick={e => handleSubmit()}
                           >
                             Create your store
                           </button>

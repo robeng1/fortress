@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
@@ -9,21 +9,19 @@ import Header from 'app/partials/Header';
 import FilterButton from 'app/components/DropdownFilter';
 import InventoryTable from 'app/partials/inventory/InventoryTable';
 import SearchForm from 'app/partials/actions/SearchForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 function Inventories() {
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [selectedItems, setSelectedItems] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedItems, setSelectedItems] = useState<any>([]);
 
   const [page, setPage] = useState(1);
-  // eslint-disable-next-line no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState(15);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
   const query = `SELECT * FROM inventory WHERE shop_id = '${
     shop.shop_id
@@ -32,7 +30,7 @@ function Inventories() {
   }, ${itemsPerPage}`;
 
   const { data } = useQuery(
-    ['inventory', page],
+    ['inventoryviews', page],
     async () =>
       await fetch(`${fortressURL}/shops/${shop.shop_id}/inventory-views`, {
         method: 'POST',
@@ -41,18 +39,14 @@ function Inventories() {
       }).then(result => result.json()),
     { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
-  const handleSelectedItems = selectedItems => {
+  const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <Sidebar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        location="Inventory"
-      />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
@@ -81,6 +75,7 @@ function Inventories() {
             <InventoryTable
               selectedItems={handleSelectedItems}
               records={data?.views || []}
+              headings={undefined}
             />
 
             {/* Pagination */}
@@ -91,7 +86,9 @@ function Inventories() {
                 color="primary"
                 className="mt-4 md:mt-8"
                 page={page}
-                onChange={setPage}
+                onChange={(event: ChangeEvent<unknown>, page: number) =>
+                  setPage(page)
+                }
               />
             )}
             <BottomNav />

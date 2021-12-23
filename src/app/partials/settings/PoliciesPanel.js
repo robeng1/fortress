@@ -1,13 +1,14 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { selectShop } from 'app/features/settings/selectors';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useSettingSlice } from 'app/features/settings';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 function PoliciesPanel() {
   const dispatch = useDispatch();
   const { actions } = useSettingSlice();
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
 
   return (
     <>

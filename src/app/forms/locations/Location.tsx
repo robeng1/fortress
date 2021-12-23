@@ -6,15 +6,16 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { LocationType } from 'app/models/inventory/inventory-type';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectShop } from 'app/features/settings/selectors';
 import { useInventorySlice } from 'app/features/inventory';
 import { selectLocationById } from 'app/features/inventory/selectors';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 function LocationsForm({ handleShow, centreId }) {
   const dispatch = useDispatch();
   const { actions } = useInventorySlice();
   const centre = useSelector(state => selectLocationById(state, centreId));
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
   const initialValues: LocationType = {
     shop_id: shop.shop_id,
     centre_id: centreId || '',

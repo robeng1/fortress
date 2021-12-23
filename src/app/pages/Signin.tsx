@@ -1,48 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useAuthnSlice } from 'app/features/authn';
-
+import isEmpty from 'lodash/isEmpty';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
-
-import {
-  checkIfHasError,
-  checkIfLoading,
-  selectError,
-} from 'app/features/ui/selectors';
-import { selectIsAuthenticated } from 'app/features/authn/selectors';
-import { useUISlice } from 'app/features/ui';
+import { theKeepURL } from 'app/endpoints/urls';
+import { RegisterLogInType } from 'app/models/user/profile';
+import { useMutation } from 'react-query';
+import { request, ResponseError } from 'utils/request';
+import { useAtom } from 'jotai';
+import { sessionAtom } from 'store/atoms/authorization-atom';
+import { shopAtom } from 'store/atoms/shop';
 
 function Signin() {
-  const { actions } = useAuthnSlice();
-  const { actions: uiActions } = useUISlice();
+  const requestURL = `${theKeepURL}/auth/login`;
+  const [session, setSession] = useAtom(sessionAtom);
+  const [, setShop] = useAtom(shopAtom);
+  const {
+    mutate: login,
+    isLoading,
+    isError,
+    error: err,
+  } = useMutation(
+    (payload: RegisterLogInType) =>
+      request(requestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (resp: Record<string, any>) => {
+        setSession(session);
+        // TODO: make a call to get the shop
+        setShop({});
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
   const history = useHistory();
-  const { state = {} } = history.location;
-  const { from } = state;
-  const isLoading = useSelector(state =>
-    checkIfLoading(state, actions.login.type),
-  );
-  const hasError = useSelector(state =>
-    checkIfHasError(state, actions.login.type),
-  );
-  const err = useSelector(state => selectError(state, actions.login.type));
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const location = useLocation<Record<string, any>>();
+  const { state } = location;
+
+  const isAuthenticated = !isEmpty(session);
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(actions.login({ identifier, password }));
+    login({ identifier, password });
   };
 
   useEffect(() => {
-    dispatch(uiActions.clearError(actions.login({ identifier, password })));
     if (isAuthenticated) {
-      history.push(from || '/');
+      history.push(state?.from || '/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, history, from]);
+  }, [isAuthenticated, history, state?.from]);
 
   return (
     <main className="bg-white">
@@ -92,7 +102,7 @@ function Signin() {
                     />
                   </div>
                 </div>
-                {hasError && <span>{err.error}</span>}
+                {isError && <span>{err?.message}</span>}
                 <div className="flex items-center justify-between mt-6">
                   <div className="mr-1">
                     <Link

@@ -22,13 +22,11 @@ import '@uppy/dashboard/dist/style.css';
 // import OneDrive from '@uppy/onedrive';
 // import Box from '@uppy/box';
 import { Loader } from 'app/components/Loader';
-import { useSelector } from 'react-redux';
 import { fortressURL } from 'app/endpoints/urls';
 import DropTarget from '@uppy/drop-target';
 import { DiscountType } from 'app/models/discount/discount-type';
 import { ConditionType } from 'app/models/discount/condition-type';
 import money from 'app/utils/money';
-import { selectShop } from 'app/features/settings/selectors';
 import { BenefitType } from 'app/models/discount/benefit-type';
 import { RangeType } from 'app/models/discount/range-type';
 import { VoucherType } from 'app/models/voucher/voucher';
@@ -36,6 +34,8 @@ import { VoucherSetType } from 'app/models/voucher/voucherset';
 import { useState } from 'react';
 import ModalSearch from 'app/components/ModalSearch';
 import { request, ResponseError } from 'utils/request';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
 // TODO:(fix range keys)
@@ -150,7 +150,7 @@ const initialValues: Values = {
 // TODO: (romeo) refactor duplicated pieces of logic
 const DiscountForm = ({ handleShow, id }) => {
   const queryClient = useQueryClient();
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
   const requestURL = `${fortressURL}/shops/${shop.shop_id}/offers`;
   const [discountId, setDiscountId] = useState(id);
 

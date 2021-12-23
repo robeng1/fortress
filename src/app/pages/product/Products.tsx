@@ -1,28 +1,26 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, lazy } from 'react';
+import React, { useState, lazy, ChangeEvent } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import { Tab } from '@headlessui/react';
 import ProductForm from 'app/forms/product/Product';
 import CollectionForm from 'app/forms/collection/Collection';
-import { useCollectionSlice } from 'app/features/collection';
-import { useProductSlice } from 'app/features/product';
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import DeleteButton from 'app/partials/actions/DeleteButton';
 import FilterButton from 'app/components/DropdownFilter';
 import SearchForm from 'app/partials/actions/SearchForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 const ProductsTable = lazy(() => import('app/partials/products/ProductsTable'));
-const InventoryTable = lazy(() =>
-  import('app/partials/inventory/InventoryTable'),
+const InventoryTable = lazy(
+  () => import('app/partials/inventory/InventoryTable'),
 );
-const CollectionsTable = lazy(() =>
-  import('app/partials/collections/CollectionsTable'),
+const CollectionsTable = lazy(
+  () => import('app/partials/collections/CollectionsTable'),
 );
 
 function classNames(...classes) {
@@ -30,32 +28,32 @@ function classNames(...classes) {
 }
 
 function Products() {
-  const shop = useSelector(selectShop);
-  const { actions: collectionActions } = useCollectionSlice();
-  const { actions: productActions } = useProductSlice();
-  const [showForm, setShowForm] = React.useState(false);
-  const [showCollectionForm, setShowCollectionForm] = React.useState(false);
-  const [tabIndex, setTabIndex] = React.useState(1);
+  const [shop] = useAtom(shopAtom);
+  const [showForm, setShowForm] = useState<Boolean>(false);
+  const [showCollectionForm, setShowCollectionForm] = useState<Boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [tabIndex, setTabIndex] = useState<number>(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<any>([]);
   const [currentlyBeingEditedProductId, setCurrentlyBeingEditedProductId] =
-    useState('');
+    useState<string | undefined>();
   const [
     currentlyBeingEditedCollectionId,
     setCurrentlyBeingEditedCollectionId,
-  ] = useState('');
+  ] = useState<string | undefined>();
 
   let [categories] = useState(['Products', 'Inventory', 'Collections']);
 
-  const handleSelectedItems = selectedItems => {
+  const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };
-  const dispatch = useDispatch();
 
   // inventory
-  const [inventoryPage, setInventoryPage] = useState(1);
-  // eslint-disable-next-line no-unused-vars
-  const [inventoryItemsPerPage, setInventoryItemsPerPage] = useState(15);
+  const [inventoryPage, setInventoryPage] = useState<number>(1);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [inventoryItemsPerPage, setInventoryItemsPerPage] =
+    useState<number>(15);
   const inventoryQuery = `SELECT * FROM inventory WHERE shop_id = '${
     shop.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
@@ -63,7 +61,7 @@ function Products() {
   }, ${inventoryItemsPerPage}`;
 
   const { data: inventoryData } = useQuery(
-    ['inventory', inventoryPage],
+    ['inventoryviews', inventoryPage],
     async () =>
       await fetch(`${fortressURL}/shops/${shop.shop_id}/inventory-views`, {
         method: 'POST',
@@ -74,9 +72,10 @@ function Products() {
   );
 
   // collections
-  const [collectionPage, setCollectionPage] = useState(1);
-  // eslint-disable-next-line no-unused-vars
-  const [collectionItemsPerPage, setCollectionItemsPerPage] = useState(15);
+  const [collectionPage, setCollectionPage] = useState<number>(1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [collectionItemsPerPage, setCollectionItemsPerPage] =
+    useState<number>(15);
 
   const collectionQuery = `SELECT * FROM collection WHERE shop_id = '${
     shop.shop_id
@@ -85,7 +84,7 @@ function Products() {
   }, ${collectionItemsPerPage}`;
 
   const { data: collectionData } = useQuery(
-    ['collections', collectionPage],
+    ['collectionviews', collectionPage],
     async () =>
       await fetch(`${fortressURL}/shops/${shop.shop_id}/collection-views`, {
         method: 'POST',
@@ -95,18 +94,15 @@ function Products() {
     { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 
-  const handleShowCollectionForm = (display, collectionId) => {
-    setShowCollectionForm(display);
+  const handleShowCollectionForm = (display: Boolean, collectionId: string) => {
     setCurrentlyBeingEditedCollectionId(collectionId);
-    if (collectionId && collectionId !== '') {
-      dispatch(collectionActions.getCollection(collectionId));
-    }
+    setShowCollectionForm(display);
   };
 
   // products
-  const [productPage, setProductPage] = useState(1);
-  // eslint-disable-next-line no-unused-vars
-  const [productItemsPerPage, setProductItemsPerPage] = useState(15);
+  const [productPage, setProductPage] = useState<number>(1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [productItemsPerPage, setProductItemsPerPage] = useState<number>(15);
 
   const productQuery = `SELECT * FROM product WHERE shop_id = '${
     shop.shop_id
@@ -115,7 +111,7 @@ function Products() {
   }, ${productItemsPerPage}`;
 
   const { data: productData } = useQuery(
-    ['products', productPage],
+    ['productviews', productPage],
     async () =>
       await fetch(`${fortressURL}/shops/${shop.shop_id}/product-views`, {
         method: 'POST',
@@ -124,12 +120,9 @@ function Products() {
       }).then(result => result.json()),
     { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
-  const handleShowProductForm = (display, productId) => {
-    setShowForm(display);
+  const handleShowProductForm = (display: Boolean, productId: string) => {
     setCurrentlyBeingEditedProductId(productId);
-    if (productId && productId !== '') {
-      dispatch(productActions.getProduct(productId));
-    }
+    setShowForm(display);
   };
 
   const renderForm = () => {
@@ -170,7 +163,7 @@ function Products() {
           {/* Form */}
           <ProductForm
             handleShow={handleShowProductForm}
-            productId={currentlyBeingEditedProductId}
+            id={currentlyBeingEditedProductId}
           />
         </div>
       </main>
@@ -214,7 +207,7 @@ function Products() {
           {/* Form */}
           <CollectionForm
             handleShow={handleShowCollectionForm}
-            collectionId={currentlyBeingEditedCollectionId}
+            id={currentlyBeingEditedCollectionId}
           />
         </div>
       </main>
@@ -267,7 +260,9 @@ function Products() {
               color="primary"
               className="mt-4 md:mt-8"
               page={collectionPage}
-              onChange={setCollectionPage}
+              onChange={(event: ChangeEvent<unknown>, page: number) =>
+                setCollectionPage(page)
+              }
             />
           )}
         </div>
@@ -338,6 +333,7 @@ function Products() {
           <InventoryTable
             selectedItems={handleSelectedItems}
             records={inventoryData?.views || []}
+            headings={undefined}
           />
 
           {/* Pagination */}
@@ -348,7 +344,9 @@ function Products() {
               color="primary"
               className="mt-4 md:mt-8"
               page={inventoryPage}
-              onChange={setInventoryPage}
+              onChange={(event: ChangeEvent<unknown>, page: number) =>
+                setInventoryPage(page)
+              }
             />
           )}
         </div>
@@ -444,7 +442,9 @@ function Products() {
               color="primary"
               className="mt-4 md:mt-8"
               page={productPage}
-              onChange={setProductPage}
+              onChange={(event: ChangeEvent<unknown>, page: number) =>
+                setProductPage(page)
+              }
             />
           )}
         </div>
@@ -587,7 +587,9 @@ function Products() {
                 color="primary"
                 className="mt-4 md:mt-8"
                 page={productPage}
-                onChange={setProductPage}
+                onChange={(event: ChangeEvent<unknown>, page: number) =>
+                  setProductPage(page)
+                }
               />
             )}
           </div>

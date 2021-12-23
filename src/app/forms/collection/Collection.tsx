@@ -20,18 +20,17 @@ import OneDrive from '@uppy/onedrive';
 import Box from '@uppy/box';
 import Webcam from '@uppy/webcam';
 import { Loader } from 'app/components/Loader';
-import { useSelector } from 'react-redux';
-
 import DropTarget from '@uppy/drop-target';
-import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
 import PaginationClassic from 'app/components/PaginationClassic';
 import { CollectionType } from 'app/models/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 export default function CollectionForm({ handleShow, id }) {
   const queryClient = useQueryClient();
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
   const requestURL = `${fortressURL}/shops/${shop.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
 

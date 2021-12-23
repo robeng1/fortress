@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Formik } from 'formik';
-import { selectShop } from 'app/features/settings/selectors';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useSettingSlice } from 'app/features/settings';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
@@ -11,17 +10,19 @@ import '@uppy/status-bar/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 const DropTarget = require('@uppy/drop-target');
 
 function StorePanel() {
   const dispatch = useDispatch();
   const { actions } = useSettingSlice();
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
 
   const [image, setImage] = useState(shop.image);
 
-  const inputFile = useRef(null);
+  const inputFile = useRef<HTMLInputElement>(null);
 
   const onUploadComplete = result => {
     const url = result.successful[0].uploadURL;
@@ -53,7 +54,6 @@ function StorePanel() {
   }, []);
 
   React.useEffect(() => {
-    dispatch(actions.getShopByMerchantId());
     return () => uppy.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -70,7 +70,9 @@ function StorePanel() {
     }
   };
   const onChangeClick = () => {
-    inputFile.current.click();
+    if (inputFile !== null) {
+      inputFile.current?.click();
+    }
   };
   return (
     <>

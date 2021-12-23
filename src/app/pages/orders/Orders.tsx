@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
@@ -11,22 +10,22 @@ import FilterButton from 'app/components/DropdownFilter';
 import SearchForm from 'app/partials/actions/SearchForm';
 import OrdersTable from 'app/partials/orders/OrdersTable';
 import Order from 'app/partials/orders/Order';
-import { useOrderSlice } from 'app/features/order';
-import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 function Orders() {
-  const shop = useSelector(selectShop);
-  const { actions } = useOrderSlice();
+  const [shop] = useAtom(shopAtom);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [showOrder, setShowOrder] = useState(false);
-  const [currentlyShowingOrderId, setCurrentlyShowingOrderId] = useState('');
-  const dispatch = useDispatch();
+  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [showOrder, setShowOrder] = useState<Boolean>(false);
+  const [currentlyShowingOrderId, setCurrentlyShowingOrderId] = useState<
+    string | undefined
+  >();
 
   const [page, setPage] = useState(1);
-  // eslint-disable-next-line no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState(15);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
   const query = `SELECT * FROM order WHERE shop_id = '${
     shop.shop_id
@@ -35,7 +34,7 @@ function Orders() {
   }, ${itemsPerPage}`;
 
   const { data } = useQuery(
-    ['orders', page],
+    ['orderviews', page],
     async () =>
       await fetch(`${fortressURL}/shops/${shop.shop_id}/order-views`, {
         method: 'POST',
@@ -45,22 +44,23 @@ function Orders() {
     { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 
-  const handleSelectedItems = selectedItems => {
+  const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };
 
-  const handleShow = (display, orderId) => {
-    setShowOrder(display);
+  const handleShow = (display: Boolean, orderId: string) => {
     setCurrentlyShowingOrderId(orderId);
-    // dispatch an action to go get the order
-    dispatch(actions.getOrder(orderId));
+    setShowOrder(display);
   };
   const renderList = () => {
     return (
       <main className="mb-10 md:mb-0">
         <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
           <div className="md:hidden mb-3">
-            <SearchForm className="w-full" placeholder="Search order number…" />
+            <SearchForm
+              // className="w-full"
+              placeholder="Search order number…"
+            />
           </div>
           {/* Page header */}
           <div className="sm:flex sm:justify-between sm:items-center mb-3">
@@ -70,7 +70,7 @@ function Orders() {
               <div className="flex flex-grow justify-start gap-2">
                 <div className="hidden md:block">
                   <SearchForm
-                    className="w-full"
+                    // className="w-full"
                     placeholder="Search order number…"
                   />
                 </div>
@@ -140,7 +140,9 @@ function Orders() {
               color="primary"
               className="mt-4 md:mt-8"
               page={page}
-              onChange={setPage}
+              onChange={(event: ChangeEvent<unknown>, page: number) =>
+                setPage(page)
+              }
             />
           )}
         </div>
@@ -163,7 +165,7 @@ function Orders() {
         />
 
         {showOrder ? (
-          <Order orderId={currentlyShowingOrderId} handleShow={handleShow} />
+          <Order id={currentlyShowingOrderId} handleShow={handleShow} />
         ) : (
           renderList()
         )}

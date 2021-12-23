@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { ChangeEvent, useState } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
-import BottomNav from 'app/components/BottomNav';
-import Sidebar from 'app/partials/Sidebar';
-import Header from 'app/partials/Header';
-import SearchForm from 'app/partials/actions/SearchForm';
-import FilterButton from 'app/components/DropdownFilter';
-import DiscountTable from 'app/partials/discount/DiscountTable';
-import DiscountForm from 'app/forms/discount/Discount';
-import { useDiscountSlice } from 'app/features/discount';
-import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
 
-function Discounts() {
-  const shop = useSelector(selectShop);
-  const { actions } = useDiscountSlice();
-  const [showForm, setShowForm] = useState(false);
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import DeleteButton from 'app/partials/actions/DeleteButton';
+import SearchForm from 'app/partials/actions/SearchForm';
+import FilterButton from 'app/components/DropdownFilter';
+import CollectionsTable from 'app/partials/collections/CollectionsTable';
+import CollectionForm from 'app/forms/collection/Collection';
+import BottomNav from 'app/components/BottomNav';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
+
+function Collections() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [selectedItems, setSelectedItems] = useState([]);
-  const dispatch = useDispatch();
+  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [showForm, setShowForm] = React.useState<Boolean>(false);
+  const [currentCollectionId, setCurrentCollectionId] = useState<
+    string | undefined
+  >();
+  const [shop] = useAtom(shopAtom);
 
   const [page, setPage] = useState(1);
-  // eslint-disable-next-line no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState(15);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM discount WHERE shop_id = '${
+  const query = `SELECT * FROM collection WHERE shop_id = '${
     shop.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
 
   const { data } = useQuery(
-    ['discounts', page],
+    ['collectionviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop.shop_id}/discount-views`, {
+      await fetch(`${fortressURL}/shops/${shop.shop_id}/collection-views`, {
         method: 'POST',
         body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },
@@ -47,12 +48,9 @@ function Discounts() {
     setSelectedItems([...selectedItems]);
   };
 
-  const handleShow = (display, discountId) => {
+  const handleShow = (display: Boolean, collectionId: string) => {
+    setCurrentCollectionId(collectionId);
     setShowForm(display);
-    // dispatch an action to go get the order
-    if (discountId && discountId !== '') {
-      dispatch(actions.getDiscount(discountId));
-    }
   };
 
   const renderFormView = () => {
@@ -92,26 +90,28 @@ function Discounts() {
           </div>
 
           {/* Form */}
-          <DiscountForm />
+          <CollectionForm handleShow={handleShow} id={currentCollectionId} />
         </div>
       </main>
     );
   };
 
-  const renderDiscountsView = () => {
+  const renderCollectionView = () => {
     return (
-      <main className="mb-10 md:mb-0">
-        <div className="px-4 sm:px-6 lg:px-8 w-full max-w-9xl mx-auto">
+      <main>
+        <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
           {/* Page header */}
           <div className="py-2 md:py-8 w-full max-w-9xl mx-auto">
-            {/* Page header */}
             <div className="sm:flex sm:justify-between sm:items-center">
               <div className="flex justify-between gap-2 w-full">
                 {/* Search form */}
                 <div className="flex justify-start gap-2">
-                  <SearchForm placeholder="Search discounts..." />
+                  <SearchForm placeholder="Search collections..." />
                   <div className="">
                     <FilterButton align="right" />
+                  </div>
+                  <div className="">
+                    <DeleteButton selectedItems={selectedItems} />
                   </div>
                 </div>
                 <button
@@ -124,17 +124,21 @@ function Discounts() {
                   >
                     <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                   </svg>
-                  <span className="hidden xs:block ml-2">Create Discount</span>
+                  <span className="hidden xs:block ml-2">
+                    Create Collection
+                  </span>
                 </button>
               </div>
             </div>
           </div>
+
           {/* Table */}
-          <DiscountTable
+          <CollectionsTable
             selectedItems={handleSelectedItems}
             handleShow={handleShow}
-            discounts={data?.views || []}
+            collections={data?.views || []}
           />
+
           {/* Pagination */}
           {data && (
             <Pagination
@@ -143,14 +147,15 @@ function Discounts() {
               color="primary"
               className="mt-4 md:mt-8"
               page={page}
-              onChange={setPage}
+              onChange={(event: ChangeEvent<unknown>, page: number) =>
+                setPage(page)
+              }
             />
           )}
         </div>
       </main>
     );
   };
-
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -162,13 +167,14 @@ function Discounts() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location="Discounts"
+          location="Collections"
         />
-        {!showForm ? renderDiscountsView() : renderFormView()}
+
+        {!showForm ? renderCollectionView() : renderFormView()}
         <BottomNav />
       </div>
     </div>
   );
 }
 
-export default Discounts;
+export default Collections;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 import BottomNav from 'app/components/BottomNav';
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
-import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import PaymentPanel from '../../partials/settings/PaymentsPanel';
+import Sidebar from 'app/partials/Sidebar';
+import Header from 'app/partials/Header';
+import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
+import FeedbackPanel from 'app/partials/settings/FeedbackPanel';
 
-function Payments() {
+function Feedback() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -17,7 +17,11 @@ function Payments() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location={undefined}
+        />
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -25,7 +29,7 @@ function Payments() {
             <div className="mb-8">
               {/* Title */}
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Settings
+                Feedback
               </h1>
             </div>
 
@@ -33,7 +37,7 @@ function Payments() {
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
                 <SettingsSidebar />
-                <PaymentPanel />
+                <FeedbackPanel />
               </div>
             </div>
           </div>
@@ -44,4 +48,4 @@ function Payments() {
   );
 }
 
-export default Payments;
+export default Feedback;
