@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 
-import { useSelector } from 'react-redux';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import Datepicker from 'app/components/Datepicker';
@@ -16,15 +15,16 @@ import AnalyticsCard07 from 'app/partials/analytics/AnalyticsCard07';
 // import AnalyticsCard08 from 'app/partials/analytics/AnalyticsCard08';
 // import AnalyticsCard09 from 'app/partials/analytics/AnalyticsCard09';
 // import AnalyticsCard10 from 'app/partials/analytics/AnalyticsCard10';
-import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
 import { request } from 'utils/request';
 import { WebAnalyticResponseBody } from 'app/models/stats/stats-type';
 import AnalyticsCard00 from 'app/partials/analytics/AnalyticsCard00';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
   const requestURL = `${fortressURL}/shops/${shop.shop_id}/stats`;
 
   const { data: webStats } = useQuery<WebAnalyticResponseBody>(
