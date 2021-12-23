@@ -9,9 +9,9 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 
 import * as React from 'react';
+import { Provider } from 'jotai';
 import * as ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -23,8 +23,6 @@ import { App, Loader } from 'app';
 
 import { HelmetProvider } from 'react-helmet-async';
 
-import { configureAppStore } from 'store/configureStore';
-
 import { ThemeProvider } from '@mui/material/styles';
 
 import reportWebVitals from 'reportWebVitals';
@@ -33,16 +31,12 @@ import reportWebVitals from 'reportWebVitals';
 import './locales/i18n';
 
 import theme from './styles/mui-theme/theme';
-import { loadState } from 'store/state';
 
 const queryClient = new QueryClient();
-// Create redux store with history
-const initialState = loadState();
-const { store } = configureAppStore(initialState);
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider>
     <ThemeProvider theme={theme}>
       <HelmetProvider>
         <React.StrictMode>

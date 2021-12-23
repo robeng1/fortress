@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
 import { LocationType } from 'app/models/inventory/inventory-type';
-import { useDispatch, useSelector } from 'react-redux';
-import { useInventorySlice } from 'app/features/inventory';
-import { selectLocationById } from 'app/features/inventory/selectors';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/atoms/shop';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { request, ResponseError } from 'utils/request';
+import { fortressURL } from 'app/endpoints/urls';
 
-function LocationsForm({ handleShow, centreId }) {
-  const dispatch = useDispatch();
-  const { actions } = useInventorySlice();
-  const centre = useSelector(state => selectLocationById(state, centreId));
+function LocationsForm({ handleShow, id }) {
+  const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
+  const requestURL = `${fortressURL}/shops/${shop.shop_id}/centres`;
+  const [centreId, setCentreId] = useState(id);
+
+  // query for getting the collection
+  const { data: centre } = useQuery<LocationType>(
+    ['location', centreId],
+    async () => await request(`${requestURL}/${centreId}`),
+    {
+      // The query will not execute until the collectionId exists
+      enabled: !!centreId,
+      keepPreviousData: true,
+    },
+  );
+
   const initialValues: LocationType = {
     shop_id: shop.shop_id,
     centre_id: centreId || '',
@@ -57,15 +69,63 @@ function LocationsForm({ handleShow, centreId }) {
         .catch(error => console.error('Error', error));
     };
 
+  // create the colletion
+  const {
+    mutate: createLocation,
+    // isLoading: isCreatingCollection,
+    // isError: collectionCreationFailed,
+    // error: collectionCreationError,
+  } = useMutation(
+    (payload: LocationType) =>
+      request(requestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newLocation: LocationType) => {
+        setCentreId(newLocation.centre_id);
+        queryClient.setQueryData(
+          ['location', newLocation.centre_id],
+          newLocation,
+        );
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // update the collection
+  const {
+    mutate: updateLocation,
+    // isLoading: isUpdatingCollection,
+    // isError: collectionUpdateFailed,
+    // error: collectionUpdateError,
+  } = useMutation(
+    (payload: LocationType) =>
+      request(`${requestURL}/${centreId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newLocation: LocationType) => {
+        setCentreId(newLocation.centre_id);
+        queryClient.setQueryData(
+          ['location', newLocation.centre_id],
+          newLocation,
+        );
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
   return (
     <>
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           if (!centreId || centreId === '') {
-            dispatch(actions.createLocation({ ...values }));
+            createLocation({ ...values });
           } else {
-            dispatch(actions.updateLocation({ ...values }));
+            updateLocation({ ...values });
           }
 
           setSubmitting(false);

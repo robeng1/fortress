@@ -2,18 +2,12 @@ import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import LocationCard from '../locations/LocationCard';
 import LocationForm from 'app/forms/locations/Location';
-import { useDispatch, useSelector } from 'react-redux';
-import { useInventorySlice } from 'app/features/inventory';
-import { selectionLocations } from 'app/features/inventory/selectors';
+import { useAtom } from 'jotai';
+import { syncedLocationsAtom } from 'store/atoms/location';
 
 function LocationsPanel() {
-  const dispatch = useDispatch();
-  const { actions } = useInventorySlice();
-  const locations = useSelector(selectionLocations);
-  React.useEffect(() => {
-    dispatch(actions.loadLoactions());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [data] = useAtom(syncedLocationsAtom);
+  const locations = data;
   const [showLocationForm, setShowLocationForm] = useState(false);
   return (
     <div className="flex-grow">

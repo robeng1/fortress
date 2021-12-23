@@ -656,10 +656,10 @@ const DiscountForm = ({ handleShow, id }) => {
     // isError: discountCreationFailed,
     // error: discountCreationError,
   } = useMutation(
-    (discountData: DiscountType) =>
+    (payload: DiscountType) =>
       request(requestURL, {
         method: 'POST',
-        body: JSON.stringify(discountData),
+        body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newDiscount: DiscountType) => {
@@ -677,10 +677,10 @@ const DiscountForm = ({ handleShow, id }) => {
     // isError: discountUpdateFailed,
     // error: discountUpdateError,
   } = useMutation(
-    (discountData: DiscountType) =>
+    (payload: DiscountType) =>
       request(`${requestURL}/${discountId}`, {
         method: 'PATCH',
-        body: JSON.stringify(discountData),
+        body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newDiscount: DiscountType) => {

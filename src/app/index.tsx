@@ -32,9 +32,6 @@ import Policies from 'app/pages/settings/Policies';
 // import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoutes';
-import { useUISlice } from './features/ui';
-import { useAuthnSlice } from './features/authn';
-import { useSettingSlice } from './features/settings';
 
 // const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Signup = lazy(() => import('app/pages/Signup'));
@@ -42,11 +39,6 @@ const Signin = lazy(() => import('app/pages/Signin'));
 const ResetPassword = lazy(() => import('app/pages/ResetPassword'));
 
 export function App() {
-  // hook up these two reducers when the app starts
-  // since they are used throughout the app
-  useUISlice();
-  useAuthnSlice();
-  useSettingSlice();
   const location = useLocation();
   useEffect(() => {
     //@ts-ignore

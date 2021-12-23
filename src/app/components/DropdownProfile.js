@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import Transition from '../utils/transition';
-import { useAuthnSlice } from 'app/features/authn';
 
 import UserAvatar from '../images/user-header.png';
+import { useAtom } from 'jotai';
+import { clearSessionAtom } from 'store/atoms/authorization-atom';
 
-function DropdownProfile({ align, shopName }) {
-  const { actions } = useAuthnSlice();
-  const dispatch = useDispatch();
+function DropdownProfile({ align, shopName = 'Demo' }) {
+  const [, clearSession] = useAtom(clearSessionAtom);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
@@ -16,7 +15,7 @@ function DropdownProfile({ align, shopName }) {
 
   const handleLogout = e => {
     e.preventDefault();
-    dispatch(actions.logout());
+    clearSession();
   };
 
   // close on click outside

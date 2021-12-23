@@ -49,7 +49,7 @@ import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/atoms/shop';
-import { locationsAtom } from 'store/atoms/location';
+import { syncedLocationsAtom } from 'store/atoms/location';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -112,7 +112,7 @@ const ProductForm = ({ handleShow, id }) => {
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
   const [images, setImages] = useState([]);
-  const [locations] = useAtom(locationsAtom);
+  const [locations] = useAtom(syncedLocationsAtom);
 
   // query for getting the product
   const { data: product } = useQuery<ProductType>(
@@ -229,10 +229,10 @@ const ProductForm = ({ handleShow, id }) => {
     // isError: productCreationFailed,
     // error: productCreationError,
   } = useMutation(
-    (productData: ProductType) =>
+    (payload: ProductType) =>
       request(requestURL, {
         method: 'POST',
-        body: JSON.stringify(productData),
+        body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newProduct: ProductType) => {
@@ -250,10 +250,10 @@ const ProductForm = ({ handleShow, id }) => {
     // isError: productUpdateFailed,
     // error: productUpdateError,
   } = useMutation(
-    (productData: ProductType) =>
+    (payload: ProductType) =>
       request(`${requestURL}/${productId}`, {
         method: 'PATCH',
-        body: JSON.stringify(productData),
+        body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newProduct: ProductType) => {

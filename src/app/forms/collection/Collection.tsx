@@ -69,10 +69,10 @@ export default function CollectionForm({ handleShow, id }) {
     // isError: collectionCreationFailed,
     // error: collectionCreationError,
   } = useMutation(
-    (collectionData: CollectionType) =>
+    (payload: CollectionType) =>
       request(requestURL, {
         method: 'POST',
-        body: JSON.stringify(collectionData),
+        body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newCollection: CollectionType) => {
@@ -90,10 +90,10 @@ export default function CollectionForm({ handleShow, id }) {
     // isError: collectionUpdateFailed,
     // error: collectionUpdateError,
   } = useMutation(
-    (collectionData: CollectionType) =>
+    (payload: CollectionType) =>
       request(`${requestURL}/${collectionId}`, {
         method: 'PATCH',
-        body: JSON.stringify(collectionData),
+        body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newCollection: CollectionType) => {
