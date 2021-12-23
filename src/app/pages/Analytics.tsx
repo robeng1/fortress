@@ -52,14 +52,14 @@ function Analytics() {
             {/* Left: Title */}
             <div className="mb-4 sm:mb-0">
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-                Analytics
+                Overview
               </h1>
             </div>
 
             {/* Right: Actions */}
             <div className="grid grid-flow-col sm:auto-cols-max justify-end sm:justify-end gap-2">
               {/* Datepicker built with flatpickr */}
-              <Datepicker align="left" />
+              <Datepicker align="right" />
             </div>
           </div>
           <div className="justify-between items-center mb-8">
