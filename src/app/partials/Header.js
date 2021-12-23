@@ -18,7 +18,7 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between md:justify-between h-14  -mb-px">
+        <div className="flex items-center justify-between md:justify-between h-14 -mb-px">
           {/* <div className="hidden md:block">
             <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
               {location}

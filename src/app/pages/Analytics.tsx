@@ -50,11 +50,11 @@ function Analytics() {
           {/* Page header */}
           <div className="sm:flex sm:justify-between sm:items-center mb-8">
             {/* Left: Title */}
-            {/* <div className="mb-4 sm:mb-0">
+            <div className="mb-4 sm:mb-0">
               <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
                 Analytics
               </h1>
-            </div> */}
+            </div>
 
             {/* Right: Actions */}
             <div className="grid grid-flow-col sm:auto-cols-max justify-end sm:justify-end gap-2">
@@ -62,7 +62,7 @@ function Analytics() {
               <Datepicker align="left" />
             </div>
           </div>
-          <div className="sm:flex sm:justify-between sm:items-center mb-8">
+          <div className="justify-between items-center mb-8">
             <AnalyticsCard00
               totalSales={undefined}
               totalCustomers={undefined}
