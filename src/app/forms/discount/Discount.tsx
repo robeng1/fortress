@@ -106,21 +106,21 @@ const initialValues: Values = {
   incentive_type: 'percentage',
   max_affected_items: null,
   buy_x_get_y_condition_value: '',
-  buy_x_get_y_condition_range_type: '',
+  buy_x_get_y_condition_range_type: 'specific_products',
   buy_x_get_y_condition_range_keys: [],
   buy_x_get_y_condition_type: 'count',
-  buy_x_get_y_ben_range_type: '',
+  buy_x_get_y_ben_range_type: 'specific_products',
   buy_x_get_y_ben_range_keys: [],
   buy_x_get_y_ben_max_affected_items: 1,
   buy_x_get_y_discounted_value_type: 'percentage',
   buy_x_get_y_discounted_value: '',
   condition_value_money: '',
   condition_value_int: 1,
-  condition_type: '',
+  condition_type: 'none',
   value: '',
   applies_to: 'all_products',
   exclusive: true,
-  customer_eligibility: '',
+  customer_eligibility: 'everyone',
   has_max_global_applications: false,
   has_max_user_applications: false,
   has_max_discount: false,
@@ -193,6 +193,10 @@ const DiscountForm = ({ handleShow, id }) => {
     searchBXGYBenRangeIncludedCollectionsOpen,
     setSearchBXGYBenRangeIncludedCollectionsOpen,
   ] = useState(false);
+
+  // this is only useful for controlling which queries should be
+  // enabled to prevent react-query from running all the quries
+  const [isBuyXGetY, setIsBuyXGetY] = useState<boolean>(false);
 
   // keep track of product & collection IDs included in range for
   // non buy-x-get-y discounts
@@ -835,7 +839,7 @@ const DiscountForm = ({ handleShow, id }) => {
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && includedProductKeys.length > 0,
+      enabled: !!discountId && includedProductKeys.length > 0 && !isBuyXGetY,
       keepPreviousData: true,
     },
   );
@@ -850,7 +854,7 @@ const DiscountForm = ({ handleShow, id }) => {
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && includedCollectionKeys.length > 0,
+      enabled: !!discountId && includedCollectionKeys.length > 0 && !isBuyXGetY,
       keepPreviousData: true,
     },
   );
@@ -867,7 +871,10 @@ const DiscountForm = ({ handleShow, id }) => {
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && buyXGetYConditionIncludedProductKeys.length > 0,
+      enabled:
+        !!discountId &&
+        buyXGetYConditionIncludedProductKeys.length > 0 &&
+        isBuyXGetY,
       keepPreviousData: true,
     },
   );
@@ -885,7 +892,9 @@ const DiscountForm = ({ handleShow, id }) => {
     {
       // The query will not execute until the discountId exists
       enabled:
-        !!discountId && buyXGetYConditionIncludedCollectionKeys.length > 0,
+        !!discountId &&
+        buyXGetYConditionIncludedCollectionKeys.length > 0 &&
+        isBuyXGetY,
       keepPreviousData: true,
     },
   );
@@ -902,7 +911,10 @@ const DiscountForm = ({ handleShow, id }) => {
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && buyXGetYBenefitIncludedProductKeys.length > 0,
+      enabled:
+        !!discountId &&
+        buyXGetYBenefitIncludedProductKeys.length > 0 &&
+        isBuyXGetY,
       keepPreviousData: true,
     },
   );
@@ -919,7 +931,10 @@ const DiscountForm = ({ handleShow, id }) => {
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && buyXGetYBenefitIncludedCollectionKeys.length > 0,
+      enabled:
+        !!discountId &&
+        buyXGetYBenefitIncludedCollectionKeys.length > 0 &&
+        isBuyXGetY,
       keepPreviousData: true,
     },
   );
@@ -998,8 +1013,6 @@ const DiscountForm = ({ handleShow, id }) => {
                           </label>
                           <ReactQuill
                             theme="snow"
-                            // name="description"
-                            // id="description"
                             onChange={e => setFieldValue('description', e)}
                             value={values.description}
                             style={{
@@ -1048,9 +1061,10 @@ const DiscountForm = ({ handleShow, id }) => {
                                 type="radio"
                                 name="incentive_type"
                                 className="form-radio"
-                                onChange={e =>
-                                  setFieldValue('incentive_type', 'percentage')
-                                }
+                                onChange={e => {
+                                  setFieldValue('incentive_type', 'percentage');
+                                  setIsBuyXGetY(false);
+                                }}
                                 checked={values.incentive_type === 'percentage'}
                                 value={values.incentive_type}
                               />
@@ -1063,12 +1077,13 @@ const DiscountForm = ({ handleShow, id }) => {
                                 type="radio"
                                 name="incentive_type"
                                 className="form-radio"
-                                onChange={e =>
+                                onChange={e => {
                                   setFieldValue(
                                     'incentive_type',
                                     'fixed_discount',
-                                  )
-                                }
+                                  );
+                                  setIsBuyXGetY(false);
+                                }}
                                 checked={
                                   values.incentive_type === 'fixed_discount'
                                 }
@@ -1083,9 +1098,10 @@ const DiscountForm = ({ handleShow, id }) => {
                                 type="radio"
                                 name="incentive_type"
                                 className="form-radio"
-                                onChange={e =>
-                                  setFieldValue('incentive_type', 'multibuy')
-                                }
+                                onChange={e => {
+                                  setFieldValue('incentive_type', 'multibuy');
+                                  setIsBuyXGetY(false);
+                                }}
                                 checked={values.incentive_type === 'multibuy'}
                                 value={values.incentive_type}
                               />
@@ -1098,9 +1114,13 @@ const DiscountForm = ({ handleShow, id }) => {
                                 type="radio"
                                 name="incentive_type"
                                 className="form-radio"
-                                onChange={e =>
-                                  setFieldValue('incentive_type', 'fixed_price')
-                                }
+                                onChange={e => {
+                                  setFieldValue(
+                                    'incentive_type',
+                                    'fixed_price',
+                                  );
+                                  setIsBuyXGetY(false);
+                                }}
                                 checked={
                                   values.incentive_type === 'fixed_price'
                                 }
@@ -1138,9 +1158,13 @@ const DiscountForm = ({ handleShow, id }) => {
                                 type="radio"
                                 name="incentive_type"
                                 className="form-radio"
-                                onChange={e =>
-                                  setFieldValue('incentive_type', 'buy-x-get-y')
-                                }
+                                onChange={e => {
+                                  setFieldValue(
+                                    'incentive_type',
+                                    'buy-x-get-y',
+                                  );
+                                  setIsBuyXGetY(true);
+                                }}
                                 checked={
                                   values.incentive_type === 'buy-x-get-y'
                                 }
