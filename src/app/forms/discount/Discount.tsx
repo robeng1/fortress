@@ -14,13 +14,6 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-// import Webcam from '@uppy/webcam';
-// import GoogleDrive from '@uppy/google-drive';
-// import Dropbox from '@uppy/dropbox';
-// import Instagram from '@uppy/instagram';
-// import Facebook from '@uppy/facebook';
-// import OneDrive from '@uppy/onedrive';
-// import Box from '@uppy/box';
 import { Loader } from 'app/components/Loader';
 import { fortressURL } from 'app/endpoints/urls';
 import DropTarget from '@uppy/drop-target';
@@ -32,7 +25,7 @@ import { RangeType } from 'app/models/discount/range-type';
 import { VoucherType } from 'app/models/voucher/voucher';
 import { VoucherSetType } from 'app/models/voucher/voucherset';
 import { useState } from 'react';
-import ModalSearch from 'app/components/ModalSearch';
+import SelectableResultSearchModal from 'app/components/common/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/atoms/shop';
@@ -166,14 +159,14 @@ const DiscountForm = ({ handleShow, id }) => {
   );
 
   const [image, setImage] = useState(discount?.cover_photo?.image_url);
-  // const handleSelectedResults =
-  //   (
-  //     setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
-  //     field: string,
-  //   ) =>
-  //   (selectedResults: unknown[]) => {
-  //     setFieldValue(field, [...selectedResults]);
-  //   };
+  const handleSelectedResults =
+    (
+      setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
+      field: string,
+    ) =>
+    (selectedResults: unknown[]) => {
+      setFieldValue(field, [...selectedResults]);
+    };
   // for normal offers benefit range
   const [searchIncludedProductsOpen, setSearchIncludedProductsOpen] =
     useState(false);
@@ -649,7 +642,7 @@ const DiscountForm = ({ handleShow, id }) => {
     return disc;
   };
 
-  // create the colletion
+  // create the discount
   const {
     mutate: createDiscount,
     // isLoading: isCreatingDiscount,
@@ -670,7 +663,7 @@ const DiscountForm = ({ handleShow, id }) => {
     },
   );
 
-  // update the collection
+  // update the update
   const {
     mutate: updateDiscount,
     // isLoading: isUpdatingDiscount,
@@ -706,40 +699,19 @@ const DiscountForm = ({ handleShow, id }) => {
   };
 
   const uppy = React.useMemo(() => {
-    return (
-      new Uppy({
-        id: 'discount',
-        autoProceed: false,
-        restrictions: {
-          maxFileSize: 15 * 1024 * 1024,
-          maxNumberOfFiles: 1,
-          minNumberOfFiles: 1,
-          allowedFileTypes: ['image/*', 'video/*'],
-        },
-      })
-        // .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-        // .use(GoogleDrive, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Dropbox, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Box, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Instagram, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(Facebook, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        // .use(OneDrive, {
-        //   companionUrl: 'https://companion.reoplex.com',
-        // })
-        .use(DropTarget, { target: document.body })
-        .on('complete', onUploadComplete)
-        .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' })
-    );
+    return new Uppy({
+      id: 'discount',
+      autoProceed: false,
+      restrictions: {
+        maxFileSize: 15 * 1024 * 1024,
+        maxNumberOfFiles: 1,
+        minNumberOfFiles: 1,
+        allowedFileTypes: ['image/*', 'video/*'],
+      },
+    })
+      .use(DropTarget, { target: document.body })
+      .on('complete', onUploadComplete)
+      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
   }, []);
 
   const addFiles = files => {
@@ -782,6 +754,24 @@ const DiscountForm = ({ handleShow, id }) => {
     return () => uppy.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const collectionOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/option-search`;
+  const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
+  // returns the query string for browsing products to be added to a collection
+  const productQueryString = (value: string): string => {
+    let query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
+    if (value && value !== '') {
+      query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' AND TEXT_MATCH(search_col, '${value}') LIMIT 15`;
+    }
+    return query;
+  };
+  const collectionQueryString = (value: string): string => {
+    let query = `SELECT * FROM collection WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
+    if (value && value !== '') {
+      query = `SELECT * FROM collection WHERE shop_id = '${shop?.shop_id}' AND TEXT_MATCH(search_col, '${value}') LIMIT 15`;
+    }
+    return query;
+  };
   return (
     <>
       {isLoading ? (
@@ -1210,7 +1200,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     </svg>
                                   </button>
                                 </div>
-                                <ModalSearch
+                                <SelectableResultSearchModal
                                   id="quick-find-modal-cr"
                                   searchId="quick-find-cr"
                                   modalOpen={
@@ -1219,6 +1209,16 @@ const DiscountForm = ({ handleShow, id }) => {
                                   setModalOpen={
                                     setSearchBXGYCondRangeIncludedProductsOpen
                                   }
+                                  queryURL={productOptionSearchURL}
+                                  buildQuery={productQueryString}
+                                  matchKey="key"
+                                  queryKey="products-opt-search"
+                                  handleResultSelected={handleSelectedResults(
+                                    setFieldValue,
+                                    'buy_x_get_y_condition_range_keys',
+                                  )}
+                                  alreadySelected={undefined}
+                                  placeholder="Products"
                                 />
                               </div>
                             </div>
@@ -1250,7 +1250,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     </svg>
                                   </button>
                                 </div>
-                                <ModalSearch
+                                <SelectableResultSearchModal
                                   id="quick-find-modal-cr"
                                   searchId="quick-find-cr"
                                   modalOpen={
@@ -1259,6 +1259,16 @@ const DiscountForm = ({ handleShow, id }) => {
                                   setModalOpen={
                                     setSearchBXGYCondRangeIncludedCollectionsOpen
                                   }
+                                  queryURL={collectionOptionSearchURL}
+                                  buildQuery={collectionQueryString}
+                                  matchKey="key"
+                                  queryKey="collections-opt-search"
+                                  handleResultSelected={handleSelectedResults(
+                                    setFieldValue,
+                                    'buy_x_get_y_condition_range_keys',
+                                  )}
+                                  alreadySelected={undefined}
+                                  placeholder="Collections"
                                 />
                               </div>
                             </div>
@@ -1354,7 +1364,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     </svg>
                                   </button>
                                 </div>
-                                <ModalSearch
+                                <SelectableResultSearchModal
                                   id="quick-find-modal-br"
                                   searchId="quick-find-br"
                                   modalOpen={
@@ -1363,6 +1373,16 @@ const DiscountForm = ({ handleShow, id }) => {
                                   setModalOpen={
                                     setSearchBXGYBenRangeIncludedProductsOpen
                                   }
+                                  queryURL={productOptionSearchURL}
+                                  buildQuery={productQueryString}
+                                  matchKey="key"
+                                  queryKey="products-opt-search"
+                                  handleResultSelected={handleSelectedResults(
+                                    setFieldValue,
+                                    'buy_x_get_y_ben_range_keys',
+                                  )}
+                                  placeholder="Products"
+                                  alreadySelected={undefined}
                                 />
                               </div>
                             </div>
@@ -1394,7 +1414,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     </svg>
                                   </button>
                                 </div>
-                                <ModalSearch
+                                <SelectableResultSearchModal
                                   id="quick-find-modal-br"
                                   searchId="quick-find-br"
                                   modalOpen={
@@ -1403,6 +1423,16 @@ const DiscountForm = ({ handleShow, id }) => {
                                   setModalOpen={
                                     setSearchBXGYBenRangeIncludedCollectionsOpen
                                   }
+                                  queryURL={collectionOptionSearchURL}
+                                  buildQuery={collectionQueryString}
+                                  matchKey="key"
+                                  queryKey="collections-opt-search"
+                                  handleResultSelected={handleSelectedResults(
+                                    setFieldValue,
+                                    'buy_x_get_y_ben_range_keys',
+                                  )}
+                                  alreadySelected={undefined}
+                                  placeholder="Collections"
                                 />
                               </div>
                             </div>
@@ -1702,13 +1732,23 @@ const DiscountForm = ({ handleShow, id }) => {
                                         </svg>
                                       </button>
                                     </div>
-                                    <ModalSearch
+                                    <SelectableResultSearchModal
                                       id="quick-find-modal-ip"
                                       searchId="quick-find-ip"
                                       modalOpen={searchIncludedProductsOpen}
                                       setModalOpen={
                                         setSearchIncludedProductsOpen
                                       }
+                                      queryURL={productOptionSearchURL}
+                                      buildQuery={productQueryString}
+                                      matchKey="key"
+                                      queryKey="products-opt-search"
+                                      handleResultSelected={handleSelectedResults(
+                                        setFieldValue,
+                                        'included_products',
+                                      )}
+                                      alreadySelected={undefined}
+                                      placeholder="Products"
                                     />
                                   </div>
                                 </div>
@@ -1740,13 +1780,23 @@ const DiscountForm = ({ handleShow, id }) => {
                                         </svg>
                                       </button>
                                     </div>
-                                    <ModalSearch
+                                    <SelectableResultSearchModal
                                       id="quick-find-modal"
                                       searchId="quick-find"
                                       modalOpen={searchIncludedCollectionsOpen}
                                       setModalOpen={
                                         setSearchIncludedCollectionsOpen
                                       }
+                                      queryURL={collectionOptionSearchURL}
+                                      buildQuery={collectionQueryString}
+                                      matchKey="key"
+                                      queryKey="collections-opt-search"
+                                      handleResultSelected={handleSelectedResults(
+                                        setFieldValue,
+                                        'included_collections',
+                                      )}
+                                      alreadySelected={undefined}
+                                      placeholder="Collections"
                                     />
                                   </div>
                                 </div>
@@ -2288,14 +2338,6 @@ const DiscountForm = ({ handleShow, id }) => {
                                 placeholder: 'describe what the image is about',
                               },
                             ]}
-                            // plugins={[
-                            //   'Webcam',
-                            //   'Instagram',
-                            //   'GoogleDrive',
-                            //   'Dropbox',
-                            //   'Box',
-                            //   'ImageEditor',
-                            // ]}
                           />
                         </div>
                       </div>

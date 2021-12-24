@@ -18,6 +18,7 @@ function SelectableResultSearchModal({
   queryKey,
   handleResultSelected,
   alreadySelected,
+  placeholder = 'Anything',
 }) {
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [isCheck, setIsCheck] = useState<any>([]);
@@ -137,7 +138,7 @@ function SelectableResultSearchModal({
                 type="search"
                 onChange={e => setValue(e.target.value)}
                 value={value}
-                placeholder="Search Anything…"
+                placeholder={`Search ${placeholder}...`}
                 ref={searchInput}
               />
               <button
