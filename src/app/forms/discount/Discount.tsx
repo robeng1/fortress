@@ -145,6 +145,7 @@ const DiscountForm = ({ handleShow, id }) => {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
+
   const [discountId, setDiscountId] = useState(id);
 
   // query for getting the discount
@@ -193,7 +194,36 @@ const DiscountForm = ({ handleShow, id }) => {
     setSearchBXGYBenRangeIncludedCollectionsOpen,
   ] = useState(false);
 
-  const flattenDiscount = (d: DiscountType | undefined): Values => {
+  // keep track of product & collection IDs included in range for
+  // non buy-x-get-y discounts
+  const [includedProductKeys, setIncludedProductKeys] = useState<string[]>([]);
+  const [includedCollectionKeys, setIncludedCollectionKeys] = useState<
+    string[]
+  >([]);
+
+  // keep track of product & collection IDs included in range for
+  // buy-x-get-y discounts
+  // condition keys
+  const [
+    buyXGetYConditionIncludedProductKeys,
+    setBuyXGetYConditionIncludedProductKeys,
+  ] = useState<string[]>([]);
+  const [
+    buyXGetYConditionIncludedCollectionKeys,
+    setBuyXGetYConditionIncludedCollectionKeys,
+  ] = useState<string[]>([]);
+
+  // benefit keys
+  const [
+    buyXGetYBenefitIncludedProductKeys,
+    setBuyXGetYBenefitIncludedProductKeys,
+  ] = useState<string[]>([]);
+  const [
+    buyXGetYBenefitIncludedCollectionKeys,
+    setBuyXGetYBenefitIncludedCollectionKeys,
+  ] = useState<string[]>([]);
+
+  const convDiscountToValues = (d: DiscountType | undefined): Values => {
     if (!d) {
       return initialValues;
     }
@@ -365,7 +395,7 @@ const DiscountForm = ({ handleShow, id }) => {
     );
     return disc;
   };
-  const cleanDiscount = (d: Values): DiscountType => {
+  const convValuesToDiscount = (d: Values): DiscountType => {
     const disc: DiscountType = {
       shop_id: shop?.shop_id || '',
       discount_id: discountId,
@@ -714,7 +744,6 @@ const DiscountForm = ({ handleShow, id }) => {
     });
 
     Object.keys(uppy.state.files).forEach(fileID => {
-      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
       uppy.setFileState(fileID, {
         progress: { uploadComplete: true, uploadStarted: true },
       });
@@ -745,6 +774,7 @@ const DiscountForm = ({ handleShow, id }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // options search URLs
   const collectionOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/option-search`;
   const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
 
@@ -765,6 +795,135 @@ const DiscountForm = ({ handleShow, id }) => {
     }
     return query;
   };
+
+  // queries to display selected products and/or collections
+  // gets the selected products for them to be displayed
+  const selectedProductsQuery = (products: string[]): string => {
+    let query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' AND product_id IN (`;
+    products.forEach((productId, index) => {
+      if (index === products.length) {
+        query += `'${productId}'`;
+      } else {
+        query += `'${productId}',`;
+      }
+    });
+    query += `)`;
+    return query;
+  };
+
+  // gets the selected collections for them to be displayed
+  const selectedCollectionsQuery = (collections: string[]): string => {
+    let query = `SELECT * FROM collection WHERE shop_id = '${shop?.shop_id}' AND collection_id IN (`;
+    collections.forEach((collectionId, index) => {
+      if (index === collections.length) {
+        query += `'${collectionId}'`;
+      } else {
+        query += `'${collectionId}',`;
+      }
+    });
+    query += `)`;
+    return query;
+  };
+
+  // query for getting included products
+  const { data: includedProducts } = useQuery<any>(
+    ['included-products', discountId],
+    async () =>
+      await request(productOptionSearchURL, {
+        method: 'POST',
+        body: JSON.stringify(selectedProductsQuery(includedProductKeys)),
+      }),
+    {
+      // The query will not execute until the discountId exists
+      enabled: !!discountId && includedProductKeys.length > 0,
+      keepPreviousData: true,
+    },
+  );
+
+  // query for getting included collections
+  const { data: includedCollections } = useQuery<any>(
+    ['included-collections', discountId],
+    async () =>
+      await request(collectionOptionSearchURL, {
+        method: 'POST',
+        body: JSON.stringify(selectedCollectionsQuery(includedCollectionKeys)),
+      }),
+    {
+      // The query will not execute until the discountId exists
+      enabled: !!discountId && includedCollectionKeys.length > 0,
+      keepPreviousData: true,
+    },
+  );
+
+  // query for getting included products for a condition's range
+  const { data: condRangeIncludedProducts } = useQuery<any>(
+    ['cond-range-included-products', discountId],
+    async () =>
+      await request(productOptionSearchURL, {
+        method: 'POST',
+        body: JSON.stringify(
+          selectedProductsQuery(buyXGetYConditionIncludedProductKeys),
+        ),
+      }),
+    {
+      // The query will not execute until the discountId exists
+      enabled: !!discountId && buyXGetYConditionIncludedProductKeys.length > 0,
+      keepPreviousData: true,
+    },
+  );
+
+  // query for getting included collections for a condition's range
+  const { data: condRangeIncludedCollections } = useQuery<any>(
+    ['cond-range-included-collections', discountId],
+    async () =>
+      await request(collectionOptionSearchURL, {
+        method: 'POST',
+        body: JSON.stringify(
+          selectedCollectionsQuery(buyXGetYConditionIncludedCollectionKeys),
+        ),
+      }),
+    {
+      // The query will not execute until the discountId exists
+      enabled:
+        !!discountId && buyXGetYConditionIncludedCollectionKeys.length > 0,
+      keepPreviousData: true,
+    },
+  );
+
+  // query for getting included products for a condition's range
+  const { data: benRangeIncludedProducts } = useQuery<any>(
+    ['ben-range-included-products', discountId],
+    async () =>
+      await request(productOptionSearchURL, {
+        method: 'POST',
+        body: JSON.stringify(
+          selectedProductsQuery(buyXGetYBenefitIncludedProductKeys),
+        ),
+      }),
+    {
+      // The query will not execute until the discountId exists
+      enabled: !!discountId && buyXGetYBenefitIncludedProductKeys.length > 0,
+      keepPreviousData: true,
+    },
+  );
+
+  // query for getting included collections for a condition's range
+  const { data: benRangeIncludedCollections } = useQuery<any>(
+    ['ben-range-included-collections', discountId],
+    async () =>
+      await request(collectionOptionSearchURL, {
+        method: 'POST',
+        body: JSON.stringify(
+          selectedCollectionsQuery(buyXGetYBenefitIncludedCollectionKeys),
+        ),
+      }),
+    {
+      // The query will not execute until the discountId exists
+      enabled: !!discountId && buyXGetYBenefitIncludedCollectionKeys.length > 0,
+      keepPreviousData: true,
+    },
+  );
+
   return (
     <>
       {isLoading ? (
@@ -774,17 +933,17 @@ const DiscountForm = ({ handleShow, id }) => {
           <Formik
             initialValues={{
               ...initialValues,
-              ...flattenDiscount(discount),
+              ...convDiscountToValues(discount),
             }}
             onSubmit={(values, { setSubmitting }) => {
               if (discount) {
                 updateDiscount({
                   ...discount,
-                  ...cleanDiscount({ ...values }),
+                  ...convValuesToDiscount({ ...values }),
                 });
               } else {
                 createDiscount({
-                  ...cleanDiscount({ ...values }),
+                  ...convValuesToDiscount({ ...values }),
                 });
               }
               setSubmitting(false);

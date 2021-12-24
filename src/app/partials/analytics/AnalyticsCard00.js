@@ -15,7 +15,7 @@ function AnalyticsCard01({
       <header className="px-5 py-4 border-b border-gray-100 flex items-center">
         <h2 className="font-semibold text-gray-800">Store</h2>
       </header>
-      <div className="px-10 py-1">
+      <div className="px-5 py-5">
         <div className="flex flex-wrap ">
           {/* Unique Visitors */}
           <div className="flex items-center py-2">
