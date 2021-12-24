@@ -25,12 +25,12 @@ import { shopAtom } from 'store/atoms/shop';
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [shop] = useAtom(shopAtom);
-  const requestURL = `${fortressURL}/shops/${shop.shop_id}/stats`;
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/stats`;
 
   const { data: webStats } = useQuery<WebAnalyticResponseBody>(
     ['web-analytics'],
     async () => await request(`${requestURL}`),
-    { keepPreviousData: true, enabled: !!shop.shop_id },
+    { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 
   return (

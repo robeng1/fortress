@@ -1,7 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
-import { useSettingSlice } from 'app/features/settings';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import { ProgressBar } from '@uppy/react';
@@ -12,17 +10,53 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/atoms/shop';
+import { useMutation, useQueryClient } from 'react-query';
+import { ShopType } from 'app/models/settings/shop-type';
+import { request, ResponseError } from 'utils/request';
+import { fortressURL } from 'app/endpoints/urls';
+import { accountIdAtom } from 'store/atoms/authorization-atom';
 
 const DropTarget = require('@uppy/drop-target');
 
 function StorePanel() {
-  const dispatch = useDispatch();
-  const { actions } = useSettingSlice();
+  const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
+  const [accountId] = useAtom(accountIdAtom);
+  const requestURL = `${fortressURL}/shops`;
 
-  const [image, setImage] = useState(shop.image);
+  const [image, setImage] = useState(shop?.image);
 
   const inputFile = useRef<HTMLInputElement>(null);
+
+  // create the shop
+  // const { mutate: createShop } = useMutation(
+  //   (payload: ShopType) =>
+  //     request(requestURL, {
+  //       method: 'POST',
+  //       body: JSON.stringify(payload),
+  //     }),
+  //   {
+  //     onSuccess: (newShop: ShopType) => {
+  //       queryClient.setQueryData(['shop', accountId], newShop);
+  //     },
+  //     onError: (e: ResponseError) => {},
+  //   },
+  // );
+
+  // update the shop
+  const { mutate: updateShop } = useMutation(
+    (payload: ShopType) =>
+      request(`${requestURL}/${shop?.shop_id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newShop: ShopType) => {
+        queryClient.setQueryData(['shop', accountId], newShop);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
 
   const onUploadComplete = result => {
     const url = result.successful[0].uploadURL;
@@ -78,27 +112,27 @@ function StorePanel() {
     <>
       <Formik
         initialValues={{
-          business_display_name: shop.business_display_name || '',
-          email: shop.email || '',
-          phone: shop.phone || '',
-          business_name: shop.business_name || '',
+          business_display_name: shop?.business_display_name || '',
+          email: shop?.email || '',
+          phone: shop?.phone || '',
+          business_name: shop?.business_name || '',
           address: {
             street: '',
             city: '',
             area: '',
             province: '',
             country: '',
-            ...shop.address,
+            ...shop?.address,
           },
           currency: {
             name: '',
             iso_code: 'GHS',
             symbol: '',
-            ...shop.currency,
+            ...shop?.currency,
           },
         }}
         onSubmit={(values, { setSubmitting }) => {
-          dispatch(actions.updateShop({ ...shop, ...values, image }));
+          updateShop({ ...shop, ...values, image });
           setSubmitting(false);
         }}
       >
@@ -132,7 +166,7 @@ function StorePanel() {
                       src={image || 'https://via.placeholder.com/150'}
                       width="80"
                       height="80"
-                      alt={shop.business_display_name}
+                      alt={shop?.business_display_name}
                     />
                     <input
                       style={{ display: 'none' }}

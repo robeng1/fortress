@@ -116,3 +116,8 @@ export interface ProductViewType {
   product_id: string;
   image_url: string;
 }
+
+export interface ProductViewListType {
+  products: ProductViewType[];
+  next_page_token: string;
+}

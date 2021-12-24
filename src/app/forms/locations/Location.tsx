@@ -14,7 +14,7 @@ import { fortressURL } from 'app/endpoints/urls';
 function LocationsForm({ handleShow, id }) {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
-  const requestURL = `${fortressURL}/shops/${shop.shop_id}/centres`;
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/centres`;
   const [centreId, setCentreId] = useState(id);
 
   // query for getting the collection
@@ -29,7 +29,7 @@ function LocationsForm({ handleShow, id }) {
   );
 
   const initialValues: LocationType = {
-    shop_id: shop.shop_id,
+    shop_id: shop?.shop_id,
     centre_id: centreId || '',
     name: centre?.name || '',
     description: centre?.description || '',

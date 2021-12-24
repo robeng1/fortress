@@ -104,7 +104,7 @@ const ProductSchema = Yup.object().shape({
 const ProductForm = ({ handleShow, id }) => {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
-  const requestURL = `${fortressURL}/shops/${shop.shop_id}/products`;
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
   const [productId, setProductId] = useState(id);
 
   // eslint-disable-next-line no-unused-vars
@@ -164,7 +164,7 @@ const ProductForm = ({ handleShow, id }) => {
   };
   const cleanProduct = (d: Values): ProductType => {
     const p: ProductType = {
-      shop_id: shop.shop_id!,
+      shop_id: shop?.shop_id!,
       product_id: productId,
       title: d.title,
       description: d.description,
@@ -185,7 +185,7 @@ const ProductForm = ({ handleShow, id }) => {
       p.structure = ProductStructure.PARENT;
       p.variants = d.variants.map(v => {
         v.structure = ProductStructure.CHILD;
-        v.shop_id = shop.shop_id!;
+        v.shop_id = shop?.shop_id!;
         // v.stock_records = d.stock_records[v.title!];
         return v;
       });
@@ -195,22 +195,22 @@ const ProductForm = ({ handleShow, id }) => {
         const record: InventoryType = {
           variant_id: productId || '',
           product_id: productId || '',
-          shop_id: shop.shop_id,
+          shop_id: shop?.shop_id,
           num_in_stock: d.quantity,
           // TODO: centreId && centreSku should be replaced with correct on
           centre_id: id,
           centre_sku: slugify(d.title),
           cost_per_item: money.parseDouble(
             d.cost_per_item,
-            shop.currency?.iso_code || defaultCurrency,
+            shop?.currency?.iso_code || defaultCurrency,
           ),
           price_excl_tax: money.parseDouble(
             d.price,
-            shop.currency?.iso_code || defaultCurrency,
+            shop?.currency?.iso_code || defaultCurrency,
           ),
           compare_at_price: money.parseDouble(
             d.compare_at_price,
-            shop.currency?.iso_code || defaultCurrency,
+            shop?.currency?.iso_code || defaultCurrency,
           ),
           unlimited: d.unlimited,
           track_quantity: d.track_quantity,
@@ -298,10 +298,10 @@ const ProductForm = ({ handleShow, id }) => {
         for (var prop in files) {
           files[
             prop
-          ].name = `products/${shop.shop_id}/images/${files[prop].name}_${datename}`;
+          ].name = `products/${shop?.shop_id}/images/${files[prop].name}_${datename}`;
           files[
             prop
-          ].meta.name = `products/${shop.shop_id}/images/${files[prop].meta.name}_${datename}`;
+          ].meta.name = `products/${shop?.shop_id}/images/${files[prop].meta.name}_${datename}`;
         }
         return files;
       },
@@ -328,7 +328,7 @@ const ProductForm = ({ handleShow, id }) => {
       .use(DropTarget, { target: document.body })
       .on('complete', onUploadComplete)
       .use(Tus, { endpoint: 'https://api.reoplex.com/storage/files/' });
-  }, [shop.shop_id]);
+  }, [shop?.shop_id]);
   const addFiles = files => {
     files.forEach(e => {
       uppy.addFile({
@@ -389,7 +389,7 @@ const ProductForm = ({ handleShow, id }) => {
       const va = values.variants[index];
       va.stock_records![0].price_excl_tax = money.parseDouble(
         newValue,
-        shop.currency?.iso_code || defaultCurrency,
+        shop?.currency?.iso_code || defaultCurrency,
       );
       variants[index] = va;
       setFieldValue('variants', variants);
@@ -442,7 +442,7 @@ const ProductForm = ({ handleShow, id }) => {
     const products: ProductType[] = untouchedTitles.map((t: string) => {
       const p: ProductType = {
         title: t,
-        shop_id: shop.shop_id!,
+        shop_id: shop?.shop_id!,
         product_id: productId || '',
         structure: ProductStructure.CHILD,
       };
@@ -456,15 +456,15 @@ const ProductForm = ({ handleShow, id }) => {
           centre_sku: slugify(t),
           cost_per_item: money.parseDouble(
             values.cost_per_item,
-            shop.currency?.iso_code || defaultCurrency,
+            shop?.currency?.iso_code || defaultCurrency,
           ),
           price_excl_tax: money.parseDouble(
             values.price,
-            shop.currency?.iso_code || defaultCurrency,
+            shop?.currency?.iso_code || defaultCurrency,
           ),
           compare_at_price: money.parseDouble(
             values.compare_at_price,
-            shop.currency?.iso_code || defaultCurrency,
+            shop?.currency?.iso_code || defaultCurrency,
           ),
           unlimited: values.unlimited,
           track_quantity: values.track_quantity,
@@ -652,7 +652,7 @@ const ProductForm = ({ handleShow, id }) => {
                             placeholder="Select collections"
                             // isDisabled={isAddingInProgress}
                             loadOptions={loadCollectionsAsOptions(
-                              shop.shop_id!,
+                              shop?.shop_id!,
                             )}
                             // onCreateOption={onCreateOption}
 
@@ -690,7 +690,7 @@ const ProductForm = ({ handleShow, id }) => {
                             isMulti
                             onChange={option => setFieldValue('tags', option)}
                             // isDisabled={isAddingInProgress}
-                            loadOptions={loadTagsAsOptions(shop.shop_id!)}
+                            loadOptions={loadTagsAsOptions(shop?.shop_id!)}
                             // onCreateOption={onCreateOption}
 
                             styles={{
@@ -1261,7 +1261,7 @@ const ProductForm = ({ handleShow, id }) => {
                                     setFieldValue,
                                   )}
                                   currency={
-                                    shop.currency?.iso_code || defaultCurrency
+                                    shop?.currency?.iso_code || defaultCurrency
                                   }
                                 />
                               </>

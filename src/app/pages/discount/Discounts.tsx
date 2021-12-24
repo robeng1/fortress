@@ -27,7 +27,7 @@ function Discounts() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
   const query = `SELECT * FROM discount WHERE shop_id = '${
-    shop.shop_id
+    shop?.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
@@ -35,7 +35,7 @@ function Discounts() {
   const { data } = useQuery(
     ['discountviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop.shop_id}/discount-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/discount-views`, {
         method: 'POST',
         body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },

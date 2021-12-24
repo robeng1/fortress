@@ -24,7 +24,7 @@ function Inventories() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
   const query = `SELECT * FROM inventory WHERE shop_id = '${
-    shop.shop_id
+    shop?.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
@@ -32,7 +32,7 @@ function Inventories() {
   const { data } = useQuery(
     ['inventoryviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop.shop_id}/inventory-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
         method: 'POST',
         body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },

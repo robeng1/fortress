@@ -28,7 +28,7 @@ function Orders() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
   const query = `SELECT * FROM order WHERE shop_id = '${
-    shop.shop_id
+    shop?.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
@@ -36,7 +36,7 @@ function Orders() {
   const { data } = useQuery(
     ['orderviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop.shop_id}/order-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/order-views`, {
         method: 'POST',
         body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },

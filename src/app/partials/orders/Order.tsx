@@ -13,7 +13,7 @@ export default function Order({ handleShow, id }) {
   const queryClient = useQueryClient();
   const shop = useSelector(selectShop);
   const [orderId] = useState<string | undefined>(id);
-  const requestURL = `${fortressURL}/shops/${shop.shop_id}/orders`;
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/orders`;
 
   // query for getting the order
   const { data: order, isLoading } = useQuery<OrderType, ResponseError>(

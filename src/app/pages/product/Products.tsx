@@ -55,7 +55,7 @@ function Products() {
   const [inventoryItemsPerPage, setInventoryItemsPerPage] =
     useState<number>(15);
   const inventoryQuery = `SELECT * FROM inventory WHERE shop_id = '${
-    shop.shop_id
+    shop?.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
     (inventoryPage - 1) * inventoryItemsPerPage + 1
   }, ${inventoryItemsPerPage}`;
@@ -63,7 +63,7 @@ function Products() {
   const { data: inventoryData } = useQuery(
     ['inventoryviews', inventoryPage],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop.shop_id}/inventory-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
         method: 'POST',
         body: JSON.stringify(inventoryQuery),
         headers: { 'Content-Type': 'application/json' },
@@ -78,7 +78,7 @@ function Products() {
     useState<number>(15);
 
   const collectionQuery = `SELECT * FROM collection WHERE shop_id = '${
-    shop.shop_id
+    shop?.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
     (collectionPage - 1) * collectionItemsPerPage + 1
   }, ${collectionItemsPerPage}`;
@@ -86,7 +86,7 @@ function Products() {
   const { data: collectionData } = useQuery(
     ['collectionviews', collectionPage],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop.shop_id}/collection-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
         method: 'POST',
         body: JSON.stringify(collectionQuery),
         headers: { 'Content-Type': 'application/json' },
@@ -105,7 +105,7 @@ function Products() {
   const [productItemsPerPage, setProductItemsPerPage] = useState<number>(15);
 
   const productQuery = `SELECT * FROM product WHERE shop_id = '${
-    shop.shop_id
+    shop?.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
     (productPage - 1) * productItemsPerPage + 1
   }, ${productItemsPerPage}`;
@@ -113,7 +113,7 @@ function Products() {
   const { data: productData } = useQuery(
     ['productviews', productPage],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop.shop_id}/product-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/product-views`, {
         method: 'POST',
         body: JSON.stringify(productQuery),
         headers: { 'Content-Type': 'application/json' },

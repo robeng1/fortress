@@ -1,14 +1,11 @@
 import { Photo } from '../photo';
 
-export interface CollectionProductType {
+export interface CollectType {
   shop_id?: string;
   collection_id?: string;
-  collection_handle?: string;
   product_id?: string;
-  product_handle?: string;
   active?: boolean;
   position?: number;
-  variant_id?: string;
 }
 
 export interface SortOptionType {
@@ -29,7 +26,7 @@ export interface CollectionType {
   all_tags?: string[];
   default_sort_by?: string;
   sort_options?: SortOptionType[];
-  products?: CollectionProductType[];
+  products?: CollectType[];
   template_suffix?: string;
   sale_channels?: string[];
   active?: boolean;

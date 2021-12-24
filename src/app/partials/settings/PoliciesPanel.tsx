@@ -1,14 +1,33 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
-import { useSettingSlice } from 'app/features/settings';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/atoms/shop';
+import { useMutation, useQueryClient } from 'react-query';
+import { fortressURL } from 'app/endpoints/urls';
+import { ShopType } from 'app/models/settings/shop-type';
+import { accountIdAtom } from 'store/atoms/authorization-atom';
+import { request, ResponseError } from 'utils/request';
 
 function PoliciesPanel() {
-  const dispatch = useDispatch();
-  const { actions } = useSettingSlice();
+  const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
+  const [accountId] = useAtom(accountIdAtom);
+  const requestURL = `${fortressURL}/shops`;
+
+  // update the shop
+  const { mutate: updateShop } = useMutation(
+    (payload: ShopType) =>
+      request(`${requestURL}/${shop?.shop_id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newShop: ShopType) => {
+        queryClient.setQueryData(['shop', accountId], newShop);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
 
   return (
     <>
@@ -21,7 +40,7 @@ function PoliciesPanel() {
             '',
         }}
         onSubmit={(values, { setSubmitting }) => {
-          let policies = [];
+          let policies: any[] = [];
           if (values.refund_policy !== '') {
             policies = [
               {
@@ -45,7 +64,7 @@ function PoliciesPanel() {
             ];
           }
           if (policies.length > 0) {
-            dispatch(actions.updateShop({ ...shop, policies }));
+            updateShop({ ...shop, policies });
           }
 
           setSubmitting(false);
@@ -99,11 +118,9 @@ function PoliciesPanel() {
                       id="refund_policy"
                       name="refund_policy"
                       className="form-textarea w-full"
-                      type="text"
-                      values={values.refund_policy}
+                      value={values.refund_policy}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      multiple
                       rows={10}
                       placeholder="E.g. Rocketship Kumasi warehouse, near Santasi somewhere"
                     />
@@ -129,12 +146,10 @@ function PoliciesPanel() {
                     <textarea
                       id="shipping_policy"
                       name="shipping_policy"
-                      values={values.shipping_policy}
+                      value={values.shipping_policy}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form-textarea w-full"
-                      type="text"
-                      multiple
                       rows={10}
                       placeholder="E.g. Rocketship Kumasi warehouse, near Santasi somewhere"
                     />
@@ -151,7 +166,10 @@ function PoliciesPanel() {
                     Cancel
                   </button>
                   <button
-                    onClick={handleSubmit}
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleSubmit();
+                    }}
                     className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes

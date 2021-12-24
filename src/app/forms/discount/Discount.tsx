@@ -151,7 +151,7 @@ const initialValues: Values = {
 const DiscountForm = ({ handleShow, id }) => {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
-  const requestURL = `${fortressURL}/shops/${shop.shop_id}/offers`;
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
   const [discountId, setDiscountId] = useState(id);
 
   // query for getting the discount
@@ -374,7 +374,7 @@ const DiscountForm = ({ handleShow, id }) => {
   };
   const cleanDiscount = (d: Values): DiscountType => {
     const disc: DiscountType = {
-      shop_id: shop.shop_id || '',
+      shop_id: shop?.shop_id || '',
       discount_id: discountId,
       name: d.title,
       description: d.description,
@@ -390,7 +390,7 @@ const DiscountForm = ({ handleShow, id }) => {
     };
     disc.max_discount = money.parseDouble(
       d.max_discount,
-      shop.currency?.iso_code || 'GHS',
+      shop?.currency?.iso_code || 'GHS',
     );
     switch (d.incentive_type) {
       case 'fixed_discount': {
@@ -402,13 +402,13 @@ const DiscountForm = ({ handleShow, id }) => {
         } else if (d.condition_type === 'value') {
           condition.money_value = money.parseDouble(
             d.condition_value_money,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         } else {
           condition.value_int = 0;
           condition.money_value = money.parseDouble(
             '0.00',
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         }
         disc.condition = condition;
@@ -418,7 +418,7 @@ const DiscountForm = ({ handleShow, id }) => {
           benefit_type: d.incentive_type,
           value_m: money.parseDouble(
             d.value as string,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           ),
         };
         const benRange: RangeType = {
@@ -443,13 +443,13 @@ const DiscountForm = ({ handleShow, id }) => {
         } else if (d.condition_type === 'value') {
           condition.money_value = money.parseDouble(
             d.condition_value_money,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         } else {
           condition.value_int = 0;
           condition.money_value = money.parseDouble(
             '0.00',
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         }
         disc.condition = condition;
@@ -481,13 +481,13 @@ const DiscountForm = ({ handleShow, id }) => {
         } else if (d.condition_type === 'value') {
           condition.money_value = money.parseDouble(
             d.condition_value_money,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         } else {
           condition.value_int = 0;
           condition.money_value = money.parseDouble(
             '0.00',
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         }
         disc.condition = condition;
@@ -517,13 +517,13 @@ const DiscountForm = ({ handleShow, id }) => {
         } else if (d.condition_type === 'value') {
           condition.money_value = money.parseDouble(
             d.condition_value_money,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         } else {
           condition.value_int = 0;
           condition.money_value = money.parseDouble(
             '0.00',
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         }
         disc.condition = condition;
@@ -533,7 +533,7 @@ const DiscountForm = ({ handleShow, id }) => {
           benefit_type: d.incentive_type,
           value_m: money.parseDouble(
             d.value as string,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           ),
         };
         const benRange: RangeType = {
@@ -561,13 +561,13 @@ const DiscountForm = ({ handleShow, id }) => {
         } else if (d.buy_x_get_y_condition_type === 'value') {
           condition.money_value = money.parseDouble(
             d.buy_x_get_y_condition_value as string,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         } else {
           condition.value_int = 0;
           condition.money_value = money.parseDouble(
             '0.00',
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         }
         const condRange: RangeType = {
@@ -591,7 +591,7 @@ const DiscountForm = ({ handleShow, id }) => {
         if (d.buy_x_get_y_discounted_value_type === 'fixed_discount') {
           benefit.value_m = money.parseDouble(
             d.buy_x_get_y_discounted_value,
-            shop.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code || 'GHS',
           );
         } else if (d.buy_x_get_y_discounted_value_type === 'percentage') {
           benefit.value_i = parseInt(d.buy_x_get_y_discounted_value);
@@ -629,7 +629,7 @@ const DiscountForm = ({ handleShow, id }) => {
         const voucher: VoucherType = {
           voucher_id: '',
           code: d.code,
-          shop_id: shop.shop_id,
+          shop_id: shop?.shop_id,
           discount_id: discountId,
           usage: d.code_usage,
         };
@@ -637,7 +637,7 @@ const DiscountForm = ({ handleShow, id }) => {
       } else if (d.code_type === 'set') {
         const voucherSet: VoucherSetType = {
           set_id: '',
-          shop_id: shop.shop_id,
+          shop_id: shop?.shop_id,
           usage: d.code_usage,
           discount_id: discountId,
           code_length: d.code_length,

@@ -1,42 +1,89 @@
 import React from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
-import { selectShop } from 'app/features/settings/selectors';
-import { useDispatch, useSelector } from 'react-redux';
-// import { useSettingSlice } from 'app/features/settings';
-import { selectPaymentAccount } from 'app/features/payment/selectors';
-import { usePaymentSlice } from 'app/features/payment';
-import { AccountStatus, PaymentMode } from 'app/models/payment/account-type';
+import {
+  Account,
+  AccountStatus,
+  PaymentMode,
+} from 'app/models/payment/account-type';
 import money from 'app/utils/money';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
+import { syncedAccountAtom } from 'store/atoms/payment';
+import { request, ResponseError } from 'utils/request';
+import { paymentURL } from 'app/endpoints/urls';
+import { accountIdAtom } from 'store/atoms/authorization-atom';
 
 function PaymentsPanel() {
-  const dispatch = useDispatch();
-  const { actions } = usePaymentSlice();
-  const shop = useSelector(selectShop);
-  const account = useSelector(selectPaymentAccount);
+  const queryClient = useQueryClient();
+  const [shop] = useAtom(shopAtom);
+  const [account] = useAtom(syncedAccountAtom);
+  const [accountId] = useAtom(accountIdAtom);
+  const requestURL = `${paymentURL}/${accountId}/accounts`;
+
+  // create the colletion
+  const {
+    mutate: createAccount,
+    // isLoading: isCreatingCollection,
+    // isError: collectionCreationFailed,
+    // error: collectionCreationError,
+  } = useMutation(
+    (payload: Account) =>
+      request(requestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newCollection: Account) => {
+        queryClient.invalidateQueries(['account', shop?.shop_id]);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // update the collection
+  const {
+    mutate: updateAccount,
+    // isLoading: isUpdatingCollection,
+    // isError: collectionUpdateFailed,
+    // error: collectionUpdateError,
+  } = useMutation(
+    (payload: Account) =>
+      request(`${requestURL}/${account?.account_id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newAccount: Account) => {
+        queryClient.invalidateQueries(['account', shop?.shop_id]);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
 
   return (
     <>
       <Formik
         initialValues={{
-          account_id: account.account_id || '',
-          name: shop.business_name || '',
-          primary_user: shop.shop_id,
-          payment_data: account.payment_data || 'wallet',
+          account_id: account?.account_id || '',
+          name: shop?.business_name || '',
+          primary_user: shop?.shop_id,
+          payment_data: account?.payment_data || 'wallet',
           wallet: {
-            merchant: account.wallet?.merchant || '',
-            name: account.wallet?.name || '',
-            number: account.wallet?.number || '',
+            merchant: account?.wallet?.merchant || '',
+            name: account?.wallet?.name || '',
+            number: account?.wallet?.number || '',
           },
-          payment_mode: account.payment_mode || PaymentMode.MOBILE_NETWORK,
-          status: account.status || AccountStatus.OPEN,
-          account_kind: account.account_kind || 'REGULAR',
+          payment_mode: account?.payment_mode || PaymentMode.MOBILE_NETWORK,
+          status: account?.status || AccountStatus.OPEN,
+          account_kind: account?.account_kind || 'REGULAR',
           credit_limit: money.Zero(),
         }}
         onSubmit={(values, { setSubmitting }) => {
           if (values.account_id !== '') {
-            dispatch(actions.updateAccount({ ...account, ...values }));
+            updateAccount({ ...account, ...values });
           } else {
-            dispatch(actions.createAccount({ ...values }));
+            createAccount({ ...values });
           }
           setSubmitting(false);
         }}
@@ -182,7 +229,10 @@ function PaymentsPanel() {
                     Cancel
                   </button>
                   <button
-                    onClick={handleSubmit}
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleSubmit();
+                    }}
                     className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes

@@ -9,13 +9,13 @@ import { shopAtom } from 'store/atoms/shop';
 
 function Header({ sidebarOpen, setSidebarOpen, location }) {
   const [shop] = useAtom(shopAtom);
-  const shopName = shop.business_display_name;
+  const shopName = shop?.business_display_name;
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
     <header
       className={`sticky md:sticky w-full top-0 z-20 max-w-9xl ${
-        !searchModalOpen && 'bg-white'
+        !searchModalOpen && 'backdrop-blur-md'
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">

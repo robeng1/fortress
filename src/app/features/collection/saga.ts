@@ -2,7 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { fortressURL } from 'app/endpoints/urls';
 import {
   CollectionListType,
-  CollectionProductType,
+  CollectType,
   CollectionType,
   CollectionViewType,
 } from 'app/models/collection/collection-type';
@@ -218,7 +218,7 @@ export function* getCollectionProducts(action: PayloadAction<string>) {
   yield put(uiActions.startAction(action));
   yield put(uiActions.clearError(action));
   try {
-    const products: CollectionProductType[] = yield call(request, requestURL);
+    const products: CollectType[] = yield call(request, requestURL);
     if (products && products.length > 0) {
       yield put(actions.productsLoaded(products));
       yield put(uiActions.actionSucceeded(action));

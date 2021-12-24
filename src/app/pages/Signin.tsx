@@ -9,12 +9,10 @@ import { useMutation } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { sessionAtom } from 'store/atoms/authorization-atom';
-import { shopAtom } from 'store/atoms/shop';
 
 function Signin() {
   const requestURL = `${theKeepURL}/auth/login`;
   const [session, setSession] = useAtom(sessionAtom);
-  const [, setShop] = useAtom(shopAtom);
   const {
     mutate: login,
     isLoading,
@@ -29,9 +27,8 @@ function Signin() {
     {
       onSuccess: (resp: Record<string, any>) => {
         setSession(session);
-        // TODO: make a call to get the shop
-        setShop({});
       },
+
       onError: (e: ResponseError) => {},
     },
   );

@@ -3,7 +3,7 @@ import uniqBy from 'lodash/uniqBy';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import {
   CollectionListType,
-  CollectionProductType,
+  CollectType,
   CollectionType,
   CollectionViewType,
 } from 'app/models/collection/collection-type';
@@ -15,7 +15,7 @@ const collectionNamespace = 'collection';
 
 export type CollectionState = {
   collections: { [key: string]: CollectionType };
-  products: { [key: string]: { [key: string]: CollectionProductType } };
+  products: { [key: string]: { [key: string]: CollectType } };
   shard: number;
   offset: number;
   num_per_page: number;
@@ -56,13 +56,13 @@ const slice = createSlice({
     },
     createCollectionProduct: (
       state,
-      action: PayloadAction<CollectionProductType>,
+      action: PayloadAction<CollectType>,
     ) => {
       state.error = null;
     },
     updateCollectionProduct: (
       state,
-      action: PayloadAction<CollectionProductType>,
+      action: PayloadAction<CollectType>,
     ) => {
       state.error = null;
     },
@@ -90,7 +90,7 @@ const slice = createSlice({
     loadProducts: (state, action: PayloadAction<string>) => {
       state.error = null;
     },
-    productsLoaded: (state, action: PayloadAction<CollectionProductType[]>) => {
+    productsLoaded: (state, action: PayloadAction<CollectType[]>) => {
       const products = action?.payload;
       if (products) {
         state.products = {

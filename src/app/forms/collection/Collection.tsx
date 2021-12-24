@@ -12,27 +12,30 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-import GoogleDrive from '@uppy/google-drive';
-import Dropbox from '@uppy/dropbox';
-import Instagram from '@uppy/instagram';
-import Facebook from '@uppy/facebook';
-import OneDrive from '@uppy/onedrive';
-import Box from '@uppy/box';
-import Webcam from '@uppy/webcam';
 import { Loader } from 'app/components/Loader';
 import DropTarget from '@uppy/drop-target';
 import { fortressURL } from 'app/endpoints/urls';
 import PaginationClassic from 'app/components/PaginationClassic';
-import { CollectionType } from 'app/models/collection/collection-type';
+import {
+  CollectionType,
+  CollectType,
+} from 'app/models/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/atoms/shop';
+import SelectableResultSearchModal from 'app/components/common/modal-searcher';
+import { ProductViewListType } from 'app/models/product/product-type';
 
 export default function CollectionForm({ handleShow, id }) {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
-  const requestURL = `${fortressURL}/shops/${shop.shop_id}/collections`;
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
+  const [selectedProducts, setSelectedProducts] = useState<any>([]);
+  const matchKey = 'key';
+
+  // for controlling products browsing modal
+  const [searchProductsOpen, setSearchProductsOpen] = useState(false);
 
   // query for getting the collection
   const { data: collection, isLoading } = useQuery<CollectionType>(
@@ -52,13 +55,13 @@ export default function CollectionForm({ handleShow, id }) {
   const [previousPage, setPreviousPage] = useState<String>('');
   const itemsPerPage = 20;
 
-  const { data: collectionProducts } = useQuery(
+  // retrieves a colletion's products to be displayed
+  const { data: collectionProducts } = useQuery<ProductViewListType>(
     ['collection-products', page],
     async () =>
       await request(
         `${requestURL}/${collectionId}/products?page=${page}&num=${itemsPerPage}`,
       ),
-
     { keepPreviousData: true, enabled: !!collectionId },
   );
 
@@ -103,6 +106,76 @@ export default function CollectionForm({ handleShow, id }) {
       onError: (e: ResponseError) => {},
     },
   );
+
+  // add a product to the collection
+  // const { mutate: addProductToCollection } = useMutation(
+  //   (payload: CollectType) =>
+  //     request(`${requestURL}/${collectionId}/products`, {
+  //       method: 'POST',
+  //       body: JSON.stringify(payload),
+  //     }),
+  //   {
+  //     onSuccess: (newCollect: CollectType) => {
+  //       queryClient.invalidateQueries(['collection-products', page]);
+  //     },
+  //     onError: (e: ResponseError) => {},
+  //   },
+  // );
+
+  // add products to the collection
+  const { mutate: addProductsToCollection } = useMutation(
+    (payload: CollectType[]) =>
+      request(`${requestURL}/${collectionId}/products`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newCollect: CollectType) => {
+        queryClient.invalidateQueries(['collection-products', page]);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // remove a product to the collection
+  const { mutate: removeProductFromCollection } = useMutation(
+    (productId: string) =>
+      request(`${requestURL}/${collectionId}/products/${productId}`, {
+        method: 'DELETE',
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['collection-products', page]);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // returns the query string for browsing products to be added to a collection
+  const queryString = (value: string): string => {
+    let query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
+    if (value && value !== '') {
+      query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' AND TEXT_MATCH(search_col, '${value}') LIMIT 15`;
+    }
+    return query;
+  };
+
+  const handleSelectedItems = (selectedItems: any[]) => {
+    setSelectedProducts(() => [...selectedItems]);
+    const collects: CollectType[] = selectedProducts.map(
+      (item: any, index: number) => {
+        return {
+          shop_id: shop?.shop_id,
+          collection_id: collectionId,
+          product_id: item[matchKey],
+          active: true,
+          position: index,
+        };
+      },
+    );
+    addProductsToCollection(collects);
+  };
+
   const onUploadComplete = result => {
     const url = result.successful[0].uploadURL;
     // const fileName = file.name;
@@ -128,25 +201,6 @@ export default function CollectionForm({ handleShow, id }) {
         allowedFileTypes: ['image/*', 'video/*'],
       },
     })
-      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
-      .use(GoogleDrive, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(Dropbox, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(Box, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(Instagram, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(Facebook, {
-        companionUrl: 'https://companion.uppy.io',
-      })
-      .use(OneDrive, {
-        companionUrl: 'https://companion.uppy.io',
-      })
       .use(DropTarget, { target: document.body })
       .on('complete', onUploadComplete)
       .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
@@ -211,14 +265,14 @@ export default function CollectionForm({ handleShow, id }) {
                   ...collection,
                   ...values,
                   collection_id: collectionId,
-                  shop_id: shop.shop_id,
+                  shop_id: shop?.shop_id,
                   image: { image_url: image },
                 });
               } else {
                 createCollection({
                   ...values,
                   collection_id: '',
-                  shop_id: shop.shop_id,
+                  shop_id: shop?.shop_id,
                   image: { image_url: image },
                 });
               }
@@ -327,15 +381,6 @@ export default function CollectionForm({ handleShow, id }) {
                                 placeholder: 'describe what the image is about',
                               },
                             ]}
-                            // browserBackButtonClose={false}
-                            // plugins={[
-                            //   'Webcam',
-                            //   'Instagram',
-                            //   'GoogleDrive',
-                            //   'Dropbox',
-                            //   'Box',
-                            //   'ImageEditor',
-                            // ]}
                           />
                         </div>
                       </div>
@@ -347,21 +392,20 @@ export default function CollectionForm({ handleShow, id }) {
                           <div className="w-full">
                             <div className="w-full">
                               <div className="flex border-1 rounded">
-                                <input
-                                  type="text"
-                                  className="form-input w-full"
-                                  placeholder="Search products..."
+                                <SelectableResultSearchModal
+                                  id="quick-find-modal-products-collection-frm"
+                                  searchId="quick-find-modal-products-collection-frm"
+                                  modalOpen={searchProductsOpen}
+                                  setModalOpen={setSearchProductsOpen}
+                                  queryURL={`${fortressURL}/shops/${shop?.shop_id}/products/option-search`}
+                                  buildQuery={queryString}
+                                  queryKey="products-opt-search"
+                                  matchKey={matchKey}
+                                  handleResultSelected={handleSelectedItems}
+                                  alreadySelected={collectionProducts?.products.map(
+                                    p => p.product_id,
+                                  )}
                                 />
-                                <button className="flex items-center justify-center px-4 border-l">
-                                  <svg
-                                    className="w-6 h-6 text-gray-600"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                  </svg>
-                                </button>
                               </div>
                             </div>
                           </div>
@@ -369,30 +413,61 @@ export default function CollectionForm({ handleShow, id }) {
                         {collectionProducts?.products && (
                           <div>
                             {collectionProducts?.products.map(product => (
-                              <div></div>
+                              <div
+                                key={product.product_id}
+                                className="flex items-center"
+                              >
+                                <div className="flex-shrink-0 h-10 w-10">
+                                  <img
+                                    className="h-10 w-10"
+                                    src={product.image_url}
+                                    alt={product.title}
+                                  />
+                                </div>
+                                <div className="ml-4 flex justify-between">
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {product.title}
+                                  </div>
+                                  <div
+                                    onClick={e => {
+                                      e.stopPropagation();
+                                      removeProductFromCollection(
+                                        product.product_id,
+                                      );
+                                    }}
+                                    className="text-sm text-gray-500 cursor-pointer"
+                                  >
+                                    X
+                                  </div>
+                                </div>
+                              </div>
                             ))}
                           </div>
                         )}
-                        {collectionProducts?.products && (
-                          <div>
-                            <PaginationClassic
-                              previous={{
-                                disabled: previousPage === '',
-                                callBack: setPage(previousPage),
-                              }}
-                              next={{
-                                disabled:
-                                  collectionProducts?.next_page_token === '' ||
-                                  collectionProducts?.next_page_token ===
-                                    undefined,
-                                callBack: () => {
-                                  setPreviousPage(page);
-                                  setPage(collectionProducts?.next_page_token);
-                                },
-                              }}
-                            />
-                          </div>
-                        )}
+                        {collectionProducts?.products &&
+                          collectionProducts.next_page_token && (
+                            <div>
+                              <PaginationClassic
+                                previous={{
+                                  disabled: previousPage === '',
+                                  callBack: setPage(previousPage),
+                                }}
+                                next={{
+                                  disabled:
+                                    collectionProducts?.next_page_token ===
+                                      '' ||
+                                    collectionProducts?.next_page_token ===
+                                      undefined,
+                                  callBack: () => {
+                                    setPreviousPage(page);
+                                    setPage(
+                                      collectionProducts?.next_page_token,
+                                    );
+                                  },
+                                }}
+                              />
+                            </div>
+                          )}
                       </section>
                     )}
                   </div>

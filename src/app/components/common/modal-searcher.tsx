@@ -14,7 +14,8 @@ function SelectableResultSearchModal({
   setModalOpen,
   queryURL,
   buildQuery,
-  qk,
+  matchKey,
+  queryKey,
   handleResultSelected,
   alreadySelected,
 }) {
@@ -24,7 +25,7 @@ function SelectableResultSearchModal({
   const debouncedValue = useDebounce(value, 500);
   // const { status, data, error, isFetching }
   const { data } = useQuery(
-    [qk, debouncedValue],
+    [queryKey, debouncedValue],
     () =>
       ky
         .post(`${queryURL}`, {
@@ -49,9 +50,12 @@ function SelectableResultSearchModal({
   const handleClick = e => {
     const { id, checked } = e.target;
     setSelectAll(false);
-    setIsCheck([...isCheck, data?.results.find(result => result[qk] === id)]);
+    setIsCheck([
+      ...isCheck,
+      data?.results.find(result => result[matchKey] === id),
+    ]);
     if (!checked) {
-      setIsCheck(isCheck.filter((item: any) => item[qk] !== id));
+      setIsCheck(isCheck.filter((item: any) => item[matchKey] !== id));
     }
   };
   useEffect(() => {
@@ -180,12 +184,12 @@ function SelectableResultSearchModal({
                       <label className="inline-flex flex-shrink-0 mr-3">
                         <span className="sr-only">Select</span>
                         <input
-                          id={qr[qk]}
+                          id={qr[matchKey]}
                           className="form-checkbox"
                           type="checkbox"
                           onChange={handleClick}
                           checked={isCheck.some(
-                            (item: any) => item[qk] === qr[qk],
+                            (item: any) => item[matchKey] === qr[matchKey],
                           )}
                         />
                       </label>
@@ -195,10 +199,10 @@ function SelectableResultSearchModal({
                           src={qr.image_url}
                           width="40"
                           height="40"
-                          alt={qr.name}
+                          alt={qr.label}
                         />
                       </div>
-                      <span>{qr.name}</span>
+                      <span>{qr.label}</span>
                     </Link>
                   </li>
                 ))}
