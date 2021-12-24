@@ -643,12 +643,7 @@ const DiscountForm = ({ handleShow, id }) => {
   };
 
   // create the discount
-  const {
-    mutate: createDiscount,
-    // isLoading: isCreatingDiscount,
-    // isError: discountCreationFailed,
-    // error: discountCreationError,
-  } = useMutation(
+  const { mutate: createDiscount } = useMutation(
     (payload: DiscountType) =>
       request(requestURL, {
         method: 'POST',
@@ -664,12 +659,7 @@ const DiscountForm = ({ handleShow, id }) => {
   );
 
   // update the update
-  const {
-    mutate: updateDiscount,
-    // isLoading: isUpdatingDiscount,
-    // isError: discountUpdateFailed,
-    // error: discountUpdateError,
-  } = useMutation(
+  const { mutate: updateDiscount } = useMutation(
     (payload: DiscountType) =>
       request(`${requestURL}/${discountId}`, {
         method: 'PATCH',
@@ -757,7 +747,8 @@ const DiscountForm = ({ handleShow, id }) => {
 
   const collectionOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/option-search`;
   const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
-  // returns the query string for browsing products to be added to a collection
+
+  // returns the query string for browsing products to be added to a range
   const productQueryString = (value: string): string => {
     let query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
     if (value && value !== '') {
@@ -765,6 +756,8 @@ const DiscountForm = ({ handleShow, id }) => {
     }
     return query;
   };
+
+  // returns the query string for browsing collection to be added to a range
   const collectionQueryString = (value: string): string => {
     let query = `SELECT * FROM collection WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
     if (value && value !== '') {
@@ -1217,8 +1210,11 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setFieldValue,
                                     'buy_x_get_y_condition_range_keys',
                                   )}
-                                  alreadySelected={undefined}
+                                  alreadySelected={
+                                    values.buy_x_get_y_condition_range_keys
+                                  }
                                   placeholder="Products"
+                                  queryEnabled={!!shop?.shop_id}
                                 />
                               </div>
                             </div>
@@ -1267,8 +1263,11 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setFieldValue,
                                     'buy_x_get_y_condition_range_keys',
                                   )}
-                                  alreadySelected={undefined}
+                                  alreadySelected={
+                                    values.buy_x_get_y_condition_range_keys
+                                  }
                                   placeholder="Collections"
+                                  queryEnabled={!!shop?.shop_id}
                                 />
                               </div>
                             </div>
@@ -1382,7 +1381,10 @@ const DiscountForm = ({ handleShow, id }) => {
                                     'buy_x_get_y_ben_range_keys',
                                   )}
                                   placeholder="Products"
-                                  alreadySelected={undefined}
+                                  alreadySelected={
+                                    values.buy_x_get_y_ben_range_keys
+                                  }
+                                  queryEnabled={!!shop?.shop_id}
                                 />
                               </div>
                             </div>
@@ -1431,8 +1433,11 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setFieldValue,
                                     'buy_x_get_y_ben_range_keys',
                                   )}
-                                  alreadySelected={undefined}
+                                  alreadySelected={
+                                    values.buy_x_get_y_ben_range_keys
+                                  }
                                   placeholder="Collections"
+                                  queryEnabled={!!shop?.shop_id}
                                 />
                               </div>
                             </div>
@@ -1747,8 +1752,9 @@ const DiscountForm = ({ handleShow, id }) => {
                                         setFieldValue,
                                         'included_products',
                                       )}
-                                      alreadySelected={undefined}
+                                      alreadySelected={values.included_products}
                                       placeholder="Products"
+                                      queryEnabled={!!shop?.shop_id}
                                     />
                                   </div>
                                 </div>
@@ -1795,8 +1801,11 @@ const DiscountForm = ({ handleShow, id }) => {
                                         setFieldValue,
                                         'included_collections',
                                       )}
-                                      alreadySelected={undefined}
+                                      alreadySelected={
+                                        values.included_collections
+                                      }
                                       placeholder="Collections"
+                                      queryEnabled={!!shop?.shop_id}
                                     />
                                   </div>
                                 </div>

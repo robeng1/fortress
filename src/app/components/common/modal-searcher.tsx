@@ -7,6 +7,7 @@ import { useDebounce } from 'app/hooks/use-debounce';
 interface Result {
   results: any[];
 }
+const initiallySelected: any[] = [];
 function SelectableResultSearchModal({
   id,
   searchId,
@@ -17,14 +18,14 @@ function SelectableResultSearchModal({
   matchKey,
   queryKey,
   handleResultSelected,
-  alreadySelected,
+  alreadySelected = initiallySelected,
   placeholder = 'Anything',
+  queryEnabled = false,
 }) {
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [isCheck, setIsCheck] = useState<any>([]);
   const [value, setValue] = useState<string>('');
   const debouncedValue = useDebounce(value, 500);
-  // const { status, data, error, isFetching }
   const { data } = useQuery(
     [queryKey, debouncedValue],
     () =>
@@ -34,9 +35,10 @@ function SelectableResultSearchModal({
         })
         .json<Result>(),
     {
-      enabled: Boolean(debouncedValue),
+      enabled: queryEnabled && Boolean(debouncedValue),
     },
   );
+
   const modalContent = useRef<HTMLDivElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
 
@@ -157,59 +159,66 @@ function SelectableResultSearchModal({
               </button>
             </div>
           </form>
-          <div className="py-4 px-2">
-            {/* Recent searches */}
-            <div className="mb-3 last:mb-0">
-              <div className="text-xs font-semibold text-gray-400 uppercase px-2 mb-2">
-                Results
+          {data && (
+            <div className="py-4 px-2">
+              {/* Recent searches */}
+              <div className="mb-3 last:mb-0">
+                <div className="text-xs font-semibold text-gray-400 uppercase px-2 mb-2">
+                  Results
+                </div>
+                <div className="flex items-center">
+                  <label className="inline-flex">
+                    <span className="sr-only">Select all</span>
+                    <input
+                      className="form-checkbox"
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                    />
+                  </label>
+                </div>
+                <ul className="text-sm">
+                  {data?.results
+                    .filter(
+                      (x: Record<string, string>) =>
+                        !alreadySelected.includes(x[matchKey]),
+                    )
+                    .map(it => (
+                      <li key={it[matchKey]}>
+                        <Link
+                          className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
+                          to="#0"
+                          onClick={() => setModalOpen(!modalOpen)}
+                        >
+                          <label className="inline-flex flex-shrink-0 mr-3">
+                            <span className="sr-only">Select</span>
+                            <input
+                              id={it[matchKey]}
+                              className="form-checkbox"
+                              type="checkbox"
+                              onChange={handleClick}
+                              checked={isCheck.some(
+                                (item: any) => item[matchKey] === it[matchKey],
+                              )}
+                            />
+                          </label>
+                          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                            <img
+                              className=""
+                              src={it.image_url}
+                              width="40"
+                              height="40"
+                              alt={it.label}
+                            />
+                          </div>
+                          <span>{it.label}</span>
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
               </div>
-              <div className="flex items-center">
-                <label className="inline-flex">
-                  <span className="sr-only">Select all</span>
-                  <input
-                    className="form-checkbox"
-                    type="checkbox"
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                  />
-                </label>
-              </div>
-              <ul className="text-sm">
-                {data?.results.map(qr => (
-                  <li>
-                    <Link
-                      className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
-                      to="#0"
-                      onClick={() => setModalOpen(!modalOpen)}
-                    >
-                      <label className="inline-flex flex-shrink-0 mr-3">
-                        <span className="sr-only">Select</span>
-                        <input
-                          id={qr[matchKey]}
-                          className="form-checkbox"
-                          type="checkbox"
-                          onChange={handleClick}
-                          checked={isCheck.some(
-                            (item: any) => item[matchKey] === qr[matchKey],
-                          )}
-                        />
-                      </label>
-                      <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                        <img
-                          className=""
-                          src={qr.image_url}
-                          width="40"
-                          height="40"
-                          alt={qr.label}
-                        />
-                      </div>
-                      <span>{qr.label}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </div>
-          </div>
+          )}
         </div>
       </Transition>
     </>
