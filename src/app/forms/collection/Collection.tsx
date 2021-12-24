@@ -66,12 +66,7 @@ export default function CollectionForm({ handleShow, id }) {
   );
 
   // create the colletion
-  const {
-    mutate: createCollection,
-    // isLoading: isCreatingCollection,
-    // isError: collectionCreationFailed,
-    // error: collectionCreationError,
-  } = useMutation(
+  const { mutate: createCollection } = useMutation(
     (payload: CollectionType) =>
       request(requestURL, {
         method: 'POST',
@@ -87,12 +82,7 @@ export default function CollectionForm({ handleShow, id }) {
   );
 
   // update the collection
-  const {
-    mutate: updateCollection,
-    // isLoading: isUpdatingCollection,
-    // isError: collectionUpdateFailed,
-    // error: collectionUpdateError,
-  } = useMutation(
+  const { mutate: updateCollection } = useMutation(
     (payload: CollectionType) =>
       request(`${requestURL}/${collectionId}`, {
         method: 'PATCH',
@@ -123,6 +113,7 @@ export default function CollectionForm({ handleShow, id }) {
   // );
 
   // add products to the collection
+  // TODO: provide an endpoint for this
   const { mutate: addProductsToCollection } = useMutation(
     (payload: CollectType[]) =>
       request(`${requestURL}/${collectionId}/products`, {

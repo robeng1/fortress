@@ -13,6 +13,7 @@ import CollectionForm from 'app/forms/collection/Collection';
 import BottomNav from 'app/components/BottomNav';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/atoms/shop';
+import { request, ResponseError } from 'utils/request';
 
 function Collections() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -33,14 +34,14 @@ function Collections() {
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
 
-  const { data } = useQuery(
+  const { data } = useQuery<any, ResponseError>(
     ['collectionviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
+      await request(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
         method: 'POST',
         body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },
-      }).then(result => result.json()),
+      }),
     { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 

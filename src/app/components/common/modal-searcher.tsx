@@ -31,7 +31,7 @@ function SelectableResultSearchModal({
     () =>
       ky
         .post(`${queryURL}`, {
-          body: JSON.stringify(buildQuery(debouncedValue)),
+          body: JSON.stringify({ query: buildQuery(debouncedValue) }),
         })
         .json<Result>(),
     {

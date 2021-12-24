@@ -830,44 +830,56 @@ const DiscountForm = ({ handleShow, id }) => {
   };
 
   // query for getting included products
-  const { data: includedProducts } = useQuery<any>(
+  const {
+    data: { result: includedProducts },
+  } = useQuery<any>(
     ['included-products', discountId],
     async () =>
       await request(productOptionSearchURL, {
         method: 'POST',
-        body: JSON.stringify(selectedProductsQuery(includedProductKeys)),
+        body: JSON.stringify({
+          query: selectedProductsQuery(includedProductKeys),
+        }),
       }),
     {
       // The query will not execute until the discountId exists
       enabled: !!discountId && includedProductKeys.length > 0 && !isBuyXGetY,
       keepPreviousData: true,
+      initialData: { result: [] },
     },
   );
 
   // query for getting included collections
-  const { data: includedCollections } = useQuery<any>(
+  const {
+    data: { result: includedCollections },
+  } = useQuery<any>(
     ['included-collections', discountId],
     async () =>
       await request(collectionOptionSearchURL, {
         method: 'POST',
-        body: JSON.stringify(selectedCollectionsQuery(includedCollectionKeys)),
+        body: JSON.stringify({
+          query: selectedCollectionsQuery(includedCollectionKeys),
+        }),
       }),
     {
       // The query will not execute until the discountId exists
       enabled: !!discountId && includedCollectionKeys.length > 0 && !isBuyXGetY,
       keepPreviousData: true,
+      initialData: { result: [] },
     },
   );
 
   // query for getting included products for a condition's range
-  const { data: condRangeIncludedProducts } = useQuery<any>(
+  const {
+    data: { result: condRangeIncludedProducts },
+  } = useQuery<any>(
     ['cond-range-included-products', discountId],
     async () =>
       await request(productOptionSearchURL, {
         method: 'POST',
-        body: JSON.stringify(
-          selectedProductsQuery(buyXGetYConditionIncludedProductKeys),
-        ),
+        body: JSON.stringify({
+          query: selectedProductsQuery(buyXGetYConditionIncludedProductKeys),
+        }),
       }),
     {
       // The query will not execute until the discountId exists
@@ -876,18 +888,23 @@ const DiscountForm = ({ handleShow, id }) => {
         buyXGetYConditionIncludedProductKeys.length > 0 &&
         isBuyXGetY,
       keepPreviousData: true,
+      initialData: { result: [] },
     },
   );
 
   // query for getting included collections for a condition's range
-  const { data: condRangeIncludedCollections } = useQuery<any>(
+  const {
+    data: { result: condRangeIncludedCollections },
+  } = useQuery<any>(
     ['cond-range-included-collections', discountId],
     async () =>
       await request(collectionOptionSearchURL, {
         method: 'POST',
-        body: JSON.stringify(
-          selectedCollectionsQuery(buyXGetYConditionIncludedCollectionKeys),
-        ),
+        body: JSON.stringify({
+          query: selectedCollectionsQuery(
+            buyXGetYConditionIncludedCollectionKeys,
+          ),
+        }),
       }),
     {
       // The query will not execute until the discountId exists
@@ -896,18 +913,21 @@ const DiscountForm = ({ handleShow, id }) => {
         buyXGetYConditionIncludedCollectionKeys.length > 0 &&
         isBuyXGetY,
       keepPreviousData: true,
+      initialData: { result: [] },
     },
   );
 
   // query for getting included products for a condition's range
-  const { data: benRangeIncludedProducts } = useQuery<any>(
+  const {
+    data: { result: benRangeIncludedProducts },
+  } = useQuery<any>(
     ['ben-range-included-products', discountId],
     async () =>
       await request(productOptionSearchURL, {
         method: 'POST',
-        body: JSON.stringify(
-          selectedProductsQuery(buyXGetYBenefitIncludedProductKeys),
-        ),
+        body: JSON.stringify({
+          query: selectedProductsQuery(buyXGetYBenefitIncludedProductKeys),
+        }),
       }),
     {
       // The query will not execute until the discountId exists
@@ -916,18 +936,23 @@ const DiscountForm = ({ handleShow, id }) => {
         buyXGetYBenefitIncludedProductKeys.length > 0 &&
         isBuyXGetY,
       keepPreviousData: true,
+      initialData: { result: [] },
     },
   );
 
   // query for getting included collections for a condition's range
-  const { data: benRangeIncludedCollections } = useQuery<any>(
+  const {
+    data: { result: benRangeIncludedCollections },
+  } = useQuery<any>(
     ['ben-range-included-collections', discountId],
     async () =>
       await request(collectionOptionSearchURL, {
         method: 'POST',
-        body: JSON.stringify(
-          selectedCollectionsQuery(buyXGetYBenefitIncludedCollectionKeys),
-        ),
+        body: JSON.stringify({
+          query: selectedCollectionsQuery(
+            buyXGetYBenefitIncludedCollectionKeys,
+          ),
+        }),
       }),
     {
       // The query will not execute until the discountId exists
@@ -936,6 +961,7 @@ const DiscountForm = ({ handleShow, id }) => {
         buyXGetYBenefitIncludedCollectionKeys.length > 0 &&
         isBuyXGetY,
       keepPreviousData: true,
+      initialData: { result: [] },
     },
   );
 
@@ -1400,6 +1426,47 @@ const DiscountForm = ({ handleShow, id }) => {
                                   queryEnabled={!!shop?.shop_id}
                                 />
                               </div>
+                              <div>
+                                {condRangeIncludedProducts.map(
+                                  (product: any) => (
+                                    <div
+                                      key={product.key}
+                                      className="flex items-center"
+                                    >
+                                      <div className="flex-shrink-0 h-10 w-10">
+                                        <img
+                                          className="h-10 w-10"
+                                          src={product.image_url}
+                                          alt={product.label}
+                                        />
+                                      </div>
+                                      <div className="ml-4 flex justify-between">
+                                        <div className="text-sm font-medium text-gray-900">
+                                          {product.label}
+                                        </div>
+                                        <div
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            setBuyXGetYConditionIncludedProductKeys(
+                                              previousKeys =>
+                                                previousKeys.filter(
+                                                  k => k !== product.key,
+                                                ),
+                                            );
+                                            queryClient.invalidateQueries([
+                                              'cond-range-included-products',
+                                              discountId,
+                                            ]);
+                                          }}
+                                          className="text-sm text-gray-500 cursor-pointer"
+                                        >
+                                          X
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ),
+                                )}
+                              </div>
                             </div>
                           ) : (
                             <div className="w-full">
@@ -1452,6 +1519,47 @@ const DiscountForm = ({ handleShow, id }) => {
                                   placeholder="Collections"
                                   queryEnabled={!!shop?.shop_id}
                                 />
+                              </div>
+                              <div>
+                                {condRangeIncludedCollections.map(
+                                  (collection: any) => (
+                                    <div
+                                      key={collection.key}
+                                      className="flex items-center"
+                                    >
+                                      <div className="flex-shrink-0 h-10 w-10">
+                                        <img
+                                          className="h-10 w-10"
+                                          src={collection.image_url}
+                                          alt={collection.label}
+                                        />
+                                      </div>
+                                      <div className="ml-4 flex justify-between">
+                                        <div className="text-sm font-medium text-gray-900">
+                                          {collection.label}
+                                        </div>
+                                        <div
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            setBuyXGetYConditionIncludedCollectionKeys(
+                                              previousKeys =>
+                                                previousKeys.filter(
+                                                  k => k !== collection.key,
+                                                ),
+                                            );
+                                            queryClient.invalidateQueries([
+                                              'cond-range-included-collections',
+                                              discountId,
+                                            ]);
+                                          }}
+                                          className="text-sm text-gray-500 cursor-pointer"
+                                        >
+                                          X
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ),
+                                )}
                               </div>
                             </div>
                           )}
@@ -1570,6 +1678,47 @@ const DiscountForm = ({ handleShow, id }) => {
                                   queryEnabled={!!shop?.shop_id}
                                 />
                               </div>
+                              <div>
+                                {benRangeIncludedProducts.map(
+                                  (product: any) => (
+                                    <div
+                                      key={product.key}
+                                      className="flex items-center"
+                                    >
+                                      <div className="flex-shrink-0 h-10 w-10">
+                                        <img
+                                          className="h-10 w-10"
+                                          src={product.image_url}
+                                          alt={product.label}
+                                        />
+                                      </div>
+                                      <div className="ml-4 flex justify-between">
+                                        <div className="text-sm font-medium text-gray-900">
+                                          {product.label}
+                                        </div>
+                                        <div
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            setBuyXGetYBenefitIncludedProductKeys(
+                                              previousKeys =>
+                                                previousKeys.filter(
+                                                  k => k !== product.key,
+                                                ),
+                                            );
+                                            queryClient.invalidateQueries([
+                                              'ben-range-included-products',
+                                              discountId,
+                                            ]);
+                                          }}
+                                          className="text-sm text-gray-500 cursor-pointer"
+                                        >
+                                          X
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ),
+                                )}
+                              </div>
                             </div>
                           ) : (
                             <div className="w-full">
@@ -1622,6 +1771,47 @@ const DiscountForm = ({ handleShow, id }) => {
                                   placeholder="Collections"
                                   queryEnabled={!!shop?.shop_id}
                                 />
+                              </div>
+                              <div>
+                                {benRangeIncludedCollections.map(
+                                  (collection: any) => (
+                                    <div
+                                      key={collection.key}
+                                      className="flex items-center"
+                                    >
+                                      <div className="flex-shrink-0 h-10 w-10">
+                                        <img
+                                          className="h-10 w-10"
+                                          src={collection.image_url}
+                                          alt={collection.label}
+                                        />
+                                      </div>
+                                      <div className="ml-4 flex justify-between">
+                                        <div className="text-sm font-medium text-gray-900">
+                                          {collection.label}
+                                        </div>
+                                        <div
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            setBuyXGetYBenefitIncludedCollectionKeys(
+                                              previousKeys =>
+                                                previousKeys.filter(
+                                                  k => k !== collection.key,
+                                                ),
+                                            );
+                                            queryClient.invalidateQueries([
+                                              'ben-range-included-collections',
+                                              discountId,
+                                            ]);
+                                          }}
+                                          className="text-sm text-gray-500 cursor-pointer"
+                                        >
+                                          X
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ),
+                                )}
                               </div>
                             </div>
                           )}
@@ -1940,6 +2130,45 @@ const DiscountForm = ({ handleShow, id }) => {
                                       queryEnabled={!!shop?.shop_id}
                                     />
                                   </div>
+                                  <div>
+                                    {includedProducts.map((product: any) => (
+                                      <div
+                                        key={product.key}
+                                        className="flex items-center"
+                                      >
+                                        <div className="flex-shrink-0 h-10 w-10">
+                                          <img
+                                            className="h-10 w-10"
+                                            src={product.image_url}
+                                            alt={product.label}
+                                          />
+                                        </div>
+                                        <div className="ml-4 flex justify-between">
+                                          <div className="text-sm font-medium text-gray-900">
+                                            {product.label}
+                                          </div>
+                                          <div
+                                            onClick={e => {
+                                              e.stopPropagation();
+                                              setIncludedProductKeys(
+                                                previousKeys =>
+                                                  previousKeys.filter(
+                                                    k => k !== product.key,
+                                                  ),
+                                              );
+                                              queryClient.invalidateQueries([
+                                                'included-products',
+                                                discountId,
+                                              ]);
+                                            }}
+                                            className="text-sm text-gray-500 cursor-pointer"
+                                          >
+                                            X
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
                               ) : (
                                 <div className="w-full">
@@ -1990,6 +2219,47 @@ const DiscountForm = ({ handleShow, id }) => {
                                       placeholder="Collections"
                                       queryEnabled={!!shop?.shop_id}
                                     />
+                                  </div>
+                                  <div>
+                                    {includedCollections.map(
+                                      (collection: any) => (
+                                        <div
+                                          key={collection.key}
+                                          className="flex items-center"
+                                        >
+                                          <div className="flex-shrink-0 h-10 w-10">
+                                            <img
+                                              className="h-10 w-10"
+                                              src={collection.image_url}
+                                              alt={collection.label}
+                                            />
+                                          </div>
+                                          <div className="ml-4 flex justify-between">
+                                            <div className="text-sm font-medium text-gray-900">
+                                              {collection.label}
+                                            </div>
+                                            <div
+                                              onClick={e => {
+                                                e.stopPropagation();
+                                                setIncludedCollectionKeys(
+                                                  previousKeys =>
+                                                    previousKeys.filter(
+                                                      k => k !== collection.key,
+                                                    ),
+                                                );
+                                                queryClient.invalidateQueries([
+                                                  'included-collections',
+                                                  discountId,
+                                                ]);
+                                              }}
+                                              className="text-sm text-gray-500 cursor-pointer"
+                                            >
+                                              X
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ),
+                                    )}
                                   </div>
                                 </div>
                               )}
