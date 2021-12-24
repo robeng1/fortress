@@ -6,13 +6,14 @@ import { useAtom } from 'jotai';
 import { syncedLocationsAtom } from 'store/atoms/location';
 
 function LocationsPanel() {
-  const [data] = useAtom(syncedLocationsAtom);
-  const locations = data;
+  const [locations] = useAtom(syncedLocationsAtom);
   const [showLocationForm, setShowLocationForm] = useState(false);
   return (
     <div className="flex-grow">
       {/* Panel body */}
-      {showLocationForm && <LocationForm />}
+      {showLocationForm && (
+        <LocationForm handleShow={undefined} id={undefined} />
+      )}
       {!showLocationForm && (
         <div className="md:p-6 p-4 space-y-6">
           <div className="flex justify-between">
@@ -35,9 +36,8 @@ function LocationsPanel() {
 
           {!isEmpty(locations) ? (
             <section>
-              {Object.values(locations).map((loc, index) => (
+              {Object.values(locations || []).map((loc, index) => (
                 <LocationCard
-                  centreId={loc.centre_id}
                   key={index}
                   location={loc}
                   handleShow={setShowLocationForm}

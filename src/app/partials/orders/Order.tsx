@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
-import { selectShop } from 'app/features/settings/selectors';
 import { fortressURL } from 'app/endpoints/urls';
 
 import { Loader } from 'app/components/Loader';
 import money from 'app/utils/money';
 import { OrderStatusType, OrderType } from 'app/models/order/order-type';
 import { request, ResponseError } from 'utils/request';
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
 
 export default function Order({ handleShow, id }) {
   const queryClient = useQueryClient();
-  const shop = useSelector(selectShop);
+  const [shop] = useAtom(shopAtom);
   const [orderId] = useState<string | undefined>(id);
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/orders`;
 

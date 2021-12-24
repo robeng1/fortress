@@ -1,24 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
 import SettingsContent from 'app/partials/settings/SettingsContent';
-import { useSettingSlice } from 'app/features/settings';
-import { useUISlice } from 'app/features/ui';
-import { useDispatch } from 'react-redux';
 
 function Settings() {
-  const { actions } = useSettingSlice();
-  const { actions: uiActions } = useUISlice();
-  const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    dispatch(uiActions.clearError(actions.getShopByMerchantId()));
-    dispatch(actions.getShopByMerchantId());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -28,7 +16,11 @@ function Settings() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location={undefined}
+        />
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">

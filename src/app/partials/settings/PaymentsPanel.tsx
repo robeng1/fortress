@@ -42,12 +42,7 @@ function PaymentsPanel() {
   );
 
   // update the collection
-  const {
-    mutate: updateAccount,
-    // isLoading: isUpdatingCollection,
-    // isError: collectionUpdateFailed,
-    // error: collectionUpdateError,
-  } = useMutation(
+  const { mutate: updateAccount } = useMutation(
     (payload: Account) =>
       request(`${requestURL}/${account?.account_id}`, {
         method: 'PATCH',

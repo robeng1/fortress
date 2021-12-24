@@ -3,11 +3,6 @@ import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import moment from 'moment';
 import { Loader } from 'app/components/Loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { checkIfLoading } from 'app/features/ui/selectors';
-import { useVoucherSlice } from 'app/features/coupon/voucher';
-import { useVoucherSetSlice } from 'app/features/coupon/voucherset';
-import { selectCodeById } from 'app/features/coupon/selectors';
 
 import type { ReactElement } from 'react';
 import type { GroupBase } from 'react-select';
@@ -20,8 +15,13 @@ import type {
   ComponentProps,
 } from 'react-select-async-paginate';
 import { loadDiscountsAsOptions } from 'app/services/options-loaders';
-import { selectShop } from 'app/features/settings/selectors';
-
+import { useAtom } from 'jotai';
+import { shopAtom } from 'store/atoms/shop';
+import { VoucherType } from 'app/models/voucher/voucher';
+import { request, ResponseError } from 'utils/request';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { VoucherSetType } from 'app/models/voucher/voucherset';
+import { fortressURL } from 'app/endpoints/urls';
 type AsyncPaginateCreatableProps<
   OptionType,
   Group extends GroupBase<OptionType>,
@@ -47,17 +47,96 @@ const CreatableAsyncPaginate = withAsyncPaginate(
 // const defaultCurrency = 'GHS';
 
 const VoucherForm = ({ handleShow, id, codeType }) => {
-  const { actions: voucherActions } = useVoucherSlice();
-  const { actions: voucherSetActions } = useVoucherSetSlice();
-  const dispatch = useDispatch();
-  const shop = useSelector(selectShop);
-  const data = useSelector(state => selectCodeById(state, id, codeType));
-  const isVoucherLoading = useSelector(state =>
-    checkIfLoading(state, voucherActions.getVoucher.type),
+  const queryClient = useQueryClient();
+  const [shop] = useAtom(shopAtom);
+  const vRequestURL = `${fortressURL}/shops/${shop?.shop_id}/vouchers`;
+  const vsRequestURL = `${fortressURL}/shops/${shop?.shop_id}/voucher-sets`;
+
+  // query for getting the voucher
+  const { data: voucher, isLoading: isVoucherLoading } = useQuery<VoucherType>(
+    ['voucher', id],
+    async () => await request(`${vRequestURL}/${id}`),
+    {
+      // The query will not execute until the id exists
+      enabled: !!id && codeType === 'single',
+      keepPreviousData: true,
+    },
   );
-  const isVoucherSetLoading = useSelector(state =>
-    checkIfLoading(state, voucherSetActions.getVoucherSet.type),
+
+  // query for getting the voucher set
+  const { data: voucherSet, isLoading: isVoucherSetLoading } =
+    useQuery<VoucherType>(
+      ['voucherset', id],
+      async () => await request(`${vsRequestURL}/${id}`),
+      {
+        // The query will not execute until the id exists
+        enabled: !!id && codeType === 'multi',
+        keepPreviousData: true,
+      },
+    );
+
+  // create the voucher
+  const { mutate: createVoucher } = useMutation(
+    (payload: VoucherType) =>
+      request(vRequestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newVoucher: VoucherType) => {
+        // setCollectionId(newCollection.collection_id);
+        queryClient.setQueryData(['voucher', id], newVoucher);
+      },
+      onError: (e: ResponseError) => {},
+    },
   );
+
+  // update the voucher
+  const { mutate: updateVoucher } = useMutation(
+    (payload: VoucherType) =>
+      request(`${vRequestURL}/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newVoucher: VoucherType) => {
+        // setCollectionId(newCollection.collection_id);
+        queryClient.setQueryData(['voucher', id], newVoucher);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // create the voucherset
+  const { mutate: createVoucherSet } = useMutation(
+    (payload: VoucherSetType) =>
+      request(vsRequestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newVoucherSet: VoucherSetType) => {
+        queryClient.setQueryData(['voucherset', id], newVoucherSet);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // update the voucherset
+  const { mutate: updateVoucherSet } = useMutation(
+    (payload: VoucherSetType) =>
+      request(`${vsRequestURL}/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newVoucherSet: VoucherSetType) => {
+        queryClient.setQueryData(['voucherset', id], newVoucherSet);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
   return (
     <>
       {isVoucherLoading || isVoucherSetLoading ? (
@@ -80,63 +159,55 @@ const VoucherForm = ({ handleShow, id, codeType }) => {
               number_of_codes: 1,
             }}
             onSubmit={(values, { setSubmitting }) => {
-              if (data) {
+              if (voucher || voucherSet) {
                 if (values.code_type === 'single') {
-                  dispatch(
-                    voucherActions.updateVoucher({
-                      ...data,
-                      ...values,
-                      voucher_id: id,
-                      start_datetime: moment(
-                        values.start_date + ' ' + values.start_time,
-                      ).toISOString(),
-                      end_datetime: moment(
-                        values.end_date + ' ' + values.end_time,
-                      ).toISOString(),
-                    }),
-                  );
+                  updateVoucher({
+                    ...voucher,
+                    ...values,
+                    voucher_id: id,
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
                 } else {
-                  dispatch(
-                    voucherSetActions.updateVoucherSet({
-                      ...data,
-                      ...values,
-                      set_id: id,
-                      start_datetime: moment(
-                        values.start_date + ' ' + values.start_time,
-                      ).toISOString(),
-                      end_datetime: moment(
-                        values.end_date + ' ' + values.end_time,
-                      ).toISOString(),
-                    }),
-                  );
+                  updateVoucherSet({
+                    ...voucherSet,
+                    ...values,
+                    set_id: id,
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
                 }
               } else {
                 if (values.code_type === 'single') {
-                  dispatch(
-                    voucherActions.createVoucher({
-                      ...values,
-                      voucher_id: '',
-                      start_datetime: moment(
-                        values.start_date + ' ' + values.start_time,
-                      ).toISOString(),
-                      end_datetime: moment(
-                        values.end_date + ' ' + values.end_time,
-                      ).toISOString(),
-                    }),
-                  );
+                  createVoucher({
+                    ...values,
+                    voucher_id: '',
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
                 } else {
-                  dispatch(
-                    voucherSetActions.createVoucherSet({
-                      ...values,
-                      set_id: '',
-                      start_datetime: moment(
-                        values.start_date + ' ' + values.start_time,
-                      ).toISOString(),
-                      end_datetime: moment(
-                        values.end_date + ' ' + values.end_time,
-                      ).toISOString(),
-                    }),
-                  );
+                  createVoucherSet({
+                    ...values,
+                    set_id: '',
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
                 }
               }
               setSubmitting(false);
@@ -328,7 +399,7 @@ const VoucherForm = ({ handleShow, id, codeType }) => {
                               setFieldValue('discount', option)
                             }
                             // isDisabled={isAddingInProgress}
-                            loadOptions={loadDiscountsAsOptions(shop.shop_id!)}
+                            loadOptions={loadDiscountsAsOptions(shop?.shop_id!)}
                             // onCreateOption={onCreateOption}
 
                             // styles={{

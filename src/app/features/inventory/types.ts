@@ -1,7 +1,0 @@
-export enum InventoryErrorType {
-  RESPONSE_ERROR = 1,
-  SHOP_NOT_FOUND = 2,
-  SHOPID_EMPTY = 3,
-  SHOP_HAS_NO_INVENTORY = 4,
-  SHOP_HAS_NO_LOCATIONS = 4,
-}
