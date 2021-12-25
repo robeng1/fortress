@@ -1076,7 +1076,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/settings/account"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname === '/settings/account' &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
                                   Account
                                 </span>
                               </NavLink>
@@ -1086,7 +1091,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/settings/payments"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname === '/settings/payments' &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
                                   Payments
                                 </span>
                               </NavLink>
@@ -1096,7 +1106,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/settings/locations"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname === '/settings/locations' &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
                                   Locations
                                 </span>
                               </NavLink>
@@ -1106,7 +1121,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/settings/shipping"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname === '/settings/shipping' &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
                                   Delivery Fees
                                 </span>
                               </NavLink>
@@ -1116,7 +1136,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/settings/policies"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname === '/settings/policies' &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
                                   Legal
                                 </span>
                               </NavLink>
