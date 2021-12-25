@@ -162,7 +162,7 @@ function StorePanel() {
                   <div className="store-image-upload-progress-indicator"></div>
                   <div className="mr-4 store-image-drop-area">
                     <img
-                      className="w-20 h-20 rounded-full"
+                      className="w-50 h-50"
                       src={image || 'https://via.placeholder.com/150'}
                       width="80"
                       height="80"

@@ -1132,7 +1132,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                     '!text-purple-500'
                                   }`}
                                 >
-                                  Delivery Fees
+                                  Fees
                                 </span>
                               </NavLink>
                             </li>

@@ -131,7 +131,7 @@ function SettingsSidebar() {
                     : 'hover:text-gray-700'
                 }`}
               >
-                Delivery Fees
+                Fees
               </span>
             </NavLink>
           </li>
