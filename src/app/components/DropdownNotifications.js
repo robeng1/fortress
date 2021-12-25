@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Transition from '../utils/transition';
 
 function DropdownNotifications({ align }) {
@@ -97,7 +97,7 @@ function DropdownNotifications({ align }) {
           <div className="text-xs font-semibold text-gray-400 uppercase pt-1.5 pb-2 px-4">
             Notifications
           </div>
-          <ul>
+          {/* <ul>
             <li className="border-b border-gray-200 last:border-0">
               <Link
                 className="block py-2 px-4 hover:bg-gray-50"
@@ -155,7 +155,7 @@ function DropdownNotifications({ align }) {
                 </span>
               </Link>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </Transition>
     </div>

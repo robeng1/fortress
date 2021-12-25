@@ -15,7 +15,6 @@ function SettingsSidebar() {
         <ul className="flex flex-nowrap md:block mr-3 md:mr-0">
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
-              exact
               to="/settings/account"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
                 pathname.includes('/settings/account') && 'bg-purple-50'
@@ -42,7 +41,6 @@ function SettingsSidebar() {
           </li>
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
-              exact
               to="/settings/payments"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
                 pathname.includes('/settings/payments') && 'bg-purple-50'
@@ -75,7 +73,6 @@ function SettingsSidebar() {
           </li>
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
-              exact
               to="/settings/locations"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
                 pathname.includes('/settings/locations') && 'bg-purple-50'
@@ -108,7 +105,6 @@ function SettingsSidebar() {
           </li>
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
-              exact
               to="/settings/shipping"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
                 pathname.includes('/settings/shipping') && 'bg-purple-50'
@@ -141,7 +137,6 @@ function SettingsSidebar() {
           </li>
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
-              exact
               to="/settings/policies"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
                 pathname.includes('/settings/policies') && 'bg-purple-50'
@@ -174,7 +169,7 @@ function SettingsSidebar() {
           </li>
           {/* <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
-              exact
+             
               to="/settings/sales-channels"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
                 pathname.includes('/settings/sales-channels') && 'bg-purple-50'
@@ -216,7 +211,7 @@ function SettingsSidebar() {
         <ul className="flex flex-nowrap md:block mr-3 md:mr-0">
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
-              exact
+             
               to="/settings/feedback"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
                 pathname.includes('/settings/feedback') && 'bg-purple-50'

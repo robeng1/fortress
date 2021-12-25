@@ -336,7 +336,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   to="/shop/collections"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 >
-                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  <span
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                      pathname.includes('collections') &&
+                                      '!text-purple-500'
+                                    }`}
+                                  >
                                     Collections
                                   </span>
                                 </NavLink>
