@@ -66,7 +66,9 @@ function LocationsForm({ handleShow, id }) {
           setFieldValue('address.province', comps[1].short_name);
           setFieldValue('address.country', comps[0].short_name);
         })
-        .catch(error => console.error('Error', error));
+        .catch(error => {
+          // do smth with this error
+        });
     };
 
   // create the colletion

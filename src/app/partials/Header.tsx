@@ -14,7 +14,7 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
 
   return (
     <header
-      className={`sticky md:sticky w-full top-0 z-20 max-w-9xl ${
+      className={`sticky md:sticky w-full top-0 z-20 max-w-9xl backdrop-blur-sm ${
         !searchModalOpen && 'backdrop-blur-md'
       }`}
     >

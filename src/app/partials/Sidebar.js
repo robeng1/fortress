@@ -901,9 +901,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup> */}
                 {/* Online Store */}
-                {/* <div className="hidden md:block">
+                <div>
                   <SidebarLinkGroup
-                    activecondition={pathname.includes('component')}
+                    activecondition={pathname.includes('store')}
                   >
                     {(handleClick, open) => {
                       return (
@@ -911,7 +911,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <a
                             href="#0"
                             className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
-                              pathname.includes('component') &&
+                              pathname.includes('store') &&
                               'hover:text-gray-900'
                             }`}
                             onClick={e => {
@@ -931,7 +931,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 >
                                   <path
                                     className={`fill-current text-gray-600 ${
-                                      pathname.includes('component') &&
+                                      pathname.includes('store') &&
                                       '!text-purple-500'
                                     }`}
                                     fillRule="evenodd"
@@ -961,24 +961,32 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
-                                  
-                                  to="/component/button"
+                                  to="/store/themes"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  
                                 >
-                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  <span
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
+                                      ${
+                                        pathname === '/store/themes' &&
+                                        '!text-purple-500'
+                                      }`}
+                                  >
                                     Themes
                                   </span>
                                 </NavLink>
                               </li>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
-                                  
-                                  to="/component/form"
+                                  to="/store/domains"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  
                                 >
-                                  <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  <span
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
+                                      ${
+                                        pathname === '/store/domains' &&
+                                        '!text-purple-500'
+                                      }`}
+                                  >
                                     Domains
                                   </span>
                                 </NavLink>
@@ -989,7 +997,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       );
                     }}
                   </SidebarLinkGroup>
-                </div> */}
+                </div>
               </ul>
             </div>
             {/* Settings*/}

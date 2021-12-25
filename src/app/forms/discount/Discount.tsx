@@ -3006,5 +3006,4 @@ const DiscountForm = ({ handleShow, id }) => {
     </>
   );
 };
-
 export default DiscountForm;
