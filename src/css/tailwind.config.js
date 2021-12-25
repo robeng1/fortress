@@ -1,6 +1,16 @@
 const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
+function withOpacity(variableName) {
+  return ({ opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return `rgba(var(${variableName}), ${opacityValue})`;
+    } else {
+      return `rgb(var(${variableName}))`;
+    }
+  };
+}
+
 module.exports = {
   mode: 'jit',
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
@@ -16,6 +26,20 @@ module.exports = {
       colors: {
         white: '#ffffff',
         black: '#000000',
+        light: withOpacity('--color-light'),
+        dark: withOpacity('--color-dark'),
+        accent: withOpacity('--color-accent'),
+        'accent-hover': withOpacity('--color-accent-hover'),
+        'accent-300': withOpacity('--color-accent-300'),
+        'accent-400': withOpacity('--color-accent-400'),
+        'accent-500': withOpacity('--color-accent-500'),
+        'accent-600': withOpacity('--color-accent-600'),
+        'accent-700': withOpacity('--color-accent-700'),
+        'border-50': withOpacity('--color-border-50'),
+        'border-100': withOpacity('--color-border-100'),
+        'border-200': withOpacity('--color-border-200'),
+        'border-base': withOpacity('--color-border-base'),
+        'border-400': withOpacity('--color-border-400'),
         gray: {
           50: '#F9FAFB',
           100: '#e3e8ec',
