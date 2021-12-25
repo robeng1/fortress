@@ -8,16 +8,16 @@ import {
 } from 'app/models/payment/account-type';
 import money from 'app/utils/money';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
-import { syncedAccountAtom } from 'store/atoms/payment';
+import { shopAtom } from 'store/shop';
+import { accountAtom } from 'store/payment';
 import { request, ResponseError } from 'utils/request';
 import { paymentURL } from 'app/endpoints/urls';
-import { accountIdAtom } from 'store/atoms/authorization-atom';
+import { accountIdAtom } from 'store/authorization-atom';
 
 function PaymentsPanel() {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
-  const [account] = useAtom(syncedAccountAtom);
+  const [account] = useAtom(accountAtom);
   const [accountId] = useAtom(accountIdAtom);
   const requestURL = `${paymentURL}/${accountId}/accounts`;
 

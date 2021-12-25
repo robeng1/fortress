@@ -5,7 +5,7 @@ import SearchModal from 'app/components/ModalSearch';
 import Notifications from 'app/components/DropdownNotifications';
 import Help from 'app/components/DropdownHelp';
 import UserMenu from 'app/components/DropdownProfile';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 function Header({ sidebarOpen, setSidebarOpen, location }) {
   const [shop] = useAtom(shopAtom);

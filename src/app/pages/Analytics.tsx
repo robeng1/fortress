@@ -20,7 +20,7 @@ import { request } from 'utils/request';
 import { WebAnalyticResponseBody } from 'app/models/stats/stats-type';
 import AnalyticsCard00 from 'app/partials/analytics/AnalyticsCard00';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

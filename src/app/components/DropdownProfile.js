@@ -4,7 +4,7 @@ import Transition from '../utils/transition';
 
 import UserAvatar from '../images/user-header.png';
 import { useAtom } from 'jotai';
-import { clearSessionAtom } from 'store/atoms/authorization-atom';
+import { clearSessionAtom } from 'store/authorization-atom';
 
 function DropdownProfile({ align, shopName = 'Demo' }) {
   const [, clearSession] = useAtom(clearSessionAtom);

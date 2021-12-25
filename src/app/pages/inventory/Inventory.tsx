@@ -11,7 +11,7 @@ import InventoryTable from 'app/partials/inventory/InventoryTable';
 import SearchForm from 'app/partials/actions/SearchForm';
 import { fortressURL } from 'app/endpoints/urls';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 function Inventories() {
   const [shop] = useAtom(shopAtom);

@@ -3,16 +3,26 @@ import isEmpty from 'lodash/isEmpty';
 import LocationCard from '../locations/LocationCard';
 import LocationForm from 'app/forms/locations/Location';
 import { useAtom } from 'jotai';
-import { syncedLocationsAtom } from 'store/atoms/location';
+import { locationsAtom } from 'store/location';
 
 function LocationsPanel() {
-  const [locations] = useAtom(syncedLocationsAtom);
+  const [locations] = useAtom(locationsAtom);
   const [showLocationForm, setShowLocationForm] = useState(false);
+  const [currentlyBeingEditedCentreId, setCurrentlyBeingEditedCentreId] =
+    useState<string | undefined>();
+
+  const handleShow = (show: boolean, id?: string) => {
+    setCurrentlyBeingEditedCentreId(id);
+    setShowLocationForm(show);
+  };
   return (
     <div className="flex-grow">
       {/* Panel body */}
       {showLocationForm && (
-        <LocationForm handleShow={undefined} id={undefined} />
+        <LocationForm
+          handleShow={handleShow}
+          id={currentlyBeingEditedCentreId}
+        />
       )}
       {!showLocationForm && (
         <div className="md:p-6 p-4 space-y-6">
@@ -40,7 +50,7 @@ function LocationsPanel() {
                 <LocationCard
                   key={index}
                   location={loc}
-                  handleShow={setShowLocationForm}
+                  handleShow={handleShow}
                 />
               ))}
             </section>

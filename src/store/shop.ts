@@ -3,7 +3,7 @@ import { ShopType } from 'app/models/settings/shop-type';
 import { atomWithQuery } from 'jotai/query';
 import { selectAtom } from 'jotai/utils';
 import { request, ResponseError } from 'utils/request';
-import { accountIdAtom } from './authorization-atom';
+import { accountIdAtom } from 'store/authorization-atom';
 
 export const initialState: ShopType = {};
 export const shopAtom = atomWithQuery<ShopType, ResponseError>(get => ({

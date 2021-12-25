@@ -16,7 +16,7 @@ import type {
 } from 'react-select-async-paginate';
 import { loadDiscountsAsOptions } from 'app/services/options-loaders';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 import { VoucherType } from 'app/models/voucher/voucher';
 import { request, ResponseError } from 'utils/request';
 import { useMutation, useQuery, useQueryClient } from 'react-query';

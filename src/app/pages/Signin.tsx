@@ -8,7 +8,7 @@ import { RegisterLogInType } from 'app/models/user/profile';
 import { useMutation } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
-import { sessionAtom } from 'store/atoms/authorization-atom';
+import { sessionAtom } from 'store/authorization-atom';
 
 interface LocationState {
   from: string;
@@ -38,7 +38,7 @@ function Signin() {
   );
   const navigate = useNavigate();
   const location = useLocation();
-  const { from } = location.state as LocationState;
+  const { from } = (location.state as LocationState) || { from: '/' };
 
   const isAuthenticated = !isEmpty(session);
   const [identifier, setIdentifier] = useState('');

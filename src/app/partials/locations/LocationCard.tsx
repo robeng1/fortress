@@ -3,7 +3,10 @@ import * as React from 'react';
 export default function LocationCard({ handleShow, location }) {
   return (
     <>
-      <div className="py-1 px-3 mb-4 md:p-5 text-coolGray-800 shadow rounded-lg">
+      <div
+        onClick={e => handleShow(true, location.centre_id)}
+        className="py-1 px-3 mb-4 md:p-5 text-coolGray-800 shadow rounded-lg"
+      >
         <div className="flex md:space-y-0 md:space-x-6 align-top">
           <img
             src="https://source.unsplash.com/70x70/?portrait"

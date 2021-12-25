@@ -10,8 +10,8 @@ import AuthDecoration from '../images/auth-decoration.png';
 import { StartType } from 'app/models/settings/shop-type';
 import { useAtom } from 'jotai';
 import { useMutation } from 'react-query';
-import { sessionAtom } from 'store/atoms/authorization-atom';
-import { shopAtom } from 'store/atoms/shop';
+import { sessionAtom } from 'store/authorization-atom';
+import { shopAtom } from 'store/shop';
 
 interface LocationState {
   from: string;
@@ -43,7 +43,7 @@ function Signup() {
   );
   const navigate = useNavigate();
   const location = useLocation();
-  const { from } = location.state as LocationState;
+  const { from } = (location.state as LocationState) || { from: '/' };
 
   const isAuthenticated = !isEmpty(session);
   const handleSubmit = (values: StartType) => {

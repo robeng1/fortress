@@ -7,7 +7,7 @@ import money from 'app/utils/money';
 import { OrderStatusType, OrderType } from 'app/models/order/order-type';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 export default function Order({ handleShow, id }) {
   const queryClient = useQueryClient();

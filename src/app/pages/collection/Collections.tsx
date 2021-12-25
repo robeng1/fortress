@@ -12,7 +12,7 @@ import CollectionsTable from 'app/partials/collections/CollectionsTable';
 import CollectionForm from 'app/forms/collection/Collection';
 import BottomNav from 'app/components/BottomNav';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
 
 function Collections() {

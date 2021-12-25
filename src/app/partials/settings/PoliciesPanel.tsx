@@ -1,11 +1,11 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 import { useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'app/endpoints/urls';
 import { ShopType } from 'app/models/settings/shop-type';
-import { accountIdAtom } from 'store/atoms/authorization-atom';
+import { accountIdAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
 
 function PoliciesPanel() {

@@ -29,7 +29,7 @@ import { useState } from 'react';
 import SelectableResultSearchModal from 'app/components/common/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
 // TODO:(fix range keys)

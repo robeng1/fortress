@@ -6,7 +6,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { LocationType } from 'app/models/inventory/inventory-type';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'app/endpoints/urls';
@@ -59,7 +59,6 @@ function LocationsForm({ handleShow, id }) {
             setFieldValue('latitude', cd.lat);
           });
           const comps = result.address_components.reverse();
-          console.log(comps);
           setFieldValue('address.street', comps[comps.length - 1].short_name);
           setFieldValue('address.city', comps[comps.length - 1].short_name);
           setFieldValue('address.area', comps[2].short_name);
@@ -238,10 +237,12 @@ function LocationsForm({ handleShow, id }) {
                       Country
                     </label>
                     <select
-                      id="country"
+                      id="address.country"
+                      name="address.country"
                       autoComplete="country"
                       className="form-select block"
                       value={values.address?.country}
+                      onChange={handleChange}
                     >
                       <option value="">Please Select</option>
                       <option value="GH">Ghana</option>
@@ -260,8 +261,11 @@ function LocationsForm({ handleShow, id }) {
                     </label>
                     <input
                       id="address.city"
+                      name="address.city"
                       className="form-input"
                       type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       value={values.address?.city}
                       placeholder="Kumasi"
                     />
@@ -277,8 +281,11 @@ function LocationsForm({ handleShow, id }) {
                     </label>
                     <input
                       id="address.province"
+                      name="address.province"
                       className="form-input"
                       type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                       value={values.address?.province}
                       autoComplete="region"
                       placeholder="Ashanti Region"

@@ -10,7 +10,7 @@ import DiscountTable from 'app/partials/discount/DiscountTable';
 import DiscountForm from 'app/forms/discount/Discount';
 import { fortressURL } from 'app/endpoints/urls';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 function Discounts() {
   const [shop] = useAtom(shopAtom);

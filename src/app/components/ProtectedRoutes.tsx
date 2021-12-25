@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Route, RouteProps } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { useAtom } from 'jotai';
-import { sessionAtom } from 'store/atoms/authorization-atom';
+import { sessionAtom } from 'store/authorization-atom';
 
 export type ProtectedRouteProps = {} & RouteProps;
 

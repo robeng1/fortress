@@ -22,7 +22,7 @@ import {
 } from 'app/models/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 import SelectableResultSearchModal from 'app/components/common/modal-searcher';
 import { ProductViewListType } from 'app/models/product/product-type';
 

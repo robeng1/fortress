@@ -12,7 +12,7 @@ import OrdersTable from 'app/partials/orders/OrdersTable';
 import Order from 'app/partials/orders/Order';
 import { fortressURL } from 'app/endpoints/urls';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 function Orders() {
   const [shop] = useAtom(shopAtom);

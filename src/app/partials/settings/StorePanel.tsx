@@ -9,12 +9,12 @@ import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 import { useMutation, useQueryClient } from 'react-query';
 import { ShopType } from 'app/models/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'app/endpoints/urls';
-import { accountIdAtom } from 'store/atoms/authorization-atom';
+import { accountIdAtom } from 'store/authorization-atom';
 
 const DropTarget = require('@uppy/drop-target');
 

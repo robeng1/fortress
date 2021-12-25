@@ -13,7 +13,7 @@ import FilterButton from 'app/components/DropdownFilter';
 import SearchForm from 'app/partials/actions/SearchForm';
 import { fortressURL } from 'app/endpoints/urls';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/atoms/shop';
+import { shopAtom } from 'store/shop';
 
 const ProductsTable = lazy(() => import('app/partials/products/ProductsTable'));
 const InventoryTable = lazy(
