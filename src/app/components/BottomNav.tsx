@@ -25,9 +25,6 @@ export default function BottomNav() {
         <BottomNavigation
           component="span"
           showLabels
-          sx={{
-            paddingX: '0px',
-          }}
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
