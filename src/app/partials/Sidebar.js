@@ -486,7 +486,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup> */}
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 hidden md:block ${
                     pathname === '/discounts' &&
                     'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
