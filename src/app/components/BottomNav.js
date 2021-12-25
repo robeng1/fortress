@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Backdrop from '@mui/material/Backdrop';
@@ -13,11 +13,11 @@ export default function BottomNav() {
   const [value, setValue] = React.useState(0);
   const location = useLocation();
   const { pathname } = location;
-  let history = useHistory();
+  let navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const pushLink = page => history.push(page);
+  const pushLink = page => navigate(page);
 
   const iOS =
     typeof navigator !== 'undefined' &&
@@ -112,7 +112,6 @@ export default function BottomNav() {
           <BottomNavigationAction
             label="Home"
             component={NavLink}
-            exact
             to="/"
             value="home"
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
@@ -141,7 +140,6 @@ export default function BottomNav() {
           <BottomNavigationAction
             label="Orders"
             component={NavLink}
-            exact
             to="/orders"
             value="orders"
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
@@ -167,7 +165,6 @@ export default function BottomNav() {
           />
           <BottomNavigationAction
             component={NavLink}
-            exact
             to="/shop/products"
             value="shop/products"
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${
@@ -192,7 +189,7 @@ export default function BottomNav() {
           />
           {/* <BottomNavigationAction
             component={NavLink}
-            exact
+            
             to="/store"
             value="store"
             className={`flex text-lg items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-900 hover:text-black truncate transition duration-150 ${

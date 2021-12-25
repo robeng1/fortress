@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
 import { theKeepURL } from 'app/endpoints/urls';
@@ -9,6 +9,10 @@ import { useMutation } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { sessionAtom } from 'store/atoms/authorization-atom';
+
+interface LocationState {
+  from: string;
+}
 
 function Signin() {
   const requestURL = `${theKeepURL}/auth/login`;
@@ -32,9 +36,9 @@ function Signin() {
       onError: (e: ResponseError) => {},
     },
   );
-  const history = useHistory();
-  const location = useLocation<Record<string, any>>();
-  const { state } = location;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state as LocationState;
 
   const isAuthenticated = !isEmpty(session);
   const [identifier, setIdentifier] = useState('');
@@ -46,10 +50,10 @@ function Signin() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push(state?.from || '/');
+      navigate(from || '/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, history, state?.from]);
+  }, [isAuthenticated, from]);
 
   return (
     <main className="bg-white">

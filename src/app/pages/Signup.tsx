@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import slugify from 'slugify';
 import { Formik } from 'formik';
 import { request, ResponseError } from 'utils/request';
@@ -12,6 +12,10 @@ import { useAtom } from 'jotai';
 import { useMutation } from 'react-query';
 import { sessionAtom } from 'store/atoms/authorization-atom';
 import { shopAtom } from 'store/atoms/shop';
+
+interface LocationState {
+  from: string;
+}
 
 function Signup() {
   const requestURL = `${fortressURL}/shops/get-started`;
@@ -37,9 +41,9 @@ function Signup() {
       onError: (e: ResponseError) => {},
     },
   );
-  const history = useHistory();
-  const location = useLocation<Record<string, any>>();
-  const { state } = location;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state as LocationState;
 
   const isAuthenticated = !isEmpty(session);
   const handleSubmit = (values: StartType) => {
@@ -55,10 +59,10 @@ function Signup() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push(state?.from || '/');
+      navigate(from || '/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, history, state?.from]);
+  }, [isAuthenticated, from]);
 
   return (
     <main className="bg-white">

@@ -15,7 +15,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import 'css/style.scss';
+import './css/style.scss';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 

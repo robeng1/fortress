@@ -88,13 +88,13 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
               </svg>
             </button>
-            <NavLink exact to="/" className="block">
+            <NavLink to="/" className="block">
               <h1 className="mx-auto h-12 text-center text-2xl text-purple-800 w-auto">
                 REOPLEX
               </h1>
             </NavLink>
             {/* Logo */}
-            <NavLink exact to="/" className="block">
+            <NavLink to="/" className="block">
               {/* <svg
                 width="24"
                 height="24"
@@ -171,7 +171,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }`}
                 >
                   <NavLink
-                    exact
                     to="/"
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                       pathname === '/' && 'text-gray-900 '
@@ -213,7 +212,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }`}
                 >
                   <NavLink
-                    exact
                     to="/orders"
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                       pathname.includes('orders') && 'hover:text-gray-900'
@@ -305,10 +303,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
-                                  exact
                                   to="/shop/products"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  activeClassName="!text-purple-500"
                                 >
                                   <span
                                     className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
@@ -322,10 +318,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </li>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
-                                  exact
                                   to="/shop/inventory"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  activeClassName="!text-purple-500"
                                 >
                                   <span
                                     className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
@@ -339,10 +333,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </li>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
-                                  exact
                                   to="/shop/collections"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  activeClassName="!text-purple-500"
                                 >
                                   <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                     Collections
@@ -365,7 +357,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }`}
                 >
                   <NavLink
-                    exact
+                    
                     to="/customers"
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                       pathname.includes('customers') && 'hover:text-gray-900'
@@ -441,10 +433,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className={`mb-1 last:mb-0 `}>
                               <NavLink
-                                exact
+                                
                                 to="/analytics/dashboards"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Dashboards
@@ -453,10 +445,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/analytics/insights"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Insights
@@ -465,10 +457,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/analytics/reports"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Reports
@@ -477,10 +469,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/analytics/live"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Live View
@@ -500,7 +492,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }`}
                 >
                   <NavLink
-                    exact
                     to="/discounts"
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                       pathname === '/discounts' && 'text-gray-900 '
@@ -640,10 +631,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className={`mb-1 last:mb-0 `}>
                               <NavLink
-                                exact
+                                
                                 to="/discounts"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   All discounts
@@ -652,10 +643,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/discounts/sets"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Codes
@@ -664,10 +655,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/discounts/vouchers"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Vouchers
@@ -687,7 +678,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }`}
                 >
                   <NavLink
-                    exact
+                    
                     to="/discounts"
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
                       pathname.includes('discounts') && 'hover:text-gray-900'
@@ -816,7 +807,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/signin"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -827,7 +818,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/signup"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -838,7 +829,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/signin"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -849,7 +840,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -861,7 +852,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -872,7 +863,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -883,7 +874,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -894,7 +885,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/signin"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
@@ -970,10 +961,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
-                                  exact
+                                  
                                   to="/component/button"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  activeClassName="!text-purple-500"
+                                  
                                 >
                                   <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                     Themes
@@ -982,10 +973,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </li>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
-                                  exact
+                                  
                                   to="/component/form"
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                  activeClassName="!text-purple-500"
+                                  
                                 >
                                   <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                     Domains
@@ -1074,10 +1065,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
                                 to="/settings/account"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Account
@@ -1086,10 +1075,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
                                 to="/settings/payments"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Payments
@@ -1098,10 +1085,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
                                 to="/settings/locations"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Locations
@@ -1110,10 +1095,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
                                 to="/settings/shipping"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Delivery Fees
@@ -1122,10 +1105,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
                                 to="/settings/policies"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Legal
@@ -1134,10 +1115,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li>
                             {/* <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/settings/sales-channels"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Sales Channels
@@ -1146,10 +1127,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </li> */}
                             {/* <li className="mb-1 last:mb-0">
                               <NavLink
-                                exact
+                                
                                 to="/settings/feedback"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                activeClassName="!text-purple-500"
+                                
                               >
                                 <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Give Feedback

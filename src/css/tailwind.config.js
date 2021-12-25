@@ -3,30 +3,7 @@ const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   mode: 'jit',
-  purge: {
-    enabled: true,
-    content: [
-      './build/**/*.{js,jsx,ts,tsx}',
-      './src/**/*.{js,jsx,ts,tsx}',
-      './public/index.html',
-    ],
-    options: {
-      safelist: [
-        'w-64',
-        'w-1/2',
-        'rounded-l-lg',
-        'rounded-r-lg',
-        'bg-gray-200',
-        'grid-cols-4',
-        'grid-cols-7',
-        'h-6',
-        'leading-6',
-        'h-9',
-        'leading-9',
-      ],
-    },
-  },
-
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
     extend: {
       boxShadow: {
@@ -159,7 +136,6 @@ module.exports = {
           800: '#99154B',
           900: '#751A3D',
         },
-        coolGray: colors.coolGray,
         social: {
           facebook: '#3b5998',
           'facebook-hover': '#35508a',

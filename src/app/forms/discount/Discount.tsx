@@ -1,4 +1,5 @@
 import * as React from 'react';
+import union from 'lodash/union';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import moment from 'moment';
 import Divider from '@mui/material/Divider';
@@ -287,6 +288,7 @@ const DiscountForm = ({ handleShow, id }) => {
           disc.applies_to = 'specific_collections';
           disc.included_collections =
             d.benefit.collection?.included_collections;
+          setIncludedCollectionKeys(disc.included_collections || []);
         } else if (
           d.benefit.collection &&
           d.benefit.collection?.included_products &&
@@ -294,6 +296,7 @@ const DiscountForm = ({ handleShow, id }) => {
         ) {
           disc.applies_to = 'specific_products';
           disc.included_products = d.benefit.collection?.included_products;
+          setIncludedProductKeys(disc.included_products || []);
         }
         if (d.benefit.value_m) {
           disc.value = money.valuesToString(
@@ -340,6 +343,9 @@ const DiscountForm = ({ handleShow, id }) => {
           disc.buy_x_get_y_condition_range_keys =
             d.condition.collection?.included_collections ||
             initialValues.buy_x_get_y_condition_range_keys;
+          setBuyXGetYConditionIncludedCollectionKeys(
+            disc.buy_x_get_y_condition_range_keys,
+          );
         } else if (
           d.condition.collection &&
           d.condition.collection?.included_products &&
@@ -349,6 +355,9 @@ const DiscountForm = ({ handleShow, id }) => {
           disc.buy_x_get_y_condition_range_keys =
             d.condition.collection?.included_products ||
             initialValues.buy_x_get_y_condition_range_keys;
+          setBuyXGetYConditionIncludedProductKeys(
+            disc.buy_x_get_y_condition_range_keys,
+          );
         }
       }
 
@@ -371,6 +380,9 @@ const DiscountForm = ({ handleShow, id }) => {
           disc.buy_x_get_y_ben_range_type = 'specific_collections';
           disc.buy_x_get_y_ben_range_keys =
             d.benefit.collection?.included_collections;
+          setBuyXGetYBenefitIncludedCollectionKeys(
+            disc.buy_x_get_y_ben_range_keys,
+          );
         } else if (
           d.benefit.collection &&
           d.benefit.collection?.included_products &&
@@ -379,6 +391,9 @@ const DiscountForm = ({ handleShow, id }) => {
           disc.buy_x_get_y_ben_range_type = 'specific_products';
           disc.buy_x_get_y_ben_range_keys =
             d.benefit.collection?.included_products;
+          setBuyXGetYBenefitIncludedProductKeys(
+            disc.buy_x_get_y_ben_range_keys,
+          );
         }
         if (d.benefit.value_m) {
           disc.buy_x_get_y_discounted_value = money.valuesToString(
@@ -1415,13 +1430,26 @@ const DiscountForm = ({ handleShow, id }) => {
                                   buildQuery={productQueryString}
                                   matchKey="key"
                                   queryKey="products-opt-search"
-                                  handleResultSelected={handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_condition_range_keys',
+                                  handleResultSelected={(items: any[]) => {
+                                    const keys = items.map(item => item['key']);
+                                    const nl = union(
+                                      keys,
+                                      buyXGetYConditionIncludedProductKeys,
+                                    );
+                                    handleSelectedResults(
+                                      setFieldValue,
+                                      'buy_x_get_y_condition_range_keys',
+                                    )(nl);
+                                    setBuyXGetYConditionIncludedProductKeys(nl);
+                                    queryClient.invalidateQueries([
+                                      'cond-range-included-products',
+                                      discountId,
+                                    ]);
+                                  }}
+                                  alreadySelected={union(
+                                    values.buy_x_get_y_condition_range_keys,
+                                    buyXGetYConditionIncludedProductKeys,
                                   )}
-                                  alreadySelected={
-                                    values.buy_x_get_y_condition_range_keys
-                                  }
                                   placeholder="Products"
                                   queryEnabled={!!shop?.shop_id}
                                 />
@@ -1509,13 +1537,28 @@ const DiscountForm = ({ handleShow, id }) => {
                                   buildQuery={collectionQueryString}
                                   matchKey="key"
                                   queryKey="collections-opt-search"
-                                  handleResultSelected={handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_condition_range_keys',
+                                  handleResultSelected={(items: any[]) => {
+                                    const keys = items.map(item => item['key']);
+                                    const nl = union(
+                                      keys,
+                                      buyXGetYConditionIncludedCollectionKeys,
+                                    );
+                                    handleSelectedResults(
+                                      setFieldValue,
+                                      'buy_x_get_y_condition_range_keys',
+                                    )(nl);
+                                    setBuyXGetYConditionIncludedCollectionKeys(
+                                      nl,
+                                    );
+                                    queryClient.invalidateQueries([
+                                      'cond-range-included-collections',
+                                      discountId,
+                                    ]);
+                                  }}
+                                  alreadySelected={union(
+                                    values.buy_x_get_y_condition_range_keys,
+                                    buyXGetYConditionIncludedCollectionKeys,
                                   )}
-                                  alreadySelected={
-                                    values.buy_x_get_y_condition_range_keys
-                                  }
                                   placeholder="Collections"
                                   queryEnabled={!!shop?.shop_id}
                                 />
@@ -1667,14 +1710,27 @@ const DiscountForm = ({ handleShow, id }) => {
                                   buildQuery={productQueryString}
                                   matchKey="key"
                                   queryKey="products-opt-search"
-                                  handleResultSelected={handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_ben_range_keys',
+                                  handleResultSelected={(items: any[]) => {
+                                    const keys = items.map(item => item['key']);
+                                    const nl = union(
+                                      keys,
+                                      buyXGetYBenefitIncludedProductKeys,
+                                    );
+                                    handleSelectedResults(
+                                      setFieldValue,
+                                      'buy_x_get_y_ben_range_keys',
+                                    )(nl);
+                                    setBuyXGetYBenefitIncludedProductKeys(nl);
+                                    queryClient.invalidateQueries([
+                                      'ben-range-included-products',
+                                      discountId,
+                                    ]);
+                                  }}
+                                  alreadySelected={union(
+                                    values.buy_x_get_y_ben_range_keys,
+                                    buyXGetYBenefitIncludedProductKeys,
                                   )}
                                   placeholder="Products"
-                                  alreadySelected={
-                                    values.buy_x_get_y_ben_range_keys
-                                  }
                                   queryEnabled={!!shop?.shop_id}
                                 />
                               </div>
@@ -1761,13 +1817,28 @@ const DiscountForm = ({ handleShow, id }) => {
                                   buildQuery={collectionQueryString}
                                   matchKey="key"
                                   queryKey="collections-opt-search"
-                                  handleResultSelected={handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_ben_range_keys',
+                                  handleResultSelected={(items: any[]) => {
+                                    const keys = items.map(item => item['key']);
+                                    const nl = union(
+                                      keys,
+                                      buyXGetYBenefitIncludedCollectionKeys,
+                                    );
+                                    handleSelectedResults(
+                                      setFieldValue,
+                                      'buy_x_get_y_ben_range_keys',
+                                    )(nl);
+                                    setBuyXGetYBenefitIncludedCollectionKeys(
+                                      nl,
+                                    );
+                                    queryClient.invalidateQueries([
+                                      'cond-range-included-collections',
+                                      discountId,
+                                    ]);
+                                  }}
+                                  alreadySelected={union(
+                                    values.buy_x_get_y_ben_range_keys,
+                                    buyXGetYBenefitIncludedCollectionKeys,
                                   )}
-                                  alreadySelected={
-                                    values.buy_x_get_y_ben_range_keys
-                                  }
                                   placeholder="Collections"
                                   queryEnabled={!!shop?.shop_id}
                                 />
@@ -2121,11 +2192,28 @@ const DiscountForm = ({ handleShow, id }) => {
                                       buildQuery={productQueryString}
                                       matchKey="key"
                                       queryKey="products-opt-search"
-                                      handleResultSelected={handleSelectedResults(
-                                        setFieldValue,
-                                        'included_products',
+                                      handleResultSelected={(items: any[]) => {
+                                        const keys: string[] = items.map(
+                                          item => item['key'],
+                                        );
+                                        const nl = union(
+                                          keys,
+                                          includedProductKeys,
+                                        );
+                                        handleSelectedResults(
+                                          setFieldValue,
+                                          'included_products',
+                                        )(nl);
+                                        setIncludedProductKeys(nl);
+                                        queryClient.invalidateQueries([
+                                          'included-products',
+                                          discountId,
+                                        ]);
+                                      }}
+                                      alreadySelected={union(
+                                        values.included_products,
+                                        includedProductKeys,
                                       )}
-                                      alreadySelected={values.included_products}
                                       placeholder="Products"
                                       queryEnabled={!!shop?.shop_id}
                                     />
@@ -2209,13 +2297,28 @@ const DiscountForm = ({ handleShow, id }) => {
                                       buildQuery={collectionQueryString}
                                       matchKey="key"
                                       queryKey="collections-opt-search"
-                                      handleResultSelected={handleSelectedResults(
-                                        setFieldValue,
-                                        'included_collections',
+                                      handleResultSelected={(items: any[]) => {
+                                        const keys: string[] = items.map(
+                                          item => item['key'],
+                                        );
+                                        const nl = union(
+                                          keys,
+                                          includedCollectionKeys,
+                                        );
+                                        handleSelectedResults(
+                                          setFieldValue,
+                                          'included_collections',
+                                        )(nl);
+                                        setIncludedCollectionKeys(nl);
+                                        queryClient.invalidateQueries([
+                                          'included-collections',
+                                          discountId,
+                                        ]);
+                                      }}
+                                      alreadySelected={union(
+                                        values.included_collections,
+                                        includedCollectionKeys,
                                       )}
-                                      alreadySelected={
-                                        values.included_collections
-                                      }
                                       placeholder="Collections"
                                       queryEnabled={!!shop?.shop_id}
                                     />

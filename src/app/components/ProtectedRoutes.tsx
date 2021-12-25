@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { Navigate, Route, RouteProps } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { useAtom } from 'jotai';
 import { sessionAtom } from 'store/atoms/authorization-atom';
@@ -12,6 +12,16 @@ export default function ProtectedRoute({ path, ...rest }: ProtectedRouteProps) {
   if (true || isAuthenticated) {
     return <Route path={path} {...rest} />;
   } else {
-    return <Redirect to={{ pathname: '/signin', state: { from: path } }} />;
+    return <Navigate to="/signin" state={{ from: path }} />;
   }
+}
+
+export function RequireAuth({ children, path }) {
+  const [session] = useAtom(sessionAtom);
+  const isAuthenticated = true || !isEmpty(session);
+  return isAuthenticated ? (
+    children
+  ) : (
+    <Navigate to="/signin" state={{ from: path }} />
+  );
 }

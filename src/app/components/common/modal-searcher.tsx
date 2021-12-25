@@ -5,7 +5,7 @@ import Transition from 'app/utils/transition';
 import { useQuery } from 'react-query';
 import { useDebounce } from 'app/hooks/use-debounce';
 interface Result {
-  results: any[];
+  result: any[];
 }
 const initiallySelected: any[] = [];
 function SelectableResultSearchModal({
@@ -44,7 +44,7 @@ function SelectableResultSearchModal({
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setIsCheck(data ? data.results : []);
+    setIsCheck(data ? data.result : []);
     if (selectAll) {
       setIsCheck([]);
     }
@@ -55,7 +55,7 @@ function SelectableResultSearchModal({
     setSelectAll(false);
     setIsCheck([
       ...isCheck,
-      data?.results.find(result => result[matchKey] === id),
+      data?.result.find(result => result[matchKey] === id),
     ]);
     if (!checked) {
       setIsCheck(isCheck.filter((item: any) => item[matchKey] !== id));
@@ -178,7 +178,7 @@ function SelectableResultSearchModal({
                   </label>
                 </div>
                 <ul className="text-sm">
-                  {data?.results
+                  {data?.result
                     .filter(
                       (x: Record<string, string>) =>
                         !alreadySelected.includes(x[matchKey]),

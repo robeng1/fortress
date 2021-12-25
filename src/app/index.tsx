@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, lazy } from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -31,7 +31,7 @@ import Policies from 'app/pages/settings/Policies';
 // import SalesChannels from 'app/pages/settings/SalesChannels';
 // import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
-import ProtectedRoute from './components/ProtectedRoutes';
+import { RequireAuth } from './components/ProtectedRoutes';
 
 // const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Signup = lazy(() => import('app/pages/Signup'));
@@ -59,111 +59,105 @@ export function App() {
       >
         <meta name="description" content="Reoplex Merchant Dashboard" />
       </Helmet>
-      <Switch>
-        <ProtectedRoute
-          exact
+      <Routes>
+        <Route
           path={process.env.PUBLIC_URL + '/'}
-          component={Analytics}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
+          element={
+            <RequireAuth path={process.env.PUBLIC_URL + '/'}>
+              <Analytics />
+            </RequireAuth>
+          }
+        />
+        <Route
           path="/analytics"
-          component={Analytics}
-        ></ProtectedRoute>
-        {/* <ProtectedRoute
-          exact
-          path="/customers"
-          component={Customers}
-        ></ProtectedRoute> */}
-        <ProtectedRoute
-          exact
+          element={
+            <RequireAuth path="/analytics">
+              <Analytics />
+            </RequireAuth>
+          }
+        />
+        <Route
           path="/orders"
-          component={Orders}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
+          element={
+            <RequireAuth path="/orders">
+              <Orders />
+            </RequireAuth>
+          }
+        />
+
+        <Route
           path="/shop/products"
-          component={Products}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
+          element={
+            <RequireAuth path="/shop/products">
+              <Products />
+            </RequireAuth>
+          }
+        />
+
+        <Route
           path="/shop/collections"
-          component={Collections}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
+          element={
+            <RequireAuth path="/shop/collections">
+              <Collections />
+            </RequireAuth>
+          }
+        />
+
+        <Route
           path="/shop/inventory"
-          component={Inventory}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
+          element={
+            <RequireAuth path="/shop/inventory">
+              <Inventory />
+            </RequireAuth>
+          }
+        />
+
+        <Route
           path="/discounts"
-          component={Discounts}
-        ></ProtectedRoute>
-        {/* <ProtectedRoute
-          exact
-          path="/analytics/live"
-          component={Analytics}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/analytics/reports"
-          component={Analytics}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/analytics/dashboards"
-          component={Analytics}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/analytics/insights"
-          component={Analytics}
-        ></ProtectedRoute> */}
-
-        <ProtectedRoute
-          exact
+          element={
+            <RequireAuth path="/discounts">
+              <Discounts />
+            </RequireAuth>
+          }
+        />
+        <Route
           path="/settings/account"
-          component={Account}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/settings/payments"
-          component={Payments}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/settings/locations"
-          component={Locations}
-        ></ProtectedRoute>
-        <ProtectedRoute
-          exact
-          path="/settings/policies"
-          component={Policies}
-        ></ProtectedRoute>
-        {/* <ProtectedRoute
-          exact
-          path="/settings/sales-channels"
-          component={SalesChannels}
-        ></ProtectedRoute> */}
-        {/* <ProtectedRoute
-          exact
-          path="/settings/feedback"
-          component={Feedback}
-        ></ProtectedRoute> */}
-        {/* <ProtectedRoute
-          exact
-          path="/settings/locations"
-          component={Locations}
-        ></ProtectedRoute> */}
+          element={
+            <RequireAuth path="/settings/account">
+              <Account />
+            </RequireAuth>
+          }
+        />
 
-        <Route exact path="/signup" component={Signup}></Route>
-        <Route exact path="/signin" component={Signin}></Route>
-        <Route exact path="/reset-password" component={ResetPassword}></Route>
-        <Route path="*">
-          <PageNotFound />
-        </Route>
-      </Switch>
+        <Route
+          path="/settings/payments"
+          element={
+            <RequireAuth path="/settings/payments">
+              <Payments />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/locations"
+          element={
+            <RequireAuth path="/settings/locations">
+              <Locations />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/policies"
+          element={
+            <RequireAuth path="/settings/policies">
+              <Policies />
+            </RequireAuth>
+          }
+        />
+        <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/signin" element={<Signin />}></Route>
+        <Route path="/reset-password" element={<ResetPassword />}></Route>
+        <Route path="*" element={<PageNotFound />}></Route>
+      </Routes>
     </>
   );
 }
