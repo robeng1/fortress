@@ -66,8 +66,8 @@ function Signup() {
   }, [isAuthenticated, from]);
 
   return (
-    <div className="flex items-center justify-center h-screen bg-light sm:bg-gray-100">
-      <div className="m-auto max-w-md w-full bg-white sm:shadow p-5 sm:p-8 rounded">
+    <div className="flex md:items-center md:justify-center h-screen bg-light sm:bg-gray-100">
+      <div className="md:m-auto max-w-md w-full bg-white sm:shadow p-5 sm:p-8 rounded">
         <h1 className="flex justify-center mb-2 mx-auto h-12 text-center text-3xl text-purple-800 w-auto">
           Reoplex
         </h1>
