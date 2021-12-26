@@ -13,6 +13,7 @@ import { shopAtom } from 'store/shop';
 import PasswordInput from 'app/components/common/password-input';
 import Input from 'app/components/common/input';
 import Button from 'app/components/common/button';
+import { Footer } from 'app/components/common/footer';
 
 interface LocationState {
   from: string;
@@ -66,13 +67,13 @@ function Signup() {
   }, [isAuthenticated, from]);
 
   return (
-    <div className="flex md:items-center md:justify-center h-screen bg-light sm:bg-gray-100">
+    <div className="flex flex-col md:items-center md:justify-center h-screen bg-light sm:bg-gray-100">
       <div className="md:m-auto max-w-md w-full bg-white sm:shadow p-5 sm:p-8 rounded">
         <h1 className="flex justify-center mb-2 mx-auto h-12 text-center text-3xl text-purple-800 w-auto">
           Reoplex
         </h1>
-        <h3 className="text-center text-base text-body mb-6 mt-4">
-          Register business
+        <h3 className="text-start font-semibold text-base text-body mb-6 mt-4">
+          Register your business
         </h3>
         <Formik
           initialValues={{
@@ -191,19 +192,20 @@ function Signup() {
             </form>
           )}
         </Formik>
-
-        {/* Footer */}
         <div className="pt-5 mt-6 border-t border-gray-200">
           <div className="text-sm">
             Already have an account?{' '}
             <Link
-              className="font-medium text-purple-500 hover:text-purple-600"
+              className="font-bold text-purple-500 hover:text-purple-600"
               to="/signin"
             >
               Sign In
             </Link>
           </div>
         </div>
+      </div>
+      <div className="max-w-md self-start">
+        <Footer />
       </div>
     </div>
   );

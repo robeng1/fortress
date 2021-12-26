@@ -15,10 +15,9 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 const classes = {
   root: 'px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0',
   normal:
-    'bg-gray-50 border border-gray-300 focus:shadow focus:bg-light focus:border-accent',
-  solid:
-    'bg-gray-50 border border-border-100 focus:bg-light focus:border-accent',
-  outline: 'border border-border-base focus:border-accent',
+    'bg-gray-50 border border-gray-300 focus:shadow focus:bg-light focus:border-3',
+  solid: 'bg-gray-50 border border-border-100 focus:bg-light focus:border-3',
+  outline: 'border border-border-base focus:border-3',
   shadow: 'focus:shadow',
 };
 const Input = React.forwardRef<HTMLInputElement, Props>(
