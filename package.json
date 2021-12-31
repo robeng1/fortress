@@ -82,6 +82,7 @@
     "moment": "2.29.1",
     "node-plop": "0.30.0",
     "node-sass": "7.0.0",
+    "plausible-tracker": "0.3.4",
     "plop": "3.0.5",
     "postcss": "^8.3.9",
     "prettier": "2.5.1",
