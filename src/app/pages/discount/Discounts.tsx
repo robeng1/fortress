@@ -26,18 +26,16 @@ function Discounts() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM discount WHERE shop_id = '${
-    shop?.shop_id
-  }' ORDER BY updated_at DESC LIMIT ${
-    (page - 1) * itemsPerPage + 1
-  }, ${itemsPerPage}`;
-
   const { data } = useQuery(
     ['discountviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/discount-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/offers/views`, {
         method: 'POST',
-        body: JSON.stringify(query),
+        body: JSON.stringify({
+          offset: (page - 1) * itemsPerPage + 1,
+          limit: itemsPerPage,
+          shop_id: shop?.shop_id,
+        }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
     { keepPreviousData: true, enabled: !!shop?.shop_id },

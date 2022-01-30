@@ -28,18 +28,16 @@ function Collections() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM collection WHERE shop_id = '${
-    shop?.shop_id
-  }' ORDER BY updated_at DESC LIMIT ${
-    (page - 1) * itemsPerPage + 1
-  }, ${itemsPerPage}`;
-
   const { data } = useQuery<any, ResponseError>(
     ['collectionviews', page],
     async () =>
-      await request(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
+      await request(`${fortressURL}/shops/${shop?.shop_id}/collections/views`, {
         method: 'POST',
-        body: JSON.stringify(query),
+        body: JSON.stringify({
+          offset: (page - 1) * itemsPerPage + 1,
+          limit: itemsPerPage,
+          shop_id: shop?.shop_id,
+        }),
         headers: { 'Content-Type': 'application/json' },
       }),
     { keepPreviousData: true, enabled: !!shop?.shop_id },

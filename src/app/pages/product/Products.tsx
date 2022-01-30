@@ -54,18 +54,17 @@ function Products() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [inventoryItemsPerPage, setInventoryItemsPerPage] =
     useState<number>(15);
-  const inventoryQuery = `SELECT * FROM inventory WHERE shop_id = '${
-    shop?.shop_id
-  }' ORDER BY updated_at DESC LIMIT ${
-    (inventoryPage - 1) * inventoryItemsPerPage + 1
-  }, ${inventoryItemsPerPage}`;
 
   const { data: inventoryData } = useQuery(
     ['inventoryviews', inventoryPage],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory/views`, {
         method: 'POST',
-        body: JSON.stringify(inventoryQuery),
+        body: JSON.stringify({
+          offset: (inventoryPage - 1) * inventoryItemsPerPage + 1,
+          limit: inventoryItemsPerPage,
+          shop_id: shop?.shop_id,
+        }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
     { keepPreviousData: true, enabled: !!shop?.shop_id },
@@ -77,18 +76,16 @@ function Products() {
   const [collectionItemsPerPage, setCollectionItemsPerPage] =
     useState<number>(15);
 
-  const collectionQuery = `SELECT * FROM collection WHERE shop_id = '${
-    shop?.shop_id
-  }' ORDER BY updated_at DESC LIMIT ${
-    (collectionPage - 1) * collectionItemsPerPage + 1
-  }, ${collectionItemsPerPage}`;
-
   const { data: collectionData } = useQuery(
     ['collectionviews', collectionPage],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/collections/views`, {
         method: 'POST',
-        body: JSON.stringify(collectionQuery),
+        body: JSON.stringify({
+          offset: (collectionPage - 1) * collectionItemsPerPage + 1,
+          limit: collectionItemsPerPage,
+          shop_id: shop?.shop_id,
+        }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
     { keepPreviousData: true, enabled: !!shop?.shop_id },
@@ -104,18 +101,16 @@ function Products() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [productItemsPerPage, setProductItemsPerPage] = useState<number>(15);
 
-  const productQuery = `SELECT * FROM product WHERE shop_id = '${
-    shop?.shop_id
-  }' ORDER BY updated_at DESC LIMIT ${
-    (productPage - 1) * productItemsPerPage + 1
-  }, ${productItemsPerPage}`;
-
   const { data: productData } = useQuery(
     ['productviews', productPage],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/product-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/products/views`, {
         method: 'POST',
-        body: JSON.stringify(productQuery),
+        body: JSON.stringify({
+          offset: (productPage - 1) * productItemsPerPage + 1,
+          limit: productItemsPerPage,
+          shop_id: shop?.shop_id,
+        }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
     { keepPreviousData: true, enabled: !!shop?.shop_id },

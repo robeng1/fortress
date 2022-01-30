@@ -4,53 +4,36 @@ import type { GroupBase, OptionsOrGroups } from 'react-select';
 export const loadCollectionsAsOptions =
   (shopId: string) =>
   async (
-    searchQuery: string,
+    term: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM collection WHERE shop_id = '${shopId}'`;
-    if (searchQuery !== '') {
-      query = `SELECT * FROM collection WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
-    }
-
     const response = await fetch(
       `${fortressURL}/shops/${shopId}/collections/option-search`,
       {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ shop_id: shopId, term, type: 'collection' }),
         headers: { 'Content-Type': 'application/json' },
       },
     );
     const responseJSON = await response.json();
     let options = responseJSON.result;
-    // const slicedOptions = options.slice(
-    //   prevOptions.length,
-    //   prevOptions.length + 10,
-    // );
     return {
       options: options,
       hasMore: true,
-      // additional: {
-      //   page: searchQuery ? 2 : page + 1,
-      // },
     };
   };
 
 export const loadProductsAsOptions =
-  (shopId: string) =>
+  (shop_id: string) =>
   async (
-    searchQuery: string,
+    term: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM product WHERE shop_id = '${shopId}'`;
-    if (searchQuery !== '') {
-      query = `SELECT * FROM product WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
-    }
-
     const response = await fetch(
-      `${fortressURL}/shops/${shopId}/products/option-search`,
+      `${fortressURL}/shops/${shop_id}/products/option-search`,
       {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ shop_id, term, type: 'product' }),
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -58,26 +41,19 @@ export const loadProductsAsOptions =
     return {
       options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
-      // additional: {
-      //   page: searchQuery ? 2 : page + 1,
-      // },
     };
   };
 export const loadDiscountsAsOptions =
-  (shopId: string) =>
+  (shop_id: string) =>
   async (
-    searchQuery: string,
+    term: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM discount WHERE shop_id = '${shopId}'`;
-    if (searchQuery !== '') {
-      query = `SELECT * FROM discount WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
-    }
     const response = await fetch(
-      `${fortressURL}/shops/${shopId}/discounts/option-search`,
+      `${fortressURL}/shops/${shop_id}/discounts/option-search`,
       {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ shop_id, term, type: 'discount' }),
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -85,28 +61,20 @@ export const loadDiscountsAsOptions =
     return {
       options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
-      // additional: {
-      //   page: searchQuery ? 2 : page + 1,
-      // },
     };
   };
 
 export const loadTagsAsOptions =
-  (shopId: string) =>
+  (shop_id: string) =>
   async (
-    searchQuery: string,
+    term: string,
     prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
   ) => {
-    let query = `SELECT * FROM tag WHERE shop_id = '${shopId}'`;
-    if (searchQuery !== '') {
-      query = `SELECT * FROM tag WHERE shop_id = '${shopId}' AND TEXT_MATCH(search_col, '${searchQuery}')`;
-    }
-
     const response = await fetch(
-      `${fortressURL}/shops/${shopId}/tags/option-search`,
+      `${fortressURL}/shops/${shop_id}/tags/option-search`,
       {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ shop_id, term, type: 'tag' }),
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -114,31 +82,21 @@ export const loadTagsAsOptions =
     return {
       options: responseJSON.result,
       hasMore: responseJSON.length >= 1,
-      // additional: {
-      //   page: searchQuery ? 2 : page + 1,
-      // },
     };
   };
 
 export const loadProductTypesAsOptions = async (
-  searchQuery: string,
+  term: string,
   prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
 ) => {
-  let query = `SELECT * FROM product_type `;
-  if (searchQuery !== '') {
-    query = `SELECT * FROM product_type WHERE TEXT_MATCH(search_col, '${searchQuery}')`;
-  }
   const response = await fetch(`${fortressURL}/product-types/option-search`, {
     method: 'POST',
-    body: JSON.stringify({ query }),
+    body: JSON.stringify({ term }),
     headers: { 'Content-Type': 'application/json' },
   });
   const responseJSON = await response.json();
   return {
     options: responseJSON.result,
     hasMore: responseJSON.length >= 1,
-    // additional: {
-    //   page: searchQuery ? 2 : page + 1,
-    // },
   };
 };

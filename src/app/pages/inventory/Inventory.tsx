@@ -23,18 +23,16 @@ function Inventories() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM inventory WHERE shop_id = '${
-    shop?.shop_id
-  }' ORDER BY updated_at DESC LIMIT ${
-    (page - 1) * itemsPerPage + 1
-  }, ${itemsPerPage}`;
-
   const { data } = useQuery(
     ['inventoryviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory/views`, {
         method: 'POST',
-        body: JSON.stringify(query),
+        body: JSON.stringify({
+          offset: (page - 1) * itemsPerPage + 1,
+          limit: itemsPerPage,
+          shop_id: shop?.shop_id,
+        }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
     { keepPreviousData: true, enabled: !!shop?.shop_id },
