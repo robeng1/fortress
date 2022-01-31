@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'app/endpoints/urls';
 import { WeightBasedRateType } from 'app/models/rates/weight-based-rate';
@@ -160,7 +160,7 @@ function RatesForm({ handleShow, rate }) {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow mb-4">
+          <div className="w-full flex-grow">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
               <h2 className="text-2xl text-gray-800 font-bold mb-5">Rates</h2>
@@ -304,7 +304,7 @@ function RatesForm({ handleShow, rate }) {
               )}
               {values.model && values.model.value === 'ITEM_BASED' && (
                 <>
-                  <section className="sm:flex w-full sm:items-center align-middle sm:w-1/2 items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <section className="sm:flex w-full sm:items-center align-middle sm:w-1/2 items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3">
                     <div className="w-full md:w-1/3 sm:w-full">
                       <label
                         className="block text-sm font-medium mb-1"
@@ -328,7 +328,7 @@ function RatesForm({ handleShow, rate }) {
                         placeholder="0.00"
                       />
                     </div>
-                    <div className="sm:mt-3 self-center text-lg">
+                    <div className="self-center text-lg">
                       <h1>+</h1>
                     </div>
                     <div className="w-full md:w-1/3 sm:w-full">
@@ -388,7 +388,7 @@ function RatesForm({ handleShow, rate }) {
               {values.model && values.model.value === 'PRICE_BANDED' && (
                 <section>Render price banded model form</section>
               )}
-              <div className="w-full md:w-1/2 sm:w-full mt-2">
+              <div className="w-full md:w-1/2 sm:w-full">
                 <div className="w-full">
                   <label
                     className="block text-sm font-medium mb-1"

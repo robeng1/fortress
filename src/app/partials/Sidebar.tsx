@@ -244,46 +244,45 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   </NavLink>
                 </li>
                 {/* Products */}
-                <div className="hidden md:block">
-                  <SidebarLinkGroup activecondition={pathname.includes('shop')}>
-                    {(handleClick, open) => {
-                      return (
-                        <div>
-                          <a
-                            href="#0"
-                            className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
-                              pathname.includes('products') &&
-                              'hover:text-gray-900'
-                            }`}
-                            onClick={e => {
-                              e.preventDefault();
-                              sidebarExpanded
-                                ? handleClick()
-                                : setSidebarExpanded(true);
-                            }}
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center ali">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="flex-shrink-0 h-4"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path
-                                    className={`fill-current text-gray-900 ${
-                                      pathname.includes('shop') &&
-                                      'text-purple-300'
-                                    }`}
-                                    d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
-                                  />
-                                </svg>
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Products
-                                </span>
-                              </div>
-                              {/* Icon */}
-                              {/* <div className="flex flex-shrink-0 ml-2">
+                <SidebarLinkGroup activecondition={pathname.includes('shop')}>
+                  {(handleClick, open) => {
+                    return (
+                      <div>
+                        <a
+                          href="#0"
+                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                            pathname.includes('products') &&
+                            'hover:text-gray-900'
+                          }`}
+                          onClick={e => {
+                            e.preventDefault();
+                            sidebarExpanded
+                              ? handleClick()
+                              : setSidebarExpanded(true);
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center ali">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="flex-shrink-0 h-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  className={`fill-current text-gray-900 ${
+                                    pathname.includes('shop') &&
+                                    'text-purple-300'
+                                  }`}
+                                  d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
+                                />
+                              </svg>
+                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Products
+                              </span>
+                            </div>
+                            {/* Icon */}
+                            {/* <div className="flex flex-shrink-0 ml-2">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   className="h-5 w-5 text-gray-500"
@@ -297,62 +296,61 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   />
                                 </svg>
                               </div> */}
-                            </div>
-                          </a>
-                          <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                            <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
-                              <li className="mb-1 last:mb-0">
-                                <NavLink
-                                  to="/shop/products"
-                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                >
-                                  <span
-                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                                      pathname.includes('products') &&
-                                      '!text-purple-500'
-                                    }`}
-                                  >
-                                    All products
-                                  </span>
-                                </NavLink>
-                              </li>
-                              <li className="mb-1 last:mb-0">
-                                <NavLink
-                                  to="/shop/inventory"
-                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                >
-                                  <span
-                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                                      pathname.includes('inventory') &&
-                                      '!text-purple-500'
-                                    }`}
-                                  >
-                                    Inventory
-                                  </span>
-                                </NavLink>
-                              </li>
-                              <li className="mb-1 last:mb-0">
-                                <NavLink
-                                  to="/shop/collections"
-                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                >
-                                  <span
-                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                                      pathname.includes('collections') &&
-                                      '!text-purple-500'
-                                    }`}
-                                  >
-                                    Collections
-                                  </span>
-                                </NavLink>
-                              </li>
-                            </ul>
                           </div>
+                        </a>
+                        <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                to="/shop/products"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                              >
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('products') &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
+                                  All products
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                to="/shop/inventory"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                              >
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('inventory') &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
+                                  Inventory
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                to="/shop/collections"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                              >
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('collections') &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
+                                  Collections
+                                </span>
+                              </NavLink>
+                            </li>
+                          </ul>
                         </div>
-                      );
-                    }}
-                  </SidebarLinkGroup>
-                </div>
+                      </div>
+                    );
+                  }}
+                </SidebarLinkGroup>
 
                 {/* Customers */}
                 {/* <li
@@ -491,7 +489,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup> */}
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 hidden md:block ${
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname === '/discounts' &&
                     'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}

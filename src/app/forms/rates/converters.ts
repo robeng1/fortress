@@ -31,16 +31,16 @@ export function rawToRate(
   rate: ItemBasedRateType & WeightBasedRateType,
 ): RateType {
   return {
-    shop_id: rate?.shop_id,
+    shop_id: rate?.shop_id || '',
     cities: rate?.cities,
     price_per_order_amt: mToS(rate?.price_per_order),
     price_per_item_amt: mToS(rate?.price_per_item),
     price_per_weight_amt: mToS(rate?.price_per_weight),
-    name: rate?.name,
-    free_shipping_threshold: mToS(rate.free_shipping_threshold),
-    description: rate?.description,
+    name: rate?.name || '',
+    free_shipping_threshold: mToS(rate?.free_shipping_threshold),
+    description: rate?.description || '',
     model:
-      'price_per_item' in rate
+      rate && 'price_per_item' in rate
         ? {
             label: 'Item Based',
             value: 'ITEM_BASED',
