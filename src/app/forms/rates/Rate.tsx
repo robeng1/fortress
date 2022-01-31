@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { LocationType } from 'app/models/inventory/inventory-type';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import Select from 'react-select';
@@ -10,11 +9,10 @@ import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'app/endpoints/urls';
 import { WeightBasedRateType } from 'app/models/rates/weight-based-rate';
 import { ItemBasedRateType } from 'app/models/rates/item-based-rate';
-import { WeightBandedRateType } from 'app/models/rates/weight-banded-rate';
-import { PriceBandedRateType } from 'app/models/rates/price-banded-rate';
 import colourStyles from 'app/forms/product/selectStyles';
 import { modelOptions, ShippingRateModelOption } from 'app/data/select';
 import { sToCurrency } from 'app/utils/money';
+import { rateToIB, rawToRate } from './converters';
 
 const animatedComponents = makeAnimated();
 
@@ -24,81 +22,103 @@ export interface RateType {
   name?: string;
   description?: string;
   cities?: string[];
-  weight_based?: WeightBasedRateType;
-  item_based?: ItemBasedRateType;
-  weight_banded?: WeightBandedRateType;
-  price_banded?: PriceBandedRateType;
   price_per_order_amt: string;
   price_per_weight_amt: string;
   price_per_item_amt: string;
   free_shipping_threshold: string;
 }
 
-function RatesForm({ handleShow, id }) {
+function RatesForm({ handleShow, rate }) {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
-  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/centres`;
-  const [centreId, setCentreId] = useState(id);
+  const wbrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/wbrs`;
+  const ibrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/ibrs`;
+  const [rateId, setRateId] = useState(rate?.rate_id);
 
   const initialValues: RateType = {
+    ...rawToRate(rate),
     shop_id: shop?.shop_id,
-    name: '',
-    model: undefined,
-    description: '',
-    cities: [],
-    weight_based: {},
-    weight_banded: {},
-    item_based: {},
-    price_banded: {},
-    price_per_order_amt: '0.00',
-    price_per_weight_amt: '0.00',
-    price_per_item_amt: '0.00',
-    free_shipping_threshold: '0.00',
   };
 
-  // create the colletion
+  // create the weight based rate
   const {
-    mutate: createRate,
+    mutate: createWBRate,
     // isLoading: isCreatingCollection,
     // isError: collectionCreationFailed,
     // error: collectionCreationError,
   } = useMutation(
-    (payload: LocationType) =>
-      request(requestURL, {
+    (payload: WeightBasedRateType) =>
+      request(wbrRequestURL, {
         method: 'POST',
         body: JSON.stringify(payload),
       }),
     {
-      onSuccess: (newLocation: LocationType) => {
-        setCentreId(newLocation.centre_id);
-        queryClient.setQueryData(
-          ['location', newLocation.centre_id],
-          newLocation,
-        );
+      onSuccess: (newRate: WeightBasedRateType) => {
+        setRateId(newRate.rate_id);
+        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
       },
       onError: (e: ResponseError) => {},
     },
   );
 
-  // update the collection
+  // update the weight based rate
   const {
-    mutate: updateRate,
+    mutate: updateWBRate,
     // isLoading: isUpdatingCollection,
     // isError: collectionUpdateFailed,
     // error: collectionUpdateError,
   } = useMutation(
-    (payload: LocationType) =>
-      request(`${requestURL}/${centreId}`, {
+    (payload: WeightBasedRateType) =>
+      request(`${wbrRequestURL}/${rateId}`, {
         method: 'PATCH',
         body: JSON.stringify(payload),
       }),
     {
-      onSuccess: (newLocation: LocationType) => {
-        setCentreId(newLocation.centre_id);
-        queryClient.setQueryData(
-          ['location', newLocation.centre_id],
-          newLocation,
-        );
+      onSuccess: (newRate: WeightBasedRateType) => {
+        setRateId(newRate.rate_id);
+        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // create the weight based rate
+  const {
+    mutate: createIBRate,
+    // isLoading: isCreatingCollection,
+    // isError: collectionCreationFailed,
+    // error: collectionCreationError,
+  } = useMutation(
+    (payload: ItemBasedRateType) =>
+      request(ibrRequestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newRate: ItemBasedRateType) => {
+        setRateId(newRate.rate_id);
+        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
+
+  // update the item based rate
+  const {
+    mutate: updateIBRate,
+    // isLoading: isUpdatingCollection,
+    // isError: collectionUpdateFailed,
+    // error: collectionUpdateError,
+  } = useMutation(
+    (payload: ItemBasedRateType) =>
+      request(`${ibrRequestURL}/${rateId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newRate: ItemBasedRateType) => {
+        setRateId(newRate.rate_id);
+        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
       },
       onError: (e: ResponseError) => {},
     },
@@ -109,10 +129,18 @@ function RatesForm({ handleShow, id }) {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          if (!centreId || centreId === '') {
-            createRate({ ...values });
+          if (!rateId || rateId === '') {
+            if (values.model?.value === 'WEIGHT_BASED') {
+              createWBRate(rateToWB(values));
+            } else {
+              createIBRate(rateToIB(values));
+            }
           } else {
-            updateRate({ ...values });
+            if (values.model?.value === 'ITEM_BASED') {
+              updateWBRate(rateToWB(values));
+            } else {
+              updateIBRate(rateToIB(values));
+            }
           }
 
           setSubmitting(false);
@@ -132,7 +160,7 @@ function RatesForm({ handleShow, id }) {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
+          <div className="flex-grow mb-4">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
               <h2 className="text-2xl text-gray-800 font-bold mb-5">Rates</h2>
@@ -425,3 +453,6 @@ function RatesForm({ handleShow, id }) {
 }
 
 export default RatesForm;
+function rateToWB(values: RateType): WeightBasedRateType {
+  throw new Error('Function not implemented.');
+}

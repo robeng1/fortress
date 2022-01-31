@@ -1,6 +1,6 @@
 import { ItemBasedRateType } from 'app/models/rates/item-based-rate';
 import { WeightBasedRateType } from 'app/models/rates/weight-based-rate';
-import { sToM } from 'app/utils/money';
+import { mToS, sToM } from 'app/utils/money';
 import { RateType } from './Rate';
 
 export function rateToWB(rate: RateType): WeightBasedRateType {
@@ -24,5 +24,30 @@ export function rateToIB(rate: RateType): ItemBasedRateType {
     name: rate.name,
     code: rate.name,
     description: rate.description,
+  };
+}
+
+export function rawToRate(
+  rate: ItemBasedRateType & WeightBasedRateType,
+): RateType {
+  return {
+    shop_id: rate?.shop_id,
+    cities: rate?.cities,
+    price_per_order_amt: mToS(rate?.price_per_order),
+    price_per_item_amt: mToS(rate?.price_per_item),
+    price_per_weight_amt: mToS(rate?.price_per_weight),
+    name: rate?.name,
+    free_shipping_threshold: mToS(rate.free_shipping_threshold),
+    description: rate?.description,
+    model:
+      'price_per_item' in rate
+        ? {
+            label: 'Item Based',
+            value: 'ITEM_BASED',
+          }
+        : {
+            label: 'Weight Based',
+            value: 'WEIGHT_BASED',
+          },
   };
 }

@@ -14,8 +14,8 @@ export interface ShippingRateModelOption {
 export const modelOptions: readonly ShippingRateModelOption[] = [
   { value: 'WEIGHT_BASED', label: 'Weight based' },
   { value: 'ITEM_BASED', label: 'Item based' },
-  { value: 'WEIGHT_BANDED', label: 'Weight banded' },
-  { value: 'PRICE_BANDED', label: 'Price banded' },
+  // { value: 'WEIGHT_BANDED', label: 'Weight banded' },
+  // { value: 'PRICE_BANDED', label: 'Price banded' },
 ];
 
 declare interface AttrOption {
