@@ -56,7 +56,7 @@ export default function DiscountTable({
                               <div className="flex-shrink-0 h-10 w-10">
                                 <img
                                   className="h-10 w-10 rounded"
-                                  src={discount.cover_photo}
+                                  src={discount.photo}
                                   alt={discount.name}
                                 />
                               </div>

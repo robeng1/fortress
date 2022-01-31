@@ -3,7 +3,7 @@ import { focusHandling } from 'cruip-js-toolkit';
 import InventoryTableItem from './InventoryTableItem';
 import InventoryList from './mobile/InventoryList';
 import EmptyState from 'app/partials/EmptyState';
-import money from 'app/utils/money';
+import { formatPesosMoney } from 'app/utils/money';
 
 const InventoryTable = ({ selectedItems, headings, records }) => {
   const [selectAll, setSelectAll] = useState(false);
@@ -86,7 +86,7 @@ const InventoryTable = ({ selectedItems, headings, records }) => {
                         name={product.title}
                         inventory={product.sku}
                         type={product.item_condition}
-                        status={money.intToString(
+                        status={formatPesosMoney(
                           product.price_excl_tax_int,
                           product.currency,
                         )}

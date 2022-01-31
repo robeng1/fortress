@@ -27,6 +27,7 @@ import Orders from 'app/pages/orders/Orders';
 import Account from 'app/pages/settings/Account';
 import Payments from 'app/pages/settings/Payments';
 import Locations from 'app/pages/settings/Centres';
+import Rates from 'app/pages/settings/Rates';
 import Policies from 'app/pages/settings/Policies';
 // import SalesChannels from 'app/pages/settings/SalesChannels';
 // import Feedback from 'app/pages/settings/Feedback';
@@ -142,6 +143,14 @@ export function App() {
           element={
             <RequireAuth path="/settings/locations">
               <Locations />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/shipping"
+          element={
+            <RequireAuth path="/settings/shipping">
+              <Rates />
             </RequireAuth>
           }
         />

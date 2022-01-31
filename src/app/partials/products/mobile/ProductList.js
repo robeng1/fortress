@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ProductCard from './ProductCard';
-import money from 'app/utils/money';
+import { formatPesosMoney } from 'app/utils/money';
 
 export default function ProductList({ handleShow, products }) {
   return (
@@ -22,7 +22,7 @@ export default function ProductList({ handleShow, products }) {
                       status: product.product_status,
                       variants: product.num_variants,
                       fav: false,
-                      price: money.intToString(
+                      price: formatPesosMoney(
                         product.price_int,
                         product.currency,
                       ),

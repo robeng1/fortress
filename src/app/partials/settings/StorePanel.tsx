@@ -218,8 +218,8 @@ function StorePanel() {
                   </div>
                 </div>
 
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/3">
+                <div className="sm:flex sm:items-center sm:w-1/2 space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="sm:w-1/2">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="email"
@@ -238,7 +238,7 @@ function StorePanel() {
                       placeholder="romeo@reoplex.com"
                     />
                   </div>
-                  <div className="sm:w-1/3">
+                  <div className="sm:w-1/2">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="phone"

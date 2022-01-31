@@ -6,7 +6,6 @@ import {
   AccountStatus,
   PaymentMode,
 } from 'app/models/payment/account-type';
-import money from 'app/utils/money';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import { accountAtom } from 'store/payment';
@@ -72,7 +71,6 @@ function PaymentsPanel() {
           payment_mode: account?.payment_mode || PaymentMode.MOBILE_NETWORK,
           status: account?.status || AccountStatus.OPEN,
           account_kind: account?.account_kind || 'REGULAR',
-          credit_limit: money.Zero(),
         }}
         onSubmit={(values, { setSubmitting }) => {
           if (values.account_id !== '') {
@@ -132,8 +130,8 @@ function PaymentsPanel() {
                   </div>
                 </div>
 
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/3">
+                <div className="sm:flex sm:items-center sm:w-1/2 space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="sm:w-1/5">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="wallet.merchant"
@@ -155,7 +153,7 @@ function PaymentsPanel() {
                       <option value="AirtelTigo">AirtelTigo</option>
                     </select>
                   </div>
-                  <div className="sm:w-1/3">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="wallet.number"

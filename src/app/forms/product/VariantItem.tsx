@@ -1,11 +1,11 @@
+import { mToS } from 'app/utils/money';
 import React, { useState, useEffect } from 'react';
-import money from 'app/utils/money';
 
 function ProductVariant(props) {
   const [price, setPrice] = useState<string>('');
   const [quantity, setQuantity] = useState<number>();
   useEffect(() => {
-    setPrice(money.toDouble(props.price).toFixed(2));
+    setPrice(mToS(props.price));
     setQuantity(props.quantity);
   }, [props.price, props.quantity]);
   return (

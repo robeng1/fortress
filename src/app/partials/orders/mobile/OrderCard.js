@@ -1,4 +1,5 @@
 import money from 'app/utils/money';
+import { formatPesosMoney } from 'app/utils/money';
 import * as React from 'react';
 export default function OrderCard({ handleShow, order }) {
   return (
@@ -11,7 +12,7 @@ export default function OrderCard({ handleShow, order }) {
           #{new Date(order.updated_at).toString()}
         </p>
         <p className="ml-4 font-medium text-green-500">
-          {money.intToString(order.total, order.currency)}
+          {formatPesosMoney(order.total, order.currency)}
         </p>
       </div>
       <div className="">

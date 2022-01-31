@@ -162,8 +162,8 @@ function LocationsForm({ handleShow, id }) {
                   (Could be from a warehouse, your home, a fulfilment partner)
                 </div>
 
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2 sm:w-full">
+                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="name"
@@ -183,8 +183,8 @@ function LocationsForm({ handleShow, id }) {
                     />
                   </div>
                 </div>
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2">
+                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="description"
@@ -228,8 +228,8 @@ function LocationsForm({ handleShow, id }) {
                     </PlacesAutocomplete>
                   </div>
                 </div>
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/3">
+                <section className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="w-full sm:w-1/2">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="address.country"
@@ -252,7 +252,7 @@ function LocationsForm({ handleShow, id }) {
                       <option value="SA">South Africa</option>
                     </select>
                   </div>
-                  <div className="sm:w-1/3">
+                  <div className="w-full sm:w-1/2">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="address.city"
@@ -262,7 +262,7 @@ function LocationsForm({ handleShow, id }) {
                     <input
                       id="address.city"
                       name="address.city"
-                      className="form-input"
+                      className="form-input w-full"
                       type="text"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -270,9 +270,9 @@ function LocationsForm({ handleShow, id }) {
                       placeholder="Kumasi"
                     />
                   </div>
-                </div>
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/3">
+                </section>
+                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="address.province"
@@ -282,7 +282,7 @@ function LocationsForm({ handleShow, id }) {
                     <input
                       id="address.province"
                       name="address.province"
-                      className="form-input"
+                      className="form-input w-full"
                       type="text"
                       onChange={handleChange}
                       onBlur={handleBlur}

@@ -1,134 +1,78 @@
-import currency from 'currency.js';
 import { MoneyType } from 'app/models/money';
+import { Dinero, dinero, toSnapshot } from 'dinero.js';
+import { GHS, KES, NGN, RWF, UGX, Currency } from '@dinero.js/currencies';
+import currency from 'currency.js';
 
-export default class money {
-  static pad = (nanos: number): string | number => {
-    if (nanos < 10) {
-      let s = String(nanos);
-      while (s.length < 2) {
-        s = `0${s}`;
-      }
-      return s;
-    }
-    return nanos;
-  };
+export function dineroToM(mm: Dinero<number>): MoneyType {
+  const { amount, currency } = toSnapshot(mm);
+  return { amount, currency: currency.code };
+}
 
-  static sum = (x: MoneyType, b: MoneyType) => {
-    const a: MoneyType = { ...x };
-    a.units += b.units;
-    a.nanos += b.nanos;
-    while (a.nanos >= 100) {
-      a.units += 1;
-      a.nanos -= 100;
-    }
-    a.currency_code =
-      a.currency_code !== '' ? a.currency_code : b.currency_code;
-    return a;
-  };
+export function mToDinero(mm: MoneyType): Dinero<number> {
+  return dinero({ amount: mm.amount, currency: curr(mm.currency) });
+}
 
-  static cm = (a: MoneyType, d: number, code: string) => {
-    a.units = 0;
-    a.nanos = 0;
-    while (d >= 100) {
-      a.units += 1;
-      d -= 100;
-    }
-    a.nanos = d;
-    a.currency_code = code;
-    return a;
-  };
+export function currencyToM(mm: currency, code: string = 'GHS'): MoneyType {
+  return { amount: mm.value * 100, currency: code };
+}
 
-  static parseInt = (d: number, code: string): MoneyType => {
-    const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
-    while (d >= 100) {
-      a.units += 1;
-      d -= 100;
-    }
-    a.nanos = d;
-    a.currency_code = code;
-    return a;
-  };
+export function formatCurrency(mm: currency, code: string = 'GHS'): string {
+  return mm.format({ symbol: symbol(code) });
+}
 
-  static parseDouble = (str: string, code: string): MoneyType => {
-    let d = currency(str);
-    const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
-    if (d.dollars() > 0) {
-      a.units = d.dollars();
-    }
-    a.nanos = d.cents();
-    a.currency_code = code;
-    return a;
-  };
+export function mToCurrency(mm: MoneyType | null | undefined): currency {
+  return currency(mm?.amount || 0, { fromCents: true });
+}
 
-  static doubleToMoney = (m: number, code: string): MoneyType => {
-    let d = currency(m);
-    const a: MoneyType = { currency_code: code, units: 0, nanos: 0 };
-    if (d.dollars() > 0) {
-      a.units = d.dollars();
-    }
-    a.nanos = d.cents();
-    a.currency_code = code;
-    return a;
-  };
+export function sToCurrency(mm: string): currency {
+  return currency(mm || 0);
+}
 
-  static toDouble = (x: MoneyType): number => {
-    const str = `${x.units}.${x.nanos}`;
-    return parseFloat(str);
-  };
+export function mToS(mm: MoneyType | null | undefined): string {
+  return mToCurrency(mm).toString();
+}
 
-  static valuesToString = (units: number, nanos: number): string => {
-    return `${units}.${nanos}`;
-  };
+export function sToM(m: string | number, c: string = 'GHS'): MoneyType {
+  const d = currency(m);
+  return { amount: d.intValue, currency: c };
+}
 
-  static intToString = (d: number, code: string): string => {
-    const parsed = money.parseInt(d, code);
-    return `${parsed.currency_code}${parsed.units}.${money.pad(parsed.nanos)}`;
-  };
-  static toString = (x: MoneyType): string => {
-    return `${x.currency_code} ${x.units}.${money.pad(x.nanos)}`;
-  };
+export function formatPesosMoney(
+  m: string | number,
+  c: string = 'GHS',
+): string {
+  const d = currency(m, { fromCents: true });
+  return d.format({ symbol: symbol(c) });
+}
 
-  static toInt = (a: MoneyType): number => {
-    return a.units * 100 + a.nanos;
-  };
-
-  static subtract = (x: MoneyType, b: MoneyType): MoneyType => {
-    const a = { ...x };
-    const as = money.toInt(a);
-    const bs = money.toInt(b);
-    const d = as - bs;
-    // don't ever entertain negative values for this use case
-    if (d < 0) {
-      a.units = 0;
-      a.nanos = 0;
-      return a;
-    }
-    return money.parseInt(d, x.currency_code);
-  };
-
-  static multiply = (x: MoneyType, b: number): MoneyType => {
-    const a = { ...x };
-    const as = money.toInt(a);
-    const d = as * b;
-    return money.parseInt(d, x.currency_code);
-  };
-
-  static equals = (a: MoneyType, b: MoneyType): boolean =>
-    a.units === b.units && a.nanos === b.nanos;
-
-  static lessThan = (a: MoneyType, b: MoneyType): boolean =>
-    // short circuit
-    a.units < b.units || (a.units === b.units && a.nanos < b.nanos);
-
-  static greaterThan = (a: MoneyType, b: MoneyType): boolean =>
-    // short circuit
-    a.units > b.units || (a.units === b.units && a.nanos > b.nanos);
-
-  static isZero = (a: MoneyType): boolean => a.units === 0 && a.nanos === 0;
-
-  static Zero = () => ({
-    units: 0,
-    nanos: 0,
-    currency_code: '',
+export function mToSFormatted(mm: MoneyType | null | undefined): string {
+  return mToCurrency(mm).format({
+    symbol: symbol(mm?.currency || 'GHS'),
   });
+}
+
+function curr(code: string): Currency<number> {
+  switch (code) {
+    case 'GHS': {
+      return GHS;
+    }
+    case 'NGN': {
+      return NGN;
+    }
+    case 'KES': {
+      return KES;
+    }
+    case 'RWF': {
+      return RWF;
+    }
+    case 'UGX': {
+      return UGX;
+    }
+    default:
+      return GHS;
+  }
+}
+
+function symbol(c: string): string {
+  return 'GHS';
 }

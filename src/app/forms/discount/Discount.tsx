@@ -20,7 +20,6 @@ import { fortressURL } from 'app/endpoints/urls';
 import DropTarget from '@uppy/drop-target';
 import { DiscountType } from 'app/models/discount/discount-type';
 import { ConditionType } from 'app/models/discount/condition-type';
-import money from 'app/utils/money';
 import { BenefitType } from 'app/models/discount/benefit-type';
 import { RangeType } from 'app/models/discount/range-type';
 import { VoucherType } from 'app/models/voucher/voucher';
@@ -30,6 +29,7 @@ import SelectableResultSearchModal from 'app/components/common/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
+import { mToS, sToM } from 'app/utils/money';
 
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
 // TODO:(fix range keys)
@@ -265,10 +265,8 @@ const DiscountForm = ({ handleShow, id }) => {
       } else if (d.condition?.condition_type === 'value') {
         // will be quite weird that these values would not exist
         // at the time when they are needed
-        disc.condition_value_money = money.valuesToString(
-          d.condition.money_value?.units || 0,
-          d.condition.money_value?.nanos || 0,
-        );
+        // d.condition.money_value
+        disc.condition_value_money = mToS(d.condition.money_value!);
       } else {
         // TODO:(romeo) remove this block as it's weird as we should NEVER! reach here
       }
@@ -299,10 +297,7 @@ const DiscountForm = ({ handleShow, id }) => {
           setIncludedProductKeys(disc.included_products || []);
         }
         if (d.benefit.value_m) {
-          disc.value = money.valuesToString(
-            d.benefit.value_m.units,
-            d.benefit.value_m.nanos,
-          );
+          disc.value = mToS(d.benefit.value_m);
         } else if (d.benefit.value_i) {
           disc.value = d.benefit.value_i;
         }
@@ -322,10 +317,7 @@ const DiscountForm = ({ handleShow, id }) => {
         } else if (d.condition?.condition_type === 'value') {
           // will be quite weird that these values would not exist
           // at the time when they are needed
-          disc.buy_x_get_y_condition_value = money.valuesToString(
-            d.condition.money_value?.units || 0,
-            d.condition.money_value?.nanos || 0,
-          );
+          disc.buy_x_get_y_condition_value = mToS(d.condition.money_value);
         } else {
           // TODO:(romeo)  remove this block as it's weird as we should NEVER! reach here
         }
@@ -396,10 +388,7 @@ const DiscountForm = ({ handleShow, id }) => {
           );
         }
         if (d.benefit.value_m) {
-          disc.buy_x_get_y_discounted_value = money.valuesToString(
-            d.benefit.value_m.units,
-            d.benefit.value_m.nanos,
-          );
+          disc.buy_x_get_y_discounted_value = mToS(d.benefit.value_m);
         } else if (d.benefit.value_i) {
           disc.buy_x_get_y_discounted_value = d.benefit.value_i as string;
         }
@@ -408,10 +397,7 @@ const DiscountForm = ({ handleShow, id }) => {
           initialValues.buy_x_get_y_ben_max_affected_items;
       }
     }
-    disc.max_discount = money.valuesToString(
-      d.max_discount?.units || 0,
-      d.max_discount?.nanos || 0,
-    );
+    disc.max_discount = mToS(d.max_discount);
     return disc;
   };
   const convValuesToDiscount = (d: Values): DiscountType => {
@@ -430,10 +416,7 @@ const DiscountForm = ({ handleShow, id }) => {
       end: moment(d.end_date + ' ' + d.end_time).toISOString(),
       cover_photo: { image_url: image },
     };
-    disc.max_discount = money.parseDouble(
-      d.max_discount,
-      shop?.currency?.iso_code || 'GHS',
-    );
+    disc.max_discount = sToM(d.max_discount, shop?.currency?.iso_code);
     switch (d.incentive_type) {
       case 'fixed_discount': {
         const condition: ConditionType = {
@@ -442,26 +425,20 @@ const DiscountForm = ({ handleShow, id }) => {
         if (d.condition_type === 'coverage' || d.condition_type === 'count') {
           condition.value_int = d.condition_value_int;
         } else if (d.condition_type === 'value') {
-          condition.money_value = money.parseDouble(
+          condition.money_value = sToM(
             d.condition_value_money,
-            shop?.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code,
           );
         } else {
           condition.value_int = 0;
-          condition.money_value = money.parseDouble(
-            '0.00',
-            shop?.currency?.iso_code || 'GHS',
-          );
+          condition.money_value = sToM(0.0, shop?.currency?.iso_code);
         }
         disc.condition = condition;
 
         // benefit construction
         const benefit: BenefitType = {
           benefit_type: d.incentive_type,
-          value_m: money.parseDouble(
-            d.value as string,
-            shop?.currency?.iso_code || 'GHS',
-          ),
+          value_m: sToM(d.value, shop?.currency?.iso_code),
         };
         const benRange: RangeType = {
           includes_all_products: d.applies_to === 'all_products',
@@ -483,16 +460,13 @@ const DiscountForm = ({ handleShow, id }) => {
         if (d.condition_type === 'coverage' || d.condition_type === 'count') {
           condition.value_int = d.condition_value_int;
         } else if (d.condition_type === 'value') {
-          condition.money_value = money.parseDouble(
+          condition.money_value = sToM(
             d.condition_value_money,
-            shop?.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code,
           );
         } else {
           condition.value_int = 0;
-          condition.money_value = money.parseDouble(
-            '0.00',
-            shop?.currency?.iso_code || 'GHS',
-          );
+          condition.money_value = sToM(0.0, shop?.currency?.iso_code);
         }
         disc.condition = condition;
 
@@ -521,16 +495,13 @@ const DiscountForm = ({ handleShow, id }) => {
         if (d.condition_type === 'coverage' || d.condition_type === 'count') {
           condition.value_int = d.condition_value_int;
         } else if (d.condition_type === 'value') {
-          condition.money_value = money.parseDouble(
+          condition.money_value = sToM(
             d.condition_value_money,
-            shop?.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code,
           );
         } else {
           condition.value_int = 0;
-          condition.money_value = money.parseDouble(
-            '0.00',
-            shop?.currency?.iso_code || 'GHS',
-          );
+          condition.money_value = sToM(0.0, shop?.currency?.iso_code);
         }
         disc.condition = condition;
 
@@ -557,26 +528,20 @@ const DiscountForm = ({ handleShow, id }) => {
         if (d.condition_type === 'coverage' || d.condition_type === 'count') {
           condition.value_int = d.condition_value_int;
         } else if (d.condition_type === 'value') {
-          condition.money_value = money.parseDouble(
+          condition.money_value = sToM(
             d.condition_value_money,
-            shop?.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code,
           );
         } else {
           condition.value_int = 0;
-          condition.money_value = money.parseDouble(
-            '0.00',
-            shop?.currency?.iso_code || 'GHS',
-          );
+          condition.money_value = sToM(0.0, shop?.currency?.iso_code);
         }
         disc.condition = condition;
 
         // benefit construction
         const benefit: BenefitType = {
           benefit_type: d.incentive_type,
-          value_m: money.parseDouble(
-            d.value as string,
-            shop?.currency?.iso_code || 'GHS',
-          ),
+          value_m: sToM(d.value, shop?.currency?.iso_code),
         };
         const benRange: RangeType = {
           includes_all_products: d.applies_to === 'all_products',
@@ -601,16 +566,13 @@ const DiscountForm = ({ handleShow, id }) => {
         ) {
           condition.value_int = d.buy_x_get_y_condition_value as number;
         } else if (d.buy_x_get_y_condition_type === 'value') {
-          condition.money_value = money.parseDouble(
-            d.buy_x_get_y_condition_value as string,
-            shop?.currency?.iso_code || 'GHS',
+          condition.money_value = sToM(
+            d.buy_x_get_y_condition_value,
+            shop?.currency?.iso_code,
           );
         } else {
           condition.value_int = 0;
-          condition.money_value = money.parseDouble(
-            '0.00',
-            shop?.currency?.iso_code || 'GHS',
-          );
+          condition.money_value = sToM(0.0, shop?.currency?.iso_code);
         }
         const condRange: RangeType = {
           includes_all_products: false,
@@ -631,9 +593,9 @@ const DiscountForm = ({ handleShow, id }) => {
           benefit_type: d.buy_x_get_y_discounted_value_type,
         };
         if (d.buy_x_get_y_discounted_value_type === 'fixed_discount') {
-          benefit.value_m = money.parseDouble(
+          benefit.value_m = sToM(
             d.buy_x_get_y_discounted_value,
-            shop?.currency?.iso_code || 'GHS',
+            shop?.currency?.iso_code,
           );
         } else if (d.buy_x_get_y_discounted_value_type === 'percentage') {
           benefit.value_i = parseInt(d.buy_x_get_y_discounted_value);

@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';
 import Select from 'react-select';
-import { AsyncPaginate } from 'react-select-async-paginate';
 import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
 import Tus from '@uppy/tus';
@@ -38,18 +37,18 @@ import {
   ProductType,
 } from 'app/models/product/product-type';
 import { InventoryType } from 'app/models/inventory/inventory-type';
-import money from 'app/utils/money';
 import slugify from 'slugify';
-import {
-  loadCollectionsAsOptions,
-  loadProductTypesAsOptions,
-  loadTagsAsOptions,
-} from 'app/services/options-loaders';
+// import {
+//   loadCollectionsAsOptions,
+//   loadProductTypesAsOptions,
+//   loadTagsAsOptions,
+// } from 'app/services/options-loaders';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import { locationsAtom } from 'store/location';
+import { sToM } from 'app/utils/money';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -200,18 +199,9 @@ const ProductForm = ({ handleShow, id }) => {
           // TODO: centreId && centreSku should be replaced with correct on
           centre_id: id,
           centre_sku: slugify(d.title),
-          cost_per_item: money.parseDouble(
-            d.cost_per_item,
-            shop?.currency?.iso_code || defaultCurrency,
-          ),
-          price_excl_tax: money.parseDouble(
-            d.price,
-            shop?.currency?.iso_code || defaultCurrency,
-          ),
-          compare_at_price: money.parseDouble(
-            d.compare_at_price,
-            shop?.currency?.iso_code || defaultCurrency,
-          ),
+          cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
+          price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
+          compare_at_price: sToM(d.compare_at_price, shop?.currency?.iso_code),
           unlimited: d.unlimited,
           track_quantity: d.track_quantity,
           taxable: false,
@@ -387,9 +377,9 @@ const ProductForm = ({ handleShow, id }) => {
     (index: number, newValue: string) => {
       const variants = values.variants;
       const va = values.variants[index];
-      va.stock_records![0].price_excl_tax = money.parseDouble(
+      va.stock_records![0].price_excl_tax = sToM(
         newValue,
-        shop?.currency?.iso_code || defaultCurrency,
+        shop?.currency?.iso_code,
       );
       variants[index] = va;
       setFieldValue('variants', variants);
@@ -454,17 +444,11 @@ const ProductForm = ({ handleShow, id }) => {
           // TODO: centreId && centreSku should be replaced with correct on
           centre_id: centreId,
           centre_sku: slugify(t),
-          cost_per_item: money.parseDouble(
-            values.cost_per_item,
-            shop?.currency?.iso_code || defaultCurrency,
-          ),
-          price_excl_tax: money.parseDouble(
-            values.price,
-            shop?.currency?.iso_code || defaultCurrency,
-          ),
-          compare_at_price: money.parseDouble(
+          cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
+          price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
+          compare_at_price: sToM(
             values.compare_at_price,
-            shop?.currency?.iso_code || defaultCurrency,
+            shop?.currency?.iso_code,
           ),
           unlimited: values.unlimited,
           track_quantity: values.track_quantity,
@@ -586,7 +570,7 @@ const ProductForm = ({ handleShow, id }) => {
                           >
                             Product Type
                           </label>
-                          <AsyncPaginate
+                          {/* <AsyncPaginate
                             // SelectComponent={Creatable}
                             menuPortalTarget={document.body}
                             isSearchable
@@ -606,7 +590,7 @@ const ProductForm = ({ handleShow, id }) => {
                             }}
                             className="w-full"
                             // cacheUniqs={[cacheUniq]}
-                          />
+                          /> */}
                         </div>
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -638,7 +622,7 @@ const ProductForm = ({ handleShow, id }) => {
                           >
                             Collections
                           </label>
-                          <AsyncPaginate
+                          {/* <AsyncPaginate
                             // id="collections"
                             // name="collections"
                             value={values.collections}
@@ -667,7 +651,7 @@ const ProductForm = ({ handleShow, id }) => {
                             }}
                             className="w-full"
                             // cacheUniqs={[cacheUniq]}
-                          />
+                          /> */}
                         </div>
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -678,7 +662,7 @@ const ProductForm = ({ handleShow, id }) => {
                           >
                             Tags
                           </label>
-                          <AsyncPaginate
+                          {/* <AsyncPaginate
                             id="tags"
                             name="tags"
                             closeMenuOnSelect={true}
@@ -704,7 +688,7 @@ const ProductForm = ({ handleShow, id }) => {
                             }}
                             className="w-full"
                             // cacheUniqs={[cacheUniq]}
-                          />
+                          /> */}
                         </div>
                       </div>
                     </section>

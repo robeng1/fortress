@@ -3,11 +3,11 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'app/endpoints/urls';
 
 import { Loader } from 'app/components/Loader';
-import money from 'app/utils/money';
 import { OrderStatusType, OrderType } from 'app/models/order/order-type';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
+import { mToSFormatted, mToCurrency, formatCurrency } from 'app/utils/money';
 
 export default function Order({ handleShow, id }) {
   const queryClient = useQueryClient();
@@ -186,11 +186,11 @@ export default function Order({ handleShow, id }) {
                           </div>
                           <div className="flex gap-x-5 md:gap-28 md:self-center self-start pl-2">
                             <div className="font-medium text-green-900 text-sm">
-                              {money.toString(line.unit_price_incl_tax)} x{' '}
+                              {mToSFormatted(line.unit_price_incl_tax)} x{' '}
                               {line.quantity}
                             </div>
                             <div className="font-medium text-green-900 text-sm">
-                              {money.toString(line.line_price_incl_tax!)}
+                              {mToSFormatted(line.line_price_incl_tax!)}
                             </div>
                           </div>
                         </div>
@@ -230,7 +230,7 @@ export default function Order({ handleShow, id }) {
                     <div className="flex mt-4 mx-5 py-2 text-gray-700 text-sm">
                       <span>Subtotal</span>
                       <span className="ml-auto">
-                        {money.toString(order.total_excl_tax)}
+                        {mToSFormatted(order.total_excl_tax)}
                       </span>
                     </div>
 
@@ -238,16 +238,15 @@ export default function Order({ handleShow, id }) {
                       <span className="w-1/6">Shipping</span>
                       <span className="">Manual (0.0kg)</span>
                       <span className="ml-auto">
-                        {money.toString(order.shipping_incl_tax!)}
+                        {mToSFormatted(order.shipping_incl_tax)}
                       </span>
                     </div>
                     <div className="flex mx-5 pb-2 text-gray-700 text-sm">
                       <span className="w-1/6">Tax</span>
                       <span className="ml-auto">
-                        {money.toString(
-                          money.subtract(
-                            order.total_incl_tax!,
-                            order.total_excl_tax!,
+                        {formatCurrency(
+                          mToCurrency(order.total_incl_tax).subtract(
+                            mToCurrency(order.total_excl_tax),
                           ),
                         )}
                       </span>
@@ -255,10 +254,9 @@ export default function Order({ handleShow, id }) {
                     <div className="border-b flex font-bold mx-5 pb-2 text-gray-700 text-sm">
                       <span>Total</span>
                       <span className="ml-auto">
-                        {money.toString(
-                          money.sum(
-                            order.total_incl_tax!,
-                            order.shipping_incl_tax!,
+                        {formatCurrency(
+                          mToCurrency(order.total_incl_tax).add(
+                            mToCurrency(order.shipping_incl_tax),
                           ),
                         )}
                       </span>
@@ -267,10 +265,9 @@ export default function Order({ handleShow, id }) {
                     <div className="flex mx-5 pb-6 pt-3 text-gray-700 text-sm">
                       <span>Paid by customer</span>
                       <span className="ml-auto">
-                        {money.toString(
-                          money.sum(
-                            order.total_incl_tax,
-                            order.shipping_incl_tax,
+                        {formatCurrency(
+                          mToCurrency(order.total_incl_tax).add(
+                            mToCurrency(order.shipping_incl_tax),
                           ),
                         )}
                       </span>

@@ -3,7 +3,7 @@ import { focusHandling } from 'cruip-js-toolkit';
 import OrderItem from './OrdersTableItem';
 import OrderList from './mobile/OrderList';
 import EmptyState from 'app/partials/EmptyState';
-import money from 'app/utils/money';
+import { formatPesosMoney } from 'app/utils/money';
 
 function OrdersTable({ selectedItems, handleShow, orders }) {
   const [selectAll, setSelectAll] = useState(false);
@@ -97,7 +97,7 @@ function OrdersTable({ selectedItems, handleShow, orders }) {
                       order={order.order_id}
                       date={new Date(order.updated_at).toISOString()}
                       customer={order.customer_name}
-                      total={money.intToString(order.total_int, order.currency)}
+                      total={formatPesosMoney(order.total_int, order.currency)}
                       status={order.status}
                       location={order.location}
                       items={order.num_item}

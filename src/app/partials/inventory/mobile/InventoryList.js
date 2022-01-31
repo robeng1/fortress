@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { formatPesosMoney } from 'app/utils/money';
 import InventoryCard from './InventoryCard';
-import money from 'app/utils/money';
 export default function InventoryList({ records }) {
   return (
     <>
@@ -23,7 +23,7 @@ export default function InventoryList({ records }) {
                       // status: 'Draft',
                       variants: product.num_in_stock,
                       fav: false,
-                      price: money(
+                      price: formatPesosMoney(
                         product.price_excl_tax_int,
                         product.currency,
                       ),
