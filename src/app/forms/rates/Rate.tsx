@@ -18,7 +18,7 @@ import { sToCurrency } from 'app/utils/money';
 
 const animatedComponents = makeAnimated();
 
-interface RateType {
+export interface RateType {
   shop_id?: string;
   model?: ShippingRateModelOption;
   name?: string;
@@ -30,6 +30,8 @@ interface RateType {
   price_banded?: PriceBandedRateType;
   price_per_order_amt: string;
   price_per_weight_amt: string;
+  price_per_item_amt: string;
+  free_shipping_threshold: string;
 }
 
 function RatesForm({ handleShow, id }) {
@@ -50,11 +52,13 @@ function RatesForm({ handleShow, id }) {
     price_banded: {},
     price_per_order_amt: '0.00',
     price_per_weight_amt: '0.00',
+    price_per_item_amt: '0.00',
+    free_shipping_threshold: '0.00',
   };
 
   // create the colletion
   const {
-    mutate: createLocation,
+    mutate: createRate,
     // isLoading: isCreatingCollection,
     // isError: collectionCreationFailed,
     // error: collectionCreationError,
@@ -78,7 +82,7 @@ function RatesForm({ handleShow, id }) {
 
   // update the collection
   const {
-    mutate: updateLocation,
+    mutate: updateRate,
     // isLoading: isUpdatingCollection,
     // isError: collectionUpdateFailed,
     // error: collectionUpdateError,
@@ -106,9 +110,9 @@ function RatesForm({ handleShow, id }) {
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           if (!centreId || centreId === '') {
-            createLocation({ ...values });
+            createRate({ ...values });
           } else {
-            updateLocation({ ...values });
+            updateRate({ ...values });
           }
 
           setSubmitting(false);
@@ -271,7 +275,84 @@ function RatesForm({ handleShow, id }) {
                 </section>
               )}
               {values.model && values.model.value === 'ITEM_BASED' && (
-                <section>Render item based model form</section>
+                <>
+                  <section className="sm:flex w-full sm:items-center align-middle sm:w-1/2 items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                    <div className="w-full md:w-1/3 sm:w-full">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="price-per-order"
+                      >
+                        Price per order
+                      </label>
+                      <input
+                        id="price_per_order_amt"
+                        name="price_per_order_amt"
+                        onChange={handleChange}
+                        onBlur={event =>
+                          setFieldValue(
+                            'price_per_order_amt',
+                            sToCurrency(event.currentTarget.value).toString(),
+                          )
+                        }
+                        value={values.price_per_order_amt}
+                        className="form-input w-full"
+                        type="text"
+                        placeholder="0.00"
+                      />
+                    </div>
+                    <div className="sm:mt-3 self-center text-lg">
+                      <h1>+</h1>
+                    </div>
+                    <div className="w-full md:w-1/3 sm:w-full">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="price-per-item_amt"
+                      >
+                        Price per item
+                      </label>
+                      <input
+                        id="price_per_item_amt"
+                        name="price_per_item_amt"
+                        onChange={handleChange}
+                        onBlur={event =>
+                          setFieldValue(
+                            'price_per_item_amt',
+                            sToCurrency(event.currentTarget.value).toString(),
+                          )
+                        }
+                        value={values.price_per_item_amt}
+                        className="form-input w-full"
+                        type="text"
+                        placeholder="1.00"
+                      />
+                    </div>
+                  </section>
+                  <section>
+                    <div className="w-full md:w-1/2 sm:w-full">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="free-shipping-threshold"
+                      >
+                        Free shipping at
+                      </label>
+                      <input
+                        id="free_shipping_threshold"
+                        name="free_shipping_threshold"
+                        onChange={handleChange}
+                        onBlur={event =>
+                          setFieldValue(
+                            'free_shipping_threshold',
+                            sToCurrency(event.currentTarget.value).toString(),
+                          )
+                        }
+                        value={values.free_shipping_threshold}
+                        className="form-input w-full"
+                        type="text"
+                        placeholder="1.00"
+                      />
+                    </div>
+                  </section>
+                </>
               )}
               {values.model && values.model.value === 'WEIGHT_BANDED' && (
                 <section>Render weight banded model form</section>
