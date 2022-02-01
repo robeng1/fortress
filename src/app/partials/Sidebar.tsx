@@ -110,7 +110,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 hidden md:block last:mb-0 ${
                     pathname === '/' &&
-                    'w-full bg-gray-200  shadow-lg ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -151,7 +151,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <li
                   className={`px-3 py-2 rounded-sm hidden md:block mb-0.5 last:mb-0 ${
                     pathname.includes('orders') &&
-                    'w-full bg-gray-200  shadow-lg ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -400,7 +400,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname.includes('customers') &&
-                    'w-full bg-gray-200  shadow-lg ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -535,7 +535,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname === '/discounts' &&
-                    'w-full bg-gray-200  shadow-lg ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
@@ -721,7 +721,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 {/* <li
                   className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
                     pathname.includes('discounts') &&
-                    'w-full bg-gray-200  shadow-lg ease-out transition-transform transition-medium'
+                    'w-full bg-white  shadow-lg ease-out transition-transform transition-medium'
                   }`}
                 >
                   <NavLink
