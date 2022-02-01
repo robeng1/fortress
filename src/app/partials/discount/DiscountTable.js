@@ -10,7 +10,7 @@ export default function DiscountTable({
   return (
     <>
       {discounts.length > 0 ? (
-        <div className="border border-transparent focus:outline-none rounded shadow-lg bg-white appearance-none relative">
+        <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
           <DiscountList handleShow={handleShow} discounts={discounts} />
           <div className="md:flex flex-col hidden">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

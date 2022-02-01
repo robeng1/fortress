@@ -38,7 +38,7 @@ function OrdersTable({ selectedItems, handleShow, orders }) {
   return (
     <>
       {orders.length > 0 ? (
-        <div className="border border-transparent focus:outline-none rounded shadow-lg bg-white appearance-none relative">
+        <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
           <div>
             <OrderList handleShow={handleShow} orders={orders} />
             {/* Table */}

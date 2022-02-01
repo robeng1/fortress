@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function AnalyticsCard07({ topCities }) {
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 border border-transparent focus:outline-none rounded shadow-2xl bg-white appearance-none">
+    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 border border-transparent focus:outline-none rounded shadow-lg bg-white appearance-none">
       <header className="px-5 py-4 border-b border-gray-100">
         <h2 className="font-semibold text-gray-800">Top Locations</h2>
       </header>

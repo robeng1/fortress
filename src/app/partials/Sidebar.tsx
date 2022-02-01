@@ -56,7 +56,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <div className="block">
         {/* Sidebar backdrop (mobile only) */}
         <div
-          className={`fixed inset-0 bg-gray-100 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
+          className={`fixed inset-0 bg-gray-300 bg-opacity-30 blur-md z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
             sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           aria-hidden="true"
@@ -66,7 +66,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         <div
           id="sidebar"
           ref={sidebar}
-          className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-gray-100 p-4 transition-all duration-100 ease-in-out ${
+          className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-white p-4 transition-all duration-100 ease-in-out ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-64'
           }`}
         >
@@ -318,7 +318,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                                // enable-background="new 0 0 48 48"
+                                enable-background="new 0 0 48 48"
                                 height="20px"
                                 viewBox="0 0 48 48"
                                 width="20px"

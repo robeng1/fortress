@@ -36,7 +36,7 @@ function ProductsTable({ selectedItems, handleShow, products }) {
   return (
     <>
       {products.length > 0 ? (
-        <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
+        <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
           <ProductList handleShow={handleShow} products={products} />
           <div className="hidden md:block">
             {/* Table */}
