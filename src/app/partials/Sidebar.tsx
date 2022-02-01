@@ -138,7 +138,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </g>
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname === '/' && '!text-purple-500'
                         }`}
                       >
@@ -177,7 +177,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname.includes('orders') && '!text-purple-500'
                         }`}
                       >
@@ -208,7 +208,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             <div className="flex items-center ali">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="flex-shrink-0 h-4 w-4"
+                                className="flex-shrink-0 h-4"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
                               >
@@ -225,7 +225,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </div>
                             {/* Icon */}
-                            {/* <div className="flex flex-shrink-0 ml-2">
+                            {/* <div className="flex flex-shrink-0 ml-3">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   className="h-5 w-5 text-gray-500"
@@ -249,7 +249,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('products') &&
                                     '!text-purple-500'
                                   }`}
@@ -264,7 +264,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('inventory') &&
                                     '!text-purple-500'
                                   }`}
@@ -279,12 +279,128 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('collections') &&
                                     '!text-purple-500'
                                   }`}
                                 >
                                   Collections
+                                </span>
+                              </NavLink>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  }}
+                </SidebarLinkGroup>
+                <SidebarLinkGroup
+                  activecondition={pathname.includes('finance')}
+                >
+                  {(handleClick, open) => {
+                    return (
+                      <div>
+                        <a
+                          href="#0"
+                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                            pathname.includes('products') &&
+                            'hover:text-gray-900'
+                          }`}
+                          onClick={e => {
+                            e.preventDefault();
+                            sidebarExpanded
+                              ? handleClick()
+                              : setSidebarExpanded(true);
+                          }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlnsXlink="http://www.w3.org/1999/xlink"
+                                // enable-background="new 0 0 48 48"
+                                height="20px"
+                                viewBox="0 0 48 48"
+                                width="20px"
+                                xmlSpace="preserve"
+                                fill="currentColor"
+                              >
+                                <path
+                                  className={`fill-current text-gray-900 ${
+                                    pathname.includes('finances') &&
+                                    'text-purple-300'
+                                  }`}
+                                  clip-rule="evenodd"
+                                  d="M43,40H5c-2.209,0-4-1.791-4-4V12c0-2.209,1.791-4,4-4h38c2.209,0,4,1.791,4,4v24  C47,38.209,45.209,40,43,40z M3,21h42v-4H3V21z M45,12c0-1.104-0.896-2-2-2H5c-1.104,0-2,0.896-2,2v3h42V12z M45,23H3v13  c0,1.104,0.896,2,2,2h38c1.104,0,2-0.896,2-2V23z M26,29h-4c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h4c0.553,0,1,0.448,1,1  C27,28.553,26.553,29,26,29z M17,29H8c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h9c0.553,0,1,0.448,1,1C18,28.553,17.553,29,17,29z   M8,32h6c0.553,0,1,0.448,1,1c0,0.553-0.447,1-1,1H8c-0.553,0-1-0.447-1-1C7,32.448,7.447,32,8,32z"
+                                  fill-rule="evenodd"
+                                />
+                              </svg>
+                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                Finances
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                        <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                to="/finances/overview"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                              >
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('finances/overview') &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
+                                  Overview
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                to="/finances/transactions"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                              >
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes(
+                                      'finances/transactions',
+                                    ) && '!text-purple-500'
+                                  }`}
+                                >
+                                  Transactions
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                to="/finances/payouts"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                              >
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('finances/payouts') &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
+                                  Payouts
+                                </span>
+                              </NavLink>
+                            </li>
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                to="/finances/billing"
+                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                              >
+                                <span
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes('finances/billing') &&
+                                    '!text-purple-500'
+                                  }`}
+                                >
+                                  Billing
                                 </span>
                               </NavLink>
                             </li>
@@ -324,7 +440,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname.includes('customers') && '!text-purple-500'
                         }`}
                       >
@@ -384,7 +500,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Dashboards
                                 </span>
                               </NavLink>
@@ -396,7 +512,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Insights
                                 </span>
                               </NavLink>
@@ -408,7 +524,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Reports
                                 </span>
                               </NavLink>
@@ -420,7 +536,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Live View
                                 </span>
                               </NavLink>
@@ -490,7 +606,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname === '/discounts' && '!text-purple-500'
                         }`}
                       >
@@ -582,7 +698,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   All discounts
                                 </span>
                               </NavLink>
@@ -594,7 +710,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Codes
                                 </span>
                               </NavLink>
@@ -606,7 +722,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Vouchers
                                 </span>
                               </NavLink>
@@ -677,7 +793,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname.includes('discounts') && '!text-purple-500'
                         }`}
                       >
@@ -733,11 +849,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   d="M15 12L8 6v5H0v2h8v5z"
                                 />
                               </svg>
-                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Channels
                               </span>
                             </div>
-                            <div className="flex flex-shrink-0 ml-2">
+                            <div className="flex flex-shrink-0 ml-3">
                               <svg
                                 className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
                                   open && 'transform rotate-180'
@@ -757,7 +873,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/signin"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Facebook
                                 </span>
                               </NavLink>
@@ -768,7 +884,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/signup"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Facebook Shop
                                 </span>
                               </NavLink>
@@ -779,7 +895,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/signin"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   WhatsApp
                                 </span>
                               </NavLink>
@@ -790,7 +906,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Instagram
                                 </span>
                               </NavLink>
@@ -802,7 +918,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   TikTok
                                 </span>
                               </NavLink>
@@ -813,7 +929,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Point of Sale
                                 </span>
                               </NavLink>
@@ -824,7 +940,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/reset-password"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Twitter Business
                                 </span>
                               </NavLink>
@@ -835,7 +951,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 to="/signin"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Buy Button
                                 </span>
                               </NavLink>
@@ -846,7 +962,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     );
                   }}
                 </SidebarLinkGroup> */}
-                {/* Online Store */}
+                {/*  Store */}
                 <div>
                   <SidebarLinkGroup
                     activecondition={pathname.includes('store')}
@@ -886,12 +1002,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   />
                                   <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                                 </svg>
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                  Online Store
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Store
                                 </span>
                               </div>
 
-                              <div className="flex flex-shrink-0 ml-2">
+                              <div className="flex flex-shrink-0 ml-3">
                                 <svg
                                   className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
                                     open && 'transform rotate-180'
@@ -911,7 +1027,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 >
                                   <span
-                                    className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
                                       ${
                                         pathname === '/store/themes' &&
                                         '!text-purple-500'
@@ -927,7 +1043,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 >
                                   <span
-                                    className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
                                       ${
                                         pathname === '/store/domains' &&
                                         '!text-purple-500'
@@ -998,12 +1114,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   clipRule="evenodd"
                                 />
                               </svg>
-                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Settings
                               </span>
                             </div>
                             {/* Icon */}
-                            <div className="flex flex-shrink-0 ml-2">
+                            <div className="flex flex-shrink-0 ml-3">
                               <svg
                                 className={`w-3 h-3 flex-shrink-0 ml-1 fill-current text-gray-400 ${
                                   open && 'transform rotate-180'
@@ -1023,7 +1139,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname === '/settings/account' &&
                                     '!text-purple-500'
                                   }`}
@@ -1038,7 +1154,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname === '/settings/payments' &&
                                     '!text-purple-500'
                                   }`}
@@ -1053,7 +1169,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname === '/settings/locations' &&
                                     '!text-purple-500'
                                   }`}
@@ -1068,7 +1184,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname === '/settings/shipping' &&
                                     '!text-purple-500'
                                   }`}
@@ -1083,7 +1199,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname === '/settings/policies' &&
                                     '!text-purple-500'
                                   }`}
@@ -1099,7 +1215,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Sales Channels
                                 </span>
                               </NavLink>
@@ -1111,7 +1227,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                                 
                               >
-                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Give Feedback
                                 </span>
                               </NavLink>
