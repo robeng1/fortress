@@ -766,22 +766,12 @@ const DiscountForm = ({ handleShow, id }) => {
   const collectionOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/option-search`;
   const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
 
-  // returns the query string for browsing products to be added to a range
-  const productQueryString = (value: string): string => {
-    let query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
-    if (value && value !== '') {
-      query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' AND TEXT_MATCH(search_col, '${value}') LIMIT 15`;
-    }
-    return query;
+  const productQueryComposer = (term: string): Record<string, any> => {
+    return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };
   };
 
-  // returns the query string for browsing collection to be added to a range
-  const collectionQueryString = (value: string): string => {
-    let query = `SELECT * FROM collection WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
-    if (value && value !== '') {
-      query = `SELECT * FROM collection WHERE shop_id = '${shop?.shop_id}' AND TEXT_MATCH(search_col, '${value}') LIMIT 15`;
-    }
-    return query;
+  const collectionQueryComposer = (term: string): Record<string, any> => {
+    return { limit: 15, term, shop_id: shop?.shop_id, type: 'collection' };
   };
 
   // queries to display selected products and/or collections
@@ -1396,7 +1386,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setSearchBXGYCondRangeIncludedProductsOpen
                                   }
                                   queryURL={productOptionSearchURL}
-                                  buildQuery={productQueryString}
+                                  composeQuery={productQueryComposer}
                                   matchKey="key"
                                   queryKey="products-opt-search"
                                   handleResultSelected={(items: any[]) => {
@@ -1503,7 +1493,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setSearchBXGYCondRangeIncludedCollectionsOpen
                                   }
                                   queryURL={collectionOptionSearchURL}
-                                  buildQuery={collectionQueryString}
+                                  composeQuery={collectionQueryComposer}
                                   matchKey="key"
                                   queryKey="collections-opt-search"
                                   handleResultSelected={(items: any[]) => {
@@ -1676,7 +1666,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setSearchBXGYBenRangeIncludedProductsOpen
                                   }
                                   queryURL={productOptionSearchURL}
-                                  buildQuery={productQueryString}
+                                  composeQuery={productQueryComposer}
                                   matchKey="key"
                                   queryKey="products-opt-search"
                                   handleResultSelected={(items: any[]) => {
@@ -1783,7 +1773,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setSearchBXGYBenRangeIncludedCollectionsOpen
                                   }
                                   queryURL={collectionOptionSearchURL}
-                                  buildQuery={collectionQueryString}
+                                  composeQuery={collectionQueryComposer}
                                   matchKey="key"
                                   queryKey="collections-opt-search"
                                   handleResultSelected={(items: any[]) => {
@@ -2158,7 +2148,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                         setSearchIncludedProductsOpen
                                       }
                                       queryURL={productOptionSearchURL}
-                                      buildQuery={productQueryString}
+                                      composeQuery={productQueryComposer}
                                       matchKey="key"
                                       queryKey="products-opt-search"
                                       handleResultSelected={(items: any[]) => {
@@ -2263,7 +2253,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                         setSearchIncludedCollectionsOpen
                                       }
                                       queryURL={collectionOptionSearchURL}
-                                      buildQuery={collectionQueryString}
+                                      composeQuery={collectionQueryComposer}
                                       matchKey="key"
                                       queryKey="collections-opt-search"
                                       handleResultSelected={(items: any[]) => {

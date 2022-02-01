@@ -1,12 +1,6 @@
 import { fortressURL } from 'app/endpoints/urls';
-import type { GroupBase, OptionsOrGroups } from 'react-select';
-
-export const loadCollectionsAsOptions =
-  (shopId: string) =>
-  async (
-    term: string,
-    prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
-  ) => {
+export const collectionOptions =
+  (shopId: string) => async (term: string, callback) => {
     const response = await fetch(
       `${fortressURL}/shops/${shopId}/collections/option-search`,
       {
@@ -16,19 +10,11 @@ export const loadCollectionsAsOptions =
       },
     );
     const responseJSON = await response.json();
-    let options = responseJSON.result;
-    return {
-      options: options,
-      hasMore: true,
-    };
+    callback(responseJSON.result);
   };
 
-export const loadProductsAsOptions =
-  (shop_id: string) =>
-  async (
-    term: string,
-    prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
-  ) => {
+export const productOptions =
+  (shop_id: string) => async (term: string, callback) => {
     const response = await fetch(
       `${fortressURL}/shops/${shop_id}/products/option-search`,
       {
@@ -38,17 +24,10 @@ export const loadProductsAsOptions =
       },
     );
     const responseJSON = await response.json();
-    return {
-      options: responseJSON.result,
-      hasMore: responseJSON.length >= 1,
-    };
+    callback(responseJSON.result);
   };
-export const loadDiscountsAsOptions =
-  (shop_id: string) =>
-  async (
-    term: string,
-    prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
-  ) => {
+export const discountOptions =
+  (shop_id: string) => async (term: string, callback) => {
     const response = await fetch(
       `${fortressURL}/shops/${shop_id}/discounts/option-search`,
       {
@@ -58,18 +37,11 @@ export const loadDiscountsAsOptions =
       },
     );
     const responseJSON = await response.json();
-    return {
-      options: responseJSON.result,
-      hasMore: responseJSON.length >= 1,
-    };
+    callback(responseJSON.result);
   };
 
-export const loadTagsAsOptions =
-  (shop_id: string) =>
-  async (
-    term: string,
-    prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
-  ) => {
+export const tagOptions =
+  (shop_id: string) => async (term: string, callback) => {
     const response = await fetch(
       `${fortressURL}/shops/${shop_id}/tags/option-search`,
       {
@@ -79,24 +51,15 @@ export const loadTagsAsOptions =
       },
     );
     const responseJSON = await response.json();
-    return {
-      options: responseJSON.result,
-      hasMore: responseJSON.length >= 1,
-    };
+    callback(responseJSON.result);
   };
 
-export const loadProductTypesAsOptions = async (
-  term: string,
-  prevOptions: OptionsOrGroups<unknown, GroupBase<unknown>>,
-) => {
+export const productTypeOptions = async (term: string, callback) => {
   const response = await fetch(`${fortressURL}/product-types/option-search`, {
     method: 'POST',
     body: JSON.stringify({ term }),
     headers: { 'Content-Type': 'application/json' },
   });
   const responseJSON = await response.json();
-  return {
-    options: responseJSON.result,
-    hasMore: responseJSON.length >= 1,
-  };
+  callback(responseJSON.result);
 };

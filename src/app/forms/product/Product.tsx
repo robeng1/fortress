@@ -39,17 +39,18 @@ import {
 } from 'app/models/product/product-type';
 import { InventoryType } from 'app/models/inventory/inventory-type';
 import slugify from 'slugify';
-// import {
-//   loadCollectionsAsOptions,
-//   loadProductTypesAsOptions,
-//   loadTagsAsOptions,
-// } from 'app/services/options-loaders';
+import {
+  collectionOptions,
+  productTypeOptions,
+  tagOptions,
+} from 'app/services/options-loaders';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import { locationsAtom } from 'store/location';
 import { sToM } from 'app/utils/money';
+import AsyncCreatableSelect from 'app/components/common/aync-creatable-select';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -574,14 +575,12 @@ const ProductForm = ({ handleShow, id }) => {
                           >
                             Product Type
                           </label>
-                          {/* <AsyncPaginate
-                            // SelectComponent={Creatable}
+                          <AsyncCreatableSelect
                             menuPortalTarget={document.body}
                             isSearchable
-                            // isDisabled={isAddingInProgress}
+                            cacheOptions
                             value={values.type}
-                            loadOptions={loadProductTypesAsOptions}
-                            // onCreateOption={onCreateOption}
+                            loadOptions={productTypeOptions}
                             onChange={option => setFieldValue('type', option)}
                             styles={{
                               input: base => ({
@@ -594,7 +593,7 @@ const ProductForm = ({ handleShow, id }) => {
                             }}
                             className="w-full"
                             // cacheUniqs={[cacheUniq]}
-                          /> */}
+                          />
                         </div>
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -626,24 +625,19 @@ const ProductForm = ({ handleShow, id }) => {
                           >
                             Collections
                           </label>
-                          {/* <AsyncPaginate
-                            // id="collections"
-                            // name="collections"
+                          <AsyncCreatableSelect
                             value={values.collections}
-                            // menuPortalTarget={document.body}
+                            menuPortalTarget={document.body}
                             isMulti
-                            debounceTimeout={300}
+                            cacheOptions
                             closeMenuOnSelect={false}
                             onChange={option =>
                               setFieldValue('collections', option)
                             }
                             placeholder="Select collections"
                             // isDisabled={isAddingInProgress}
-                            loadOptions={loadCollectionsAsOptions(
-                              shop?.shop_id!,
-                            )}
+                            loadOptions={collectionOptions(shop?.shop_id!)}
                             // onCreateOption={onCreateOption}
-
                             styles={{
                               input: base => ({
                                 ...base,
@@ -655,7 +649,7 @@ const ProductForm = ({ handleShow, id }) => {
                             }}
                             className="w-full"
                             // cacheUniqs={[cacheUniq]}
-                          /> */}
+                          />
                         </div>
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -666,7 +660,7 @@ const ProductForm = ({ handleShow, id }) => {
                           >
                             Tags
                           </label>
-                          {/* <AsyncPaginate
+                          <AsyncCreatableSelect
                             id="tags"
                             name="tags"
                             closeMenuOnSelect={true}
@@ -677,10 +671,7 @@ const ProductForm = ({ handleShow, id }) => {
                             menuPortalTarget={document.body}
                             isMulti
                             onChange={option => setFieldValue('tags', option)}
-                            // isDisabled={isAddingInProgress}
-                            loadOptions={loadTagsAsOptions(shop?.shop_id!)}
-                            // onCreateOption={onCreateOption}
-
+                            loadOptions={tagOptions(shop?.shop_id!)}
                             styles={{
                               input: base => ({
                                 ...base,
@@ -692,7 +683,7 @@ const ProductForm = ({ handleShow, id }) => {
                             }}
                             className="w-full"
                             // cacheUniqs={[cacheUniq]}
-                          /> */}
+                          />
                         </div>
                       </div>
                     </section>
@@ -785,7 +776,7 @@ const ProductForm = ({ handleShow, id }) => {
                           showProgressDetails={true}
                           width={'100%'}
                           theme="light"
-                          note="Images and video only, 2–6 files, up to 1 MB"
+                          note="Images and video only, 2-6 files, up to 1 MB"
                           metaFields={[
                             {
                               id: 'name',

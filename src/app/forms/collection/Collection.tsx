@@ -148,14 +148,8 @@ export default function CollectionForm({ handleShow, id }) {
       onError: (e: ResponseError) => {},
     },
   );
-
-  // returns the query string for browsing products to be added to a collection
-  const queryString = (value: string): string => {
-    let query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' LIMIT 15`;
-    if (value && value !== '') {
-      query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' AND TEXT_MATCH(search_col, '${value}') LIMIT 15`;
-    }
-    return query;
+  const compose = (term: string): Record<string, any> => {
+    return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };
   };
 
   const handleSelectedItems = (selectedItems: any[]) => {
@@ -396,7 +390,7 @@ export default function CollectionForm({ handleShow, id }) {
                                   modalOpen={searchProductsOpen}
                                   setModalOpen={setSearchProductsOpen}
                                   queryURL={`${fortressURL}/shops/${shop?.shop_id}/products/option-search`}
-                                  buildQuery={queryString}
+                                  composeQuery={compose}
                                   queryKey="products-opt-search"
                                   matchKey={matchKey}
                                   handleResultSelected={handleSelectedItems}

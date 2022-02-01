@@ -1,20 +1,9 @@
-import * as React from 'react';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import moment from 'moment';
 import { Loader } from 'app/components/Loader';
 
-import type { ReactElement } from 'react';
-import type { GroupBase } from 'react-select';
-import Creatable from 'react-select/creatable';
-import type { CreatableProps } from 'react-select/creatable';
-
-import { withAsyncPaginate } from 'react-select-async-paginate';
-import type {
-  UseAsyncPaginateParams,
-  ComponentProps,
-} from 'react-select-async-paginate';
-import { loadDiscountsAsOptions } from 'app/services/options-loaders';
+import { discountOptions } from 'app/services/options-loaders';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import { VoucherType } from 'app/models/voucher/voucher';
@@ -22,27 +11,8 @@ import { request, ResponseError } from 'utils/request';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { VoucherSetType } from 'app/models/voucher/voucherset';
 import { fortressURL } from 'app/endpoints/urls';
-type AsyncPaginateCreatableProps<
-  OptionType,
-  Group extends GroupBase<OptionType>,
-  Additional,
-  IsMulti extends boolean,
-> = CreatableProps<OptionType, IsMulti, Group> &
-  UseAsyncPaginateParams<OptionType, Group, Additional> &
-  ComponentProps<OptionType, Group, IsMulti>;
+import AsyncCreatableSelect from 'app/components/common/aync-creatable-select';
 
-type AsyncPaginateCreatableType = <
-  OptionType,
-  Group extends GroupBase<OptionType>,
-  Additional,
-  IsMulti extends boolean = false,
->(
-  props: AsyncPaginateCreatableProps<OptionType, Group, Additional, IsMulti>,
-) => ReactElement;
-
-const CreatableAsyncPaginate = withAsyncPaginate(
-  Creatable,
-) as AsyncPaginateCreatableType;
 // animated components for react select
 // const defaultCurrency = 'GHS';
 
@@ -386,7 +356,7 @@ const VoucherForm = ({ handleShow, id, codeType }) => {
                           >
                             Tags
                           </label>
-                          <CreatableAsyncPaginate
+                          <AsyncCreatableSelect
                             id="discount"
                             name="discount"
                             closeMenuOnSelect={true}
@@ -399,7 +369,7 @@ const VoucherForm = ({ handleShow, id, codeType }) => {
                               setFieldValue('discount', option)
                             }
                             // isDisabled={isAddingInProgress}
-                            loadOptions={loadDiscountsAsOptions(shop?.shop_id!)}
+                            loadOptions={discountOptions(shop?.shop_id!)}
                             // onCreateOption={onCreateOption}
 
                             // styles={{
