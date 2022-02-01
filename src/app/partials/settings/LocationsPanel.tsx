@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import LocationCard from '../locations/LocationCard';
-import LocationForm from 'app/forms/locations/Location';
+import LocationForm from 'app/forms/location/Location';
 import { useAtom } from 'jotai';
 import { locationsAtom } from 'store/location';
 

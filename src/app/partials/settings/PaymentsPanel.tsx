@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import {
@@ -35,8 +36,11 @@ function PaymentsPanel() {
     {
       onSuccess: (newCollection: Account) => {
         queryClient.invalidateQueries(['account', shop?.shop_id]);
+        toast('Payment data updated succesffully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Could not update payment data due to ' + e.message);
+      },
     },
   );
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { toast } from 'react-toastify';
 import union from 'lodash/union';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import moment from 'moment';
@@ -664,8 +665,11 @@ const DiscountForm = ({ handleShow, id }) => {
       onSuccess: (newDiscount: DiscountType) => {
         setDiscountId(newDiscount.discount_id);
         queryClient.setQueryData(['discount', discountId], newDiscount);
+        toast('Discount created successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Collection creation failed due to ' + e.message);
+      },
     },
   );
 
@@ -680,8 +684,11 @@ const DiscountForm = ({ handleShow, id }) => {
       onSuccess: (newDiscount: DiscountType) => {
         setDiscountId(newDiscount.discount_id);
         queryClient.setQueryData(['discount', discountId], newDiscount);
+        toast('Discount updated successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Discount could not be updated due to' + e.message);
+      },
     },
   );
 

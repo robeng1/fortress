@@ -13,3 +13,7 @@ export interface ItemBasedRateType {
   transit_time?: number;
   cities?: string[];
 }
+
+export interface ItemBasedRateListType {
+  rates: ItemBasedRateType[];
+}

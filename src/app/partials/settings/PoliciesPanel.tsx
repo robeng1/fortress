@@ -7,6 +7,7 @@ import { fortressURL } from 'app/endpoints/urls';
 import { ShopType } from 'app/models/settings/shop-type';
 import { accountIdAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
+import { toast } from 'react-toastify';
 
 function PoliciesPanel() {
   const queryClient = useQueryClient();
@@ -24,8 +25,11 @@ function PoliciesPanel() {
     {
       onSuccess: (newShop: ShopType) => {
         queryClient.setQueryData(['shop', accountId], newShop);
+        toast('Polices updated succesffully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Could not policies shop data due to ' + e.message);
+      },
     },
   );
 

@@ -13,3 +13,7 @@ export interface WeightBasedRateType {
   transit_time?: number;
   cities?: string[];
 }
+
+export interface WeightBasedRateListType {
+  rates: WeightBasedRateType[];
+}

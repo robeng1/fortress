@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
@@ -55,9 +56,12 @@ function RatesForm({ handleShow, rate }) {
     {
       onSuccess: (newRate: WeightBasedRateType) => {
         setRateId(newRate.rate_id);
-        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
+        queryClient.invalidateQueries(['weight-based-rates', shop?.shop_id]);
+        toast('Rate created successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Rate creation failed due to ' + e.message);
+      },
     },
   );
 
@@ -76,9 +80,12 @@ function RatesForm({ handleShow, rate }) {
     {
       onSuccess: (newRate: WeightBasedRateType) => {
         setRateId(newRate.rate_id);
-        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
+        queryClient.invalidateQueries(['weight-based-rates', shop?.shop_id]);
+        toast('Rate created successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Rate creation failed due to ' + e.message);
+      },
     },
   );
 
@@ -97,9 +104,12 @@ function RatesForm({ handleShow, rate }) {
     {
       onSuccess: (newRate: ItemBasedRateType) => {
         setRateId(newRate.rate_id);
-        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
+        queryClient.invalidateQueries(['item-based-rates', shop?.shop_id]);
+        toast('Rate created successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Rate creation failed due to ' + e.message);
+      },
     },
   );
 
@@ -118,9 +128,12 @@ function RatesForm({ handleShow, rate }) {
     {
       onSuccess: (newRate: ItemBasedRateType) => {
         setRateId(newRate.rate_id);
-        queryClient.setQueryData(['rate', newRate.rate_id], newRate);
+        queryClient.invalidateQueries(['item-based-rates', shop?.shop_id]);
+        toast('Rate created successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Rate creation failed due to ' + e.message);
+      },
     },
   );
 

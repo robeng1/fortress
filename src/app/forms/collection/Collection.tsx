@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
@@ -76,8 +77,11 @@ export default function CollectionForm({ handleShow, id }) {
       onSuccess: (newCollection: CollectionType) => {
         setCollectionId(newCollection.collection_id);
         queryClient.setQueryData(['collection', collectionId], newCollection);
+        toast('Collection created successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Collection creation failed due to ' + e.message);
+      },
     },
   );
 
@@ -92,8 +96,11 @@ export default function CollectionForm({ handleShow, id }) {
       onSuccess: (newCollection: CollectionType) => {
         setCollectionId(newCollection.collection_id);
         queryClient.setQueryData(['collection', collectionId], newCollection);
+        toast('Collection updated successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Collection could not be updated due to ' + e.message);
+      },
     },
   );
 

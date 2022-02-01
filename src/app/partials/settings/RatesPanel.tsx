@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-// import isEmpty from 'lodash/isEmpty';
-// import LocationCard from '../locations/LocationCard';
+import isEmpty from 'lodash/isEmpty';
 import RateForm from 'app/forms/rates/Rate';
-// import { useAtom } from 'jotai';
+import RateCard from '../shipping/RateCard';
+import { useAtom } from 'jotai';
+import { ratesAtom } from 'store/shipping-rates';
 
 function RatesPanel() {
+  const [rates] = useAtom(ratesAtom);
   const [showRateForm, setShowRateForm] = useState(false);
-  // const [currentlyBeingEditedRateId, setCurrentlyBeingEditedRateId] = useState<
-  //   string | undefined
-  // >();
 
   const handleShow = (show: boolean, id?: string) => {
-    // setCurrentlyBeingEditedRateId(id);
     setShowRateForm(show);
   };
   return (
@@ -35,6 +33,15 @@ function RatesPanel() {
           <div className="text-sm">
             Rates to charge your customers at checkout
           </div>
+          {!isEmpty(rates) ? (
+            <section>
+              {(rates || []).map((rate, index) => (
+                <RateCard key={index} rate={rate} handleShow={handleShow} />
+              ))}
+            </section>
+          ) : (
+            'No shipping rates to show'
+          )}
         </div>
       )}
     </div>

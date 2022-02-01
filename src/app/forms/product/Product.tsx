@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';
@@ -228,8 +229,11 @@ const ProductForm = ({ handleShow, id }) => {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
         queryClient.setQueryData(['product', productId], newProduct);
+        toast('Product created successfully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Product creation failed due to ' + e.message);
+      },
     },
   );
 

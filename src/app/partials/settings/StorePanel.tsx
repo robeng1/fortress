@@ -15,6 +15,7 @@ import { ShopType } from 'app/models/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'app/endpoints/urls';
 import { accountIdAtom } from 'store/authorization-atom';
+import { toast } from 'react-toastify';
 
 const DropTarget = require('@uppy/drop-target');
 
@@ -53,8 +54,11 @@ function StorePanel() {
     {
       onSuccess: (newShop: ShopType) => {
         queryClient.setQueryData(['shop', accountId], newShop);
+        toast('Shop data updated succesffully');
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast('Could not update shop data due to ' + e.message);
+      },
     },
   );
 
