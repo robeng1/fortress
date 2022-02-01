@@ -389,21 +389,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 </span>
                               </NavLink>
                             </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                to="/finances/billing"
-                                className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                              >
-                                <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
-                                    pathname.includes('finances/billing') &&
-                                    '!text-purple-500'
-                                  }`}
-                                >
-                                  Billing
-                                </span>
-                              </NavLink>
-                            </li>
                           </ul>
                         </div>
                       </div>
@@ -1002,7 +987,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   />
                                   <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                                 </svg>
-                                <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                   Store
                                 </span>
                               </div>
@@ -1021,22 +1006,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </a>
                           <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                             <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
-                              <li className="mb-1 last:mb-0">
-                                <NavLink
-                                  to="/store/themes"
-                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
-                                >
-                                  <span
-                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
-                                      ${
-                                        pathname === '/store/themes' &&
-                                        '!text-purple-500'
-                                      }`}
-                                  >
-                                    Themes
-                                  </span>
-                                </NavLink>
-                              </li>
                               <li className="mb-1 last:mb-0">
                                 <NavLink
                                   to="/store/domains"
@@ -1114,7 +1083,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   clipRule="evenodd"
                                 />
                               </svg>
-                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Settings
                               </span>
                             </div>
@@ -1132,7 +1101,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           </div>
                         </a>
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                          <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
+                          <ul className={`pl-5 px-3 mt-1 ${!open && 'hidden'}`}>
                             <li className="mb-1 last:mb-0">
                               <NavLink
                                 to="/settings/account"
@@ -1189,7 +1158,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                     '!text-purple-500'
                                   }`}
                                 >
-                                  Fees
+                                  Shipping
                                 </span>
                               </NavLink>
                             </li>

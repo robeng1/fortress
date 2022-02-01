@@ -1,4 +1,3 @@
-import money from 'app/utils/money';
 import { formatPesosMoney } from 'app/utils/money';
 import * as React from 'react';
 export default function OrderCard({ handleShow, order }) {
