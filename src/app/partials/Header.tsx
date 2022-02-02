@@ -20,11 +20,6 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
     >
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between md:justify-between h-14 -mb-px">
-          {/* <div className="hidden md:block">
-            <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
-              {location}
-            </h1>
-          </div> */}
           {/* Header: Left side */}
           <div className="flex justify-between">
             {/* Hamburger button */}
@@ -45,6 +40,11 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
                 <rect x="4" y="17" width="16" height="2" />
               </svg>
             </button>
+          </div>
+          <div className="md:hidden">
+            <h1 className="text-sm md:text-3xl text-gray-800 font-bold">
+              {location}
+            </h1>
           </div>
 
           {/* Header: Right side */}

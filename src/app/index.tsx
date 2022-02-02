@@ -33,6 +33,8 @@ import Policies from 'app/pages/settings/Policies';
 // import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import { RequireAuth } from './components/ProtectedRoutes';
+import Transactions from './pages/transactions/Transaction';
+import Payouts from './pages/payouts/Payout';
 
 // const Locations = lazy(() => import('app/pages/settings/Locations'));
 const Signup = lazy(() => import('app/pages/Signup'));
@@ -109,6 +111,22 @@ export function App() {
           element={
             <RequireAuth path="/shop/inventory">
               <Inventory />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/finances/transactions"
+          element={
+            <RequireAuth path="/finances/transactions">
+              <Transactions />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/finances/payouts"
+          element={
+            <RequireAuth path="/finances/payouts">
+              <Payouts />
             </RequireAuth>
           }
         />

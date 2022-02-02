@@ -1,5 +1,6 @@
 const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 function withOpacity(variableName) {
   return ({ opacityValue }) => {
@@ -234,6 +235,7 @@ module.exports = {
       },
       screens: {
         xs: '480px',
+        ...defaultTheme.screens,
       },
       borderWidth: {
         3: '3px',

@@ -50,7 +50,7 @@ import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import { locationsAtom } from 'store/location';
 import { sToM } from 'app/utils/money';
-import AsyncCreatableSelect from 'app/components/common/aync-creatable-select';
+import AsyncCreatableSelect from 'react-select/async-creatable';
 
 // animated components for react select
 const animatedComponents = makeAnimated();

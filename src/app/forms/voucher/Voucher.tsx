@@ -11,7 +11,7 @@ import { request, ResponseError } from 'utils/request';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { VoucherSetType } from 'app/models/voucher/voucherset';
 import { fortressURL } from 'app/endpoints/urls';
-import AsyncCreatableSelect from 'app/components/common/aync-creatable-select';
+import AsyncCreatableSelect from 'react-select/async-creatable';
 
 // animated components for react select
 // const defaultCurrency = 'GHS';
