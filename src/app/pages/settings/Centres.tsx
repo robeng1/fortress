@@ -20,7 +20,7 @@ function Locations() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={undefined}
+          location={'Locations'}
         />
 
         <main>

@@ -20,7 +20,7 @@ function Rates() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={undefined}
+          location={'Shipping'}
         />
 
         <main>

@@ -42,7 +42,7 @@ function Analytics() {
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
         <Header
-          location={'analytics'}
+          location={'Analytics'}
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />

@@ -20,7 +20,7 @@ function SalesChannels() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={undefined}
+          location={'Legal'}
         />
 
         <main>

@@ -19,7 +19,7 @@ function Settings() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={undefined}
+          location={'Settings'}
         />
 
         <main>

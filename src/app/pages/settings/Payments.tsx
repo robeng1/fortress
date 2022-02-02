@@ -20,7 +20,7 @@ function Payments() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={undefined}
+          location={'Payment'}
         />
 
         <main>

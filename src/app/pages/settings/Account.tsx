@@ -20,7 +20,7 @@ function Account() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={undefined}
+          location={'Account'}
         />
 
         <main>
