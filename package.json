@@ -133,7 +133,7 @@
     "yup": "0.32.11"
   },
   "scripts": {
-    "start": "TAILWIND_MODE=watch craco --openssl-legacy-provider start",
+    "start": "TAILWIND_MODE=watch craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
