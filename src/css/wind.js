@@ -12,7 +12,7 @@ function withOpacity(variableName) {
   };
 }
 
-module.exports = {
+const config = {
   content: ['src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: 'class',
   enabled: true,
@@ -282,3 +282,4 @@ module.exports = {
     }),
   ],
 };
+export default config;
