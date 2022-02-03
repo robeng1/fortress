@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
@@ -8,11 +8,12 @@ import DeleteButton from 'app/partials/actions/DeleteButton';
 import DateSelect from 'app/components/DateSelect';
 import FilterButton from 'app/components/DropdownFilter';
 import SearchForm from 'app/partials/actions/SearchForm';
-import OrdersTable from 'app/partials/orders/OrdersTable';
-import Order from 'app/partials/orders/Order';
 import { fortressURL } from 'app/endpoints/urls';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
+
+const OrdersTable = lazy(() => import('app/partials/orders/OrdersTable'));
+const Order = lazy(() => import('app/partials/orders/Order'));
 
 function Orders() {
   const [shop] = useAtom(shopAtom);
@@ -87,7 +88,7 @@ function Orders() {
               </div>
 
               {/* Add member button */}
-              <button className="btn bg-purple-700 hover:bg-purple-600 text-white">
+              <button className="btn bg-blue-600 hover:bg-purple-600 text-white">
                 <svg
                   className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                   viewBox="0 0 16 16"

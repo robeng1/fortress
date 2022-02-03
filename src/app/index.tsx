@@ -15,10 +15,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { focusHandling } from 'cruip-js-toolkit';
 import './charts/ChartjsConfig';
 
+import Signup from 'app/pages/Signup';
+import Signin from 'app/pages/Signin';
 import { useTranslation } from 'react-i18next';
-// import Dashboard from 'app/pages/Dashboard';
 import Analytics from 'app/pages/Analytics';
-// import Customers from 'app/pages/customers/Customers';
 import Products from 'app/pages/product/Products';
 import Inventory from 'app/pages/inventory/Inventory';
 import Discounts from 'app/pages/discount/Discounts';
@@ -29,16 +29,12 @@ import Payments from 'app/pages/settings/Payments';
 import Locations from 'app/pages/settings/Centres';
 import Rates from 'app/pages/settings/Rates';
 import Policies from 'app/pages/settings/Policies';
-// import SalesChannels from 'app/pages/settings/SalesChannels';
-// import Feedback from 'app/pages/settings/Feedback';
 import PageNotFound from 'app/pages/utility/PageNotFound';
 import { RequireAuth } from './components/ProtectedRoutes';
 import Transactions from './pages/transactions/Transaction';
 import Payouts from './pages/payouts/Payout';
+import Balance from './pages/balance/Balance';
 
-// const Locations = lazy(() => import('app/pages/settings/Locations'));
-const Signup = lazy(() => import('app/pages/Signup'));
-const Signin = lazy(() => import('app/pages/Signin'));
 const ResetPassword = lazy(() => import('app/pages/ResetPassword'));
 
 export function App() {
@@ -111,6 +107,14 @@ export function App() {
           element={
             <RequireAuth path="/shop/inventory">
               <Inventory />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/finances/balance"
+          element={
+            <RequireAuth path="/finances/balance">
+              <Balance />
             </RequireAuth>
           }
         />

@@ -1,17 +1,18 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
-// import DeleteButton from 'app/partials/actions/DeleteButton';
-// import DateSelect from 'app/components/DateSelect';
 import FilterButton from 'app/components/DropdownFilter';
-import InventoryTable from 'app/partials/inventory/InventoryTable';
 import SearchForm from 'app/partials/actions/SearchForm';
 import { fortressURL } from 'app/endpoints/urls';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
+
+const InventoryTable = lazy(
+  () => import('app/partials/inventory/InventoryTable'),
+);
 
 function Inventories() {
   const [shop] = useAtom(shopAtom);

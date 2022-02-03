@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'app/components/BottomNav';
@@ -6,11 +6,12 @@ import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SearchForm from 'app/partials/actions/SearchForm';
 import FilterButton from 'app/components/DropdownFilter';
-import DiscountTable from 'app/partials/discount/DiscountTable';
-import DiscountForm from 'app/forms/discount/Discount';
 import { fortressURL } from 'app/endpoints/urls';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
+
+const DiscountTable = lazy(() => import('app/partials/discount/DiscountTable'));
+const DiscountForm = lazy(() => import('app/forms/discount/Discount'));
 
 function Discounts() {
   const [shop] = useAtom(shopAtom);
@@ -55,7 +56,7 @@ function Discounts() {
       <main>
         <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
           {/* Page header */}
-          <div className="sm:flex sm:justify-start sm:items-center mb-8">
+          <div className="sm:flex justify-between sm:items-center mb-8">
             {/* Left: Title */}
             <div className="mb-4 sm:mb-0">
               <div className="m-1.5">
@@ -81,9 +82,6 @@ function Discounts() {
                 </button>
               </div>
             </div>
-            {/* <div className="mb-0 sm:mb-0">
-              <h2>SPRINGSALE</h2>
-            </div> */}
           </div>
 
           {/* Form */}
@@ -111,7 +109,7 @@ function Discounts() {
                 </div>
                 <button
                   onClick={() => setShowForm(!showForm)}
-                  className="btn bg-blue-900 hover:bg-purple-600 text-white"
+                  className="btn bg-blue-600 hover:bg-purple-600 text-white"
                 >
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
@@ -162,7 +160,7 @@ function Discounts() {
           location="Discounts"
         />
         {!showForm ? renderDiscountsView() : renderFormView()}
-        <BottomNav />
+        {!showForm && <BottomNav />}
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ function EmptyState() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Add board button */}
-                <button className="btn bg-purple-500 hover:bg-purple-600 text-white">
+                <button className="btn bg-blue-600 hover:bg-purple-600 text-white">
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                     viewBox="0 0 16 16"
@@ -69,7 +69,7 @@ function EmptyState() {
                     do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua.
                   </div>
-                  <button className="btn bg-purple-500 hover:bg-purple-600 text-white">
+                  <button className="btn bg-blue-600 hover:bg-purple-600 text-white">
                     <svg
                       className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                       viewBox="0 0 16 16"

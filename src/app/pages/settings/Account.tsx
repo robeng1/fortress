@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 
-import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
-import StorePanel from 'app/partials/settings/StorePanel';
+
+const StorePanel = lazy(() => import('app/partials/settings/StorePanel'));
 
 function Account() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -35,7 +35,6 @@ function Account() {
           </div>
         </main>
       </div>
-      <BottomNav />
     </div>
   );
 }

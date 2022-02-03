@@ -35,7 +35,7 @@ function Changelog() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Add board button */}
-                <button className="btn bg-purple-500 hover:bg-purple-600 text-white">
+                <button className="btn bg-blue-600 hover:bg-purple-600 text-white">
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                     viewBox="0 0 16 16"
@@ -53,7 +53,7 @@ function Changelog() {
                 <div className="xl:pl-32 xl:-translate-x-16 mb-2">
                   <ul className="flex flex-wrap -m-1">
                     <li className="m-1">
-                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-purple-500 text-white duration-150 ease-in-out">
+                      <button className="inline-flex items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-blue-600 text-white duration-150 ease-in-out">
                         View All
                       </button>
                     </li>

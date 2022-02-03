@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 
-import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
-import PaymentPanel from 'app/partials/settings/PaymentsPanel';
+const PaymentPanel = lazy(() => import('app/partials/settings/PaymentsPanel'));
 
 function Payments() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -35,7 +34,6 @@ function Payments() {
           </div>
         </main>
       </div>
-      <BottomNav />
     </div>
   );
 }

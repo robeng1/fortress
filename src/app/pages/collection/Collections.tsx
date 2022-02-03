@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import { fortressURL } from 'app/endpoints/urls';
@@ -8,12 +8,15 @@ import Header from 'app/partials/Header';
 import DeleteButton from 'app/partials/actions/DeleteButton';
 import SearchForm from 'app/partials/actions/SearchForm';
 import FilterButton from 'app/components/DropdownFilter';
-import CollectionsTable from 'app/partials/collections/CollectionsTable';
-import CollectionForm from 'app/forms/collection/Collection';
 import BottomNav from 'app/components/BottomNav';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
+
+const CollectionsTable = lazy(
+  () => import('app/partials/collections/CollectionsTable'),
+);
+const CollectionForm = lazy(() => import('app/forms/collection/Collection'));
 
 function Collections() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -115,7 +118,7 @@ function Collections() {
                 </div>
                 <button
                   onClick={() => setShowForm(!showForm)}
-                  className="btn bg-blue-900 hover:bg-purple-600 text-white"
+                  className="btn bg-blue-600 hover:bg-purple-600 text-white"
                 >
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
@@ -170,7 +173,7 @@ function Collections() {
         />
 
         {!showForm ? renderCollectionView() : renderFormView()}
-        <BottomNav />
+        {!showForm && <BottomNav />}
       </div>
     </div>
   );

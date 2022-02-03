@@ -14,7 +14,7 @@ import { accountIdAtom } from 'store/authorization-atom';
 import { accountAtom } from 'store/payment';
 import DateSelect from 'app/components/DateSelect';
 
-function Payouts() {
+function Balance() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [shopId] = useAtom(shopIdAtom);
   const [account] = useAtom(accountAtom);
@@ -29,7 +29,7 @@ function Payouts() {
   }, ${itemsPerPage}`;
 
   const { data } = useQuery<any, ResponseError>(
-    ['payouts', page],
+    ['account-activities', page],
     async () =>
       await request(`${requestURL}/transactions`, {
         method: 'POST',
@@ -141,4 +141,4 @@ function Payouts() {
   );
 }
 
-export default Payouts;
+export default Balance;

@@ -437,7 +437,7 @@ function RatesForm({ handleShow, rate }) {
                 </div>
               </div>
             </div>
-            <footer>
+            <footer className="sticky bottom-0">
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
                   <button
@@ -451,7 +451,7 @@ function RatesForm({ handleShow, rate }) {
                       e.stopPropagation();
                       handleSubmit();
                     }}
-                    className="btn bg-blue-900 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes
                   </button>

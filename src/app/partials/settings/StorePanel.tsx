@@ -166,10 +166,10 @@ function StorePanel() {
                   <div className="store-image-upload-progress-indicator"></div>
                   <div className="mr-4 store-image-drop-area">
                     <img
-                      className="w-50 h-50"
+                      className="w-100 h-100"
                       src={image || 'https://via.placeholder.com/150'}
-                      width="80"
-                      height="80"
+                      width="150"
+                      height="150"
                       alt={shop?.business_display_name}
                     />
                     <input
@@ -186,7 +186,7 @@ function StorePanel() {
                   </div>
                   <button
                     onClick={onChangeClick}
-                    className="btn-sm bg-purple-500 hover:bg-purple-600 text-white"
+                    className="btn-sm bg-blue-600 self-start hover:bg-purple-600 text-white"
                   >
                     Change
                   </button>
@@ -442,7 +442,7 @@ function StorePanel() {
               </section>
             </div>
             {/* Panel footer */}
-            <footer>
+            <footer className="sticky bottom-0">
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
                   <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
@@ -453,7 +453,7 @@ function StorePanel() {
                       e.preventDefault();
                       handleSubmit();
                     }}
-                    className="btn bg-purple-900 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes
                   </button>

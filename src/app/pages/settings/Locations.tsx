@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 
-import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
-import LocationsPanel from 'app/partials/settings/LocationsPanel';
+
+const LocationsPanel = lazy(
+  () => import('app/partials/settings/LocationsPanel'),
+);
 
 function Locations() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -35,7 +37,6 @@ function Locations() {
           </div>
         </main>
       </div>
-      <BottomNav />
     </div>
   );
 }

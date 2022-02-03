@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-
-import BottomNav from 'app/components/BottomNav';
+import React, { lazy, useState } from 'react';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
-import RatesPanel from 'app/partials/settings/RatesPanel';
+const RatesPanel = lazy(() => import('app/partials/settings/RatesPanel'));
 
 function Rates() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -35,7 +33,6 @@ function Rates() {
           </div>
         </main>
       </div>
-      <BottomNav />
     </div>
   );
 }

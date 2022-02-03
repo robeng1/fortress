@@ -2,7 +2,6 @@
 import React, { useState, lazy, ChangeEvent } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
-import ProductForm from 'app/forms/product/Product';
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
@@ -13,6 +12,7 @@ import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 
 const ProductsTable = lazy(() => import('app/partials/products/ProductsTable'));
+const ProductForm = lazy(() => import('app/forms/product/Product'));
 
 function Products() {
   const [shop] = useAtom(shopAtom);
@@ -113,7 +113,7 @@ function Products() {
                   </div>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="btn bg-blue-900 hover:bg-indigo-600 text-white"
+                    className="btn bg-blue-600 hover:bg-indigo-600 text-white"
                   >
                     <svg
                       className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
@@ -198,7 +198,7 @@ function Products() {
           location="Products"
         />
         {!showForm ? renderView() : renderForm()}
-        <BottomNav />
+        {!showForm && <BottomNav />}
       </div>
     </div>
   );

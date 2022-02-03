@@ -501,7 +501,7 @@ const ProductForm = ({ handleShow, id }) => {
           /* and other goodies */
         }) => (
           <div>
-            <div className="flex-grow mb-6">
+            <div className="flex-grow w-full mx-auto self-center justify-center">
               <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-2">
                 <div className="md:col-span-2">
                   <section className="rounded bg-white shadow p-3">
@@ -1324,9 +1324,9 @@ const ProductForm = ({ handleShow, id }) => {
                   </section>
                 </div>
               </div>
-              <footer>
-                <div className="flex flex-col px-6 py-5 border-t border-gray-200">
-                  <div className="flex self-end md:self-center">
+              <footer className="sticky bottom-0 self-end">
+                <div className="flex flex-col py-5 border-t border-gray-200">
+                  <div className="flex self-end">
                     <button
                       onClick={() => handleShow(false, '')}
                       className="btn border-gray-200 hover:border-gray-300 text-gray-600"
@@ -1339,7 +1339,7 @@ const ProductForm = ({ handleShow, id }) => {
                         handleSubmit();
                       }}
                       type="submit"
-                      className="btn bg-purple-900 bg-opacity-100 rounded-lg  text-white ml-3"
+                      className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
                     >
                       Save Changes
                     </button>

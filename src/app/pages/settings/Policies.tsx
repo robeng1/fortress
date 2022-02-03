@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 
 import BottomNav from 'app/components/BottomNav';
 import Sidebar from 'app/partials/Sidebar';
 import Header from 'app/partials/Header';
 import SettingsSidebar from 'app/partials/settings/SettingsSidebar';
-import PoliciesPanel from 'app/partials/settings/PoliciesPanel';
+const PoliciesPanel = lazy(() => import('app/partials/settings/PoliciesPanel'));
 
 function Policies() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,7 +20,7 @@ function Policies() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={undefined}
+          location={'Legal'}
         />
 
         <main>

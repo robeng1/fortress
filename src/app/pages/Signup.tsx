@@ -182,7 +182,7 @@ function Signup() {
                 </div>
               )}
               <Button
-                className="w-full mt-3 btn bg-purple-500 hover:bg-purple-600 text-white"
+                className="w-full mt-3 btn bg-blue-600 hover:bg-purple-600 text-white"
                 loading={isLoading}
                 onClick={e => handleSubmit()}
                 disabled={isLoading}

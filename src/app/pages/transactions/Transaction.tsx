@@ -8,36 +8,33 @@ import Header from 'app/partials/Header';
 import FilterButton from 'app/components/DropdownFilter';
 import BottomNav from 'app/components/BottomNav';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
+import { shopIdAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
 import { accountIdAtom } from 'store/authorization-atom';
-import { accountAtom } from 'store/payment';
 import DateSelect from 'app/components/DateSelect';
 
 function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [shop] = useAtom(shopAtom);
-  const [account] = useAtom(accountAtom);
+  const [shopId] = useAtom(shopIdAtom);
   const [accountId] = useAtom(accountIdAtom);
-  const requestURL = `${paymentURL}/${accountId}/accounts`;
+  const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
 
   const [page, setPage] = useState(1);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const [itemsPerPage] = useState<number>(15);
+
+  const query = `SELECT * FROM transaction WHERE account_id = '${accountId}' ORDER BY created_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1
+  }, ${itemsPerPage}`;
 
   const { data } = useQuery<any, ResponseError>(
     ['transactions', page],
     async () =>
       await request(`${requestURL}/transactions`, {
         method: 'POST',
-        body: JSON.stringify({
-          offset: (page - 1) * itemsPerPage + 1,
-          limit: itemsPerPage,
-          shop_id: shop?.shop_id,
-        }),
+        body: JSON.stringify({ query }),
         headers: { 'Content-Type': 'application/json' },
       }),
-    { keepPreviousData: true, enabled: !!shop?.shop_id },
+    { keepPreviousData: true, enabled: !!accountId },
   );
 
   return (
