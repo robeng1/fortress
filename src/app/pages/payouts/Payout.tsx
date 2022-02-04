@@ -134,7 +134,6 @@ function Payouts() {
             )}
           </div>
         </main>
-
         <BottomNav />
       </div>
     </div>
