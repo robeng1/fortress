@@ -979,7 +979,7 @@ const DiscountForm = ({ handleShow, id }) => {
               /* and other goodies */
             }) => (
               <div className="flex-grow w-full mx-auto self-center justify-center">
-                <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-y-6 gap-x-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-y-6 gap-x-6">
                   <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
                     <section className="rounded bg-white shadow p-3">
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -2938,25 +2938,25 @@ const DiscountForm = ({ handleShow, id }) => {
                       </div>
                     </section>
                   </div>
-                  <footer className="sticky bottom-0">
-                    <div className="flex flex-col py-5 border-t border-gray-200">
-                      <div className="flex self-end">
-                        <button className="btn border-teal-200 hover:border-gray-300 text-gray-600">
-                          Cancel
-                        </button>
-                        <button
-                          onClick={e => {
-                            e.stopPropagation();
-                            handleSubmit();
-                          }}
-                          className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
-                        >
-                          Save Changes
-                        </button>
-                      </div>
-                    </div>
-                  </footer>
                 </div>
+                <footer className="sticky bottom-0">
+                  <div className="flex flex-col py-5 border-t border-gray-200">
+                    <div className="flex self-end">
+                      <button className="btn border-teal-200 hover:border-gray-300 text-gray-600">
+                        Cancel
+                      </button>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleSubmit();
+                        }}
+                        className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                      >
+                        Save Changes
+                      </button>
+                    </div>
+                  </div>
+                </footer>
               </div>
             )}
           </Formik>

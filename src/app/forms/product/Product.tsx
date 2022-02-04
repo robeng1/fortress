@@ -501,7 +501,7 @@ const ProductForm = ({ handleShow, id }) => {
           /* and other goodies */
         }) => (
           <div>
-            <div className="flex-grow w-full mx-auto self-center justify-center">
+            <div className="flex-grow w-full mx-auto">
               <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-2">
                 <div className="md:col-span-2">
                   <section className="rounded bg-white shadow p-3">
