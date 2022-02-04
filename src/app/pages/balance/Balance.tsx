@@ -50,16 +50,16 @@ function Balance() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location="Transactions"
+          location="Balance"
         />
 
         <main className="mb-10 md:mb-0">
           <section className="px-2 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-            <div className="container px-4 mx-auto">
+            <div className="px-4 mx-auto">
               <div className="flex flex-wrap -m-4">
                 <div className="w-full lg:w-1/2 p-4">
                   <div className="p-6 bg-white shadow rounded-lg">
-                    <div className="flex mb-3 items-center justify-between">
+                    <div className="flex mb-1 items-center justify-between">
                       <h3 className="text-gray-500">Balance</h3>
                       <button>
                         <svg
@@ -85,8 +85,8 @@ function Balance() {
                 </div>
                 <div className="w-full lg:w-1/2 p-4">
                   <div className="p-6 bg-white shadow rounded-lg">
-                    <div className="flex mb-3 items-center justify-between">
-                      <h3 className="text-gray-500">Cash flow</h3>
+                    <div className="flex mb-1 items-center justify-between">
+                      <h3 className="text-gray-500">Pending</h3>
                       <button>
                         <svg
                           className="h-4 w-4 text-gray-200"
@@ -102,16 +102,16 @@ function Balance() {
                       </button>
                     </div>
                     <div className="flex items-center mb-3">
-                      <p className="text-4xl font-bold">45.43%</p>
+                      <p className="text-4xl font-bold">$124,563.00</p>
                       <span className="inline-block ml-2 py-1 px-2 bg-blue-500 text-white text-xs rounded-full">
                         +6.9%
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="w-full lg:w-1/2 p-4">
+                {/* <div className="w-full lg:w-1/2 p-4">
                   <div className="p-6 bg-white shadow rounded-lg">
-                    <div className="flex mb-3 items-center justify-between">
+                    <div className="flex mb-1 items-center justify-between">
                       <h3 className="text-gray-500">Pending Earnings</h3>
                       <button>
                         <svg
@@ -138,7 +138,7 @@ function Balance() {
                 </div>
                 <div className="w-full lg:w-1/2 p-4">
                   <div className="p-6 bg-white shadow rounded-lg">
-                    <div className="flex mb-3 items-center justify-between">
+                    <div className="flex mb-1 items-center justify-between">
                       <h3 className="text-gray-500">Earnings</h3>
                       <button>
                         <svg
@@ -162,7 +162,7 @@ function Balance() {
                     </div>
                     <div className="chart" data-type="columns-stacked"></div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </section>
