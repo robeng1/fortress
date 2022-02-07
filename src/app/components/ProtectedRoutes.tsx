@@ -9,7 +9,7 @@ export type ProtectedRouteProps = {} & RouteProps;
 export default function ProtectedRoute({ path, ...rest }: ProtectedRouteProps) {
   const [session] = useAtom(sessionAtom);
   const isAuthenticated = !isEmpty(session);
-  if (true || isAuthenticated) {
+  if (isAuthenticated) {
     return <Route path={path} {...rest} />;
   } else {
     return <Navigate to="/signin" state={{ from: path }} />;
