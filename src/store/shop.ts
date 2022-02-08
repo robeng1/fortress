@@ -1,5 +1,5 @@
-import { fortressURL } from 'app/endpoints/urls';
-import { ShopType } from 'app/models/settings/shop-type';
+import { fortressURL } from 'endpoints/urls';
+import { ShopType } from 'models/settings/shop-type';
 import { atomWithQuery } from 'jotai/query';
 import { selectAtom } from 'jotai/utils';
 import { request, ResponseError } from 'utils/request';

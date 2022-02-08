@@ -1,15 +1,15 @@
-import { fortressURL } from 'app/endpoints/urls';
+import { fortressURL } from 'endpoints/urls';
 import { atomWithQuery } from 'jotai/query';
 import { request, ResponseError } from 'utils/request';
 import { shopIdAtom } from 'store/shop';
 import {
   WeightBasedRateListType,
   WeightBasedRateType,
-} from 'app/models/rates/weight-based-rate';
+} from 'models/rates/weight-based-rate';
 import {
   ItemBasedRateListType,
   ItemBasedRateType,
-} from 'app/models/rates/item-based-rate';
+} from 'models/rates/item-based-rate';
 import { atom } from 'jotai';
 
 type Rate = WeightBasedRateType & ItemBasedRateType;

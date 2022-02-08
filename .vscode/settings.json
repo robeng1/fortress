@@ -16,5 +16,6 @@
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cmake.configureOnOpen": false
+  "cmake.configureOnOpen": false,
+  "compile-hero.disable-compile-files-on-did-save-code": false
 }

@@ -1,5 +1,5 @@
-import { paymentURL } from 'app/endpoints/urls';
-import { Account } from 'app/models/payment/account-type';
+import { paymentURL } from 'endpoints/urls';
+import { Account } from 'models/payment/account-type';
 import { atomWithQuery } from 'jotai/query';
 import { request, ResponseError } from 'utils/request';
 import { shopIdAtom } from 'store/shop';

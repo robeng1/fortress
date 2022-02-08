@@ -1,8 +1,8 @@
-import { fortressURL } from 'app/endpoints/urls';
+import { fortressURL } from 'endpoints/urls';
 import {
   LocationListType,
   LocationType,
-} from 'app/models/inventory/inventory-type';
+} from 'models/inventory/inventory-type';
 import { atomWithQuery } from 'jotai/query';
 import { request, ResponseError } from 'utils/request';
 import { shopIdAtom } from 'store/shop';
