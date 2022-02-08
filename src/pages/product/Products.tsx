@@ -10,9 +10,8 @@ import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
-
-const ProductsTable = lazy(() => import('partials/products/ProductsTable'));
-const ProductForm = lazy(() => import('forms/product/Product'));
+import ProductsTable from 'partials/products/ProductsTable';
+import ProductForm from 'forms/product/Product';
 
 function Products() {
   const [shop] = useAtom(shopAtom);

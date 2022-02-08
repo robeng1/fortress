@@ -9,9 +9,8 @@ import FilterButton from 'components/DropdownFilter';
 import { fortressURL } from 'endpoints/urls';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
-
-const DiscountTable = lazy(() => import('partials/discount/DiscountTable'));
-const DiscountForm = lazy(() => import('forms/discount/Discount'));
+import DiscountTable from 'partials/discount/DiscountTable';
+import DiscountForm from 'forms/discount/Discount';
 
 function Discounts() {
   const [shop] = useAtom(shopAtom);

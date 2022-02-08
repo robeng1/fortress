@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import ReoplexLogo from '../images/reoplex.png';
 
 import SidebarLinkGroup from './SidebarLinkGroup';
 
@@ -92,7 +93,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             <NavLink to="/" className="block">
               <img
                 className="w-8 h-8"
-                src="../../images/reoplex.png"
+                src={ReoplexLogo}
                 width="8"
                 height="8"
                 alt="reoplex"

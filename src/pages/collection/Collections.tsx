@@ -13,10 +13,8 @@ import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
 
-const CollectionsTable = lazy(
-  () => import('partials/collections/CollectionsTable'),
-);
-const CollectionForm = lazy(() => import('forms/collection/Collection'));
+import CollectionsTable from 'partials/collections/CollectionsTable'
+import CollectionForm from 'forms/collection/Collection';
 
 function Collections() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

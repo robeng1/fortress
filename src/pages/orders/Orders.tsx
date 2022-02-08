@@ -11,9 +11,8 @@ import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
-
-const OrdersTable = lazy(() => import('partials/orders/OrdersTable'));
-const Order = lazy(() => import('partials/orders/Order'));
+import OrdersTable from 'partials/orders/OrdersTable';
+import Order from 'partials/orders/Order';
 
 function Orders() {
   const [shop] = useAtom(shopAtom);

@@ -1,1 +1,0 @@
-import{c as s,r,a as i}from"./index.e628a3e4.js";import{c as n}from"./vendor.58b0d04f.js";const a=[],m=n(e=>({queryKey:["locations",e(s)],queryFn:async({queryKey:[,o]})=>{const t=await r(`${i}/shops/${o}/centres`);return(t==null?void 0:t.stores)||a},initialData:a,keepPreviousData:!0,enabled:!!e(s)}));export{m as l};

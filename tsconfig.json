@@ -2,12 +2,11 @@
   "compilerOptions": {
     "noImplicitAny": false,
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ES6", "ES5","ES7"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["node","vite/client"],
     "allowJs": true,
-    "sourceMap": true,
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,11 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
-    "paths": {
-      "~/*": [
-        "./*"
-      ]
-    }
+    "typeRoots" : ["node_modules/@types", "src/types", "src/ts-types"]
   },
   "include": [
     "src/**/*.ts",
