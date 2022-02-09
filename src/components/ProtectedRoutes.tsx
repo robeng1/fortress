@@ -18,7 +18,7 @@ export default function ProtectedRoute({ path, ...rest }: ProtectedRouteProps) {
 
 export function RequireAuth({ children, path }) {
   const [session] = useAtom(sessionAtom);
-  const isAuthenticated = true || !isEmpty(session);
+  const isAuthenticated = !isEmpty(session);
   return isAuthenticated ? (
     children
   ) : (
