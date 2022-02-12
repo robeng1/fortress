@@ -1,6 +1,8 @@
-import { ChangeEvent, useState } from 'react';
-import { useQuery } from 'react-query';
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
+import Transition from '../../utils/transition';
+
 import { paymentURL } from 'endpoints/urls';
 
 import Sidebar from 'partials/Sidebar';
@@ -8,24 +10,62 @@ import Header from 'partials/Header';
 import FilterButton from 'components/DropdownFilter';
 import BottomNav from 'components/BottomNav';
 import { useAtom } from 'jotai';
-import { shopIdAtom } from 'store/shop';
+import { shopAtom, shopIdAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
-import { accountIdAtom } from 'store/authorization-atom';
+import { accountIdAtom} from 'store/authorization-atom';
 import { accountAtom } from 'store/payment';
 import DateSelect from 'components/DateSelect';
-import { mToSFormatted } from 'utils/money';
+import { currencyToM, mToSFormatted, sToCurrency, sToM } from 'utils/money';
+import Button from 'components/common/button';
+import { TransferKind, TransferType } from 'models/payment/transfer';
+import { toast } from 'react-toastify';
+import Input from 'components/common/input';
 
 function Balance() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [shop] = useAtom(shopAtom);
   const [shopId] = useAtom(shopIdAtom);
   const [account] = useAtom(accountAtom);
-  const [accountId] = useAtom(accountIdAtom);
-  const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
+  const [userAccountId] = useAtom(accountIdAtom);
+  const requestURL = `${paymentURL}/${shopId}/accounts/${account?.account_id}`;
+  const withdrawalURL = `${paymentURL}/${shopId}/accounts/${account?.account_id}/withdraw`;
 
   const [page, setPage] = useState(1);
   const [itemsPerPage] = useState<number>(15);
+  const [amountToWithdraw, setAmountToWithdraw] = useState<string>('0.0');
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${accountId}' ORDER BY created_at DESC LIMIT ${
+  const trigger = useRef<HTMLButtonElement>(null);
+  const dropdown = useRef<HTMLDivElement>(null);
+  const align = 'right';
+
+  // close on click outside
+  useEffect(() => {
+    const clickHandler = ({ target }) => {
+      if (!dropdown.current) return;
+      if (
+        !open ||
+        dropdown.current.contains(target) ||
+        trigger?.current?.contains(target)
+      )
+        return;
+      setOpen(false);
+    };
+    document.addEventListener('click', clickHandler);
+    return () => document.removeEventListener('click', clickHandler);
+  });
+
+  // close if the esc key is pressed
+  useEffect(() => {
+    const keyHandler = ({ keyCode }) => {
+      if (!open || keyCode !== 27) return;
+      setOpen(false);
+    };
+    document.addEventListener('keydown', keyHandler);
+    return () => document.removeEventListener('keydown', keyHandler);
+  });
+
+  const query = `SELECT * FROM transaction WHERE account_id = '${userAccountId}' ORDER BY created_at DESC LIMIT ${
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
 
@@ -37,7 +77,25 @@ function Balance() {
         body: JSON.stringify({ query }),
         headers: { 'Content-Type': 'application/json' },
       }),
-    { keepPreviousData: true, enabled: !!accountId },
+    { keepPreviousData: true, enabled: !!userAccountId },
+  );
+
+  const { mutate: makeWithdrawal } = useMutation(
+    (payload: TransferType) =>
+      request(withdrawalURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (transfer: TransferType) => {
+        // setCollectionId(newCollection.collection_id);
+        // queryClient.setQueryData(['collection', collectionId], newCollection);
+        toast('Amount succefully sent');
+      },
+      onError: (e: ResponseError) => {
+        toast('Could not process withdraw at this time due to ' + e.message);
+      },
+    },
   );
 
   return (
@@ -122,6 +180,91 @@ function Balance() {
                 <DateSelect />
                 {/* Filter button */}
                 <FilterButton align="right" />
+                <div className="relative inline-flex">
+                  <Button
+                    ref={trigger}
+                    onClick={() => setOpen(true)}
+                    size="small"
+                    aria-haspopup="true"
+                    aria-expanded={open}
+                  >
+                    Withdraw
+                  </Button>
+                  <Transition
+                    show={open}
+                    tag="div"
+                    className={`origin-top-right z-10 absolute top-full min-w-56 bg-white border border-gray-200 pt-1.5 rounded shadow-lg overflow-hidden mt-1 ${
+                      align === 'right' ? 'right-0' : 'left-0'
+                    }`}
+                    enter="transition ease-out duration-200 transform"
+                    enterStart="opacity-0 -translate-y-2"
+                    enterEnd="opacity-100 translate-y-0"
+                    leave="transition ease-out duration-200"
+                    leaveStart="opacity-100"
+                    leaveEnd="opacity-0"
+                    appear={open}
+                  >
+                    <div ref={dropdown}>
+                      <div className="align-middle">
+                        <div className="flex justify-between content-center py-3 space-x-6 px-8">
+                          <Input
+                            label={'Amount'}
+                            type="text"
+                            className="self-center block"
+                            onChange={e => setAmountToWithdraw(e.target.value)}
+                            value={amountToWithdraw}
+                            onBlur={event =>
+                              setAmountToWithdraw(
+                                sToCurrency(
+                                  event.currentTarget.value,
+                                ).toString(),
+                              )
+                            }
+                            name={'amount'}
+                          />
+                        </div>
+                      </div>
+                      <div className="py-2 px-3 border-t border-gray-200 bg-gray-50">
+                        <ul className="flex items-center justify-between">
+                          <li>
+                            <button
+                              onClick={() => setOpen(false)}
+                              className="btn-xs bg-white border-gray-200 hover:border-gray-300 text-gray-500 hover:text-gray-600"
+                            >
+                              Cancel
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="btn-xs bg-purple-500 hover:bg-purple-600 text-white"
+                              onClick={() => {
+                                const trsf: TransferType = {
+                                  transfer_kind: TransferKind.TRANSFER,
+                                  source_id: account?.account_id,
+                                  loopy: false,
+                                  authorisor_id: userAccountId,
+                                  unit_amount:
+                                    sToCurrency(amountToWithdraw).intValue,
+                                  is_system: false,
+                                  amount: currencyToM(
+                                    sToCurrency(amountToWithdraw),
+                                    shop?.currency?.iso_code,
+                                  ),
+                                  description: 'payout',
+                                };
+                                makeWithdrawal(trsf);
+                                setOpen(false);
+                              }}
+                              onBlur={() => setOpen(false)}
+                            >
+                              Withdraw
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </Transition>
+                </div>
               </div>
             </div>
 
