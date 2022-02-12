@@ -180,7 +180,14 @@ export function App() {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/reset-password" element={<ResetPassword />}></Route>
-        <Route path="*" element={<PageNotFound />}></Route>
+        <Route
+          path="*"
+          element={
+            <RequireAuth path="*">
+              <PageNotFound />
+            </RequireAuth>
+          }
+        ></Route>
       </Routes>
     </>
   );

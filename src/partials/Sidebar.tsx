@@ -1018,7 +1018,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                             <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                               <li
-                                className={`py-2 rounded-sm mb-0.5 last:mb-0 ${
+                                className={`py-2 rounded-sm mb-0.5 last:mb-0 disabled ${
                                   pathname.includes('domains') && 'bg-gray-200'
                                 }`}
                               >
@@ -1033,7 +1033,33 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                         'text-gray-900'
                                       }`}
                                   >
-                                    Domains
+                                    Domains{' '}
+                                    <span className="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                      coming soon
+                                    </span>
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li
+                                className={`py-2 rounded-sm mb-0.5 last:mb-0 disabled ${
+                                  pathname.includes('theme') && 'bg-gray-200'
+                                }`}
+                              >
+                                <NavLink
+                                  to="/store/theme"
+                                  className="block text-gray-900 hover:text-black transition duration-150 truncate"
+                                >
+                                  <span
+                                    className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200
+                                      ${
+                                        pathname === '/store/theme' &&
+                                        'text-gray-900'
+                                      }`}
+                                  >
+                                    Theme Editor{' '}
+                                    <span className="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">
+                                      coming soon
+                                    </span>
                                   </span>
                                 </NavLink>
                               </li>

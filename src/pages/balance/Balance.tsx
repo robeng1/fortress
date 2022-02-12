@@ -59,7 +59,7 @@ function Balance() {
             <div className="px-4 mx-auto">
               <div className="flex flex-wrap -m-4">
                 <div className="w-full lg:w-1/2 p-4">
-                  <div className="p-6 bg-white shadow rounded-lg">
+                  <div className="p-6 bg-white shadow rounded-lg flex flex-col col-span-full bg-white shadow-lg rounded-sm border border-slate-200">
                     <div className="flex mb-1 items-center justify-between">
                       <h3 className="text-gray-500">Balance</h3>
                       <button>
@@ -80,14 +80,11 @@ function Balance() {
                       <p className="text-4xl font-bold">
                         {mToSFormatted(account?.balance)}
                       </p>
-                      <span className="inline-block ml-2 py-1 px-2 bg-blue-500 text-white text-xs rounded-full">
-                        +6.9%
-                      </span>
                     </div>
                   </div>
                 </div>
                 <div className="w-full lg:w-1/2 p-4">
-                  <div className="p-6 bg-white shadow rounded-lg">
+                  <div className="p-6 bg-white shadow rounded-lg flex flex-col col-span-full bg-white shadow-lg rounded-sm border border-slate-200">
                     <div className="flex mb-1 items-center justify-between">
                       <h3 className="text-gray-500">Pending</h3>
                       <button>
@@ -108,9 +105,6 @@ function Balance() {
                       <p className="text-4xl font-bold">
                         {mToSFormatted(account?.blocked_amount)}
                       </p>
-                      <span className="inline-block ml-2 py-1 px-2 bg-blue-500 text-white text-xs rounded-full">
-                        +6.9%
-                      </span>
                     </div>
                   </div>
                 </div>
