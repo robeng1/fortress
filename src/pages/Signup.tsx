@@ -116,7 +116,7 @@ function Signup() {
           onSubmit={(values, { setSubmitting }) => {
             handleSubmit({
               ...values,
-              permanent_domain: `${slugit(values.handle)}.reoplex.com`,
+              permanent_domain: `${slugit(values.handle)}.myreoplex.com`,
             });
           }}
         >
