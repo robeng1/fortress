@@ -6,7 +6,6 @@ import moment from 'moment';
 import Divider from '@mui/material/Divider';
 
 import { Formik } from 'formik';
-// import ReactQuill from 'react-quill';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
@@ -979,8 +978,8 @@ const DiscountForm = ({ handleShow, id }) => {
               /* and other goodies */
             }) => (
               <div className="flex-grow w-full mx-auto self-center justify-center">
-                <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-y-6 gap-x-6">
-                  <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-2">
+                  <div className="col-span-3 md:col-span-2">
                     <section className="rounded bg-white shadow p-3">
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
@@ -1003,7 +1002,7 @@ const DiscountForm = ({ handleShow, id }) => {
                           />
                         </div>
                       </div>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      {/* <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <label
                             className="block text-sm font-medium mb-1"
@@ -1011,16 +1010,24 @@ const DiscountForm = ({ handleShow, id }) => {
                           >
                             Description
                           </label>
-                          {/* <ReactQuill
-                            theme="snow"
-                            onChange={e => setFieldValue('description', e)}
-                            value={values.description}
-                            style={{
-                              maxHeight: '14rem',
+                          <Editor
+                            initialValue=""
+                            init={{
+                              skin: false,
+                              content_css: false,
+                              height: 500,
+                              menubar: false,
+                              plugins: ['link image', 'table paste'],
+                              toolbar:
+                                'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
                             }}
-                          /> */}
+                            value={values.description}
+                            onEditorChange={content =>
+                              setFieldValue('description', content)
+                            }
+                          />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <label
@@ -2841,7 +2848,7 @@ const DiscountForm = ({ handleShow, id }) => {
                         </div>
                       </section>
                     )}
-                    <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                    <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
                       <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                         Cover Image
                       </h2>
@@ -2866,7 +2873,7 @@ const DiscountForm = ({ handleShow, id }) => {
                         </div>
                       </div>
                     </section>
-                    <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                    <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
                       <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                         Search Engine Preview
                         <p className="text-sm header leading-snug text-gray-800 font-light mb-1">

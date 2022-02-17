@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
-// import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
@@ -12,15 +13,13 @@ import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import { Loader } from 'components/Loader';
 import DropTarget from '@uppy/drop-target';
 import { fortressURL } from 'endpoints/urls';
 import PaginationClassic from 'components/PaginationClassic';
-import {
-  CollectionType,
-  CollectType,
-} from 'models/collection/collection-type';
+import { CollectionType, CollectType } from 'models/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
@@ -286,8 +285,8 @@ export default function CollectionForm({ handleShow, id }) {
               /* and other goodies */
             }) => (
               <div className="flex-grow w-full mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-y-6 gap-x-6">
-                  <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
+                  <div className="col-span-1 md:col-span-2">
                     <section className="rounded bg-white shadow overflow-hidden p-3">
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
@@ -318,15 +317,13 @@ export default function CollectionForm({ handleShow, id }) {
                           >
                             Description
                           </label>
-                          {/* <ReactQuill
+
+                          <ReactQuill
                             theme="snow"
                             id="description"
-                            onChange={e => setFieldValue('description', e)}
                             value={values.description}
-                            style={{
-                              maxHeight: '15rem',
-                            }}
-                          /> */}
+                            onChange={handleChange}
+                          />
                         </div>
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -363,7 +360,7 @@ export default function CollectionForm({ handleShow, id }) {
                             proudlyDisplayPoweredByUppy={false}
                             showProgressDetails={true}
                             width="100%"
-                            height="400px"
+                            height={'300px'}
                             theme="light"
                             note="Images and video only, 2-6 files, up to 1 MB"
                             metaFields={[

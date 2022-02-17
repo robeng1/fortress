@@ -9,7 +9,8 @@ import Uppy, { UppyFile } from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
 import { Formik } from 'formik';
-// import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { cartesian } from 'utils/cartesian';
 import ProdutVariantPreview from 'forms/product/Variant';
 import { fortressURL } from 'endpoints/urls';
@@ -542,16 +543,12 @@ const ProductForm = ({ handleShow, id }) => {
                         >
                           Description
                         </label>
-                        {/* <ReactQuill
-                          id="description"
+                        <ReactQuill
                           theme="snow"
-                          // name="description"
-                          onChange={e => setFieldValue('description', e)}
+                          id="description"
                           value={values.description}
-                          style={{
-                            paddingBottom: '1rem',
-                          }}
-                        /> */}
+                          onChange={handleChange}
+                        />
                       </div>
                     </div>
                     {touched.description && errors.description && (
@@ -776,6 +773,7 @@ const ProductForm = ({ handleShow, id }) => {
                           showProgressDetails={true}
                           width={'100%'}
                           theme="light"
+                          height={"300px"}
                           note="Images and video only, 2-6 files, up to 1 MB"
                           metaFields={[
                             {
@@ -794,14 +792,14 @@ const ProductForm = ({ handleShow, id }) => {
                               placeholder: 'describe what the image is about',
                             },
                           ]}
-                          // plugins={[
-                          //   'Webcam',
-                          //   'Instagram',
-                          //   'GoogleDrive',
-                          //   'Dropbox',
-                          //   'Box',
-                          //   'ImageEditor',
-                          // ]}
+                          plugins={[
+                            // 'Webcam',
+                            // 'Instagram',
+                            // 'GoogleDrive',
+                            // 'Dropbox',
+                            // 'Box',
+                            // 'ImageEditor',
+                          ]}
                         />
                       </div>
                     </div>
@@ -1252,7 +1250,7 @@ const ProductForm = ({ handleShow, id }) => {
                       <></>
                     )}
                   </section>
-                  <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                  <section className=" hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Search Engine Preview
                       <p className="text-sm header leading-snug text-gray-800 font-light mb-1">
