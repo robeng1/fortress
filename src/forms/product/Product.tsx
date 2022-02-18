@@ -6,8 +6,8 @@ import _ from 'lodash';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
-import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
+import StatusBar from '@uppy/status-bar';
 import Transloadit from '@uppy/transloadit';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
@@ -114,7 +114,7 @@ const ProductForm = ({ handleShow, id }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<{ name: string; url: string }[]>([]);
   const [locations] = useAtom(locationsAtom);
 
   // query for getting the product
@@ -176,7 +176,9 @@ const ProductForm = ({ handleShow, id }) => {
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
-      images: images,
+      images: images.map(img => {
+        return { image: { image_url: img.url }, alt: img.name };
+      }),
       page_title: d.page_title,
       page_description: d.page_description,
       vendor: d.vendor,
@@ -260,24 +262,6 @@ const ProductForm = ({ handleShow, id }) => {
       onError: (e: ResponseError) => {},
     },
   );
-  const onUploadComplete = result => {
-    console.log('successful files:', result.successful);
-    console.log('failed files:', result.failed);
-    const urls = result.successful.map(f => {
-      return { image_url: f.uploadURL };
-    });
-    // const url = result.successful[0].uploadURL;
-    // const fileName = file.name;
-    setImages(urls);
-    // const li = document.createElement('li');
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.target = '_blank';
-    // a.appendChild(document.createTextNode(fileName));
-    // li.appendChild(a);
-
-    // document.querySelector(elForUploadedFiles).appendChild(li);
-  };
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'product',
@@ -287,20 +271,6 @@ const ProductForm = ({ handleShow, id }) => {
         maxNumberOfFiles: 6,
         minNumberOfFiles: 1,
         allowedFileTypes: ['image/*'],
-      },
-      onBeforeUpload: (files: {
-        [key: string]: UppyFile<Record<string, unknown>>;
-      }): { [key: string]: UppyFile<Record<string, unknown>> } | boolean => {
-        const datename = Date.now();
-        for (var prop in files) {
-          files[
-            prop
-          ].name = `products/${shop?.shop_id}/images/${files[prop].name}_${datename}`;
-          files[
-            prop
-          ].meta.name = `products/${shop?.shop_id}/images/${files[prop].meta.name}_${datename}`;
-        }
-        return files;
       },
     })
       .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
@@ -329,21 +299,27 @@ const ProductForm = ({ handleShow, id }) => {
         companionAllowedHosts: Transloadit.COMPANION_PATTERN,
       })
       .use(DropTarget, { target: document.body })
-      .on('transloadit:result', onUploadComplete)
       .use(Transloadit, {
         service: 'https://api2.transloadit.com',
         params: {
           auth: {
             key: 'd6650968a1064588ae29f3d0f6a70ef5',
           },
+          template_id: '24f76f542f784c4cba84bf1e347a84fb',
         },
-        waitForEncoding: false,
-        waitForMetadata: false,
-        importFromUploadURLs: false,
-        alwaysRunAssembly: false,
-        // signature: null,
-        fields: {},
-        limit: 0,
+
+        waitForEncoding: true,
+        waitForMetadata: true,
+        alwaysRunAssembly: true,
+      })
+      .on('transloadit:complete', assembly => {
+        setImages([
+          ...images,
+          ...assembly.results[':original'].map(item => ({
+            name: item.basename,
+            url: item.ssl_url,
+          })),
+        ]);
       });
   }, [shop?.shop_id]);
   const addFiles = files => {
@@ -782,7 +758,7 @@ const ProductForm = ({ handleShow, id }) => {
                   </div>
                 </div>
                 <div className="md:col-span-2">
-                  <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                  <section className="bg-white shadow overflow-hidden p-3 mb">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Product Images
                     </h2>
@@ -794,25 +770,28 @@ const ProductForm = ({ handleShow, id }) => {
                           showProgressDetails={true}
                           width={'100%'}
                           theme="light"
-                          height={'300px'}
+                          height={'350px'}
                           note="Images and video only, 2-6 files, up to 1 MB"
-                          metaFields={[
-                            {
-                              id: 'name',
-                              name: 'Name',
-                              placeholder: 'file name',
-                            },
-                            {
-                              id: 'caption',
-                              name: 'Caption',
-                              placeholder: 'describe what the image is about',
-                            },
-                            {
-                              id: 'alt',
-                              name: 'Alt',
-                              placeholder: 'describe what the image is about',
-                            },
-                          ]}
+                          doneButtonHandler={() => ({})}
+                          hideProgressAfterFinish={true}
+                          
+                          // metaFields={[
+                          //   {
+                          //     id: 'name',
+                          //     name: 'Name',
+                          //     placeholder: 'file name',
+                          //   },
+                          //   {
+                          //     id: 'caption',
+                          //     name: 'Caption',
+                          //     placeholder: 'describe what the image is about',
+                          //   },
+                          //   {
+                          //     id: 'alt',
+                          //     name: 'Alt',
+                          //     placeholder: 'describe what the image is about',
+                          //   },
+                          // ]}
                           plugins={
                             [
                               // 'Webcam',
@@ -827,6 +806,26 @@ const ProductForm = ({ handleShow, id }) => {
                       </div>
                     </div>
                   </section>
+                  {/* <section className="bg-white shadow mb-10 p-3 ">
+                    <div className="mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid lg:grid-cols-4">
+                      {images.map(img => (
+                        <div className="flex md:flex-col items-center text-gray-800">
+                          <div className="w-24 md:32 flex-shrink-0 flex items-center justify-center">
+                            <img
+                              className="mr-2 md:ml-0 object-center object-cover"
+                              src={img.url}
+                              width="100%"
+                              height="100%"
+                              alt={img.name}
+                            />
+                          </div>
+                          <div className="text-xs text-light-blue-500">
+                            {img.name}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section> */}
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                       Pricing
