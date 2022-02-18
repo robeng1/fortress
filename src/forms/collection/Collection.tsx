@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Uppy from '@uppy/core';
-import Tus from '@uppy/tus';
+import Transloadit from '@uppy/transloadit';
 import { Dashboard } from '@uppy/react';
 
 import '@uppy/status-bar/dist/style.css';
@@ -167,20 +167,6 @@ export default function CollectionForm({ handleShow, id }) {
     addProductsToCollection(collects);
   };
 
-  const onUploadComplete = result => {
-    const url = result.successful[0].uploadURL;
-    // const fileName = file.name;
-    setImage(url);
-    // const li = document.createElement('li');
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.target = '_blank';
-    // a.appendChild(document.createTextNode(fileName));
-    // li.appendChild(a);
-
-    // document.querySelector(elForUploadedFiles).appendChild(li);
-  };
-
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'collection',
@@ -191,10 +177,42 @@ export default function CollectionForm({ handleShow, id }) {
         minNumberOfFiles: 1,
         allowedFileTypes: ['image/*', 'video/*'],
       },
+      onBeforeUpload: files => {
+        const updatedFiles = {};
+        Object.keys(files).forEach(fileId => {
+          updatedFiles[fileId] = {
+            ...files[fileId],
+            name: `reoplex_${shop?.shop_id || 'shop_demo'}_c_${
+              files[fileId].name
+            }`,
+          };
+        });
+        return updatedFiles;
+      },
     })
       .use(DropTarget, { target: document.body })
-      .on('complete', onUploadComplete)
-      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
+      .use(Transloadit, {
+        service: 'https://api2.transloadit.com',
+        params: {
+          auth: {
+            key: 'd6650968a1064588ae29f3d0f6a70ef5',
+          },
+          template_id: '24f76f542f784c4cba84bf1e347a84fb',
+        },
+
+        waitForEncoding: true,
+        waitForMetadata: true,
+        alwaysRunAssembly: true,
+      })
+      .on('file-removed', (file, reason) => {
+        if (reason === 'removed-by-user') {
+          // remove file from s3
+          // sendDeleteRequestForFile(file);
+        }
+      })
+      .on('transloadit:complete', assembly => {
+        setImage(assembly.results[':original'][0].ssl_url);
+      });
   }, []);
 
   const addFiles = files => {
@@ -362,7 +380,10 @@ export default function CollectionForm({ handleShow, id }) {
                             width="100%"
                             height={'300px'}
                             theme="light"
-                            note="Images and video only, 2-6 files, up to 1 MB"
+                            note="Images only, 1 file"
+                            doneButtonHandler={() => ({})}
+                            hideProgressAfterFinish={true}
+                            showRemoveButtonAfterComplete={true}
                             metaFields={[
                               {
                                 id: 'alt',

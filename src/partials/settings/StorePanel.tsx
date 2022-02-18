@@ -4,7 +4,7 @@ import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import { ProgressBar } from '@uppy/react';
 import DropTarget  from '@uppy/drop-target';
-
+import Transloadit from '@uppy/transloadit';
 import '@uppy/status-bar/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
@@ -82,12 +82,45 @@ function StorePanel() {
         maxFileSize: 15 * 1024 * 1024,
         maxNumberOfFiles: 1,
         minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*', 'video/*'],
+        allowedFileTypes: ['image/*',],
+      },
+      onBeforeUpload: files => {
+        const updatedFiles = {};
+        Object.keys(files).forEach(fileId => {
+          updatedFiles[fileId] = {
+            ...files[fileId],
+            name: `reoplex_${shop?.shop_id || 'shop_demo'}_lo_${
+              files[fileId].name
+            }`,
+          };
+        });
+        return updatedFiles;
       },
     })
       .use(DropTarget, { target: document.body })
-      .on('complete', onUploadComplete)
-      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
+      .use(Transloadit, {
+        service: 'https://api2.transloadit.com',
+        params: {
+          auth: {
+            key: 'd6650968a1064588ae29f3d0f6a70ef5',
+          },
+          template_id: '24f76f542f784c4cba84bf1e347a84fb',
+        },
+
+        waitForEncoding: true,
+        waitForMetadata: true,
+        alwaysRunAssembly: true,
+      })
+      .on('file-removed', (file, reason) => {
+        if (reason === 'removed-by-user') {
+          // remove file from s3
+          // sendDeleteRequestForFile(file);
+        }
+      })
+      .on('transloadit:complete', assembly => {
+        setImage(assembly.results[':original'][0].ssl_url);
+      });
+      
   }, []);
 
   React.useEffect(() => {
@@ -180,7 +213,7 @@ function StorePanel() {
                     <ProgressBar
                       uppy={uppy}
                       fixed={true}
-                      hideAfterFinish={false}
+                      hideAfterFinish={true}
                     />
                   </div>
                   <button

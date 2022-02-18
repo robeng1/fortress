@@ -7,7 +7,6 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
 import { Dashboard } from '@uppy/react';
-import StatusBar from '@uppy/status-bar';
 import Transloadit from '@uppy/transloadit';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
@@ -272,8 +271,20 @@ const ProductForm = ({ handleShow, id }) => {
         minNumberOfFiles: 1,
         allowedFileTypes: ['image/*'],
       },
+      onBeforeUpload: files => {
+        const updatedFiles = {};
+        Object.keys(files).forEach(fileId => {
+          updatedFiles[fileId] = {
+            ...files[fileId],
+            name: `reoplex_${shop?.shop_id || 'shop_demo'}_p_${
+              files[fileId].name
+            }`,
+          };
+        });
+        return updatedFiles;
+      },
     })
-      .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
+      .use(Webcam)
       .use(GoogleDrive, {
         companionUrl: Transloadit.COMPANION,
         companionAllowedHosts: Transloadit.COMPANION_PATTERN,
@@ -311,6 +322,12 @@ const ProductForm = ({ handleShow, id }) => {
         waitForEncoding: true,
         waitForMetadata: true,
         alwaysRunAssembly: true,
+      })
+      .on('file-removed', (file, reason) => {
+        if (reason === 'removed-by-user') {
+          // remove file from s3
+          // sendDeleteRequestForFile(file);
+        }
       })
       .on('transloadit:complete', assembly => {
         setImages([
@@ -774,24 +791,7 @@ const ProductForm = ({ handleShow, id }) => {
                           note="Images and video only, 2-6 files, up to 1 MB"
                           doneButtonHandler={() => ({})}
                           hideProgressAfterFinish={true}
-                          
-                          // metaFields={[
-                          //   {
-                          //     id: 'name',
-                          //     name: 'Name',
-                          //     placeholder: 'file name',
-                          //   },
-                          //   {
-                          //     id: 'caption',
-                          //     name: 'Caption',
-                          //     placeholder: 'describe what the image is about',
-                          //   },
-                          //   {
-                          //     id: 'alt',
-                          //     name: 'Alt',
-                          //     placeholder: 'describe what the image is about',
-                          //   },
-                          // ]}
+                          showRemoveButtonAfterComplete={true}
                           plugins={
                             [
                               // 'Webcam',
