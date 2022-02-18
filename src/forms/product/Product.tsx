@@ -8,6 +8,7 @@ import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
 import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
+import Transloadit from '@uppy/transloadit';
 import { Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -304,26 +305,46 @@ const ProductForm = ({ handleShow, id }) => {
     })
       .use(Webcam) // `id` defaults to "Webcam". Note: no `target` option!
       .use(GoogleDrive, {
-        companionUrl: 'https://companion.reoplex.com',
+        companionUrl: Transloadit.COMPANION,
+        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
       })
       .use(Dropbox, {
-        companionUrl: 'https://companion.reoplex.com',
+        companionUrl: Transloadit.COMPANION,
+        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
       })
       .use(Box, {
-        companionUrl: 'https://companion.reoplex.com',
+        companionUrl: Transloadit.COMPANION,
+        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
       })
       .use(Instagram, {
-        companionUrl: 'https://companion.reoplex.com',
+        companionUrl: Transloadit.COMPANION,
+        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
       })
       .use(Facebook, {
-        companionUrl: 'https://companion.reoplex.com',
+        companionUrl: Transloadit.COMPANION,
+        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
       })
       .use(OneDrive, {
-        companionUrl: 'https://companion.reoplex.com',
+        companionUrl: Transloadit.COMPANION,
+        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
       })
       .use(DropTarget, { target: document.body })
-      .on('complete', onUploadComplete)
-      .use(Tus, { endpoint: 'https://api.reoplex.com/storage/files/' });
+      .on('transloadit:result', onUploadComplete)
+      .use(Transloadit, {
+        service: 'https://api2.transloadit.com',
+        params: {
+          auth: {
+            key: 'd6650968a1064588ae29f3d0f6a70ef5',
+          },
+        },
+        waitForEncoding: false,
+        waitForMetadata: false,
+        importFromUploadURLs: false,
+        alwaysRunAssembly: false,
+        // signature: null,
+        fields: {},
+        limit: 0,
+      });
   }, [shop?.shop_id]);
   const addFiles = files => {
     files.forEach(e => {
@@ -773,7 +794,7 @@ const ProductForm = ({ handleShow, id }) => {
                           showProgressDetails={true}
                           width={'100%'}
                           theme="light"
-                          height={"300px"}
+                          height={'300px'}
                           note="Images and video only, 2-6 files, up to 1 MB"
                           metaFields={[
                             {
@@ -792,14 +813,16 @@ const ProductForm = ({ handleShow, id }) => {
                               placeholder: 'describe what the image is about',
                             },
                           ]}
-                          plugins={[
-                            // 'Webcam',
-                            // 'Instagram',
-                            // 'GoogleDrive',
-                            // 'Dropbox',
-                            // 'Box',
-                            // 'ImageEditor',
-                          ]}
+                          plugins={
+                            [
+                              // 'Webcam',
+                              // 'Instagram',
+                              // 'GoogleDrive',
+                              // 'Dropbox',
+                              // 'Box',
+                              // 'ImageEditor',
+                            ]
+                          }
                         />
                       </div>
                     </div>
