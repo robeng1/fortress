@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { theKeepURL } from 'endpoints/urls';
 import { RegisterLogInType } from 'models/user/profile';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { sessionAtom } from 'store/authorization-atom';
@@ -17,6 +17,7 @@ interface LocationState {
 }
 
 function Signin() {
+  const queryClient = useQueryClient();
   const requestURL = `${theKeepURL}/auth/login`;
   const [session, setSession] = useAtom(sessionAtom);
   const {
@@ -31,8 +32,9 @@ function Signin() {
         body: JSON.stringify(payload),
       }),
     {
-      onSuccess: (resp: Record<string, any>) => {
-        setSession(resp);
+      onSuccess: (s: Record<string, any>) => {
+        setSession(s);
+        queryClient.prefetchQuery(['shop', s?.identity?.account_id]);
       },
 
       onError: (e: ResponseError) => {},

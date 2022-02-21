@@ -9,7 +9,7 @@ import { request, ResponseError } from 'utils/request';
 import { domainURL, fortressURL } from 'endpoints/urls';
 import { StartType } from 'models/settings/shop-type';
 import { useAtom } from 'jotai';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { sessionAtom } from 'store/authorization-atom';
 import { shopAtom } from 'store/shop';
 import PasswordInput from 'components/common/password-input';
@@ -22,6 +22,7 @@ interface LocationState {
 }
 
 function Signup() {
+  const queryClient = useQueryClient();
   const requestURL = `${fortressURL}/shops/get-started`;
   const [session, setSession] = useAtom(sessionAtom);
   const [, setShop] = useAtom(shopAtom);
@@ -39,8 +40,8 @@ function Signup() {
     {
       onSuccess: (resp: Record<string, any>) => {
         setSession(resp.session);
-        // TODO: make a call to get the shop
         setShop(resp.shop);
+        queryClient.prefetchQuery(['shop', resp.session?.identity?.account_id]);
       },
       onError: (e: ResponseError) => {},
     },
@@ -121,8 +122,6 @@ function Signup() {
       });
     },
   });
-
-  
 
   const {
     values,
