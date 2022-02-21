@@ -21,10 +21,14 @@ const weightBasedRatesAtom = atomWithQuery<
 >(get => ({
   queryKey: ['weight-based-rates', get(shopIdAtom)],
   queryFn: async ({ queryKey: [, shopId] }) => {
-    const resp: WeightBasedRateListType = await request(
-      `${fortressURL}/shops/${shopId}/wbrs`,
-    );
-    return resp?.rates || initialState;
+    try {
+      const resp: WeightBasedRateListType = await request(
+        `${fortressURL}/shops/${shopId}/wbrs`,
+      );
+      return resp?.rates || initialState;
+    } catch (err) {
+      return initialState;
+    }
   },
   initialData: initialState,
   keepPreviousData: true,
@@ -35,10 +39,14 @@ const itemBasedRatesAtom = atomWithQuery<ItemBasedRateType[], ResponseError>(
   get => ({
     queryKey: ['item-based-rates', get(shopIdAtom)],
     queryFn: async ({ queryKey: [, shopId] }) => {
-      const resp: ItemBasedRateListType = await request(
-        `${fortressURL}/shops/${shopId}/ibrs`,
-      );
-      return resp?.rates || initialState;
+      try {
+        const resp: ItemBasedRateListType = await request(
+          `${fortressURL}/shops/${shopId}/ibrs`,
+        );
+        return resp?.rates || initialState;
+      } catch (error) {
+        return initialState;
+      } 
     },
     initialData: initialState,
     keepPreviousData: true,

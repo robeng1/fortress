@@ -9,10 +9,14 @@ export const initialState: ShopType = {};
 export const shopAtom = atomWithQuery<ShopType, ResponseError>(get => ({
   queryKey: ['shop', get(accountIdAtom)],
   queryFn: async ({ queryKey: [, accountId] }) => {
-    const resp: ShopType = await request(
-      `${fortressURL}/accounts/${accountId}/shops`,
-    );
-    return resp || initialState;
+    try {
+      const resp: ShopType = await request(
+        `${fortressURL}/accounts/${accountId}/shops`,
+      );
+      return resp || initialState;
+    } catch (e) {
+      return initialState;
+    }
   },
   initialData: initialState,
   keepPreviousData: true,

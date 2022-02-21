@@ -8,11 +8,15 @@ const initialState: Account = {};
 export const accountAtom = atomWithQuery<Account, ResponseError>(get => ({
   queryKey: ['account', get(shopIdAtom)],
   queryFn: async ({ queryKey: [, shopId] }) => {
-    const resp: Account[] = await request(`${paymentURL}/${shopId}/accounts`);
-    if (resp.length >= 1) {
-      return resp[0];
+    try {
+      const resp: Account[] = await request(`${paymentURL}/${shopId}/accounts`);
+      if (resp.length >= 1) {
+        return resp[0];
+      }
+      return initialState;
+    } catch (error) {
+      return initialState;
     }
-    return initialState;
   },
   initialData: initialState,
   keepPreviousData: true,

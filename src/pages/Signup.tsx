@@ -48,7 +48,7 @@ function Signup() {
   const { from } = (location.state as LocationState) || { from: '/' };
 
   const isAuthenticated = !isEmpty(session);
-  const handleSubmit = (values: StartType) => {
+  const submitData = (values: StartType) => {
     getStarted({ ...values });
   };
   const slugit = (txt: string) =>
@@ -114,7 +114,7 @@ function Signup() {
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            handleSubmit({
+            submitData({
               ...values,
               permanent_domain: `${slugit(values.handle)}.myreoplex.com`,
             });
@@ -124,6 +124,7 @@ function Signup() {
             values,
             errors,
             touched,
+            setFieldValue,
             handleChange,
             handleBlur,
             handleSubmit,
@@ -154,11 +155,18 @@ function Signup() {
                   label="Store name"
                   id="business_display_name"
                   name="business_display_name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  onChange={e => {
+                    setFieldValue('handle', e.target.value);
+                    handleChange(e);
+                  }}
+                  onBlur={e => {
+                    setFieldValue('handle', e.target.value);
+                    handleBlur(e);
+                  }}
                   value={values.business_display_name}
                   type="text"
                 />
+                {errors && <p>{errors.handle}</p>}
               </div>
               {isError && (
                 <div className="bg-red-100 p-5 w-full sm:w-1/2">
@@ -184,7 +192,12 @@ function Signup() {
               <Button
                 className="w-full mt-3 btn bg-blue-600 hover:bg-purple-600 text-white"
                 loading={isLoading}
-                onClick={e => handleSubmit()}
+                type="button"
+                onClick={e => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleSubmit();
+                }}
                 disabled={isLoading}
               >
                 Create store
