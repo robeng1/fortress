@@ -24,15 +24,14 @@ function PoliciesPanel() {
       }),
     {
       onSuccess: (newShop: ShopType) => {
-        queryClient.setQueryData(['shop', accountId], newShop);
+        queryClient.refetchQueries(['shop', accountId]);
         toast('Polices updated succesffully');
       },
       onError: (e: ResponseError) => {
-        toast('Could not policies shop data due to ' + e.message);
+        toast(e.message);
       },
     },
   );
-
   return (
     <>
       <Formik
@@ -60,6 +59,7 @@ function PoliciesPanel() {
               shop?.policies?.find(p => p.p_type === 'shipping_policy')?.body
           ) {
             policies = [
+              ...policies,
               {
                 p_type: 'shipping_policy',
                 title: 'Shipping Policy',

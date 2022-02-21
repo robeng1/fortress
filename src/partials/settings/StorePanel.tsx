@@ -52,11 +52,11 @@ function StorePanel() {
       }),
     {
       onSuccess: (newShop: ShopType) => {
-        queryClient.setQueryData(['shop', accountId], newShop);
+        queryClient.refetchQueries(['shop', accountId]);
         toast('Shop data updated succesffully');
       },
       onError: (e: ResponseError) => {
-        toast('Could not update shop data due to ' + e.message);
+        toast(e.message);
       },
     },
   );

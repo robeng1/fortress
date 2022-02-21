@@ -5,13 +5,14 @@ import { request, ResponseError } from 'utils/request';
 import { shopIdAtom } from 'store/shop';
 const initialState: Account = {};
 
-export const accountAtom = atomWithQuery<Account, ResponseError>(get => ({
+export const paymentAccountAtom = atomWithQuery<Account, ResponseError>(get => ({
   queryKey: ['account', get(shopIdAtom)],
   queryFn: async ({ queryKey: [, shopId] }) => {
     try {
-      const resp: Account[] = await request(`${paymentURL}/${shopId}/accounts`);
-      if (resp.length >= 1) {
-        return resp[0];
+      const resp = await request(`${paymentURL}/${shopId}/accounts`);
+      const accounts: Account[] = resp?.accounts
+      if (accounts.length >= 1) {
+        return accounts[0];
       }
       return initialState;
     } catch (error) {

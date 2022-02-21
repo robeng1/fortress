@@ -49,7 +49,7 @@ export interface Account {
   label?: string;
   account_kind?: string;
   blocked_amount?: MoneyType | null;
-  payment_data?: 'card' | 'wallet';
+  // payment_data?: 'card' | 'wallet';
 }
 
 export enum TxnKind {

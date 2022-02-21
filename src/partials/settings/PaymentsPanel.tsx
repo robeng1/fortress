@@ -9,7 +9,7 @@ import {
 } from 'models/payment/account-type';
 import { useAtom } from 'jotai';
 import { shopAtom } from 'store/shop';
-import { accountAtom } from 'store/payment';
+import { paymentAccountAtom } from 'store/payment';
 import { request, ResponseError } from 'utils/request';
 import { paymentURL } from 'endpoints/urls';
 import { accountIdAtom } from 'store/authorization-atom';
@@ -17,7 +17,7 @@ import { accountIdAtom } from 'store/authorization-atom';
 function PaymentsPanel() {
   const queryClient = useQueryClient();
   const [shop] = useAtom(shopAtom);
-  const [account] = useAtom(accountAtom);
+  const [paymentAccount] = useAtom(paymentAccountAtom);
   const [accountId] = useAtom(accountIdAtom);
   const requestURL = `${paymentURL}/${accountId}/accounts`;
 
@@ -28,32 +28,32 @@ function PaymentsPanel() {
     // isError: collectionCreationFailed,
     // error: collectionCreationError,
   } = useMutation(
-    (payload: Account) =>
+    (payload: any) =>
       request(requestURL, {
         method: 'POST',
         body: JSON.stringify(payload),
       }),
     {
-      onSuccess: (newCollection: Account) => {
-        queryClient.invalidateQueries(['account', shop?.shop_id]);
+      onSuccess: () => {
+        queryClient.refetchQueries(['account', shop?.shop_id]);
         toast('Payment data updated succesffully');
       },
       onError: (e: ResponseError) => {
-        toast('Could not update payment data due to ' + e.message);
+        toast(e.message);
       },
     },
   );
 
   // update the collection
   const { mutate: updateAccount } = useMutation(
-    (payload: Account) =>
-      request(`${requestURL}/${account?.account_id}`, {
+    (payload: any) =>
+      request(`${requestURL}/${paymentAccount?.account_id}`, {
         method: 'PATCH',
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newAccount: Account) => {
-        queryClient.invalidateQueries(['account', shop?.shop_id]);
+        queryClient.refetchQueries(['account', shop?.shop_id]);
       },
       onError: (e: ResponseError) => {},
     },
@@ -63,24 +63,24 @@ function PaymentsPanel() {
     <>
       <Formik
         initialValues={{
-          account_id: account?.account_id || '',
+          account_id: paymentAccount?.account_id || '',
           name: shop?.business_name || '',
           primary_user: shop?.shop_id,
-          payment_data: account?.payment_data || 'wallet',
+          // payment_data: account?.payment_data || 'wallet',
           wallet: {
-            merchant: account?.wallet?.merchant || '',
-            name: account?.wallet?.name || '',
-            number: account?.wallet?.number || '',
+            merchant: paymentAccount?.wallet?.merchant || '',
+            name: paymentAccount?.wallet?.name || '',
+            number: paymentAccount?.wallet?.number || '',
           },
-          payment_mode: account?.payment_mode || PaymentMode.MOBILE_NETWORK,
-          status: account?.status || AccountStatus.OPEN,
-          account_kind: account?.account_kind || 'REGULAR',
+          payment_mode: paymentAccount?.payment_mode || PaymentMode.MOBILE_NETWORK,
+          status: paymentAccount?.status || AccountStatus.OPEN,
+          account_kind: paymentAccount?.account_kind || 'REGULAR',
         }}
         onSubmit={(values, { setSubmitting }) => {
           if (values.account_id !== '') {
-            updateAccount({ ...account, ...values });
+            updateAccount({ account: { ...paymentAccount, ...values } });
           } else {
-            createAccount({ ...values });
+            createAccount({ account: { ...values } });
           }
           setSubmitting(false);
         }}

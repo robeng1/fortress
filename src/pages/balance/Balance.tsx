@@ -13,7 +13,7 @@ import { useAtom } from 'jotai';
 import { shopAtom, shopIdAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
 import { accountIdAtom} from 'store/authorization-atom';
-import { accountAtom } from 'store/payment';
+import { paymentAccountAtom } from 'store/payment';
 import DateSelect from 'components/DateSelect';
 import { currencyToM, mToSFormatted, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/common/button';
@@ -26,10 +26,12 @@ function Balance() {
   const [open, setOpen] = useState(false);
   const [shop] = useAtom(shopAtom);
   const [shopId] = useAtom(shopIdAtom);
-  const [account] = useAtom(accountAtom);
+  const [paymentAccount] = useAtom(paymentAccountAtom);
+  console.log("loggin from balance")
+  console.log(paymentAccount);
   const [userAccountId] = useAtom(accountIdAtom);
-  const requestURL = `${paymentURL}/${shopId}/accounts/${account?.account_id}`;
-  const withdrawalURL = `${paymentURL}/${shopId}/accounts/${account?.account_id}/withdraw`;
+  const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`;
+  const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`;
 
   const [page, setPage] = useState(1);
   const [itemsPerPage] = useState<number>(15);
@@ -136,7 +138,7 @@ function Balance() {
                     </div>
                     <div className="flex items-center mb-3">
                       <p className="text-4xl font-bold">
-                        {mToSFormatted(account?.balance)}
+                        {mToSFormatted(paymentAccount?.balance)}
                       </p>
                     </div>
                   </div>
@@ -161,7 +163,7 @@ function Balance() {
                     </div>
                     <div className="flex items-center mb-3">
                       <p className="text-4xl font-bold">
-                        {mToSFormatted(account?.blocked_amount)}
+                        {mToSFormatted(paymentAccount?.blocked_amount)}
                       </p>
                     </div>
                   </div>
@@ -240,7 +242,7 @@ function Balance() {
                               onClick={() => {
                                 const trsf: TransferType = {
                                   transfer_kind: TransferKind.TRANSFER,
-                                  source_id: account?.account_id,
+                                  source_id: paymentAccount?.account_id,
                                   loopy: false,
                                   authorisor_id: userAccountId,
                                   unit_amount:

@@ -98,7 +98,7 @@ function Signup() {
   };
 
   const debouncedValidate = useMemo(
-    () => debounce(validateForm, 500),
+    () => debounce(validateForm, 300),
     [validateForm],
   );
 

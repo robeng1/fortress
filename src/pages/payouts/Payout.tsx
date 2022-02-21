@@ -11,13 +11,13 @@ import { useAtom } from 'jotai';
 import { shopIdAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
 import { accountIdAtom } from 'store/authorization-atom';
-import { accountAtom } from 'store/payment';
+import { paymentAccountAtom } from 'store/payment';
 import DateSelect from 'components/DateSelect';
 
 function Payouts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [shopId] = useAtom(shopIdAtom);
-  const [account] = useAtom(accountAtom);
+  const [account] = useAtom(paymentAccountAtom);
   const [accountId] = useAtom(accountIdAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
 

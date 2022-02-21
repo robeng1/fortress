@@ -58,6 +58,7 @@ export async function request(
   const fetchResponse = await fetch(url, {
     ...options,
     headers: { ...options?.headers, 'Content-Type': 'application/json' },
+    mode: 'cors',
   });
   const response = await checkStatus(fetchResponse);
   return parseJSON(response);
