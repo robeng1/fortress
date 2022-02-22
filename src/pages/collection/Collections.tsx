@@ -10,11 +10,11 @@ import SearchForm from 'partials/actions/SearchForm';
 import FilterButton from 'components/DropdownFilter';
 import BottomNav from 'components/BottomNav';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
 
 import CollectionsTable from 'partials/collections/CollectionsTable'
 import CollectionForm from 'forms/collection/Collection';
+import useShop from 'hooks/use-shop';
 
 function Collections() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -23,7 +23,7 @@ function Collections() {
   const [currentCollectionId, setCurrentCollectionId] = useState<
     string | undefined
   >();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
 
   const [page, setPage] = useState(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

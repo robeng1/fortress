@@ -10,25 +10,23 @@ import Header from 'partials/Header';
 import FilterButton from 'components/DropdownFilter';
 import BottomNav from 'components/BottomNav';
 import { useAtom } from 'jotai';
-import { shopAtom, shopIdAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
-import { accountIdAtom} from 'store/authorization-atom';
-import { paymentAccountAtom } from 'store/payment';
+import { accountIdAtom } from 'store/authorization-atom';
 import DateSelect from 'components/DateSelect';
 import { currencyToM, mToSFormatted, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/common/button';
 import { TransferKind, TransferType } from 'models/payment/transfer';
 import { toast } from 'react-toastify';
 import Input from 'components/common/input';
+import useShop from 'hooks/use-shop';
+import usePayment from 'hooks/use-payment';
 
 function Balance() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  const [shop] = useAtom(shopAtom);
-  const [shopId] = useAtom(shopIdAtom);
-  const [paymentAccount] = useAtom(paymentAccountAtom);
-  console.log("loggin from balance")
-  console.log(paymentAccount);
+  const { shop } = useShop();
+  const shopId = shop?.shop_id;
+  const { paymentAccount } = usePayment();
   const [userAccountId] = useAtom(accountIdAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`;
   const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`;

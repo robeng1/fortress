@@ -12,6 +12,7 @@
     "@mui/icons-material": "5.2.5",
     "@mui/material": "5.2.5",
     "@mui/styled-engine-sc": "5.1.0",
+    "@rematch/core": "^2.2.0",
     "@tailwindcss/forms": "0.4.0",
     "@tailwindcss/line-clamp": "0.3.0",
     "@tinymce/tinymce-react": "^3.13.0",
@@ -120,7 +121,7 @@
       "prettier --write"
     ]
   },
-  "proxy":"https://api.reoplex.com",
+  "proxy": "https://api.reoplex.com",
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",

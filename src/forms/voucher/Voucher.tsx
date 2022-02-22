@@ -4,21 +4,20 @@ import moment from 'moment';
 import { Loader } from 'components/Loader';
 
 import { discountOptions } from 'services/options-loaders';
-import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import { VoucherType } from 'models/voucher/voucher';
 import { request, ResponseError } from 'utils/request';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { VoucherSetType } from 'models/voucher/voucherset';
 import { fortressURL } from 'endpoints/urls';
 import AsyncCreatableSelect from 'react-select/async-creatable';
+import useShop from 'hooks/use-shop';
 
 // animated components for react select
 // const defaultCurrency = 'GHS';
 
 const VoucherForm = ({ handleShow, id, codeType }) => {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const vRequestURL = `${fortressURL}/shops/${shop?.shop_id}/vouchers`;
   const vsRequestURL = `${fortressURL}/shops/${shop?.shop_id}/voucher-sets`;
 

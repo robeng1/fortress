@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
-import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useMutation, useQueryClient } from 'react-query';
@@ -14,6 +12,7 @@ import colourStyles from 'forms/product/selectStyles';
 import { modelOptions, ShippingRateModelOption } from 'data/select';
 import { sToCurrency } from 'utils/money';
 import { rateToIB, rawToRate } from './converters';
+import useShop from 'hooks/use-shop';
 
 const animatedComponents = makeAnimated();
 
@@ -31,7 +30,7 @@ export interface RateType {
 
 function RatesForm({ handleShow, rate }) {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+ const { shop } = useShop();
   const wbrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/wbrs`;
   const ibrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/ibrs`;
   const [rateId, setRateId] = useState(rate?.rate_id);

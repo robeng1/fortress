@@ -3,10 +3,8 @@ import React, { lazy, useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import SettingsSidebar from 'partials/settings/SettingsSidebar';
+import LocationsPanel from 'partials/settings/LocationsPanel';
 
-const LocationsPanel = lazy(
-  () => import('partials/settings/LocationsPanel'),
-);
 
 function Locations() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

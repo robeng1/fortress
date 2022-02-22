@@ -32,6 +32,9 @@ import { RequireAuth } from './components/ProtectedRoutes';
 import Transactions from './pages/transactions/Transaction';
 import Payouts from './pages/payouts/Payout';
 import Balance from './pages/balance/Balance';
+import useShop from 'hooks/use-shop';
+import usePayment from 'hooks/use-payment';
+import useCentres from 'hooks/use-location';
 
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 

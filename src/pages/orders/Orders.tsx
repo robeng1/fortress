@@ -10,12 +10,12 @@ import FilterButton from 'components/DropdownFilter';
 import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import OrdersTable from 'partials/orders/OrdersTable';
 import Order from 'partials/orders/Order';
+import useShop from 'hooks/use-shop';
 
 function Orders() {
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<any>([]);
   const [showOrder, setShowOrder] = useState<Boolean>(false);

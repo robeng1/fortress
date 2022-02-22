@@ -5,10 +5,10 @@ import SearchModal from 'components/ModalSearch';
 import Notifications from 'components/DropdownNotifications';
 import Help from 'components/DropdownHelp';
 import UserMenu from 'components/DropdownProfile';
-import { shopAtom } from 'store/shop';
+import useShop from 'hooks/use-shop';
 
 function Header({ sidebarOpen, setSidebarOpen, location }) {
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const shopName = shop?.business_display_name;
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 

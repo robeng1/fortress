@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import LocationCard from '../locations/LocationCard';
 import LocationForm from 'forms/location/Location';
-import { useAtom } from 'jotai';
-import { locationsAtom } from 'store/location';
+import useCentres from 'hooks/use-location';
 
 function LocationsPanel() {
-  const [locations] = useAtom(locationsAtom);
+  const { locations } = useCentres();
   const [showLocationForm, setShowLocationForm] = useState(false);
   const [currentlyBeingEditedCentreId, setCurrentlyBeingEditedCentreId] =
     useState<string | undefined>();

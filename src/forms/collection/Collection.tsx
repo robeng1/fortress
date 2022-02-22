@@ -21,14 +21,13 @@ import { fortressURL } from 'endpoints/urls';
 import PaginationClassic from 'components/PaginationClassic';
 import { CollectionType, CollectType } from 'models/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
-import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import SelectableResultSearchModal from 'components/common/modal-searcher';
 import { ProductViewListType } from 'models/product/product-type';
+import useShop from 'hooks/use-shop';
 
 export default function CollectionForm({ handleShow, id }) {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);

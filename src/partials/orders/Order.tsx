@@ -6,12 +6,12 @@ import { Loader } from 'components/Loader';
 import { OrderStatusType, OrderType } from 'models/order/order-type';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import { mToSFormatted, mToCurrency, formatCurrency } from 'utils/money';
+import useShop from 'hooks/use-shop';
 
 export default function Order({ handleShow, id }) {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+ const { shop } = useShop();
   const [orderId] = useState<string | undefined>(id);
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/orders`;
 

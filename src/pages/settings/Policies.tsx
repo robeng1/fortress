@@ -4,7 +4,7 @@ import BottomNav from 'components/BottomNav';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import SettingsSidebar from 'partials/settings/SettingsSidebar';
-const PoliciesPanel = lazy(() => import('partials/settings/PoliciesPanel'));
+import PoliciesPanel from 'partials/settings/PoliciesPanel';
 
 function Policies() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

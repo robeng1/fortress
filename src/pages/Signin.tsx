@@ -32,11 +32,10 @@ function Signin() {
         body: JSON.stringify(payload),
       }),
     {
-      onSuccess: (s: Record<string, any>) => {
+      onSuccess: async (s: Record<string, any>) => {
         setSession(s);
-        queryClient.prefetchQuery(['shop', s?.identity?.account_id]);
+        queryClient.prefetchQuery(['shop', s?.identity?.account_id])
       },
-
       onError: (e: ResponseError) => {},
     },
   );

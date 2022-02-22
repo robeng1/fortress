@@ -6,7 +6,6 @@
  */
 
 import * as React from 'react';
-import { Provider } from 'jotai';
 import * as ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -22,28 +21,23 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { ThemeProvider } from '@mui/material/styles';
 
-
 import theme from './styles/mui-theme/theme';
 
 const queryClient = new QueryClient();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
-  <Provider>
+  <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <HelmetProvider>
         <React.StrictMode>
           <Router>
-            <React.Suspense fallback={<Loader />}>
-              <QueryClientProvider client={queryClient}>
-                <App />
-                <ToastContainer />
-              </QueryClientProvider>
-            </React.Suspense>
+            <App />
+            <ToastContainer />
           </Router>
         </React.StrictMode>
       </HelmetProvider>
     </ThemeProvider>
-  </Provider>,
+  </QueryClientProvider>,
   MOUNT_NODE,
 );

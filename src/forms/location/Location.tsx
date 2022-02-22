@@ -6,15 +6,14 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import { LocationType } from 'models/inventory/inventory-type';
-import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
+import useShop from 'hooks/use-shop';
 
 function LocationsForm({ handleShow, id }) {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/centres`;
   const [centreId, setCentreId] = useState(id);
 

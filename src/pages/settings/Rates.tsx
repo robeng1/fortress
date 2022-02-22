@@ -2,7 +2,7 @@ import React, { lazy, useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import SettingsSidebar from 'partials/settings/SettingsSidebar';
-const RatesPanel = lazy(() => import('partials/settings/RatesPanel'));
+import RatesPanel from 'partials/settings/RatesPanel';
 
 function Rates() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

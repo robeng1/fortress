@@ -8,12 +8,12 @@ import SearchForm from 'partials/actions/SearchForm';
 import FilterButton from 'components/DropdownFilter';
 import { fortressURL } from 'endpoints/urls';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import DiscountTable from 'partials/discount/DiscountTable';
 import DiscountForm from 'forms/discount/Discount';
+import useShop from 'hooks/use-shop';
 
 function Discounts() {
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const [showForm, setShowForm] = useState<Boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentDiscountId, setCurrentDiscountId] = useState<

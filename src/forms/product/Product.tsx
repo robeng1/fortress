@@ -47,11 +47,10 @@ import {
 } from 'services/options-loaders';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
-import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
-import { locationsAtom } from 'store/location';
 import { sToM } from 'utils/money';
 import AsyncCreatableSelect from 'react-select/async-creatable';
+import useCentres from 'hooks/use-location';
+import useShop from 'hooks/use-shop';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -105,7 +104,7 @@ const ProductSchema = Yup.object().shape({
 
 const ProductForm = ({ handleShow, id }) => {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
   const [productId, setProductId] = useState(id);
 
@@ -114,7 +113,7 @@ const ProductForm = ({ handleShow, id }) => {
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
   const [images, setImages] = useState<{ name: string; url: string }[]>([]);
-  const [locations] = useAtom(locationsAtom);
+  const { locations } = useCentres();
 
   // query for getting the product
   const { data: product } = useQuery<ProductType>(

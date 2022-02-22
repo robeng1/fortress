@@ -1,17 +1,17 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import { useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
 import { ShopType } from 'models/settings/shop-type';
 import { accountIdAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
 import { toast } from 'react-toastify';
+import useShop from 'hooks/use-shop';
 
 function PoliciesPanel() {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const [accountId] = useAtom(accountIdAtom);
   const requestURL = `${fortressURL}/shops`;
 
@@ -24,7 +24,7 @@ function PoliciesPanel() {
       }),
     {
       onSuccess: (newShop: ShopType) => {
-        queryClient.refetchQueries(['shop', accountId]);
+        queryClient.setQueryData(['shop', accountId], newShop);
         toast('Polices updated succesffully');
       },
       onError: (e: ResponseError) => {

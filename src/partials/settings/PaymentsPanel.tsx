@@ -8,16 +8,16 @@ import {
   PaymentMode,
 } from 'models/payment/account-type';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
-import { paymentAccountAtom } from 'store/payment';
 import { request, ResponseError } from 'utils/request';
 import { paymentURL } from 'endpoints/urls';
 import { accountIdAtom } from 'store/authorization-atom';
+import usePayment from 'hooks/use-payment';
+import useShop from 'hooks/use-shop';
 
 function PaymentsPanel() {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
-  const [paymentAccount] = useAtom(paymentAccountAtom);
+  const { shop } = useShop();
+  const { paymentAccount } = usePayment();
   const [accountId] = useAtom(accountIdAtom);
   const requestURL = `${paymentURL}/${accountId}/accounts`;
 
@@ -34,9 +34,9 @@ function PaymentsPanel() {
         body: JSON.stringify(payload),
       }),
     {
-      onSuccess: () => {
-        queryClient.refetchQueries(['account', shop?.shop_id]);
+      onSuccess: (newAccount: Account) => {
         toast('Payment data updated succesffully');
+        queryClient.setQueryData(['payment', shop?.shop_id], newAccount);
       },
       onError: (e: ResponseError) => {
         toast(e.message);
@@ -53,7 +53,8 @@ function PaymentsPanel() {
       }),
     {
       onSuccess: (newAccount: Account) => {
-        queryClient.refetchQueries(['account', shop?.shop_id]);
+        toast('Payment data updated succesffully');
+        queryClient.setQueryData(['payment', shop?.shop_id], newAccount);
       },
       onError: (e: ResponseError) => {},
     },
@@ -72,7 +73,8 @@ function PaymentsPanel() {
             name: paymentAccount?.wallet?.name || '',
             number: paymentAccount?.wallet?.number || '',
           },
-          payment_mode: paymentAccount?.payment_mode || PaymentMode.MOBILE_NETWORK,
+          payment_mode:
+            paymentAccount?.payment_mode || PaymentMode.MOBILE_NETWORK,
           status: paymentAccount?.status || AccountStatus.OPEN,
           account_kind: paymentAccount?.account_kind || 'REGULAR',
         }}

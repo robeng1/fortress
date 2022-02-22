@@ -8,14 +8,15 @@ import Header from 'partials/Header';
 import FilterButton from 'components/DropdownFilter';
 import BottomNav from 'components/BottomNav';
 import { useAtom } from 'jotai';
-import { shopIdAtom } from 'store/shop';
 import { request, ResponseError } from 'utils/request';
 import { accountIdAtom } from 'store/authorization-atom';
 import DateSelect from 'components/DateSelect';
+import useShop from 'hooks/use-shop';
 
 function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [shopId] = useAtom(shopIdAtom);
+  const { shop } = useShop();
+  const shopId = shop?.shop_id;
   const [accountId] = useAtom(accountIdAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
 

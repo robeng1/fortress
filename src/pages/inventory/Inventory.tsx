@@ -8,11 +8,11 @@ import FilterButton from 'components/DropdownFilter';
 import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import InventoryTable from 'partials/inventory/InventoryTable';
+import useShop from 'hooks/use-shop';
 
 function Inventories() {
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedItems, setSelectedItems] = useState<any>([]);

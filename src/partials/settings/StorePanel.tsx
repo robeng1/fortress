@@ -3,45 +3,30 @@ import { Formik } from 'formik';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
 import { ProgressBar } from '@uppy/react';
-import DropTarget  from '@uppy/drop-target';
+import DropTarget from '@uppy/drop-target';
 import Transloadit from '@uppy/transloadit';
 import '@uppy/status-bar/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import { useMutation, useQueryClient } from 'react-query';
 import { ShopType } from 'models/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
 import { accountIdAtom } from 'store/authorization-atom';
 import { toast } from 'react-toastify';
+import useShop from 'hooks/use-shop';
 
 function StorePanel() {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const [accountId] = useAtom(accountIdAtom);
   const requestURL = `${fortressURL}/shops`;
 
   const [image, setImage] = useState(shop?.image);
 
   const inputFile = useRef<HTMLInputElement>(null);
-
-  // create the shop
-  // const { mutate: createShop } = useMutation(
-  //   (payload: ShopType) =>
-  //     request(requestURL, {
-  //       method: 'POST',
-  //       body: JSON.stringify(payload),
-  //     }),
-  //   {
-  //     onSuccess: (newShop: ShopType) => {
-  //       queryClient.setQueryData(['shop', accountId], newShop);
-  //     },
-  //     onError: (e: ResponseError) => {},
-  //   },
-  // );
 
   // update the shop
   const { mutate: updateShop } = useMutation(
@@ -52,7 +37,7 @@ function StorePanel() {
       }),
     {
       onSuccess: (newShop: ShopType) => {
-        queryClient.refetchQueries(['shop', accountId]);
+        queryClient.setQueryData(['shop', accountId], newShop);
         toast('Shop data updated succesffully');
       },
       onError: (e: ResponseError) => {
@@ -82,7 +67,7 @@ function StorePanel() {
         maxFileSize: 15 * 1024 * 1024,
         maxNumberOfFiles: 1,
         minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*',],
+        allowedFileTypes: ['image/*'],
       },
       onBeforeUpload: files => {
         const updatedFiles = {};
@@ -120,7 +105,6 @@ function StorePanel() {
       .on('transloadit:complete', assembly => {
         setImage(assembly.results[':original'][0].ssl_url);
       });
-      
   }, []);
 
   React.useEffect(() => {

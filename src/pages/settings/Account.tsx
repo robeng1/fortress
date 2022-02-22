@@ -3,8 +3,7 @@ import React, { lazy, useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import SettingsSidebar from 'partials/settings/SettingsSidebar';
-
-const StorePanel = lazy(() => import('partials/settings/StorePanel'));
+import StorePanel from 'partials/settings/StorePanel';
 
 function Account() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

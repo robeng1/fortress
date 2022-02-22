@@ -19,12 +19,11 @@ import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
 import { WebAnalyticResponseBody } from 'models/stats/stats-type';
 import AnalyticsCard00 from 'partials/analytics/AnalyticsCard00';
-import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
+import useShop from 'hooks/use-shop';
 
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/stats`;
 
   const { data: webStats } = useQuery<WebAnalyticResponseBody>(

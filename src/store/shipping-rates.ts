@@ -1,7 +1,6 @@
 import { fortressURL } from 'endpoints/urls';
 import { atomWithQuery } from 'jotai/query';
 import { request, ResponseError } from 'utils/request';
-import { shopIdAtom } from 'store/shop';
 import {
   WeightBasedRateListType,
   WeightBasedRateType,
@@ -19,7 +18,7 @@ const weightBasedRatesAtom = atomWithQuery<
   WeightBasedRateType[],
   ResponseError
 >(get => ({
-  queryKey: ['weight-based-rates', get(shopIdAtom)],
+  queryKey: ['weight-based-rates'],
   queryFn: async ({ queryKey: [, shopId] }) => {
     try {
       const resp: WeightBasedRateListType = await request(
@@ -32,12 +31,12 @@ const weightBasedRatesAtom = atomWithQuery<
   },
   initialData: initialState,
   keepPreviousData: true,
-  enabled: !!get(shopIdAtom),
+  enabled: false,
 }));
 
 const itemBasedRatesAtom = atomWithQuery<ItemBasedRateType[], ResponseError>(
   get => ({
-    queryKey: ['item-based-rates', get(shopIdAtom)],
+    queryKey: ['item-based-rates'],
     queryFn: async ({ queryKey: [, shopId] }) => {
       try {
         const resp: ItemBasedRateListType = await request(
@@ -50,7 +49,7 @@ const itemBasedRatesAtom = atomWithQuery<ItemBasedRateType[], ResponseError>(
     },
     initialData: initialState,
     keepPreviousData: true,
-    enabled: !!get(shopIdAtom),
+    enabled: false,
   }),
 );
 

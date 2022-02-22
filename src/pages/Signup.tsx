@@ -11,7 +11,6 @@ import { StartType } from 'models/settings/shop-type';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
 import { sessionAtom } from 'store/authorization-atom';
-import { shopAtom } from 'store/shop';
 import PasswordInput from 'components/common/password-input';
 import Input from 'components/common/input';
 import Button from 'components/common/button';
@@ -25,7 +24,6 @@ function Signup() {
   const queryClient = useQueryClient();
   const requestURL = `${fortressURL}/shops/get-started`;
   const [session, setSession] = useAtom(sessionAtom);
-  const [, setShop] = useAtom(shopAtom);
   const {
     mutate: getStarted,
     isLoading,
@@ -40,8 +38,10 @@ function Signup() {
     {
       onSuccess: (resp: Record<string, any>) => {
         setSession(resp.session);
-        setShop(resp.shop);
-        queryClient.prefetchQuery(['shop', resp.session?.identity?.account_id]);
+        queryClient.setQueryData(
+          ['shop', resp.session.identity.account_id],
+          resp.shop,
+        );
       },
       onError: (e: ResponseError) => {},
     },

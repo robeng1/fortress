@@ -27,9 +27,8 @@ import { VoucherSetType } from 'models/voucher/voucherset';
 import { useState } from 'react';
 import SelectableResultSearchModal from 'components/common/modal-searcher';
 import { request, ResponseError } from 'utils/request';
-import { useAtom } from 'jotai';
-import { shopAtom } from 'store/shop';
 import { mToS, sToM } from 'utils/money';
+import useShop from 'hooks/use-shop';
 
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
 // TODO:(fix range keys)
@@ -144,7 +143,7 @@ const initialValues: Values = {
 // TODO: (romeo) refactor duplicated pieces of logic
 const DiscountForm = ({ handleShow, id }) => {
   const queryClient = useQueryClient();
-  const [shop] = useAtom(shopAtom);
+  const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
 
   const [discountId, setDiscountId] = useState(id);
