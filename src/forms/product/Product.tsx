@@ -560,7 +560,7 @@ const ProductForm = ({ handleShow, id }) => {
                           theme="snow"
                           id="description"
                           value={values.description}
-                          onChange={handleChange}
+                          onChange={(value)=> setFieldValue('description', value)}
                         />
                       </div>
                     </div>
@@ -602,7 +602,6 @@ const ProductForm = ({ handleShow, id }) => {
                               ...colourStyles,
                             }}
                             className="w-full"
-                            // cacheUniqs={[cacheUniq]}
                           />
                         </div>
                       </div>

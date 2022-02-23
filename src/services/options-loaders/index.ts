@@ -55,7 +55,7 @@ export const tagOptions =
   };
 
 export const productTypeOptions = async (term: string, callback) => {
-  const response = await fetch(`${fortressURL}/product-types/option-search`, {
+  const response = await fetch(`${fortressURL}/shops/product-types/option-search`, {
     method: 'POST',
     body: JSON.stringify({ term }),
     headers: { 'Content-Type': 'application/json' },

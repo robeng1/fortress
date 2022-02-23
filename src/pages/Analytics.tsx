@@ -7,14 +7,9 @@ import Datepicker from 'components/Datepicker';
 import BottomNav from 'components/BottomNav';
 import AnalyticsCard01 from 'partials/analytics/AnalyticsCard01';
 import AnalyticsCard02 from 'partials/analytics/AnalyticsCard02';
-// import AnalyticsCard03 from 'partials/analytics/AnalyticsCard03';
-// import AnalyticsCard04 from 'partials/analytics/AnalyticsCard04';
 import AnalyticsCard05 from 'partials/analytics/AnalyticsCard05';
 import AnalyticsCard06 from 'partials/analytics/AnalyticsCard06';
 import AnalyticsCard07 from 'partials/analytics/AnalyticsCard07';
-// import AnalyticsCard08 from 'partials/analytics/AnalyticsCard08';
-// import AnalyticsCard09 from 'partials/analytics/AnalyticsCard09';
-// import AnalyticsCard10 from 'partials/analytics/AnalyticsCard10';
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
 import { WebAnalyticResponseBody } from 'models/stats/stats-type';
@@ -29,7 +24,7 @@ function Analytics() {
   const { data: webStats } = useQuery<WebAnalyticResponseBody>(
     ['web-analytics'],
     async () => await request(`${requestURL}`),
-    { keepPreviousData: true, enabled: !!shop?.shop_id },
+    { enabled: !!shop?.shop_id },
   );
 
   return (
@@ -85,22 +80,12 @@ function Analytics() {
               topPages={webStats?.top_live_pages}
               liveVisitors={webStats?.live_visitors}
             />
-            {/* Stacked bar chart (Acquisition Channels) */}
-            {/* <AnalyticsCard03 /> */}
-            {/* Horizontal bar chart (Audience Overview) */}
-            {/* <AnalyticsCard04 /> */}
-            {/* Report card (Top Channels) */}
+
             <AnalyticsCard05 topChannels={webStats?.top_channels} />
-            {/* Report card (Top Pages) */}
+           
             <AnalyticsCard06 topPages={webStats?.top_pages} />
-            {/* Report card (Top Countries) */}
+           
             <AnalyticsCard07 topCities={webStats?.top_cities} />
-            {/* Doughnut chart (Sessions By Device) */}
-            {/* <AnalyticsCard08 /> */}
-            {/* Doughnut chart (Visit By Age Category) */}
-            {/* <AnalyticsCard09 /> */}
-            {/* Polar chart (Sessions By Gender) */}
-            {/* <AnalyticsCard10 /> */}
           </div>
         </div>
         <BottomNav />
