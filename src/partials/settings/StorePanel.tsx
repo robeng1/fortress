@@ -465,6 +465,7 @@ function StorePanel() {
                     Cancel
                   </button>
                   <button
+                    type="submit"
                     onClick={e => {
                       e.preventDefault();
                       handleSubmit();

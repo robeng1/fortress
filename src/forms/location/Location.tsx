@@ -35,8 +35,8 @@ function LocationsForm({ handleShow, id }) {
     description: centre?.description || '',
     is_pick_up_centre: centre?.is_pick_up_centre || true,
     is_active: centre?.is_active || true,
-    longitude: centre?.longitude,
-    latitude: centre?.latitude,
+    longitude: centre?.longitude || 10.099,
+    latitude: centre?.latitude || 123.243,
     address: {
       street: centre?.address?.street || '',
       city: centre?.address?.city || '',

@@ -26,6 +26,7 @@ export default function useShop() {
     isRefetching,
   } = useQuery<ShopType>(['shop', id], () => findShop(id), {
     enabled: !!id,
+    staleTime: 3600000,
   });
   return {
     refetch,

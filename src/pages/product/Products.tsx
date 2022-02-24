@@ -12,6 +12,7 @@ import { useAtom } from 'jotai';
 import ProductsTable from 'partials/products/ProductsTable';
 import ProductForm from 'forms/product/Product';
 import useShop from 'hooks/use-shop';
+import { request } from 'utils/request';
 
 function Products() {
   const { shop } = useShop();
@@ -34,7 +35,7 @@ function Products() {
   const { data: productData } = useQuery(
     ['productviews', productPage],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/products/views`, {
+      await request(`${fortressURL}/shops/${shop?.shop_id}/products/views`, {
         method: 'POST',
         body: JSON.stringify({
           offset: (productPage - 1) * productItemsPerPage + 1,
@@ -42,7 +43,7 @@ function Products() {
           shop_id: shop?.shop_id,
         }),
         headers: { 'Content-Type': 'application/json' },
-      }).then(result => result.json()),
+      }),
     { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
   const handleShowProductForm = (display: Boolean, productId: string) => {

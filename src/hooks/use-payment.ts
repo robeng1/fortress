@@ -29,6 +29,7 @@ export default function usePayment() {
     isRefetching,
   } = useQuery<Account>(['payment', shopId], () => getPd(shopId), {
     enabled: !!shopId,
+    staleTime: 3600000,
   });
   return {
     refetch,

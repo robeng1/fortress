@@ -11,7 +11,7 @@ import { ItemBasedRateType } from 'models/rates/item-based-rate';
 import colourStyles from 'forms/product/selectStyles';
 import { modelOptions, ShippingRateModelOption } from 'data/select';
 import { sToCurrency } from 'utils/money';
-import { rateToIB, rawToRate } from './converters';
+import { rateToIB, rateToWB, rawToRate } from './converters';
 import useShop from 'hooks/use-shop';
 
 const animatedComponents = makeAnimated();
@@ -418,7 +418,7 @@ function RatesForm({ handleShow, rate }) {
                     value={values.cities}
                     isSearchable
                     onChange={option =>
-                      setFieldValue('cities', option as ShippingRateModelOption)
+                      setFieldValue('cities', (option as ShippingRateModelOption).label)
                     }
                     components={animatedComponents}
                     options={modelOptions}
@@ -446,8 +446,10 @@ function RatesForm({ handleShow, rate }) {
                     Cancel
                   </button>
                   <button
+                    type='submit'
                     onClick={e => {
                       e.stopPropagation();
+                      console.log("clicked")
                       handleSubmit();
                     }}
                     className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
@@ -465,6 +467,3 @@ function RatesForm({ handleShow, rate }) {
 }
 
 export default RatesForm;
-function rateToWB(values: RateType): WeightBasedRateType {
-  throw new Error('Function not implemented.');
-}

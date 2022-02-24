@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import RateForm from 'forms/rates/Rate';
 import RateCard from '../shipping/RateCard';
-import { useAtom } from 'jotai';
-import { ratesAtom } from 'store/shipping-rates';
+
+import useRates from 'hooks/use-rates';
 
 function RatesPanel() {
-  const [rates] = useAtom(ratesAtom);
+  const { rates } = useRates();
   const [showRateForm, setShowRateForm] = useState(false);
 
   const handleShow = (show: boolean, id?: string) => {

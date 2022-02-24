@@ -68,11 +68,11 @@ interface Values {
   shipping_required: boolean;
   track_quantity: boolean;
   quantity: number;
-  type: unknown;
+  type: string;
   collections: string[];
   stock_records: InventoryType[];
   variants: ProductType[];
-  locations: string[];
+  locations: string[] | undefined;
   variation_options: VarOption[];
   images: ProductImage[];
   tags: string[];
@@ -152,7 +152,7 @@ const ProductForm = ({ handleShow, id }) => {
     length: '',
     wdith: '',
     height: '',
-    locations: Object.keys(locations || {}),
+    locations: locations?.map(loc => loc.centre_id!),
     files: [],
     page_title: '',
     page_description: '',
@@ -174,8 +174,9 @@ const ProductForm = ({ handleShow, id }) => {
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
+      categories: [d.type],
       images: images.map(img => {
-        return { image: { image_url: img.url }, alt: img.name };
+        return { image: { image_url: img.url }, alt: img.name, shop_id: shop?.shop_id };
       }),
       page_title: d.page_title,
       page_description: d.page_description,
@@ -194,14 +195,14 @@ const ProductForm = ({ handleShow, id }) => {
       });
     } else {
       p.structure = ProductStructure.STANDALONE;
-      p.stock_records = Object.keys(locations ?? {}).map(id => {
+      p.stock_records = (locations ?? []).map((loc) => {
         const record: InventoryType = {
           variant_id: productId || '',
           product_id: productId || '',
           shop_id: shop?.shop_id,
           num_in_stock: d.quantity,
           // TODO: centreId && centreSku should be replaced with correct on
-          centre_id: id,
+          centre_id: loc.centre_id!,
           centre_sku: slugify(d.title),
           cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
           price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
@@ -235,7 +236,7 @@ const ProductForm = ({ handleShow, id }) => {
         toast('Product created successfully');
       },
       onError: (e: ResponseError) => {
-        toast('Product creation failed due to ' + e.message);
+        toast(e.message);
       },
     },
   );
@@ -455,13 +456,13 @@ const ProductForm = ({ handleShow, id }) => {
         product_id: productId || '',
         structure: ProductStructure.CHILD,
       };
-      p.stock_records = Object.keys(locations ?? {}).map((centreId: string) => {
+      p.stock_records = (locations ?? []).map(({ centre_id }) => {
         const record: InventoryType = {
           variant_id: productId || '',
           product_id: productId || '',
           num_in_stock: values.quantity,
           // TODO: centreId && centreSku should be replaced with correct on
-          centre_id: centreId,
+          centre_id: centre_id!,
           centre_sku: slugify(t),
           cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
           price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
@@ -560,7 +561,9 @@ const ProductForm = ({ handleShow, id }) => {
                           theme="snow"
                           id="description"
                           value={values.description}
-                          onChange={(value)=> setFieldValue('description', value)}
+                          onChange={value =>
+                            setFieldValue('description', value)
+                          }
                         />
                       </div>
                     </div>

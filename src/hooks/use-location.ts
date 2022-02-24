@@ -20,7 +20,7 @@ const findLocations = async (id?: string) => {
 };
 
 export default function useCentres() {
-  const {shop} = useShop();
+  const { shop } = useShop();
   const {
     data: locations,
     refetch,
@@ -32,6 +32,7 @@ export default function useCentres() {
     () => findLocations(shop?.shop_id),
     {
       enabled: !!shop?.shop_id,
+      staleTime: 3600000,
     },
   );
   return {

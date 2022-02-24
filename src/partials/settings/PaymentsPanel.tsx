@@ -228,6 +228,7 @@ function PaymentsPanel() {
                     Cancel
                   </button>
                   <button
+                    type="submit"
                     onClick={e => {
                       e.stopPropagation();
                       handleSubmit();
