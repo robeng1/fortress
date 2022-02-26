@@ -32,7 +32,6 @@ export default function useCentres() {
     () => findLocations(shop?.shop_id),
     {
       enabled: !!shop?.shop_id,
-      staleTime: 3600000,
     },
   );
   return {

@@ -7,7 +7,6 @@ import Header from 'partials/Header';
 import FilterButton from 'components/DropdownFilter';
 import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
-import { useAtom } from 'jotai';
 import InventoryTable from 'partials/inventory/InventoryTable';
 import useShop from 'hooks/use-shop';
 
@@ -77,7 +76,7 @@ function Inventories() {
             {/* Pagination */}
             {data && (
               <Pagination
-                count={data?.total / itemsPerPage}
+                count={Math.ceil(data?.total / itemsPerPage)}
                 variant="outlined"
                 color="primary"
                 className="mt-4 md:mt-8"

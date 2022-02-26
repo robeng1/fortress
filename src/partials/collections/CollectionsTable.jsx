@@ -80,7 +80,7 @@ function CollectionsTable({ selectedItems, handleShow, collections }) {
                       <Collection
                         key={collection.collection_id}
                         id={collection.collection_id}
-                        image={collection.image}
+                        image={collection.image_url}
                         name={collection.title}
                         conditions="Manual"
                         itemCount={collection.all_products_count}

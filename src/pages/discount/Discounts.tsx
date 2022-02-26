@@ -1,4 +1,5 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
+import isEmpty from 'lodash/isEmpty'
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/BottomNav';
@@ -7,7 +8,6 @@ import Header from 'partials/Header';
 import SearchForm from 'partials/actions/SearchForm';
 import FilterButton from 'components/DropdownFilter';
 import { fortressURL } from 'endpoints/urls';
-import { useAtom } from 'jotai';
 import DiscountTable from 'partials/discount/DiscountTable';
 import DiscountForm from 'forms/discount/Discount';
 import useShop from 'hooks/use-shop';
@@ -49,7 +49,7 @@ function Discounts() {
     setCurrentDiscountId(prevState => discountId);
     setShowForm(display);
   };
-
+  const discounts = data?.discounts || []
   const renderFormView = () => {
     return (
       <main>
@@ -125,12 +125,12 @@ function Discounts() {
           <DiscountTable
             selectedItems={handleSelectedItems}
             handleShow={handleShow}
-            discounts={data?.views || []}
+            discounts={discounts || []}
           />
           {/* Pagination */}
-          {data && (
+          {!isEmpty(discounts) && (
             <Pagination
-              count={data?.total / itemsPerPage}
+              count={Math.ceil(data?.total / itemsPerPage)}
               variant="outlined"
               color="primary"
               className="mt-4 md:mt-8"

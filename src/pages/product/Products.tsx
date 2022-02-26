@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, lazy, ChangeEvent } from 'react';
+import isEmpty from 'lodash/isEmpty'
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/BottomNav';
@@ -50,7 +51,7 @@ function Products() {
     setCurrentlyBeingEditedProductId(productId);
     setShowForm(display);
   };
-
+  const products = productData?.products || [];
   const renderForm = () => {
     return (
       <main>
@@ -128,7 +129,7 @@ function Products() {
             </div>
 
             {/* More actions */}
-            {productData && (
+            {!isEmpty(products) && (
               <div className="sm:flex sm:justify-between sm:items-center mb-3">
                 {/* Left side */}
                 <div className="mb-4 sm:mb-0">
@@ -162,13 +163,13 @@ function Products() {
             <ProductsTable
               selectedItems={handleSelectedItems}
               handleShow={handleShowProductForm}
-              products={productData?.views || []}
+              products={products || []}
             />
 
             {/* Pagination */}
-            {productData && (
+            {isEmpty(products) && (
               <Pagination
-                count={productData?.total / productItemsPerPage}
+                count={Math.ceil(productData?.total / productItemsPerPage)}
                 variant="outlined"
                 color="primary"
                 className="mt-4 md:mt-8"

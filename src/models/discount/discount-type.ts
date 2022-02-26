@@ -30,7 +30,7 @@ export interface DiscountType {
   num_orders?: number;
   redirect_url?: string;
   created_at?: string;
-  cover_photo?: Photo | null;
+  image?: Photo | null;
   categories?: string[];
   keywords?: string[];
   page_title?: string;

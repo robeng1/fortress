@@ -25,6 +25,7 @@ function StorePanel() {
   const requestURL = `${fortressURL}/shops`;
 
   const [image, setImage] = useState(shop?.image);
+  console.log(image);
 
   const inputFile = useRef<HTMLInputElement>(null);
 

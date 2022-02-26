@@ -1,12 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
-import ky from 'ky';
 import { Link } from 'react-router-dom';
 import Transition from 'utils/transition';
 import { useQuery } from 'react-query';
 import { useDebounce } from 'hooks/use-debounce';
-interface Result {
-  result: any[];
-}
 const initiallySelected: any[] = [];
 function SelectableResultSearchModal({
   id,
@@ -29,11 +25,13 @@ function SelectableResultSearchModal({
   const { data } = useQuery(
     [queryKey, debouncedValue],
     () =>
-      ky
-        .post(`${queryURL}`, {
-          body: JSON.stringify({ query: composeQuery(debouncedValue) }),
-        })
-        .json<Result>(),
+      fetch(queryURL, {
+        method: 'POST',
+        body: JSON.stringify({ ...composeQuery(debouncedValue) }),
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then(response => response.json())
+        .catch(e => {}),
     {
       enabled: queryEnabled && Boolean(debouncedValue),
     },

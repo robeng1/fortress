@@ -68,7 +68,7 @@ interface Values {
   shipping_required: boolean;
   track_quantity: boolean;
   quantity: number;
-  type: string;
+  type?: { key: string; label: string };
   collections: string[];
   stock_records: InventoryType[];
   variants: ProductType[];
@@ -132,7 +132,7 @@ const ProductForm = ({ handleShow, id }) => {
     shipping_required: false,
     track_quantity: true,
     quantity: 1,
-    type: '',
+    type: undefined,
     collections: [],
     stock_records: [],
     variants: [],
@@ -174,9 +174,12 @@ const ProductForm = ({ handleShow, id }) => {
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
-      categories: [d.type],
       images: images.map(img => {
-        return { image: { image_url: img.url }, alt: img.name, shop_id: shop?.shop_id };
+        return {
+          image: { image_url: img.url },
+          alt: img.name,
+          shop_id: shop?.shop_id,
+        };
       }),
       page_title: d.page_title,
       page_description: d.page_description,
@@ -185,6 +188,7 @@ const ProductForm = ({ handleShow, id }) => {
       collections: [],
       variants: [],
     };
+    if (d.type) p.categories = [d.type.key]
     if (d.is_parent) {
       p.structure = ProductStructure.PARENT;
       p.variants = d.variants.map(v => {
@@ -195,7 +199,7 @@ const ProductForm = ({ handleShow, id }) => {
       });
     } else {
       p.structure = ProductStructure.STANDALONE;
-      p.stock_records = (locations ?? []).map((loc) => {
+      p.stock_records = (locations ?? []).map(loc => {
         const record: InventoryType = {
           variant_id: productId || '',
           product_id: productId || '',
@@ -1359,7 +1363,7 @@ const ProductForm = ({ handleShow, id }) => {
                         e.stopPropagation();
                         handleSubmit();
                       }}
-                      type="submit"
+                      type="button"
                       className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
                     >
                       Save Changes

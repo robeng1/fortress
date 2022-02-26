@@ -1,4 +1,5 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import { fortressURL } from 'endpoints/urls';
@@ -52,7 +53,7 @@ function Collections() {
     setCurrentCollectionId(collectionId);
     setShowForm(display);
   };
-
+  const collections = data?.collections || [];
   const renderFormView = () => {
     return (
       <main>
@@ -136,13 +137,13 @@ function Collections() {
           <CollectionsTable
             selectedItems={handleSelectedItems}
             handleShow={handleShow}
-            collections={data?.views || []}
+            collections={collections || []}
           />
 
           {/* Pagination */}
-          {data && (
+          {!isEmpty[collections] && (
             <Pagination
-              count={data?.total / itemsPerPage}
+              count={Math.ceil(data?.total / itemsPerPage)}
               variant="outlined"
               color="primary"
               className="mt-4 md:mt-8"

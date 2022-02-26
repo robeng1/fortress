@@ -159,7 +159,7 @@ const DiscountForm = ({ handleShow, id }) => {
     },
   );
 
-  const [image, setImage] = useState(discount?.cover_photo?.image_url);
+  const [image, setImage] = useState(discount?.image?.image_url);
   const handleSelectedResults =
     (
       setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
@@ -413,7 +413,7 @@ const DiscountForm = ({ handleShow, id }) => {
       page_description: d.page_description,
       start: moment(d.start_date + ' ' + d.start_time).toISOString(),
       end: moment(d.end_date + ' ' + d.end_time).toISOString(),
-      cover_photo: { image_url: image },
+      image: { image_url: image },
     };
     disc.max_discount = sToM(d.max_discount, shop?.currency?.iso_code);
     switch (d.incentive_type) {
@@ -738,10 +738,10 @@ const DiscountForm = ({ handleShow, id }) => {
 
   React.useEffect(() => {
     // assuming the image lives on a server somewhere
-    discount?.cover_photo?.image_url &&
-      discount?.cover_photo?.image_url !== '' &&
-      discount?.cover_photo?.image_url !== undefined &&
-      fetch(discount?.cover_photo?.image_url)
+    discount?.image?.image_url &&
+      discount?.image?.image_url !== '' &&
+      discount?.image?.image_url !== undefined &&
+      fetch(discount?.image?.image_url)
         .then(response => response.blob()) // returns a Blob
         .then(blob => {
           addFiles([
