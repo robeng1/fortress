@@ -26,7 +26,7 @@ import { ProductViewListType } from 'models/product/product-type';
 import useShop from 'hooks/use-shop';
 
 export default function CollectionForm({ handleShow, id }) {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
@@ -74,7 +74,7 @@ export default function CollectionForm({ handleShow, id }) {
     {
       onSuccess: (newCollection: CollectionType) => {
         setCollectionId(newCollection.collection_id);
-        queryClient.setQueryData(['collection', collectionId], newCollection);
+        qc.setQueryData(['collection', collectionId], newCollection);
         toast('Collection created successfully');
       },
       onError: (e: ResponseError) => {
@@ -93,7 +93,7 @@ export default function CollectionForm({ handleShow, id }) {
     {
       onSuccess: (newCollection: CollectionType) => {
         setCollectionId(newCollection.collection_id);
-        queryClient.setQueryData(['collection', collectionId], newCollection);
+        qc.setQueryData(['collection', collectionId], newCollection);
         toast('Collection updated successfully');
       },
       onError: (e: ResponseError) => {
@@ -127,7 +127,7 @@ export default function CollectionForm({ handleShow, id }) {
       }),
     {
       onSuccess: (newCollect: CollectType) => {
-        queryClient.invalidateQueries(['collection-products', page]);
+        qc.invalidateQueries(['collection-products', page]);
       },
       onError: (e: ResponseError) => {},
     },
@@ -141,7 +141,7 @@ export default function CollectionForm({ handleShow, id }) {
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['collection-products', page]);
+        qc.invalidateQueries(['collection-products', page]);
       },
       onError: (e: ResponseError) => {},
     },

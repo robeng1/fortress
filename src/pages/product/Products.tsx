@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, lazy, ChangeEvent } from 'react';
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash/isEmpty';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/BottomNav';
@@ -169,7 +169,11 @@ function Products() {
             {/* Pagination */}
             {isEmpty(products) && (
               <Pagination
-                count={Math.ceil(productData?.total / productItemsPerPage)}
+                count={
+                  productData?.total > productItemsPerPage
+                    ? Math.ceil(productData?.total / productItemsPerPage)
+                    : 1
+                }
                 variant="outlined"
                 color="primary"
                 className="mt-4 md:mt-8"

@@ -103,7 +103,7 @@ const ProductSchema = Yup.object().shape({
 });
 
 const ProductForm = ({ handleShow, id }) => {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
   const [productId, setProductId] = useState(id);
@@ -236,7 +236,7 @@ const ProductForm = ({ handleShow, id }) => {
     {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
-        queryClient.setQueryData(['product', productId], newProduct);
+        qc.setQueryData(['product', productId], newProduct);
         toast('Product created successfully');
       },
       onError: (e: ResponseError) => {
@@ -260,7 +260,7 @@ const ProductForm = ({ handleShow, id }) => {
     {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
-        queryClient.setQueryData(['product', productId], newProduct);
+        qc.setQueryData(['product', productId], newProduct);
       },
       onError: (e: ResponseError) => {},
     },

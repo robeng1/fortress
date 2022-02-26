@@ -12,7 +12,7 @@ import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
 
 function LocationsForm({ handleShow, id }) {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/centres`;
   const [centreId, setCentreId] = useState(id);
@@ -85,7 +85,7 @@ function LocationsForm({ handleShow, id }) {
     {
       onSuccess: (newLocation: LocationType) => {
         setCentreId(newLocation.centre_id);
-        queryClient.setQueryData(
+        qc.setQueryData(
           ['location', newLocation.centre_id],
           newLocation,
         );
@@ -112,7 +112,7 @@ function LocationsForm({ handleShow, id }) {
     {
       onSuccess: (newLocation: LocationType) => {
         setCentreId(newLocation.centre_id);
-        queryClient.setQueryData(
+        qc.setQueryData(
           ['location', newLocation.centre_id],
           newLocation,
         );

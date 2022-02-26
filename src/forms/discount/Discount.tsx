@@ -142,7 +142,7 @@ const initialValues: Values = {
 
 // TODO: (romeo) refactor duplicated pieces of logic
 const DiscountForm = ({ handleShow, id }) => {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
 
@@ -662,7 +662,7 @@ const DiscountForm = ({ handleShow, id }) => {
     {
       onSuccess: (newDiscount: DiscountType) => {
         setDiscountId(newDiscount.discount_id);
-        queryClient.setQueryData(['discount', discountId], newDiscount);
+        qc.setQueryData(['discount', discountId], newDiscount);
         toast('Discount created successfully');
       },
       onError: (e: ResponseError) => {
@@ -681,7 +681,7 @@ const DiscountForm = ({ handleShow, id }) => {
     {
       onSuccess: (newDiscount: DiscountType) => {
         setDiscountId(newDiscount.discount_id);
-        queryClient.setQueryData(['discount', discountId], newDiscount);
+        qc.setQueryData(['discount', discountId], newDiscount);
         toast('Discount updated successfully');
       },
       onError: (e: ResponseError) => {
@@ -774,31 +774,21 @@ const DiscountForm = ({ handleShow, id }) => {
 
   // queries to display selected products and/or collections
   // gets the selected products for them to be displayed
-  const selectedProductsQuery = (products: string[]): string => {
-    let query = `SELECT * FROM product WHERE shop_id = '${shop?.shop_id}' AND product_id IN (`;
-    products.forEach((productId, index) => {
-      if (index === products.length) {
-        query += `'${productId}'`;
-      } else {
-        query += `'${productId}',`;
-      }
-    });
-    query += `)`;
-    return query;
+  const selectedProductsQuery = (products: string[]): Record<string, any> => {
+    const filters = products.map(p => `product_id=${p}`);
+    const dsl = { filter: [filters] };
+    const term = '';
+    return { dsl, term };
   };
 
   // gets the selected collections for them to be displayed
-  const selectedCollectionsQuery = (collections: string[]): string => {
-    let query = `SELECT * FROM collection WHERE shop_id = '${shop?.shop_id}' AND collection_id IN (`;
-    collections.forEach((collectionId, index) => {
-      if (index === collections.length) {
-        query += `'${collectionId}'`;
-      } else {
-        query += `'${collectionId}',`;
-      }
-    });
-    query += `)`;
-    return query;
+  const selectedCollectionsQuery = (
+    collections: string[],
+  ): Record<string, any> => {
+    const filters = collections.map(c => `collection_id=${c}`);
+    const dsl = { filter: [filters] };
+    const term = '';
+    return { dsl, term };
   };
 
   // query for getting included products
@@ -1406,7 +1396,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                       'buy_x_get_y_condition_range_keys',
                                     )(nl);
                                     setBuyXGetYConditionIncludedProductKeys(nl);
-                                    queryClient.invalidateQueries([
+                                    qc.invalidateQueries([
                                       'cond-range-included-products',
                                       discountId,
                                     ]);
@@ -1446,7 +1436,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                                   k => k !== product.key,
                                                 ),
                                             );
-                                            queryClient.invalidateQueries([
+                                            qc.invalidateQueries([
                                               'cond-range-included-products',
                                               discountId,
                                             ]);
@@ -1515,7 +1505,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setBuyXGetYConditionIncludedCollectionKeys(
                                       nl,
                                     );
-                                    queryClient.invalidateQueries([
+                                    qc.invalidateQueries([
                                       'cond-range-included-collections',
                                       discountId,
                                     ]);
@@ -1555,7 +1545,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                                   k => k !== collection.key,
                                                 ),
                                             );
-                                            queryClient.invalidateQueries([
+                                            qc.invalidateQueries([
                                               'cond-range-included-collections',
                                               discountId,
                                             ]);
@@ -1686,7 +1676,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                       'buy_x_get_y_ben_range_keys',
                                     )(nl);
                                     setBuyXGetYBenefitIncludedProductKeys(nl);
-                                    queryClient.invalidateQueries([
+                                    qc.invalidateQueries([
                                       'ben-range-included-products',
                                       discountId,
                                     ]);
@@ -1726,7 +1716,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                                   k => k !== product.key,
                                                 ),
                                             );
-                                            queryClient.invalidateQueries([
+                                            qc.invalidateQueries([
                                               'ben-range-included-products',
                                               discountId,
                                             ]);
@@ -1795,7 +1785,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                     setBuyXGetYBenefitIncludedCollectionKeys(
                                       nl,
                                     );
-                                    queryClient.invalidateQueries([
+                                    qc.invalidateQueries([
                                       'cond-range-included-collections',
                                       discountId,
                                     ]);
@@ -1835,7 +1825,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                                   k => k !== collection.key,
                                                 ),
                                             );
-                                            queryClient.invalidateQueries([
+                                            qc.invalidateQueries([
                                               'ben-range-included-collections',
                                               discountId,
                                             ]);
@@ -2170,7 +2160,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                           'included_products',
                                         )(nl);
                                         setIncludedProductKeys(nl);
-                                        queryClient.invalidateQueries([
+                                        qc.invalidateQueries([
                                           'included-products',
                                           discountId,
                                         ]);
@@ -2209,7 +2199,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                                     k => k !== product.key,
                                                   ),
                                               );
-                                              queryClient.invalidateQueries([
+                                              qc.invalidateQueries([
                                                 'included-products',
                                                 discountId,
                                               ]);
@@ -2275,7 +2265,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                           'included_collections',
                                         )(nl);
                                         setIncludedCollectionKeys(nl);
-                                        queryClient.invalidateQueries([
+                                        qc.invalidateQueries([
                                           'included-collections',
                                           discountId,
                                         ]);
@@ -2315,7 +2305,7 @@ const DiscountForm = ({ handleShow, id }) => {
                                                       k => k !== collection.key,
                                                     ),
                                                 );
-                                                queryClient.invalidateQueries([
+                                                qc.invalidateQueries([
                                                   'included-collections',
                                                   discountId,
                                                 ]);

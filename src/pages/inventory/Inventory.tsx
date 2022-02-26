@@ -1,4 +1,5 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
+import isEmpty from 'lodash/isEmpty'
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/BottomNav';
@@ -9,6 +10,7 @@ import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
 import InventoryTable from 'partials/inventory/InventoryTable';
 import useShop from 'hooks/use-shop';
+import { isEmptyArray } from 'formik';
 
 function Inventories() {
   const { shop } = useShop();
@@ -37,7 +39,7 @@ function Inventories() {
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };
-
+  const records = data?.records || []
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -69,14 +71,18 @@ function Inventories() {
             {/* Table */}
             <InventoryTable
               selectedItems={handleSelectedItems}
-              records={data?.views || []}
+              records={records || []}
               headings={undefined}
             />
 
             {/* Pagination */}
-            {data && (
+            {!isEmpty(records) && (
               <Pagination
-                count={Math.ceil(data?.total / itemsPerPage)}
+                count={
+                  data?.total > itemsPerPage
+                    ? Math.ceil(data?.total / itemsPerPage)
+                    : 1
+                }
                 variant="outlined"
                 color="primary"
                 className="mt-4 md:mt-8"

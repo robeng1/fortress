@@ -13,7 +13,7 @@ import BottomNav from 'components/BottomNav';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 
-import CollectionsTable from 'partials/collections/CollectionsTable'
+import CollectionsTable from 'partials/collections/CollectionsTable';
 import CollectionForm from 'forms/collection/Collection';
 import useShop from 'hooks/use-shop';
 
@@ -143,7 +143,11 @@ function Collections() {
           {/* Pagination */}
           {!isEmpty[collections] && (
             <Pagination
-              count={Math.ceil(data?.total / itemsPerPage)}
+              count={
+                data?.total > itemsPerPage
+                  ? Math.ceil(data?.total / itemsPerPage)
+                  : 1
+              }
               variant="outlined"
               color="primary"
               className="mt-4 md:mt-8"
