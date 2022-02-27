@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { proxyURL } from 'utils/urlsigner';
 export default function InventoryCard({ product }) {
   const statusColor = status => {
     switch (status) {
@@ -16,7 +16,7 @@ export default function InventoryCard({ product }) {
     <>
       <div className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
         <img
-          src={image}
+          src={proxyURL(image, 50, 50)}
           alt={imageAlt || ''}
           className="w-full h-full object-center object-cover"
         />
@@ -32,7 +32,7 @@ export default function InventoryCard({ product }) {
         </div>
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p
-            className={`mt-1 text-sm text-gray-500 rounded-full text-center px-2.5 py-0.5 ${statusColor(
+            className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5 ${statusColor(
               inventory,
             )}`}
           >

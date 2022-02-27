@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import InventoryTableItem from './InventoryTableItem';
 import InventoryList from './mobile/InventoryList';
 import EmptyState from 'partials/EmptyState';
-import { formatPesosMoney } from 'utils/money';
+import { pesosRawMoney } from 'utils/money';
 
 const InventoryTable = ({ selectedItems, headings, records }) => {
   const [selectAll, setSelectAll] = useState(false);
@@ -63,7 +64,10 @@ const InventoryTable = ({ selectedItems, headings, records }) => {
                       <div className="font-semibold">SKU</div>
                     </th>
                     <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
-                      <div className="font-semibold">Price</div>
+                      <div className="font-semibold">
+                        Price{' '}
+                        {!isEmpty(records) && `(in ${records[0].currency})`}
+                      </div>
                     </th>
                     <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
                       <div className="font-semibold">Available</div>
@@ -81,10 +85,7 @@ const InventoryTable = ({ selectedItems, headings, records }) => {
                         name={product.title}
                         inventory={product.sku}
                         type={product.item_condition}
-                        status={formatPesosMoney(
-                          product.price_excl_tax_int,
-                          product.currency,
-                        )}
+                        price={pesosRawMoney(product.price_excl_tax)}
                         variants={product.num_in_stock}
                         fav={false}
                         handleClick={handleClick}

@@ -132,6 +132,7 @@ function StorePanel() {
   return (
     <>
       <Formik
+        enableReinitialize
         initialValues={{
           business_display_name: shop?.business_display_name || '',
           email: shop?.email || '',

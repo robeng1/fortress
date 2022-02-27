@@ -74,7 +74,7 @@ export default function DiscountTable({
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {discount.type}
+                              {discount.type === 'site'? 'Automatic': 'Code'}
                             </div>
                             {/* <div className="text-sm text-gray-500">
                               {person.status}
@@ -82,7 +82,7 @@ export default function DiscountTable({
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              {discount.status}
+                              {discount.active ? 'Active': 'Inactive'}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

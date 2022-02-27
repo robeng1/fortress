@@ -56,7 +56,7 @@ const gravity = 'no';
 const enlarge = 1;
 const defaultExtension = 'jpg';
 
-export const getURL = (
+export const proxyURL = (
   url: string,
   width = 100,
   height = 100,

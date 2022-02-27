@@ -34,7 +34,7 @@ function Inventories() {
         }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
-    { keepPreviousData: true, enabled: !!shop?.shop_id },
+    { keepPreviousData: true, enabled: !!shop?.shop_id, refetchOnWindowFocus:false },
   );
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
@@ -76,7 +76,7 @@ function Inventories() {
             />
 
             {/* Pagination */}
-            {!isEmpty(records) && (
+            {!isEmpty(records) && data?.total > itemsPerPage && (
               <Pagination
                 count={
                   data?.total > itemsPerPage

@@ -45,6 +45,13 @@ export function formatPesosMoney(
   return d.format({ symbol: symbol(c) });
 }
 
+export function pesosRawMoney(
+  m: string | number
+): string {
+  const d = currency(m, { fromCents: true });
+  return d.toString()
+}
+
 export function mToSFormatted(mm: MoneyType | null | undefined): string {
   return mToCurrency(mm).format({
     symbol: symbol(mm?.currency || 'GHS'),

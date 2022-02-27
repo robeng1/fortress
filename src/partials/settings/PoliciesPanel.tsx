@@ -35,6 +35,7 @@ function PoliciesPanel() {
   return (
     <>
       <Formik
+        enableReinitialize
         initialValues={{
           refund_policy:
             shop?.policies?.find(p => p.p_type === 'refund_policy')?.body || '',

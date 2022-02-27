@@ -83,8 +83,8 @@ function ProductsTable({ selectedItems, handleShow, products }) {
                         image={product.image_url}
                         name={product.title}
                         inventory={`${product.num_in_stock} in stock`}
-                        type={product.product_type}
-                        status={product.product_status}
+                        type={product.categories[0]}
+                        status={product.status}
                         variants={product.num_variants}
                         fav={false}
                         handleShow={() => handleShow(true, product.product_id)}

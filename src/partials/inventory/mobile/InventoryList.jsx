@@ -24,7 +24,7 @@ export default function InventoryList({ records }) {
                       variants: product.num_in_stock,
                       fav: false,
                       price: formatPesosMoney(
-                        product.price_excl_tax_int,
+                        product.price_excl_tax,
                         product.currency,
                       ),
                     }}

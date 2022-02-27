@@ -63,6 +63,7 @@ function PaymentsPanel() {
   return (
     <>
       <Formik
+        enableReinitialize
         initialValues={{
           account_id: paymentAccount?.account_id || '',
           name: shop?.business_name || '',

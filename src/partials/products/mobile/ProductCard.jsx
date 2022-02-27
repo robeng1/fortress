@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { proxyURL } from 'utils/urlsigner';
 
 export default function ProductCard({ product, handleShow }) {
   const statusColor = status => {
@@ -13,16 +14,15 @@ export default function ProductCard({ product, handleShow }) {
   };
   const { image, imageAlt, name, price, inventory } = product;
   return (
-    <div onClick={handleShow}>
+    <>
       <div className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
         <img
-          src={image}
+          src={proxyURL(image, 50, 50)}
           alt={imageAlt || ''}
           className="w-full h-full object-center object-cover"
         />
       </div>
-
-      <div className="ml-2 flex-1 flex flex-col pl-2">
+      <div onClick={handleShow} className="ml-2 flex-1 flex flex-col pl-2">
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
@@ -32,7 +32,7 @@ export default function ProductCard({ product, handleShow }) {
         </div>
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p
-            className={`mt-1 text-sm text-gray-500 rounded-full text-center px-2.5 py-0.5 ${statusColor(
+            className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5 ${statusColor(
               inventory,
             )}`}
           >
@@ -41,6 +41,6 @@ export default function ProductCard({ product, handleShow }) {
           <p className="ml-4 text-sm text-gray-500">{price}</p>
         </div>
       </div>
-    </div>
+    </>
   );
 }

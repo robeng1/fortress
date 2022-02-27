@@ -1,5 +1,5 @@
 import React from 'react';
-import { getURL } from 'utils/urlsigner';
+import { proxyURL } from 'utils/urlsigner';
 
 export default function CollectionCard({ collection, handleShow }) {
   return (
@@ -9,7 +9,7 @@ export default function CollectionCard({ collection, handleShow }) {
         className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
       >
         <img
-          src={getURL(collection.image_url, 50, 50)}
+          src={proxyURL(collection.image_url, 50, 50)}
           alt={collection.title}
           className="w-full h-full object-center object-cover"
         />
@@ -34,7 +34,7 @@ export default function CollectionCard({ collection, handleShow }) {
           <p
             className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5`}
           >
-            {collection.all_products_count}
+            {collection.all_products_count} items
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { proxyURL } from 'utils/urlsigner';
 function ProductTableItem(props) {
   const statusColor = status => {
     switch (status) {
@@ -8,7 +8,7 @@ function ProductTableItem(props) {
       case '0 in stock':
         return 'bg-red-100 text-red-600';
       default:
-        return '';
+        return 'bg-green-100 text-green-600';
     }
   };
   return (
@@ -32,12 +32,10 @@ function ProductTableItem(props) {
         className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"
       >
         <div className="flex items-center">
-          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+          <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={props.image}
-              width="40"
-              height="40"
+              src={proxyURL(props.image, 75, 75)}
               alt={props.name}
             />
           </div>
@@ -57,22 +55,11 @@ function ProductTableItem(props) {
         <div className="text-left">{props.type}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="text-left">{props.status}</div>
+        <div className="text-left">{props.status|| 'Available'}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="text-center">{props.variants}</div>
       </td>
-      {/* <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
-        
-        <button className="text-gray-400 hover:text-gray-500 rounded-full">
-          <span className="sr-only">Menu</span>
-          <svg className="w-8 h-8 fill-current" viewBox="0 0 32 32">
-            <circle cx="16" cy="16" r="2" />
-            <circle cx="10" cy="16" r="2" />
-            <circle cx="22" cy="16" r="2" />
-          </svg>
-        </button>
-      </td> */}
     </tr>
   );
 }

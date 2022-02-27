@@ -1,5 +1,5 @@
 import React from 'react';
-import { getURL } from 'utils/urlsigner';
+import { proxyURL } from 'utils/urlsigner';
 
 function CollectionItemTable(props) {
   return (
@@ -40,9 +40,7 @@ function CollectionItemTable(props) {
           <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={getURL(props.image, 50, 50)}
-              width="75"
-              height="75"
+              src={proxyURL(props.image, 75, 75)}
               alt={props.name}
             />
           </div>

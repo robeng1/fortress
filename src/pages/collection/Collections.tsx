@@ -42,7 +42,11 @@ function Collections() {
         }),
         headers: { 'Content-Type': 'application/json' },
       }),
-    { keepPreviousData: true, enabled: !!shop?.shop_id },
+    {
+      keepPreviousData: true,
+      enabled: !!shop?.shop_id,
+      refetchOnWindowFocus: false,
+    },
   );
 
   const handleSelectedItems = selectedItems => {
@@ -141,7 +145,7 @@ function Collections() {
           />
 
           {/* Pagination */}
-          {!isEmpty[collections] && (
+          {!isEmpty(collections) && data?.total > itemsPerPage && (
             <Pagination
               count={
                 data?.total > itemsPerPage

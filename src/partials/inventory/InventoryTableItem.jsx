@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { proxyURL } from 'utils/urlsigner';
 function InventoryTableItem(props) {
   return (
     <tr>
@@ -20,12 +20,10 @@ function InventoryTableItem(props) {
 
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="flex items-center">
-          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+          <div className="w-18 h-18  flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={props.image}
-              width="40"
-              height="40"
+              src={proxyURL(props.image, 75, 75)}
               alt={props.name}
             />
           </div>
@@ -41,8 +39,9 @@ function InventoryTableItem(props) {
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
+          onChange={() => {}}
           className="form-input w-full sm:w-28 rounded-sm"
-          value={props.status}
+          value={props.price}
         ></input>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
@@ -50,6 +49,7 @@ function InventoryTableItem(props) {
           type="number"
           step={1}
           min={0}
+          onChange={() => {}}
           className="form-input w-full sm:w-28 rounded-sm"
           value={props.variants}
         ></input>

@@ -38,7 +38,11 @@ function Discounts() {
         }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
-    { keepPreviousData: true, enabled: !!shop?.shop_id },
+    {
+      keepPreviousData: true,
+      enabled: !!shop?.shop_id,
+      refetchOnWindowFocus: false,
+    },
   );
 
   const handleSelectedItems = (selectedItems: any) => {
@@ -128,7 +132,7 @@ function Discounts() {
             discounts={discounts || []}
           />
           {/* Pagination */}
-          {!isEmpty(discounts) && (
+          {!isEmpty(discounts) && data?.total > itemsPerPage && (
             <Pagination
               count={
                 data?.total > itemsPerPage
