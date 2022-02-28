@@ -722,7 +722,7 @@ const ProductForm = ({ handleShow, id }) => {
                     </section>
                   </div>
 
-                  <div className="col-span-2 md:col-span-1 w-full mt-4">
+                  {/* <div className="col-span-2 md:col-span-1 w-full mt-4">
                     <section className="rounded bg-white shadow p-3">
                       <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
                         Availability
@@ -794,7 +794,7 @@ const ProductForm = ({ handleShow, id }) => {
                         </div>
                       </div>
                     </section>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="md:col-span-2">
                   <section className="bg-white shadow overflow-hidden p-3 mb">
