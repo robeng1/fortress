@@ -50,7 +50,10 @@ function Products() {
       refetchOnWindowFocus: false,
     },
   );
-  const handleShowProductForm = (display: Boolean, productId: string) => {
+  const handleShowProductForm = (
+    display: Boolean,
+    productId: string | undefined,
+  ) => {
     setCurrentlyBeingEditedProductId(productId);
     setShowForm(display);
   };
@@ -65,7 +68,7 @@ function Products() {
             <div className="mb-4 sm:mb-0">
               <div className="m-1.5">
                 <button
-                  onClick={() => setShowForm(!showForm)}
+                  onClick={() => handleShowProductForm(!showForm, undefined)}
                   className="btn border border-transparent focus:outline-none rounded shadow bg-white appearance-none"
                 >
                   <svg

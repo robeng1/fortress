@@ -87,6 +87,20 @@ export interface ProductType {
   shard?: number;
   collections?: CollectionType[];
   stock_records?: InventoryType[];
+  material?: string;
+  sid?: number;
+  variant_rank?: number | string ;
+  position?: number;
+  ean?: string;
+  allow_backorder?: boolean;
+  hs_code?: string;
+  mid_code?: string;
+  metadata?: Buffer | Uint8Array | string;
+  weight?: string;
+  length?: string;
+  height?: string;
+  width?: string;
+  profile_id?: string;
 }
 
 export interface ProductListType {

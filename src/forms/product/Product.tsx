@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
@@ -47,7 +48,7 @@ import {
 } from 'services/options-loaders';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
-import { sToM } from 'utils/money';
+import { mToCurrency, pesosRawMoney, sToM } from 'utils/money';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
@@ -87,7 +88,7 @@ interface Values {
   unlimited: boolean;
   weight: string;
   length: string;
-  wdith: string;
+  width: string;
   height: string;
   files: string[];
   page_title: string;
@@ -125,37 +126,47 @@ const ProductForm = ({ handleShow, id }) => {
       keepPreviousData: true,
     },
   );
+  const record: InventoryType | undefined =
+    product?.stock_records && product?.stock_records.length > 0
+      ? product?.stock_records[0]
+      : undefined;
   const initialValues: Values = {
-    title: '',
-    description: '',
-    is_parent: false,
-    shipping_required: false,
-    track_quantity: true,
-    quantity: 1,
+    title: product?.title || '',
+    description: product?.description || '',
+    is_parent: !isEmpty(product?.variants),
+    shipping_required: product?.shipping_required || true,
+    track_quantity: product?.track_stock || true,
+    quantity: !isEmpty(record) ? record?.num_in_stock || 1 : 1,
     type: undefined,
     collections: [],
-    stock_records: [],
-    variants: [],
+    stock_records: product?.stock_records || [],
+    variants: product?.variants || [],
     variation_options: [],
-    images: [],
-    tags: [],
-    vendor: '',
+    images: product?.images || [],
+    tags: product?.tags || [],
+    vendor: product?.vendor || '',
     channels: [],
     template_suffix: 'product',
-    price: '',
-    compare_at_price: '',
-    cost_per_item: '',
-    sku: '',
-    barcode: '',
-    unlimited: true,
-    weight: '',
-    length: '',
-    wdith: '',
-    height: '',
+    price: !isEmpty(record)
+      ? mToCurrency(record?.price_excl_tax).toString()
+      : '',
+    compare_at_price: !isEmpty(record)
+      ? mToCurrency(record?.compare_at_price).toString()
+      : '',
+    cost_per_item: !isEmpty(record)
+      ? mToCurrency(record?.cost_per_item).toString()
+      : '',
+    sku: product?.sku || '',
+    barcode: product?.upc || '',
+    unlimited: product?.track_stock || true,
+    weight: product?.weight || '',
+    length: product?.length || '',
+    width: product?.width || '',
+    height: product?.height || '',
     locations: locations?.map(loc => loc.centre_id!),
     files: [],
-    page_title: '',
-    page_description: '',
+    page_title: product?.page_title || '',
+    page_description: product?.description || '',
   };
   const flattenProduct = (d: ProductType | undefined): Values => {
     if (!d) {
@@ -174,6 +185,10 @@ const ProductForm = ({ handleShow, id }) => {
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
+      weight: d.weight,
+      height: d.height,
+      length: d.length,
+      width: d.width,
       images: images.map(img => {
         return {
           image: { image_url: img.url },
@@ -188,7 +203,7 @@ const ProductForm = ({ handleShow, id }) => {
       collections: [],
       variants: [],
     };
-    if (d.type) p.categories = [d.type.key]
+    if (d.type) p.categories = [d.type.key];
     if (d.is_parent) {
       p.structure = ProductStructure.PARENT;
       p.variants = d.variants.map(v => {
@@ -374,7 +389,8 @@ const ProductForm = ({ handleShow, id }) => {
                   data: blob, // changed blob -> data
                 },
               ]);
-            });
+            })
+            .catch(e => {});
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
@@ -496,6 +512,7 @@ const ProductForm = ({ handleShow, id }) => {
   return (
     <>
       <Formik
+        enableReinitialize
         initialValues={{ ...flattenProduct(product) }}
         validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -1216,24 +1233,22 @@ const ProductForm = ({ handleShow, id }) => {
                         </div>
                         <div>
                           <div className="rounded bg-white shadow p-3 mt-6 mb-10">
+                            {
+                              validateVarOptions(values.variation_options) && (
+                                <button
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    if (!showVariants) {
+                                      setChildren(values, setFieldValue);
+                                    }
+                                    setShowVariants(!showVariants);
+                                  }}
+                                  className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
+                                >
+                                  Edit Variants
+                                </button>
+                              )}
                             {(
-                              productId &&
-                              validateVarOptions(values.variation_options)
-                            )(
-                              <button
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  if (!showVariants) {
-                                    setChildren(values, setFieldValue);
-                                  }
-                                  setShowVariants(!showVariants);
-                                }}
-                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
-                              >
-                                Edit Variants
-                              </button>,
-                            )}
-                            {(!productId ||
                               !validateVarOptions(
                                 values.variation_options,
                               )) && (

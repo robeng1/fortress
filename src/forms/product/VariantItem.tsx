@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 function ProductVariant(props) {
   const [price, setPrice] = useState<string>('');
-  const [quantity, setQuantity] = useState<number>();
+  const [quantity, setQuantity] = useState<number>(1);
   useEffect(() => {
     setPrice(mToS(props.price));
     setQuantity(props.quantity);
@@ -25,7 +25,7 @@ function ProductVariant(props) {
         </div>
       </td>
 
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-2 w-3/5 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="flex items-center align-middle justify-start">
           <div className="w-10 h-10 flex-shrink-0 sm:mr-3">
             <img
@@ -43,20 +43,20 @@ function ProductVariant(props) {
           </div>
         </div>
       </td>
-      <td className="px-1 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-1 w-1/5 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
           type="number"
           step={1}
           min={0}
           onBlur={e => props.updateQuantity(props.index, quantity)}
           onChange={e => setQuantity(parseInt(e.target.value))}
-          className="form-input md:w-4/5 rounded-sm"
+          className="form-input w-full rounded-sm"
           value={quantity}
         ></input>
       </td>
-      <td className="px-1 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-1 w-1/5 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
-          className="form-input md:w-4/5 rounded-sm"
+          className="form-input w-full rounded-sm"
           type="text"
           onBlur={e => props.updatePrice(props.index, price)}
           onChange={e => setPrice(e.target.value)}

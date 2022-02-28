@@ -54,13 +54,13 @@ const ProdutVariantPreview = ({
                 </label>
               </div>
             </th>
-            <th className="w-1/2 py-3 whitespace-nowrap">
+            <th className="w-2/5 py-3 whitespace-nowrap">
               <div className="font-semibold text-left">Variant</div>
             </th>
-            <th className="w-1/4 py-3 whitespace-nowrap">
+            <th className="w-1/5 py-3 whitespace-nowrap">
               <div className="font-semibold text-left">Quantity</div>
             </th>
-            <th className="w-1/4 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+            <th className="w-1/5 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
               <div className="font-semibold text-left">Price({currency})</div>
             </th>
           </tr>
