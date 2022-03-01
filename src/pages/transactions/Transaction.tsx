@@ -35,7 +35,12 @@ function Transactions() {
         body: JSON.stringify({ query }),
         headers: { 'Content-Type': 'application/json' },
       }),
-    { keepPreviousData: true, enabled: !!accountId },
+    {
+      keepPreviousData: true,
+      enabled: !!accountId,
+      refetchOnWindowFocus: false,
+      staleTime: 2000,
+    },
   );
 
   return (

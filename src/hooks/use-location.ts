@@ -32,6 +32,7 @@ export default function useCentres() {
     () => findLocations(shop?.shop_id),
     {
       enabled: !!shop?.shop_id,
+      keepPreviousData: true,
     },
   );
   return {

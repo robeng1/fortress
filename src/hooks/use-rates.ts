@@ -51,6 +51,7 @@ export default function useRates() {
     () => findIbrs(shop?.shop_id),
     {
       enabled: !!shop?.shop_id,
+      keepPreviousData: true,
     },
   );
   const rates: Rate[] = (wbrates ?? initialState).concat(ibrates || initialState);

@@ -85,6 +85,8 @@ function Balance() {
     {
       keepPreviousData: true,
       enabled: !!userAccountId && !!paymentAccount?.account_id,
+      refetchOnWindowFocus: false,
+      staleTime: 2000,
     },
   );
 
