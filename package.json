@@ -35,6 +35,7 @@
     "@uppy/xhr-upload": "2.0.7",
     "apexcharts": "3.32.1",
     "axios": "0.24.0",
+    "centrifuge": "^2.8.4",
     "chalk": "5.0.0",
     "chart.js": "3.7.0",
     "chartjs-adapter-moment": "1.0.0",

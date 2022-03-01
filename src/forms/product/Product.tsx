@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';
-import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
 import { Dashboard } from '@uppy/react';
@@ -22,7 +23,7 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-import colourStyles from 'forms/product/selectStyles';
+import colourStyles from 'forms/product/Styles';
 
 import { colourOptions, attributeOptions } from 'data/select';
 import GoogleDrive from '@uppy/google-drive';
@@ -48,10 +49,11 @@ import {
 } from 'services/options-loaders';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
-import { mToCurrency, pesosRawMoney, sToM } from 'utils/money';
+import { mToCurrency, pesosRawMoney, sToM, sToCurrency } from 'utils/money';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
+import { variants } from 'css/tailwind.config';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -98,9 +100,9 @@ interface Values {
 const ProductSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
-  quantity: Yup.number().positive('Must be positive').required('Required'),
+  // quantity: Yup.number().positive('Must be positive').required('Required'),
   // type: Yup.string().required('Required'),
-  price: Yup.string().required('Required'),
+  // price: Yup.string().required('Required'),
 });
 
 const ProductForm = ({ handleShow, id }) => {
@@ -116,6 +118,8 @@ const ProductForm = ({ handleShow, id }) => {
   const [images, setImages] = useState<{ name: string; url: string }[]>([]);
   const { locations } = useCentres();
 
+  const generateVariantButtonRef = useRef<HTMLButtonElement>();
+
   // query for getting the product
   const { data: product } = useQuery<ProductType>(
     ['product', productId],
@@ -130,6 +134,7 @@ const ProductForm = ({ handleShow, id }) => {
     product?.stock_records && product?.stock_records.length > 0
       ? product?.stock_records[0]
       : undefined;
+
   const initialValues: Values = {
     title: product?.title || '',
     description: product?.description || '',
@@ -233,16 +238,17 @@ const ProductForm = ({ handleShow, id }) => {
         return record;
       });
     }
+    p.attributes = d.variation_options.map(vo => {
+      return {
+        name: vo.attribute.label,
+        values: vo.values.map(v => v.label),
+      };
+    });
     return p;
   };
 
   // create the product
-  const {
-    mutate: createProduct,
-    // isLoading: isCreatingProduct,
-    // isError: productCreationFailed,
-    // error: productCreationError,
-  } = useMutation(
+  const { mutate: createProduct, isLoading: isCreatingProduct } = useMutation(
     (payload: ProductType) =>
       request(requestURL, {
         method: 'POST',
@@ -261,12 +267,7 @@ const ProductForm = ({ handleShow, id }) => {
   );
 
   // update the collection
-  const {
-    mutate: updateProduct,
-    // isLoading: isUpdatingProduct,
-    // isError: productUpdateFailed,
-    // error: productUpdateError,
-  } = useMutation(
+  const { mutate: updateProduct, isLoading: isUpdatingProduct } = useMutation(
     (payload: ProductType) =>
       request(`${requestURL}/${productId}`, {
         method: 'PATCH',
@@ -445,38 +446,51 @@ const ProductForm = ({ handleShow, id }) => {
 
   // validates variation options before allowing variants to be
   // generated from options
-  const validateVarOptions = (options: VarOption[]): boolean => {
+  const validateVarOptions = (options: VarOption[], func?: any): boolean => {
     let isValid = options.length > 0;
     options.forEach(opt => {
       if (_.isEmpty(opt.attribute) || _.isEmpty(opt.values)) isValid = false;
     });
+    if (isValid && func) func();
     return isValid;
   };
-  const setChildren = (
+
+  const generate = (
     values: Values,
-    setFieldValue: (
+    setFieldValue?: (
       field: string,
       value: any,
       shouldValidate?: boolean | undefined,
     ) => void,
   ) => {
     const variationOptions = values.variation_options;
+
+    const attributes = variationOptions.map(v => v.attribute);
     const attributeValues = variationOptions.map(v => v.values);
+
     const labels = attributeValues.map(vl => vl.map(a => a.label));
+
     const titles = cartesian(...labels).map((v: string[] | string) =>
       typeof v === 'string' ? v : v.join('-'),
     );
-    const untouchedTitles = titles.filter(
-      (t: string) => !values.variants.some(v => v.title === t),
-    );
-    const products: ProductType[] = untouchedTitles.map((t: string) => {
-      const p: ProductType = {
+
+    const variants: ProductType[] = titles.map((t: string) => {
+      const variant: ProductType = {
         title: t,
         shop_id: shop?.shop_id!,
         product_id: productId || '',
         structure: ProductStructure.CHILD,
+        weight: values.weight,
+        height: values.height,
+        length: values.length,
+        width: values.width,
       };
-      p.stock_records = (locations ?? []).map(({ centre_id }) => {
+
+      variant.attributes = variant.title?.split('-').map((opt, i) => {
+        return { name: attributes[i].label, value: opt };
+      });
+
+      variant.stock_records = (locations ?? []).map(({ centre_id }) => {
         const record: InventoryType = {
           variant_id: productId || '',
           product_id: productId || '',
@@ -496,21 +510,39 @@ const ProductForm = ({ handleShow, id }) => {
         };
         return record;
       });
-      return p;
+      return variant;
     });
-    setFieldValue('variants', [...values.variants, ...products]);
+    // setFieldValue('variants', [...values.variants, ...vars]);
+    if (setFieldValue) {
+      setFieldValue('variants', [...variants]);
+    } else {
+      return variants;
+    }
   };
-  const handleSubmit = values => {
+
+  const handleSubmit = (values: Values) => {
+    if (values.is_parent && _.isEmpty(values.variants)) {
+      values.variants = generate(values) || [];
+    }
     const p = cleanProduct({ ...values });
-    console.log(p);
+    // console.log(p);
+    // console.log(values.variation_options);
+    // console.log(p.attributes);
     if (!productId || productId === '') {
       createProduct(p);
     } else {
       updateProduct(p);
     }
   };
+
   return (
     <>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={isCreatingProduct || isUpdatingProduct}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Formik
         enableReinitialize
         initialValues={{ ...flattenProduct(product) }}
@@ -1233,25 +1265,21 @@ const ProductForm = ({ handleShow, id }) => {
                         </div>
                         <div>
                           <div className="rounded bg-white shadow p-3 mt-6 mb-10">
-                            {
-                              validateVarOptions(values.variation_options) && (
-                                <button
-                                  onClick={e => {
-                                    e.stopPropagation();
-                                    if (!showVariants) {
-                                      setChildren(values, setFieldValue);
-                                    }
-                                    setShowVariants(!showVariants);
-                                  }}
-                                  className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
-                                >
-                                  Edit Variants
-                                </button>
-                              )}
-                            {(
-                              !validateVarOptions(
-                                values.variation_options,
-                              )) && (
+                            {validateVarOptions(values.variation_options) && (
+                              <button
+                                onClick={e => {
+                                  e.stopPropagation();
+                                  if (!showVariants) {
+                                    generate(values, setFieldValue);
+                                  }
+                                  setShowVariants(!showVariants);
+                                }}
+                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
+                              >
+                                Edit Variants
+                              </button>
+                            )}
+                            {!validateVarOptions(values.variation_options) && (
                               <div className="m-1.5">
                                 {/* Start */}
                                 <button
@@ -1263,28 +1291,30 @@ const ProductForm = ({ handleShow, id }) => {
                                 {/* End */}
                               </div>
                             )}
-                            {showVariants && (
-                              <>
-                                <h2 className="text-sm uppercase text-left leading-snug text-gray-800 font-medium mb-2">
-                                  East Coast Warehouse
-                                </h2>
-                                <ProdutVariantPreview
-                                  selectedItems={handleSelectedItems}
-                                  productVariants={values.variants}
-                                  updatePrice={updatePrice(
-                                    values,
-                                    setFieldValue,
-                                  )}
-                                  updateQuantity={updateQuantity(
-                                    values,
-                                    setFieldValue,
-                                  )}
-                                  currency={
-                                    shop?.currency?.iso_code || defaultCurrency
-                                  }
-                                />
-                              </>
-                            )}
+                            {showVariants &&
+                              validateVarOptions(values.variation_options) && (
+                                <>
+                                  <h2 className="text-sm capitalize text-left leading-snug text-gray-800 font-medium mb-2">
+                                    {locations && locations[0].name}
+                                  </h2>
+                                  <ProdutVariantPreview
+                                    selectedItems={handleSelectedItems}
+                                    productVariants={values.variants}
+                                    updatePrice={updatePrice(
+                                      values,
+                                      setFieldValue,
+                                    )}
+                                    updateQuantity={updateQuantity(
+                                      values,
+                                      setFieldValue,
+                                    )}
+                                    currency={
+                                      shop?.currency?.iso_code ||
+                                      defaultCurrency
+                                    }
+                                  />
+                                </>
+                              )}
                           </div>
                         </div>
                       </>
@@ -1365,7 +1395,7 @@ const ProductForm = ({ handleShow, id }) => {
                 </div>
               </div>
               <footer className="sticky bottom-0 self-end">
-                <div className="flex flex-col py-5 border-t border-gray-200">
+                <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
                       onClick={() => handleShow(false, '')}

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
@@ -65,42 +67,44 @@ export default function CollectionForm({ handleShow, id }) {
   );
 
   // create the colletion
-  const { mutate: createCollection } = useMutation(
-    (payload: CollectionType) =>
-      request(requestURL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      }),
-    {
-      onSuccess: (newCollection: CollectionType) => {
-        setCollectionId(newCollection.collection_id);
-        qc.setQueryData(['collection', collectionId], newCollection);
-        toast('Collection created successfully');
+  const { mutate: createCollection, isLoading: isCreatingCollection } =
+    useMutation(
+      (payload: CollectionType) =>
+        request(requestURL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+        }),
+      {
+        onSuccess: (newCollection: CollectionType) => {
+          setCollectionId(newCollection.collection_id);
+          qc.setQueryData(['collection', collectionId], newCollection);
+          toast('Collection created successfully');
+        },
+        onError: (e: ResponseError) => {
+          toast('Collection creation failed due to ' + e.message);
+        },
       },
-      onError: (e: ResponseError) => {
-        toast('Collection creation failed due to ' + e.message);
-      },
-    },
-  );
+    );
 
   // update the collection
-  const { mutate: updateCollection } = useMutation(
-    (payload: CollectionType) =>
-      request(`${requestURL}/${collectionId}`, {
-        method: 'PATCH',
-        body: JSON.stringify(payload),
-      }),
-    {
-      onSuccess: (newCollection: CollectionType) => {
-        setCollectionId(newCollection.collection_id);
-        qc.setQueryData(['collection', collectionId], newCollection);
-        toast('Collection updated successfully');
+  const { mutate: updateCollection, isLoading: isUpdatingCollection } =
+    useMutation(
+      (payload: CollectionType) =>
+        request(`${requestURL}/${collectionId}`, {
+          method: 'PATCH',
+          body: JSON.stringify(payload),
+        }),
+      {
+        onSuccess: (newCollection: CollectionType) => {
+          setCollectionId(newCollection.collection_id);
+          qc.setQueryData(['collection', collectionId], newCollection);
+          toast('Collection updated successfully');
+        },
+        onError: (e: ResponseError) => {
+          toast('Collection could not be updated due to ' + e.message);
+        },
       },
-      onError: (e: ResponseError) => {
-        toast('Collection could not be updated due to ' + e.message);
-      },
-    },
-  );
+    );
 
   // add a product to the collection
   // const { mutate: addProductToCollection } = useMutation(
@@ -261,6 +265,12 @@ export default function CollectionForm({ handleShow, id }) {
         <Loader />
       ) : (
         <div>
+          <Backdrop
+            sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={isCreatingCollection || isUpdatingCollection}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <Formik
             initialValues={{
               title: collection?.title || '',
@@ -482,7 +492,7 @@ export default function CollectionForm({ handleShow, id }) {
                   </div>
                 </div>
                 <footer className="sticky bottom-0">
-                  <div className="flex flex-col py-5 border-t border-gray-200">
+                  <div className="flex flex-col py-5">
                     <div className="flex self-end">
                       <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
                         Cancel

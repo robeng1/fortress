@@ -7,7 +7,7 @@ import { ConditionType } from './condition-type';
 
 export interface DiscountType {
   shop_id: string;
-  discount_id: string;
+  discount_id?: string;
   name?: string;
   short_name?: string;
   slug?: string;
