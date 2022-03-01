@@ -40,7 +40,7 @@ function CollectionItemTable(props) {
           <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={proxyURL(props.image, 75, 75)}
+              src={proxyURL(props.image, 50,50)}
               alt={props.name}
             />
           </div>

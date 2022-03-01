@@ -64,6 +64,11 @@ interface VarOption {
   values: Record<string, string>[];
 }
 
+interface AttrOption {
+  name: string;
+  values: string[];
+}
+
 interface Values {
   title: string;
   description: string;
@@ -118,8 +123,6 @@ const ProductForm = ({ handleShow, id }) => {
   const [images, setImages] = useState<{ name: string; url: string }[]>([]);
   const { locations } = useCentres();
 
-  const generateVariantButtonRef = useRef<HTMLButtonElement>();
-
   // query for getting the product
   const { data: product } = useQuery<ProductType>(
     ['product', productId],
@@ -173,13 +176,25 @@ const ProductForm = ({ handleShow, id }) => {
     page_title: product?.page_title || '',
     page_description: product?.description || '',
   };
-  const flattenProduct = (d: ProductType | undefined): Values => {
+  const productToValues = (d: ProductType | undefined): Values => {
     if (!d) {
       return initialValues;
     }
+    if (d.structure === ProductStructure.PARENT) {
+      const attrs: AttrOption[] = JSON.parse(d.attributes as string);
+      initialValues.variation_options = attrs.map(attr => {
+        return {
+          attribute: { label: attr.name, value: attr.name.toLowerCase() },
+          values: attr.values.map(v => {
+            return { label: v, value: v.toLowerCase() };
+          }),
+        };
+      });
+    }
     return initialValues;
   };
-  const cleanProduct = (d: Values): ProductType => {
+
+  const valuesToProduct = (d: Values): ProductType => {
     const p: ProductType = {
       shop_id: shop?.shop_id!,
       product_id: productId,
@@ -238,12 +253,14 @@ const ProductForm = ({ handleShow, id }) => {
         return record;
       });
     }
-    p.attributes = d.variation_options.map(vo => {
-      return {
-        name: vo.attribute.label,
-        values: vo.values.map(v => v.label),
-      };
-    });
+    p.attributes = JSON.stringify(
+      d.variation_options.map(vo => {
+        return {
+          name: vo.attribute.label,
+          values: vo.values.map(v => v.label),
+        };
+      }),
+    );
     return p;
   };
 
@@ -486,9 +503,11 @@ const ProductForm = ({ handleShow, id }) => {
         width: values.width,
       };
 
-      variant.attributes = variant.title?.split('-').map((opt, i) => {
-        return { name: attributes[i].label, value: opt };
-      });
+      variant.attributes = JSON.stringify(
+        variant.title?.split('-').map((opt, i) => {
+          return { name: attributes[i].label, value: opt };
+        }),
+      );
 
       variant.stock_records = (locations ?? []).map(({ centre_id }) => {
         const record: InventoryType = {
@@ -524,7 +543,7 @@ const ProductForm = ({ handleShow, id }) => {
     if (values.is_parent && _.isEmpty(values.variants)) {
       values.variants = generate(values) || [];
     }
-    const p = cleanProduct({ ...values });
+    const p = valuesToProduct({ ...values });
     // console.log(p);
     // console.log(values.variation_options);
     // console.log(p.attributes);
@@ -545,7 +564,7 @@ const ProductForm = ({ handleShow, id }) => {
       </Backdrop>
       <Formik
         enableReinitialize
-        initialValues={{ ...flattenProduct(product) }}
+        initialValues={{ ...productToValues(product) }}
         validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
           handleSubmit({

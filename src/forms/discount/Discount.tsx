@@ -190,6 +190,10 @@ const DiscountForm = ({ handleShow, id }) => {
   const collectionOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/option-search`;
   const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
 
+  // raw query urls
+  const collectionRawSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/views/query`;
+  const productRawSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/views/query`;
+
   const productQueryComposer = (term: string): Record<string, any> => {
     return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };
   };
@@ -223,7 +227,7 @@ const DiscountForm = ({ handleShow, id }) => {
   } = useQuery<any>(
     ['included-products', discountId],
     async () =>
-      await request(productOptionSearchURL, {
+      await request(productRawSearchURL, {
         method: 'POST',
         body: JSON.stringify({
           query: selectedProductsQuery(inclPids),
@@ -243,7 +247,7 @@ const DiscountForm = ({ handleShow, id }) => {
   } = useQuery<any>(
     ['included-collections', discountId],
     async () =>
-      await request(collectionOptionSearchURL, {
+      await request(collectionRawSearchURL, {
         method: 'POST',
         body: JSON.stringify({
           query: selectedCollectionsQuery(inclCids),
@@ -263,7 +267,7 @@ const DiscountForm = ({ handleShow, id }) => {
   } = useQuery<any>(
     ['cond-range-included-products', discountId],
     async () =>
-      await request(productOptionSearchURL, {
+      await request(productRawSearchURL, {
         method: 'POST',
         body: JSON.stringify({
           query: selectedProductsQuery(bxCondInclPids),
@@ -283,7 +287,7 @@ const DiscountForm = ({ handleShow, id }) => {
   } = useQuery<any>(
     ['cond-range-included-collections', discountId],
     async () =>
-      await request(collectionOptionSearchURL, {
+      await request(collectionRawSearchURL, {
         method: 'POST',
         body: JSON.stringify({
           query: selectedCollectionsQuery(bxCondInclCids),
@@ -303,7 +307,7 @@ const DiscountForm = ({ handleShow, id }) => {
   } = useQuery<any>(
     ['ben-range-included-products', discountId],
     async () =>
-      await request(productOptionSearchURL, {
+      await request(productRawSearchURL, {
         method: 'POST',
         body: JSON.stringify({
           query: selectedProductsQuery(bxBInclPids),
@@ -323,7 +327,7 @@ const DiscountForm = ({ handleShow, id }) => {
   } = useQuery<any>(
     ['ben-range-included-collections', discountId],
     async () =>
-      await request(collectionOptionSearchURL, {
+      await request(collectionRawSearchURL, {
         method: 'POST',
         body: JSON.stringify({
           query: selectedCollectionsQuery(bxBInclCids),

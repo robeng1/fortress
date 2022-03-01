@@ -1,6 +1,7 @@
 import { CollectionType } from '../collection/collection-type';
 import { InventoryType } from '../inventory/inventory-type';
 import { Photo } from '../photo';
+import { Buffer } from 'buffer';
 
 export interface ProductImage {
   caption?: string;
@@ -48,7 +49,7 @@ export interface ProductType {
   product_id: string;
   upc?: string;
   shop_id: string;
-  attributes?: { [key: string]: any };
+  attributes?: Buffer | Uint8Array | string;
   title?: string;
   description?: string;
   created_at?: string;
@@ -89,7 +90,7 @@ export interface ProductType {
   stock_records?: InventoryType[];
   material?: string;
   sid?: number;
-  variant_rank?: number | string ;
+  variant_rank?: number | string;
   position?: number;
   ean?: string;
   allow_backorder?: boolean;

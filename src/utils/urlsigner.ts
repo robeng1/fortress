@@ -51,7 +51,7 @@ const key =
 const salt =
   'a938f5bf3a9dd43c8be546ac1a8d8ed879fa580e0a778dfb449fd907173bea8d4711b94f8eaec83fe1829f5a06c2137bf673613c3e89bc12330f241a2209ba3f';
 
-const resize = 'fit';
+const resize = 'fill';
 const gravity = 'no';
 const enlarge = 1;
 const defaultExtension = 'jpg';
@@ -62,6 +62,7 @@ export const proxyURL = (
   height = 100,
   extension = defaultExtension,
 ): string => {
+  if (!url || url === "") return `https://via.placeholder.com/${width}`
   const opts = {
     url,
     width,

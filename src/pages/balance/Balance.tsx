@@ -71,13 +71,21 @@ function Balance() {
 
   const { data } = useQuery<any, ResponseError>(
     ['account-activities', page],
-    async () =>
-      await request(`${requestURL}/transactions`, {
-        method: 'POST',
-        body: JSON.stringify({ query }),
-        headers: { 'Content-Type': 'application/json' },
-      }),
-    { keepPreviousData: true, enabled: !!userAccountId },
+    async () => {
+      try {
+        const resp = await request(`${requestURL}/transactions`, {
+          method: 'POST',
+          body: JSON.stringify({ query }),
+          headers: { 'Content-Type': 'application/json' },
+        });
+        return resp;
+      } catch (error) {}
+    },
+
+    {
+      keepPreviousData: true,
+      enabled: !!userAccountId && !!paymentAccount?.account_id,
+    },
   );
 
   const { mutate: makeWithdrawal } = useMutation(
@@ -117,7 +125,7 @@ function Balance() {
             <div className="px-4 mx-auto">
               <div className="flex flex-wrap -m-4">
                 <div className="w-full lg:w-1/2 p-4">
-                  <div className="p-6 bg-white shadow rounded-lg flex flex-col col-span-full bg-white shadow-lg rounded-sm border border-slate-200">
+                  <div className="p-6 shadow flex flex-col col-span-full bg-white rounded-lg border border-slate-200">
                     <div className="flex mb-1 items-center justify-between">
                       <h3 className="text-gray-500">Balance</h3>
                       <button>
@@ -142,7 +150,7 @@ function Balance() {
                   </div>
                 </div>
                 <div className="w-full lg:w-1/2 p-4">
-                  <div className="p-6 bg-white shadow rounded-lg flex flex-col col-span-full bg-white shadow-lg rounded-sm border border-slate-200">
+                  <div className="p-6 shadow  flex flex-col col-span-full bg-white rounded-lg border border-slate-200">
                     <div className="flex mb-1 items-center justify-between">
                       <h3 className="text-gray-500">Pending</h3>
                       <button>

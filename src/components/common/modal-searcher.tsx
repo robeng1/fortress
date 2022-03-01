@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Transition from 'utils/transition';
 import { useQuery } from 'react-query';
 import { useDebounce } from 'hooks/use-debounce';
+import { proxyURL } from 'utils/urlsigner';
 const initiallySelected: any[] = [];
 function SelectableResultSearchModal({
   id,
@@ -136,6 +137,7 @@ function SelectableResultSearchModal({
                 id={searchId}
                 className="w-full border-0 focus:ring-transparent placeholder-gray-400 appearance-none py-3 pl-10 pr-4"
                 type="search"
+                autoComplete="off"
                 onChange={e => setValue(e.target.value)}
                 value={value}
                 placeholder={`Search ${placeholder}...`}
@@ -200,12 +202,14 @@ function SelectableResultSearchModal({
                               )}
                             />
                           </label>
-                          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                          <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                             <img
                               className=""
-                              src={it.image_url}
-                              width="40"
-                              height="40"
+                              src={
+                                it.image_url
+                                  ? proxyURL(it.image_url, 50, 50)
+                                  : 'https://via.placeholder.com/50'
+                              }
                               alt={it.label}
                             />
                           </div>

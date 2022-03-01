@@ -28,7 +28,7 @@ export default function usePayment() {
     isIdle,
     isRefetching,
   } = useQuery<Account>(['payment', shopId], () => getPd(shopId), {
-    enabled: !!shopId,
+    enabled: !!shopId && shopId != undefined,
   });
   return {
     refetch,
