@@ -1,4 +1,6 @@
 import React from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Formik } from 'formik';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
@@ -16,7 +18,7 @@ function PoliciesPanel() {
   const requestURL = `${fortressURL}/shops`;
 
   // update the shop
-  const { mutate: updateShop } = useMutation(
+  const { mutate: updateShop, isLoading: isUpdatingShop } = useMutation(
     (payload: ShopType) =>
       request(`${requestURL}/${shop?.shop_id}`, {
         method: 'PATCH',
@@ -33,7 +35,13 @@ function PoliciesPanel() {
     },
   );
   return (
-    <>
+    <div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={isUpdatingShop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Formik
         enableReinitialize
         initialValues={{
@@ -186,7 +194,7 @@ function PoliciesPanel() {
           </div>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 

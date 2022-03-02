@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Formik } from 'formik';
 import Uppy from '@uppy/core';
-import Tus from '@uppy/tus';
 import { ProgressBar } from '@uppy/react';
 import DropTarget from '@uppy/drop-target';
 import Transloadit from '@uppy/transloadit';
@@ -25,12 +26,11 @@ function StorePanel() {
   const requestURL = `${fortressURL}/shops`;
 
   const [image, setImage] = useState(shop?.image);
-  console.log(image);
 
   const inputFile = useRef<HTMLInputElement>(null);
 
   // update the shop
-  const { mutate: updateShop } = useMutation(
+  const { mutate: updateShop, isLoading: isUpdatingShop } = useMutation(
     (payload: ShopType) =>
       request(`${requestURL}/${shop?.shop_id}`, {
         method: 'PATCH',
@@ -130,7 +130,13 @@ function StorePanel() {
     }
   };
   return (
-    <>
+    <div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={isUpdatingShop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Formik
         enableReinitialize
         initialValues={{
@@ -482,7 +488,7 @@ function StorePanel() {
           </div>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 

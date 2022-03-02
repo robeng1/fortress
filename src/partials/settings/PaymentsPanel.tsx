@@ -1,4 +1,6 @@
 import React from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
@@ -24,9 +26,7 @@ function PaymentsPanel() {
   // create the colletion
   const {
     mutate: createAccount,
-    // isLoading: isCreatingCollection,
-    // isError: collectionCreationFailed,
-    // error: collectionCreationError,
+    isLoading: isCreatingAccount,
   } = useMutation(
     (payload: any) =>
       request(requestURL, {
@@ -45,7 +45,7 @@ function PaymentsPanel() {
   );
 
   // update the collection
-  const { mutate: updateAccount } = useMutation(
+  const { mutate: updateAccount, isLoading: isUpdatingAccount } = useMutation(
     (payload: any) =>
       request(`${requestURL}/${paymentAccount?.account_id}`, {
         method: 'PATCH',
@@ -61,7 +61,13 @@ function PaymentsPanel() {
   );
 
   return (
-    <>
+    <div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={isUpdatingAccount || isCreatingAccount}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Formik
         enableReinitialize
         initialValues={{
@@ -180,7 +186,7 @@ function PaymentsPanel() {
                     />
                   </div>
                 </div>
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                {/* <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full md:w-1/2">
                     <label
                       className="block text-sm font-medium mb-1"
@@ -199,7 +205,7 @@ function PaymentsPanel() {
                       during payout
                     </p>
                   </div>
-                </div>
+                </div> */}
               </section>
 
               {/* Bank */}
@@ -244,7 +250,7 @@ function PaymentsPanel() {
           </div>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 
