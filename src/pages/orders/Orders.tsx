@@ -36,7 +36,7 @@ function Orders() {
   const { data } = useQuery(
     ['orderviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/orders/views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/order-views`, {
         method: 'POST',
         body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },

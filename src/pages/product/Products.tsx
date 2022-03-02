@@ -35,7 +35,7 @@ function Products() {
   const { data: productData } = useQuery(
     ['productviews', productPage],
     async () =>
-      await request(`${fortressURL}/shops/${shop?.shop_id}/products/views`, {
+      await request(`${fortressURL}/shops/${shop?.shop_id}/product-views`, {
         method: 'POST',
         body: JSON.stringify({
           offset: (productPage - 1) * productItemsPerPage + 1,

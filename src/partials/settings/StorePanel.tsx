@@ -15,14 +15,14 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ShopType } from 'models/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
-import { accountIdAtom } from 'store/authorization-atom';
+import { UidAtom } from 'store/authorization-atom';
 import { toast } from 'react-toastify';
 import useShop from 'hooks/use-shop';
 
 function StorePanel() {
   const queryClient = useQueryClient();
   const { shop } = useShop();
-  const [accountId] = useAtom(accountIdAtom);
+  const [accountId] = useAtom(UidAtom);
   const requestURL = `${fortressURL}/shops`;
 
   const [image, setImage] = useState(shop?.image);

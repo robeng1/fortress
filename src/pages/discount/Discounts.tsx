@@ -1,5 +1,5 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash/isEmpty';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/BottomNav';
@@ -29,7 +29,7 @@ function Discounts() {
   const { data } = useQuery(
     ['discountviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/offers/views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/offer-views`, {
         method: 'POST',
         body: JSON.stringify({
           offset: (page - 1) * itemsPerPage + 1,
@@ -53,7 +53,7 @@ function Discounts() {
     setCurrentDiscountId(prevState => discountId);
     setShowForm(display);
   };
-  const discounts = data?.discounts || []
+  const discounts = data?.discounts || [];
   const renderFormView = () => {
     return (
       <main>

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash/isEmpty';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/BottomNav';
@@ -25,7 +25,7 @@ function Inventories() {
   const { data } = useQuery(
     ['inventoryviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory/views`, {
+      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
         method: 'POST',
         body: JSON.stringify({
           offset: (page - 1) * itemsPerPage + 1,
@@ -34,12 +34,16 @@ function Inventories() {
         }),
         headers: { 'Content-Type': 'application/json' },
       }).then(result => result.json()),
-    { keepPreviousData: true, enabled: !!shop?.shop_id, refetchOnWindowFocus:false },
+    {
+      keepPreviousData: true,
+      enabled: !!shop?.shop_id,
+      refetchOnWindowFocus: false,
+    },
   );
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };
-  const records = data?.records || []
+  const records = data?.records || [];
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}

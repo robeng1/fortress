@@ -192,8 +192,8 @@ const DiscountForm = ({ handleShow, id }) => {
   const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
 
   // raw query urls
-  const collectionFilterURL = `${fortressURL}/shops/${shop?.shop_id}/collections/views/filter`;
-  const productFilterURL = `${fortressURL}/shops/${shop?.shop_id}/products/views/filter`;
+  const collectionFilterURL = `${fortressURL}/shops/${shop?.shop_id}/collection-views/filter`;
+  const productFilterURL = `${fortressURL}/shops/${shop?.shop_id}/product-views/filter`;
 
   const productQueryComposer = (term: string): Record<string, any> => {
     return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };

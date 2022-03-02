@@ -6,7 +6,7 @@ export const sessionAtom = atomWithStorage(SESSION, initialState);
 export const clearSessionAtom = atom(null, (_get, set, _data) => {
   return set(sessionAtom, {});
 });
-export const accountIdAtom = selectAtom(
+export const UidAtom = selectAtom(
   sessionAtom,
   session => session?.identity?.account_id,
 );

@@ -33,7 +33,7 @@ function Collections() {
   const { data } = useQuery<any, ResponseError>(
     ['collectionviews', page],
     async () =>
-      await request(`${fortressURL}/shops/${shop?.shop_id}/collections/views`, {
+      await request(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
         method: 'POST',
         body: JSON.stringify({
           offset: (page - 1) * itemsPerPage + 1,

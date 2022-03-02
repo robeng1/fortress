@@ -10,7 +10,7 @@ import PaginationClassic from '../../components/PaginationClassic';
 
 function Customers() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<unknown>([]);
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
@@ -24,7 +24,11 @@ function Customers() {
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
-        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location="Customers"
+        />
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -63,7 +67,7 @@ function Customers() {
 
             {/* Pagination */}
             <div className="mt-8">
-              <PaginationClassic />
+              <PaginationClassic previous={undefined} next={undefined} />
             </div>
           </div>
         </main>

@@ -1,10 +1,3 @@
-/**
- * index.tsx
- *
- * This is the entry file for the application, only setup and boilerplate
- * code.
- */
-
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -15,19 +8,17 @@ import './css/style.scss';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
-import { App, Loader } from './index';
+import { App } from './index';
 
 import { HelmetProvider } from 'react-helmet-async';
-
 import { ThemeProvider } from '@mui/material/styles';
-
 import theme from './styles/mui-theme/theme';
 
-const queryClient = new QueryClient();
+const qc = new QueryClient();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
-  <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={qc}>
     <ThemeProvider theme={theme}>
       <HelmetProvider>
         <React.StrictMode>

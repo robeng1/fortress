@@ -3,7 +3,7 @@ import { ShopType } from 'models/settings/shop-type';
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
 import { useAtom } from 'jotai';
-import { accountIdAtom } from 'store/authorization-atom';
+import { UidAtom } from 'store/authorization-atom';
 
 const findShop = async (accountId: any) => {
   try {
@@ -17,7 +17,7 @@ const findShop = async (accountId: any) => {
 };
 
 export default function useShop() {
-  const [id] = useAtom(accountIdAtom);
+  const [id] = useAtom(UidAtom);
   const {
     data: shop,
     refetch,
