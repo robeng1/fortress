@@ -29,6 +29,7 @@ import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
+import { proxyURL } from 'utils/urlsigner';
 
 // TODO: (romeo) refactor duplicated pieces of logic
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
@@ -191,8 +192,8 @@ const DiscountForm = ({ handleShow, id }) => {
   const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
 
   // raw query urls
-  const collectionRawSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/views/query`;
-  const productRawSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/views/query`;
+  const collectionFilterURL = `${fortressURL}/shops/${shop?.shop_id}/collections/views/filter`;
+  const productFilterURL = `${fortressURL}/shops/${shop?.shop_id}/products/views/filter`;
 
   const productQueryComposer = (term: string): Record<string, any> => {
     return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };
@@ -202,142 +203,129 @@ const DiscountForm = ({ handleShow, id }) => {
     return { limit: 15, term, shop_id: shop?.shop_id, type: 'collection' };
   };
 
-  // queries to display selected products and/or collections
-  // gets the selected products for them to be displayed
-  const selectedProductsQuery = (products: string[]): Record<string, any> => {
-    const filters = products.map(p => `product_id=${p}`);
-    const dsl = { filter: [filters] };
-    const term = '';
-    return { dsl, term };
-  };
-
-  // gets the selected collections for them to be displayed
-  const selectedCollectionsQuery = (
-    collections: string[],
-  ): Record<string, any> => {
-    const filters = collections.map(c => `collection_id=${c}`);
-    const dsl = { filter: [filters] };
-    const term = '';
-    return { dsl, term };
-  };
-
   // query for getting included products
   const {
-    data: { result: includedProducts },
+    data: { products: includedProducts },
   } = useQuery<any>(
     ['included-products', discountId],
     async () =>
-      await request(productRawSearchURL, {
+      await request(productFilterURL, {
         method: 'POST',
         body: JSON.stringify({
-          query: selectedProductsQuery(inclPids),
+          shop_id: shop?.shop_id,
+          id_list: inclPids,
         }),
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && inclPids.length > 0 && !isBx,
+      enabled: inclPids.length > 0 && !isBx,
       keepPreviousData: true,
-      initialData: { result: [] },
+      initialData: { products: [] },
     },
   );
 
   // query for getting included collections
   const {
-    data: { result: includedCollections },
+    data: { collections: includedCollections },
   } = useQuery<any>(
     ['included-collections', discountId],
     async () =>
-      await request(collectionRawSearchURL, {
+      await request(collectionFilterURL, {
         method: 'POST',
         body: JSON.stringify({
-          query: selectedCollectionsQuery(inclCids),
+          shop_id: shop?.shop_id,
+          id_list: inclCids,
         }),
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && inclCids.length > 0 && !isBx,
+      enabled: inclCids.length > 0 && !isBx,
       keepPreviousData: true,
-      initialData: { result: [] },
+      initialData: { collections: [] },
     },
   );
 
   // query for getting included products for a condition's range
   const {
-    data: { result: condRangeIncludedProducts },
+    data: { products: condRangeIncludedProducts },
   } = useQuery<any>(
     ['cond-range-included-products', discountId],
     async () =>
-      await request(productRawSearchURL, {
+      await request(productFilterURL, {
         method: 'POST',
         body: JSON.stringify({
-          query: selectedProductsQuery(bxCondInclPids),
+          shop_id: shop?.shop_id,
+          id_list: bxCondInclPids,
         }),
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && bxCondInclPids.length > 0 && isBx,
+      enabled: bxCondInclPids.length > 0 && isBx,
       keepPreviousData: true,
-      initialData: { result: [] },
+      initialData: { products: [] },
     },
   );
 
   // query for getting included collections for a condition's range
   const {
-    data: { result: condRangeIncludedCollections },
+    data: { collections: condRangeIncludedCollections },
   } = useQuery<any>(
     ['cond-range-included-collections', discountId],
     async () =>
-      await request(collectionRawSearchURL, {
+      await request(collectionFilterURL, {
         method: 'POST',
         body: JSON.stringify({
-          query: selectedCollectionsQuery(bxCondInclCids),
+          shop_id: shop?.shop_id,
+          id_list: bxCondInclCids,
         }),
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && bxCondInclCids.length > 0 && isBx,
+      enabled: bxCondInclCids.length > 0 && isBx,
       keepPreviousData: true,
-      initialData: { result: [] },
+      initialData: { collections: [] },
     },
   );
 
   // query for getting included products for a condition's range
   const {
-    data: { result: benRangeIncludedProducts },
+    data: { products: benRangeIncludedProducts },
   } = useQuery<any>(
     ['ben-range-included-products', discountId],
     async () =>
-      await request(productRawSearchURL, {
+      await request(productFilterURL, {
         method: 'POST',
         body: JSON.stringify({
-          query: selectedProductsQuery(bxBInclPids),
+          shop_id: shop?.shop_id,
+          id_list: bxBInclPids,
         }),
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && bxBInclPids.length > 0 && isBx,
+      enabled: bxBInclPids.length > 0 && isBx,
       keepPreviousData: true,
-      initialData: { result: [] },
+      initialData: { products: [] },
     },
   );
 
   // query for getting included collections for a condition's range
   const {
-    data: { result: benRangeIncludedCollections },
+    data: { collections: benRangeIncludedCollections },
   } = useQuery<any>(
     ['ben-range-included-collections', discountId],
     async () =>
-      await request(collectionRawSearchURL, {
+      await request(collectionFilterURL, {
         method: 'POST',
         body: JSON.stringify({
-          query: selectedCollectionsQuery(bxBInclCids),
+          shop_id: shop?.shop_id,
+          id_list: bxBInclCids,
         }),
       }),
     {
       // The query will not execute until the discountId exists
-      enabled: !!discountId && bxBInclCids.length > 0 && isBx,
+      enabled: bxBInclCids.length > 0 && isBx,
       keepPreviousData: true,
-      initialData: { result: [] },
+      initialData: { collections: [] },
     },
   );
 
@@ -803,44 +791,53 @@ const DiscountForm = ({ handleShow, id }) => {
                                 queryEnabled={!!shop?.shop_id}
                               />
                             </div>
-                            <div>
+                            <ul className="text-sm w-full">
                               {condRangeIncludedProducts.map((product: any) => (
-                                <div
-                                  key={product.key}
+                                <li
+                                  key={product.product_id}
                                   className="flex items-center"
                                 >
-                                  <div className="flex-shrink-0 h-10 w-10">
-                                    <img
-                                      className="h-10 w-10"
-                                      src={product.image_url}
-                                      alt={product.label}
-                                    />
-                                  </div>
-                                  <div className="ml-4 flex justify-between">
-                                    <div className="text-sm font-medium text-gray-900">
-                                      {product.label}
+                                  <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                    <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+                                      <img
+                                        src={
+                                          product.image_url
+                                            ? proxyURL(
+                                                product.image_url,
+                                                50,
+                                                50,
+                                              )
+                                            : 'https://via.placeholder.com/50'
+                                        }
+                                        alt={product.handle}
+                                      />
                                     </div>
-                                    <div
-                                      onClick={e => {
-                                        e.stopPropagation();
-                                        setBxCondInclPids(previousKeys =>
-                                          previousKeys.filter(
-                                            k => k !== product.key,
-                                          ),
-                                        );
-                                        qc.invalidateQueries([
-                                          'cond-range-included-products',
-                                          discountId,
-                                        ]);
-                                      }}
-                                      className="text-sm text-gray-500 cursor-pointer"
-                                    >
-                                      X
+                                    <div className="w-full flex-grow flex justify-between">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {product.title}
+                                      </div>
+                                      <div
+                                        onClick={e => {
+                                          e.stopPropagation();
+                                          setBxCondInclPids(previousKeys =>
+                                            previousKeys.filter(
+                                              k => k !== product.product_id,
+                                            ),
+                                          );
+                                          qc.invalidateQueries([
+                                            'cond-range-included-products',
+                                            discountId,
+                                          ]);
+                                        }}
+                                        className="text-sm text-gray-500 cursor-pointer"
+                                      >
+                                        X
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
+                                </li>
                               ))}
-                            </div>
+                            </ul>
                           </div>
                         ) : (
                           <div className="w-full">
@@ -900,46 +897,57 @@ const DiscountForm = ({ handleShow, id }) => {
                                 queryEnabled={!!shop?.shop_id}
                               />
                             </div>
-                            <div>
+                            <ul className="text-sm w-full">
                               {condRangeIncludedCollections.map(
                                 (collection: any) => (
-                                  <div
-                                    key={collection.key}
+                                  <li
+                                    key={collection.collection_id}
                                     className="flex items-center"
                                   >
-                                    <div className="flex-shrink-0 h-10 w-10">
-                                      <img
-                                        className="h-10 w-10"
-                                        src={collection.image_url}
-                                        alt={collection.label}
-                                      />
-                                    </div>
-                                    <div className="ml-4 flex justify-between">
-                                      <div className="text-sm font-medium text-gray-900">
-                                        {collection.label}
+                                    <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                      <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+                                        <img
+                                          src={
+                                            collection.image_url
+                                              ? proxyURL(
+                                                  collection.image_url,
+                                                  50,
+                                                  50,
+                                                )
+                                              : 'https://via.placeholder.com/50'
+                                          }
+                                          alt={collection.handle}
+                                        />
                                       </div>
-                                      <div
-                                        onClick={e => {
-                                          e.stopPropagation();
-                                          setBxCondInclCids(previousKeys =>
-                                            previousKeys.filter(
-                                              k => k !== collection.key,
-                                            ),
-                                          );
-                                          qc.invalidateQueries([
-                                            'cond-range-included-collections',
-                                            discountId,
-                                          ]);
-                                        }}
-                                        className="text-sm text-gray-500 cursor-pointer"
-                                      >
-                                        X
+                                      <div className="w-full flex-grow flex justify-between">
+                                        <div className="text-sm font-medium text-gray-900">
+                                          {collection.title}
+                                        </div>
+                                        <div
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            setBxCondInclCids(previousKeys =>
+                                              previousKeys.filter(
+                                                k =>
+                                                  k !==
+                                                  collection.collection_id,
+                                              ),
+                                            );
+                                            qc.invalidateQueries([
+                                              'cond-range-included-collections',
+                                              discountId,
+                                            ]);
+                                          }}
+                                          className="text-sm text-gray-500 cursor-pointer"
+                                        >
+                                          X
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  </li>
                                 ),
                               )}
-                            </div>
+                            </ul>
                           </div>
                         )}
                       </div>
@@ -1063,44 +1071,53 @@ const DiscountForm = ({ handleShow, id }) => {
                                 queryEnabled={!!shop?.shop_id}
                               />
                             </div>
-                            <div>
+                            <ul className="text-sm w-full">
                               {benRangeIncludedProducts.map((product: any) => (
-                                <div
-                                  key={product.key}
+                                <li
+                                  key={product.product_id}
                                   className="flex items-center"
                                 >
-                                  <div className="flex-shrink-0 h-10 w-10">
-                                    <img
-                                      className="h-10 w-10"
-                                      src={product.image_url}
-                                      alt={product.label}
-                                    />
-                                  </div>
-                                  <div className="ml-4 flex justify-between">
-                                    <div className="text-sm font-medium text-gray-900">
-                                      {product.label}
+                                  <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                    <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+                                      <img
+                                        src={
+                                          product.image_url
+                                            ? proxyURL(
+                                                product.image_url,
+                                                50,
+                                                50,
+                                              )
+                                            : 'https://via.placeholder.com/50'
+                                        }
+                                        alt={product.handle}
+                                      />
                                     </div>
-                                    <div
-                                      onClick={e => {
-                                        e.stopPropagation();
-                                        setBxBInclPids(previousKeys =>
-                                          previousKeys.filter(
-                                            k => k !== product.key,
-                                          ),
-                                        );
-                                        qc.invalidateQueries([
-                                          'ben-range-included-products',
-                                          discountId,
-                                        ]);
-                                      }}
-                                      className="text-sm text-gray-500 cursor-pointer"
-                                    >
-                                      X
+                                    <div className="w-full flex-grow flex justify-between">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {product.title}
+                                      </div>
+                                      <div
+                                        onClick={e => {
+                                          e.stopPropagation();
+                                          setBxBInclPids(previousKeys =>
+                                            previousKeys.filter(
+                                              k => k !== product.product_id,
+                                            ),
+                                          );
+                                          qc.invalidateQueries([
+                                            'ben-range-included-products',
+                                            discountId,
+                                          ]);
+                                        }}
+                                        className="text-sm text-gray-500 cursor-pointer"
+                                      >
+                                        X
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
+                                </li>
                               ))}
-                            </div>
+                            </ul>
                           </div>
                         ) : (
                           <div className="w-full">
@@ -1160,46 +1177,57 @@ const DiscountForm = ({ handleShow, id }) => {
                                 queryEnabled={!!shop?.shop_id}
                               />
                             </div>
-                            <div>
+                            <ul className="text-sm w-full">
                               {benRangeIncludedCollections.map(
                                 (collection: any) => (
-                                  <div
-                                    key={collection.key}
+                                  <li
+                                    key={collection.collection_id}
                                     className="flex items-center"
                                   >
-                                    <div className="flex-shrink-0 h-10 w-10">
-                                      <img
-                                        className="h-10 w-10"
-                                        src={collection.image_url}
-                                        alt={collection.label}
-                                      />
-                                    </div>
-                                    <div className="ml-4 flex justify-between">
-                                      <div className="text-sm font-medium text-gray-900">
-                                        {collection.label}
+                                    <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                      <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+                                        <img
+                                          src={
+                                            collection.image_url
+                                              ? proxyURL(
+                                                  collection.image_url,
+                                                  50,
+                                                  50,
+                                                )
+                                              : 'https://via.placeholder.com/50'
+                                          }
+                                          alt={collection.handle}
+                                        />
                                       </div>
-                                      <div
-                                        onClick={e => {
-                                          e.stopPropagation();
-                                          setBxBInclCids(previousKeys =>
-                                            previousKeys.filter(
-                                              k => k !== collection.key,
-                                            ),
-                                          );
-                                          qc.invalidateQueries([
-                                            'ben-range-included-collections',
-                                            discountId,
-                                          ]);
-                                        }}
-                                        className="text-sm text-gray-500 cursor-pointer"
-                                      >
-                                        X
+                                      <div className="w-full flex-grow flex justify-between">
+                                        <div className="text-sm font-medium text-gray-900">
+                                          {collection.title}
+                                        </div>
+                                        <div
+                                          onClick={e => {
+                                            e.stopPropagation();
+                                            setBxBInclCids(previousKeys =>
+                                              previousKeys.filter(
+                                                k =>
+                                                  k !==
+                                                  collection.collection_id,
+                                              ),
+                                            );
+                                            qc.invalidateQueries([
+                                              'ben-range-included-collections',
+                                              discountId,
+                                            ]);
+                                          }}
+                                          className="text-sm text-gray-500 cursor-pointer"
+                                        >
+                                          X
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  </li>
                                 ),
                               )}
-                            </div>
+                            </ul>
                           </div>
                         )}
                       </div>
@@ -1517,44 +1545,53 @@ const DiscountForm = ({ handleShow, id }) => {
                                     queryEnabled={!!shop?.shop_id}
                                   />
                                 </div>
-                                <div>
+                                <ul className="text-sm w-full">
                                   {includedProducts.map((product: any) => (
-                                    <div
-                                      key={product.key}
+                                    <li
+                                      key={product.product_id}
                                       className="flex items-center"
                                     >
-                                      <div className="flex-shrink-0 h-10 w-10">
-                                        <img
-                                          className="h-10 w-10"
-                                          src={product.image_url}
-                                          alt={product.label}
-                                        />
-                                      </div>
-                                      <div className="ml-4 flex justify-between">
-                                        <div className="text-sm font-medium text-gray-900">
-                                          {product.label}
+                                      <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                        <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+                                          <img
+                                            src={
+                                              product.image_url
+                                                ? proxyURL(
+                                                    product.image_url,
+                                                    50,
+                                                    50,
+                                                  )
+                                                : 'https://via.placeholder.com/50'
+                                            }
+                                            alt={product.handle}
+                                          />
                                         </div>
-                                        <div
-                                          onClick={e => {
-                                            e.stopPropagation();
-                                            setInclPids(previousKeys =>
-                                              previousKeys.filter(
-                                                k => k !== product.key,
-                                              ),
-                                            );
-                                            qc.invalidateQueries([
-                                              'included-products',
-                                              discountId,
-                                            ]);
-                                          }}
-                                          className="text-sm text-gray-500 cursor-pointer"
-                                        >
-                                          X
+                                        <div className="w-full flex-grow flex justify-between">
+                                          <div className="text-sm font-medium text-gray-900">
+                                            {product.title}
+                                          </div>
+                                          <div
+                                            onClick={e => {
+                                              e.stopPropagation();
+                                              setInclPids(previousKeys =>
+                                                previousKeys.filter(
+                                                  k => k !== product.product_id,
+                                                ),
+                                              );
+                                              qc.invalidateQueries([
+                                                'included-products',
+                                                discountId,
+                                              ]);
+                                            }}
+                                            className="text-sm text-gray-500 cursor-pointer"
+                                          >
+                                            X
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
+                                    </li>
                                   ))}
-                                </div>
+                                </ul>
                               </div>
                             ) : (
                               <div className="w-full">
@@ -1585,8 +1622,8 @@ const DiscountForm = ({ handleShow, id }) => {
                                     </button>
                                   </div>
                                   <SelectableResultSearchModal
-                                    id="quick-find-modal"
-                                    searchId="quick-find"
+                                    id="quick-find-modal-ic"
+                                    searchId="quick-find-ic"
                                     modalOpen={searchInclCollectionsOpen}
                                     setModalOpen={setSearchInclCollectionsOpen}
                                     queryURL={collectionOptionSearchURL}
@@ -1616,46 +1653,57 @@ const DiscountForm = ({ handleShow, id }) => {
                                     queryEnabled={!!shop?.shop_id}
                                   />
                                 </div>
-                                <div>
+                                <ul className="text-sm w-full">
                                   {includedCollections.map(
                                     (collection: any) => (
-                                      <div
-                                        key={collection.key}
+                                      <li
+                                        key={collection.collection_id}
                                         className="flex items-center"
                                       >
-                                        <div className="flex-shrink-0 h-10 w-10">
-                                          <img
-                                            className="h-10 w-10"
-                                            src={collection.image_url}
-                                            alt={collection.label}
-                                          />
-                                        </div>
-                                        <div className="ml-4 flex justify-between">
-                                          <div className="text-sm font-medium text-gray-900">
-                                            {collection.label}
+                                        <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                          <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+                                            <img
+                                              src={
+                                                collection.image_url
+                                                  ? proxyURL(
+                                                      collection.image_url,
+                                                      50,
+                                                      50,
+                                                    )
+                                                  : 'https://via.placeholder.com/50'
+                                              }
+                                              alt={collection.handle}
+                                            />
                                           </div>
-                                          <div
-                                            onClick={e => {
-                                              e.stopPropagation();
-                                              setInclCids(previousKeys =>
-                                                previousKeys.filter(
-                                                  k => k !== collection.key,
-                                                ),
-                                              );
-                                              qc.invalidateQueries([
-                                                'included-collections',
-                                                discountId,
-                                              ]);
-                                            }}
-                                            className="text-sm text-gray-500 cursor-pointer"
-                                          >
-                                            X
+                                          <div className="w-full flex-grow flex justify-between">
+                                            <div className="text-sm font-medium text-gray-900">
+                                              {collection.title}
+                                            </div>
+                                            <div
+                                              onClick={e => {
+                                                e.stopPropagation();
+                                                setInclCids(previousKeys =>
+                                                  previousKeys.filter(
+                                                    k =>
+                                                      k !==
+                                                      collection.collection_id,
+                                                  ),
+                                                );
+                                                qc.invalidateQueries([
+                                                  'included-collections',
+                                                  discountId,
+                                                ]);
+                                              }}
+                                              className="text-sm text-gray-500 cursor-pointer"
+                                            >
+                                              X
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
+                                      </li>
                                     ),
                                   )}
-                                </div>
+                                </ul>
                               </div>
                             )}
                           </div>

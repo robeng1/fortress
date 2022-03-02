@@ -27,7 +27,7 @@ function Balance() {
   const { shop } = useShop();
   const shopId = shop?.shop_id;
   const { paymentAccount } = usePayment();
-  const [userAccountId] = useAtom(accountIdAtom);
+  const [usraId] = useAtom(accountIdAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`;
   const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`;
 
@@ -65,7 +65,7 @@ function Balance() {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${userAccountId}' ORDER BY created_at DESC LIMIT ${
+  const query = `SELECT * FROM transaction WHERE account_id = '${usraId}' ORDER BY created_at DESC LIMIT ${
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
 
@@ -84,7 +84,7 @@ function Balance() {
 
     {
       keepPreviousData: true,
-      enabled: !!userAccountId && !!paymentAccount?.account_id,
+      enabled: !!usraId && !!paymentAccount?.account_id,
       refetchOnWindowFocus: false,
       staleTime: 2000,
     },
@@ -252,7 +252,7 @@ function Balance() {
                                   transfer_kind: TransferKind.TRANSFER,
                                   source_id: paymentAccount?.account_id,
                                   loopy: false,
-                                  authorisor_id: userAccountId,
+                                  authorisor_id: usraId,
                                   unit_amount:
                                     sToCurrency(amountToWithdraw).intValue,
                                   is_system: false,

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Transition from 'utils/transition';
 import { useQuery } from 'react-query';
 import { useDebounce } from 'hooks/use-debounce';
@@ -49,21 +48,21 @@ function SelectableResultSearchModal({
     }
   };
 
-  const handleClick = e => {
+  const handleClick = (e) => {
+    e.stopPropagation();
     const { id, checked } = e.target;
     setSelectAll(false);
-    setIsCheck([
-      ...isCheck,
-      data?.result.find(result => result[matchKey] === id),
-    ]);
+    if (checked) {
+      setIsCheck([
+        ...isCheck,
+        data?.result.find(result => result[matchKey] === id),
+      ]);
+    }
+
     if (!checked) {
       setIsCheck(isCheck.filter((item: any) => item[matchKey] !== id));
     }
   };
-  useEffect(() => {
-    handleResultSelected(isCheck);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCheck]);
 
   // close on click outside
   useEffect(() => {
@@ -95,19 +94,6 @@ function SelectableResultSearchModal({
 
   return (
     <>
-      {/* Modal backdrop */}
-      <Transition
-        className="fixed inset-0 bg-gray-900 bg-opacity-30 z-50 transition-opacity"
-        show={modalOpen}
-        appear
-        enter="transition ease-out duration-200"
-        enterStart="opacity-0"
-        enterEnd="opacity-100"
-        leave="transition ease-out duration-100"
-        leaveStart="opacity-100"
-        leaveEnd="opacity-0"
-        aria-hidden="true"
-      />
       {/* Modal dialog */}
       <Transition
         id={id}
@@ -128,7 +114,7 @@ function SelectableResultSearchModal({
           className="bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg"
         >
           {/* Search form */}
-          <form className="border-b border-gray-200 z-20">
+          <div className="border-b border-gray-200 z-20">
             <div className="relative">
               <label htmlFor={searchId} className="sr-only">
                 Search
@@ -158,15 +144,26 @@ function SelectableResultSearchModal({
                 </svg>
               </button>
             </div>
-          </form>
+          </div>
           {data && (
             <div className="py-4 px-2">
               {/* Recent searches */}
               <div className="mb-3 last:mb-0">
-                <div className="text-xs font-semibold text-gray-400 uppercase px-2 mb-2">
-                  Results
+                <div className="flex justify-between">
+                  <div className="text-xs font-semibold text-gray-400 uppercase mb-2">
+                    Results
+                  </div>
+                  <button
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleResultSelected(isCheck);
+                    }}
+                    className="btn-xs bg-purple-500 hover:bg-purple-600 text-white"
+                  >
+                    Done
+                  </button>
                 </div>
-                <div className="flex items-center">
+                <div className="flex ml-2 items-center">
                   <label className="inline-flex">
                     <span className="sr-only">Select all</span>
                     <input
@@ -185,10 +182,9 @@ function SelectableResultSearchModal({
                     )
                     .map(it => (
                       <li key={it[matchKey]}>
-                        <Link
-                          className="flex items-center p-2 text-gray-800 hover:text-white hover:bg-purple-500 rounded group"
-                          to="#0"
-                          onClick={() => setModalOpen(!modalOpen)}
+                        <div
+                          className="flex items-center p-2 text-gray-800 rounded group"
+                          // onClick={() => setModalOpen(!modalOpen)}
                         >
                           <label className="inline-flex flex-shrink-0 mr-3">
                             <span className="sr-only">Select</span>
@@ -214,7 +210,7 @@ function SelectableResultSearchModal({
                             />
                           </div>
                           <span>{it.label}</span>
-                        </Link>
+                        </div>
                       </li>
                     ))}
                 </ul>
