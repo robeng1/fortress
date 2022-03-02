@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import PlacesAutocomplete, {
@@ -71,12 +73,7 @@ function LocationsForm({ handleShow, id }) {
     };
 
   // create the colletion
-  const {
-    mutate: createLocation,
-    // isLoading: isCreatingCollection,
-    // isError: collectionCreationFailed,
-    // error: collectionCreationError,
-  } = useMutation(
+  const { mutate: createLocation, isLoading: isCreatingLocation } = useMutation(
     (payload: LocationType) =>
       request(requestURL, {
         method: 'POST',
@@ -85,10 +82,7 @@ function LocationsForm({ handleShow, id }) {
     {
       onSuccess: (newLocation: LocationType) => {
         setCentreId(newLocation.centre_id);
-        qc.setQueryData(
-          ['location', newLocation.centre_id],
-          newLocation,
-        );
+        qc.setQueryData(['location', newLocation.centre_id], newLocation);
         toast('Location created successfully');
       },
       onError: (e: ResponseError) => {
@@ -98,12 +92,7 @@ function LocationsForm({ handleShow, id }) {
   );
 
   // update the collection
-  const {
-    mutate: updateLocation,
-    // isLoading: isUpdatingCollection,
-    // isError: collectionUpdateFailed,
-    // error: collectionUpdateError,
-  } = useMutation(
+  const { mutate: updateLocation, isLoading: isUpdatingLocation } = useMutation(
     (payload: LocationType) =>
       request(`${requestURL}/${centreId}`, {
         method: 'PATCH',
@@ -112,18 +101,22 @@ function LocationsForm({ handleShow, id }) {
     {
       onSuccess: (newLocation: LocationType) => {
         setCentreId(newLocation.centre_id);
-        qc.setQueryData(
-          ['location', newLocation.centre_id],
-          newLocation,
-        );
+        qc.setQueryData(['location', newLocation.centre_id], newLocation);
       },
       onError: (e: ResponseError) => {},
     },
   );
 
   return (
-    <>
+    <div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={isCreatingLocation || isUpdatingLocation}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           if (!centreId || centreId === '') {
@@ -351,7 +344,7 @@ function LocationsForm({ handleShow, id }) {
           </div>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 

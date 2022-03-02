@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import Select from 'react-select';
@@ -30,7 +32,7 @@ export interface RateType {
 
 function RatesForm({ handleShow, rate }) {
   const queryClient = useQueryClient();
- const { shop } = useShop();
+  const { shop } = useShop();
   const wbrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/wbrs`;
   const ibrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/ibrs`;
   const [rateId, setRateId] = useState(rate?.rate_id);
@@ -41,12 +43,7 @@ function RatesForm({ handleShow, rate }) {
   };
 
   // create the weight based rate
-  const {
-    mutate: createWBRate,
-    // isLoading: isCreatingCollection,
-    // isError: collectionCreationFailed,
-    // error: collectionCreationError,
-  } = useMutation(
+  const { mutate: createWBRate, isLoading: isCreatingWBRate } = useMutation(
     (payload: WeightBasedRateType) =>
       request(wbrRequestURL, {
         method: 'POST',
@@ -65,12 +62,7 @@ function RatesForm({ handleShow, rate }) {
   );
 
   // update the weight based rate
-  const {
-    mutate: updateWBRate,
-    // isLoading: isUpdatingCollection,
-    // isError: collectionUpdateFailed,
-    // error: collectionUpdateError,
-  } = useMutation(
+  const { mutate: updateWBRate, isLoading: isUpdatingWBRate } = useMutation(
     (payload: WeightBasedRateType) =>
       request(`${wbrRequestURL}/${rateId}`, {
         method: 'PATCH',
@@ -89,12 +81,7 @@ function RatesForm({ handleShow, rate }) {
   );
 
   // create the weight based rate
-  const {
-    mutate: createIBRate,
-    // isLoading: isCreatingCollection,
-    // isError: collectionCreationFailed,
-    // error: collectionCreationError,
-  } = useMutation(
+  const { mutate: createIBRate, isLoading: isCreatingIBRate } = useMutation(
     (payload: ItemBasedRateType) =>
       request(ibrRequestURL, {
         method: 'POST',
@@ -113,12 +100,7 @@ function RatesForm({ handleShow, rate }) {
   );
 
   // update the item based rate
-  const {
-    mutate: updateIBRate,
-    // isLoading: isUpdatingCollection,
-    // isError: collectionUpdateFailed,
-    // error: collectionUpdateError,
-  } = useMutation(
+  const { mutate: updateIBRate, isLoading: isUpdatingIBRate } = useMutation(
     (payload: ItemBasedRateType) =>
       request(`${ibrRequestURL}/${rateId}`, {
         method: 'PATCH',
@@ -137,8 +119,20 @@ function RatesForm({ handleShow, rate }) {
   );
 
   return (
-    <>
+    <div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={
+          isCreatingIBRate ||
+          isUpdatingIBRate ||
+          isCreatingWBRate ||
+          isUpdatingWBRate
+        }
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
           if (!rateId || rateId === '') {
@@ -418,7 +412,10 @@ function RatesForm({ handleShow, rate }) {
                     value={values.cities}
                     isSearchable
                     onChange={option =>
-                      setFieldValue('cities', (option as ShippingRateModelOption).label)
+                      setFieldValue(
+                        'cities',
+                        (option as ShippingRateModelOption).label,
+                      )
                     }
                     components={animatedComponents}
                     options={modelOptions}
@@ -437,7 +434,7 @@ function RatesForm({ handleShow, rate }) {
               </div>
             </div>
             <footer className="sticky bottom-0">
-              <div className="flex flex-col px-6 py-5 border-t border-gray-200">
+              <div className="flex flex-col px-6 py-5">
                 <div className="flex self-end">
                   <button
                     onClick={() => handleShow(false)}
@@ -446,10 +443,10 @@ function RatesForm({ handleShow, rate }) {
                     Cancel
                   </button>
                   <button
-                    type='submit'
+                    type="submit"
                     onClick={e => {
                       e.stopPropagation();
-                      console.log("clicked")
+                      console.log('clicked');
                       handleSubmit();
                     }}
                     className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
@@ -462,7 +459,7 @@ function RatesForm({ handleShow, rate }) {
           </div>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 

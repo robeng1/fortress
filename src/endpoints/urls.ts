@@ -1,7 +1,7 @@
 const fortressURL = 'https://api.reoplex.com/app';
 const theKeepURL = 'https://api.reoplex.com/authn';
 const paymentURL = 'https://api.reoplex.com/payment';
-const storageURL = 'https://api.reoplex.com/storage';
 const domainURL = 'https://api.reoplex.com/domains';
+const uixURL = 'https://api.reoplex.com/uix';
 
-export { fortressURL, theKeepURL, paymentURL, storageURL, domainURL };
+export { fortressURL, theKeepURL, paymentURL, domainURL };

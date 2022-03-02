@@ -396,32 +396,6 @@ const DiscountForm = ({ handleShow, id }) => {
                         />
                       </div>
                     </div>
-                    {/* <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="description"
-                          >
-                            Description
-                          </label>
-                          <Editor
-                            initialValue=""
-                            init={{
-                              skin: false,
-                              content_css: false,
-                              height: 500,
-                              menubar: false,
-                              plugins: ['link image', 'table paste'],
-                              toolbar:
-                                'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-                            }}
-                            value={values.description}
-                            onEditorChange={content =>
-                              setFieldValue('description', content)
-                            }
-                          />
-                        </div>
-                      </div> */}
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
                         <label

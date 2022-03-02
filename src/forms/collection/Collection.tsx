@@ -272,6 +272,7 @@ export default function CollectionForm({ handleShow, id }) {
             <CircularProgress color="inherit" />
           </Backdrop>
           <Formik
+            enableReinitialize
             initialValues={{
               title: collection?.title || '',
               description: collection?.description || '',
