@@ -70,7 +70,7 @@ function Collections() {
                 <button
                   type="button"
                   onClick={() => setShowForm(!showForm)}
-                  className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
+                  className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +121,7 @@ function Collections() {
                 </div>
                 <button
                   onClick={() => setShowForm(!showForm)}
-                  className="btn bg-blue-600 hover:bg-purple-600 text-white"
+                  className="btn bg-purple-600 hover:bg-purple-600 text-white"
                 >
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"

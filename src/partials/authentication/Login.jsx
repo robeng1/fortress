@@ -52,11 +52,11 @@ export default function Login() {
           <div className="font-normal mb-6 mt-4 text-xs">
             By signing up, you confirm that you’ve read <br />
             and accepted our
-            <a href="/" className="text-blue-500">
+            <a href="/" className="text-purple-500">
               User Notice
             </a>
             and
-            <a href="/" className="text-blue-500">
+            <a href="/" className="text-purple-500">
               Privacy Policy
             </a>
             .
@@ -94,14 +94,14 @@ export default function Login() {
 
           <a
             href="/"
-            className="block font-normal hover:underline text-center text-sm text-blue-500"
+            className="block font-normal hover:underline text-center text-sm text-purple-500"
           >
             Already have an Atlassian account? Log in
           </a>
         </form>
       </div>
 
-      <p className="mb-20 mt-6 mx-auto text-center text-w text-xs w-400px text-blue-100">
+      <p className="mb-20 mt-6 mx-auto text-center text-w text-xs w-400px text-purple-100">
         This page is protected by reCAPTCHA and the Google Privacy Policy and
         Terms of Service apply
       </p>

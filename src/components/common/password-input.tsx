@@ -67,7 +67,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
           {forgotPageLink && forgotPassHelpText && (
             <Link
               to={forgotPageLink}
-              className="text-sm text-blue-500 transition-colors duration-200 focus:outline-none focus:text-accent-700 focus:font-semibold hover:text-blue-600"
+              className="text-sm text-purple-500 transition-colors duration-200 focus:outline-none focus:text-accent-700 focus:font-semibold hover:text-purple-600"
             >
               {forgotPassHelpText}
             </Link>

@@ -8,7 +8,7 @@ function AnalyticsCard04() {
   const chartData = {
     labels: ['02-01-2021', '03-01-2021', '04-01-2021', '05-01-2021'],
     datasets: [
-      // Blue bars
+      // purple bars
       {
         label: 'New Visitors',
         data: [8000, 3800, 5350, 7800],
@@ -16,12 +16,12 @@ function AnalyticsCard04() {
         hoverBackgroundColor: tailwindConfig().theme.colors.purple[600],
         categoryPercentage: 0.66,
       },
-      // Light blue bars
+      // Light purple bars
       {
         label: 'Returning Visitors',
         data: [4000, 6500, 2200, 5800],
-        backgroundColor: tailwindConfig().theme.colors.blue[400],
-        hoverBackgroundColor: tailwindConfig().theme.colors.blue[500],
+        backgroundColor: tailwindConfig().theme.colors.purple[400],
+        hoverBackgroundColor: tailwindConfig().theme.colors.purple[500],
         categoryPercentage: 0.66,
       },
     ],

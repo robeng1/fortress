@@ -28,7 +28,7 @@ function ResetPassword() {
                   </div>
                 </div>
                 <div className="flex justify-end mt-6">
-                  <button className="btn bg-blue-600 hover:bg-purple-600 text-white whitespace-nowrap">
+                  <button className="btn bg-purple-600 hover:bg-purple-600 text-white whitespace-nowrap">
                     Send Reset Link
                   </button>
                 </div>

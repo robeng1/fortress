@@ -9,7 +9,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
 import { App } from './index';
-
+import { Provider, useAtom } from 'jotai';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/mui-theme/theme';
@@ -19,16 +19,18 @@ const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
   <QueryClientProvider client={qc}>
-    <ThemeProvider theme={theme}>
-      <HelmetProvider>
-        <React.StrictMode>
-          <Router>
-            <App />
-            <ToastContainer />
-          </Router>
-        </React.StrictMode>
-      </HelmetProvider>
-    </ThemeProvider>
+    <Provider>
+      <ThemeProvider theme={theme}>
+        <HelmetProvider>
+          <React.StrictMode>
+            <Router>
+              <App />
+              <ToastContainer />
+            </Router>
+          </React.StrictMode>
+        </HelmetProvider>
+      </ThemeProvider>
+    </Provider>
   </QueryClientProvider>,
   MOUNT_NODE,
 );

@@ -25,7 +25,7 @@ function RatesPanel() {
             <button
               onClick={() => setShowRateForm(!showRateForm)}
               type="button"
-              className="text-white cursor-pointer bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
+              className="text-white cursor-pointer bg-purple-600 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
             >
               Add Rate
             </button>

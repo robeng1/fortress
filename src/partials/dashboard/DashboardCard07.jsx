@@ -61,7 +61,7 @@ function DashboardCard07() {
                   <div className="text-center">267</div>
                 </td>
                 <td className="p-2">
-                  <div className="text-center text-light-blue-500">4.7%</div>
+                  <div className="text-center text-light-purple-500">4.7%</div>
                 </td>
               </tr>
               {/* Row */}
@@ -94,7 +94,7 @@ function DashboardCard07() {
                   <div className="text-center">249</div>
                 </td>
                 <td className="p-2">
-                  <div className="text-center text-light-blue-500">4.4%</div>
+                  <div className="text-center text-light-purple-500">4.4%</div>
                 </td>
               </tr>
               {/* Row */}
@@ -127,7 +127,7 @@ function DashboardCard07() {
                   <div className="text-center">224</div>
                 </td>
                 <td className="p-2">
-                  <div className="text-center text-light-blue-500">4.2%</div>
+                  <div className="text-center text-light-purple-500">4.2%</div>
                 </td>
               </tr>
               {/* Row */}
@@ -160,7 +160,7 @@ function DashboardCard07() {
                   <div className="text-center">220</div>
                 </td>
                 <td className="p-2">
-                  <div className="text-center text-light-blue-500">4.2%</div>
+                  <div className="text-center text-light-purple-500">4.2%</div>
                 </td>
               </tr>
               {/* Row */}
@@ -192,7 +192,7 @@ function DashboardCard07() {
                   <div className="text-center">204</div>
                 </td>
                 <td className="p-2">
-                  <div className="text-center text-light-blue-500">3.9%</div>
+                  <div className="text-center text-light-purple-500">3.9%</div>
                 </td>
               </tr>
             </tbody>

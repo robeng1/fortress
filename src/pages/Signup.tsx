@@ -193,7 +193,7 @@ function Signup() {
             </div>
           )}
           <Button
-            className="w-full mt-3 btn bg-blue-600 hover:bg-purple-600 text-white"
+            className="w-full mt-3 btn bg-purple-600 hover:bg-purple-600 text-white"
             loading={isLoading}
             type="button"
             onClick={e => {

@@ -34,7 +34,7 @@ export const attributeOptions: readonly AttrOption[] = [
 
 export const colourOptions: readonly ColourOption[] = [
   { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-  { value: 'blue', label: 'Blue', color: '#0052CC' },
+  { value: 'purple', label: 'purple', color: '#0052CC' },
   { value: 'purple', label: 'Purple', color: '#5243AA' },
   { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
   { value: 'orange', label: 'Orange', color: '#FF8B00' },

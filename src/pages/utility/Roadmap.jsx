@@ -38,7 +38,7 @@ function Roadmap() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 {/* Add board button */}
-                <button className="btn bg-blue-600 hover:bg-purple-600 text-white">
+                <button className="btn bg-purple-600 hover:bg-purple-600 text-white">
                   <svg
                     className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                     viewBox="0 0 16 16"
@@ -122,7 +122,7 @@ function Roadmap() {
                                 aria-hidden="true"
                               ></div>
                               <div
-                                className="absolute left-0 rounded-full bg-blue-600"
+                                className="absolute left-0 rounded-full bg-purple-600"
                                 aria-hidden="true"
                               >
                                 <svg
@@ -150,7 +150,7 @@ function Roadmap() {
                                 aria-hidden="true"
                               ></div>
                               <div
-                                className="absolute left-0 rounded-full bg-blue-600"
+                                className="absolute left-0 rounded-full bg-purple-600"
                                 aria-hidden="true"
                               >
                                 <svg
@@ -178,7 +178,7 @@ function Roadmap() {
                                 aria-hidden="true"
                               ></div>
                               <div
-                                className="absolute left-0 rounded-full bg-blue-600"
+                                className="absolute left-0 rounded-full bg-purple-600"
                                 aria-hidden="true"
                               >
                                 <svg
@@ -202,7 +202,7 @@ function Roadmap() {
                           <li className="relative py-2">
                             <div className="flex items-center mb-1">
                               <div
-                                className="absolute left-0 rounded-full bg-blue-600"
+                                className="absolute left-0 rounded-full bg-purple-600"
                                 aria-hidden="true"
                               >
                                 <svg
@@ -286,7 +286,7 @@ function Roadmap() {
                                 aria-hidden="true"
                               ></div>
                               <div
-                                className="absolute left-0 rounded-full bg-blue-600"
+                                className="absolute left-0 rounded-full bg-purple-600"
                                 aria-hidden="true"
                               >
                                 <svg
@@ -314,7 +314,7 @@ function Roadmap() {
                                 aria-hidden="true"
                               ></div>
                               <div
-                                className="absolute left-0 rounded-full bg-blue-600"
+                                className="absolute left-0 rounded-full bg-purple-600"
                                 aria-hidden="true"
                               >
                                 <svg
@@ -342,7 +342,7 @@ function Roadmap() {
                                 aria-hidden="true"
                               ></div>
                               <div
-                                className="absolute left-0 rounded-full bg-blue-600"
+                                className="absolute left-0 rounded-full bg-purple-600"
                                 aria-hidden="true"
                               >
                                 <svg

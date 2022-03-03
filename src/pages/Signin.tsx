@@ -34,7 +34,7 @@ function Signin() {
     {
       onSuccess: async (s: Record<string, any>) => {
         setSession(s);
-        queryClient.prefetchQuery(['shop', s?.identity?.account_id])
+        queryClient.prefetchQuery(['shop', s?.identity?.account_id]);
       },
       onError: (e: ResponseError) => {},
     },
@@ -92,7 +92,7 @@ function Signin() {
           </div>
           {isError && <span>{err?.message}</span>}
           <Button
-            className="w-full mt-3 btn bg-blue-600 hover:bg-purple-600 text-white"
+            className="w-full mt-3 btn bg-purple-600 hover:bg-purple-600 text-white"
             loading={isLoading}
             onClick={handleSubmit}
             disabled={isLoading}

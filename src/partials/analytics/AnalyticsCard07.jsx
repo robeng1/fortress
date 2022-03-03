@@ -22,7 +22,7 @@ function AnalyticsCard07({ topCities }) {
                 topCities.map(({ key, value }, index) => (
                   <li className="relative px-2 py-1" key={index}>
                     <div
-                      className="bg-light-blue-100"
+                      className="bg-light-purple-100"
                       aria-hidden="true"
                       style={{ width: `${100 - 10 * index}%` }}
                     ></div>

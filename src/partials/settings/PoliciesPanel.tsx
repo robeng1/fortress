@@ -184,7 +184,7 @@ function PoliciesPanel() {
                       e.stopPropagation();
                       handleSubmit();
                     }}
-                    className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes
                   </button>

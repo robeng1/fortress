@@ -13,12 +13,12 @@ function DashboardCard06() {
         data: [35, 30, 35],
         backgroundColor: [
           tailwindConfig().theme.colors.purple[500],
-          tailwindConfig().theme.colors.blue[400],
+          tailwindConfig().theme.colors.purple[400],
           tailwindConfig().theme.colors.purple[800],
         ],
         hoverBackgroundColor: [
           tailwindConfig().theme.colors.purple[600],
-          tailwindConfig().theme.colors.blue[500],
+          tailwindConfig().theme.colors.purple[500],
           tailwindConfig().theme.colors.purple[900],
         ],
         hoverBorderColor: tailwindConfig().theme.colors.white,

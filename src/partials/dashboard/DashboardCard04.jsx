@@ -15,16 +15,16 @@ function DashboardCard04() {
       '05-01-2021',
     ],
     datasets: [
-      // Light blue bars
+      // Light purple bars
       {
         label: 'Direct',
         data: [800, 1600, 900, 1300, 1950, 1700],
-        backgroundColor: tailwindConfig().theme.colors.blue[400],
-        hoverBackgroundColor: tailwindConfig().theme.colors.blue[500],
+        backgroundColor: tailwindConfig().theme.colors.purple[400],
+        hoverBackgroundColor: tailwindConfig().theme.colors.purple[500],
         barPercentage: 0.66,
         categoryPercentage: 0.66,
       },
-      // Blue bars
+      // purple bars
       {
         label: 'Indirect',
         data: [4900, 2600, 5350, 4800, 5200, 4800],

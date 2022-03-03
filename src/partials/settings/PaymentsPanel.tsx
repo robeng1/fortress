@@ -24,10 +24,7 @@ function PaymentsPanel() {
   const requestURL = `${paymentURL}/${accountId}/accounts`;
 
   // create the colletion
-  const {
-    mutate: createAccount,
-    isLoading: isCreatingAccount,
-  } = useMutation(
+  const { mutate: createAccount, isLoading: isCreatingAccount } = useMutation(
     (payload: any) =>
       request(requestURL, {
         method: 'POST',
@@ -200,7 +197,7 @@ function PaymentsPanel() {
                       type="text"
                       placeholder="Rocketship Store Revenue"
                     />
-                    <p className="text-blue-500 text-xs">
+                    <p className="text-purple-500 text-xs">
                       This will used as Mobile Money Reference/Bank Invoice name
                       during payout
                     </p>
@@ -240,7 +237,7 @@ function PaymentsPanel() {
                       e.stopPropagation();
                       handleSubmit();
                     }}
-                    className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes
                   </button>

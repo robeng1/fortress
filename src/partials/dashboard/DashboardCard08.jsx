@@ -50,20 +50,20 @@ function DashboardCard08() {
         pointHoverRadius: 3,
         pointBackgroundColor: tailwindConfig().theme.colors.purple[500],
       },
-      // Blue line
+      // purple line
       {
         label: 'Previous',
         data: [
           184, 86, 42, 378, 42, 243, 38, 120, 0, 0, 42, 0, 84, 0, 276, 0, 124,
           42, 124, 88, 88, 215, 156, 88, 124, 64,
         ],
-        borderColor: tailwindConfig().theme.colors.blue[400],
+        borderColor: tailwindConfig().theme.colors.purple[400],
         fill: false,
         borderWidth: 2,
         tension: 0,
         pointRadius: 0,
         pointHoverRadius: 3,
-        pointBackgroundColor: tailwindConfig().theme.colors.blue[400],
+        pointBackgroundColor: tailwindConfig().theme.colors.purple[400],
       },
       // Green line
       {

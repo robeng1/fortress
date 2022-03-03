@@ -55,7 +55,7 @@ function CustomersTableItem(props) {
         <div className="text-center">{props.orders}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="text-left font-medium text-light-blue-500">
+        <div className="text-left font-medium text-light-purple-500">
           {props.lastOrder}
         </div>
       </td>

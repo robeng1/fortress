@@ -120,7 +120,7 @@ function Products() {
                   </div>
                   <button
                     onClick={() => setShowForm(!showForm)}
-                    className="btn bg-blue-600 hover:bg-indigo-600 text-white"
+                    className="btn bg-purple-600 hover:bg-indigo-600 text-white"
                   >
                     <svg
                       className="w-4 h-4 fill-current opacity-50 flex-shrink-0"

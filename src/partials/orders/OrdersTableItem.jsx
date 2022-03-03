@@ -45,7 +45,9 @@ function OrdersTableItem(props) {
                 alt={props.id}
               />
             </div>
-            <div className="font-medium text-light-blue-500">{props.order}</div>
+            <div className="font-medium text-light-purple-500">
+              {props.order}
+            </div>
           </div>
         </td>
         <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">

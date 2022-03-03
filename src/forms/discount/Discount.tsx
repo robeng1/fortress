@@ -2265,7 +2265,7 @@ const DiscountForm = ({ handleShow, id }) => {
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full mb-4">
                         <div className="bg-white ml-2">
-                          <h2 className="mb-[0px] mt-[25px] font-normal text-blue-700">
+                          <h2 className="mb-[0px] mt-[25px] font-normal text-purple-700">
                             Wearhebron | Bikershorts
                           </h2>
                           <a
@@ -2296,7 +2296,7 @@ const DiscountForm = ({ handleShow, id }) => {
                         e.stopPropagation();
                         handleSubmit();
                       }}
-                      className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                      className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                     >
                       Save Changes
                     </button>

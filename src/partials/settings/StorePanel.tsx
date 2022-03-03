@@ -210,7 +210,7 @@ function StorePanel() {
                   </div>
                   <button
                     onClick={onChangeClick}
-                    className="btn-sm bg-blue-600 self-start hover:bg-purple-600 text-white"
+                    className="btn-sm bg-purple-600 self-start hover:bg-purple-600 text-white"
                   >
                     Change
                   </button>
@@ -478,7 +478,7 @@ function StorePanel() {
                       e.preventDefault();
                       handleSubmit();
                     }}
-                    className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
                     Save Changes
                   </button>

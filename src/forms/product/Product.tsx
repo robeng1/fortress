@@ -376,6 +376,7 @@ const ProductForm = ({ handleShow, id }) => {
         ]);
       });
   }, [shop?.shop_id]);
+
   const addFiles = files => {
     files.forEach(e => {
       uppy.addFile({
@@ -385,9 +386,9 @@ const ProductForm = ({ handleShow, id }) => {
       });
     });
 
-    Object.keys(uppy.state.files).forEach(fileID => {
+    uppy.getFiles().forEach(file => {
       // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
-      uppy.setFileState(fileID, {
+      uppy.setFileState(file.id, {
         progress: { uploadComplete: true, uploadStarted: true },
       });
     });
@@ -892,7 +893,7 @@ const ProductForm = ({ handleShow, id }) => {
                               alt={img.name}
                             />
                           </div>
-                          <div className="text-xs text-light-blue-500">
+                          <div className="text-xs text-light-purple-500">
                             {img.name}
                           </div>
                         </div>
@@ -1172,7 +1173,7 @@ const ProductForm = ({ handleShow, id }) => {
                                   setFieldValue('variation_options', opts);
                                 }}
                                 type="button"
-                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
+                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 mr-3 mb-3"
                               >
                                 Remove
                               </button>
@@ -1277,7 +1278,7 @@ const ProductForm = ({ handleShow, id }) => {
                                 },
                               ]);
                             }}
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
+                            className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
                           >
                             <span className="ml-2">Add Option</span>
                           </button>
@@ -1293,7 +1294,7 @@ const ProductForm = ({ handleShow, id }) => {
                                   }
                                   setShowVariants(!showVariants);
                                 }}
-                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 mr-3 mb-3"
+                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 mr-3 mb-3"
                               >
                                 Edit Variants
                               </button>
@@ -1393,7 +1394,7 @@ const ProductForm = ({ handleShow, id }) => {
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5 pr-9">
                       <div className="w-full mb-2">
                         <div className="bg-white">
-                          <h2 className="mb-[0px] mt-[25px] font-normal text-sm text-blue-700">
+                          <h2 className="mb-[0px] mt-[25px] font-normal text-sm text-purple-700">
                             Wearhebron | Bikershorts
                           </h2>
                           <a
@@ -1428,7 +1429,7 @@ const ProductForm = ({ handleShow, id }) => {
                         handleSubmit();
                       }}
                       type="button"
-                      className="btn bg-blue-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                      className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                     >
                       Save Changes
                     </button>

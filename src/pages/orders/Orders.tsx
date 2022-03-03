@@ -87,7 +87,7 @@ function Orders() {
               </div>
 
               {/* Add member button */}
-              <button className="btn bg-blue-600 hover:bg-purple-600 text-white">
+              <button className="btn bg-purple-600 hover:bg-purple-600 text-white">
                 <svg
                   className="w-4 h-4 fill-current opacity-50 flex-shrink-0"
                   viewBox="0 0 16 16"

@@ -75,7 +75,7 @@ function DashboardCard05() {
         data: slicedData,
         fill: true,
         backgroundColor: `rgba(${hexToRGB(
-          tailwindConfig().theme.colors.blue[500],
+          tailwindConfig().theme.colors.purple[500],
         )}, 0.08)`,
         borderColor: tailwindConfig().theme.colors.purple[500],
         borderWidth: 2,

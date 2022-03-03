@@ -11,7 +11,7 @@ import useShop from 'hooks/use-shop';
 
 export default function Order({ handleShow, id }) {
   const queryClient = useQueryClient();
- const { shop } = useShop();
+  const { shop } = useShop();
   const [orderId] = useState<string | undefined>(id);
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/orders`;
 
@@ -177,7 +177,7 @@ export default function Order({ handleShow, id }) {
                         </div>
                         <div className="flex md:flex-row flex-col justify-between w-full">
                           <div className="pl-2">
-                            <p className="text-blue-600 text-sm overflow-ellipsis">
+                            <p className="text-purple-600 text-sm overflow-ellipsis">
                               {line.product?.title}
                             </p>
                             <span className="block md:mt-px text-gray-600 text-sm">
@@ -208,7 +208,7 @@ export default function Order({ handleShow, id }) {
                       <button
                         onClick={handleMarkAsFulfilled}
                         type="button"
-                        className="text-white bg-blue-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
+                        className="text-white bg-purple-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
                       >
                         Mark as fulfilled
                       </button>
@@ -287,7 +287,7 @@ export default function Order({ handleShow, id }) {
                   <div className="bg-white border p-5 rounded shadow">
                     <header className="flex justify-center">
                       <span className="font-medium text-base">Notes</span>
-                      <button className="ml-auto text-blue-500 text-sm">
+                      <button className="ml-auto text-purple-500 text-sm">
                         Edit
                       </button>
                     </header>
@@ -299,7 +299,7 @@ export default function Order({ handleShow, id }) {
                   <div className="bg-white border mt-4 rounded shadow">
                     <header className="flex p-5">
                       <span className="font-medium text-base">Customer</span>
-                      <span className="bg-blue-800 flex h-8 items-center justify-center ml-auto relative rounded-full shadow-lg w-8">
+                      <span className="bg-purple-800 flex h-8 items-center justify-center ml-auto relative rounded-full shadow-lg w-8">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -310,7 +310,7 @@ export default function Order({ handleShow, id }) {
                         </svg>
                       </span>
                     </header>
-                    <p className="mt-4 px-5 text-blue-500 text-sm">
+                    <p className="mt-4 px-5 text-purple-500 text-sm">
                       {order.customer_name}
                     </p>
                     <span className="block mb-5 px-5 text-gray-600 text-sm">
@@ -322,14 +322,16 @@ export default function Order({ handleShow, id }) {
                         <span className="font-medium text-xs uppercase">
                           Contact Information
                         </span>
-                        <button className="ml-auto text-blue-500">Edit</button>
+                        <button className="ml-auto text-purple-500">
+                          Edit
+                        </button>
                       </header>
-                      <span className="block mb-5 mt-1 text-blue-500 text-sm">
+                      <span className="block mb-5 mt-1 text-purple-500 text-sm">
                         {order.guest_email !== ''
                           ? order.guest_email
                           : order.customer_email}
                       </span>
-                      <span className="block mb-5 mt-1 text-blue-500 text-sm">
+                      <span className="block mb-5 mt-1 text-purple-500 text-sm">
                         {order.customer_phone}
                       </span>
                     </div>
@@ -339,7 +341,7 @@ export default function Order({ handleShow, id }) {
                         <span className="font-medium text-xs uppercase">
                           Shipping Address
                         </span>
-                        <button className="ml-auto text-blue-500 text-sm">
+                        <button className="ml-auto text-purple-500 text-sm">
                           Edit
                         </button>
                       </header>
@@ -356,7 +358,10 @@ export default function Order({ handleShow, id }) {
                       </p>
 
                       {/* TODO: (romeo) use the coordinates to allow opening map */}
-                      <a href="/" className="block mb-5 text-blue-500 text-sm">
+                      <a
+                        href="/"
+                        className="block mb-5 text-purple-500 text-sm"
+                      >
                         View map
                       </a>
                     </div>

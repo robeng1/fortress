@@ -16,7 +16,7 @@ function DashboardCard09() {
       '05-01-2021',
     ],
     datasets: [
-      // Light blue bars
+      // Light purple bars
       {
         label: 'Stack 1',
         data: [6200, 9200, 6600, 8800, 5200, 9200],
@@ -25,7 +25,7 @@ function DashboardCard09() {
         barPercentage: 0.66,
         categoryPercentage: 0.66,
       },
-      // Blue bars
+      // purple bars
       {
         label: 'Stack 2',
         data: [-4000, -2600, -5350, -4000, -7500, -2000],
