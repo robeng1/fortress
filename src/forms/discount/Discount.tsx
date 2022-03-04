@@ -30,10 +30,12 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import { proxyURL } from 'utils/urlsigner';
+import { useNavigate } from 'react-router-dom';
 
 // TODO: (romeo) refactor duplicated pieces of logic
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
-const DiscountForm = ({ handleShow, id }) => {
+const DiscountForm = ({ id }) => {
+  const navigate = useNavigate();
   const qc = useQueryClient();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
@@ -2288,7 +2290,7 @@ const DiscountForm = ({ handleShow, id }) => {
               <footer className="sticky bottom-0">
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
-                    <button className="btn border-teal-200 hover:border-gray-300 text-gray-600">
+                    <button onClick={()=> navigate('/discounts')} className="btn border-teal-200 hover:border-gray-300 text-gray-600">
                       Cancel
                     </button>
                     <button

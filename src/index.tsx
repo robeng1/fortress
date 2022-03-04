@@ -36,6 +36,7 @@ import SettingsIndex from './pages/settings/Overview';
 import Domains from 'pages/settings/Domains';
 import ProductMutation from 'pages/product-mutation/form';
 import CollectionMutation from 'pages/collection-mutation/form';
+import DiscountMutation from 'pages/discount-mutation/form';
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 
 export function App() {
@@ -161,7 +162,7 @@ export function App() {
           path="/discounts/:id"
           element={
             <RequireAuth path="/discounts/:id">
-              <Discounts />
+              <DiscountMutation />
             </RequireAuth>
           }
         />

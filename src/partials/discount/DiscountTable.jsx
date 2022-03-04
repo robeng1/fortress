@@ -1,17 +1,15 @@
 import React from 'react';
 import EmptyState from 'partials/EmptyState';
 import DiscountList from './mobile/DiscountList';
+import { useNavigate } from 'react-router-dom';
 
-export default function DiscountTable({
-  selectedItems,
-  handleShow,
-  discounts,
-}) {
+export default function DiscountTable({ selectedItems, discounts }) {
+  const navigate = useNavigate();
   return (
     <>
       {discounts.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
-          <DiscountList handleShow={handleShow} discounts={discounts} />
+          <DiscountList discounts={discounts} />
           <div className="md:flex flex-col hidden">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -74,7 +72,7 @@ export default function DiscountTable({
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {discount.type === 'site'? 'Automatic': 'Code'}
+                              {discount.type === 'site' ? 'Automatic' : 'Code'}
                             </div>
                             {/* <div className="text-sm text-gray-500">
                               {person.status}
@@ -82,7 +80,7 @@ export default function DiscountTable({
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              {discount.active ? 'Active': 'Inactive'}
+                              {discount.active ? 'Active' : 'Inactive'}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -108,7 +106,7 @@ export default function DiscountTable({
           msg="Create some discounts to get started"
           action={{
             name: 'Create discount',
-            func: () => handleShow(true, ''),
+            func: () => navigate("/discounts/new"),
           }}
         />
       )}
