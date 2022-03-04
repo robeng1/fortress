@@ -256,62 +256,9 @@ function RatesForm({ handleShow, rate }) {
                 </div>
               </section>
               {values.model && values.model.value === 'WEIGHT_BASED' && (
-                <section className="sm:flex w-full sm:items-center align-middle sm:w-1/2 items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/3 sm:w-full">
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="price-per-order"
-                    >
-                      Price per order
-                    </label>
-                    <input
-                      id="price_per_order_amt"
-                      name="price_per_order_amt"
-                      onChange={handleChange}
-                      onBlur={event =>
-                        setFieldValue(
-                          'price_per_order_amt',
-                          sToCurrency(event.currentTarget.value).toString(),
-                        )
-                      }
-                      value={values.price_per_order_amt}
-                      className="form-input w-full"
-                      type="text"
-                      placeholder="0.00"
-                    />
-                  </div>
-                  <div className="sm:mt-3 self-center text-lg">
-                    <h1>+</h1>
-                  </div>
-                  <div className="w-full md:w-1/3 sm:w-full">
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="price-per-weight_amt"
-                    >
-                      Price per gram
-                    </label>
-                    <input
-                      id="price_per_weight_amt"
-                      name="price_per_weight_amt"
-                      onChange={handleChange}
-                      onBlur={event =>
-                        setFieldValue(
-                          'price_per_weight_amt',
-                          sToCurrency(event.currentTarget.value).toString(),
-                        )
-                      }
-                      value={values.price_per_weight_amt}
-                      className="form-input w-full"
-                      type="text"
-                      placeholder="1.00"
-                    />
-                  </div>
-                </section>
-              )}
-              {values.model && values.model.value === 'ITEM_BASED' && (
                 <>
-                  <section className="sm:flex w-full sm:items-center align-middle sm:w-1/2 items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3">
-                    <div className="w-full md:w-1/3 sm:w-full">
+                  <section className="sm:flex w-full sm:items-center md:w-1/2 align-middle items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3">
+                    <div className="w-full md:w-1/2 sm:w-full">
                       <label
                         className="block text-sm font-medium mb-1"
                         htmlFor="price-per-order"
@@ -334,10 +281,65 @@ function RatesForm({ handleShow, rate }) {
                         placeholder="0.00"
                       />
                     </div>
-                    <div className="self-center text-lg">
+                    <div className="md:1/5 self-center text-lg text-center">
                       <h1>+</h1>
                     </div>
-                    <div className="w-full md:w-1/3 sm:w-full">
+                    <div className="w-full md:w-1/2 sm:w-full">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="price-per-weight_amt"
+                      >
+                        Price per gram
+                      </label>
+                      <input
+                        id="price_per_weight_amt"
+                        name="price_per_weight_amt"
+                        onChange={handleChange}
+                        onBlur={event =>
+                          setFieldValue(
+                            'price_per_weight_amt',
+                            sToCurrency(event.currentTarget.value).toString(),
+                          )
+                        }
+                        value={values.price_per_weight_amt}
+                        className="form-input w-full"
+                        type="text"
+                        placeholder="1.00"
+                      />
+                    </div>
+                  </section>
+                </>
+              )}
+              {values.model && values.model.value === 'ITEM_BASED' && (
+                <>
+                  <section className="sm:flex w-full sm:items-center md:w-1/2 align-middle items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3">
+                    <div className="w-full md:w-2/5 sm:w-full">
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        htmlFor="price-per-order"
+                      >
+                        Price per order
+                      </label>
+                      <input
+                        id="price_per_order_amt"
+                        name="price_per_order_amt"
+                        onChange={handleChange}
+                        onBlur={event =>
+                          setFieldValue(
+                            'price_per_order_amt',
+                            sToCurrency(event.currentTarget.value).toString(),
+                          )
+                        }
+                        value={values.price_per_order_amt}
+                        className="form-input w-full"
+                        type="text"
+                        placeholder="0.00"
+                      />
+                    </div>
+                    <div className="self-center w-1/5 text-lg text-center">
+                      <h1>+</h1>
+                    </div>
+                    <div className="w-full md:w-2/5">
                       <label
                         className="block text-sm font-medium mb-1"
                         htmlFor="price-per-item_amt"
@@ -446,7 +448,6 @@ function RatesForm({ handleShow, rate }) {
                     type="submit"
                     onClick={e => {
                       e.stopPropagation();
-                      console.log('clicked');
                       handleSubmit();
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
