@@ -120,7 +120,7 @@ function PoliciesPanel() {
                 <div className="text-sm">How do you handle refunds?</div>
 
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="refund_policy"
@@ -149,7 +149,7 @@ function PoliciesPanel() {
                 </div>
 
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="shipping_policy"

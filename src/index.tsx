@@ -33,6 +33,7 @@ import Transactions from './pages/transactions/Transaction';
 import Payouts from './pages/payouts/Payout';
 import Balance from './pages/balance/Balance';
 import SettingsIndex from './pages/settings/Overview'
+import Domains from 'pages/settings/Domains';
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 
 export function App() {
@@ -174,6 +175,14 @@ export function App() {
           element={
             <RequireAuth path="/settings/shipping">
               <Rates />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/domains"
+          element={
+            <RequireAuth path="/settings/domains">
+              <Domains />
             </RequireAuth>
           }
         />

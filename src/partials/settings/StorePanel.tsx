@@ -225,7 +225,7 @@ function StorePanel() {
                   General information about your Business
                 </div>
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="business_display_name"
@@ -246,8 +246,8 @@ function StorePanel() {
                   </div>
                 </div>
 
-                <div className="sm:flex sm:items-center sm:w-1/2 space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/2">
+                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="md:w-4/5">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="email"
@@ -266,7 +266,7 @@ function StorePanel() {
                       placeholder="romeo@reoplex.com"
                     />
                   </div>
-                  <div className="sm:w-1/2">
+                  <div className="md:w-4/5">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="phone"
@@ -298,7 +298,7 @@ function StorePanel() {
                 </div>
 
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="business_name"
@@ -319,7 +319,7 @@ function StorePanel() {
                 </div>
                 {/* TODO: make this location search */}
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="address.street"
@@ -340,7 +340,7 @@ function StorePanel() {
                   </div>
                 </div>
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/3">
+                  <div className="md:w-4/5">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="address.country"
@@ -364,7 +364,7 @@ function StorePanel() {
                       <option value="SA">South Africa</option>
                     </select>
                   </div>
-                  <div className="sm:w-1/3">
+                  <div className="md:w-4/5">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="address.city"
@@ -384,7 +384,7 @@ function StorePanel() {
                   </div>
                 </div>
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/3">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="province"
@@ -437,7 +437,7 @@ function StorePanel() {
                   <br /> Primary currency cannot be changed after first sale
                 </div>
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="sm:w-1/3">
+                  <div className="md:w-4/5">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="currency.iso_code"

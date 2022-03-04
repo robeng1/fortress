@@ -119,7 +119,7 @@ function PaymentsPanel() {
                 </h3>
                 <div className="text-sm">Your Mobile Money account details</div>
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full md:w-1/2">
+                  <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="name"
@@ -140,8 +140,8 @@ function PaymentsPanel() {
                   </div>
                 </div>
 
-                <div className="sm:flex sm:items-center sm:w-1/2 space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-1/2">
+                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                  <div className="md:w-4/5">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="wallet.merchant"
