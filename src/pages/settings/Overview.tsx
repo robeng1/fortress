@@ -11,19 +11,21 @@ import { NavbarIcon } from "components/icons/navbar-icon";
 import { MyShopIcon } from "components/icons/sidebar";
 import { OrderIcon } from "components/icons/order-icon";
 import { TruckIcon } from "components/icons/truck-icon";
+import { Revenue } from "components/icons/revenue";
+import { Refund } from "components/icons/refund";
 
 const SettingsIndex = () => {
   return (
     <SettingsOverview>
       <SettingsCard
-        heading={'Store Details'}
+        heading={'Store'}
         description={'Manage the your business details'}
         icon={<CubeIcon />}
         disabled={false}
         to={`/settings/account`}
       />
       <SettingsCard
-        heading={'Payments & Accounts'}
+        heading={'Payments'}
         description={'Manage your payout accounts'}
         icon={<PriceWalletIcon />}
         disabled={false}
@@ -76,6 +78,12 @@ const SettingsIndex = () => {
         description={'Customize look and feel of your business'}
         icon={<MyShopIcon />}
         disabled={false}
+      />
+      <SettingsCard
+        heading={'Taxes'}
+        description={'Manage sales tax for your business'}
+        icon={<Refund />}
+        disabled={true}
       />
     </SettingsOverview>
   );
