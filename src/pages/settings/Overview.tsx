@@ -78,6 +78,7 @@ const SettingsIndex = () => {
         description={'Customize look and feel of your business'}
         icon={<MyShopIcon />}
         disabled={false}
+        to={`/settings/theme`}
       />
       <SettingsCard
         heading={'Taxes'}
