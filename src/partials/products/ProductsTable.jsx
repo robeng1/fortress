@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Product from './ProductTableItem';
 import ProductList from './mobile/ProductList';
 import EmptyState from 'partials/EmptyState';
+import { useNavigate } from 'react-router-dom';
 function ProductsTable({ selectedItems, handleShow, products }) {
+  const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -87,7 +89,9 @@ function ProductsTable({ selectedItems, handleShow, products }) {
                         status={product.status}
                         variants={product.num_variants}
                         fav={false}
-                        handleShow={() => handleShow(true, product.product_id)}
+                        handleShow={() =>
+                          navigate(`/shop/products/${product.product_id}`)
+                        }
                         handleClick={handleClick}
                         isChecked={isCheck.includes(product.product_id)}
                       />
@@ -105,7 +109,7 @@ function ProductsTable({ selectedItems, handleShow, products }) {
           action={{
             name: 'Create product',
             func: () => {
-              handleShow(true, '');
+              navigate('/shop/products/new');
             },
           }}
         />

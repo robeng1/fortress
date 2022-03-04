@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import EmptyState from 'partials/EmptyState';
 import Collection from './CollectionTableItem';
 import CollectionList from './mobile/CollectionList';
 
-function CollectionsTable({ selectedItems, handleShow, collections }) {
+function CollectionsTable({ selectedItems, collections }) {
+  const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState([]);
 
@@ -87,7 +89,6 @@ function CollectionsTable({ selectedItems, handleShow, collections }) {
                         channels={collection.sales_channels}
                         fav={false}
                         handleClick={handleClick}
-                        handleShow={handleShow}
                         isChecked={isCheck.includes(collection.collection_id)}
                       />
                     );
@@ -103,9 +104,7 @@ function CollectionsTable({ selectedItems, handleShow, collections }) {
           msg="Create some collections to get started"
           action={{
             name: 'Create collection',
-            func: () => {
-              handleShow(true, '');
-            },
+            func: () => navigate('/shop/collections/new'),
           }}
         />
       )}

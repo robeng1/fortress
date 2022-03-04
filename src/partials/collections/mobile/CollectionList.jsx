@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import CollectionCard from './CollectionCard';
 
-export default function CollectionList({ handleShow, collections }) {
+export default function CollectionList({ collections }) {
+  const navigate = useNavigate();
   return (
     <>
       <div className="md:hidden">
@@ -11,7 +13,9 @@ export default function CollectionList({ handleShow, collections }) {
               {collections.map(collection => (
                 <li key={collection.collection_id} className="flex pr-3 py-2">
                   <CollectionCard
-                    handleShow={handleShow}
+                    handleShow={() =>
+                      navigate(`/shop/collections/${collection.collection_id}`)
+                    }
                     collection={collection}
                   />
                 </li>

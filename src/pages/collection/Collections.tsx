@@ -16,8 +16,10 @@ import { request, ResponseError } from 'utils/request';
 import CollectionsTable from 'partials/collections/CollectionsTable';
 import CollectionForm from 'forms/collection/Collection';
 import useShop from 'hooks/use-shop';
+import { useNavigate } from 'react-router-dom';
 
 function Collections() {
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<any>([]);
   const [showForm, setShowForm] = React.useState<Boolean>(false);
@@ -58,48 +60,7 @@ function Collections() {
     setShowForm(display);
   };
   const collections = data?.collections || [];
-  const renderFormView = () => {
-    return (
-      <main>
-        <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-          {/* Page header */}
-          <div className="sm:flex sm:justify-start sm:items-center mb-8">
-            {/* Left: Title */}
-            <div className="mb-4 sm:mb-0">
-              <div className="m-1.5">
-                <button
-                  type="button"
-                  onClick={() => setShowForm(!showForm)}
-                  className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            {/* <div className="mb-0 sm:mb-0">
-              <h2>SPRINGSALE</h2>
-            </div> */}
-          </div>
-
-          {/* Form */}
-          <CollectionForm handleShow={handleShow} id={currentCollectionId} />
-        </div>
-      </main>
-    );
-  };
+  
 
   const renderCollectionView = () => {
     return (
@@ -120,7 +81,7 @@ function Collections() {
                   </div>
                 </div>
                 <button
-                  onClick={() => setShowForm(!showForm)}
+                  onClick={() => navigate('/shop/collections/new')}
                   className="btn bg-purple-600 hover:bg-purple-600 text-white"
                 >
                   <svg
@@ -140,7 +101,7 @@ function Collections() {
           {/* Table */}
           <CollectionsTable
             selectedItems={handleSelectedItems}
-            handleShow={handleShow}
+            // handleShow={handleShow}
             collections={collections || []}
           />
 
@@ -179,8 +140,8 @@ function Collections() {
           location="Collections"
         />
 
-        {!showForm ? renderCollectionView() : renderFormView()}
-        {!showForm && <BottomNav />}
+        {renderCollectionView()}
+        <BottomNav />
       </div>
     </div>
   );

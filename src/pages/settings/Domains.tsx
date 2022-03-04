@@ -1,14 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
-import { paymentURL } from 'endpoints/urls';
-
+import { domainURL, paymentURL } from 'endpoints/urls';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import BottomNav from 'components/BottomNav';
-import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
-import { UidAtom } from 'store/authorization-atom';
 import useShop from 'hooks/use-shop';
 import { Link } from 'react-router-dom';
 
@@ -16,27 +13,20 @@ function Domains() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { shop } = useShop();
   const shopId = shop?.shop_id;
-  const [accountId] = useAtom(UidAtom);
-  const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
+  const requestURL = `${domainURL}/${shopId}/domains`;
 
   const [page, setPage] = useState(1);
   const [itemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${accountId}' ORDER BY created_at DESC LIMIT ${
-    (page - 1) * itemsPerPage + 1
-  }, ${itemsPerPage}`;
-
   const { data } = useQuery<any, ResponseError>(
-    ['transactions', page],
+    ['domains'],
     async () =>
       await request(`${requestURL}/transactions`, {
-        method: 'POST',
-        body: JSON.stringify({ query }),
         headers: { 'Content-Type': 'application/json' },
       }),
     {
       keepPreviousData: true,
-      enabled: !!accountId,
+      enabled: !!shopId,
       refetchOnWindowFocus: false,
       staleTime: 2000,
     },
@@ -155,7 +145,6 @@ function Domains() {
             )}
           </div>
         </main>
-
         <BottomNav />
       </div>
     </div>

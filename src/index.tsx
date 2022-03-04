@@ -32,8 +32,10 @@ import { RequireAuth } from './components/ProtectedRoutes';
 import Transactions from './pages/transactions/Transaction';
 import Payouts from './pages/payouts/Payout';
 import Balance from './pages/balance/Balance';
-import SettingsIndex from './pages/settings/Overview'
+import SettingsIndex from './pages/settings/Overview';
 import Domains from 'pages/settings/Domains';
+import ProductMutation from 'pages/product-mutation/form';
+import CollectionMutation from 'pages/collection-mutation/form';
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 
 export function App() {
@@ -88,10 +90,28 @@ export function App() {
         />
 
         <Route
+          path="/shop/products/:id"
+          element={
+            <RequireAuth path="/shop/products/:id">
+              <ProductMutation />
+            </RequireAuth>
+          }
+        />
+
+        <Route
           path="/shop/collections"
           element={
             <RequireAuth path="/shop/collections">
               <Collections />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/shop/collections/:id"
+          element={
+            <RequireAuth path="/shop/collections/:id">
+              <CollectionMutation />
             </RequireAuth>
           }
         />
@@ -133,6 +153,14 @@ export function App() {
           path="/discounts"
           element={
             <RequireAuth path="/discounts">
+              <Discounts />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/discounts/:id"
+          element={
+            <RequireAuth path="/discounts/:id">
               <Discounts />
             </RequireAuth>
           }

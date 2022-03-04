@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { proxyURL } from 'utils/urlsigner';
 
 function CollectionItemTable(props) {
+  const navigate = useNavigate();
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
@@ -33,14 +35,14 @@ function CollectionItemTable(props) {
         </div>
       </td>
       <td
-        onClick={() => props.handleShow(true, props.id)}
+        onClick={() => navigate(`/shop/collections/${props.id}`)}
         className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"
       >
         <div className="flex items-center">
           <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={proxyURL(props.image, 50,50)}
+              src={proxyURL(props.image, 50, 50)}
               alt={props.name}
             />
           </div>

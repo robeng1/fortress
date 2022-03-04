@@ -53,7 +53,7 @@ import { mToCurrency, pesosRawMoney, sToM, sToCurrency } from 'utils/money';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
-import { variants } from 'css/tailwind.config';
+import { useNavigate } from 'react-router-dom';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -110,8 +110,9 @@ const ProductSchema = Yup.object().shape({
   // price: Yup.string().required('Required'),
 });
 
-const ProductForm = ({ handleShow, id }) => {
+const ProductForm = ({ id }) => {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
   const [productId, setProductId] = useState(id);
@@ -1418,7 +1419,7 @@ const ProductForm = ({ handleShow, id }) => {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => handleShow(false, '')}
+                      onClick={() => navigate('/shops/products')}
                       className="btn border-gray-200 hover:border-gray-300 text-gray-600"
                     >
                       Cancel

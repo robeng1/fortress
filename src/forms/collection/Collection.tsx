@@ -26,9 +26,11 @@ import { request, ResponseError } from 'utils/request';
 import SelectableResultSearchModal from 'components/common/modal-searcher';
 import { ProductViewListType } from 'models/product/product-type';
 import useShop from 'hooks/use-shop';
+import { useNavigate } from 'react-router-dom';
 
-export default function CollectionForm({ handleShow, id }) {
+export default function CollectionForm({  id }) {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
@@ -495,7 +497,10 @@ export default function CollectionForm({ handleShow, id }) {
                 <footer className="sticky bottom-0">
                   <div className="flex flex-col py-5">
                     <div className="flex self-end">
-                      <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                      <button
+                        onClick={() => navigate('/shops/collections')}
+                        className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                      >
                         Cancel
                       </button>
                       <button

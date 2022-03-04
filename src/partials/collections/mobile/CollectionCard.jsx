@@ -2,10 +2,13 @@ import React from 'react';
 import { proxyURL } from 'utils/urlsigner';
 
 export default function CollectionCard({ collection, handleShow }) {
+  const navigate = useNavigate();
   return (
     <>
       <div
-        onClick={() => handleShow(true, collection.collection_id)}
+        onClick={() =>
+          navigate(`/shop/collections/${collection.collection_id}`)
+        }
         className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
       >
         <img
