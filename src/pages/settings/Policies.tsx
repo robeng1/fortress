@@ -3,7 +3,6 @@ import React, { lazy, useState } from 'react';
 import BottomNav from 'components/BottomNav';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import SettingsSidebar from 'partials/settings/SettingsSidebar';
 import PoliciesPanel from 'partials/settings/PoliciesPanel';
 
 function Policies() {
@@ -28,7 +27,6 @@ function Policies() {
             {/* Content */}
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
-                <SettingsSidebar />
                 <PoliciesPanel />
               </div>
             </div>

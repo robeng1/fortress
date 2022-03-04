@@ -1,12 +1,10 @@
-import React, { lazy, useState } from 'react';
-
+import React, { useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import LocationsPanel from 'partials/settings/LocationsPanel';
+import PageDescription from 'components/common/page-description';
 
-function Locations() {
+const SettingsOverview: React.FC = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -18,22 +16,23 @@ function Locations() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={'Locations'}
+          location="Settings"
         />
 
-        <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-            {/* Content */}
-            <div className="bg-white shadow-lg rounded-sm mb-8">
-              <div className="flex flex-col md:flex-row md:-mr-px">
-                <LocationsPanel />
-              </div>
+        <main className="mb-10 md:mb-0">
+          <div className="bg-white p-large">
+            <PageDescription
+              title={'Settings'}
+              subtitle={'Manage the settings for your Reoplex store'}
+            />
+            <div className="grid medium:grid-cols-2 auto-cols-fr grid-cols-1 gap-x-base gap-y-xsmall bg-white">
+              {children}
             </div>
           </div>
         </main>
       </div>
     </div>
   );
-}
+};
 
-export default Locations;
+export default SettingsOverview;

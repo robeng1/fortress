@@ -2,7 +2,6 @@ import React, { lazy, useState } from 'react';
 
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import SettingsSidebar from 'partials/settings/SettingsSidebar';
 import LocationsPanel from 'partials/settings/LocationsPanel';
 
 
@@ -28,7 +27,6 @@ function Locations() {
             {/* Content */}
             <div className="bg-white shadow-lg rounded-sm mb-8">
               <div className="flex flex-col md:flex-row md:-mr-px">
-                <SettingsSidebar />
                 <LocationsPanel />
               </div>
             </div>

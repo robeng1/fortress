@@ -32,10 +32,7 @@ import { RequireAuth } from './components/ProtectedRoutes';
 import Transactions from './pages/transactions/Transaction';
 import Payouts from './pages/payouts/Payout';
 import Balance from './pages/balance/Balance';
-import useShop from 'hooks/use-shop';
-import usePayment from 'hooks/use-payment';
-import useCentres from 'hooks/use-location';
-
+import SettingsIndex from './pages/settings/Overview'
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 
 export function App() {
@@ -136,6 +133,14 @@ export function App() {
           element={
             <RequireAuth path="/discounts">
               <Discounts />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <RequireAuth path="/settings">
+              <SettingsIndex />
             </RequireAuth>
           }
         />

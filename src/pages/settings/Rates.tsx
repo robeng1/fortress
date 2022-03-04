@@ -1,7 +1,6 @@
 import React, { lazy, useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import SettingsSidebar from 'partials/settings/SettingsSidebar';
 import RatesPanel from 'partials/settings/RatesPanel';
 
 function Rates() {
@@ -26,7 +25,7 @@ function Rates() {
             {/* Content */}
             <div className="bg-white shadow-lg rounded-sm mb-20">
               <div className="flex flex-col md:flex-row md:-mr-px">
-                <SettingsSidebar />
+
                 <RatesPanel />
               </div>
             </div>

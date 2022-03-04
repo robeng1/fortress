@@ -2,13 +2,24 @@
 @tailwind base;
 @tailwind components;
 
-// Additional styles
 @import 'additional-styles/utility-patterns.scss';
 @import 'additional-styles/range-slider.scss';
 @import 'additional-styles/toggle-switch.scss';
 @import 'additional-styles/flatpickr.scss';
 @import 'additional-styles/theme.scss';
 
+
 @tailwind utilities;
 
+/* Classes to remove number spinners from inputs of type number */
+/* Chrome, Safari, Edge, Opera */
+.remove-number-spinner::-webkit-outer-spin-button,
+.remove-number-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+.remove-number-spinner {
+  -moz-appearance: textfield;
+}

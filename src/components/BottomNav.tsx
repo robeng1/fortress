@@ -113,8 +113,8 @@ export default function BottomNav() {
           />
           <BottomNavigationAction
             component={NavLink}
-            to="/settings/account"
-            value="/settings/account"
+            to="/settings"
+            value="/settings"
             sx={{
               paddingX: '0px',
             }}
