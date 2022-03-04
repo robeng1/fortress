@@ -215,8 +215,7 @@ function PaymentsPanel() {
                     {/* Left */}
                     <div>
                       <div className="text-gray-800 font-semibold italic">
-                        Only Mobile Money is supported now. Bank support is
-                        coming soon
+                       Bank support is coming soon
                       </div>
                     </div>
                   </li>

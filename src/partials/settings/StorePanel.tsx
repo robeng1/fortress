@@ -403,7 +403,7 @@ function StorePanel() {
                       placeholder="Greater Accra"
                     />
                   </div>
-                  <div className="sm:w-1/3">
+                  {/* <div className="sm:w-1/3">
                     <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="post-code"
@@ -417,13 +417,13 @@ function StorePanel() {
                       autoComplete="postal-code"
                       placeholder="G7HSED23"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </section>
               {/* Currency */}
               <section>
                 <h2 className="text-xl leading-snug text-gray-800 font-bold mb-1">
-                  Store currency
+                  Currency
                 </h2>
                 <div className="text-sm">
                   This is the primary currency your products will be sold in

@@ -1,20 +1,16 @@
 import SettingsCard from "components/common/settings-card";
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
 import { BanUser } from "components/icons/ban-user";
 import { Bell } from "components/icons/bell";
 import { MailIcon } from "components/icons/mail-icon";
 import { MapPin } from "components/icons/map-pin";
+import { DeliveryIcon } from "components/icons/delivery-icon";
 import { CubeIcon } from "components/icons/shops/cube";
 import { PriceWalletIcon } from "components/icons/shops/price-wallet";
-import { SiteSettingsIcon } from "components/icons/site-settings-icon";
 import SettingsOverview from "components/templates/settings-overview";
-import { SidebarCategoryIcon } from "components/icons/sidebar-category-icon";
 import { NavbarIcon } from "components/icons/navbar-icon";
-import { UploadIcon } from "components/icons/upload-icon";
-import { Restaurant } from "components/icons/type";
-import { Tools } from "components/icons/category";
 import { MyShopIcon } from "components/icons/sidebar";
+import { OrderIcon } from "components/icons/order-icon";
+import { TruckIcon } from "components/icons/truck-icon";
 
 const SettingsIndex = () => {
   return (
@@ -39,6 +35,13 @@ const SettingsIndex = () => {
         icon={<MapPin />}
         disabled={false}
         to={`/settings/locations`}
+      />
+      <SettingsCard
+        heading={'Shipping'}
+        description={'Manage your delivery fees & rates'}
+        icon={<TruckIcon />}
+        disabled={false}
+        to={`/settings/shipping`}
       />
       <SettingsCard
         heading={'Legal'}
