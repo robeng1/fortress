@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import BottomNav from 'components/BottomNav';
@@ -8,21 +9,32 @@ import useModal from 'hooks/use-modal';
 import ModalBasic from 'components/ModalBasic';
 import { useMutation, useQueryClient } from 'react-query';
 import { DNSEntry } from 'models/domains/domains';
-import useToaster from 'hooks/use-toaster';
 import { request, ResponseError } from 'utils/request';
 import { domainURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
+import { Formik } from 'formik';
 
 function Domains() {
   const qc = useQueryClient();
   const { shop } = useShop();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { entries } = useDomains();
-  const [domain, setDomain] = useState<string>();
+  const [entry, setEntry] = useState<DNSEntry>();
 
   const { isOpen, handleOpen, handleClose } = useModal(false);
   const addRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains`;
-  const updateRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains/${domain}`;
+  const updateRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains/${entry?.domain}`;
+
+  const initialValues: DNSEntry = {
+    shop_id: shop?.shop_id,
+    is_system: false,
+    is_active: true,
+    is_primary: true,
+    domain: '',
+    theme_id: '',
+    strictly_local_only: false,
+    ...entry,
+  };
 
   // create the domain
   const { mutate: addDomain, isLoading: isAddingDomain } = useMutation(
@@ -34,10 +46,10 @@ function Domains() {
     {
       onSuccess: (newDomain: DNSEntry) => {
         qc.invalidateQueries(['domains']);
-        // toast('Location created successfully');
+        toast('Domain added successfully');
       },
       onError: (e: ResponseError) => {
-        // toast('Location creation failed due to ' + e.message);
+        toast(e.message);
       },
     },
   );
@@ -51,10 +63,10 @@ function Domains() {
     {
       onSuccess: (newDomain: DNSEntry) => {
         qc.invalidateQueries(['domains']);
-        // toast('Location created successfully');
+        toast('Domain updated successfully');
       },
       onError: (e: ResponseError) => {
-        // toast('Location creation failed due to ' + e.message);
+        toast(e.message);
       },
     },
   );
@@ -105,7 +117,7 @@ function Domains() {
           <div className="flex justify-end">
             <button
               className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-              aria-controls="feedback-modal"
+              aria-controls="domain-modal"
               onClick={e => {
                 e.stopPropagation();
                 handleOpen();
@@ -126,45 +138,115 @@ function Domains() {
           >
             <div className="px-5 py-4">
               <div className="text-sm">
-                <div className="font-medium text-slate-800 mb-3">
+                <p>Copy these and update your DNS records.</p>
+                <p>We're working hard to automate this process, contact 0246493078 if you need help setting the records</p>
+                <div className="font-medium text-slate-800 mb-1">
                   CNAME : shops.myreoplex.com
                 </div>
                 <div className="font-medium text-slate-800 mb-3">
                   A : 31.245.6.78
                 </div>
               </div>
-              <div className="space-y-3">
-                <div>
-                  <label
-                    className="block text-sm font-medium mb-1"
-                    htmlFor="domain"
-                  >
-                    Domain <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    id="domain"
-                    className="form-input w-full px-2 py-1"
-                    type="text"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="px-5 py-4 border-t border-slate-200">
-              <div className="flex flex-wrap justify-end space-x-2">
-                <button
-                  className="btn-sm border-slate-200 hover:border-slate-300 text-slate-600"
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleClose();
-                  }}
-                >
-                  Cancel
-                </button>
-                <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white">
-                  Add
-                </button>
-              </div>
+              <Formik
+                enableReinitialize
+                initialValues={initialValues}
+                // validationSchema={ProductSchema}
+                onSubmit={(values, { setSubmitting }) => {
+                  if (values.id && values.id !== '') {
+                    updateDomain({ ...values });
+                  } else {
+                    addDomain({ ...values });
+                  }
+                  setSubmitting(false);
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                  /* and other goodies */
+                }) => (
+                  <>
+                    <div className="space-y-3">
+                      <div>
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="domain"
+                        >
+                          Domain <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          id="domain"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.domain}
+                          className="form-input w-full px-2 py-1"
+                          type="text"
+                          required
+                        />
+                      </div>
+                      <div className="m-3">
+                        {/* Start */}
+                        <label className="flex items-center">
+                          <input
+                            checked={values.is_primary}
+                            type="checkbox"
+                            name="is_primary"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form-checkbox"
+                          />
+                          <span className="text-sm ml-2">Primary</span>
+                        </label>
+                        {/* End */}
+                      </div>
+
+                      <div className="m-3">
+                        {/* Start */}
+                        <label className="flex items-center">
+                          <input
+                            name="is_active"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            checked={values.is_active}
+                            type="checkbox"
+                            className="form-checkbox"
+                          />
+                          <span className="text-sm ml-2">Active</span>
+                        </label>
+                        {/* End */}
+                      </div>
+                    </div>
+                    <div className="px-5 py-4 border-t border-slate-200">
+                      <div className="flex flex-wrap justify-end space-x-2">
+                        <button
+                          className="btn-sm border-slate-200 hover:border-slate-300 text-slate-600"
+                          onClick={e => {
+                            e.stopPropagation();
+                            handleClose();
+                          }}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          onClick={e => {
+                            e.stopPropagation();
+                            handleSubmit();
+                          }}
+                          className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </Formik>
             </div>
           </ModalBasic>
         </div>
@@ -200,7 +282,14 @@ function Domains() {
                       <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
                         {entries?.map(entry => (
                           <tr key={entry.domain || entry.id}>
-                            <td className="p-2 w-1/6">
+                            <td
+                              onClick={e => {
+                                e.stopPropagation();
+                                setEntry(entry);
+                                handleOpen();
+                              }}
+                              className="p-2 w-1/6"
+                            >
                               <div className="text-left text-gray-800">
                                 {entry?.domain}
                               </div>

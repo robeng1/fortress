@@ -177,7 +177,7 @@ const ProductForm = ({ id }) => {
     page_title: product?.page_title || '',
     page_description: product?.description || '',
   };
-  const productToValues = (d: ProductType | undefined): Values => {
+  const productToValuesMapper = (d: ProductType | undefined): Values => {
     if (!d) {
       return initialValues;
     }
@@ -195,7 +195,7 @@ const ProductForm = ({ id }) => {
     return initialValues;
   };
 
-  const valuesToProduct = (d: Values): ProductType => {
+  const valuesToProductMapper = (d: Values): ProductType => {
     const p: ProductType = {
       shop_id: shop?.shop_id!,
       product_id: productId,
@@ -545,7 +545,7 @@ const ProductForm = ({ id }) => {
     if (values.is_parent && _.isEmpty(values.variants)) {
       values.variants = generate(values) || [];
     }
-    const p = valuesToProduct({ ...values });
+    const p = valuesToProductMapper({ ...values });
     // console.log(p);
     // console.log(values.variation_options);
     // console.log(p.attributes);
@@ -566,7 +566,7 @@ const ProductForm = ({ id }) => {
       </Backdrop>
       <Formik
         enableReinitialize
-        initialValues={{ ...productToValues(product) }}
+        initialValues={{ ...productToValuesMapper(product) }}
         validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
           handleSubmit({
