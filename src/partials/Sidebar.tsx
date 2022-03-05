@@ -229,7 +229,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li
-                              className={`py-2 rounded-sm mb-0.5 last:mb-0 ${
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('products') && 'bg-gray-200'
                               }`}
                             >
@@ -248,7 +248,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </NavLink>
                             </li>
                             <li
-                              className={`py-2 rounded-sm mb-0.5 last:mb-0 ${
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('inventory') && 'bg-gray-200'
                               }`}
                             >
@@ -267,7 +267,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </NavLink>
                             </li>
                             <li
-                              className={`py-2 rounded-sm mb-0.5 last:mb-0 ${
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('collections') &&
                                 'bg-gray-200'
                               }`}
@@ -342,7 +342,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-5 mt-1 ${!open && 'hidden'}`}>
                             <li
-                              className={`py-2 rounded-sm mb-0.5 last:mb-0 ${
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('balance') && 'bg-gray-200'
                               }`}
                             >
@@ -361,7 +361,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </NavLink>
                             </li>
                             <li
-                              className={`py-2 rounded-sm mb-0.5 last:mb-0 ${
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('transactions') &&
                                 'bg-gray-200'
                               }`}
@@ -382,7 +382,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </NavLink>
                             </li>
                             <li
-                              className={`py-2 rounded-sm mb-0.5 last:mb-0 ${
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('payouts') && 'bg-gray-200'
                               }`}
                             >

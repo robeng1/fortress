@@ -24,7 +24,7 @@ function LocationsForm({ handleShow, id }) {
     ['location', centreId],
     async () => await request(`${requestURL}/${centreId}`),
     {
-      // The query will not execute until the collectionId exists
+      // The query will not execute until the centre exists
       enabled: !!centreId,
       keepPreviousData: true,
     },
@@ -321,7 +321,7 @@ function LocationsForm({ handleShow, id }) {
               </section>
             </div>
             <footer className="sticky bottom-0">
-              <div className="flex flex-col px-6 py-5 border-t border-gray-200">
+              <div className="flex flex-col px-6 py-5 md:border-t md:border-gray-200">
                 <div className="flex self-end">
                   <button
                     onClick={() => handleShow(false)}

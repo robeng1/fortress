@@ -1,34 +1,61 @@
-import { ChangeEvent, useState } from 'react';
-import { useQuery } from 'react-query';
-import Pagination from '@mui/material/Pagination';
-import { domainURL, paymentURL } from 'endpoints/urls';
+import { useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import BottomNav from 'components/BottomNav';
-import { request, ResponseError } from 'utils/request';
-import useShop from 'hooks/use-shop';
 import { Link } from 'react-router-dom';
+import useDomains from 'hooks/use-domains';
+import useModal from 'hooks/use-modal';
+import ModalBasic from 'components/ModalBasic';
+import { useMutation, useQueryClient } from 'react-query';
+import { DNSEntry } from 'models/domains/domains';
+import useToaster from 'hooks/use-toaster';
+import { request, ResponseError } from 'utils/request';
+import { domainURL } from 'endpoints/urls';
+import useShop from 'hooks/use-shop';
 
 function Domains() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const qc = useQueryClient();
   const { shop } = useShop();
-  const shopId = shop?.shop_id;
-  const requestURL = `${domainURL}/${shopId}/domains`;
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { entries } = useDomains();
+  const [domain, setDomain] = useState<string>();
 
-  const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState<number>(15);
+  const { isOpen, handleOpen, handleClose } = useModal(false);
+  const addRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains`;
+  const updateRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains/${domain}`;
 
-  const { data } = useQuery<any, ResponseError>(
-    ['domains'],
-    async () =>
-      await request(`${requestURL}/transactions`, {
-        headers: { 'Content-Type': 'application/json' },
+  // create the domain
+  const { mutate: addDomain, isLoading: isAddingDomain } = useMutation(
+    (payload: DNSEntry) =>
+      request(addRequestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
       }),
     {
-      keepPreviousData: true,
-      enabled: !!shopId,
-      refetchOnWindowFocus: false,
-      staleTime: 2000,
+      onSuccess: (newDomain: DNSEntry) => {
+        qc.invalidateQueries(['domains']);
+        // toast('Location created successfully');
+      },
+      onError: (e: ResponseError) => {
+        // toast('Location creation failed due to ' + e.message);
+      },
+    },
+  );
+  // update the domain
+  const { mutate: updateDomain, isLoading: isUpdatingDomain } = useMutation(
+    (payload: DNSEntry) =>
+      request(updateRequestURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newDomain: DNSEntry) => {
+        qc.invalidateQueries(['domains']);
+        // toast('Location created successfully');
+      },
+      onError: (e: ResponseError) => {
+        // toast('Location creation failed due to ' + e.message);
+      },
     },
   );
 
@@ -43,7 +70,7 @@ function Domains() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location="Transactions"
+          location="Domains"
         />
         <div className="px-6 py-8 bg-slate-50 border border-slate-200 rounded-sm">
           <div className="text-start">
@@ -74,6 +101,73 @@ function Domains() {
             {/* End */}
           </div>
         </div>
+        <div className="md:p-6 p-4 space-y-6">
+          <div className="flex justify-end">
+            <button
+              className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+              aria-controls="feedback-modal"
+              onClick={e => {
+                e.stopPropagation();
+                handleOpen();
+              }}
+            >
+              Add Domain
+            </button>
+          </div>
+        </div>
+        <div className="m-1.5">
+          <ModalBasic
+            id="domain-modal"
+            modalOpen={isOpen}
+            setModalOpen={state =>
+              state === true ? handleOpen() : handleClose()
+            }
+            title="Add domain"
+          >
+            <div className="px-5 py-4">
+              <div className="text-sm">
+                <div className="font-medium text-slate-800 mb-3">
+                  CNAME : shops.myreoplex.com
+                </div>
+                <div className="font-medium text-slate-800 mb-3">
+                  A : 31.245.6.78
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <label
+                    className="block text-sm font-medium mb-1"
+                    htmlFor="domain"
+                  >
+                    Domain <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    id="domain"
+                    className="form-input w-full px-2 py-1"
+                    type="text"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="px-5 py-4 border-t border-slate-200">
+              <div className="flex flex-wrap justify-end space-x-2">
+                <button
+                  className="btn-sm border-slate-200 hover:border-slate-300 text-slate-600"
+                  onClick={e => {
+                    e.stopPropagation();
+                    handleClose();
+                  }}
+                >
+                  Cancel
+                </button>
+                <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white">
+                  Add
+                </button>
+              </div>
+            </div>
+          </ModalBasic>
+        </div>
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
@@ -94,7 +188,7 @@ function Domains() {
                               Status
                             </div>
                           </th>
-                          
+
                           <th className="p-2">
                             <div className="font-semibold text-left">
                               Provider
@@ -104,45 +198,34 @@ function Domains() {
                       </thead>
                       {/* Table body */}
                       <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
-                        {/* Row */}
-                        <tr>
-                          <td className="p-2 w-1/6">
-                            <div className="text-left text-gray-800">
-                              demo.myreoplex.com
-                            </div>
-                          </td>
-                          <td className="p-2 w-3/6">
-                            <div className="text-left text-gray-800">
-                              Connected
-                            </div>
-                          </td>
-                          
-                          <td className="p-2 w-2/6">
-                            <div className="text-left text-gray-800">
-                              Reoplex
-                            </div>
-                          </td>
-                        </tr>
+                        {entries?.map(entry => (
+                          <tr key={entry.domain || entry.id}>
+                            <td className="p-2 w-1/6">
+                              <div className="text-left text-gray-800">
+                                {entry?.domain}
+                              </div>
+                            </td>
+                            <td className="p-2 w-3/6">
+                              <div className="text-left text-gray-800">
+                                {entry.is_active
+                                  ? 'Connected'
+                                  : 'Not connected'}
+                              </div>
+                            </td>
+
+                            <td className="p-2 w-2/6">
+                              <div className="text-left text-gray-800">
+                                {entry?.is_system ? 'Reoplex' : 'Unknown'}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Pagination */}
-            {data && (
-              <Pagination
-                count={data?.total / itemsPerPage}
-                variant="outlined"
-                color="primary"
-                className="mt-4 md:mt-8"
-                page={page}
-                onChange={(event: ChangeEvent<unknown>, page: number) =>
-                  setPage(page)
-                }
-              />
-            )}
           </div>
         </main>
         <BottomNav />

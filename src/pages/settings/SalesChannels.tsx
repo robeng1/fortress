@@ -64,7 +64,7 @@ function SalesChannels() {
           </div>
         </main>
       </div>
-      <BottomNav />
+      
     </div>
   );
 }
