@@ -1,5 +1,5 @@
 export interface VoucherSetType {
-  set_id: string;
+  set_id?: string;
   name?: string;
   count?: number;
   code_length?: number;

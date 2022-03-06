@@ -43,6 +43,8 @@ import FooterMutation from 'pages/settings/theme/footer';
 import BannerMutation from 'pages/settings/theme/banner';
 import HeroMutation from 'pages/settings/theme/hero';
 import FeaturedCollection from 'pages/settings/theme/collection-featured';
+import VoucherMutation from 'pages/voucher-mutation/form';
+import Vouchers from 'pages/voucher/voucher';
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 
 export function App() {
@@ -169,6 +171,22 @@ export function App() {
           element={
             <RequireAuth path="/discounts/:id">
               <DiscountMutation />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/vouchers"
+          element={
+            <RequireAuth path="/vouchers">
+              <Vouchers />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/vouchers/:id"
+          element={
+            <RequireAuth path="/vouchers/:id">
+              <VoucherMutation />
             </RequireAuth>
           }
         />

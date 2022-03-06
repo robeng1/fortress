@@ -1,15 +1,15 @@
 import React from 'react';
 import EmptyState from 'partials/EmptyState';
-import DiscountList from './mobile/DiscountList';
+import VoucherList from './mobile/VoucherList';
 import { useNavigate } from 'react-router-dom';
 
-export default function DiscountTable({ selectedItems, discounts }) {
+export default function VoucherTable({ selectedItems, vouchers }) {
   const navigate = useNavigate();
   return (
     <>
-      {discounts.length > 0 ? (
+      {vouchers.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
-          <DiscountList discounts={discounts} />
+          <VoucherList vouchers={vouchers} />
           <div className="md:flex flex-col hidden">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -27,7 +27,7 @@ export default function DiscountTable({ selectedItems, discounts }) {
                           scope="col"
                           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Type
+                          Code
                         </th>
                         <th
                           scope="col"
@@ -47,41 +47,32 @@ export default function DiscountTable({ selectedItems, discounts }) {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {discounts.map(discount => (
-                        <tr key={discount.discount_id}>
+                      {vouchers.map(voucher => (
+                        <tr key={voucher.voucher_id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                {discount.image && (
-                                  <img
-                                    className="h-10 w-10 rounded"
-                                    src={discount.image?.image_url}
-                                    alt={discount.name}
-                                  />
-                                )}
-                              </div>
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">
-                                  {discount.name}
+                                  {voucher.name}
                                 </div>
                                 <div className="text-sm text-gray-500">
-                                  {discount.title}
+                                  {voucher.title}
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {discount.type === 'site' ? 'Automatic' : 'Code'}
+                              {voucher.code}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              {discount.active ? 'Active' : 'Inactive'}
+                              {voucher.active ? 'Active' : 'Inactive'}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {discount.num_applications}
+                            {voucher.num_applications}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button className="text-purple-600 hover:text-purple-900">
@@ -99,11 +90,11 @@ export default function DiscountTable({ selectedItems, discounts }) {
         </div>
       ) : (
         <EmptyState
-          heading="No discounts yet"
-          msg="Create some discounts to get started"
+          heading="No vouchers yet"
+          msg="Create some vouchers to get started"
           action={{
-            name: 'Create discount',
-            func: () => navigate("/discounts/new"),
+            name: 'Create voucher',
+            func: () => navigate("/vouchers/new"),
           }}
         />
       )}

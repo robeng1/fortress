@@ -32,7 +32,7 @@ export function rawToRate(
 ): RateType {
   return {
     shop_id: rate?.shop_id || '',
-    cities: rate?.cities,
+    cities: rate?.cities ?? [],
     price_per_order_amt: mToS(rate?.price_per_order),
     price_per_item_amt: mToS(rate?.price_per_item),
     price_per_weight_amt: mToS(rate?.price_per_weight),

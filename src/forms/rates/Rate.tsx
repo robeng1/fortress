@@ -14,6 +14,7 @@ import { sToCurrency } from 'utils/money';
 import { rateToIB, rateToWB, rawToRate } from './converters';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/common/backdrop';
+import TagInput from 'components/common/tag-input';
 
 const animatedComponents = makeAnimated();
 
@@ -129,7 +130,7 @@ function RatesForm({ handleShow, rate }) {
       />
       <Formik
         enableReinitialize
-        initialValues={initialValues}
+        initialValues={{...initialValues}}
         onSubmit={(values, { setSubmitting }) => {
           if (!rateId || rateId === '') {
             if (values.model?.value === 'WEIGHT_BASED') {
@@ -394,26 +395,11 @@ function RatesForm({ handleShow, rate }) {
                   >
                     Regions/Cities
                   </label>
-                  <Select
+                  <TagInput
                     id="cities"
                     name="cities"
-                    closeMenuOnSelect={true}
-                    isMulti
-                    isClearable
-                    defaultValue={values.cities}
-                    value={values.cities}
-                    isSearchable
-                    onChange={option =>
-                      setFieldValue(
-                        'cities',
-                        (option as ShippingRateModelOption).label,
-                      )
-                    }
-                    components={animatedComponents}
-                    options={modelOptions}
-                    styles={{
-                      ...colourStyles,
-                    }}
+                    values={values.cities}
+                    onChange={cities => setFieldValue('cities', cities)}
                     className="w-full"
                   />
                 </div>

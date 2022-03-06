@@ -1,3 +1,7 @@
+import { Wallet } from 'components/icons/category';
+import { CouponIcon } from 'components/icons/coupon-icon';
+import { ProductIcon } from 'components/icons/product-icon';
+import TagIcon from 'components/icons/tag-icon';
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import ReoplexLogo from '../images/reoplex.png';
@@ -206,20 +210,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center ali">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="flex-shrink-0 h-4"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  className={`fill-current text-gray-900 ${
-                                    pathname.includes('shop') &&
-                                    'text-purple-300'
-                                  }`}
-                                  d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
-                                />
-                              </svg>
+                              <ProductIcon />
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Products
                               </span>
@@ -313,26 +304,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                enableBackground="new 0 0 48 48"
-                                height="20px"
-                                viewBox="0 0 48 48"
-                                width="20px"
-                                xmlSpace="preserve"
-                                fill="currentColor"
-                              >
-                                <path
-                                  className={`fill-current text-gray-900 ${
-                                    pathname.includes('finances') &&
-                                    'text-purple-300'
-                                  }`}
-                                  clipRule="evenodd"
-                                  d="M43,40H5c-2.209,0-4-1.791-4-4V12c0-2.209,1.791-4,4-4h38c2.209,0,4,1.791,4,4v24  C47,38.209,45.209,40,43,40z M3,21h42v-4H3V21z M45,12c0-1.104-0.896-2-2-2H5c-1.104,0-2,0.896-2,2v3h42V12z M45,23H3v13  c0,1.104,0.896,2,2,2h38c1.104,0,2-0.896,2-2V23z M26,29h-4c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h4c0.553,0,1,0.448,1,1  C27,28.553,26.553,29,26,29z M17,29H8c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h9c0.553,0,1,0.448,1,1C18,28.553,17.553,29,17,29z   M8,32h6c0.553,0,1,0.448,1,1c0,0.553-0.447,1-1,1H8c-0.553,0-1-0.447-1-1C7,32.448,7.447,32,8,32z"
-                                  fillRule="evenodd"
-                                />
-                              </svg>
+                              <Wallet/>
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Finances
                               </span>
@@ -471,6 +443,30 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         }`}
                       >
                         Discounts
+                      </span>
+                    </div>
+                  </NavLink>
+                </li>
+                <li
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                    pathname === '/vouchers' &&
+                    'w-full bg-gray-200 ease-out transition-transform transition-medium'
+                  }`}
+                >
+                  <NavLink
+                    to="/vouchers"
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname === '/vouchers' && 'text-gray-900 '
+                    }`}
+                  >
+                    <div className="flex items-center align-middle">
+                      <CouponIcon />
+                      <span
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === '/discounts' && 'text-gray-900'
+                        }`}
+                      >
+                        Vouchers
                       </span>
                     </div>
                   </NavLink>
