@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
@@ -25,6 +23,7 @@ import SelectableResultSearchModal from 'components/common/modal-searcher';
 import { ProductViewListType } from 'models/product/product-type';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
+import { Loading } from 'components/common/backdrop';
 
 export default function CollectionForm({ id }) {
   const qc = useQueryClient();
@@ -262,12 +261,7 @@ export default function CollectionForm({ id }) {
   return (
     <>
       <div>
-        <Backdrop
-          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={isCreatingCollection || isUpdatingCollection}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <Loading open={isCreatingCollection || isUpdatingCollection} />
         <Formik
           enableReinitialize
           initialValues={{
