@@ -486,7 +486,7 @@ export default function CollectionForm({ id }) {
                   )}
                 </div>
               </div>
-              <footer className="sticky bottom-0">
+              <footer>
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button

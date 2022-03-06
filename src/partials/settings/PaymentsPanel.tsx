@@ -218,7 +218,7 @@ function PaymentsPanel() {
             </div>
 
             {/* Panel footer */}
-            <footer className="sticky bottom-0">
+            <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
                   <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">

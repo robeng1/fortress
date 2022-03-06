@@ -405,7 +405,7 @@ function RatesForm({ handleShow, rate }) {
                 </div>
               </div>
             </div>
-            <footer className="sticky bottom-0">
+            <footer>
               <div className="flex flex-col px-6 py-5">
                 <div className="flex self-end">
                   <button

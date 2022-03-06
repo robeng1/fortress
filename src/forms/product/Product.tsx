@@ -1363,7 +1363,7 @@ const ProductForm = ({ id }) => {
                   </section>
                 </div>
               </div>
-              <footer className="sticky bottom-0 self-end">
+              <footer className="self-end">
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
