@@ -721,9 +721,9 @@ const ProductForm = ({ id }) => {
                               setFieldValue('collections', option)
                             }
                             placeholder="Select collections"
-                            // isDisabled={isAddingInProgress}
+                            
                             loadOptions={collectionOptions(shop?.shop_id!)}
-                            // onCreateOption={onCreateOption}
+                            
                             styles={{
                               input: base => ({
                                 ...base,
@@ -734,7 +734,6 @@ const ProductForm = ({ id }) => {
                               ...colourStyles,
                             }}
                             className="w-full"
-                            // cacheUniqs={[cacheUniq]}
                           />
                         </div>
                       </div>

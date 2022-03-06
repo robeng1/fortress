@@ -16,8 +16,6 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
-import { Loader } from 'components/Loader';
 import DropTarget from '@uppy/drop-target';
 import { fortressURL } from 'endpoints/urls';
 import PaginationClassic from 'components/PaginationClassic';
@@ -229,9 +227,9 @@ export default function CollectionForm({  id }) {
       });
     });
 
-    Object.keys(uppy.state.files).forEach(fileID => {
+    uppy.getFiles().forEach(file => {
       // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
-      uppy.setFileState(fileID, {
+      uppy.setFileState(file.id, {
         progress: { uploadComplete: true, uploadStarted: true },
       });
     });
@@ -263,9 +261,7 @@ export default function CollectionForm({  id }) {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      
         <div>
           <Backdrop
             sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
@@ -516,7 +512,6 @@ export default function CollectionForm({  id }) {
             )}
           </Formik>
         </div>
-      )}
     </>
   );
 }
