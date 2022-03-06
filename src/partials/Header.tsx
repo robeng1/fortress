@@ -42,7 +42,7 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
             </button>
           </div>
           <div className="md:hidden">
-            <h1 className="text-sm md:text-3xl text-gray-800 font-bold">
+            <h1 className="text-sm text-center md:text-3xl text-gray-800 font-bold">
               {location}
             </h1>
           </div>
