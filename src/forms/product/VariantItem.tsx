@@ -27,7 +27,7 @@ function ProductVariant(props) {
 
       <td className="px-2 w-3/5 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="flex items-center align-middle justify-start">
-          <div className="w-10 h-10 flex-shrink-0 sm:mr-3">
+          <div className="hidden md:flex w-10 h-10 flex-shrink-0 sm:mr-3">
             <img
               className="rounded"
               src={props.image || 'https://via.placeholder.com/150'}
