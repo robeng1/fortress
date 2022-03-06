@@ -5,7 +5,7 @@ import Sidebar from 'partials/Sidebar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function BannerMutation() {
+function FeaturedCollection() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
@@ -62,4 +62,4 @@ function BannerMutation() {
   );
 }
 
-export default BannerMutation;
+export default FeaturedCollection;

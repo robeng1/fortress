@@ -42,6 +42,7 @@ import AnnouncementBarMutation from 'pages/settings/theme/announcement-bar';
 import FooterMutation from 'pages/settings/theme/footer';
 import BannerMutation from 'pages/settings/theme/banner';
 import HeroMutation from 'pages/settings/theme/hero';
+import FeaturedCollection from 'pages/settings/theme/collection-featured';
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 
 export function App() {
@@ -269,10 +270,10 @@ export function App() {
           }
         />
         <Route
-          path="/settings/theme/collection_featured"
+          path="/settings/theme/featured-collection"
           element={
-            <RequireAuth path="/settings/theme/collection_featured">
-              <HeroMutation />
+            <RequireAuth path="/settings/theme/featured-collection">
+              <FeaturedCollection />
             </RequireAuth>
           }
         />

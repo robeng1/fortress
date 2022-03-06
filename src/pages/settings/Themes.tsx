@@ -35,7 +35,7 @@ const ThemeSettings = () => {
           heading={'Collection'}
           description={"Edit the collection section of your site's home page"}
           disabled={false}
-          to={`/settings/theme/collection`}
+          to={`/settings/theme/featured-collection`}
         />
       </ThemeSettingsOverview>
       <BottomNav />
