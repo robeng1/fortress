@@ -198,7 +198,7 @@ const VoucherForm = ({ id, codeType }) => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
                 <div className="col-span-1 md:col-span-2">
                   <section className="rounded bg-white shadow overflow-hidden p-3">
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5 mb-3">
                       <div className="w-full">
                         <label
                           className="block text-sm font-medium mb-1"
@@ -364,7 +364,7 @@ const VoucherForm = ({ id, codeType }) => {
                         onBlur={handleBlur}
                         value={values.code_usage}
                         id="code_usage"
-                        className="form-select block"
+                        className="form-select block w-full"
                       >
                         <option value="">Please Select</option>
                         <option value="multi_use">
