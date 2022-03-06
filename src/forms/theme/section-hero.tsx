@@ -150,10 +150,10 @@ function Hero() {
           <div className="flex-grow bg-white">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
-              <h2 className="text-2xl text-gray-800 font-bold mb-5">Banner</h2>
+              <h2 className="text-2xl text-gray-800 font-bold mb-5">Hero</h2>
               <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                 <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                  Banner Image
+                  Hero Image
                 </h2>
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full">

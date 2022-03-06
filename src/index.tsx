@@ -268,6 +268,14 @@ export function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path="/settings/theme/collection_featured"
+          element={
+            <RequireAuth path="/settings/theme/collection_featured">
+              <HeroMutation />
+            </RequireAuth>
+          }
+        />
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/reset-password" element={<ResetPassword />}></Route>
