@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -23,7 +21,7 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-import colourStyles from 'forms/product/Styles';
+import { customSelectStyles } from 'forms/product/Styles';
 
 import { colourOptions, attributeOptions } from 'data/select';
 import GoogleDrive from '@uppy/google-drive';
@@ -54,6 +52,8 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
+import TagInput from 'components/common/tag-input';
+import { Loading } from 'components/common/backdrop';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -61,7 +61,7 @@ const defaultCurrency = 'GHS';
 
 interface VarOption {
   attribute: Record<string, string>;
-  values: Record<string, string>[];
+  values: string[];
 }
 
 interface AttrOption {
@@ -187,7 +187,7 @@ const ProductForm = ({ id }) => {
         return {
           attribute: { label: attr.name, value: attr.name.toLowerCase() },
           values: attr.values.map(v => {
-            return { label: v, value: v.toLowerCase() };
+            return v.toLowerCase();
           }),
         };
       });
@@ -258,7 +258,7 @@ const ProductForm = ({ id }) => {
       d.variation_options.map(vo => {
         return {
           name: vo.attribute.label,
-          values: vo.values.map(v => v.label),
+          values: vo.values.map(v => v),
         };
       }),
     );
@@ -487,7 +487,7 @@ const ProductForm = ({ id }) => {
     const attributes = variationOptions.map(v => v.attribute);
     const attributeValues = variationOptions.map(v => v.values);
 
-    const labels = attributeValues.map(vl => vl.map(a => a.label));
+    const labels = attributeValues.map(vl => vl.map(a => a));
 
     const titles = cartesian(...labels).map((v: string[] | string) =>
       typeof v === 'string' ? v : v.join('-'),
@@ -558,12 +558,7 @@ const ProductForm = ({ id }) => {
 
   return (
     <>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={isCreatingProduct || isUpdatingProduct}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={isCreatingProduct || isUpdatingProduct} />
       <Formik
         enableReinitialize
         initialValues={{ ...productToValuesMapper(product) }}
@@ -670,13 +665,7 @@ const ProductForm = ({ id }) => {
                             loadOptions={productTypeOptions}
                             onChange={option => setFieldValue('type', option)}
                             styles={{
-                              input: base => ({
-                                ...base,
-                                'input:focus': {
-                                  boxShadow: 'none',
-                                },
-                              }),
-                              ...colourStyles,
+                              ...customSelectStyles,
                             }}
                             className="w-full"
                           />
@@ -721,17 +710,9 @@ const ProductForm = ({ id }) => {
                               setFieldValue('collections', option)
                             }
                             placeholder="Select collections"
-                            
                             loadOptions={collectionOptions(shop?.shop_id!)}
-                            
                             styles={{
-                              input: base => ({
-                                ...base,
-                                'input:focus': {
-                                  boxShadow: 'none',
-                                },
-                              }),
-                              ...colourStyles,
+                              ...customSelectStyles,
                             }}
                             className="w-full"
                           />
@@ -758,13 +739,7 @@ const ProductForm = ({ id }) => {
                             onChange={option => setFieldValue('tags', option)}
                             loadOptions={tagOptions(shop?.shop_id!)}
                             styles={{
-                              input: base => ({
-                                ...base,
-                                'input:focus': {
-                                  boxShadow: 'none',
-                                },
-                              }),
-                              ...colourStyles,
+                              ...customSelectStyles,
                             }}
                             className="w-full"
                             // cacheUniqs={[cacheUniq]}
@@ -808,7 +783,7 @@ const ProductForm = ({ id }) => {
                                   boxShadow: 'none',
                                 },
                               }),
-                              ...colourStyles,
+                              ...customSelectStyles,
                             }}
                             className="w-full"
                           />
@@ -1213,13 +1188,7 @@ const ProductForm = ({ id }) => {
                                       ),
                                   )}
                                   styles={{
-                                    input: base => ({
-                                      ...base,
-                                      'input:focus': {
-                                        boxShadow: 'none',
-                                      },
-                                    }),
-                                    ...colourStyles,
+                                    ...customSelectStyles,
                                   }}
                                   className="w-full"
                                 />
@@ -1231,34 +1200,14 @@ const ProductForm = ({ id }) => {
                                 >
                                   Attribute values
                                 </label>
-                                <Creatable
-                                  closeMenuOnSelect={true}
-                                  defaultValue={op.values}
-                                  value={op.values}
-                                  isClearable
-                                  menuPortalTarget={document.body}
-                                  isSearchable
-                                  isMulti
-                                  onChange={option => {
+                                <TagInput
+                                  values={op.values}
+                                  onChange={options => {
                                     let opt = values.variation_options[index];
-                                    opt.values = option as Record<
-                                      string,
-                                      string
-                                    >[];
+                                    opt.values = options as string[];
                                     let opts = values.variation_options;
                                     opts[index] = opt;
                                     setFieldValue('variation_options', opts);
-                                  }}
-                                  components={animatedComponents}
-                                  options={colourOptions}
-                                  styles={{
-                                    input: base => ({
-                                      ...base,
-                                      'input:focus': {
-                                        boxShadow: 'none',
-                                      },
-                                    }),
-                                    ...colourStyles,
                                   }}
                                   className="w-full"
                                 />
@@ -1431,7 +1380,7 @@ const ProductForm = ({ id }) => {
                       type="button"
                       className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                     >
-                      Save Changes
+                      Save
                     </button>
                   </div>
                 </div>

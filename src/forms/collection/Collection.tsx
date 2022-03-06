@@ -26,7 +26,7 @@ import { ProductViewListType } from 'models/product/product-type';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 
-export default function CollectionForm({  id }) {
+export default function CollectionForm({ id }) {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
@@ -261,257 +261,253 @@ export default function CollectionForm({  id }) {
 
   return (
     <>
-      
-        <div>
-          <Backdrop
-            sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-            open={isCreatingCollection || isUpdatingCollection}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-          <Formik
-            enableReinitialize
-            initialValues={{
-              title: collection?.title || '',
-              description: collection?.description || '',
-              type: 'manual',
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              if (collectionId || collection) {
-                updateCollection({
-                  ...collection,
-                  ...values,
-                  collection_id: collectionId,
-                  shop_id: shop?.shop_id,
-                  image: { image_url: image },
-                });
-              } else {
-                createCollection({
-                  ...values,
-                  collection_id: '',
-                  shop_id: shop?.shop_id,
-                  image: { image_url: image },
-                });
-              }
-              setSubmitting(false);
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              setFieldValue,
-              setFieldError,
-              setValues,
-              setFieldTouched,
-              handleSubmit,
-              isSubmitting,
-              /* and other goodies */
-            }) => (
-              <div className="flex-grow w-full mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
-                  <div className="col-span-1 md:col-span-2">
-                    <section className="rounded bg-white shadow overflow-hidden p-3">
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="title"
-                          >
-                            Title
-                          </label>
-                          <input
-                            id="title"
-                            name="title"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.title}
-                            className="form-input w-full"
-                            type="text"
-                            autoComplete="collection-title"
-                            placeholder="Shoes"
-                          />
-                        </div>
+      <div>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+          open={isCreatingCollection || isUpdatingCollection}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Formik
+          enableReinitialize
+          initialValues={{
+            title: collection?.title || '',
+            description: collection?.description || '',
+            type: 'manual',
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            if (collectionId || collection) {
+              updateCollection({
+                ...collection,
+                ...values,
+                collection_id: collectionId,
+                shop_id: shop?.shop_id,
+                image: { image_url: image },
+              });
+            } else {
+              createCollection({
+                ...values,
+                collection_id: '',
+                shop_id: shop?.shop_id,
+                image: { image_url: image },
+              });
+            }
+            setSubmitting(false);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            setFieldValue,
+            setFieldError,
+            setValues,
+            setFieldTouched,
+            handleSubmit,
+            isSubmitting,
+            /* and other goodies */
+          }) => (
+            <div className="flex-grow w-full mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-6">
+                <div className="col-span-1 md:col-span-2">
+                  <section className="rounded bg-white shadow overflow-hidden p-3">
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-full">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="title"
+                        >
+                          Title
+                        </label>
+                        <input
+                          id="title"
+                          name="title"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.title}
+                          className="form-input w-full"
+                          type="text"
+                          autoComplete="collection-title"
+                          placeholder="Shoes"
+                        />
                       </div>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="description"
-                          >
-                            Description
-                          </label>
+                    </div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-full">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="description"
+                        >
+                          Description
+                        </label>
 
-                          <ReactQuill
-                            theme="snow"
-                            id="description"
-                            value={values.description}
-                            onChange={handleChange}
-                          />
-                        </div>
+                        <ReactQuill
+                          theme="snow"
+                          id="description"
+                          value={values.description}
+                          onChange={handleChange}
+                        />
                       </div>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="type"
-                          >
-                            Type
-                          </label>
-                          <select
-                            name="type"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.type}
-                            id="type"
-                            className="form-select block"
-                          >
-                            <option value="">Please Select</option>
-                            <option value="automatic">Automatic</option>
-                            <option value="manual">Manual</option>
-                          </select>
-                        </div>
+                    </div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-full">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="type"
+                        >
+                          Type
+                        </label>
+                        <select
+                          name="type"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.type}
+                          id="type"
+                          className="form-select block"
+                        >
+                          <option value="">Please Select</option>
+                          <option value="automatic">Automatic</option>
+                          <option value="manual">Manual</option>
+                        </select>
                       </div>
-                    </section>
+                    </div>
+                  </section>
+                  <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                      Collection Image
+                    </h2>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-full">
+                        <Dashboard
+                          uppy={uppy}
+                          proudlyDisplayPoweredByUppy={false}
+                          showProgressDetails={true}
+                          width="100%"
+                          height={'300px'}
+                          theme="light"
+                          note="Images only, 1 file"
+                          doneButtonHandler={() => ({})}
+                          hideProgressAfterFinish={true}
+                          showRemoveButtonAfterComplete={true}
+                          metaFields={[
+                            {
+                              id: 'alt',
+                              name: 'Alt',
+                              placeholder: 'describe what the image is about',
+                            },
+                          ]}
+                        />
+                      </div>
+                    </div>
+                  </section>
+                  {collectionId && (
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                        Collection Image
-                      </h2>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      Products
+                      <div>
                         <div className="w-full">
-                          <Dashboard
-                            uppy={uppy}
-                            proudlyDisplayPoweredByUppy={false}
-                            showProgressDetails={true}
-                            width="100%"
-                            height={'300px'}
-                            theme="light"
-                            note="Images only, 1 file"
-                            doneButtonHandler={() => ({})}
-                            hideProgressAfterFinish={true}
-                            showRemoveButtonAfterComplete={true}
-                            metaFields={[
-                              {
-                                id: 'alt',
-                                name: 'Alt',
-                                placeholder: 'describe what the image is about',
-                              },
-                            ]}
-                          />
-                        </div>
-                      </div>
-                    </section>
-                    {collectionId && (
-                      <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                        Products
-                        <div>
                           <div className="w-full">
-                            <div className="w-full">
-                              <div className="flex border-1 rounded">
-                                <SelectableResultSearchModal
-                                  id="quick-find-modal-products-collection-frm"
-                                  searchId="quick-find-modal-products-collection-frm"
-                                  modalOpen={searchProductsOpen}
-                                  setModalOpen={setSearchProductsOpen}
-                                  queryURL={`${fortressURL}/shops/${shop?.shop_id}/products/option-search`}
-                                  composeQuery={compose}
-                                  queryKey="products-opt-search"
-                                  matchKey={matchKey}
-                                  handleResultSelected={handleSelectedItems}
-                                  alreadySelected={collectionProducts?.products.map(
-                                    p => p.product_id,
-                                  )}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {collectionProducts?.products && (
-                          <div>
-                            {collectionProducts?.products.map(product => (
-                              <div
-                                key={product.product_id}
-                                className="flex items-center"
-                              >
-                                <div className="flex-shrink-0 h-10 w-10">
-                                  <img
-                                    className="h-10 w-10"
-                                    src={product.image_url}
-                                    alt={product.title}
-                                  />
-                                </div>
-                                <div className="ml-4 flex justify-between">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {product.title}
-                                  </div>
-                                  <div
-                                    onClick={e => {
-                                      e.stopPropagation();
-                                      removeProductFromCollection(
-                                        product.product_id,
-                                      );
-                                    }}
-                                    className="text-sm text-gray-500 cursor-pointer"
-                                  >
-                                    X
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {collectionProducts?.products &&
-                          collectionProducts.next_page_token && (
-                            <div>
-                              <PaginationClassic
-                                previous={{
-                                  disabled: previousPage === '',
-                                  callBack: setPage(previousPage),
-                                }}
-                                next={{
-                                  disabled:
-                                    collectionProducts?.next_page_token ===
-                                      '' ||
-                                    collectionProducts?.next_page_token ===
-                                      undefined,
-                                  callBack: () => {
-                                    setPreviousPage(page);
-                                    setPage(
-                                      collectionProducts?.next_page_token,
-                                    );
-                                  },
-                                }}
+                            <div className="flex border-1 rounded">
+                              <SelectableResultSearchModal
+                                id="quick-find-modal-products-collection-frm"
+                                searchId="quick-find-modal-products-collection-frm"
+                                modalOpen={searchProductsOpen}
+                                setModalOpen={setSearchProductsOpen}
+                                queryURL={`${fortressURL}/shops/${shop?.shop_id}/products/option-search`}
+                                composeQuery={compose}
+                                queryKey="products-opt-search"
+                                matchKey={matchKey}
+                                handleResultSelected={handleSelectedItems}
+                                alreadySelected={collectionProducts?.products.map(
+                                  p => p.product_id,
+                                )}
                               />
                             </div>
-                          )}
-                      </section>
-                    )}
+                          </div>
+                        </div>
+                      </div>
+                      {collectionProducts?.products && (
+                        <div>
+                          {collectionProducts?.products.map(product => (
+                            <div
+                              key={product.product_id}
+                              className="flex items-center"
+                            >
+                              <div className="flex-shrink-0 h-10 w-10">
+                                <img
+                                  className="h-10 w-10"
+                                  src={product.image_url}
+                                  alt={product.title}
+                                />
+                              </div>
+                              <div className="ml-4 flex justify-between">
+                                <div className="text-sm font-medium text-gray-900">
+                                  {product.title}
+                                </div>
+                                <div
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    removeProductFromCollection(
+                                      product.product_id,
+                                    );
+                                  }}
+                                  className="text-sm text-gray-500 cursor-pointer"
+                                >
+                                  X
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {collectionProducts?.products &&
+                        collectionProducts.next_page_token && (
+                          <div>
+                            <PaginationClassic
+                              previous={{
+                                disabled: previousPage === '',
+                                callBack: setPage(previousPage),
+                              }}
+                              next={{
+                                disabled:
+                                  collectionProducts?.next_page_token === '' ||
+                                  collectionProducts?.next_page_token ===
+                                    undefined,
+                                callBack: () => {
+                                  setPreviousPage(page);
+                                  setPage(collectionProducts?.next_page_token);
+                                },
+                              }}
+                            />
+                          </div>
+                        )}
+                    </section>
+                  )}
+                </div>
+              </div>
+              <footer className="sticky bottom-0">
+                <div className="flex flex-col py-5">
+                  <div className="flex self-end">
+                    <button
+                      onClick={() => navigate('/shops/collections')}
+                      className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={e => handleSubmit()}
+                      className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    >
+                      Save
+                    </button>
                   </div>
                 </div>
-                <footer className="sticky bottom-0">
-                  <div className="flex flex-col py-5">
-                    <div className="flex self-end">
-                      <button
-                        onClick={() => navigate('/shops/collections')}
-                        className="btn border-gray-200 hover:border-gray-300 text-gray-600"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={e => handleSubmit()}
-                        className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
-                      >
-                        Save Changes
-                      </button>
-                    </div>
-                  </div>
-                </footer>
-              </div>
-            )}
-          </Formik>
-        </div>
+              </footer>
+            </div>
+          )}
+        </Formik>
+      </div>
     </>
   );
 }

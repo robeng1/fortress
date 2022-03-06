@@ -1,6 +1,4 @@
 import React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
@@ -15,6 +13,7 @@ import { paymentURL } from 'endpoints/urls';
 import { UidAtom } from 'store/authorization-atom';
 import usePayment from 'hooks/use-payment';
 import useShop from 'hooks/use-shop';
+import { Loading } from 'components/common/backdrop';
 
 function PaymentsPanel() {
   const queryClient = useQueryClient();
@@ -59,12 +58,7 @@ function PaymentsPanel() {
 
   return (
     <div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={isUpdatingAccount || isCreatingAccount}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={isUpdatingAccount || isCreatingAccount} />
       <Formik
         enableReinitialize
         initialValues={{
@@ -215,7 +209,7 @@ function PaymentsPanel() {
                     {/* Left */}
                     <div>
                       <div className="text-gray-800 font-semibold italic">
-                       Bank support is coming soon
+                        Bank support is coming soon
                       </div>
                     </div>
                   </li>

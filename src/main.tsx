@@ -11,8 +11,7 @@ import 'tippy.js/animations/scale.css';
 import { App } from './index';
 import { Provider, useAtom } from 'jotai';
 import { HelmetProvider } from 'react-helmet-async';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './styles/mui-theme/theme';
+import { ThemeProvider as EmotionThemeProvider } from './styles/emotion';
 
 const qc = new QueryClient();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
@@ -20,16 +19,16 @@ const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 ReactDOM.render(
   <QueryClientProvider client={qc}>
     <Provider>
-      <ThemeProvider theme={theme}>
-        <HelmetProvider>
-          <React.StrictMode>
-            <Router>
-              <App />
-              <ToastContainer />
-            </Router>
-          </React.StrictMode>
-        </HelmetProvider>
-      </ThemeProvider>
+        <EmotionThemeProvider>
+          <HelmetProvider>
+            <React.StrictMode>
+              <Router>
+                <App />
+                <ToastContainer />
+              </Router>
+            </React.StrictMode>
+          </HelmetProvider>
+        </EmotionThemeProvider>
     </Provider>
   </QueryClientProvider>,
   MOUNT_NODE,

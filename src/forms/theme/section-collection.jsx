@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Loading } from 'components/common/backdrop';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
@@ -22,12 +21,7 @@ function SectionCollection() {
 
   return (
     <div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={isUpdatingTheme}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={isUpdatingTheme} />
       <Formik
         enableReinitialize
         initialValues={{

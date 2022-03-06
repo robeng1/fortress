@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 // import ReactQuill from 'react-quill';
 import moment from 'moment';
 import { Loader } from 'components/Loader';
-
 import { discountOptions } from 'services/options-loaders';
 import { VoucherType } from 'models/voucher/voucher';
 import { request, ResponseError } from 'utils/request';
@@ -11,9 +10,6 @@ import { VoucherSetType } from 'models/voucher/voucherset';
 import { fortressURL } from 'endpoints/urls';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import useShop from 'hooks/use-shop';
-
-// animated components for react select
-// const defaultCurrency = 'GHS';
 
 const VoucherForm = ({ handleShow, id, codeType }) => {
   const queryClient = useQueryClient();
@@ -219,25 +215,6 @@ const VoucherForm = ({ handleShow, id, codeType }) => {
                             autoComplete="name"
                             placeholder="X-mas Sales"
                           />
-                        </div>
-                      </div>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="description"
-                          >
-                            Description
-                          </label>
-                          {/* <ReactQuill
-                            theme="snow"
-                            id="description"
-                            onChange={e => setFieldValue('description', e)}
-                            value={values.description}
-                            style={{
-                              maxHeight: '14rem',
-                            }}
-                          /> */}
                         </div>
                       </div>
                     </section>
@@ -509,7 +486,7 @@ const VoucherForm = ({ handleShow, id, codeType }) => {
                         onClick={e => handleSubmit()}
                         className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                       >
-                        Save Changes
+                        Save
                       </button>
                     </div>
                   </div>

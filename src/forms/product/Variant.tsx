@@ -77,8 +77,16 @@ const ProdutVariantPreview = ({
                 updateQuantity={updateQuantity}
                 image={product.image}
                 name={product.title}
-                price={product.stock_records![0].price_excl_tax}
-                quantity={product.stock_records![0].num_in_stock}
+                price={
+                  product.stock_records
+                    ? product.stock_records[0].price_excl_tax ?? null
+                    : null
+                }
+                quantity={
+                  product.stock_records
+                    ? product.stock_records[0].num_in_stock ?? 1
+                    : 1
+                }
                 handleClick={handleClick}
                 isChecked={isCheck.includes(product.title!)}
               />

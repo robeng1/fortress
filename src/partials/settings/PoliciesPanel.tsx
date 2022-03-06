@@ -1,6 +1,4 @@
 import React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Formik } from 'formik';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
@@ -10,6 +8,7 @@ import { UidAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
 import { toast } from 'react-toastify';
 import useShop from 'hooks/use-shop';
+import { Loading } from 'components/common/backdrop';
 
 function PoliciesPanel() {
   const queryClient = useQueryClient();
@@ -36,12 +35,7 @@ function PoliciesPanel() {
   );
   return (
     <div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={isUpdatingShop}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={isUpdatingShop} />
       <Formik
         enableReinitialize
         initialValues={{

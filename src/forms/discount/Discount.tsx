@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import union from 'lodash/union';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import Divider from '@mui/material/Divider';
 import { Formik } from 'formik';
 import Uppy from '@uppy/core';
 import Tus from '@uppy/tus';
@@ -31,6 +28,7 @@ import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import { proxyURL } from 'utils/urlsigner';
 import { useNavigate } from 'react-router-dom';
+import { Loading } from 'components/common/backdrop';
 
 // TODO: (romeo) refactor duplicated pieces of logic
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
@@ -334,12 +332,7 @@ const DiscountForm = ({ id }) => {
   return (
     <div className="w-full">
       <div>
-        <Backdrop
-          sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={isCreatingDiscount || isUpdatingDiscount || isLoading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <Loading open={isCreatingDiscount || isUpdatingDiscount || isLoading} />
         <Formik
           initialValues={{
             ...initialValues,
@@ -373,11 +366,11 @@ const DiscountForm = ({ id }) => {
             isSubmitting,
             /* and other goodies */
           }) => (
-            <div className="flex-grow w-full mx-auto self-center justify-center">
+            <div className="flex-grow w-full mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-2">
                 <div className="col-span-3 md:col-span-2">
                   <section className="rounded bg-white shadow p-3">
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                    <div className="flex items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
                         <label
                           className="block text-sm font-medium mb-1"
@@ -422,7 +415,7 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                 </div>
-                <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
+                <div className="col-span-3 md:col-span-2">
                   <section className="rounded bg-white shadow overflow-hidden p-3">
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="sm:w-full mt-1">
@@ -501,29 +494,6 @@ const DiscountForm = ({ id }) => {
                             <span className="text-sm ml-2">Fixed price</span>
                           </label>
                         </div>
-                        {/* <div className="m-3">
-                        <label className="flex items-center">
-                          <input
-                            type="radio"
-                            name="incentive_type"
-                            className="form-radio"
-                            onChange={e =>
-                              setFieldValue(
-                                'incentive_type',
-                                'fixed_price_per_product',
-                              )
-                            }
-                            checked={
-                              values.incentive_type ===
-                              'fixed_price_per_product'
-                            }
-                            value={values.incentive_type}
-                          />
-                          <span className="text-sm ml-2">
-                            Fixed price per product
-                          </span>
-                        </label>
-                      </div> */}
                         <div className="m-3">
                           <label className="flex items-center">
                             <input
@@ -544,7 +514,7 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                 </div>
-                <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
+                <div className="col-span-3 md:col-span-2">
                   <section
                     className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
                       values.incentive_type === 'buy-x-get-y'
@@ -1333,7 +1303,7 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                   <section className="rounded bg-white overflow-hidden p-3 mb-10">
-                    <div className="sm:col-span-3 md:col-span-3">
+                    <div>
                       <section
                         className={`rounded bg-white overflow-hidden p-3 ${
                           values.incentive_type === 'buy-x-get-y' ||
@@ -1377,7 +1347,6 @@ const DiscountForm = ({ id }) => {
                           </div>
                         </div>
 
-                        <Divider />
                         <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                           <div className="w-full">
                             <label
@@ -1933,7 +1902,7 @@ const DiscountForm = ({ id }) => {
                         ) : (
                           <></>
                         )}
-                        <div className="flex m-3 items-center w-full">
+                        <div className="flex m-3 items-center w-full ">
                           <input
                             name="has_max_discount"
                             onChange={handleChange}
@@ -2174,7 +2143,7 @@ const DiscountForm = ({ id }) => {
                           onBlur={handleBlur}
                           value={values.code_usage}
                           id="code_usage"
-                          className="form-select block"
+                          className="form-select w-full block"
                         >
                           <option value="">Please Select</option>
                           <option value="multi_use">
@@ -2290,7 +2259,10 @@ const DiscountForm = ({ id }) => {
               <footer className="sticky bottom-0">
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
-                    <button onClick={()=> navigate('/discounts')} className="btn border-teal-200 hover:border-gray-300 text-gray-600">
+                    <button
+                      onClick={() => navigate('/discounts')}
+                      className="btn border-teal-200 hover:border-gray-300 text-gray-600"
+                    >
                       Cancel
                     </button>
                     <button
@@ -2300,7 +2272,7 @@ const DiscountForm = ({ id }) => {
                       }}
                       className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                     >
-                      Save Changes
+                      Save
                     </button>
                   </div>
                 </div>

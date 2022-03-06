@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import PlacesAutocomplete, {
@@ -12,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
+import { Loading } from 'components/common/backdrop';
 
 function LocationsForm({ handleShow, id }) {
   const qc = useQueryClient();
@@ -109,12 +108,7 @@ function LocationsForm({ handleShow, id }) {
 
   return (
     <div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={isCreatingLocation || isUpdatingLocation}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={isCreatingLocation || isUpdatingLocation} />
       <Formik
         enableReinitialize
         initialValues={initialValues}
@@ -336,7 +330,7 @@ function LocationsForm({ handleShow, id }) {
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
-                    Save Changes
+                    Save
                   </button>
                 </div>
               </div>

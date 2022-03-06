@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import Select from 'react-select';
@@ -15,6 +13,7 @@ import { modelOptions, ShippingRateModelOption } from 'data/select';
 import { sToCurrency } from 'utils/money';
 import { rateToIB, rateToWB, rawToRate } from './converters';
 import useShop from 'hooks/use-shop';
+import { Loading } from 'components/common/backdrop';
 
 const animatedComponents = makeAnimated();
 
@@ -120,17 +119,14 @@ function RatesForm({ handleShow, rate }) {
 
   return (
     <div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+      <Loading
         open={
           isCreatingIBRate ||
           isUpdatingIBRate ||
           isCreatingWBRate ||
           isUpdatingWBRate
         }
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      />
       <Formik
         enableReinitialize
         initialValues={initialValues}
@@ -242,12 +238,6 @@ function RatesForm({ handleShow, rate }) {
                       components={animatedComponents}
                       options={modelOptions}
                       styles={{
-                        input: base => ({
-                          ...base,
-                          'input:focus': {
-                            boxShadow: 'none',
-                          },
-                        }),
                         ...colourStyles,
                       }}
                       className="w-full"
@@ -422,12 +412,6 @@ function RatesForm({ handleShow, rate }) {
                     components={animatedComponents}
                     options={modelOptions}
                     styles={{
-                      input: base => ({
-                        ...base,
-                        'input:focus': {
-                          boxShadow: 'none',
-                        },
-                      }),
                       ...colourStyles,
                     }}
                     className="w-full"
@@ -452,7 +436,7 @@ function RatesForm({ handleShow, rate }) {
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
                   >
-                    Save Changes
+                    Save
                   </button>
                 </div>
               </div>

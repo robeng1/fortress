@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +13,7 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import useShop from 'hooks/use-shop';
+import { Loading } from 'components/common/backdrop';
 
 function Hero() {
   const navigate = useNavigate();
@@ -95,12 +94,7 @@ function Hero() {
   };
   return (
     <div>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={isUpdatingTheme}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loading open={isUpdatingTheme} />
       <Formik
         enableReinitialize
         initialValues={{
