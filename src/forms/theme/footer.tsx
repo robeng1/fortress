@@ -44,7 +44,7 @@ function Footer() {
             ...cfg?.settings,
             sections: {
               ...cfg.settings['sections'],
-              'footer': {
+              footer: {
                 ...cfg.settings['sections']['footer'],
                 settings: { ...vals },
               },
@@ -71,7 +71,7 @@ function Footer() {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
+          <div className="flex-grow bg-white">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
               <h2 className="text-2xl text-gray-800 font-bold mb-5">Footer</h2>
@@ -102,7 +102,7 @@ function Footer() {
                       <div className="w-full">
                         <label
                           className="block text-sm font-medium mb-1"
-                          htmlFor="social_instagram_lin"
+                          htmlFor="social_instagram_link"
                         >
                           Handle
                         </label>
@@ -170,7 +170,7 @@ function Footer() {
                       type="checkbox"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      checked={values.social_twitter_visible}
+                      checked={values.social_facebook_visible}
                     />
                     <label
                       className="block text-sm ml-2 "
@@ -211,7 +211,7 @@ function Footer() {
                       type="checkbox"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      checked={values.social_twitter_visible}
+                      checked={values.social_youtube_visible}
                     />
                     <label
                       className="block text-sm ml-2 "

@@ -147,7 +147,7 @@ function Hero() {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
+          <div className="flex-grow bg-white">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
               <h2 className="text-2xl text-gray-800 font-bold mb-5">Banner</h2>

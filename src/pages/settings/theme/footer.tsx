@@ -1,25 +1,13 @@
-import React, { ChangeEvent, lazy, useState } from 'react';
-import Sidebar from 'partials/Sidebar';
+import AnnouncementBar from 'forms/theme/announcement-bar';
+import Footer from 'forms/theme/footer';
 import Header from 'partials/Header';
-import DiscountForm from 'forms/discount/Discount';
-import useShop from 'hooks/use-shop';
-import { useNavigate, useParams } from 'react-router-dom';
+import Sidebar from 'partials/Sidebar';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function DiscountMutation() {
+function FooterMutation() {
   const navigate = useNavigate();
-  const { id } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentDiscountId, setCurrentDiscountId] = useState<
-    String | undefined
-  >(id !== 'new' ? id : undefined);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedItems, setSelectedItems] = useState<any>([]);
-
-  
-  const handleSelectedItems = (selectedItems: any) => {
-    setSelectedItems([...selectedItems]);
-  };
-
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -31,7 +19,7 @@ function DiscountMutation() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location="Discounts"
+          location="Footer"
         />
 
         <main>
@@ -66,7 +54,7 @@ function DiscountMutation() {
             </div>
 
             {/* Form */}
-            <DiscountForm id={currentDiscountId} />
+            <Footer />
           </div>
         </main>
       </div>
@@ -74,4 +62,4 @@ function DiscountMutation() {
   );
 }
 
-export default DiscountMutation;
+export default FooterMutation;

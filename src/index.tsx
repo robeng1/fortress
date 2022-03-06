@@ -37,6 +37,11 @@ import Domains from 'pages/settings/Domains';
 import ProductMutation from 'pages/product-mutation/form';
 import CollectionMutation from 'pages/collection-mutation/form';
 import DiscountMutation from 'pages/discount-mutation/form';
+import ThemeSettings from 'pages/settings/Themes';
+import AnnouncementBarMutation from 'pages/settings/theme/announcement-bar';
+import FooterMutation from 'pages/settings/theme/footer';
+import BannerMutation from 'pages/settings/theme/banner';
+import HeroMutation from 'pages/settings/theme/hero';
 const ResetPassword = lazy(() => import('pages/ResetPassword'));
 
 export function App() {
@@ -220,6 +225,46 @@ export function App() {
           element={
             <RequireAuth path="/settings/policies">
               <Policies />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/theme"
+          element={
+            <RequireAuth path="/settings/theme">
+              <ThemeSettings />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/theme/announcement-bar"
+          element={
+            <RequireAuth path="/settings/theme/announcement-bar">
+              <AnnouncementBarMutation />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/theme/footer"
+          element={
+            <RequireAuth path="/settings/theme/footer">
+              <FooterMutation />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/theme/banner"
+          element={
+            <RequireAuth path="/settings/theme/banner">
+              <BannerMutation />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/settings/theme/hero"
+          element={
+            <RequireAuth path="/settings/theme/hero">
+              <HeroMutation />
             </RequireAuth>
           }
         />

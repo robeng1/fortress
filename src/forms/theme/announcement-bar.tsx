@@ -66,14 +66,14 @@ function AnnouncementBar() {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
+          <div className="flex-grow bg-white">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
               <h2 className="text-2xl text-gray-800 font-bold mb-5">
                 Announcement bar
               </h2>
               <section>
-                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
