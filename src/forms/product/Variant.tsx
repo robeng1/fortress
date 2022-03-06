@@ -79,12 +79,12 @@ const ProdutVariantPreview = ({
                 name={product.title}
                 price={
                   product.stock_records
-                    ? product.stock_records[0].price_excl_tax ?? null
+                    ? product.stock_records[0]?.price_excl_tax ?? null
                     : null
                 }
                 quantity={
                   product.stock_records
-                    ? product.stock_records[0].num_in_stock ?? 1
+                    ? product.stock_records[0]?.num_in_stock ?? 1
                     : 1
                 }
                 handleClick={handleClick}
