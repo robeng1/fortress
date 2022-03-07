@@ -1,107 +1,38 @@
 import React, { useEffect, useMemo } from 'react';
 import * as yup from 'yup';
 import debounce from 'lodash/debounce';
-import isEmpty from 'lodash/isEmpty';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import slugify from 'slugify';
-import { Formik, useFormik } from 'formik';
-import { request, ResponseError } from 'utils/request';
-import { domainURL, fortressURL } from 'endpoints/urls';
-import { StartType } from 'models/settings/shop-type';
-import { useAtom } from 'jotai';
-import { useMutation, useQueryClient } from 'react-query';
-import { sessionAtom } from 'store/authorization-atom';
+import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
 import PasswordInput from 'components/common/password-input';
 import Input from 'components/common/input';
 import Button from 'components/common/button';
 import { Footer } from 'components/common/footer';
-
-interface LocationState {
-  from: string;
-}
+import { useSignup } from 'hooks/use-signup';
+import { useHandleValidator } from 'hooks/use-validate-handle';
 
 function Signup() {
-  const queryClient = useQueryClient();
-  const requestURL = `${fortressURL}/shops/get-started`;
-  const [session, setSession] = useAtom(sessionAtom);
-  const {
-    mutate: getStarted,
-    isLoading,
-    isError,
-    error: err,
-  } = useMutation(
-    (payload: StartType) =>
-      request(requestURL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      }),
-    {
-      onSuccess: (resp: Record<string, any>) => {
-        setSession(resp.session);
-        queryClient.setQueryData(
-          ['shop', resp.session.identity.account_id],
-          resp.shop,
-        );
-      },
-      onError: (e: ResponseError) => {},
-    },
+  const { isHandleUnique } = useHandleValidator();
+  const { submitData, slugit, isLoading, isError, error: err } = useSignup();
+  const debouncedIsHandleUnique = useMemo(
+    () => debounce(isHandleUnique, 300),
+    [isHandleUnique],
   );
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { from } = (location.state as LocationState) || { from: '/' };
 
-  const isAuthenticated = !isEmpty(session);
-  const submitData = (values: StartType) => {
-    getStarted({ ...values });
-  };
-  const slugit = (txt: string) =>
-    slugify(txt, {
-      replacement: '-',
-      lower: true,
-      strict: true,
-      trim: true,
-    });
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate(from || '/');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, from]);
-
-  const validateForm = async values => {
-    const errors: Record<string, any> = {};
-    if (!values.email) {
-      errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = 'Invalid email address';
-    }
-    if (!values.password) {
-      errors.password = 'Required';
-    }
-    if (!values.handle) {
-      errors.handle = 'Required';
-    } else {
-      const handle = slugit(values.handle);
-      const requestURL = `${domainURL}/ask?domain=${handle}.myreoplex.com`;
-      let alreadyTaken = false;
-      try {
-        const val = await request(requestURL);
-        alreadyTaken = val;
-      } catch (error) {
-        alreadyTaken = false;
-      }
-      if (alreadyTaken) {
-        errors.handle = 'Name already taken';
-      }
-    }
-    return errors;
-  };
-
-  const debouncedValidate = useMemo(
-    () => debounce(validateForm, 300),
-    [validateForm],
-  );
+  const formSchema = yup.object().shape({
+    email: yup.string().email('Not a valid email').required('Required'),
+    password: yup.string().required('Required'),
+    handle: yup
+      .string()
+      .required('Required')
+      .test(
+        'check-handle-is-unique',
+        'Handle is already taken',
+        async value => {
+          const isValid = await debouncedIsHandleUnique(value);
+          return !isValid;
+        },
+      ),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -110,10 +41,10 @@ function Signup() {
       business_display_name: '',
       handle: '',
     },
-    validateOnChange: false,
+    validationSchema: formSchema,
+    validateOnChange: true,
     validateOnBlur: true,
     validateOnMount: true,
-    validate: debouncedValidate,
     onSubmit: (values, { setSubmitting }) => {
       submitData({
         ...values,
@@ -164,9 +95,10 @@ function Signup() {
               error={touched.password ? errors.password : undefined}
             />
             <Input
-              label="Store URL"
+              label="Store handle"
               id="handle"
               name="handle"
+              note='handle.myreoplex.com'
               onChange={handleChange}
               onBlur={handleChange}
               value={values.handle}

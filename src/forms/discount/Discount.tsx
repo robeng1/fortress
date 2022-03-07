@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import union from 'lodash/union';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import Uppy from '@uppy/core';
-import Tus from '@uppy/tus';
 import { Dashboard } from '@uppy/react';
 import { fortressURL } from 'endpoints/urls';
 import DropTarget from '@uppy/drop-target';
@@ -13,12 +12,8 @@ import { DiscountType } from 'models/discount/discount-type';
 import SelectableResultSearchModal from 'components/common/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';
-import { initialValues } from './values';
-import {
-  discountToValues,
-  valuesToDiscount,
-  handleSelectedResults,
-} from './utils';
+import { initialValues, Values } from './values';
+import { valuesToDiscount, handleSelectedResults } from './utils';
 
 // styles
 import '@uppy/status-bar/dist/style.css';
@@ -29,6 +24,9 @@ import '@uppy/dashboard/dist/style.css';
 import { proxyURL } from 'utils/urlsigner';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/common/backdrop';
+import moment from 'moment';
+import { mToS } from 'utils/money';
+import Transloadit from '@uppy/transloadit';
 
 // TODO: (romeo) refactor duplicated pieces of logic
 // FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
@@ -126,11 +124,6 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  const onUploadComplete = result => {
-    const url = result.successful[0].uploadURL;
-    setImage(url);
-  };
-
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'discount-form',
@@ -143,8 +136,28 @@ const DiscountForm = ({ id }) => {
       },
     })
       .use(DropTarget, { target: document.body })
-      .on('complete', onUploadComplete)
-      .use(Tus, { endpoint: 'https://storage.reoplex.com/files/' });
+      .use(Transloadit, {
+        service: 'https://api2.transloadit.com',
+        params: {
+          auth: {
+            key: 'd6650968a1064588ae29f3d0f6a70ef5',
+          },
+          template_id: '24f76f542f784c4cba84bf1e347a84fb',
+        },
+
+        waitForEncoding: true,
+        waitForMetadata: true,
+        alwaysRunAssembly: true,
+      })
+      .on('file-removed', (file, reason) => {
+        if (reason === 'removed-by-user') {
+          // remove file from s3
+          // sendDeleteRequestForFile(file);
+        }
+      })
+      .on('transloadit:complete', assembly => {
+        setImage(assembly.results[':original'][0].ssl_url);
+      });
   }, []);
 
   const addFiles = files => {
@@ -156,8 +169,9 @@ const DiscountForm = ({ id }) => {
       });
     });
 
-    Object.keys(uppy.state.files).forEach(fileID => {
-      uppy.setFileState(fileID, {
+    uppy.getFiles().forEach(file => {
+      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
+      uppy.setFileState(file.id, {
         progress: { uploadComplete: true, uploadStarted: true },
       });
     });
@@ -329,15 +343,184 @@ const DiscountForm = ({ id }) => {
     },
   );
 
+  const discountToValues = (d: DiscountType | undefined): Values => {
+    if (!d) {
+      return initialValues;
+    }
+    const disc: Values = {
+      ...initialValues,
+      discount_id: d.discount_id,
+      title: d.name || initialValues.title,
+      description: d.description || initialValues.description,
+      type: d.offer_type || initialValues.type,
+      max_basket_applications: d.max_basket_applications || 1,
+      max_global_applications: d.max_global_applications,
+      max_user_applications: d.max_user_applications,
+      page_title: d.page_title || initialValues.page_title,
+      page_description: d.page_description || initialValues.page_description,
+      start_date: moment(d.start).format('YYYY-MM-DD'),
+      start_time: moment(d.start).format('HH:mm:ss'),
+      end_date: moment(d.end).format('YYYY-MM-DD'),
+      end_time: moment(d.end).format('HH:mm:ss'),
+    };
+    if (
+      d.benefit?.benefit_type === 'fixed_discount' ||
+      d.benefit?.benefit_type === 'fixed_price' ||
+      d.benefit?.benefit_type === 'multibuy' ||
+      d.benefit?.benefit_type === 'percentage'
+    ) {
+      // condition deconstruction
+      disc.condition_type =
+        d.condition?.condition_type || initialValues.condition_type;
+      if (
+        d.condition?.condition_type === 'coverage' ||
+        d.condition?.condition_type === 'count'
+      ) {
+        disc.condition_value_int =
+          d.condition.value_int || initialValues.condition_value_int;
+      } else if (d.condition?.condition_type === 'value') {
+        // will be quite weird that these values would not exist
+        // at the time when they are needed
+        // d.condition.money_value
+        disc.condition_value_money = mToS(d.condition.money_value!);
+      } else {
+        // TODO:(romeo) remove this block as it's weird as we should NEVER! reach here
+      }
+
+      // benefit deconstruction
+      if (d.benefit) {
+        disc.incentive_type =
+          d.benefit.benefit_type || initialValues.incentive_type;
+        disc.applies_to = d.benefit.collection?.includes_all_products
+          ? 'all_products'
+          : '';
+        if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_collections &&
+          d.benefit.collection?.included_collections?.length > 0
+        ) {
+          disc.applies_to = 'specific_collections';
+          disc.included_collections =
+            d.benefit.collection?.included_collections;
+          setInclCids(disc.included_collections || []);
+        } else if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_products &&
+          d.benefit.collection?.included_products?.length > 0
+        ) {
+          disc.applies_to = 'specific_products';
+          disc.included_products = d.benefit.collection?.included_products;
+          setInclPids(disc.included_products || []);
+        }
+        if (d.benefit.value_m) {
+          disc.value = mToS(d.benefit.value_m);
+        } else if (d.benefit.value_i) {
+          disc.value = d.benefit.value_i;
+        }
+      }
+    } else {
+      // deconstructing buy-x-get-y
+      if (d.condition) {
+        disc.buy_x_get_y_condition_type =
+          d.condition?.condition_type ||
+          initialValues.buy_x_get_y_condition_type;
+        if (
+          d.condition?.condition_type === 'coverage' ||
+          d.condition?.condition_type === 'count'
+        ) {
+          disc.buy_x_get_y_condition_value =
+            d.condition.value_int || initialValues.buy_x_get_y_condition_value;
+        } else if (d.condition?.condition_type === 'value') {
+          // will be quite weird that these values would not exist
+          // at the time when they are needed
+          disc.buy_x_get_y_condition_value = mToS(d.condition.money_value);
+        } else {
+          // TODO:(romeo)  remove this block as it's weird as we should NEVER! reach here
+        }
+        // deconstructing the condition range
+        disc.buy_x_get_y_condition_range_type = d.condition.collection
+          ?.includes_all_products
+          ? 'all_products'
+          : '';
+        if (
+          d.condition.collection &&
+          d.condition.collection?.included_collections &&
+          d.condition.collection?.included_collections?.length > 0
+        ) {
+          disc.buy_x_get_y_condition_range_type = 'specific_collections';
+          disc.buy_x_get_y_condition_range_keys =
+            d.condition.collection?.included_collections ||
+            initialValues.buy_x_get_y_condition_range_keys;
+          setBxCondInclCids(disc.buy_x_get_y_condition_range_keys);
+        } else if (
+          d.condition.collection &&
+          d.condition.collection?.included_products &&
+          d.condition.collection?.included_products?.length > 0
+        ) {
+          disc.buy_x_get_y_condition_range_type = 'specific_products';
+          disc.buy_x_get_y_condition_range_keys =
+            d.condition.collection?.included_products ||
+            initialValues.buy_x_get_y_condition_range_keys;
+          setBxCondInclPids(disc.buy_x_get_y_condition_range_keys);
+        }
+      }
+
+      // benefit deconstruction
+      if (d.benefit) {
+        disc.buy_x_get_y_discounted_value_type =
+          d.benefit.benefit_type ||
+          initialValues.buy_x_get_y_discounted_value_type;
+
+        // deconstructing the benefit range
+        disc.buy_x_get_y_ben_range_type = d.benefit.collection
+          ?.includes_all_products
+          ? 'all_products'
+          : '';
+        if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_collections &&
+          d.benefit.collection?.included_collections?.length > 0
+        ) {
+          disc.buy_x_get_y_ben_range_type = 'specific_collections';
+          disc.buy_x_get_y_ben_range_keys =
+            d.benefit.collection?.included_collections;
+          setBxBInclCids(disc.buy_x_get_y_ben_range_keys);
+        } else if (
+          d.benefit.collection &&
+          d.benefit.collection?.included_products &&
+          d.benefit.collection?.included_products?.length > 0
+        ) {
+          disc.buy_x_get_y_ben_range_type = 'specific_products';
+          disc.buy_x_get_y_ben_range_keys =
+            d.benefit.collection?.included_products;
+          setBxBInclPids(disc.buy_x_get_y_ben_range_keys);
+        }
+        if (d.benefit.value_m) {
+          disc.buy_x_get_y_discounted_value = mToS(d.benefit.value_m);
+        } else if (d.benefit.value_i) {
+          disc.buy_x_get_y_discounted_value = d.benefit.value_i as string;
+        }
+        disc.buy_x_get_y_ben_max_affected_items =
+          d.benefit.max_affected_items ||
+          initialValues.buy_x_get_y_ben_max_affected_items;
+      }
+    }
+    disc.max_discount = mToS(d.max_discount);
+    return disc;
+  };
+
+  const initialVals = {
+    ...initialValues,
+    ...discountToValues(discount),
+  };
+
   return (
     <div className="w-full">
       <div>
         <Loading open={isCreatingDiscount || isUpdatingDiscount || isLoading} />
         <Formik
-          initialValues={{
-            ...initialValues,
-            ...discountToValues(discount),
-          }}
+          enableReinitialize
+          initialValues={initialVals}
           onSubmit={(values, { setSubmitting }) => {
             if (discount) {
               updateDiscount({

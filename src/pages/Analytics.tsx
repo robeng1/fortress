@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
 
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
@@ -10,23 +9,12 @@ import AnalyticsCard02 from 'partials/analytics/AnalyticsCard02';
 import AnalyticsCard05 from 'partials/analytics/AnalyticsCard05';
 import AnalyticsCard06 from 'partials/analytics/AnalyticsCard06';
 import AnalyticsCard07 from 'partials/analytics/AnalyticsCard07';
-import { fortressURL } from 'endpoints/urls';
-import { request } from 'utils/request';
-import { WebAnalyticResponseBody } from 'models/stats/stats-type';
 import AnalyticsCard00 from 'partials/analytics/AnalyticsCard00';
-import useShop from 'hooks/use-shop';
+import { useStats } from 'hooks/use-webstats';
 
 function Analytics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { shop } = useShop();
-  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/stats`;
-
-  const { data: webStats } = useQuery<WebAnalyticResponseBody>(
-    ['web-analytics'],
-    async () => await request(`${requestURL}`),
-    { enabled: !!shop?.shop_id },
-  );
-
+  const { webStats } = useStats();
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -45,9 +33,9 @@ function Analytics() {
           <div className="sm:flex sm:justify-between sm:items-center mb-8">
             {/* Left: Title */}
             <div className="mb-4 sm:mb-0">
-              <h1 className="text-2xl md:text-3xl text-gray-500 font-bold">
+              <h4 className="text-xl md:text-xl text-gray-500 font-bold">
                 Overview
-              </h1>
+              </h4>
             </div>
 
             {/* Right: Actions */}
@@ -82,9 +70,9 @@ function Analytics() {
             />
 
             <AnalyticsCard05 topChannels={webStats?.top_channels} />
-           
+
             <AnalyticsCard06 topPages={webStats?.top_pages} />
-           
+
             <AnalyticsCard07 topCities={webStats?.top_cities} />
           </div>
         </div>
