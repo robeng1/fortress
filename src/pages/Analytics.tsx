@@ -45,7 +45,7 @@ function Analytics() {
           <div className="sm:flex sm:justify-between sm:items-center mb-8">
             {/* Left: Title */}
             <div className="mb-4 sm:mb-0">
-              <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+              <h1 className="text-2xl md:text-3xl text-gray-500 font-bold">
                 Overview
               </h1>
             </div>

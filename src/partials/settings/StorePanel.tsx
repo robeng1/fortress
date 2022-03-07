@@ -46,19 +46,6 @@ function StorePanel() {
     },
   );
 
-  const onUploadComplete = result => {
-    const url = result.successful[0].uploadURL;
-    // const fileName = file.name;
-    setImage(url);
-    // const li = document.createElement('li');
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.target = '_blank';
-    // a.appendChild(document.createTextNode(fileName));
-    // li.appendChild(a);
-
-    // document.querySelector(elForUploadedFiles).appendChild(li);
-  };
   const uppy = React.useMemo(() => {
     return new Uppy({
       id: 'shop-image',
@@ -175,7 +162,7 @@ function StorePanel() {
           <div className="flex-grow">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
-              <h2 className="text-2xl text-gray-800 font-bold mb-5">
+              <h2 className="text-2xl text-gray-500 font-bold mb-5">
                 My Store
               </h2>
               {/* Picture */}
@@ -212,7 +199,7 @@ function StorePanel() {
               </section>
               {/* Business Profile */}
               <section>
-                <h2 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h2 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   General Details
                 </h2>
                 <div className="text-sm">
@@ -282,7 +269,7 @@ function StorePanel() {
                 </div>
               </section>
               <section>
-                <h2 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h2 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   Legal Details
                 </h2>
                 <div className="text-sm">
@@ -416,7 +403,7 @@ function StorePanel() {
               </section>
               {/* Currency */}
               <section>
-                <h2 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h2 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   Currency
                 </h2>
                 <div className="text-sm">
@@ -463,7 +450,7 @@ function StorePanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                  <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                  <button className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
                     Cancel
                   </button>
                   <button
@@ -472,7 +459,7 @@ function StorePanel() {
                       e.preventDefault();
                       handleSubmit();
                     }}
-                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
                     Save Changes
                   </button>

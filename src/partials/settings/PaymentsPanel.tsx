@@ -102,13 +102,13 @@ function PaymentsPanel() {
           <div className="flex-grow">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
-              <h2 className="text-2xl text-gray-800 font-bold mb-5">
+              <h2 className="text-2xl text-gray-500 font-bold mb-5">
                 Payout settings
               </h2>
 
               {/* Mobile Money */}
               <section>
-                <h3 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   Mobile Money
                 </h3>
                 <div className="text-sm">Your Mobile Money account details</div>
@@ -201,14 +201,14 @@ function PaymentsPanel() {
 
               {/* Bank */}
               <section>
-                <h3 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   Bank Account
                 </h3>
                 <ul>
                   <li className="flex justify-between items-center py-3 border-b border-gray-200">
                     {/* Left */}
                     <div>
-                      <div className="text-gray-800 font-semibold italic">
+                      <div className="text-gray-500 font-semibold italic">
                         Bank support is coming soon
                       </div>
                     </div>
@@ -221,7 +221,7 @@ function PaymentsPanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                  <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                  <button className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
                     Cancel
                   </button>
                   <button
@@ -230,7 +230,7 @@ function PaymentsPanel() {
                       e.stopPropagation();
                       handleSubmit();
                     }}
-                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
                     Save Changes
                   </button>

@@ -743,7 +743,7 @@ const DiscountForm = ({ id }) => {
                                   key={product.product_id}
                                   className="flex items-center"
                                 >
-                                  <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                  <div className="flex w-full items-center py-2 text-gray-500 rounded group">
                                     <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                                       <img
                                         src={
@@ -850,7 +850,7 @@ const DiscountForm = ({ id }) => {
                                     key={collection.collection_id}
                                     className="flex items-center"
                                   >
-                                    <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                    <div className="flex w-full items-center py-2 text-gray-500 rounded group">
                                       <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                                         <img
                                           src={
@@ -1023,7 +1023,7 @@ const DiscountForm = ({ id }) => {
                                   key={product.product_id}
                                   className="flex items-center"
                                 >
-                                  <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                  <div className="flex w-full items-center py-2 text-gray-500 rounded group">
                                     <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                                       <img
                                         src={
@@ -1130,7 +1130,7 @@ const DiscountForm = ({ id }) => {
                                     key={collection.collection_id}
                                     className="flex items-center"
                                   >
-                                    <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                    <div className="flex w-full items-center py-2 text-gray-500 rounded group">
                                       <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                                         <img
                                           src={
@@ -1496,7 +1496,7 @@ const DiscountForm = ({ id }) => {
                                       key={product.product_id}
                                       className="flex items-center"
                                     >
-                                      <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                      <div className="flex w-full items-center py-2 text-gray-500 rounded group">
                                         <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                                           <img
                                             src={
@@ -1605,7 +1605,7 @@ const DiscountForm = ({ id }) => {
                                         key={collection.collection_id}
                                         className="flex items-center"
                                       >
-                                        <div className="flex w-full items-center py-2 text-gray-800 rounded group">
+                                        <div className="flex w-full items-center py-2 text-gray-500 rounded group">
                                           <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                                             <img
                                               src={
@@ -1825,7 +1825,7 @@ const DiscountForm = ({ id }) => {
                         </select>
                       </div>
                       <div>
-                        <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1 mt-6">
+                        <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1 mt-6">
                           Usage Limits
                         </h2>
                         <div className="flex m-3 items-center w-full">
@@ -1942,7 +1942,7 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Active Dates
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -2024,7 +2024,7 @@ const DiscountForm = ({ id }) => {
                   </section>
                   {!discountId && values.type === 'voucher' && (
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                      <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Voucher
                       </h2>
                       <label
@@ -2160,7 +2160,7 @@ const DiscountForm = ({ id }) => {
                     </section>
                   )}
                   <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Cover Image
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -2185,9 +2185,9 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                   <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Search Engine Preview
-                      <p className="text-sm header leading-snug text-gray-800 font-light mb-1">
+                      <p className="text-sm header leading-snug text-gray-500 font-light mb-1">
                         This shows how your product shows up in search results
                         like Google
                       </p>
@@ -2261,7 +2261,7 @@ const DiscountForm = ({ id }) => {
                   <div className="flex self-end">
                     <button
                       onClick={() => navigate('/discounts')}
-                      className="btn border-teal-200 hover:border-gray-300 text-gray-600"
+                      className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel
                     </button>
@@ -2270,7 +2270,7 @@ const DiscountForm = ({ id }) => {
                         e.stopPropagation();
                         handleSubmit();
                       }}
-                      className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                      className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                     >
                       Save
                     </button>

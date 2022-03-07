@@ -9,7 +9,7 @@ function EmptyState({ heading, msg, action }) {
           <div className="sm:flex sm:justify-between sm:items-center mb-8">
             {/* Left: Title */}
             {/* <div className="mb-4 sm:mb-0">
-              <h1 className="text-2xl md:text-3xl text-gray-800 font-bold">
+              <h1 className="text-2xl md:text-3xl text-gray-500 font-bold">
                 Empty State ✨
               </h1>
             </div> */}
@@ -48,7 +48,7 @@ function EmptyState({ heading, msg, action }) {
                     />
                   </svg>
                 </div>
-                <h2 className="text-2xl text-gray-800 font-bold mb-2">
+                <h2 className="text-2xl text-gray-500 font-bold mb-2">
                   {heading}
                 </h2>
                 <div className="mb-6">{msg}</div>

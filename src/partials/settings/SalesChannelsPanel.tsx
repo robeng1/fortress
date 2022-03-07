@@ -6,7 +6,7 @@ function SalesChannelsPanel() {
       {/* Panel body */}
       <div className="md:p-6 p-4 space-y-6">
         <div>
-          <h2 className="text-2xl text-gray-800 font-bold mb-4">
+          <h2 className="text-2xl text-gray-500 font-bold mb-4">
             Sales Channels
           </h2>
           <div className="text-sm">

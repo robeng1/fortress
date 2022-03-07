@@ -307,17 +307,17 @@ function Balance() {
                         {/* Row */}
                         <tr>
                           <td className="p-2 w-1/6">
-                            <div className="text-left text-gray-800">
+                            <div className="text-left text-gray-500">
                               Yesterday
                             </div>
                           </td>
                           <td className="p-2 w-3/6">
                             <div className="flex items-center">
-                              <div className="text-gray-800">For order</div>
+                              <div className="text-gray-500">For order</div>
                             </div>
                           </td>
                           <td className="p-2 w-2/6">
-                            <div className="text-right text-gray-800">
+                            <div className="text-right text-gray-500">
                               $3,877
                             </div>
                           </td>

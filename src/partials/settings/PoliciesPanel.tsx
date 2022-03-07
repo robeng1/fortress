@@ -97,7 +97,7 @@ function PoliciesPanel() {
               {/* Plans */}
               <section>
                 <div className="mb-8">
-                  <h2 className="text-2xl text-gray-800 font-bold mb-4">
+                  <h2 className="text-2xl text-gray-500 font-bold mb-4">
                     Legal Policies
                   </h2>
                   <div className="text-sm">
@@ -108,7 +108,7 @@ function PoliciesPanel() {
               </section>
 
               <section>
-                <h3 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   Refund Policy
                 </h3>
                 <div className="text-sm">How do you handle refunds?</div>
@@ -135,7 +135,7 @@ function PoliciesPanel() {
                 </div>
               </section>
               <section>
-                <h3 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   Shipping Policy
                 </h3>
                 <div className="text-sm">
@@ -169,7 +169,7 @@ function PoliciesPanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                  <button className="btn border-gray-200 hover:border-gray-300 text-gray-600">
+                  <button className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
                     Cancel
                   </button>
                   <button
@@ -178,7 +178,7 @@ function PoliciesPanel() {
                       e.stopPropagation();
                       handleSubmit();
                     }}
-                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
                     Save Changes
                   </button>

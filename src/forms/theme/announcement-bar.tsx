@@ -128,7 +128,7 @@ function AnnouncementBar() {
                 <div className="flex self-end">
                   <button
                     onClick={() => navigate(-1)}
-                    className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                    className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                   >
                     Cancel
                   </button>
@@ -137,7 +137,7 @@ function AnnouncementBar() {
                       e.stopPropagation();
                       handleSubmit();
                     }}
-                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
                     Save
                   </button>

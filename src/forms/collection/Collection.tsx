@@ -369,7 +369,7 @@ export default function CollectionForm({ id }) {
                     </div>
                   </section>
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Collection Image
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -484,14 +484,14 @@ export default function CollectionForm({ id }) {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate('/shops/collections')}
-                      className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                      onClick={() => navigate(-1)}
+                      className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={e => handleSubmit()}
-                      className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                      className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                     >
                       Save
                     </button>

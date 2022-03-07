@@ -20,7 +20,7 @@ function RatesPanel() {
         <div className="md:p-6 p-4 space-y-6">
           <div className="flex justify-between">
             <div>
-              <h2 className="text-2xl text-gray-800 font-bold">Rates</h2>
+              <h2 className="text-2xl text-gray-500 font-bold">Rates</h2>
             </div>
             <button
               onClick={() => setShowRateForm(!showRateForm)}

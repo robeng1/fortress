@@ -130,7 +130,7 @@ function RatesForm({ handleShow, rate }) {
       />
       <Formik
         enableReinitialize
-        initialValues={{...initialValues}}
+        initialValues={{ ...initialValues }}
         onSubmit={(values, { setSubmitting }) => {
           if (!rateId || rateId === '') {
             if (values.model?.value === 'WEIGHT_BASED') {
@@ -166,9 +166,9 @@ function RatesForm({ handleShow, rate }) {
           <div className="w-full flex-grow">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
-              <h2 className="text-2xl text-gray-800 font-bold mb-5">Rates</h2>
+              <h2 className="text-2xl text-gray-500 font-bold mb-5">Rates</h2>
               <section>
-                <h3 className="text-xl leading-snug text-gray-800 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
                   Shipping Rates
                 </h3>
                 <div className="text-sm">
@@ -410,7 +410,7 @@ function RatesForm({ handleShow, rate }) {
                 <div className="flex self-end">
                   <button
                     onClick={() => handleShow(false)}
-                    className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                    className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                   >
                     Cancel
                   </button>
@@ -420,7 +420,7 @@ function RatesForm({ handleShow, rate }) {
                       e.stopPropagation();
                       handleSubmit();
                     }}
-                    className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                    className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
                     Save
                   </button>

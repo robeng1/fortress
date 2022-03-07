@@ -589,8 +589,8 @@ const ProductForm = ({ id }) => {
               <div className="grid grid-cols-1 divide-y-1 divide-black md:grid-cols-3 gap-y-6 gap-x-2">
                 <div className="md:col-span-2">
                   <section className="rounded bg-white shadow p-3">
-                    <h2 className="text-sm header  leading-snug text-gray-800 font-bold mb-1">
-                      Product Details
+                    <h2 className="text-sm header  leading-snug text-gray-500 font-bold mb-1">
+                      General
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
@@ -646,7 +646,7 @@ const ProductForm = ({ id }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-1 md:gap-0 md:content-start md:gap-y-6 md:row-span-2">
                   <div className="col-span-2 md:col-span-1">
                     <section className="rounded bg-white shadow p-3">
-                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                      <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Organization
                       </h2>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -655,7 +655,7 @@ const ProductForm = ({ id }) => {
                             className="block text-sm font-medium mb-1"
                             htmlFor="type"
                           >
-                            Product Type
+                            Type
                           </label>
                           <AsyncCreatableSelect
                             menuPortalTarget={document.body}
@@ -742,7 +742,6 @@ const ProductForm = ({ id }) => {
                               ...customSelectStyles,
                             }}
                             className="w-full"
-                            // cacheUniqs={[cacheUniq]}
                           />
                         </div>
                       </div>
@@ -751,7 +750,7 @@ const ProductForm = ({ id }) => {
 
                   {/* <div className="col-span-2 md:col-span-1 w-full mt-4">
                     <section className="rounded bg-white shadow p-3">
-                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                      <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Availability
                       </h2>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -794,7 +793,7 @@ const ProductForm = ({ id }) => {
 
                   <div className="col-span-2 md:col-span-1 mt-4">
                     <section className="rounded bg-white shadow p-3 sm:mb-10">
-                      <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                      <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Theme Templates
                       </h2>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -825,8 +824,8 @@ const ProductForm = ({ id }) => {
                 </div>
                 <div className="md:col-span-2">
                   <section className="bg-white shadow overflow-hidden p-3 mb">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                      Product Images
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
+                      Images
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
@@ -855,28 +854,8 @@ const ProductForm = ({ id }) => {
                       </div>
                     </div>
                   </section>
-                  {/* <section className="bg-white shadow mb-10 p-3 ">
-                    <div className="mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid lg:grid-cols-4">
-                      {images.map(img => (
-                        <div className="flex md:flex-col items-center text-gray-800">
-                          <div className="w-24 md:32 flex-shrink-0 flex items-center justify-center">
-                            <img
-                              className="mr-2 md:ml-0 object-center object-cover"
-                              src={img.url}
-                              width="100%"
-                              height="100%"
-                              alt={img.name}
-                            />
-                          </div>
-                          <div className="text-xs text-light-purple-500">
-                            {img.name}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section> */}
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Pricing
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -956,7 +935,7 @@ const ProductForm = ({ id }) => {
                     </div>
                   </section>
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Inventory
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -1062,7 +1041,7 @@ const ProductForm = ({ id }) => {
                     </div>
                   </section>
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Shipping & Delivery
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -1085,7 +1064,7 @@ const ProductForm = ({ id }) => {
                       </div>
                     </div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="sm:w-1/2">
+                      <div className="w-full md:w-1/2">
                         <label
                           className="block text-sm font-medium mb-1"
                           htmlFor="weight"
@@ -1098,18 +1077,78 @@ const ProductForm = ({ id }) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.weight}
-                          className="form-input"
+                          className="form-input w-full"
                           type="number"
                           step={0.1}
                           min={0}
                           autoComplete="weight"
                         />
                       </div>
+                      <div className=" w-full md:w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="height"
+                        >
+                          Height
+                        </label>
+                        <input
+                          id="height"
+                          name="height"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.height}
+                          className="form-input w-full"
+                          type="number"
+                          step={0.1}
+                          min={0}
+                          autoComplete="height"
+                        />
+                      </div>
+                      <div className=" w-full md:w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="length"
+                        >
+                          Length
+                        </label>
+                        <input
+                          id="length"
+                          name="length"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.length}
+                          className="form-input w-full"
+                          type="number"
+                          step={0.1}
+                          min={0}
+                          autoComplete="length"
+                        />
+                      </div>
+                      <div className=" w-full md:w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="width"
+                        >
+                          Width
+                        </label>
+                        <input
+                          id="width"
+                          name="width"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.width}
+                          className="form-input w-full"
+                          type="number"
+                          step={0.1}
+                          min={0}
+                          autoComplete="width"
+                        />
+                      </div>
                     </div>
                   </section>
 
                   <section className="rounded bg-white shadow overflow-hidden relative p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-8">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-8">
                       Variants
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -1127,14 +1166,13 @@ const ProductForm = ({ id }) => {
                           className="block text-sm ml-2"
                           htmlFor="is_parent"
                         >
-                          This product has multiple options, like different
-                          sizes or colors
+                          Product with variants
                         </label>
                       </div>
                     </div>
                     {values.is_parent ? (
                       <>
-                        <h2 className="text-sm uppercase leading-snug text-gray-800 font-medium mb-1 mt-5">
+                        <h2 className="text-sm uppercase leading-snug text-gray-500 font-medium mb-1 mt-5">
                           Options
                         </h2>
                         {values.variation_options.map((op, index) => (
@@ -1263,7 +1301,7 @@ const ProductForm = ({ id }) => {
                             {showVariants &&
                               validateVarOptions(values.variation_options) && (
                                 <>
-                                  <h2 className="text-sm capitalize text-left leading-snug text-gray-800 font-medium mb-2">
+                                  <h2 className="text-sm capitalize text-left leading-snug text-gray-500 font-medium mb-2">
                                     {locations && locations[0].name}
                                   </h2>
                                   <ProdutVariantPreview
@@ -1292,9 +1330,9 @@ const ProductForm = ({ id }) => {
                     )}
                   </section>
                   <section className=" hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Search Engine Preview
-                      <p className="text-sm header leading-snug text-gray-800 font-light mb-1">
+                      <p className="text-sm header leading-snug text-gray-500 font-light mb-1">
                         This shows how your product shows up in search results
                         like Google
                       </p>
@@ -1367,8 +1405,8 @@ const ProductForm = ({ id }) => {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate('/shops/products')}
-                      className="btn border-gray-200 hover:border-gray-300 text-gray-600"
+                      onClick={() => navigate(-1)}
+                      className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel
                     </button>
@@ -1378,7 +1416,7 @@ const ProductForm = ({ id }) => {
                         handleSubmit();
                       }}
                       type="button"
-                      className="btn bg-purple-600 bg-opacity-100 rounded-lg  text-white ml-3"
+                      className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                     >
                       Save
                     </button>
