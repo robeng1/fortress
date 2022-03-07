@@ -97,7 +97,7 @@ function PoliciesPanel() {
               {/* Plans */}
               <section>
                 <div className="mb-8">
-                  <h2 className="text-2xl text-gray-500 font-bold mb-4">
+                  <h2 className="text-2xl text-gray-700 font-bold mb-4">
                     Legal Policies
                   </h2>
                   <div className="text-sm">
@@ -108,7 +108,7 @@ function PoliciesPanel() {
               </section>
 
               <section>
-                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-700 font-bold mb-1">
                   Refund Policy
                 </h3>
                 <div className="text-sm">How do you handle refunds?</div>
@@ -135,7 +135,7 @@ function PoliciesPanel() {
                 </div>
               </section>
               <section>
-                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-700 font-bold mb-1">
                   Shipping Policy
                 </h3>
                 <div className="text-sm">

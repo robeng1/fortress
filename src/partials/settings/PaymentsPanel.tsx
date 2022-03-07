@@ -102,13 +102,13 @@ function PaymentsPanel() {
           <div className="flex-grow">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
-              <h2 className="text-2xl text-gray-500 font-bold mb-5">
+              <h2 className="text-2xl text-gray-700 font-bold mb-5">
                 Payout settings
               </h2>
 
               {/* Mobile Money */}
               <section>
-                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-700 font-bold mb-1">
                   Mobile Money
                 </h3>
                 <div className="text-sm">Your Mobile Money account details</div>
@@ -201,14 +201,14 @@ function PaymentsPanel() {
 
               {/* Bank */}
               <section>
-                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
+                <h3 className="text-xl leading-snug text-gray-700 font-bold mb-1">
                   Bank Account
                 </h3>
                 <ul>
                   <li className="flex justify-between items-center py-3 border-b border-gray-200">
                     {/* Left */}
                     <div>
-                      <div className="text-gray-500 font-semibold italic">
+                      <div className="text-gray-700 font-semibold italic">
                         Bank support is coming soon
                       </div>
                     </div>

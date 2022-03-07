@@ -162,7 +162,7 @@ function StorePanel() {
           <div className="flex-grow">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
-              <h2 className="text-2xl text-gray-500 font-bold mb-5">
+              <h2 className="text-2xl text-gray-700 font-bold mb-5">
                 My Store
               </h2>
               {/* Picture */}
@@ -199,7 +199,7 @@ function StorePanel() {
               </section>
               {/* Business Profile */}
               <section>
-                <h2 className="text-xl leading-snug text-gray-500 font-bold mb-1">
+                <h2 className="text-xl leading-snug text-gray-700 font-bold mb-1">
                   General Details
                 </h2>
                 <div className="text-sm">
@@ -269,7 +269,7 @@ function StorePanel() {
                 </div>
               </section>
               <section>
-                <h2 className="text-xl leading-snug text-gray-500 font-bold mb-1">
+                <h2 className="text-xl leading-snug text-gray-700 font-bold mb-1">
                   Legal Details
                 </h2>
                 <div className="text-sm">
@@ -403,7 +403,7 @@ function StorePanel() {
               </section>
               {/* Currency */}
               <section>
-                <h2 className="text-xl leading-snug text-gray-500 font-bold mb-1">
+                <h2 className="text-xl leading-snug text-gray-700 font-bold mb-1">
                   Currency
                 </h2>
                 <div className="text-sm">
