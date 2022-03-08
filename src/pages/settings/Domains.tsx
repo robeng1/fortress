@@ -304,7 +304,7 @@ function Domains() {
 
                             <td className="p-2 w-2/6">
                               <div className="text-left text-gray-800">
-                                {entry?.is_system ? 'Reoplex' : 'Unknown'}
+                                {entry?.is_system ? 'Reoplex' : ' Reoplex'}
                               </div>
                             </td>
                           </tr>
