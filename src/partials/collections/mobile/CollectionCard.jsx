@@ -2,13 +2,10 @@ import React from 'react';
 import { proxyURL } from 'utils/urlsigner';
 
 export default function CollectionCard({ collection, handleShow }) {
-  const navigate = useNavigate();
   return (
     <>
       <div
-        onClick={() =>
-          navigate(`/shop/collections/${collection.collection_id}`)
-        }
+        onClick={handleShow}
         className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
       >
         <img
@@ -22,7 +19,7 @@ export default function CollectionCard({ collection, handleShow }) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="/">{collection.title}</a>
+              <div href="/">{collection.title}</div>
             </h3>
           </div>
           <div className="flex justify-between text-base font-medium text-gray-900">

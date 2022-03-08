@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import { formatPesosMoney } from 'utils/money';
 
 export default function ProductList({ handleShow, products }) {
+   const navigate = useNavigate();
   return (
     <>
       <div className="md:hidden">
@@ -12,7 +14,9 @@ export default function ProductList({ handleShow, products }) {
               {products.map(product => (
                 <li key={product.product_id} className="flex pr-3 py-2">
                   <ProductCard
-                    handleShow={() => handleShow(true, product.product_id)}
+                    handleShow={() =>
+                      navigate(`/shop/products/${product.product_id}`)
+                    }
                     product={{
                       id: product.product_id,
                       image: product.image_url,

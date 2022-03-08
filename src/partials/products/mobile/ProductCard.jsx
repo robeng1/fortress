@@ -26,7 +26,7 @@ export default function ProductCard({ product, handleShow }) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="/">{name}</a>
+              <div href="/">{name}</div>
             </h3>
           </div>
         </div>
