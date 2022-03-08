@@ -4,7 +4,7 @@ export default function DiscountCard({ discount, handleShow }) {
   return (
     <>
       <div
-        onClick={() => handleShow(true, discount.discount_id)}
+        onClick={handleShow}
         className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
       >
         {discount.image && (

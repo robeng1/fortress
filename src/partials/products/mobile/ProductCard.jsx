@@ -25,9 +25,9 @@ export default function ProductCard({ product, handleShow }) {
       <div onClick={handleShow} className="ml-2 flex-1 flex flex-col pl-2">
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
-            <h3>
+            <div>
               <div href="/">{name}</div>
-            </h3>
+            </div>
           </div>
         </div>
         <div className="flex justify-between text-base font-medium text-gray-900">
