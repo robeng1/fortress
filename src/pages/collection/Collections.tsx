@@ -22,7 +22,6 @@ function Collections() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<any>([]);
-  const [showForm, setShowForm] = React.useState<Boolean>(false);
   const [currentCollectionId, setCurrentCollectionId] = useState<
     string | undefined
   >();
@@ -57,14 +56,25 @@ function Collections() {
 
   const handleShow = (display: Boolean, collectionId: string) => {
     setCurrentCollectionId(collectionId);
-    setShowForm(display);
   };
   const collections = data?.collections || [];
   
 
-  const renderCollectionView = () => {
-    return (
-      <main className="mb-10 md:mb-0">
+  return (
+    <div className="flex h-screen overflow-hidden">
+      {/* Sidebar */}
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+      {/* Content area */}
+      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        {/*  Site header */}
+        <Header
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          location="Collections"
+        />
+
+        <main className="mb-10 md:mb-0">
         <div className="px-4 sm:px-6 lg:px-8 py-2 w-full max-w-9xl mx-auto">
           {/* Page header */}
           <div className="py-2 md:py-8 w-full max-w-9xl mx-auto">
@@ -124,23 +134,6 @@ function Collections() {
           )}
         </div>
       </main>
-    );
-  };
-  return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Content area */}
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/*  Site header */}
-        <Header
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          location="Collections"
-        />
-
-        {renderCollectionView()}
         <BottomNav />
       </div>
     </div>

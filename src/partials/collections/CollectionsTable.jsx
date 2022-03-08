@@ -35,7 +35,7 @@ function CollectionsTable({ selectedItems, collections }) {
     <>
       {collections.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded shadow bg-white appearance-none relative">
-          <CollectionList handleShow={handleShow} collections={collections} />
+          <CollectionList collections={collections} />
           <div className="hidden md:block">
             {/* Table */}
             <div className="overflow-x-auto">
