@@ -122,7 +122,7 @@ function Signup() {
           <Button
             className="w-full mt-3 btn bg-purple-600 hover:bg-purple-600 text-white"
             loading={isLoading}
-            type="button"
+            type="submit"
             onClick={e => {
               e.stopPropagation();
               handleSubmit();
