@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
 import * as yup from 'yup';
-import debounce from 'lodash/debounce';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import PasswordInput from 'components/common/password-input';
@@ -13,10 +12,6 @@ import { useHandleValidator } from 'hooks/use-validate-handle';
 function Signup() {
   const { isHandleUnique } = useHandleValidator();
   const { submitData, slugit, isLoading, isError, error: err } = useSignup();
-  const debouncedIsHandleUnique = useMemo(
-    () => debounce(isHandleUnique, 300),
-    [isHandleUnique],
-  );
 
   const formSchema = yup.object().shape({
     email: yup.string().email('Not a valid email').required('Required'),
@@ -28,7 +23,7 @@ function Signup() {
         'check-handle-is-unique',
         'Handle is already taken',
         async value => {
-          const isValid = await debouncedIsHandleUnique(value);
+          const isValid: boolean = await isHandleUnique(value);
           return !isValid;
         },
       ),
@@ -37,9 +32,9 @@ function Signup() {
   const formik = useFormik({
     initialValues: {
       email: '',
+      handle: '',
       password: '',
       business_display_name: '',
-      handle: '',
     },
     validationSchema: formSchema,
     validateOnChange: true,
@@ -76,7 +71,7 @@ function Signup() {
           <div className="space-y-4">
             <Input
               id="email"
-              label="Email address"
+              label="Email address*"
               onChange={handleChange}
               onBlur={handleBlur}
               name="email"
@@ -90,17 +85,17 @@ function Signup() {
               type="password"
               autoComplete="on"
               onChange={handleChange}
+              value={values.password}
               onBlur={handleBlur}
-              label={'Password'}
+              label={'Password*'}
               error={touched.password ? errors.password : undefined}
             />
             <Input
-              label="Store handle"
+              label="Store handle*"
               id="handle"
               name="handle"
-              note='handle.myreoplex.com'
               onChange={handleChange}
-              onBlur={handleChange}
+              onBlur={handleBlur}
               value={values.handle}
               type="text"
               error={touched.handle ? errors.handle : undefined}
@@ -130,10 +125,9 @@ function Signup() {
             type="button"
             onClick={e => {
               e.stopPropagation();
-              e.preventDefault();
               handleSubmit();
             }}
-            disabled={isLoading}
+            disabled={isLoading || !errors}
           >
             Create store
           </Button>

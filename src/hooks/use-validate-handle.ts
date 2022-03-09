@@ -7,7 +7,7 @@ export function useHandleValidator() {
     const requestURL = `${domainURL}/ask?domain=${handle}.myreoplex.com`;
     let alreadyTaken = false;
     try {
-      const val = await request(requestURL);
+      const val: boolean = await request(requestURL);
       alreadyTaken = val;
     } catch (e) {
       alreadyTaken = false;
