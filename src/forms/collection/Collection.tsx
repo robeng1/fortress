@@ -24,6 +24,7 @@ import { ProductViewListType } from 'models/product/product-type';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/common/backdrop';
+import TextArea from 'components/common/text-area';
 
 export default function CollectionForm({ id }) {
   const qc = useQueryClient();
@@ -58,10 +59,16 @@ export default function CollectionForm({ id }) {
   // retrieves a colletion's products to be displayed
   const { data: collectionProducts } = useQuery<ProductViewListType>(
     ['collection-products', page],
-    async () =>
-      await request(
-        `${requestURL}/${collectionId}/products?page=${page}&num=${itemsPerPage}`,
-      ),
+    async () => {
+      try {
+        const cols = await request(
+          `${requestURL}/${collectionId}/products?page=${page}&num=${itemsPerPage}`,
+        );
+        return cols;
+      } catch (error) {
+        // TODO: do nothing
+      }
+    },
     { keepPreviousData: true, enabled: !!collectionId },
   );
 
@@ -337,8 +344,8 @@ export default function CollectionForm({ id }) {
                           Description
                         </label>
 
-                        <ReactQuill
-                          theme="snow"
+                        <TextArea
+                          name="descrition"
                           id="description"
                           value={values.description}
                           onChange={handleChange}
