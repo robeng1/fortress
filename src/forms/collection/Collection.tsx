@@ -345,10 +345,11 @@ export default function CollectionForm({ id }) {
                         </label>
 
                         <TextArea
-                          name="descrition"
+                          name="description"
                           id="description"
                           value={values.description}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                       </div>
                     </div>
