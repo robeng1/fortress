@@ -9,8 +9,6 @@ import Uppy, { UppyFile } from '@uppy/core';
 import { Dashboard } from '@uppy/react';
 import Transloadit from '@uppy/transloadit';
 import { Formik } from 'formik';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import { cartesian } from 'utils/cartesian';
 import ProdutVariantPreview from 'forms/product/Variant';
 import { fortressURL } from 'endpoints/urls';
@@ -54,6 +52,7 @@ import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import TagInput from 'components/common/tag-input';
 import { Loading } from 'components/common/backdrop';
+import TextArea from 'components/common/text-area';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -626,8 +625,8 @@ const ProductForm = ({ id }) => {
                         >
                           Description
                         </label>
-                        <ReactQuill
-                          theme="snow"
+                        <TextArea
+                          name="description"
                           id="description"
                           value={values.description}
                           onChange={value =>

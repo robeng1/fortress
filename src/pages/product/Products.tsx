@@ -13,6 +13,7 @@ import { fortressURL } from 'endpoints/urls';
 import ProductsTable from 'partials/products/ProductsTable';
 import useShop from 'hooks/use-shop';
 import { request } from 'utils/request';
+import { ThemeProvider } from 'styles/mui-theme/theme';
 
 function Products() {
   const navigate = useNavigate();
@@ -102,8 +103,8 @@ function Products() {
               />
 
               {/* Pagination */}
-              {!isEmpty(products) &&
-                productData?.total > productItemsPerPage && (
+              {!isEmpty(products) && productData?.total > productItemsPerPage && (
+                <ThemeProvider>
                   <Pagination
                     count={
                       productData?.total > productItemsPerPage
@@ -118,7 +119,8 @@ function Products() {
                       setProductPage(page)
                     }
                   />
-                )}
+                </ThemeProvider>
+              )}
             </div>
           </main>
         </>

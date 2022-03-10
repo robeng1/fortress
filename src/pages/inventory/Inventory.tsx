@@ -11,6 +11,7 @@ import { fortressURL } from 'endpoints/urls';
 import InventoryTable from 'partials/inventory/InventoryTable';
 import useShop from 'hooks/use-shop';
 import { isEmptyArray } from 'formik';
+import { ThemeProvider } from 'styles/mui-theme/theme';
 
 function Inventories() {
   const { shop } = useShop();
@@ -81,20 +82,22 @@ function Inventories() {
 
             {/* Pagination */}
             {!isEmpty(records) && data?.total > itemsPerPage && (
-              <Pagination
-                count={
-                  data?.total > itemsPerPage
-                    ? Math.ceil(data?.total / itemsPerPage)
-                    : 1
-                }
-                variant="outlined"
-                color="primary"
-                className="mt-4 md:mt-8"
-                page={page}
-                onChange={(event: ChangeEvent<unknown>, page: number) =>
-                  setPage(page)
-                }
-              />
+              <ThemeProvider>
+                <Pagination
+                  count={
+                    data?.total > itemsPerPage
+                      ? Math.ceil(data?.total / itemsPerPage)
+                      : 1
+                  }
+                  variant="outlined"
+                  color="primary"
+                  className="mt-4 md:mt-8"
+                  page={page}
+                  onChange={(event: ChangeEvent<unknown>, page: number) =>
+                    setPage(page)
+                  }
+                />
+              </ThemeProvider>
             )}
             <BottomNav />
           </div>

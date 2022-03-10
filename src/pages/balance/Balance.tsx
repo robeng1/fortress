@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 import Input from 'components/common/input';
 import useShop from 'hooks/use-shop';
 import usePayment from 'hooks/use-payment';
+import { ThemeProvider } from 'styles/mui-theme/theme';
 
 function Balance() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -331,16 +332,18 @@ function Balance() {
 
             {/* Pagination */}
             {data && (
-              <Pagination
-                count={data?.total / itemsPerPage}
-                variant="outlined"
-                color="primary"
-                className="mt-4 md:mt-8"
-                page={page}
-                onChange={(event: ChangeEvent<unknown>, page: number) =>
-                  setPage(page)
-                }
-              />
+              <ThemeProvider>
+                <Pagination
+                  count={data?.total / itemsPerPage}
+                  variant="outlined"
+                  color="primary"
+                  className="mt-4 md:mt-8"
+                  page={page}
+                  onChange={(event: ChangeEvent<unknown>, page: number) =>
+                    setPage(page)
+                  }
+                />
+              </ThemeProvider>
             )}
           </div>
         </main>

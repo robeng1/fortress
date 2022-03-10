@@ -1,5 +1,6 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
+import isEmpty from 'lodash/isEmpty';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/BottomNav';
 import Sidebar from 'partials/Sidebar';
@@ -13,6 +14,8 @@ import { useAtom } from 'jotai';
 import OrdersTable from 'partials/orders/OrdersTable';
 import Order from 'partials/orders/Order';
 import useShop from 'hooks/use-shop';
+import { ThemeProvider } from 'styles/mui-theme/theme';
+import { request } from 'utils/request';
 
 function Orders() {
   const { shop } = useShop();
@@ -35,12 +38,20 @@ function Orders() {
 
   const { data } = useQuery(
     ['orderviews', page],
-    async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/order-views`, {
-        method: 'POST',
-        body: JSON.stringify(query),
-        headers: { 'Content-Type': 'application/json' },
-      }).then(result => result.json()),
+    async () => {
+      try {
+        const views = await request(
+          `${fortressURL}/shops/${shop?.shop_id}/order-views`,
+          {
+            method: 'POST',
+            body: JSON.stringify(query),
+            headers: { 'Content-Type': 'application/json' },
+          },
+        );
+        return views;
+      } catch (error) {}
+    },
+
     { keepPreviousData: true, enabled: !!shop?.shop_id },
   );
 
@@ -52,6 +63,8 @@ function Orders() {
     setCurrentlyShowingOrderId(orderId);
     setShowOrder(display);
   };
+
+  const orders = data?.orders;
   const renderList = () => {
     return (
       <main className="mb-10 md:mb-0">
@@ -133,17 +146,19 @@ function Orders() {
           />
 
           {/* Pagination */}
-          {data && (
-            <Pagination
-              count={data?.total / itemsPerPage}
-              variant="outlined"
-              color="primary"
-              className="mt-4 md:mt-8"
-              page={page}
-              onChange={(event: ChangeEvent<unknown>, page: number) =>
-                setPage(page)
-              }
-            />
+          {!isEmpty(orders) && data?.total > itemsPerPage && (
+            <ThemeProvider>
+              <Pagination
+                count={data?.total / itemsPerPage}
+                variant="outlined"
+                color="primary"
+                className="mt-4 md:mt-8"
+                page={page}
+                onChange={(event: ChangeEvent<unknown>, page: number) =>
+                  setPage(page)
+                }
+              />
+            </ThemeProvider>
           )}
         </div>
       </main>

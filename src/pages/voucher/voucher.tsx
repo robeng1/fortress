@@ -11,6 +11,7 @@ import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import VoucherTable from 'partials/voucher/VoucherTable';
+import { ThemeProvider } from 'styles/mui-theme/theme';
 
 function Vouchers() {
   const navigate = useNavigate();
@@ -89,9 +90,7 @@ function Vouchers() {
                     >
                       <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                     </svg>
-                    <span className="hidden xs:block ml-2">
-                      Create voucher
-                    </span>
+                    <span className="hidden xs:block ml-2">Create voucher</span>
                   </button>
                 </div>
               </div>
@@ -103,20 +102,22 @@ function Vouchers() {
             />
             {/* Pagination */}
             {!isEmpty(vouchers) && data?.total > itemsPerPage && (
-              <Pagination
-                count={
-                  data?.total > itemsPerPage
-                    ? Math.ceil(data?.total / itemsPerPage)
-                    : 1
-                }
-                variant="outlined"
-                color="primary"
-                className="mt-4 md:mt-8"
-                page={page}
-                onChange={(event: ChangeEvent<unknown>, page: number) =>
-                  setPage(page)
-                }
-              />
+              <ThemeProvider>
+                <Pagination
+                  count={
+                    data?.total > itemsPerPage
+                      ? Math.ceil(data?.total / itemsPerPage)
+                      : 1
+                  }
+                  variant="outlined"
+                  color="primary"
+                  className="mt-4 md:mt-8"
+                  page={page}
+                  onChange={(event: ChangeEvent<unknown>, page: number) =>
+                    setPage(page)
+                  }
+                />
+              </ThemeProvider>
             )}
           </div>
         </main>

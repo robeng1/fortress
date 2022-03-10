@@ -13,6 +13,7 @@ import { UidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/DateSelect';
 import useShop from 'hooks/use-shop';
 import usePayment from 'hooks/use-payment';
+import { ThemeProvider } from 'styles/mui-theme/theme';
 
 function Payouts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -127,16 +128,18 @@ function Payouts() {
 
             {/* Pagination */}
             {data && (
-              <Pagination
-                count={data?.total / itemsPerPage}
-                variant="outlined"
-                color="primary"
-                className="mt-4 md:mt-8"
-                page={page}
-                onChange={(event: ChangeEvent<unknown>, page: number) =>
-                  setPage(page)
-                }
-              />
+              <ThemeProvider>
+                <Pagination
+                  count={data?.total / itemsPerPage}
+                  variant="outlined"
+                  color="primary"
+                  className="mt-4 md:mt-8"
+                  page={page}
+                  onChange={(event: ChangeEvent<unknown>, page: number) =>
+                    setPage(page)
+                  }
+                />
+              </ThemeProvider>
             )}
           </div>
         </main>
