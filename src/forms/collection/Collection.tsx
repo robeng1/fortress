@@ -44,7 +44,7 @@ export default function CollectionForm({ id }) {
     async () => await request(`${requestURL}/${collectionId}`),
     {
       // The query will not execute until the collectionId exists
-      enabled: !!collectionId,
+      enabled: !!collectionId && shop?.shop_id !== undefined,
       keepPreviousData: true,
     },
   );
@@ -69,7 +69,10 @@ export default function CollectionForm({ id }) {
         // TODO: do nothing
       }
     },
-    { keepPreviousData: true, enabled: !!collectionId },
+    {
+      keepPreviousData: true,
+      enabled: !!collectionId && shop?.shop_id !== undefined,
+    },
   );
 
   // create the colletion
@@ -224,39 +227,38 @@ export default function CollectionForm({ id }) {
       });
   }, []);
 
-  const addFiles = files => {
-    files.forEach(e => {
-      uppy.addFile({
-        name: e.name,
-        type: e.type,
-        data: e.blob, // changed blob -> data
-      });
-    });
-
+  const markFilesAsUploaded = () => {
     uppy.getFiles().forEach(file => {
-      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
       uppy.setFileState(file.id, {
-        progress: { uploadComplete: true, uploadStarted: true },
+        progress: {
+          uploadComplete: true,
+          uploadStarted: true,
+          bytesUploaded: file.size,
+        },
       });
     });
   };
 
-  useEffect(() => {
-    // assuming the image lives on a server somewhere
-    collection?.image?.image_url &&
-      collection?.image?.image_url !== '' &&
-      collection?.image?.image_url !== undefined &&
-      fetch(collection?.image?.image_url)
-        .then(response => response.blob()) // returns a Blob
-        .then(blob => {
-          addFiles([
-            {
-              name: collection?.handle,
-              type: blob.type,
-              data: blob, // changed blob -> data
-            },
-          ]);
+  const processFiles = (collection?: CollectionType) => {
+    if (!collection) return;
+    const img = collection.image;
+    const url = img?.image_url;
+    if (!url || url === '') return;
+    fetch(url)
+      .then(response => response.blob()) // returns a Blob
+      .then(blob => {
+        uppy.addFile({
+          name: collection?.handle ?? '',
+          type: blob.type,
+          data: blob, // changed blob -> data
+          size: blob.size,
         });
+        markFilesAsUploaded();
+      });
+  };
+
+  useEffect(() => {
+    processFiles(collection);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collection]);
 
@@ -264,7 +266,7 @@ export default function CollectionForm({ id }) {
     return () => uppy.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // processFiles(collection);
   return (
     <>
       <div>
@@ -386,9 +388,12 @@ export default function CollectionForm({ id }) {
                           uppy={uppy}
                           proudlyDisplayPoweredByUppy={false}
                           showProgressDetails={true}
-                          width="100%"
-                          height={'300px'}
+                          disableInformer
+                          disableStatusBar
+                          height="300px"
                           theme="light"
+                          hideCancelButton
+                          thumbnailWidth={500}
                           note="Images only, 1 file"
                           doneButtonHandler={() => ({})}
                           hideProgressAfterFinish={true}

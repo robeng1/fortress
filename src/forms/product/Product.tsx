@@ -377,40 +377,42 @@ const ProductForm = ({ id }) => {
       });
   }, [shop?.shop_id]);
 
-  const addFiles = files => {
-    files.forEach(e => {
-      uppy.addFile({
-        name: e.name,
-        type: e.type,
-        data: e.blob, // changed blob -> data
-      });
-    });
-
+  const markFilesAsUploaded = () => {
     uppy.getFiles().forEach(file => {
-      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
       uppy.setFileState(file.id, {
-        progress: { uploadComplete: true, uploadStarted: true },
+        progress: {
+          uploadComplete: true,
+          uploadStarted: true,
+          bytesUploaded: file.size,
+        },
       });
     });
   };
 
+  const processFiles = (product?: ProductType) => {
+    if (!product) return;
+    const imgs = product.images;
+    imgs?.forEach(img => {
+      const url = img?.image?.image_url;
+      if (!url || url === '') return;
+      fetch(url)
+        .then(response => response.blob()) // returns a Blob
+        .then(blob => {
+          uppy.addFile({
+            name: img.alt ?? img.caption ?? product.title,
+            type: blob.type,
+            data: blob, // changed blob -> data
+            size: blob.size,
+          });
+          markFilesAsUploaded();
+        });
+    });
+  };
+
+ 
+
   React.useEffect(() => {
-    product &&
-      product.images?.forEach(img => {
-        img.image?.image_url &&
-          fetch(img.image?.image_url)
-            .then(response => response.blob()) // returns a Blob
-            .then(blob => {
-              addFiles([
-                {
-                  name: img?.caption,
-                  type: blob.type,
-                  data: blob, // changed blob -> data
-                },
-              ]);
-            })
-            .catch(e => {});
-      });
+    processFiles(product)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
@@ -1041,7 +1043,7 @@ const ProductForm = ({ id }) => {
                   </section>
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
-                      Shipping & Delivery
+                      Packaging &amp; Shipping
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="flex items-center w-full">

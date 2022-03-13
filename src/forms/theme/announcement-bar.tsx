@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
+import { Buffer } from 'buffer';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/common/backdrop';
@@ -8,9 +9,15 @@ function AnnouncementBar() {
   const navigate = useNavigate();
   const { theme, config, updateTheme, isUpdatingTheme } = useThemeMutation();
   const initialValues =
-    config && config.settings && config.settings.sections
-      ? config.settings.sections['announcement-bar']
-        ? config.settings.sections['announcement-bar']['settings'] ?? {}
+    config &&
+    config.settings &&
+    (config?.settings as Record<string, any>).sections
+      ? (config?.settings as Record<string, any>).sections[
+          'layout-announcement-bar'
+        ]
+        ? (config?.settings as Record<string, any>).sections[
+            'layout-announcement-bar'
+          ]['settings'] ?? {}
         : {}
       : {};
   return (
@@ -30,18 +37,23 @@ function AnnouncementBar() {
           if (!cfg) cfg = {};
           if (!cfg.settings) cfg.settings = {};
           cfg.settings = {
-            ...cfg?.settings,
+            ...(cfg?.settings as Record<string, any>),
             sections: {
               ...cfg.settings['sections'],
-              'announcement-bar': {
-                ...cfg.settings['sections']['announcement-bar'],
+              'layout-announcement-bar': {
+                ...cfg.settings['sections']['layout-announcement-bar'],
                 settings: { ...vals },
               },
             },
           };
           updateTheme({
             ...theme,
-            config: { ...theme?.config, settings: { ...cfg } },
+            config: {
+              ...cfg,
+              settings: Buffer.from(JSON.stringify(cfg.settings)).toString(
+                'base64',
+              ),
+            },
           });
           setSubmitting(false);
         }}

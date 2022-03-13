@@ -13,16 +13,18 @@ import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/common/backdrop';
+import { Template } from 'models/theme/template';
 
 function Banner() {
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { theme, config, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const { theme, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const ind = theme?.templates?.findIndex(t => t.type === 'index');
+  const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
+  const cob = JSON.parse(tpl?.content ?? '{}');
   const initialValues =
-    config && config.settings && config.settings.sections
-      ? config.settings.sections['section-banner']
-        ? config.settings.sections['section-banner']['settings'] ?? {}
-        : {}
+    cob && cob.sections && cob.sections['section-banner']
+      ? cob.sections['section-banner'].settings
       : {};
   // set the image if one already exists
   const [image, setImage] = useState(initialValues['image'] ?? '');
@@ -105,24 +107,22 @@ function Banner() {
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values, image: image };
-          let cfg = config;
-          if (!cfg) cfg = {};
-          if (!cfg.settings) cfg.settings = {};
-          cfg.settings = {
-            ...cfg?.settings,
-            sections: {
-              ...cfg.settings['sections'],
-              'section-banner': {
-                ...cfg.settings['sections']['section-banner'],
-                settings: { ...vals },
-              },
+          const vals = { ...values };
+          let content = cob;
+          if (!content) content = {};
+          if (!content.sections) content.sections = {};
+          content.sections = {
+            ...content?.sections,
+            'section-banner': {
+              ...content.sections['section-banner'],
+              settings: { ...vals },
             },
           };
-          updateTheme({
-            ...theme,
-            config: { ...theme?.config, settings: { ...cfg } },
-          });
+          const modfTemp = tpl;
+          modfTemp.content = JSON.stringify(content);
+          const modfTheme = theme;
+          modfTheme!.templates![ind!] = modfTemp;
+          updateTheme(modfTheme!);
           setSubmitting(false);
         }}
       >

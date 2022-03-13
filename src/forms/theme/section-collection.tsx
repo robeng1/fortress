@@ -4,21 +4,25 @@ import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
 import { collectionOptions } from 'services/options-loaders';
-import { ReactSelect } from 'components/react-select';
 import useShop from 'hooks/use-shop';
+import AsyncCreatableSelect from 'react-select/async-creatable';
+import customSelectStyles from 'forms/product/Styles';
 
 function SectionCollection() {
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { theme, config, updateTheme, isUpdatingTheme } = useThemeMutation();
-
+  const { theme, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const ind = theme?.templates?.findIndex(t => t.type === 'index');
+  const tpl = theme?.templates && ind ? theme?.templates[ind] : {};
+  const cob = JSON.parse(tpl?.content ?? '{}');
   const initialValues =
-    config && config.settings && config.settings.sections
-      ? config.settings.sections['section-collection']
-        ? config.settings.sections['section-collection']['settings'] ?? {}
-        : {}
+    cob && cob.sections && cob.sections.featured_collection
+      ? cob.sections.featured_collection.settings
       : {};
-
+  initialValues.collection_featured = {
+    key: initialValues.collection_featured,
+    label: initialValues.collection_featured,
+  };
   return (
     <div>
       <Loading open={isUpdatingTheme} />
@@ -26,44 +30,36 @@ function SectionCollection() {
         enableReinitialize
         initialValues={{
           headline: 'Selected products',
-          collection_featured: 'all',
+          collection_featured: { key: 'all', label: 'All' },
           collection_products_limit: 4,
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
           const vals = { ...values };
-          let cfg = config;
-          if (!cfg) cfg = {};
-          if (!cfg.settings) cfg.settings = {};
-          cfg.settings = {
-            ...cfg?.settings,
-            sections: {
-              ...cfg.settings['sections'],
-              'section-collection': {
-                ...cfg.settings['sections']['section-collection'],
-                settings: { ...vals },
-              },
+          let content = cob;
+          if (!content) content = {};
+          if (!content.sections) content.sections = {};
+          content.sections = {
+            ...content?.sections,
+            featured_collection: {
+              ...content.sections.featured_collection,
+              settings: { ...vals },
             },
           };
-          updateTheme({
-            ...theme,
-            config: { ...theme?.config, settings: { ...cfg } },
-          });
+          const modfTemp = tpl;
+          modfTemp.content = JSON.stringify(content);
+          const modfTheme = theme;
+          modfTheme!.templates![ind!] = modfTemp;
+          updateTheme(modfTheme!);
           setSubmitting(false);
         }}
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
           setFieldValue,
-          setFieldError,
-          setValues,
-          setFieldTouched,
           handleSubmit,
-          isSubmitting,
           /* and other goodies */
         }) => (
           <div className="flex-grow bg-white">
@@ -102,7 +98,7 @@ function SectionCollection() {
                     >
                       Featured collection
                     </label>
-                    <ReactSelect
+                    <AsyncCreatableSelect
                       value={values.collection_featured}
                       menuPortalTarget={document.body}
                       cacheOptions
@@ -111,7 +107,10 @@ function SectionCollection() {
                         setFieldValue('collection_featured', option)
                       }
                       placeholder="Select collection"
-                      loadOptions={collectionOptions(shop?.shop_id)}
+                      loadOptions={collectionOptions(shop?.shop_id || '')}
+                      styles={{
+                        ...customSelectStyles,
+                      }}
                       className="w-full"
                     />
                   </div>

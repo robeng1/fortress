@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { Theme } from 'models/theme/theme';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
@@ -11,6 +12,12 @@ export function useThemeMutation() {
   const { shop } = useShop();
   const { theme } = useTheme();
   const config = theme?.config;
+  if (typeof config?.settings === 'string') {
+    const b64: string = theme?.config?.settings as unknown as string;
+    if (config)
+      config.settings = JSON.parse(Buffer.from(b64, 'base64').toString('utf8'));
+  }
+
   const { mutate: updateTheme, isLoading: isUpdatingTheme } = useMutation(
     (payload: Theme) =>
       request(`${fortressURL}/shops/${shop?.shop_id}/themes/${theme?.id}`, {

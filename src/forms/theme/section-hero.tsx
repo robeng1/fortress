@@ -14,18 +14,19 @@ import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/common/backdrop';
+import { Template } from 'models/theme/template';
 
 function Hero() {
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { theme, config, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const { theme, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const ind = theme?.templates?.findIndex(t => t.type === 'index');
+  const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
+  const cob = JSON.parse(tpl?.content ?? '{}');
   const initialValues =
-    config && config.settings && config.settings.sections
-      ? config.settings.sections['section-hero']
-        ? config.settings.sections['section-hero']['settings'] ?? {}
-        : {}
+    cob && cob.sections && cob.sections['section-hero']
+      ? cob.sections['section-hero'].settings
       : {};
-  // set the image if one already exists
   const [image, setImage] = useState(initialValues['image'] ?? '');
 
   const uppy = React.useMemo(() => {
@@ -106,24 +107,23 @@ function Hero() {
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values, image: image };
-          let cfg = config;
-          if (!cfg) cfg = {};
-          if (!cfg.settings) cfg.settings = {};
-          cfg.settings = {
-            ...cfg?.settings,
-            sections: {
-              ...cfg.settings['sections'],
-              'section-hero': {
-                ...cfg.settings['sections']['section-hero'],
-                settings: { ...vals },
-              },
+          const vals = { ...values };
+          let content = cob;
+          if (!content) content = {};
+          if (!content.sections) content.sections = {};
+          content.sections = {
+            ...content?.sections,
+            'section-hero': {
+              ...content.sections['section-hero'],
+              settings: { ...vals },
             },
           };
-          updateTheme({
-            ...theme,
-            config: { ...theme?.config, settings: { ...cfg } },
-          });
+          const modfTemp = tpl;
+          modfTemp.content = JSON.stringify(content);
+          const modfTheme = theme;
+          
+          modfTheme!.templates![ind!] = modfTemp;
+          updateTheme(modfTheme!);
           setSubmitting(false);
         }}
       >

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Buffer } from 'buffer';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
@@ -8,9 +9,13 @@ function Footer() {
   const navigate = useNavigate();
   const { theme, config, updateTheme, isUpdatingTheme } = useThemeMutation();
   const initialValues =
-    config && config.settings && config.settings.sections
-      ? config.settings.sections['footer']
-        ? config.settings.sections['footer']['settings'] ?? {}
+    config &&
+    config.settings &&
+    (config?.settings as Record<string, any>).sections
+      ? (config?.settings as Record<string, any>).sections['layout-footer']
+        ? (config?.settings as Record<string, any>).sections['layout-footer'][
+            'settings'
+          ] ?? {}
         : {}
       : {};
   return (
@@ -35,18 +40,23 @@ function Footer() {
           if (!cfg) cfg = {};
           if (!cfg.settings) cfg.settings = {};
           cfg.settings = {
-            ...cfg?.settings,
+            ...(cfg?.settings as Record<string, any>),
             sections: {
               ...cfg.settings['sections'],
-              footer: {
-                ...cfg.settings['sections']['footer'],
+              'layout-footer': {
+                ...cfg.settings['sections']['layout-footer'],
                 settings: { ...vals },
               },
             },
           };
           updateTheme({
             ...theme,
-            config: { ...theme?.config, settings: { ...cfg } },
+            config: {
+              ...cfg,
+              settings: Buffer.from(JSON.stringify(cfg.settings)).toString(
+                'base64',
+              ),
+            },
           });
           setSubmitting(false);
         }}
