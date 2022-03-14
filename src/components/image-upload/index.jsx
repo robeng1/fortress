@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Text, Flex, Image } from 'rebass';
 import { Label } from '@rebass/forms';
 import styled from '@emotion/styled';
-import Typography from '../common/typography';
+import Typography from '../blocks/typography';
 
 const StyledLabel = styled.div`
   ${Typography.Base}

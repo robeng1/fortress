@@ -8,7 +8,7 @@ import { UidAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
 import { toast } from 'react-toastify';
 import useShop from 'hooks/use-shop';
-import { Loading } from 'components/common/backdrop';
+import { Loading } from 'components/blocks/backdrop';
 
 function PoliciesPanel() {
   const queryClient = useQueryClient();

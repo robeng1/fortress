@@ -2,7 +2,7 @@ import React, { ChangeEvent, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import Pagination from '@mui/material/Pagination';
-import BottomNav from 'components/BottomNav';
+import BottomNav from 'components/bottom-nav';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import DeleteButton from 'partials/actions/DeleteButton';

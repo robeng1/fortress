@@ -7,10 +7,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';
 import { sessionAtom } from 'store/authorization-atom';
-import Input from 'components/common/input';
-import PasswordInput from 'components/common/password-input';
-import Button from 'components/common/button';
-import { Footer } from 'components/common/footer';
+import Input from 'components/blocks/input';
+import PasswordInput from 'components/blocks/password-input';
+import Button from 'components/blocks/button';
+import { Footer } from 'components/blocks/footer';
 
 interface LocationState {
   from: string;

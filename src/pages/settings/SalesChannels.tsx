@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import BottomNav from 'components/BottomNav';
+import BottomNav from 'components/bottom-nav';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import SalesChannelsPanel from 'partials/settings/SalesChannelsPanel';

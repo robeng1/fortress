@@ -5,7 +5,7 @@ import Transloadit from '@uppy/transloadit';
 import DropTarget from '@uppy/drop-target';
 import useShop from './use-shop';
 
-export const useUploadMngr = (key, uploadCompleteCallback) => {
+export const useUploadManager = (key, uploadCompleteCallback) => {
   const { shop } = useShop();
   const uppy = React.useMemo(() => {
     return new Uppy({

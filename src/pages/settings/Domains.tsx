@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import BottomNav from 'components/BottomNav';
+import BottomNav from 'components/bottom-nav';
 import { Link } from 'react-router-dom';
 import useDomains from 'hooks/use-domains';
 import useModal from 'hooks/use-modal';

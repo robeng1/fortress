@@ -4,19 +4,23 @@ import { Flex } from 'rebass';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
-import PaginationClassic from 'components/PaginationClassic';
 import { CollectionType, CollectType } from 'models/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
-import SelectableResultSearchModal from 'components/common/modal-searcher';
+// import SelectableResultSearchModal from 'components/common/modal-searcher';
 import { ProductViewListType } from 'models/product/product-type';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
-import { Loading } from 'components/common/backdrop';
-import TextArea from 'components/common/text-area';
+import { Loading } from 'components/blocks/backdrop';
+import TextArea from 'components/blocks/text-area';
 import useModal from 'hooks/use-modal';
-import FileUploadField from 'components/common/file-upload-field';
-import { StyledImageBox, ImageCardWrapper, StyledImageCard, Cross } from 'forms/common/preview';
-import { useUploadMngr } from 'hooks/use-uppy';
+import FileUploadField from 'components/blocks/file-upload-field';
+import {
+  StyledImageBox,
+  ImageCardWrapper,
+  StyledImageCard,
+  Cross,
+} from 'forms/common/preview';
+import { useUploadManager } from 'hooks/use-uppy';
 
 export default function CollectionForm({ id }) {
   const qc = useQueryClient();
@@ -26,27 +30,27 @@ export default function CollectionForm({ id }) {
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-   const uppy = useUploadMngr('collection', () => {});
+  const uppy = useUploadManager('collection', () => {});
 
- const [images, setImages] = React.useState<any[]>([]);
+  const [images, setImages] = React.useState<any[]>([]);
 
- const appendImage = image => setImages([...images, image]);
- const removeImage = image => {
-   const idx = images.findIndex(img => img.image === image.image);
-   if (idx !== -1) {
-     images.splice(idx, 1);
-   }
-   setImages([...images]);
- };
+  const appendImage = image => setImages([...images, image]);
+  const removeImage = image => {
+    const idx = images.findIndex(img => img.image === image.image);
+    if (idx !== -1) {
+      images.splice(idx, 1);
+    }
+    setImages([...images]);
+  };
   const matchKey = 'key';
 
   const onImageChange = d => {
-    console.log(d)
+    console.log(d);
     setImages(images.concat(d));
   };
 
   const handleImageDelete = url => {
-      setImages(images.filter(im => im !== url));
+    setImages(images.filter(im => im !== url));
   };
 
   // options search URLs
@@ -334,7 +338,7 @@ export default function CollectionForm({ id }) {
                       </div>
                     </div>
                   </section>
-                  <SelectableResultSearchModal
+                  {/* <SelectableResultSearchModal
                     id="quick-find-modald-br"
                     searchId="quick-findd-br"
                     modalOpen={isOpen}
@@ -351,7 +355,7 @@ export default function CollectionForm({ id }) {
                       p => p.product_id,
                     )}
                     queryEnabled={!!shop?.shop_id}
-                  />
+                  /> */}
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Collection Image
@@ -376,6 +380,7 @@ export default function CollectionForm({ id }) {
                           <ImageCardWrapper key={'up'} mr={3}>
                             <FileUploadField
                               className="py-24 w-full"
+                              multiple={false}
                               onFileChosen={files => {
                                 const file = files[0];
                                 const url = URL.createObjectURL(file);
@@ -393,7 +398,7 @@ export default function CollectionForm({ id }) {
                       </StyledImageBox>
                     </Flex>
                   </section>
-                  {collectionId && (
+                  {/* {collectionId && (
                     <section
                       onClick={handleOpen}
                       className="rounded cursor-pointer bg-white shadow overflow-hidden p-3 mb-10"
@@ -456,7 +461,7 @@ export default function CollectionForm({ id }) {
                           </div>
                         )}
                     </section>
-                  )}
+                            )*/}
                 </div>
               </div>
               <footer>

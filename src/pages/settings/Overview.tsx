@@ -1,4 +1,4 @@
-import SettingsCard from 'components/common/settings-card';
+import SettingsCard from 'components/blocks/settings-card';
 import { BanUser } from 'components/icons/ban-user';
 import { Bell } from 'components/icons/bell';
 import { MailIcon } from 'components/icons/mail-icon';
@@ -9,7 +9,7 @@ import SettingsOverview from 'components/templates/settings-overview';
 import { NavbarIcon } from 'components/icons/navbar-icon';
 import { MyShopIcon } from 'components/icons/sidebar';
 import { TruckIcon } from 'components/icons/truck-icon';
-import BottomNav from 'components/BottomNav';
+import BottomNav from 'components/bottom-nav';
 import CoinsIcon from 'components/icons/coins-icon';
 
 const SettingsIndex = () => {

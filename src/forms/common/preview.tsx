@@ -4,7 +4,6 @@ export const Cross = styled.span`
   position: absolute;
   top: 0;
   right: 0;
-  margin-right: 5px;
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -13,14 +12,14 @@ export const Cross = styled.span`
 export const ImageCardWrapper = styled(Box)`
   position: relative;
   display: inline-block;
-  height: 200px;
-  width: 200px;
+  height: 240px;
+  width: 240px;
   margin: 0px 16px 16px 0px;
 `;
 
 export const StyledImageCard = styled(Box)`
-  height: 200px;
-  width: 200px;
+  height: 240px;
+  width: 240px;
   border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
   object-fit: cover;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
@@ -32,6 +31,7 @@ export const StyledImageCard = styled(Box)`
 
 export const StyledImageBox = styled(Flex)`
   flex-wrap: wrap;
+  justify-content:center ;
   .img-container {
     border: 1px solid black;
     background-color: white;

@@ -1,5 +1,5 @@
-import BottomNav from 'components/BottomNav';
-import { SettingsCardNoIcon } from 'components/common/settings-card';
+import BottomNav from 'components/bottom-nav';
+import { SettingsCardNoIcon } from 'components/blocks/settings-card';
 import ThemeSettingsOverview from 'components/templates/theme-settings';
 import { Link } from 'react-router-dom';
 

@@ -2,10 +2,10 @@ import React, { useEffect, useMemo } from 'react';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
-import PasswordInput from 'components/common/password-input';
-import Input from 'components/common/input';
-import Button from 'components/common/button';
-import { Footer } from 'components/common/footer';
+import PasswordInput from 'components/blocks/password-input';
+import Input from 'components/blocks/input';
+import Button from 'components/blocks/button';
+import { Footer } from 'components/blocks/footer';
 import { useSignup } from 'hooks/use-signup';
 import { useHandleValidator } from 'hooks/use-validate-handle';
 

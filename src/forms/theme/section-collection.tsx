@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Loading } from 'components/common/backdrop';
+import { Loading } from 'components/blocks/backdrop';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';

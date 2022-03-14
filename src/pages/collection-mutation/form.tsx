@@ -9,7 +9,7 @@ import Header from 'partials/Header';
 import DeleteButton from 'partials/actions/DeleteButton';
 import SearchForm from 'partials/actions/SearchForm';
 import FilterButton from 'components/DropdownFilter';
-import BottomNav from 'components/BottomNav';
+import BottomNav from 'components/bottom-nav';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 

@@ -9,17 +9,12 @@
 import React, { useEffect, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import '@uppy/status-bar/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
-import '@uppy/progress-bar/dist/style.css';
-import '@uppy/core/dist/style.css';
-import '@uppy/dashboard/dist/style.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './charts/ChartjsConfig';
 
-import Signup from './pages/Signup';
-import Signin from './pages/Signin';
-import Analytics from './pages/Analytics';
+import Signup from './pages/signup';
+import Signin from './pages/signin';
+import Analytics from './pages/analytics';
 import Products from './pages/product/Products';
 import Inventory from './pages/inventory/Inventory';
 import Discounts from './pages/discount/Discounts';
@@ -31,7 +26,7 @@ import Locations from './pages/settings/Centres';
 import Rates from './pages/settings/Rates';
 import Policies from './pages/settings/Policies';
 import PageNotFound from 'pages/utility/PageNotFound';
-import { RequireAuth } from './components/ProtectedRoutes';
+import { RequireAuth } from './components/protected-route';
 import Transactions from './pages/transactions/Transaction';
 import Payouts from './pages/payouts/Payout';
 import Balance from './pages/balance/Balance';
@@ -48,7 +43,7 @@ import HeroMutation from 'pages/settings/theme/hero';
 import FeaturedCollection from 'pages/settings/theme/collection-featured';
 import VoucherMutation from 'pages/voucher-mutation/form';
 import Vouchers from 'pages/voucher/voucher';
-const ResetPassword = lazy(() => import('pages/ResetPassword'));
+const ResetPassword = lazy(() => import('pages/reset-password'));
 
 export function App() {
   const location = useLocation();

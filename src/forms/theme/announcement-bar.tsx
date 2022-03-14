@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { Buffer } from 'buffer';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
-import { Loading } from 'components/common/backdrop';
+import { Loading } from 'components/blocks/backdrop';
 
 function AnnouncementBar() {
   const navigate = useNavigate();

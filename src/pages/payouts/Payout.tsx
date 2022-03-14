@@ -6,7 +6,7 @@ import { paymentURL } from 'endpoints/urls';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import FilterButton from 'components/DropdownFilter';
-import BottomNav from 'components/BottomNav';
+import BottomNav from 'components/bottom-nav';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 import { UidAtom } from 'store/authorization-atom';

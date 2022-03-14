@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
-import BottomNav from 'components/BottomNav';
+import BottomNav from 'components/bottom-nav';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import FilterButton from 'components/DropdownFilter';

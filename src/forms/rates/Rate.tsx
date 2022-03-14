@@ -13,8 +13,8 @@ import { modelOptions, ShippingRateModelOption } from 'data/select';
 import { sToCurrency } from 'utils/money';
 import { rateToIB, rateToWB, rawToRate } from './converters';
 import useShop from 'hooks/use-shop';
-import { Loading } from 'components/common/backdrop';
-import TagInput from 'components/common/tag-input';
+import { Loading } from 'components/blocks/backdrop';
+import TagInput from 'components/blocks/tag-input';
 
 const animatedComponents = makeAnimated();
 

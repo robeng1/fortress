@@ -31,12 +31,12 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
-import TagInput from 'components/common/tag-input';
-import { Loading } from 'components/common/backdrop';
-import TextArea from 'components/common/text-area';
-import FileUploadField from 'components/common/file-upload-field';
+import TagInput from 'components/blocks/tag-input';
+import { Loading } from 'components/blocks/backdrop';
+import TextArea from 'components/blocks/text-area';
+import FileUploadField from 'components/blocks/file-upload-field';
 import { CloseIcon } from 'components/icons/close-icon';
-import { useUploadMngr } from 'hooks/use-uppy';
+import { useUploadManager } from 'hooks/use-uppy';
 import {
   StyledImageBox,
   ImageCardWrapper,
@@ -113,7 +113,7 @@ const ProductForm = ({ id }) => {
     setImages([...images]);
   };
 
-  const uppy = useUploadMngr('product', () => {});
+  const uppy = useUploadManager('product', () => {});
   const { locations } = useCentres();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
   const [productId, setProductId] = useState(id);
@@ -761,13 +761,14 @@ const ProductForm = ({ id }) => {
                                   sx={{}}
                                 />
                                 <Cross onClick={() => removeImage(im)}>
-                                  <CloseIcon className="bg-white" />
+                                  <CloseIcon className="bg-white rounded" />
                                 </Cross>
                               </ImageCardWrapper>
                             ))}
                             {images.length < 10 && (
                               <ImageCardWrapper key={'up'} mr={3}>
                                 <FileUploadField
+                                  multiple={true}
                                   className="py-24 w-full"
                                   onFileChosen={files => {
                                     const file = files[0];

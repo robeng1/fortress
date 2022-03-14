@@ -12,7 +12,7 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import useShop from 'hooks/use-shop';
-import { Loading } from 'components/common/backdrop';
+import { Loading } from 'components/blocks/backdrop';
 import { Template } from 'models/theme/template';
 
 function Banner() {

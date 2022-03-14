@@ -13,7 +13,7 @@ import { paymentURL } from 'endpoints/urls';
 import { UidAtom } from 'store/authorization-atom';
 import usePayment from 'hooks/use-payment';
 import useShop from 'hooks/use-shop';
-import { Loading } from 'components/common/backdrop';
+import { Loading } from 'components/blocks/backdrop';
 
 function PaymentsPanel() {
   const queryClient = useQueryClient();

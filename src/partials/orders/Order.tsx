@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
 
-import { Loader } from 'components/Loader';
+import { Loader } from 'components/loader';
 import { OrderStatusType, OrderType } from 'models/order/order-type';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';

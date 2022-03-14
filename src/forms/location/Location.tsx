@@ -10,7 +10,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
-import { Loading } from 'components/common/backdrop';
+import { Loading } from 'components/blocks/backdrop';
 
 function LocationsForm({ handleShow, id }) {
   const qc = useQueryClient();

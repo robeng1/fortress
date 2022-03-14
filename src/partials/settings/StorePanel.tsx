@@ -16,7 +16,7 @@ import { fortressURL } from 'endpoints/urls';
 import { UidAtom } from 'store/authorization-atom';
 import { toast } from 'react-toastify';
 import useShop from 'hooks/use-shop';
-import { Loading } from 'components/common/backdrop';
+import { Loading } from 'components/blocks/backdrop';
 
 function StorePanel() {
   const queryClient = useQueryClient();

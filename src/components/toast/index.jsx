@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'rebass';
-import Typography from '../common/typography';
+import Typography from '../blocks/typography';
 
 const StyledText = styled(Text)`
   ${Typography.Base};

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import PageDescription from 'components/common/page-description';
+import PageDescription from 'components/blocks/page-description';
 
 const ThemeSettingsOverview: React.FC = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
