@@ -3,6 +3,7 @@ import Transition from 'utils/transition';
 import { useQuery } from 'react-query';
 import { useDebounce } from 'hooks/use-debounce';
 import { proxyURL } from 'utils/urlsigner';
+import ModalBasic from 'components/ModalBasic';
 const initiallySelected: any[] = [];
 function SelectableResultSearchModal({
   id,
@@ -37,7 +38,7 @@ function SelectableResultSearchModal({
     },
   );
 
-  const modalContent = useRef<HTMLDivElement>(null);
+  // const modalContent = useRef<HTMLDivElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
 
   const handleSelectAll = () => {
@@ -48,7 +49,7 @@ function SelectableResultSearchModal({
     }
   };
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.stopPropagation();
     const { id, checked } = e.target;
     setSelectAll(false);
@@ -64,57 +65,22 @@ function SelectableResultSearchModal({
     }
   };
 
-  // close on click outside
-  useEffect(() => {
-    const clickHandler = ({ target }) => {
-      if (
-        !modalOpen ||
-        (modalContent.current && modalContent.current.contains(target))
-      )
-        return;
-      setModalOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
-
-  // close if the esc key is pressed
-  useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
-      if (!modalOpen || keyCode !== 27) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
-
   useEffect(() => {
     modalOpen && searchInput.current && searchInput.current.focus();
   }, [modalOpen]);
 
   return (
-    <>
+    <div>
       {/* Modal dialog */}
-      <Transition
+      <ModalBasic
         id={id}
-        appear
-        className="fixed inset-0 z-50 overflow-hidden flex items-start top-20 mb-4 justify-center transform px-4 sm:px-6"
-        role="dialog"
-        aria-modal="true"
-        show={modalOpen}
-        enter="transition ease-in-out duration-200"
-        enterStart="opacity-0 translate-y-4"
-        enterEnd="opacity-100 translate-y-0"
-        leave="transition ease-in-out duration-200"
-        leaveStart="opacity-100 translate-y-0"
-        leaveEnd="opacity-0 translate-y-4"
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        title={`Add ${placeholder}`}
       >
-        <div
-          ref={modalContent}
-          className="bg-white overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg"
-        >
+        <div className="bg-white overflow-auto mx-auto px-5 w-full max-h-full rounded shadow-lg">
           {/* Search form */}
-          <div className="border-b border-gray-200 z-20">
+          <div className="border-b border-gray-200 z-50">
             <div className="relative">
               <label htmlFor={searchId} className="sr-only">
                 Search
@@ -218,8 +184,8 @@ function SelectableResultSearchModal({
             </div>
           )}
         </div>
-      </Transition>
-    </>
+      </ModalBasic>
+    </div>
   );
 }
 

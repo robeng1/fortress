@@ -139,13 +139,13 @@ function Domains() {
             <div className="px-5 py-4">
               <div className="text-sm">
                 <p>Copy these and update your DNS records.</p>
-                <p>We're working hard to automate this process, contact 0246493078 if you need help setting the records</p>
+                <p>We're working hard to automate this process. Contact 0246493078 if you need help setting the records</p>
                 <div className="font-medium text-slate-800 mb-1">
                   CNAME : shops.myreoplex.com
                 </div>
-                <div className="font-medium text-slate-800 mb-3">
+                {/* <div className="font-medium text-slate-800 mb-3">
                   A : 31.245.6.78
-                </div>
+                </div> */}
               </div>
               <Formik
                 enableReinitialize
@@ -288,7 +288,7 @@ function Domains() {
                                 setEntry(entry);
                                 handleOpen();
                               }}
-                              className="p-2 w-1/6"
+                              className="p-2 w-1/6 cursor-pointer"
                             >
                               <div className="text-left text-gray-800">
                                 {entry?.domain}

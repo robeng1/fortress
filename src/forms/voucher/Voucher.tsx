@@ -10,7 +10,7 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import useShop from 'hooks/use-shop';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from 'components/common/backdrop';
-import customSelectStyles from 'forms/product/Styles';
+import customSelectStyles from 'forms/product/styles';
 
 const VoucherForm = ({ id, codeType }) => {
   codeType = 'single';

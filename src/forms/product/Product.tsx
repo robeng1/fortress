@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import styled from '@emotion/styled';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -6,11 +7,11 @@ import * as Yup from 'yup';
 import _ from 'lodash';
 import makeAnimated from 'react-select/animated';
 import Uppy, { UppyFile } from '@uppy/core';
-import { Dashboard } from '@uppy/react';
+import { Box, Flex, Image } from 'rebass';
 import Transloadit from '@uppy/transloadit';
 import { Formik } from 'formik';
 import { cartesian } from 'utils/cartesian';
-import ProdutVariantPreview from 'forms/product/Variant';
+import ProdutVariantPreview from 'forms/product/variant';
 import { fortressURL } from 'endpoints/urls';
 
 import '@uppy/status-bar/dist/style.css';
@@ -19,16 +20,9 @@ import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
-import { customSelectStyles } from 'forms/product/Styles';
+import { customSelectStyles } from 'forms/product/styles';
 
-import { colourOptions, attributeOptions } from 'data/select';
-import GoogleDrive from '@uppy/google-drive';
-import Webcam from '@uppy/webcam';
-import Dropbox from '@uppy/dropbox';
-import Instagram from '@uppy/instagram';
-import Facebook from '@uppy/facebook';
-import OneDrive from '@uppy/onedrive';
-import Box from '@uppy/box';
+import { attributeOptions } from 'data/select';
 
 import DropTarget from '@uppy/drop-target';
 import {
@@ -53,10 +47,62 @@ import { useNavigate } from 'react-router-dom';
 import TagInput from 'components/common/tag-input';
 import { Loading } from 'components/common/backdrop';
 import TextArea from 'components/common/text-area';
+import FileUploadField from 'components/common/file-upload-field';
+import { CloseIcon } from 'components/icons/close-icon';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
 const defaultCurrency = 'GHS';
+
+const Cross = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+`;
+
+const ImageCardWrapper = styled(Box)`
+  position: relative;
+  display: inline-block;
+  height: 200px;
+  width: 200px;
+  margin: 0px 16px 16px 0px;
+`;
+
+const StyledImageCard = styled(Box)`
+  height: 200px;
+  width: 200px;
+  border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
+  object-fit: cover;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 3px 9px 0px,
+    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+  border-radius: 3px;
+`;
+
+const StyledImageBox = styled(Flex)`
+  flex-wrap: wrap;
+  .img-container {
+    border: 1px solid black;
+    background-color: white;
+    height: 50px;
+    width: 50px;
+    &:first-of-type {
+      height: 230px;
+      width: 100%;
+      object-fit: contain;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+`;
 
 interface VarOption {
   attribute: Record<string, string>;
@@ -116,11 +162,74 @@ const ProductForm = ({ id }) => {
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
   const [productId, setProductId] = useState(id);
 
+  const uppy = React.useMemo(() => {
+    return new Uppy({
+      id: 'product',
+      autoProceed: false,
+      restrictions: {
+        maxFileSize: 15 * 1024 * 1024,
+        maxNumberOfFiles: 6,
+        minNumberOfFiles: 1,
+        allowedFileTypes: ['image/*'],
+      },
+      onBeforeUpload: files => {
+        const updatedFiles = {};
+        Object.keys(files).forEach(fileId => {
+          updatedFiles[fileId] = {
+            ...files[fileId],
+            name: `reoplex_${shop?.shop_id || 'shop_demo'}_p_${
+              files[fileId].name
+            }`,
+          };
+        });
+        return updatedFiles;
+      },
+    })
+      .use(DropTarget, { target: document.body })
+      .use(Transloadit, {
+        service: 'https://api2.transloadit.com',
+        params: {
+          auth: {
+            key: 'd6650968a1064588ae29f3d0f6a70ef5',
+          },
+          template_id: '24f76f542f784c4cba84bf1e347a84fb',
+        },
+
+        waitForEncoding: true,
+        waitForMetadata: true,
+        alwaysRunAssembly: true,
+      })
+      .on('file-removed', (file, reason) => {
+        if (reason === 'removed-by-user') {
+          // remove file from s3
+          // sendDeleteRequestForFile(file);
+        }
+      })
+      .on('transloadit:complete', assembly => {
+        setImages([
+          ...images,
+          ...assembly.results[':original'].map(item => ({
+            name: item.basename,
+            url: item.ssl_url,
+          })),
+        ]);
+      });
+  }, [shop?.shop_id]);
+
   // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
-  const [images, setImages] = useState<{ name: string; url: string }[]>([]);
+  const [images, setImages] = React.useState<any[]>([]);
+
+  const appendImage = image => setImages([...images, image]);
+  const removeImage = image => {
+    const idx = images.findIndex(img => img.image === image.image);
+    if (idx !== -1) {
+      images.splice(idx, 1);
+    }
+    setImages([...images]);
+  };
   const { locations } = useCentres();
 
   // query for getting the product
@@ -298,84 +407,6 @@ const ProductForm = ({ id }) => {
       onError: (e: ResponseError) => {},
     },
   );
-  const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'product',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 6,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*'],
-      },
-      onBeforeUpload: files => {
-        const updatedFiles = {};
-        Object.keys(files).forEach(fileId => {
-          updatedFiles[fileId] = {
-            ...files[fileId],
-            name: `reoplex_${shop?.shop_id || 'shop_demo'}_p_${
-              files[fileId].name
-            }`,
-          };
-        });
-        return updatedFiles;
-      },
-    })
-      .use(Webcam)
-      .use(GoogleDrive, {
-        companionUrl: Transloadit.COMPANION,
-        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
-      })
-      .use(Dropbox, {
-        companionUrl: Transloadit.COMPANION,
-        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
-      })
-      .use(Box, {
-        companionUrl: Transloadit.COMPANION,
-        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
-      })
-      .use(Instagram, {
-        companionUrl: Transloadit.COMPANION,
-        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
-      })
-      .use(Facebook, {
-        companionUrl: Transloadit.COMPANION,
-        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
-      })
-      .use(OneDrive, {
-        companionUrl: Transloadit.COMPANION,
-        companionAllowedHosts: Transloadit.COMPANION_PATTERN,
-      })
-      .use(DropTarget, { target: document.body })
-      .use(Transloadit, {
-        service: 'https://api2.transloadit.com',
-        params: {
-          auth: {
-            key: 'd6650968a1064588ae29f3d0f6a70ef5',
-          },
-          template_id: '24f76f542f784c4cba84bf1e347a84fb',
-        },
-
-        waitForEncoding: true,
-        waitForMetadata: true,
-        alwaysRunAssembly: true,
-      })
-      .on('file-removed', (file, reason) => {
-        if (reason === 'removed-by-user') {
-          // remove file from s3
-          // sendDeleteRequestForFile(file);
-        }
-      })
-      .on('transloadit:complete', assembly => {
-        setImages([
-          ...images,
-          ...assembly.results[':original'].map(item => ({
-            name: item.basename,
-            url: item.ssl_url,
-          })),
-        ]);
-      });
-  }, [shop?.shop_id]);
 
   const markFilesAsUploaded = () => {
     uppy.getFiles().forEach(file => {
@@ -409,10 +440,8 @@ const ProductForm = ({ id }) => {
     });
   };
 
- 
-
   React.useEffect(() => {
-    processFiles(product)
+    processFiles(product);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
@@ -824,37 +853,51 @@ const ProductForm = ({ id }) => {
                   </div> */}
                 </div>
                 <div className="md:col-span-2">
-                  <section className="bg-white shadow overflow-hidden p-3 mb">
+                  <section className="bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
-                      Images
+                      Images (You can add up to 10)
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
-                        <Dashboard
-                          uppy={uppy}
-                          proudlyDisplayPoweredByUppy={false}
-                          showProgressDetails={true}
-                          width={'100%'}
-                          theme="light"
-                          height={'350px'}
-                          note="Images and video only, 2-6 files, up to 1 MB"
-                          doneButtonHandler={() => ({})}
-                          hideProgressAfterFinish={true}
-                          showRemoveButtonAfterComplete={true}
-                          plugins={
-                            [
-                              // 'Webcam',
-                              // 'Instagram',
-                              // 'GoogleDrive',
-                              // 'Dropbox',
-                              // 'Box',
-                              // 'ImageEditor',
-                            ]
-                          }
-                        />
+                        <Flex mb={4}>
+                          <StyledImageBox>
+                            {images.map((im, i) => (
+                              <ImageCardWrapper key={i} mr={3}>
+                                <StyledImageCard
+                                  key={i}
+                                  as="img"
+                                  src={im.url}
+                                  sx={{}}
+                                />
+                                <Cross onClick={() => removeImage(im)}>
+                                  <CloseIcon className='bg-white'/>
+                                </Cross>
+                              </ImageCardWrapper>
+                            ))}
+                            {images.length < 10 && (
+                              <ImageCardWrapper key={'up'} mr={3}>
+                                <FileUploadField
+                                  className="py-24 w-full"
+                                  onFileChosen={files => {
+                                    const file = files[0];
+                                    const url = URL.createObjectURL(file);
+                                    appendImage({
+                                      url,
+                                      name: file.name,
+                                      size: file.size,
+                                      nativeFile: file,
+                                    });
+                                  }}
+                                  filetypes={['png', 'jpeg', 'jpg']}
+                                />
+                              </ImageCardWrapper>
+                            )}
+                          </StyledImageBox>
+                        </Flex>
                       </div>
                     </div>
                   </section>
+
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Pricing

@@ -28,8 +28,7 @@ import moment from 'moment';
 import { mToS } from 'utils/money';
 import Transloadit from '@uppy/transloadit';
 
-// TODO: (romeo) refactor duplicated pieces of logic
-// FIXME:(romeo) BADLY WRITTEN SPAGHETTI CODE AHEAD. NEEDS REFACTORING & SIMPLICATION
+// TODO: (romeo) simplify & refactor duplicated pieces of logic
 const DiscountForm = ({ id }) => {
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -37,7 +36,7 @@ const DiscountForm = ({ id }) => {
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
   const [discountId, setDiscountId] = useState(id);
 
-  // query for getting the discount
+  // query for getting the discount, create a hook for this?
   const { data: discount, isLoading } = useQuery<DiscountType>(
     ['discount', discountId],
     async () => await request(`${requestURL}/${discountId}`),
@@ -55,13 +54,13 @@ const DiscountForm = ({ id }) => {
   const [searchInclCollectionsOpen, setSearchInclCollectionsOpen] =
     useState(false);
 
-  // for condition range
+  // collections to include in the condition range
   const [searchBXCRInclProductsOpen, setSearchBXCRInclProductsOpen] =
     useState(false);
   const [searchBXCRInclCollectionsOpen, setSearchBXCRInclCollectionsOpen] =
     useState(false);
 
-  // for benefit range
+  // products to include in the benefit range
   const [searchBxBRInclProductsOpen, setSearchBxBRInclProductsOpen] =
     useState(false);
   const [searchBxBRInclCollectionsOpen, setSearchBxBRInclCollectionsOpen] =
@@ -119,7 +118,7 @@ const DiscountForm = ({ id }) => {
         toast('Discount updated successfully');
       },
       onError: (e: ResponseError) => {
-        toast('Discount could not be updated due to' + e.message);
+        toast(e.message);
       },
     },
   );
@@ -160,45 +159,42 @@ const DiscountForm = ({ id }) => {
       });
   }, []);
 
-  const addFiles = files => {
-    files.forEach(e => {
-      uppy.addFile({
-        name: e.name,
-        type: e.type,
-        data: e.blob, // changed blob -> data
-      });
-    });
-
+  const markFilesAsUploaded = () => {
     uppy.getFiles().forEach(file => {
-      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
       uppy.setFileState(file.id, {
-        progress: { uploadComplete: true, uploadStarted: true },
+        progress: {
+          uploadComplete: true,
+          uploadStarted: true,
+          bytesUploaded: file.size,
+        },
       });
     });
   };
 
-  React.useEffect(() => {
-    // assuming the image lives on a server somewhere
-    discount?.image?.image_url &&
-      discount?.image?.image_url !== '' &&
-      discount?.image?.image_url !== undefined &&
-      fetch(discount?.image?.image_url)
-        .then(response => response.blob()) // returns a Blob
-        .then(blob => {
-          addFiles([
-            {
-              name: discount?.slug,
-              type: blob.type,
-              data: blob, // changed blob -> data
-            },
-          ]);
+  const processFiles = (discount?: DiscountType) => {
+    if (!discount) return;
+    const img = discount.image;
+    const url = img?.image_url;
+    if (!url || url === '') return;
+    fetch(url)
+      .then(response => response.blob()) // returns a Blob
+      .then(blob => {
+        uppy.addFile({
+          name: discount?.name ?? '',
+          type: blob.type,
+          data: blob, // changed blob -> data
+          size: blob.size,
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        markFilesAsUploaded();
+      });
+  };
+
+  useEffect(() => {
+    processFiles(discount);
   }, [discount]);
 
   React.useEffect(() => {
     return () => uppy.close();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // options search URLs

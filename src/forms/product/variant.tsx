@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import { focusHandling } from 'cruip-js-toolkit';
-import ProductVariant from './VariantItem';
+import ProductVariant from './variantItem';
 import { ProductType } from 'models/product/product-type';
 
 const ProdutVariantPreview = ({

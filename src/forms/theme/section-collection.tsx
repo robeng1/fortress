@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { collectionOptions } from 'services/options-loaders';
 import useShop from 'hooks/use-shop';
 import AsyncCreatableSelect from 'react-select/async-creatable';
-import customSelectStyles from 'forms/product/Styles';
+import customSelectStyles from 'forms/product/styles';
 
 function SectionCollection() {
   const navigate = useNavigate();

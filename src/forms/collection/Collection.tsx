@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
+import { Box, Flex, Image } from 'rebass';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import Uppy from '@uppy/core';
 import Transloadit from '@uppy/transloadit';
 import { Dashboard } from '@uppy/react';
@@ -13,7 +13,6 @@ import '@uppy/drag-drop/dist/style.css';
 import '@uppy/progress-bar/dist/style.css';
 import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import DropTarget from '@uppy/drop-target';
 import { fortressURL } from 'endpoints/urls';
 import PaginationClassic from 'components/PaginationClassic';
@@ -25,18 +24,92 @@ import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/common/backdrop';
 import TextArea from 'components/common/text-area';
+import useModal from 'hooks/use-modal';
+import FileUploadField from 'components/common/file-upload-field';
+
+const Cross = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  cursor: pointer;
+`;
+
+
+const ImageCardWrapper = styled(Box)`
+  position: relative;
+  display: inline-block;
+  height: 200px;
+  width: 200px;
+  margin: 0px 16px 16px 0px;
+`;
+
+const StyledImageCard = styled(Box)`
+  height: 200px;
+  width: 200px;
+  border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
+  object-fit: cover;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 3px 9px 0px,
+    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+  border-radius: 3px;
+`;
+
+const StyledImageBox = styled(Flex)`
+  flex-wrap: wrap;
+  .img-container {
+    border: 1px solid black;
+    background-color: white;
+    height: 50px;
+    width: 50px;
+    &:first-of-type {
+      height: 230px;
+      width: 100%;
+      object-fit: contain;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+`;
 
 export default function CollectionForm({ id }) {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
+  const { isOpen, handleClose, handleOpen } = useModal();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
+ const [images, setImages] = React.useState<any[]>([]);
+
+ const appendImage = image => setImages([...images, image]);
+ const removeImage = image => {
+   const idx = images.findIndex(img => img.image === image.image);
+   if (idx !== -1) {
+     images.splice(idx, 1);
+   }
+   setImages([...images]);
+ };
   const matchKey = 'key';
 
-  // for controlling products browsing modal
-  const [searchProductsOpen, setSearchProductsOpen] = useState(false);
+  const onImageChange = d => {
+    console.log(d)
+    setImages(images.concat(d));
+  };
+
+  const handleImageDelete = url => {
+      setImages(images.filter(im => im !== url));
+  };
+
+  // options search URLs
+  const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
+  const productQueryComposer = (term: string): Record<string, any> => {
+    return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };
+  };
 
   // query for getting the collection
   const { data: collection, isLoading } = useQuery<CollectionType>(
@@ -51,6 +124,7 @@ export default function CollectionForm({ id }) {
 
   // set the image if one already exists
   const [image, setImage] = useState(collection?.image?.image_url);
+  const [file, setFile] = useState<any>();
 
   const [page, setPage] = useState<String>('');
   const [previousPage, setPreviousPage] = useState<String>('');
@@ -116,19 +190,19 @@ export default function CollectionForm({ id }) {
     );
 
   // add a product to the collection
-  // const { mutate: addProductToCollection } = useMutation(
-  //   (payload: CollectType) =>
-  //     request(`${requestURL}/${collectionId}/products`, {
-  //       method: 'POST',
-  //       body: JSON.stringify(payload),
-  //     }),
-  //   {
-  //     onSuccess: (newCollect: CollectType) => {
-  //       queryClient.invalidateQueries(['collection-products', page]);
-  //     },
-  //     onError: (e: ResponseError) => {},
-  //   },
-  // );
+  const { mutate: addProductToCollection } = useMutation(
+    (payload: CollectType) =>
+      request(`${requestURL}/${collectionId}/products`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    {
+      onSuccess: (newCollect: CollectType) => {
+        qc.invalidateQueries(['collection-products', page]);
+      },
+      onError: (e: ResponseError) => {},
+    },
+  );
 
   // add products to the collection
   // TODO: provide an endpoint for this
@@ -159,9 +233,6 @@ export default function CollectionForm({ id }) {
       onError: (e: ResponseError) => {},
     },
   );
-  const compose = (term: string): Record<string, any> => {
-    return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };
-  };
 
   const handleSelectedItems = (selectedItems: any[]) => {
     setSelectedProducts(() => [...selectedItems]);
@@ -259,14 +330,11 @@ export default function CollectionForm({ id }) {
 
   useEffect(() => {
     processFiles(collection);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collection]);
 
   useEffect(() => {
     return () => uppy.close();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // processFiles(collection);
   return (
     <>
       <div>
@@ -300,16 +368,9 @@ export default function CollectionForm({ id }) {
         >
           {({
             values,
-            errors,
-            touched,
             handleChange,
             handleBlur,
-            setFieldValue,
-            setFieldError,
-            setValues,
-            setFieldTouched,
             handleSubmit,
-            isSubmitting,
             /* and other goodies */
           }) => (
             <div className="flex-grow w-full mx-auto">
@@ -378,63 +439,72 @@ export default function CollectionForm({ id }) {
                       </div>
                     </div>
                   </section>
+                  <SelectableResultSearchModal
+                    id="quick-find-modald-br"
+                    searchId="quick-findd-br"
+                    modalOpen={isOpen}
+                    setModalOpen={state => {
+                      state === false ? handleClose() : handleOpen();
+                    }}
+                    queryURL={productOptionSearchURL}
+                    composeQuery={productQueryComposer}
+                    matchKey={matchKey}
+                    queryKey="products-y-opt-search"
+                    handleResultSelected={handleSelectedItems}
+                    placeholder="products"
+                    alreadySelected={collectionProducts?.products.map(
+                      p => p.product_id,
+                    )}
+                    queryEnabled={!!shop?.shop_id}
+                  />
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Collection Image
                     </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <Dashboard
-                          uppy={uppy}
-                          proudlyDisplayPoweredByUppy={false}
-                          showProgressDetails={true}
-                          disableInformer
-                          disableStatusBar
-                          height="300px"
-                          theme="light"
-                          hideCancelButton
-                          thumbnailWidth={500}
-                          note="Images only, 1 file"
-                          doneButtonHandler={() => ({})}
-                          hideProgressAfterFinish={true}
-                          showRemoveButtonAfterComplete={true}
-                          metaFields={[
-                            {
-                              id: 'alt',
-                              name: 'Alt',
-                              placeholder: 'describe what the image is about',
-                            },
-                          ]}
-                        />
-                      </div>
-                    </div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5"></div>
+                    <Flex mb={4}>
+                      <StyledImageBox>
+                        {images.map((im, i) => (
+                          <ImageCardWrapper key={i} mr={3}>
+                            <StyledImageCard
+                              key={i}
+                              as="img"
+                              src={im.url}
+                              sx={{}}
+                            />
+                            <Cross onClick={() => handleImageDelete(im)}>
+                              &#x2715;
+                            </Cross>
+                          </ImageCardWrapper>
+                        ))}
+                        {images.length < 1 && (
+                          <ImageCardWrapper key={'up'} mr={3}>
+                            <FileUploadField
+                              className="py-24 w-full"
+                              onFileChosen={files => {
+                                const file = files[0];
+                                const url = URL.createObjectURL(file);
+                                appendImage({
+                                  url,
+                                  name: file.name,
+                                  size: file.size,
+                                  nativeFile: file,
+                                });
+                              }}
+                              filetypes={['png', 'jpeg', 'jpg']}
+                            />
+                          </ImageCardWrapper>
+                        )}
+                      </StyledImageBox>
+                    </Flex>
                   </section>
                   {collectionId && (
-                    <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                    <section
+                      onClick={handleOpen}
+                      className="rounded cursor-pointer bg-white shadow overflow-hidden p-3 mb-10"
+                    >
                       Products
-                      <div>
-                        <div className="w-full">
-                          <div className="w-full">
-                            <div className="flex border-1 rounded">
-                              <SelectableResultSearchModal
-                                id="quick-find-modal-products-collection-frm"
-                                searchId="quick-find-modal-products-collection-frm"
-                                modalOpen={searchProductsOpen}
-                                setModalOpen={setSearchProductsOpen}
-                                queryURL={`${fortressURL}/shops/${shop?.shop_id}/products/option-search`}
-                                composeQuery={compose}
-                                queryKey="products-opt-search"
-                                matchKey={matchKey}
-                                handleResultSelected={handleSelectedItems}
-                                alreadySelected={collectionProducts?.products.map(
-                                  p => p.product_id,
-                                )}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {collectionProducts?.products && (
+                      {collectionProducts && collectionProducts?.products && (
                         <div>
                           {collectionProducts?.products.map(product => (
                             <div
@@ -468,7 +538,8 @@ export default function CollectionForm({ id }) {
                           ))}
                         </div>
                       )}
-                      {collectionProducts?.products &&
+                      {collectionProducts &&
+                        collectionProducts?.products &&
                         collectionProducts.next_page_token && (
                           <div>
                             <PaginationClassic
