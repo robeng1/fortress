@@ -1,15 +1,13 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Flex } from 'rebass';
-import Button from 'components/button';
-import Card from 'components/card';
+import { CloseIcon } from 'components/icons/close-icon';
+import Card from 'components/blocks/card';
 import ImagesDropzone from 'components/image-dropzone';
-import { useUploadManager } from 'hooks/use-uppy';
-// import Medusa from '../../../../services/api';
-// import { getErrorMessage } from '../../../../utils/error-messages';
+import { useUpload } from 'hooks/use-upload';
 
 const Images = ({ product, refresh, toaster }) => {
-  const uppy = useUploadManager();
+  const { upload } = useUpload();
   const [uploads, setUploads] = useState([]);
   const [images, setImages] = useState([]);
   const [isSavingImages, setIsSavingImages] = useState(false);
@@ -17,7 +15,7 @@ const Images = ({ product, refresh, toaster }) => {
 
   useEffect(() => {
     if (product) {
-      let imgs = product.images.map(img => img.url);
+      let imgs = product.images.map(img => img.image.image_url);
       imgs = [...new Set(imgs)].filter(Boolean);
       setImages([...imgs]);
     }
@@ -25,18 +23,17 @@ const Images = ({ product, refresh, toaster }) => {
 
   const handleSave = () => {
     setIsSavingImages(true);
-    Medusa.uploads
-      .create(uploads)
-      .then(({ data }) => {
-        const uploaded = data.uploads.map(({ url }) => url);
+    upload(uploads)
+      .then(({ results }) => {
+        const uploaded = results?.map(({ ssl_url }) => ssl_url);
         return uploaded;
       })
       .then(uploadedImgs => {
         const minusLocalImages = _.difference(
           images,
-          uploads.map(u => u.preview),
+          uploads.map(u => u['preview']),
         );
-        const allImages = [...minusLocalImages, ...uploadedImgs];
+        const allImages = [...minusLocalImages, ...(uploadedImgs ?? [])];
         // Medusa.products
         //   .update(product.id, { images: allImages })
         //   .then(() => {
@@ -84,26 +81,23 @@ const Images = ({ product, refresh, toaster }) => {
                   setUploads(newUploads);
                   setIsDirty(true);
                 }}
-                style={{
-                  position: 'absolute',
-                  right: 5,
-                  zIndex: 5,
-                  top: 5,
-                  cursor: 'pointer',
-                }}
+                className="absolute right-1 z-10 top-1 cursor-pointer h-4 w-4 bg-gray-800 text-white"
               />
             </ImagesDropzone.Preview>
           ))}
         </ImagesDropzone>
         <Flex mt={3} justifyContent="flex-end">
           {isDirty && (
-            <Button
-              isLoading={isSavingImages}
-              // variant="deep-blue"
-              onClick={handleSave}
+            <button
+              loading={isSavingImages}
+              className="btn bg-purple-600 bg-opacity-100 rounded  text-white"
+              onClick={e => {
+                e.stopPropagation();
+                handleSave();
+              }}
             >
               Save
-            </Button>
+            </button>
           )}
         </Flex>
       </Card.Body>

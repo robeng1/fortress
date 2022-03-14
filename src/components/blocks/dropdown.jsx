@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import _ from 'lodash';
 import { Box, Flex } from 'rebass';
-import { ReactComponent as Ellipsis } from '../../assets/svg/ellipsis.svg';
 import Button from './button';
 import Portal from './portal';
 import { usePopper } from 'react-popper';
+import { Dot } from 'components/icons/dot';
 
 const searchInputHeight = 40;
 
@@ -113,7 +113,7 @@ const Dropdown = ({
           innerRef={setReferenceElement}
           {..._.omit(rest, spacingProps)}
         >
-          {toggleText || <Ellipsis height="10px" />}
+          {toggleText || <Dot height="10px" />}
         </Button>
       )}
       {isOpen && (

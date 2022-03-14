@@ -1,13 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Formik } from 'formik';
-import Uppy from '@uppy/core';
-import { ProgressBar } from '@uppy/react';
-import DropTarget from '@uppy/drop-target';
-import Transloadit from '@uppy/transloadit';
-import '@uppy/status-bar/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
-import '@uppy/progress-bar/dist/style.css';
-import '@uppy/core/dist/style.css';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
 import { ShopType } from 'models/settings/shop-type';
@@ -17,17 +9,34 @@ import { UidAtom } from 'store/authorization-atom';
 import { toast } from 'react-toastify';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
+import SimpleImageDropzone from 'components/single-image-dropzone';
+import { useUpload } from 'hooks/use-upload';
 
 function StorePanel() {
   const queryClient = useQueryClient();
   const { shop } = useShop();
   const [accountId] = useAtom(UidAtom);
   const requestURL = `${fortressURL}/shops`;
-
   const [image, setImage] = useState(shop?.image);
+  const { upload } = useUpload();
 
-  const inputFile = useRef<HTMLInputElement>(null);
+  const [isDirty, setIsDirty] = useState(false);
 
+  const onImageChange = (files: File[]) => {
+    if (files.length < 1) return;
+    const pickf = files[0];
+    setImage(pickf['preview'] ?? '');
+    setIsDirty(true);
+    upload(files).then(bundle => {
+      // const statuses = bundle.transloadit; // Array of Assembly statuses
+      const assemblyResults = bundle.results;
+      if (assemblyResults) {
+        const url = assemblyResults[0].ssl_url;
+        setImage(url);
+        setIsDirty(false);
+      }
+    });
+  };
   // update the shop
   const { mutate: updateShop, isLoading: isUpdatingShop } = useMutation(
     (payload: ShopType) =>
@@ -46,75 +55,6 @@ function StorePanel() {
     },
   );
 
-  const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'shop-image',
-      autoProceed: true,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 1,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*'],
-      },
-      onBeforeUpload: files => {
-        const updatedFiles = {};
-        Object.keys(files).forEach(fileId => {
-          updatedFiles[fileId] = {
-            ...files[fileId],
-            name: `reoplex_${shop?.shop_id || 'shop_demo'}_lo_${
-              files[fileId].name
-            }`,
-          };
-        });
-        return updatedFiles;
-      },
-    })
-      .use(DropTarget, { target: document.body })
-      .use(Transloadit, {
-        service: 'https://api2.transloadit.com',
-        params: {
-          auth: {
-            key: 'd6650968a1064588ae29f3d0f6a70ef5',
-          },
-          template_id: '24f76f542f784c4cba84bf1e347a84fb',
-        },
-
-        waitForEncoding: true,
-        waitForMetadata: true,
-        alwaysRunAssembly: true,
-      })
-      .on('file-removed', (file, reason) => {
-        if (reason === 'removed-by-user') {
-          // remove file from s3
-          // sendDeleteRequestForFile(file);
-        }
-      })
-      .on('transloadit:complete', assembly => {
-        setImage(assembly.results[':original'][0].ssl_url);
-      });
-  }, []);
-
-  React.useEffect(() => {
-    return () => uppy.close();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const handleFileUpload = e => {
-    const { files } = e.target;
-    if (files && files.length) {
-      const file = files[0];
-      setImage(URL.createObjectURL(file));
-      const filename = file.name;
-      uppy.addFile({
-        data: file,
-        name: filename,
-      });
-    }
-  };
-  const onChangeClick = () => {
-    if (inputFile !== null) {
-      inputFile.current?.click();
-    }
-  };
   return (
     <div>
       <Loading open={isUpdatingShop} />
@@ -147,14 +87,8 @@ function StorePanel() {
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
-          setFieldValue,
-          setFieldError,
-          setValues,
-          setFieldTouched,
           handleSubmit,
           isSubmitting,
           /* and other goodies */
@@ -169,32 +103,13 @@ function StorePanel() {
               <section>
                 <div className="flex items-center">
                   <div className="store-image-upload-progress-indicator"></div>
-                  <div className="mr-4 store-image-drop-area">
-                    <img
-                      className="w-100 h-100"
-                      src={image || 'https://via.placeholder.com/150'}
-                      width="150"
-                      height="150"
-                      alt={shop?.business_display_name}
-                    />
-                    <input
-                      style={{ display: 'none' }}
-                      ref={inputFile}
-                      onChange={handleFileUpload}
-                      type="file"
-                    />
-                    <ProgressBar
-                      uppy={uppy}
-                      fixed={true}
-                      hideAfterFinish={true}
-                    />
-                  </div>
-                  <button
-                    onClick={onChangeClick}
-                    className="btn-sm bg-purple-600 self-start hover:bg-purple-600 text-white"
-                  >
-                    Change
-                  </button>
+                  <SimpleImageDropzone
+                    onChange={onImageChange}
+                    label={'Shop logo'}
+                    value={image}
+                    height={255}
+                    width={255}
+                  />
                 </div>
               </section>
               {/* Business Profile */}

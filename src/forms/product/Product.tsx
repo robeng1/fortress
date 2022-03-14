@@ -43,6 +43,7 @@ import {
   StyledImageCard,
   Cross,
 } from 'forms/common/preview';
+import Images from 'forms/common/images';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -748,46 +749,11 @@ const ProductForm = ({ id }) => {
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Images (You can add up to 10)
                     </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <Flex mb={4}>
-                          <StyledImageBox>
-                            {images.map((im, i) => (
-                              <ImageCardWrapper key={i} mr={3}>
-                                <StyledImageCard
-                                  key={i}
-                                  as="img"
-                                  src={im.url}
-                                  sx={{}}
-                                />
-                                <Cross onClick={() => removeImage(im)}>
-                                  <CloseIcon className="bg-white rounded" />
-                                </Cross>
-                              </ImageCardWrapper>
-                            ))}
-                            {images.length < 10 && (
-                              <ImageCardWrapper key={'up'} mr={3}>
-                                <FileUploadField
-                                  multiple={true}
-                                  className="py-24 w-full"
-                                  onFileChosen={files => {
-                                    const file = files[0];
-                                    const url = URL.createObjectURL(file);
-                                    appendImage({
-                                      url,
-                                      name: file.name,
-                                      size: file.size,
-                                      nativeFile: file,
-                                    });
-                                  }}
-                                  filetypes={['png', 'jpeg', 'jpg']}
-                                />
-                              </ImageCardWrapper>
-                            )}
-                          </StyledImageBox>
-                        </Flex>
-                      </div>
-                    </div>
+                    <Images
+                      product={product}
+                      refresh={undefined}
+                      toaster={undefined}
+                    />
                   </section>
 
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">

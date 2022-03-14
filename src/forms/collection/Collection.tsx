@@ -6,52 +6,22 @@ import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
 import { CollectionType, CollectType } from 'models/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
-// import SelectableResultSearchModal from 'components/common/modal-searcher';
 import { ProductViewListType } from 'models/product/product-type';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
-import useModal from 'hooks/use-modal';
-import FileUploadField from 'components/blocks/file-upload-field';
-import {
-  StyledImageBox,
-  ImageCardWrapper,
-  StyledImageCard,
-  Cross,
-} from 'forms/common/preview';
-import { useUploadManager } from 'hooks/use-uppy';
+import SimpleImageDropzone from 'components/single-image-dropzone';
+import { useUpload } from 'hooks/use-upload';
 
 export default function CollectionForm({ id }) {
+  const matchKey = 'key';
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { isOpen, handleClose, handleOpen } = useModal();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
-  const uppy = useUploadManager('collection', () => {});
-
-  const [images, setImages] = React.useState<any[]>([]);
-
-  const appendImage = image => setImages([...images, image]);
-  const removeImage = image => {
-    const idx = images.findIndex(img => img.image === image.image);
-    if (idx !== -1) {
-      images.splice(idx, 1);
-    }
-    setImages([...images]);
-  };
-  const matchKey = 'key';
-
-  const onImageChange = d => {
-    console.log(d);
-    setImages(images.concat(d));
-  };
-
-  const handleImageDelete = url => {
-    setImages(images.filter(im => im !== url));
-  };
 
   // options search URLs
   const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
@@ -72,7 +42,27 @@ export default function CollectionForm({ id }) {
 
   // set the image if one already exists
   const [image, setImage] = useState(collection?.image?.image_url);
-  const [file, setFile] = useState<any>();
+
+  const { upload } = useUpload();
+
+  const [isDirty, setIsDirty] = useState(false);
+
+  const onImageChange = (files: File[]) => {
+    if (files.length < 1) return;
+    const pickf = files[0];
+    setImage(pickf['preview'] ?? '');
+    setIsDirty(true);
+    upload(files).then(bundle => {
+      // const statuses = bundle.transloadit; // Array of Assembly statuses
+      const assemblyResults = bundle.results;
+      if (assemblyResults) {
+        const url = assemblyResults[0].ssl_url;
+        setImage(url);
+        setIsDirty(false);
+      }
+      return;
+    });
+  };
 
   const [page, setPage] = useState<String>('');
   const [previousPage, setPreviousPage] = useState<String>('');
@@ -93,7 +83,7 @@ export default function CollectionForm({ id }) {
     },
     {
       keepPreviousData: true,
-      enabled: !!collectionId && shop?.shop_id !== undefined,
+      enabled: !!collectionId && shop?.shop_id !== undefined && false,
     },
   );
 
@@ -197,43 +187,10 @@ export default function CollectionForm({ id }) {
     );
     addProductsToCollection(collects);
   };
-  const markFilesAsUploaded = () => {
-    uppy.getFiles().forEach(file => {
-      uppy.setFileState(file.id, {
-        progress: {
-          uploadComplete: true,
-          uploadStarted: true,
-          bytesUploaded: file.size,
-        },
-      });
-    });
-  };
-
-  const processFiles = (collection?: CollectionType) => {
-    if (!collection) return;
-    const img = collection.image;
-    const url = img?.image_url;
-    if (!url || url === '') return;
-    fetch(url)
-      .then(response => response.blob()) // returns a Blob
-      .then(blob => {
-        uppy.addFile({
-          name: collection?.handle ?? '',
-          type: blob.type,
-          data: blob, // changed blob -> data
-          size: blob.size,
-        });
-        markFilesAsUploaded();
-      });
-  };
-
   useEffect(() => {
-    processFiles(collection);
+    setImage(collection?.image?.image_url);
   }, [collection]);
 
-  useEffect(() => {
-    return () => uppy.close();
-  }, []);
   return (
     <>
       <div>
@@ -357,46 +314,15 @@ export default function CollectionForm({ id }) {
                     queryEnabled={!!shop?.shop_id}
                   /> */}
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
-                      Collection Image
-                    </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5"></div>
-                    <Flex mb={4}>
-                      <StyledImageBox>
-                        {images.map((im, i) => (
-                          <ImageCardWrapper key={i} mr={3}>
-                            <StyledImageCard
-                              key={i}
-                              as="img"
-                              src={im.url}
-                              sx={{}}
-                            />
-                            <Cross onClick={() => handleImageDelete(im)}>
-                              &#x2715;
-                            </Cross>
-                          </ImageCardWrapper>
-                        ))}
-                        {images.length < 1 && (
-                          <ImageCardWrapper key={'up'} mr={3}>
-                            <FileUploadField
-                              className="py-24 w-full"
-                              multiple={false}
-                              onFileChosen={files => {
-                                const file = files[0];
-                                const url = URL.createObjectURL(file);
-                                appendImage({
-                                  url,
-                                  name: file.name,
-                                  size: file.size,
-                                  nativeFile: file,
-                                });
-                              }}
-                              filetypes={['png', 'jpeg', 'jpg']}
-                            />
-                          </ImageCardWrapper>
-                        )}
-                      </StyledImageBox>
-                    </Flex>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <SimpleImageDropzone
+                        onChange={onImageChange}
+                        label={'Collection Banner'}
+                        value={image}
+                        height={255}
+                        width={255}
+                      />
+                    </div>
                   </section>
                   {/* {collectionId && (
                     <section

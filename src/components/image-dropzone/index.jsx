@@ -5,8 +5,8 @@ import { Box, Flex, Image } from 'rebass';
 
 const StyledImageCard = styled(Image)`
   cursor: default;
-  height: 240px;
-  width: 240px;
+  height: 240px !important;
+  width: 240px !important;
   border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
   object-fit: cover;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,

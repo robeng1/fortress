@@ -54,7 +54,7 @@ const Overlay = `
   }
 `;
 
-const SingleImageDropzone = ({ value = null, onChange, label, ...props }) => {
+const SingleImageDropzone = ({ value, onChange, label, ...props }) => {
   const { isDragAccept, isDragActive, getRootProps, getInputProps } =
     useDropzone({
       accept: 'image/*',
