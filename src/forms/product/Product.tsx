@@ -1,30 +1,17 @@
-import React, { useRef, useState } from 'react';
-import styled from '@emotion/styled';
+import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';
 import makeAnimated from 'react-select/animated';
-import Uppy, { UppyFile } from '@uppy/core';
-import { Box, Flex, Image } from 'rebass';
-import Transloadit from '@uppy/transloadit';
+import { Flex } from 'rebass';
 import { Formik } from 'formik';
 import { cartesian } from 'utils/cartesian';
 import ProdutVariantPreview from 'forms/product/variant';
 import { fortressURL } from 'endpoints/urls';
-
-import '@uppy/status-bar/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
-import '@uppy/progress-bar/dist/style.css';
-import '@uppy/core/dist/style.css';
-import '@uppy/dashboard/dist/style.css';
-
 import { customSelectStyles } from 'forms/product/styles';
-
 import { attributeOptions } from 'data/select';
-
-import DropTarget from '@uppy/drop-target';
 import {
   ProductImage,
   ProductStructure,
@@ -39,7 +26,7 @@ import {
 } from 'services/options-loaders';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
-import { mToCurrency, pesosRawMoney, sToM, sToCurrency } from 'utils/money';
+import { mToCurrency, sToM } from 'utils/money';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
@@ -49,60 +36,17 @@ import { Loading } from 'components/common/backdrop';
 import TextArea from 'components/common/text-area';
 import FileUploadField from 'components/common/file-upload-field';
 import { CloseIcon } from 'components/icons/close-icon';
+import { useUploadMngr } from 'hooks/use-uppy';
+import {
+  StyledImageBox,
+  ImageCardWrapper,
+  StyledImageCard,
+  Cross,
+} from 'forms/common/preview';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
 const defaultCurrency = 'GHS';
-
-const Cross = styled.span`
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-right: 5px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-`;
-
-const ImageCardWrapper = styled(Box)`
-  position: relative;
-  display: inline-block;
-  height: 200px;
-  width: 200px;
-  margin: 0px 16px 16px 0px;
-`;
-
-const StyledImageCard = styled(Box)`
-  height: 200px;
-  width: 200px;
-  border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
-  object-fit: cover;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 3px 9px 0px,
-    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
-  border-radius: 3px;
-`;
-
-const StyledImageBox = styled(Flex)`
-  flex-wrap: wrap;
-  .img-container {
-    border: 1px solid black;
-    background-color: white;
-    height: 50px;
-    width: 50px;
-    &:first-of-type {
-      height: 230px;
-      width: 100%;
-      object-fit: contain;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  }
-`;
 
 interface VarOption {
   attribute: Record<string, string>;
@@ -150,76 +94,14 @@ interface Values {
 const ProductSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
-  // quantity: Yup.number().positive('Must be positive').required('Required'),
-  // type: Yup.string().required('Required'),
-  // price: Yup.string().required('Required'),
 });
 
 const ProductForm = ({ id }) => {
   const qc = useQueryClient();
   const navigate = useNavigate();
+
   const { shop } = useShop();
-  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
-  const [productId, setProductId] = useState(id);
 
-  const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'product',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 6,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*'],
-      },
-      onBeforeUpload: files => {
-        const updatedFiles = {};
-        Object.keys(files).forEach(fileId => {
-          updatedFiles[fileId] = {
-            ...files[fileId],
-            name: `reoplex_${shop?.shop_id || 'shop_demo'}_p_${
-              files[fileId].name
-            }`,
-          };
-        });
-        return updatedFiles;
-      },
-    })
-      .use(DropTarget, { target: document.body })
-      .use(Transloadit, {
-        service: 'https://api2.transloadit.com',
-        params: {
-          auth: {
-            key: 'd6650968a1064588ae29f3d0f6a70ef5',
-          },
-          template_id: '24f76f542f784c4cba84bf1e347a84fb',
-        },
-
-        waitForEncoding: true,
-        waitForMetadata: true,
-        alwaysRunAssembly: true,
-      })
-      .on('file-removed', (file, reason) => {
-        if (reason === 'removed-by-user') {
-          // remove file from s3
-          // sendDeleteRequestForFile(file);
-        }
-      })
-      .on('transloadit:complete', assembly => {
-        setImages([
-          ...images,
-          ...assembly.results[':original'].map(item => ({
-            name: item.basename,
-            url: item.ssl_url,
-          })),
-        ]);
-      });
-  }, [shop?.shop_id]);
-
-  // eslint-disable-next-line no-unused-vars
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedItems, setSelectedItems] = useState<unknown>([]);
-  const [showVariants, setShowVariants] = useState(false);
   const [images, setImages] = React.useState<any[]>([]);
 
   const appendImage = image => setImages([...images, image]);
@@ -230,7 +112,16 @@ const ProductForm = ({ id }) => {
     }
     setImages([...images]);
   };
+
+  const uppy = useUploadMngr('product', () => {});
   const { locations } = useCentres();
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
+  const [productId, setProductId] = useState(id);
+
+  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedItems, setSelectedItems] = useState<unknown>([]);
+  const [showVariants, setShowVariants] = useState(false);
 
   // query for getting the product
   const { data: product } = useQuery<ProductType>(
@@ -870,7 +761,7 @@ const ProductForm = ({ id }) => {
                                   sx={{}}
                                 />
                                 <Cross onClick={() => removeImage(im)}>
-                                  <CloseIcon className='bg-white'/>
+                                  <CloseIcon className="bg-white" />
                                 </Cross>
                               </ImageCardWrapper>
                             ))}

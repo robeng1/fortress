@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
 import { toast } from 'react-toastify';
-import { Box, Flex, Image } from 'rebass';
+import { Flex } from 'rebass';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
-import Uppy from '@uppy/core';
-import Transloadit from '@uppy/transloadit';
-import { Dashboard } from '@uppy/react';
-
-import '@uppy/status-bar/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
-import '@uppy/progress-bar/dist/style.css';
-import '@uppy/core/dist/style.css';
-import '@uppy/dashboard/dist/style.css';
-import DropTarget from '@uppy/drop-target';
 import { fortressURL } from 'endpoints/urls';
 import PaginationClassic from 'components/PaginationClassic';
 import { CollectionType, CollectType } from 'models/collection/collection-type';
@@ -26,55 +15,8 @@ import { Loading } from 'components/common/backdrop';
 import TextArea from 'components/common/text-area';
 import useModal from 'hooks/use-modal';
 import FileUploadField from 'components/common/file-upload-field';
-
-const Cross = styled.span`
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-right: 5px;
-  cursor: pointer;
-`;
-
-
-const ImageCardWrapper = styled(Box)`
-  position: relative;
-  display: inline-block;
-  height: 200px;
-  width: 200px;
-  margin: 0px 16px 16px 0px;
-`;
-
-const StyledImageCard = styled(Box)`
-  height: 200px;
-  width: 200px;
-  border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
-  object-fit: cover;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 3px 9px 0px,
-    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
-  border-radius: 3px;
-`;
-
-const StyledImageBox = styled(Flex)`
-  flex-wrap: wrap;
-  .img-container {
-    border: 1px solid black;
-    background-color: white;
-    height: 50px;
-    width: 50px;
-    &:first-of-type {
-      height: 230px;
-      width: 100%;
-      object-fit: contain;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  }
-`;
+import { StyledImageBox, ImageCardWrapper, StyledImageCard, Cross } from 'forms/common/preview';
+import { useUploadMngr } from 'hooks/use-uppy';
 
 export default function CollectionForm({ id }) {
   const qc = useQueryClient();
@@ -84,6 +26,8 @@ export default function CollectionForm({ id }) {
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
   const [collectionId, setCollectionId] = useState(id);
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
+   const uppy = useUploadMngr('collection', () => {});
+
  const [images, setImages] = React.useState<any[]>([]);
 
  const appendImage = image => setImages([...images, image]);
@@ -249,55 +193,6 @@ export default function CollectionForm({ id }) {
     );
     addProductsToCollection(collects);
   };
-
-  const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'collection',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 1,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*', 'video/*'],
-      },
-      onBeforeUpload: files => {
-        const updatedFiles = {};
-        Object.keys(files).forEach(fileId => {
-          updatedFiles[fileId] = {
-            ...files[fileId],
-            name: `reoplex_${shop?.shop_id || 'shop_demo'}_c_${
-              files[fileId].name
-            }`,
-          };
-        });
-        return updatedFiles;
-      },
-    })
-      .use(DropTarget, { target: document.body })
-      .use(Transloadit, {
-        service: 'https://api2.transloadit.com',
-        params: {
-          auth: {
-            key: 'd6650968a1064588ae29f3d0f6a70ef5',
-          },
-          template_id: '24f76f542f784c4cba84bf1e347a84fb',
-        },
-
-        waitForEncoding: true,
-        waitForMetadata: true,
-        alwaysRunAssembly: true,
-      })
-      .on('file-removed', (file, reason) => {
-        if (reason === 'removed-by-user') {
-          // remove file from s3
-          // sendDeleteRequestForFile(file);
-        }
-      })
-      .on('transloadit:complete', assembly => {
-        setImage(assembly.results[':original'][0].ssl_url);
-      });
-  }, []);
-
   const markFilesAsUploaded = () => {
     uppy.getFiles().forEach(file => {
       uppy.setFileState(file.id, {

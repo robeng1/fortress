@@ -9,9 +9,12 @@
 import React, { useEffect, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-// import 'react-quill/dist/quill.snow.css';
+import '@uppy/status-bar/dist/style.css';
+import '@uppy/drag-drop/dist/style.css';
+import '@uppy/progress-bar/dist/style.css';
+import '@uppy/core/dist/style.css';
+import '@uppy/dashboard/dist/style.css';
 import 'react-toastify/dist/ReactToastify.css';
-
 import './charts/ChartjsConfig';
 
 import Signup from './pages/Signup';
