@@ -13,7 +13,7 @@ import { fortressURL } from 'endpoints/urls';
 import ProductsTable from 'partials/products/ProductsTable';
 import useShop from 'hooks/use-shop';
 import { request } from 'utils/request';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Products() {
   const navigate = useNavigate();

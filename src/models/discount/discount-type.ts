@@ -1,5 +1,4 @@
 import { MoneyType } from '../money';
-import { Photo } from '../photo';
 import { VoucherType } from '../voucher/voucher';
 import { VoucherSetType } from '../voucher/voucherset';
 import { BenefitType } from './benefit-type';
@@ -30,7 +29,7 @@ export interface DiscountType {
   num_orders?: number;
   redirect_url?: string;
   created_at?: string;
-  image?: Photo | null;
+  image?: string;
   categories?: string[];
   keywords?: string[];
   page_title?: string;

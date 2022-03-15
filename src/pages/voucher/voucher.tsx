@@ -11,7 +11,7 @@ import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import VoucherTable from 'partials/voucher/VoucherTable';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Vouchers() {
   const navigate = useNavigate();

@@ -1,11 +1,10 @@
 import { CollectionType } from '../collection/collection-type';
 import { InventoryType } from '../inventory/inventory-type';
-import { Photo } from '../photo';
 import { Buffer } from 'buffer';
 
 export interface ProductImage {
   caption?: string;
-  image?: Photo | null;
+  url?: string;
   product_id?: string;
   image_id?: string;
   shop_id?: string;
@@ -54,7 +53,7 @@ export interface ProductType {
   description?: string;
   created_at?: string;
   updated_at?: string;
-  image?: Photo | null;
+  image?: string;
   sku?: string;
   track_stock?: boolean;
   rating?: number | string;

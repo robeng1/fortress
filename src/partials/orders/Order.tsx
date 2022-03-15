@@ -5,7 +5,6 @@ import { fortressURL } from 'endpoints/urls';
 import { Loader } from 'components/loader';
 import { OrderStatusType, OrderType } from 'models/order/order-type';
 import { request, ResponseError } from 'utils/request';
-import { useAtom } from 'jotai';
 import { mToSFormatted, mToCurrency, formatCurrency } from 'utils/money';
 import useShop from 'hooks/use-shop';
 
@@ -170,7 +169,7 @@ export default function Order({ handleShow, id }) {
                       <div className="border-b flex mx-5 py-2">
                         <div className="flex-shrink-0 w-[60px] md:w-[48px]  align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
                           <img
-                            src={line.product?.image?.image_url}
+                            src={line.product?.image}
                             alt={line.product?.title}
                             className="w-full h-full object-center object-cover"
                           />

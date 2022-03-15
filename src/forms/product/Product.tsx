@@ -27,7 +27,7 @@ import {
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { mToCurrency, sToM } from 'utils/money';
-import AsyncCreatableSelect from 'react-select/async-creatable';
+import ReactSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
@@ -36,14 +36,7 @@ import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
 import FileUploadField from 'components/blocks/file-upload-field';
 import { CloseIcon } from 'components/icons/close-icon';
-import { useUploadManager } from 'hooks/use-uppy';
-import {
-  StyledImageBox,
-  ImageCardWrapper,
-  StyledImageCard,
-  Cross,
-} from 'forms/common/preview';
-import Images from 'forms/common/images';
+import Images from './images';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -100,23 +93,14 @@ const ProductSchema = Yup.object().shape({
 const ProductForm = ({ id }) => {
   const qc = useQueryClient();
   const navigate = useNavigate();
-
   const { shop } = useShop();
-
-  const [images, setImages] = React.useState<any[]>([]);
-
-  const appendImage = image => setImages([...images, image]);
-  const removeImage = image => {
-    const idx = images.findIndex(img => img.image === image.image);
-    if (idx !== -1) {
-      images.splice(idx, 1);
-    }
-    setImages([...images]);
-  };
-
-  const uppy = useUploadManager('product', () => {});
   const { locations } = useCentres();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
+
+  const [images, setImages] = React.useState<string[]>([]);
+  const [isSavingImages, setIsSavingImages] = React.useState<boolean>(false);
+  const handleUpload = (images: string[]) => setImages(images);
+
   const [productId, setProductId] = useState(id);
 
   // eslint-disable-next-line no-unused-vars
@@ -124,7 +108,7 @@ const ProductForm = ({ id }) => {
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
 
-  // query for getting the product
+  // query for getting the product, move into a hook
   const { data: product } = useQuery<ProductType>(
     ['product', productId],
     async () => await request(`${requestURL}/${productId}`),
@@ -210,10 +194,10 @@ const ProductForm = ({ id }) => {
       height: d.height,
       length: d.length,
       width: d.width,
-      images: images.map(img => {
+      images: images.map((url) => {
         return {
-          image: { image_url: img.url },
-          alt: img.name,
+          url: url,
+          alt: d.title,
           shop_id: shop?.shop_id,
         };
       }),
@@ -299,48 +283,6 @@ const ProductForm = ({ id }) => {
       onError: (e: ResponseError) => {},
     },
   );
-
-  const markFilesAsUploaded = () => {
-    uppy.getFiles().forEach(file => {
-      uppy.setFileState(file.id, {
-        progress: {
-          uploadComplete: true,
-          uploadStarted: true,
-          bytesUploaded: file.size,
-        },
-      });
-    });
-  };
-
-  const processFiles = (product?: ProductType) => {
-    if (!product) return;
-    const imgs = product.images;
-    imgs?.forEach(img => {
-      const url = img?.image?.image_url;
-      if (!url || url === '') return;
-      fetch(url)
-        .then(response => response.blob()) // returns a Blob
-        .then(blob => {
-          uppy.addFile({
-            name: img.alt ?? img.caption ?? product.title,
-            type: blob.type,
-            data: blob, // changed blob -> data
-            size: blob.size,
-          });
-          markFilesAsUploaded();
-        });
-    });
-  };
-
-  React.useEffect(() => {
-    processFiles(product);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product]);
-
-  React.useEffect(() => {
-    return () => uppy.close();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSelectedItems = (selectedItems: unknown[]) => {
     setSelectedItems([...selectedItems]);
@@ -480,7 +422,9 @@ const ProductForm = ({ id }) => {
 
   return (
     <>
-      <Loading open={isCreatingProduct || isUpdatingProduct} />
+      <Loading
+        open={isCreatingProduct || isUpdatingProduct || isSavingImages}
+      />
       <Formik
         enableReinitialize
         initialValues={{ ...productToValuesMapper(product) }}
@@ -499,9 +443,6 @@ const ProductForm = ({ id }) => {
           handleChange,
           handleBlur,
           setFieldValue,
-          setFieldError,
-          setValues,
-          setFieldTouched,
           handleSubmit,
           isSubmitting,
           /* and other goodies */
@@ -579,7 +520,7 @@ const ProductForm = ({ id }) => {
                           >
                             Type
                           </label>
-                          <AsyncCreatableSelect
+                          <ReactSelect
                             menuPortalTarget={document.body}
                             isSearchable
                             cacheOptions
@@ -622,7 +563,7 @@ const ProductForm = ({ id }) => {
                           >
                             Collections
                           </label>
-                          <AsyncCreatableSelect
+                          <ReactSelect
                             value={values.collections}
                             menuPortalTarget={document.body}
                             isMulti
@@ -648,7 +589,7 @@ const ProductForm = ({ id }) => {
                           >
                             Tags
                           </label>
-                          <AsyncCreatableSelect
+                          <ReactSelect
                             id="tags"
                             name="tags"
                             closeMenuOnSelect={true}
@@ -670,8 +611,8 @@ const ProductForm = ({ id }) => {
                     </section>
                   </div>
 
-                  {/* <div className="col-span-2 md:col-span-1 w-full mt-4">
-                    <section className="rounded bg-white shadow p-3">
+                  <div className="col-span-2 md:col-span-1 w-full mt-4">
+                    {/* <section className="rounded bg-white shadow p-3">
                       <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Availability
                       </h2>
@@ -683,7 +624,7 @@ const ProductForm = ({ id }) => {
                           >
                             Channels
                           </label>
-                          <Select
+                          <ReactSelect
                             id="channels"
                             name="channels"
                             closeMenuOnSelect={true}
@@ -696,21 +637,15 @@ const ProductForm = ({ id }) => {
                               setFieldValue('channels', option)
                             }
                             components={animatedComponents}
-                            options={colourOptions}
+                            options={{}}
                             styles={{
-                              input: base => ({
-                                ...base,
-                                'input:focus': {
-                                  boxShadow: 'none',
-                                },
-                              }),
                               ...customSelectStyles,
                             }}
                             className="w-full"
                           />
                         </div>
                       </div>
-                    </section>
+                    </section> */}
                   </div>
 
                   <div className="col-span-2 md:col-span-1 mt-4">
@@ -734,15 +669,12 @@ const ProductForm = ({ id }) => {
                             value={values.template_suffix}
                             className="form-select block w-full"
                           >
-                            <option value="">Please Select</option>
-                            <option value="GH">Ghana</option>
-                            <option value="NG">Nigeria</option>
                             <option value="product">product</option>
                           </select>
                         </div>
                       </div>
                     </section>
-                  </div> */}
+                  </div>
                 </div>
                 <div className="md:col-span-2">
                   <section className="bg-white shadow overflow-hidden p-3 mb-10">
@@ -751,8 +683,8 @@ const ProductForm = ({ id }) => {
                     </h2>
                     <Images
                       product={product}
-                      refresh={undefined}
-                      toaster={undefined}
+                      handleUpload={handleUpload}
+                      handleIsSaving={setIsSavingImages}
                     />
                   </section>
 

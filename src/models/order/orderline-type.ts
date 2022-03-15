@@ -1,6 +1,5 @@
 import { LatLng } from '../coordinate';
 import { MoneyType } from '../money';
-import { Photo } from '../photo';
 
 export interface StockType {
   shop_id?: string;
@@ -14,7 +13,7 @@ export interface StockType {
 export interface OrderProductType {
   shop_id?: string;
   product_id?: string;
-  image?: Photo | null;
+  image?: string;
   title?: string;
   requires_shipping?: boolean;
   is_discountable?: boolean;

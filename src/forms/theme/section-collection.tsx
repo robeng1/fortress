@@ -5,7 +5,7 @@ import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
 import { collectionOptions } from 'services/options-loaders';
 import useShop from 'hooks/use-shop';
-import AsyncCreatableSelect from 'react-select/async-creatable';
+import ReactSelect from 'react-select/async-creatable';
 import customSelectStyles from 'forms/product/styles';
 
 function SectionCollection() {
@@ -90,7 +90,7 @@ function SectionCollection() {
                     />
                   </div>
                 </div>
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
@@ -98,7 +98,7 @@ function SectionCollection() {
                     >
                       Featured collection
                     </label>
-                    <AsyncCreatableSelect
+                    <ReactSelect
                       value={values.collection_featured}
                       menuPortalTarget={document.body}
                       cacheOptions
@@ -115,7 +115,7 @@ function SectionCollection() {
                     />
                   </div>
                 </div>
-                <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="md:w-4/5">
                     <label
                       className="block text-sm font-medium mb-1"

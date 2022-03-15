@@ -13,7 +13,7 @@ import { UidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/DateSelect';
 import useShop from 'hooks/use-shop';
 import usePayment from 'hooks/use-payment';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Payouts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

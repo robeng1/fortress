@@ -12,7 +12,7 @@ import DiscountTable from 'partials/discount/DiscountTable';
 import DiscountForm from 'forms/discount/Discount';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Discounts() {
   const navigate = useNavigate();

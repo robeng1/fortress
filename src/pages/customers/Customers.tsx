@@ -6,7 +6,7 @@ import DeleteButton from '../../partials/actions/DeleteButton';
 import DateSelect from '../../components/DateSelect';
 import FilterButton from '../../components/DropdownFilter';
 import CustomersTable from '../../partials/customers/CustomersTable';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationClassic from '../../components/pagination-classic';
 
 function Customers() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

@@ -5,8 +5,8 @@ import { Box, Flex, Image } from 'rebass';
 
 const StyledImageCard = styled(Image)`
   cursor: default;
-  height: 240px !important;
-  width: 240px !important;
+  height: 200px !important;
+  width: 200px !important;
   border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
   object-fit: cover;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
@@ -19,29 +19,6 @@ const StyledImageCard = styled(Image)`
       rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
       rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
       rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.2) 0px 5px 9px 0px;
-  }
-`;
-
-const Overlay = `
-  &:after {
-    cursor: pointer;
-    display: flex;
-    color: #454B54;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    font-size: 18px;
-    content: ${props =>
-      props.noImages
-        ? '"Drop here to add images or click to browse files"'
-        : '"Drop here to add images"'};
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    z-index: 99;
-    background-color: rgba(255,255,255,0.85)
   }
 `;
 
@@ -88,7 +65,7 @@ const Container = styled(Box)`
 const Preview = ({ component, children, ...props }) => {
   const Component = component || StyledImageCard;
   return (
-    <Flex mr={3} mb={3} sx={{ position: 'relative' }}>
+    <Flex mr={2} mb={2} sx={{ position: 'relative' }}>
       <Component {...props} />
       {children}
     </Flex>

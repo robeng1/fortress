@@ -17,7 +17,7 @@ import CollectionsTable from 'partials/collections/CollectionsTable';
 import CollectionForm from 'forms/collection/Collection';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Collections() {
   const navigate = useNavigate();

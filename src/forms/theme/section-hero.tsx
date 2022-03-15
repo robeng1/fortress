@@ -2,19 +2,11 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
-import Uppy from '@uppy/core';
-import Transloadit from '@uppy/transloadit';
-import { Dashboard } from '@uppy/react';
-import DropTarget from '@uppy/drop-target';
-
-import '@uppy/status-bar/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
-import '@uppy/progress-bar/dist/style.css';
-import '@uppy/core/dist/style.css';
-import '@uppy/dashboard/dist/style.css';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 import { Template } from 'models/theme/template';
+import SimpleImageDropzone from 'components/single-image-dropzone';
+import { useUpload } from 'hooks/use-upload';
 
 function Hero() {
   const navigate = useNavigate();
@@ -28,71 +20,27 @@ function Hero() {
       ? cob.sections['section-hero'].settings
       : {};
   const [image, setImage] = useState(initialValues['image'] ?? '');
+  const { upload } = useUpload();
 
-  const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'hero-image',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 1,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*', 'video/*'],
-      },
-      onBeforeUpload: files => {
-        const updatedFiles = {};
-        Object.keys(files).forEach(fileId => {
-          updatedFiles[fileId] = {
-            ...files[fileId],
-            name: `reoplex_${shop?.shop_id || 'shop_demo'}_c_${
-              files[fileId].name
-            }`,
-          };
-        });
-        return updatedFiles;
-      },
-    })
-      .use(DropTarget, { target: document.body })
-      .use(Transloadit, {
-        service: 'https://api2.transloadit.com',
-        params: {
-          auth: {
-            key: 'd6650968a1064588ae29f3d0f6a70ef5',
-          },
-          template_id: '24f76f542f784c4cba84bf1e347a84fb',
-        },
+  const [isDirty, setIsDirty] = useState(false);
 
-        waitForEncoding: true,
-        waitForMetadata: true,
-        alwaysRunAssembly: true,
-      })
-      .on('file-removed', (file, reason) => {
-        if (reason === 'removed-by-user') {
-          // remove file from s3
-          // sendDeleteRequestForFile(file);
-        }
-      })
-      .on('transloadit:complete', assembly => {
-        setImage(assembly.results[':original'][0].ssl_url);
-      });
-  }, []);
-
-  const addFiles = files => {
-    files.forEach(e => {
-      uppy.addFile({
-        name: e.name,
-        type: e.type,
-        data: e.blob, // changed blob -> data
-      });
-    });
-
-    uppy.getFiles().forEach(file => {
-      // https://uppy.io/docs/uppy/#uppy-setFileState-fileID-state
-      uppy.setFileState(file.id, {
-        progress: { uploadComplete: true, uploadStarted: true },
-      });
+  const onImageChange = (files: File[]) => {
+    if (files.length < 1) return;
+    const pickf = files[0];
+    setImage(pickf['preview'] ?? '');
+    setIsDirty(true);
+    upload(files).then(bundle => {
+      // const statuses = bundle.transloadit; // Array of Assembly statuses
+      const assemblyResults = bundle.results;
+      if (assemblyResults) {
+        const url = assemblyResults[0].ssl_url;
+        setImage(url);
+        setIsDirty(false);
+      }
+      return;
     });
   };
+
   return (
     <div>
       <Loading open={isUpdatingTheme} />
@@ -121,7 +69,7 @@ function Hero() {
           const modfTemp = tpl;
           modfTemp.content = JSON.stringify(content);
           const modfTheme = theme;
-          
+
           modfTheme!.templates![ind!] = modfTemp;
           updateTheme(modfTheme!);
           setSubmitting(false);
@@ -146,29 +94,14 @@ function Hero() {
             <div className="md:p-6 p-4 space-y-6">
               <h2 className="text-2xl text-gray-800 font-bold mb-5">Hero</h2>
               <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                <h2 className="text-sm header leading-snug text-gray-800 font-bold mb-1">
-                  Hero Image
-                </h2>
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full">
-                    <Dashboard
-                      uppy={uppy}
-                      proudlyDisplayPoweredByUppy={false}
-                      showProgressDetails={true}
+                    <SimpleImageDropzone
+                      onChange={onImageChange}
+                      label={'Hero Banner'}
+                      value={image}
+                      height="50%"
                       width="100%"
-                      height={'300px'}
-                      theme="light"
-                      note="Images only, 1 file"
-                      doneButtonHandler={() => ({})}
-                      hideProgressAfterFinish={true}
-                      showRemoveButtonAfterComplete={true}
-                      metaFields={[
-                        {
-                          id: 'alt',
-                          name: 'Alt',
-                          placeholder: 'describe what the image is about',
-                        },
-                      ]}
                     />
                   </div>
                 </div>

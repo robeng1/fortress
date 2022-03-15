@@ -4,29 +4,18 @@ import { toast } from 'react-toastify';
 import union from 'lodash/union';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
-import Uppy from '@uppy/core';
-import { Dashboard } from '@uppy/react';
 import { fortressURL } from 'endpoints/urls';
-import DropTarget from '@uppy/drop-target';
 import { DiscountType } from 'models/discount/discount-type';
 import SelectableResultSearchModal from 'components/blocks/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';
 import { initialValues, Values } from './values';
 import { valuesToDiscount, handleSelectedResults } from './utils';
-
-// styles
-import '@uppy/status-bar/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
-import '@uppy/progress-bar/dist/style.css';
-import '@uppy/core/dist/style.css';
-import '@uppy/dashboard/dist/style.css';
 import { proxyURL } from 'utils/urlsigner';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
 import moment from 'moment';
 import { mToS } from 'utils/money';
-import Transloadit from '@uppy/transloadit';
 
 // TODO: (romeo) simplify & refactor duplicated pieces of logic
 const DiscountForm = ({ id }) => {
@@ -47,7 +36,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  const [image, setImage] = useState(discount?.image?.image_url);
+  // const [image, setImage] = useState(discount?.image?.image_url);
 
   // for normal offers benefit range
   const [searchInclProductsOpen, setSearchInclProductsOpen] = useState(false);
@@ -122,80 +111,6 @@ const DiscountForm = ({ id }) => {
       },
     },
   );
-
-  const uppy = React.useMemo(() => {
-    return new Uppy({
-      id: 'discount-form',
-      autoProceed: false,
-      restrictions: {
-        maxFileSize: 15 * 1024 * 1024,
-        maxNumberOfFiles: 1,
-        minNumberOfFiles: 1,
-        allowedFileTypes: ['image/*', 'video/*'],
-      },
-    })
-      .use(DropTarget, { target: document.body })
-      .use(Transloadit, {
-        service: 'https://api2.transloadit.com',
-        params: {
-          auth: {
-            key: 'd6650968a1064588ae29f3d0f6a70ef5',
-          },
-          template_id: '24f76f542f784c4cba84bf1e347a84fb',
-        },
-
-        waitForEncoding: true,
-        waitForMetadata: true,
-        alwaysRunAssembly: true,
-      })
-      .on('file-removed', (file, reason) => {
-        if (reason === 'removed-by-user') {
-          // remove file from s3
-          // sendDeleteRequestForFile(file);
-        }
-      })
-      .on('transloadit:complete', assembly => {
-        setImage(assembly.results[':original'][0].ssl_url);
-      });
-  }, []);
-
-  const markFilesAsUploaded = () => {
-    uppy.getFiles().forEach(file => {
-      uppy.setFileState(file.id, {
-        progress: {
-          uploadComplete: true,
-          uploadStarted: true,
-          bytesUploaded: file.size,
-        },
-      });
-    });
-  };
-
-  const processFiles = (discount?: DiscountType) => {
-    if (!discount) return;
-    const img = discount.image;
-    const url = img?.image_url;
-    if (!url || url === '') return;
-    fetch(url)
-      .then(response => response.blob()) // returns a Blob
-      .then(blob => {
-        uppy.addFile({
-          name: discount?.name ?? '',
-          type: blob.type,
-          data: blob, // changed blob -> data
-          size: blob.size,
-        });
-        markFilesAsUploaded();
-      });
-  };
-
-  useEffect(() => {
-    processFiles(discount);
-  }, [discount]);
-
-  React.useEffect(() => {
-    return () => uppy.close();
-  }, []);
 
   // options search URLs
   const collectionOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/option-search`;
@@ -2338,7 +2253,7 @@ const DiscountForm = ({ id }) => {
                       </div>
                     </section>
                   )}
-                  <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
+                  {/* <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Cover Image
                     </h2>
@@ -2362,7 +2277,7 @@ const DiscountForm = ({ id }) => {
                         />
                       </div>
                     </div>
-                  </section>
+                  </section> */}
                   <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Search Engine Preview

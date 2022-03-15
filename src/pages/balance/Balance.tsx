@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 import Input from 'components/blocks/input';
 import useShop from 'hooks/use-shop';
 import usePayment from 'hooks/use-payment';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Balance() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

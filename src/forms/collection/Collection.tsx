@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Flex } from 'rebass';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
@@ -41,7 +40,7 @@ export default function CollectionForm({ id }) {
   );
 
   // set the image if one already exists
-  const [image, setImage] = useState(collection?.image?.image_url);
+  const [image, setImage] = useState(collection?.image);
 
   const { upload } = useUpload();
 
@@ -188,7 +187,7 @@ export default function CollectionForm({ id }) {
     addProductsToCollection(collects);
   };
   useEffect(() => {
-    setImage(collection?.image?.image_url);
+    setImage(collection?.image);
   }, [collection]);
 
   return (
@@ -209,14 +208,14 @@ export default function CollectionForm({ id }) {
                 ...values,
                 collection_id: collectionId,
                 shop_id: shop?.shop_id,
-                image: { image_url: image },
+                image: image,
               });
             } else {
               createCollection({
                 ...values,
                 collection_id: '',
                 shop_id: shop?.shop_id,
-                image: { image_url: image },
+                image: image,
               });
             }
             setSubmitting(false);

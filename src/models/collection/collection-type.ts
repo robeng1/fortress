@@ -1,4 +1,4 @@
-import { Photo } from '../photo';
+
 
 export interface CollectType {
   shop_id?: string;
@@ -34,7 +34,7 @@ export interface CollectionType {
   all_products_count?: number;
   publishing_at?: string;
   published_at?: string;
-  image?: Photo | null;
+  image?: string;
   description?: string;
   title?: string;
   page_title?: string;

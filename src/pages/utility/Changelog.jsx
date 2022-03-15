@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
-import PaginationClassic from '../../components/PaginationClassic';
+import PaginationClassic from '../../components/pagination-classic';
 
 import User01 from '../../images/user-32-01.jpg';
 import User02 from '../../images/user-32-02.jpg';

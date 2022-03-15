@@ -6,7 +6,7 @@ import Card from 'components/blocks/card';
 import ImagesDropzone from 'components/image-dropzone';
 import { useUpload } from 'hooks/use-upload';
 
-const Images = ({ product, refresh, toaster }) => {
+const Images = ({ product, handleUpload, handleIsSaving }) => {
   const { upload } = useUpload();
   const [uploads, setUploads] = useState([]);
   const [images, setImages] = useState([]);
@@ -15,7 +15,7 @@ const Images = ({ product, refresh, toaster }) => {
 
   useEffect(() => {
     if (product) {
-      let imgs = product.images.map(img => img.image.image_url);
+      let imgs = product.images.map(({ url }) => url);
       imgs = [...new Set(imgs)].filter(Boolean);
       setImages([...imgs]);
     }
@@ -23,6 +23,7 @@ const Images = ({ product, refresh, toaster }) => {
 
   const handleSave = () => {
     setIsSavingImages(true);
+    handleIsSaving(true);
     upload(uploads)
       .then(({ results }) => {
         const uploaded = results?.map(({ ssl_url }) => ssl_url);
@@ -34,16 +35,12 @@ const Images = ({ product, refresh, toaster }) => {
           uploads.map(u => u['preview']),
         );
         const allImages = [...minusLocalImages, ...(uploadedImgs ?? [])];
-        // Medusa.products
-        //   .update(product.id, { images: allImages })
-        //   .then(() => {
-        //     setIsSavingImages(false);
-        //     setUploads([]);
-        //     setIsDirty(false);
-        //     refresh({ id: product.id });
-        //     toaster('Successfully saved images', 'success');
-        //   })
-        //   .catch(error => toaster(getErrorMessage(error), 'error'));
+        setIsSavingImages(false);
+        handleIsSaving(false);
+        setUploads([]);
+        setIsDirty(false);
+        // throw a toast
+        handleUpload(allImages);
       });
   };
 

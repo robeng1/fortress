@@ -12,7 +12,7 @@ import { request, ResponseError } from 'utils/request';
 import { UidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/DateSelect';
 import useShop from 'hooks/use-shop';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

@@ -11,7 +11,7 @@ import { fortressURL } from 'endpoints/urls';
 import InventoryTable from 'partials/inventory/InventoryTable';
 import useShop from 'hooks/use-shop';
 import { isEmptyArray } from 'formik';
-import { ThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider } from 'styles/material/theme';
 
 function Inventories() {
   const { shop } = useShop();

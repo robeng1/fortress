@@ -1,4 +1,4 @@
-import { ThemeProvider as MuiThemeProvider } from 'styles/mui-theme/theme';
+import { ThemeProvider as MuiThemeProvider } from 'styles/material/theme';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import React from 'react';
