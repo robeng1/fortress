@@ -2,7 +2,7 @@
 import React, { useState, lazy, ChangeEvent } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import ProductForm from 'forms/product/Product';
+import ProductForm from 'forms/product/product';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function ProductMutation() {

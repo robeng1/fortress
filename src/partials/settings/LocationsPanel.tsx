@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import LocationCard from '../locations/LocationCard';
-import LocationForm from 'forms/location/Location';
+import LocationForm from 'forms/location/location';
 import useCentres from 'hooks/use-location';
 
 function LocationsPanel() {

@@ -3,7 +3,7 @@ import Transition from 'utils/transition';
 import { useQuery } from 'react-query';
 import { useDebounce } from 'hooks/use-debounce';
 import { proxyURL } from 'utils/urlsigner';
-import ModalBasic from 'components/ModalBasic';
+import ModalBasic from 'components/modal-basic';
 const initiallySelected: any[] = [];
 function SelectableResultSearchModal({
   id,

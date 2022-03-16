@@ -1,7 +1,7 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import DiscountForm from 'forms/discount/Discount';
+import DiscountForm from 'forms/discount/discount';
 import useShop from 'hooks/use-shop';
 import { useNavigate, useParams } from 'react-router-dom';
 

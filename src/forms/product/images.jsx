@@ -40,6 +40,7 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
         setUploads([]);
         setIsDirty(false);
         // throw a toast
+        console.log(allImages);
         handleUpload(allImages);
       });
   };
@@ -86,7 +87,6 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
         <Flex mt={3} justifyContent="flex-end">
           {isDirty && (
             <button
-              loading={isSavingImages}
               className="btn bg-purple-600 bg-opacity-100 rounded  text-white"
               onClick={e => {
                 e.stopPropagation();

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import Datepicker from 'components/Datepicker';
-import BottomNav from 'components/bottom-nav';
+import Datepicker from 'components/date-picker';
+import BottomNav from 'components/bottom-navigation';
 import AnalyticsCard01 from 'partials/analytics/AnalyticsCard01';
 import AnalyticsCard02 from 'partials/analytics/AnalyticsCard02';
 import AnalyticsCard05 from 'partials/analytics/AnalyticsCard05';

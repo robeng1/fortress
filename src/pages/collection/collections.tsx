@@ -8,13 +8,13 @@ import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import DeleteButton from 'partials/actions/DeleteButton';
 import SearchForm from 'partials/actions/SearchForm';
-import FilterButton from 'components/DropdownFilter';
-import BottomNav from 'components/bottom-nav';
+import FilterButton from 'components/dropdown-filter';
+import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 
 import CollectionsTable from 'partials/collections/CollectionsTable';
-import CollectionForm from 'forms/collection/Collection';
+import CollectionForm from 'forms/collection/collection';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styles/material/theme';

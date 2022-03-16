@@ -7,12 +7,12 @@ import { paymentURL } from 'endpoints/urls';
 
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import FilterButton from 'components/DropdownFilter';
-import BottomNav from 'components/bottom-nav';
+import FilterButton from 'components/dropdown-filter';
+import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 import { UidAtom } from 'store/authorization-atom';
-import DateSelect from 'components/DateSelect';
+import DateSelect from 'components/date-select';
 import { currencyToM, mToSFormatted, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/blocks/button';
 import { TransferKind, TransferType } from 'models/payment/transfer';

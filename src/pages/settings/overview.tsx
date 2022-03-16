@@ -9,7 +9,7 @@ import SettingsOverview from 'components/templates/settings-overview';
 import { NavbarIcon } from 'components/icons/navbar-icon';
 import { MyShopIcon } from 'components/icons/sidebar';
 import { TruckIcon } from 'components/icons/truck-icon';
-import BottomNav from 'components/bottom-nav';
+import BottomNav from 'components/bottom-navigation';
 import CoinsIcon from 'components/icons/coins-icon';
 
 const SettingsIndex = () => {

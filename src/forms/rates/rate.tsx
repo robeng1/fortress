@@ -11,7 +11,7 @@ import { ItemBasedRateType } from 'models/rates/item-based-rate';
 import colourStyles from 'forms/product/styles';
 import { modelOptions, ShippingRateModelOption } from 'data/select';
 import { sToCurrency } from 'utils/money';
-import { rateToIB, rateToWB, rawToRate } from './converters';
+import { rateToIB, rateToWB, rawToRate } from './mappers';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 import TagInput from 'components/blocks/tag-input';

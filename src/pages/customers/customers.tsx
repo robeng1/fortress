@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import DeleteButton from '../../partials/actions/DeleteButton';
-import DateSelect from '../../components/DateSelect';
-import FilterButton from '../../components/DropdownFilter';
+import DateSelect from '../../components/date-select';
+import FilterButton from '../../components/dropdown-filter';
 import CustomersTable from '../../partials/customers/CustomersTable';
 import PaginationClassic from '../../components/pagination-classic';
 

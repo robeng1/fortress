@@ -1,4 +1,4 @@
-import BottomNav from 'components/bottom-nav';
+import BottomNav from 'components/bottom-navigation';
 import { SettingsCardNoIcon } from 'components/blocks/settings-card';
 import ThemeSettingsOverview from 'components/templates/theme-settings';
 import { Link } from 'react-router-dom';

@@ -1,7 +1,7 @@
 import { ItemBasedRateType } from 'models/rates/item-based-rate';
 import { WeightBasedRateType } from 'models/rates/weight-based-rate';
 import { mToS, sToM } from 'utils/money';
-import { RateType } from './Rate';
+import { RateType } from './rate';
 
 export function rateToWB(rate: RateType): WeightBasedRateType {
   return {

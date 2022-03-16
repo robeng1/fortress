@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import { ThemeProvider as MuiThemeProvider } from 'styles/material/theme';

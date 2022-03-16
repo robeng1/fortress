@@ -12,8 +12,11 @@ export const useUpload = () => {
         },
         template_id: '24f76f542f784c4cba84bf1e347a84fb',
       },
-      alwaysRunAssembly: true,
-      allowMultipleUploadBatches: true,
+      restrictions: {
+        maxNumberOfFiles: 10,
+        minNumberOfFiles: 1,
+      },
+      alwaysRunAssembly: false,
       waitForEncoding: true,
       waitForMetadata: true,
       service: 'https://api2.transloadit.com',

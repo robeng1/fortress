@@ -1,6 +1,6 @@
 import React, { lazy, useState } from 'react';
 
-import BottomNav from 'components/bottom-nav';
+import BottomNav from 'components/bottom-navigation';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import PoliciesPanel from 'partials/settings/PoliciesPanel';
