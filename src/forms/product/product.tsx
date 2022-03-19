@@ -16,8 +16,8 @@ import {
   ProductImage,
   ProductStructure,
   ProductType,
-} from 'models/product/product-type';
-import { InventoryType } from 'models/inventory/inventory-type';
+} from 'typings/product/product-type';
+import { InventoryType } from 'typings/inventory/inventory-type';
 import slugify from 'slugify';
 import {
   collectionOptions,

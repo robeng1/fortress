@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
 
 import { Loader } from 'components/loader';
-import { OrderStatusType, OrderType } from 'models/order/order-type';
+import { OrderStatusType, OrderType } from 'typings/order/order-type';
 import { request, ResponseError } from 'utils/request';
 import { mToSFormatted, mToCurrency, formatCurrency } from 'utils/money';
 import useShop from 'hooks/use-shop';

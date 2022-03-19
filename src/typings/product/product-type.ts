@@ -101,6 +101,7 @@ export interface ProductType {
   height?: string;
   width?: string;
   profile_id?: string;
+  collection_fks?: string[];
 }
 
 export interface ProductListType {

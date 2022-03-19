@@ -1,4 +1,4 @@
-import { MoneyType } from 'models/money';
+import { MoneyType } from 'typings/money';
 import { Dinero, dinero, toSnapshot } from 'dinero.js';
 import { GHS, KES, NGN, RWF, UGX, Currency } from '@dinero.js/currencies';
 import currency from 'currency.js';

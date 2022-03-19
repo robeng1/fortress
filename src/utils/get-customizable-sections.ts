@@ -1,4 +1,4 @@
-import { Section } from 'models/theme/section';
+import { Section } from 'typings/theme/section';
 
 export const getCustomizableSections = (sections: Section[]): Section[] => {
   return sections.filter(

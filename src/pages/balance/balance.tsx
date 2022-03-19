@@ -15,7 +15,7 @@ import { UidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/date-select';
 import { currencyToM, mToSFormatted, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/blocks/button';
-import { TransferKind, TransferType } from 'models/payment/transfer';
+import { TransferKind, TransferType } from 'typings/payment/transfer';
 import { toast } from 'react-toastify';
 import Input from 'components/blocks/input';
 import useShop from 'hooks/use-shop';

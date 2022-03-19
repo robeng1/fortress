@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { ShopType } from 'models/settings/shop-type';
+import { ShopType } from 'typings/settings/shop-type';
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
 import { useAtom } from 'jotai';

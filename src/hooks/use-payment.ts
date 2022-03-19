@@ -1,5 +1,5 @@
 import { paymentURL } from 'endpoints/urls';
-import { Account } from 'models/payment/account-type';
+import { Account } from 'typings/payment/account-type';
 import { request, ResponseError } from 'utils/request';
 import { useQuery } from 'react-query';
 import useShop from './use-shop';

@@ -5,7 +5,7 @@ import union from 'lodash/union';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
-import { DiscountType } from 'models/discount/discount-type';
+import { DiscountType } from 'typings/discount/discount-type';
 import SelectableResultSearchModal from 'components/blocks/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';

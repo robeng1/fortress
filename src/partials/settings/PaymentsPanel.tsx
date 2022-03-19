@@ -6,7 +6,7 @@ import {
   Account,
   AccountStatus,
   PaymentMode,
-} from 'models/payment/account-type';
+} from 'typings/payment/account-type';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 import { paymentURL } from 'endpoints/urls';

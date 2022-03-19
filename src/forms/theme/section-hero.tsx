@@ -4,7 +4,7 @@ import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
-import { Template } from 'models/theme/template';
+import { Template } from 'typings/theme/template';
 import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
 

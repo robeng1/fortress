@@ -2,7 +2,7 @@ import { fortressURL } from 'endpoints/urls';
 import {
   LocationListType,
   LocationType,
-} from 'models/inventory/inventory-type';
+} from 'typings/inventory/inventory-type';
 import { request, ResponseError } from 'utils/request';
 import { useQuery } from 'react-query';
 import { useAtom } from 'jotai';

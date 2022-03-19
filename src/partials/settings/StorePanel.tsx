@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Formik } from 'formik';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
-import { ShopType } from 'models/settings/shop-type';
+import { ShopType } from 'typings/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
 import { UidAtom } from 'store/authorization-atom';

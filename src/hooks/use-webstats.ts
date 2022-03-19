@@ -1,5 +1,5 @@
 import { fortressURL } from 'endpoints/urls';
-import { WebAnalyticResponseBody } from 'models/stats/stats-type';
+import { WebAnalyticResponseBody } from 'typings/stats/stats-type';
 import { useQuery } from 'react-query';
 import { request } from 'utils/request';
 import useShop from './use-shop';

@@ -1,7 +1,7 @@
 import { fortressURL } from 'endpoints/urls';
 import isEmpty from 'lodash/isEmpty';
 import { useAtom } from 'jotai';
-import { StartType } from 'models/settings/shop-type';
+import { StartType } from 'typings/settings/shop-type';
 import { useEffect } from 'react';
 import { useQueryClient, useMutation } from 'react-query';
 import { useNavigate, useLocation } from 'react-router-dom';

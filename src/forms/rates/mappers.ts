@@ -1,5 +1,5 @@
-import { ItemBasedRateType } from 'models/rates/item-based-rate';
-import { WeightBasedRateType } from 'models/rates/weight-based-rate';
+import { ItemBasedRateType } from 'typings/rates/item-based-rate';
+import { WeightBasedRateType } from 'typings/rates/weight-based-rate';
 import { mToS, sToM } from 'utils/money';
 import { RateType } from './rate';
 

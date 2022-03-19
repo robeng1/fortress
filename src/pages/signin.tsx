@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { theKeepURL } from 'endpoints/urls';
-import { RegisterLogInType } from 'models/user/profile';
+import { RegisterLogInType } from 'typings/user/profile';
 import { useMutation, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { useAtom } from 'jotai';

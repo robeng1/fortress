@@ -8,7 +8,7 @@ import useDomains from 'hooks/use-domains';
 import useModal from 'hooks/use-modal';
 import ModalBasic from 'components/modal-basic';
 import { useMutation, useQueryClient } from 'react-query';
-import { DNSEntry } from 'models/domains/domains';
+import { DNSEntry } from 'typings/domains/domains';
 import { request, ResponseError } from 'utils/request';
 import { domainURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';

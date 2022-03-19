@@ -1,10 +1,10 @@
 import { Formik } from 'formik';
 import moment from 'moment';
 import { discountOptions } from 'services/options-loaders';
-import { VoucherType } from 'models/voucher/voucher';
+import { VoucherType } from 'typings/voucher/voucher';
 import { request, ResponseError } from 'utils/request';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { VoucherSetType } from 'models/voucher/voucherset';
+import { VoucherSetType } from 'typings/voucher/voucherset';
 import { fortressURL } from 'endpoints/urls';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import useShop from 'hooks/use-shop';

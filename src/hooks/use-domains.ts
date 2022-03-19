@@ -1,5 +1,5 @@
 import { domainURL } from 'endpoints/urls';
-import { DNSEntry } from 'models/domains/domains';
+import { DNSEntry } from 'typings/domains/domains';
 import { useQuery } from 'react-query';
 import { request } from 'utils/request';
 import useShop from './use-shop';

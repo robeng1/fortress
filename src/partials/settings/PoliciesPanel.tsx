@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
-import { ShopType } from 'models/settings/shop-type';
+import { ShopType } from 'typings/settings/shop-type';
 import { UidAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
 import { toast } from 'react-toastify';

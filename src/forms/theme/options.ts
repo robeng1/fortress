@@ -1,5 +1,5 @@
 import * as flat from 'flat';
-import { Theme } from 'models/theme/theme';
+import { Theme } from 'typings/theme/theme';
 import { getCustomizableSections } from 'utils/get-customizable-sections';
 import { parseSection } from 'utils/parse-section';
 

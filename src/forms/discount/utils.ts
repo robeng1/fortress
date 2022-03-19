@@ -1,13 +1,13 @@
 import moment from 'moment';
-import { DiscountType } from 'models/discount/discount-type';
-import { ConditionType } from 'models/discount/condition-type';
-import { BenefitType } from 'models/discount/benefit-type';
-import { RangeType } from 'models/discount/range-type';
-import { VoucherType } from 'models/voucher/voucher';
-import { VoucherSetType } from 'models/voucher/voucherset';
+import { DiscountType } from 'typings/discount/discount-type';
+import { ConditionType } from 'typings/discount/condition-type';
+import { BenefitType } from 'typings/discount/benefit-type';
+import { RangeType } from 'typings/discount/range-type';
+import { VoucherType } from 'typings/voucher/voucher';
+import { VoucherSetType } from 'typings/voucher/voucherset';
 import { mToS, sToM } from 'utils/money';
 import { initialValues, Values } from './values';
-import { ShopType } from 'models/settings/shop-type';
+import { ShopType } from 'typings/settings/shop-type';
 
 
 export const valuesToDiscount = (

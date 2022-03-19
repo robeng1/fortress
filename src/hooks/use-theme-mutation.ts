@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer';
-import { Theme } from 'models/theme/theme';
+import { Theme } from 'typings/theme/theme';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';

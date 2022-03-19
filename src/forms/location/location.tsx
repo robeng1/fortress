@@ -5,7 +5,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { LocationType } from 'models/inventory/inventory-type';
+import { LocationType } from 'typings/inventory/inventory-type';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';

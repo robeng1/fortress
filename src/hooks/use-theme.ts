@@ -1,7 +1,7 @@
 import { request, ResponseError } from 'utils/request';
 import { useQuery } from 'react-query';
 import useShop from './use-shop';
-import { Theme } from 'models/theme/theme';
+import { Theme } from 'typings/theme/theme';
 import { fortressURL } from 'endpoints/urls';
 const initialState: Theme = {};
 

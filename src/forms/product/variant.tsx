@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import ProductVariant from './variant-item';
-import { ProductType } from 'models/product/product-type';
+import { ProductType } from 'typings/product/product-type';
 
 const ProdutVariantPreview = ({
   selectedItems,

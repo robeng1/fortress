@@ -2,11 +2,11 @@ import { fortressURL } from 'endpoints/urls';
 import {
   ItemBasedRateType,
   ItemBasedRateListType,
-} from 'models/rates/item-based-rate';
+} from 'typings/rates/item-based-rate';
 import {
   WeightBasedRateType,
   WeightBasedRateListType,
-} from 'models/rates/weight-based-rate';
+} from 'typings/rates/weight-based-rate';
 import { useQuery } from 'react-query';
 import { request } from 'utils/request';
 import useShop from './use-shop';
