@@ -1,12 +1,12 @@
 import { Formik } from 'formik';
 import moment from 'moment';
-import { discountOptions } from 'services/options-loaders';
+import { discountOptions } from 'services';
 import { VoucherType } from 'typings/voucher/voucher';
 import { request, ResponseError } from 'utils/request';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { VoucherSetType } from 'typings/voucher/voucherset';
 import { fortressURL } from 'endpoints/urls';
-import AsyncCreatableSelect from 'react-select/async-creatable';
+import ReactSelect from 'react-select/async-creatable';
 import useShop from 'hooks/use-shop';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
@@ -332,7 +332,7 @@ const VoucherForm = ({ id, codeType }) => {
                         >
                           Which offer apply for this voucher(s)?
                         </label>
-                        <AsyncCreatableSelect
+                        <ReactSelect
                           id="discount"
                           name="discount"
                           closeMenuOnSelect={true}

@@ -11,8 +11,8 @@ export const collectionOptions =
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    const responseJSON = await response.json();
-    callback(responseJSON.result);
+    const resp = await response.json();
+    callback(resp.result);
   };
 
 export const filterCollectionsAsOptions = async (
@@ -40,9 +40,24 @@ export const productOptions =
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    const responseJSON = await response.json();
-    callback(responseJSON.result);
+    const resp = await response.json();
+    callback(resp.result);
   };
+
+export const filterProductsAsOptions = async (
+  shopId: string,
+  ids: string[],
+) => {
+  const resp = await request(
+    `${fortressURL}/shops/${shopId}/products/as-options`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ shop_id: shopId, id_list: [...ids] }),
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
+  return resp?.result || [];
+};
 
 export const discountOptions =
   (shop_id: string) => async (term: string, callback) => {
@@ -54,8 +69,8 @@ export const discountOptions =
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    const responseJSON = await response.json();
-    callback(responseJSON.result);
+    const resp = await response.json();
+    callback(resp.result);
   };
 
 export const tagOptions =
@@ -68,8 +83,8 @@ export const tagOptions =
         headers: { 'Content-Type': 'application/json' },
       },
     );
-    const responseJSON = await response.json();
-    callback(responseJSON.result);
+    const resp = await response.json();
+    callback(resp.result);
   };
 
 export const productTypeOptions = async (term: string, callback) => {
@@ -81,6 +96,6 @@ export const productTypeOptions = async (term: string, callback) => {
       headers: { 'Content-Type': 'application/json' },
     },
   );
-  const responseJSON = await response.json();
-  callback(responseJSON.result);
+  const resp = await response.json();
+  callback(resp.result);
 };

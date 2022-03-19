@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
 import { DiscountType } from 'typings/discount/discount-type';
-import SelectableResultSearchModal from 'components/blocks/modal-searcher';
+import SelectSearch from 'components/blocks/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';
 import { initialValues, Values } from './values';
@@ -801,7 +801,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectableResultSearchModal
+                              <SelectSearch
                                 id="quick-find-modal-cr"
                                 searchId="quick-find-cr"
                                 modalOpen={searchBXCRInclProductsOpen}
@@ -907,7 +907,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectableResultSearchModal
+                              <SelectSearch
                                 id="quick-find-modal-cr"
                                 searchId="quick-find-cr"
                                 modalOpen={searchBXCRInclCollectionsOpen}
@@ -1081,7 +1081,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectableResultSearchModal
+                              <SelectSearch
                                 id="quick-find-modal-br"
                                 searchId="quick-find-br"
                                 modalOpen={searchBxBRInclProductsOpen}
@@ -1187,7 +1187,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectableResultSearchModal
+                              <SelectSearch
                                 id="quick-find-modal-br"
                                 searchId="quick-find-br"
                                 modalOpen={searchBxBRInclCollectionsOpen}
@@ -1552,7 +1552,7 @@ const DiscountForm = ({ id }) => {
                                       </svg>
                                     </button>
                                   </div>
-                                  <SelectableResultSearchModal
+                                  <SelectSearch
                                     id="quick-find-modal-ip"
                                     searchId="quick-find-ip"
                                     modalOpen={searchInclProductsOpen}
@@ -1660,7 +1660,7 @@ const DiscountForm = ({ id }) => {
                                       </svg>
                                     </button>
                                   </div>
-                                  <SelectableResultSearchModal
+                                  <SelectSearch
                                     id="quick-find-modal-ic"
                                     searchId="quick-find-ic"
                                     modalOpen={searchInclCollectionsOpen}

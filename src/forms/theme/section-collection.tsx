@@ -3,7 +3,7 @@ import { Loading } from 'components/blocks/backdrop';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
-import { collectionOptions } from 'services/options-loaders';
+import { collectionOptions } from 'services';
 import useShop from 'hooks/use-shop';
 import ReactSelect from 'react-select/async-creatable';
 import customSelectStyles from 'forms/product/styles';

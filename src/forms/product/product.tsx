@@ -23,7 +23,7 @@ import {
   filterCollectionsAsOptions,
   productTypeOptions,
   tagOptions,
-} from 'services/options-loaders';
+} from 'services';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { mToCurrency, sToM } from 'utils/money';
@@ -87,7 +87,7 @@ const ProductSchema = Yup.object().shape({
   description: Yup.string().required('Required'),
 });
 
-const ProductForm = async ({ id }) => {
+const ProductForm = ({ id }) => {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
