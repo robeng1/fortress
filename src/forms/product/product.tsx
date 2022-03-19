@@ -45,6 +45,11 @@ interface VarOption {
   values: string[];
 }
 
+interface SelectOption {
+  key: string;
+  label: string;
+}
+
 interface AttrOption {
   name: string;
   values: string[];
@@ -58,7 +63,7 @@ interface Values {
   track_quantity: boolean;
   quantity: number;
   type?: { key: string; label: string };
-  collections?: { key: string; label: string }[];
+  collections?: SelectOption[];
   stock_records: InventoryType[];
   variants: ProductType[];
   locations: string[] | undefined;
@@ -216,7 +221,6 @@ const ProductForm = ({ id }) => {
       variants: [],
     };
     p.collection_fks = d.collections?.map(c => c.key);
-    
     if (d.type) p.categories = [d.type.key];
     if (d.is_parent) {
       p.structure = ProductStructure.PARENT;
