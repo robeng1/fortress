@@ -60,16 +60,9 @@ function AnnouncementBar() {
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
-          setFieldValue,
-          setFieldError,
-          setValues,
-          setFieldTouched,
           handleSubmit,
-          isSubmitting,
           /* and other goodies */
         }) => (
           <div className="flex-grow bg-white">

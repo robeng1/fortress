@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
 import { DiscountType } from 'typings/discount/discount-type';
-import SelectSearch from 'components/blocks/modal-searcher';
+import SearchSelect from 'components/blocks/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';
 import { initialValues, Values } from './values';
@@ -25,7 +25,7 @@ const DiscountForm = ({ id }) => {
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
   const [discountId, setDiscountId] = useState(id);
 
-  // query for getting the discount, create a hook for this?
+  // query for getting the discount, TODO: create a hook for this?
   const { data: discount, isLoading } = useQuery<DiscountType>(
     ['discount', discountId],
     async () => await request(`${requestURL}/${discountId}`),
@@ -36,6 +36,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
+  // TODO: hook this up since it's already baked in the backend
   // const [image, setImage] = useState(discount?.image?.image_url);
 
   // for normal offers benefit range
@@ -74,7 +75,7 @@ const DiscountForm = ({ id }) => {
   const [bxBInclPids, setBxBInclPids] = useState<string[]>([]);
   const [bxBInclCids, setBxBInclCids] = useState<string[]>([]);
 
-  // create the discount
+  // create the discount, TODO: should be moved into a hook
   const { mutate: createDiscount, isLoading: isCreatingDiscount } = useMutation(
     (payload: DiscountType) =>
       request(requestURL, {
@@ -93,7 +94,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  // update the update
+  // update the update TODO: should be moved into a hook
   const { mutate: updateDiscount, isLoading: isUpdatingDiscount } = useMutation(
     (payload: DiscountType) =>
       request(`${requestURL}/${discountId}`, {
@@ -128,7 +129,7 @@ const DiscountForm = ({ id }) => {
     return { limit: 15, term, shop_id: shop?.shop_id, type: 'collection' };
   };
 
-  // query for getting included products
+  // query for getting included products TODO: should be moved into a hook
   const {
     data: { products: includedProducts },
   } = useQuery<any>(
@@ -149,7 +150,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  // query for getting included collections
+  // query for getting included collections TODO: should be moved into a hook
   const {
     data: { collections: includedCollections },
   } = useQuery<any>(
@@ -170,7 +171,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  // query for getting included products for a condition's range
+  // query for getting included products for a condition's range TODO: should be moved into a hook
   const {
     data: { products: condRangeIncludedProducts },
   } = useQuery<any>(
@@ -191,7 +192,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  // query for getting included collections for a condition's range
+  // query for getting included collections for a condition's range TODO: should be moved into a hook
   const {
     data: { collections: condRangeIncludedCollections },
   } = useQuery<any>(
@@ -212,7 +213,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  // query for getting included products for a condition's range
+  // query for getting included products for a condition's range TODO: should be moved into a hook
   const {
     data: { products: benRangeIncludedProducts },
   } = useQuery<any>(
@@ -233,7 +234,7 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  // query for getting included collections for a condition's range
+  // query for getting included collections for a condition's range TODO: should be moved into a hook
   const {
     data: { collections: benRangeIncludedCollections },
   } = useQuery<any>(
@@ -448,16 +449,10 @@ const DiscountForm = ({ id }) => {
         >
           {({
             values,
-            errors,
-            touched,
             handleChange,
             handleBlur,
             setFieldValue,
-            setFieldError,
-            setValues,
-            setFieldTouched,
             handleSubmit,
-            isSubmitting,
             /* and other goodies */
           }) => (
             <div className="flex-grow w-full mx-auto">
@@ -801,7 +796,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectSearch
+                              <SearchSelect
                                 id="quick-find-modal-cr"
                                 searchId="quick-find-cr"
                                 modalOpen={searchBXCRInclProductsOpen}
@@ -907,7 +902,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectSearch
+                              <SearchSelect
                                 id="quick-find-modal-cr"
                                 searchId="quick-find-cr"
                                 modalOpen={searchBXCRInclCollectionsOpen}
@@ -1081,7 +1076,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectSearch
+                              <SearchSelect
                                 id="quick-find-modal-br"
                                 searchId="quick-find-br"
                                 modalOpen={searchBxBRInclProductsOpen}
@@ -1187,7 +1182,7 @@ const DiscountForm = ({ id }) => {
                                   </svg>
                                 </button>
                               </div>
-                              <SelectSearch
+                              <SearchSelect
                                 id="quick-find-modal-br"
                                 searchId="quick-find-br"
                                 modalOpen={searchBxBRInclCollectionsOpen}
@@ -1552,7 +1547,7 @@ const DiscountForm = ({ id }) => {
                                       </svg>
                                     </button>
                                   </div>
-                                  <SelectSearch
+                                  <SearchSelect
                                     id="quick-find-modal-ip"
                                     searchId="quick-find-ip"
                                     modalOpen={searchInclProductsOpen}
@@ -1660,7 +1655,7 @@ const DiscountForm = ({ id }) => {
                                       </svg>
                                     </button>
                                   </div>
-                                  <SelectSearch
+                                  <SearchSelect
                                     id="quick-find-modal-ic"
                                     searchId="quick-find-ic"
                                     modalOpen={searchInclCollectionsOpen}
@@ -2354,7 +2349,7 @@ const DiscountForm = ({ id }) => {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate('/discounts')}
+                      onClick={() => navigate(-1)}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel

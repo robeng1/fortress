@@ -32,7 +32,6 @@ const ProdutVariantPreview = ({
 
   useEffect(() => {
     selectedItems(isCheck);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCheck]);
 
   return (

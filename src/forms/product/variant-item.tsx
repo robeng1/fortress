@@ -49,7 +49,7 @@ function ProductVariant(props) {
           step={1}
           min={0}
           onBlur={e => props.updateQuantity(props.index, quantity)}
-          onChange={e => setQuantity(parseInt(e.target.value))}
+          onChange={e => setQuantity(Number.parseInt(e.target.value))}
           className="form-input w-full rounded-sm"
           value={quantity}
         ></input>

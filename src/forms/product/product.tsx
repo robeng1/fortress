@@ -11,11 +11,7 @@ import ProdutVariantPreview from 'forms/product/variant';
 import { fortressURL } from 'endpoints/urls';
 import { customSelectStyles } from 'forms/product/styles';
 import { attributeOptions } from 'data/select';
-import {
-  ProductImage,
-  ProductStructure,
-  ProductType,
-} from 'typings/product/product-type';
+import { ProductStructure, ProductType } from 'typings/product/product-type';
 import { InventoryType } from 'typings/inventory/inventory-type';
 import slugify from 'slugify';
 import {
@@ -35,57 +31,11 @@ import TagInput from 'components/blocks/tag-input';
 import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
 import Images from './images';
+import { AttrOption, Values, VarOption } from './values';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
 const defaultCurrency = 'GHS';
-
-interface VarOption {
-  attribute: Record<string, string>;
-  values: string[];
-}
-
-interface SelectOption {
-  key: string;
-  label: string;
-}
-
-interface AttrOption {
-  name: string;
-  values: string[];
-}
-
-interface Values {
-  title: string;
-  description: string;
-  is_parent: boolean;
-  shipping_required: boolean;
-  track_quantity: boolean;
-  quantity: number;
-  type?: { key: string; label: string };
-  collections?: SelectOption[];
-  stock_records: InventoryType[];
-  variants: ProductType[];
-  locations: string[] | undefined;
-  variation_options: VarOption[];
-  images: ProductImage[];
-  tags: string[];
-  vendor: string;
-  channels: string[];
-  template_suffix: string;
-  price: string;
-  compare_at_price: string;
-  cost_per_item: string;
-  sku: string;
-  barcode: string;
-  unlimited: boolean;
-  weight: string;
-  length: string;
-  width: string;
-  height: string;
-  page_title: string;
-  page_description: string;
-}
 
 const ProductSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
@@ -105,11 +55,10 @@ const ProductForm = ({ id }) => {
 
   const [productId, setProductId] = useState(id);
 
-
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
 
-  // query for getting the product, move into a hook
+  // query for getting the product, TODO: move into a hook
   const { data: product } = useQuery<ProductType>(
     ['product', productId],
     async () => await request(`${requestURL}/${productId}`),
@@ -119,7 +68,7 @@ const ProductForm = ({ id }) => {
       keepPreviousData: true,
     },
   );
-  
+
   const record: InventoryType | undefined =
     product?.stock_records && product?.stock_records.length > 0
       ? product?.stock_records[0]
@@ -301,7 +250,7 @@ const ProductForm = ({ id }) => {
     setSelectedItems([...selectedItems]);
   };
 
-  // passed down to variants table for updating price
+  // passed down to variants table for updating price. TODO: move into a diff file
   const updatePrice =
     (
       values: Values,
@@ -322,7 +271,8 @@ const ProductForm = ({ id }) => {
       setFieldValue('variants', variants);
     };
 
-  // passed down to variants table for updating quantity of child products
+  // passed down to variants table for updating quantity of child
+  // TODO: move into a diff file
   const updateQuantity =
     (
       values: Values,
@@ -351,7 +301,8 @@ const ProductForm = ({ id }) => {
     return isValid;
   };
 
-  const generate = (
+  // TODO: move into a diff file
+  const createVars = (
     values: Values,
     setFieldValue?: (
       field: string,
@@ -420,9 +371,9 @@ const ProductForm = ({ id }) => {
 
   const handleSubmit = (values: Values) => {
     if (values.is_parent && _.isEmpty(values.variants)) {
-      values.variants = generate(values) || [];
+      values.variants = createVars(values) || [];
     }
-    const p = valuesToProductMapper({ ...values })
+    const p = valuesToProductMapper({ ...values });
     if (!productId || productId === '') {
       createProduct(p);
     } else {
@@ -430,6 +381,8 @@ const ProductForm = ({ id }) => {
     }
   };
   const initvals = productToValuesMapper(product);
+
+  // TODO: break form page into sections
   return (
     <>
       <Loading
@@ -1121,7 +1074,7 @@ const ProductForm = ({ id }) => {
                                 onClick={e => {
                                   e.stopPropagation();
                                   if (!showVariants) {
-                                    generate(values, setFieldValue);
+                                    createVars(values, setFieldValue);
                                   }
                                   setShowVariants(!showVariants);
                                 }}
