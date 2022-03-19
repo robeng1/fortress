@@ -1,4 +1,6 @@
 import { fortressURL } from 'endpoints/urls';
+import { request } from 'utils/request';
+
 export const collectionOptions =
   (shopId: string) => async (term: string, callback) => {
     const response = await fetch(
@@ -13,6 +15,21 @@ export const collectionOptions =
     callback(responseJSON.result);
   };
 
+export const filterCollectionsAsOptions = async (
+  shopId: string,
+  ids: string[],
+) => {
+  const resp = await request(
+    `${fortressURL}/shops/${shopId}/collections/as-options`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ shop_id: shopId, id_list: [...ids] }),
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
+  return resp?.result || [];
+};
+
 export const productOptions =
   (shop_id: string) => async (term: string, callback) => {
     const response = await fetch(
@@ -26,6 +43,7 @@ export const productOptions =
     const responseJSON = await response.json();
     callback(responseJSON.result);
   };
+
 export const discountOptions =
   (shop_id: string) => async (term: string, callback) => {
     const response = await fetch(
@@ -55,11 +73,14 @@ export const tagOptions =
   };
 
 export const productTypeOptions = async (term: string, callback) => {
-  const response = await fetch(`${fortressURL}/shops/product-types/option-search`, {
-    method: 'POST',
-    body: JSON.stringify({ term }),
-    headers: { 'Content-Type': 'application/json' },
-  });
+  const response = await fetch(
+    `${fortressURL}/shops/product-types/option-search`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ term }),
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
   const responseJSON = await response.json();
   callback(responseJSON.result);
 };

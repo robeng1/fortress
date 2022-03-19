@@ -5,7 +5,6 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';
 import makeAnimated from 'react-select/animated';
-import { Flex } from 'rebass';
 import { Formik } from 'formik';
 import { cartesian } from 'utils/cartesian';
 import ProdutVariantPreview from 'forms/product/variant';
@@ -21,6 +20,7 @@ import { InventoryType } from 'typings/inventory/inventory-type';
 import slugify from 'slugify';
 import {
   collectionOptions,
+  filterCollectionsAsOptions,
   productTypeOptions,
   tagOptions,
 } from 'services/options-loaders';
@@ -34,8 +34,6 @@ import { useNavigate } from 'react-router-dom';
 import TagInput from 'components/blocks/tag-input';
 import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
-import FileUploadField from 'components/blocks/file-upload-field';
-import { CloseIcon } from 'components/icons/close-icon';
 import Images from './images';
 
 // animated components for react select
@@ -60,7 +58,7 @@ interface Values {
   track_quantity: boolean;
   quantity: number;
   type?: { key: string; label: string };
-  collections: string[];
+  collections?: { key: string; label: string }[];
   stock_records: InventoryType[];
   variants: ProductType[];
   locations: string[] | undefined;
@@ -80,7 +78,6 @@ interface Values {
   length: string;
   width: string;
   height: string;
-  files: string[];
   page_title: string;
   page_description: string;
 }
@@ -90,7 +87,7 @@ const ProductSchema = Yup.object().shape({
   description: Yup.string().required('Required'),
 });
 
-const ProductForm = ({ id }) => {
+const ProductForm = async ({ id }) => {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
@@ -123,48 +120,58 @@ const ProductForm = ({ id }) => {
       ? product?.stock_records[0]
       : undefined;
 
-  const initialValues: Values = {
-    title: product?.title || '',
-    description: product?.description || '',
-    is_parent: !isEmpty(product?.variants),
-    shipping_required: product?.shipping_required || true,
-    track_quantity: product?.track_stock || true,
-    quantity: !isEmpty(record) ? record?.num_in_stock || 1 : 1,
-    type: undefined,
-    collections: [],
-    stock_records: product?.stock_records || [],
-    variants: product?.variants || [],
-    variation_options: [],
-    images: product?.images || [],
-    tags: product?.tags || [],
-    vendor: product?.vendor || '',
-    channels: [],
-    template_suffix: 'product',
-    price: !isEmpty(record)
-      ? mToCurrency(record?.price_excl_tax).toString()
-      : '',
-    compare_at_price: !isEmpty(record)
-      ? mToCurrency(record?.compare_at_price).toString()
-      : '',
-    cost_per_item: !isEmpty(record)
-      ? mToCurrency(record?.cost_per_item).toString()
-      : '',
-    sku: product?.sku || '',
-    barcode: product?.upc || '',
-    unlimited: product?.track_stock || true,
-    weight: product?.weight || '',
-    length: product?.length || '',
-    width: product?.width || '',
-    height: product?.height || '',
-    locations: locations?.map(loc => loc.centre_id!),
-    files: [],
-    page_title: product?.page_title || '',
-    page_description: product?.description || '',
-  };
   const productToValuesMapper = (d: ProductType | undefined): Values => {
+    const initialValues: Values = {
+      title: d?.title || '',
+      description: d?.description || '',
+      is_parent: !isEmpty(d?.variants),
+      shipping_required: d?.shipping_required || true,
+      track_quantity: d?.track_stock || true,
+      quantity: !isEmpty(record) ? record?.num_in_stock || 1 : 1,
+      type: { key: d?.type || '', label: d?.type || '' },
+      stock_records: d?.stock_records || [],
+      variants: d?.variants || [],
+      variation_options: [],
+      images: d?.images || [],
+      tags: d?.tags || [],
+      vendor: d?.vendor || '',
+      channels: [],
+      template_suffix: 'product',
+      price: !isEmpty(record)
+        ? mToCurrency(record?.price_excl_tax).toString()
+        : '',
+      compare_at_price: !isEmpty(record)
+        ? mToCurrency(record?.compare_at_price).toString()
+        : '',
+      cost_per_item: !isEmpty(record)
+        ? mToCurrency(record?.cost_per_item).toString()
+        : '',
+      sku: d?.sku || '',
+      barcode: d?.upc || '',
+      unlimited: d?.track_stock || true,
+      weight: d?.weight || '',
+      length: d?.length || '',
+      width: d?.width || '',
+      height: d?.height || '',
+      locations: locations?.map(loc => loc.centre_id!),
+      page_title: d?.page_title || '',
+      page_description: d?.description || '',
+    };
     if (!d) {
       return initialValues;
     }
+    if (d?.collection_fks) {
+      if (shop?.shop_id) {
+        const options = filterCollectionsAsOptions(
+          shop?.shop_id,
+          d?.collection_fks,
+        );
+        options.then(result => {
+          initialValues.collections = result;
+        });
+      }
+    }
+
     if (d.structure === ProductStructure.PARENT) {
       const attrs: AttrOption[] = JSON.parse(d.attributes as string);
       initialValues.variation_options = attrs.map(attr => {
@@ -194,7 +201,7 @@ const ProductForm = ({ id }) => {
       height: d.height,
       length: d.length,
       width: d.width,
-      images: images.map((url) => {
+      images: images.map(url => {
         return {
           url: url,
           alt: d.title,
@@ -205,9 +212,11 @@ const ProductForm = ({ id }) => {
       page_description: d.page_description,
       vendor: d.vendor,
       stock_records: [],
-      collections: [],
+      collection_fks: [],
       variants: [],
     };
+    p.collection_fks = d.collections?.map(c => c.key);
+    
     if (d.type) p.categories = [d.type.key];
     if (d.is_parent) {
       p.structure = ProductStructure.PARENT;
@@ -419,7 +428,7 @@ const ProductForm = ({ id }) => {
       updateProduct(p);
     }
   };
-
+  const initvals = productToValuesMapper(product);
   return (
     <>
       <Loading
@@ -427,7 +436,7 @@ const ProductForm = ({ id }) => {
       />
       <Formik
         enableReinitialize
-        initialValues={{ ...productToValuesMapper(product) }}
+        initialValues={{ ...initvals }}
         validationSchema={ProductSchema}
         onSubmit={(values, { setSubmitting }) => {
           handleSubmit({
