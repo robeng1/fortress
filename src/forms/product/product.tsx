@@ -105,8 +105,7 @@ const ProductForm = ({ id }) => {
 
   const [productId, setProductId] = useState(id);
 
-  // eslint-disable-next-line no-unused-vars
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
 
@@ -120,6 +119,7 @@ const ProductForm = ({ id }) => {
       keepPreviousData: true,
     },
   );
+  
   const record: InventoryType | undefined =
     product?.stock_records && product?.stock_records.length > 0
       ? product?.stock_records[0]
@@ -422,10 +422,7 @@ const ProductForm = ({ id }) => {
     if (values.is_parent && _.isEmpty(values.variants)) {
       values.variants = generate(values) || [];
     }
-    const p = valuesToProductMapper({ ...values });
-    // console.log(p);
-    // console.log(values.variation_options);
-    // console.log(p.attributes);
+    const p = valuesToProductMapper({ ...values })
     if (!productId || productId === '') {
       createProduct(p);
     } else {
