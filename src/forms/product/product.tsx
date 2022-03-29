@@ -77,7 +77,7 @@ const ProductForm = ({ id }) => {
   const productToValuesMapper = (d: ProductType | undefined): Values => {
     const initialValues: Values = {
       title: d?.title || '',
-      description: d?.description || '',
+      description: d?.description ?? '',
       is_parent: !isEmpty(d?.variants),
       shipping_required: d?.shipping_required || true,
       track_quantity: d?.track_stock || true,
