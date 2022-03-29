@@ -32,6 +32,7 @@ import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
 import Images from './images';
 import { AttrOption, Values, VarOption } from './values';
+import { b64Encode, base64Decode, decodeBuf } from 'utils/buff';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -127,7 +128,7 @@ const ProductForm = ({ id }) => {
     }
 
     if (d.structure === ProductStructure.PARENT) {
-      const attrs: AttrOption[] = JSON.parse(d.attributes as string);
+      const attrs: AttrOption[] = base64Decode(d.attributes as string) as AttrOption[];
       initialValues.variation_options = attrs.map(attr => {
         return {
           attribute: { label: attr.name, value: attr.name.toLowerCase() },
@@ -146,15 +147,14 @@ const ProductForm = ({ id }) => {
       product_id: productId,
       title: d.title,
       description: d.description,
-      tags: d.tags,
       channels: d.channels,
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
-      weight: d.weight,
-      height: d.height,
-      length: d.length,
-      width: d.width,
+      weight: d.weight.toString(),
+      height: d.height.toString(),
+      length: d.length.toString(),
+      width: d.width.toString(),
       images: images.map(url => {
         return {
           url: url,
@@ -200,14 +200,27 @@ const ProductForm = ({ id }) => {
         return record;
       });
     }
-    p.attributes = JSON.stringify(
-      d.variation_options.map(vo => {
-        return {
-          name: vo.attribute.label,
-          values: vo.values.map(v => v),
-        };
-      }),
-    );
+    if (d.tags.length > 0) {
+      p.tags = []
+      for (const tag of d.tags) {
+        if (typeof tag === 'string') {
+          p.tags.push(tag)
+        } else if (typeof tag === 'object') {
+          p.tags.push(tag['label'])
+        }
+      }
+    }
+    if (d.variation_options.length > 0) {
+      p.attributes = b64Encode(
+        d.variation_options.map(vo => {
+          return {
+            name: vo.attribute.label,
+            values: vo.values.map(v => v),
+          };
+        }),
+      );
+    }
+
     return p;
   };
 
@@ -242,7 +255,7 @@ const ProductForm = ({ id }) => {
         setProductId(newProduct.product_id);
         qc.setQueryData(['product', productId], newProduct);
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => { },
     },
   );
 
@@ -260,16 +273,16 @@ const ProductForm = ({ id }) => {
         shouldValidate?: boolean | undefined,
       ) => void,
     ) =>
-    (index: number, newValue: string) => {
-      const variants = values.variants;
-      const va = values.variants[index];
-      va.stock_records![0].price_excl_tax = sToM(
-        newValue,
-        shop?.currency?.iso_code,
-      );
-      variants[index] = va;
-      setFieldValue('variants', variants);
-    };
+      (index: number, newValue: string) => {
+        const variants = values.variants;
+        const va = values.variants[index];
+        va.stock_records![0].price_excl_tax = sToM(
+          newValue,
+          shop?.currency?.iso_code,
+        );
+        variants[index] = va;
+        setFieldValue('variants', variants);
+      };
 
   // passed down to variants table for updating quantity of child
   // TODO: move into a diff file
@@ -282,13 +295,13 @@ const ProductForm = ({ id }) => {
         shouldValidate?: boolean | undefined,
       ) => void,
     ) =>
-    (index: number, newValue: number) => {
-      const variants = values.variants;
-      const va = values.variants[index];
-      va.stock_records![0].num_in_stock = newValue;
-      variants[index] = va;
-      setFieldValue('variants', variants);
-    };
+      (index: number, newValue: number) => {
+        const variants = values.variants;
+        const va = values.variants[index];
+        va.stock_records![0].num_in_stock = newValue;
+        variants[index] = va;
+        setFieldValue('variants', variants);
+      };
 
   // validates variation options before allowing variants to be
   // generated from options
@@ -327,10 +340,10 @@ const ProductForm = ({ id }) => {
         shop_id: shop?.shop_id!,
         product_id: productId || '',
         structure: ProductStructure.CHILD,
-        weight: values.weight,
-        height: values.height,
-        length: values.length,
-        width: values.width,
+        weight: values.weight.toString(),
+        height: values.height.toString(),
+        length: values.length.toString(),
+        width: values.width.toString(),
       };
 
       variant.attributes = JSON.stringify(
@@ -456,9 +469,8 @@ const ProductForm = ({ id }) => {
                           name="description"
                           id="description"
                           value={values.description}
-                          onChange={value =>
-                            setFieldValue('description', value)
-                          }
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                       </div>
                     </div>
