@@ -93,7 +93,7 @@ function AnalyticsCard01({
             <div className="mr-5">
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800 mr-2">
-                  {!!bounceRate ? `${bounceRate}%s` : '-'}
+                  {!!bounceRate ? `${bounceRate}%` : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-yellow-500">-7%</div> */}
               </div>

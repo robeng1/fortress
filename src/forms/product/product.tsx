@@ -395,6 +395,7 @@ const ProductForm = ({ id }) => {
   };
   const initvals = productToValuesMapper(product);
 
+
   // TODO: break form page into sections
   return (
     <>
