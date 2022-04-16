@@ -128,7 +128,6 @@ const ProductForm = ({ id }) => {
       const attrs: AttrOption[] = base64Decode(
         d.attributes,
       ) as AttrOption[];
-      console.log(attrs)
       vals.variation_options = attrs.map(attr => {
         return {
           attribute: { label: attr.name, value: attr.name.toLowerCase() },
