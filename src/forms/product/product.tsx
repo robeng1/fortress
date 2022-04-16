@@ -78,7 +78,7 @@ const ProductForm = ({ id }) => {
       : undefined;
 
   const productToValuesMapper = (d: ProductType | undefined): Values => {
-    const initialValues: Values = {
+    const initVals: Values = {
       title: d?.title || '',
       description: d?.description ?? '',
       is_parent: !isEmpty(d?.variants),
@@ -115,12 +115,12 @@ const ProductForm = ({ id }) => {
       page_description: d?.description || '',
     };
     if (!d) {
-      return initialValues;
+      return initVals;
     }
     // set the product type
     if (d.categories && d.categories.length > 0) {
       const _type = d.categories[0]
-      initialValues.type = { label: _type, key: _type }
+      initVals.type = { label: _type, key: _type }
     }
 
     // set product structure
@@ -128,7 +128,7 @@ const ProductForm = ({ id }) => {
       const attrs: AttrOption[] = base64Decode(
         d.attributes,
       ) as AttrOption[];
-      initialValues.variation_options = attrs.map(attr => {
+      initVals.variation_options = attrs.map(attr => {
         return {
           attribute: { label: attr.name, value: attr.name.toLowerCase() },
           values: attr.values.map(v => {
@@ -138,16 +138,16 @@ const ProductForm = ({ id }) => {
       });
     }
     if (d.tags && d.tags.length > 0) {
-      initialValues.tags = [];
+      initVals.tags = [];
       for (const tag of d.tags) {
         if (typeof tag === 'string') {
-          initialValues.tags.push({ label: tag, key: tag });
+          initVals.tags.push({ label: tag, key: tag });
         } else if (typeof tag === 'object') {
-          initialValues.tags.push(tag);
+          initVals.tags.push(tag);
         }
       }
     }
-    return initialValues;
+    return initVals;
   };
 
   const valuesToProductMapper = (d: Values): ProductType => {
