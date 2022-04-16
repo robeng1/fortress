@@ -89,7 +89,7 @@ const ProductForm = ({ id }) => {
       variants: d?.variants || [],
       variation_options: [],
       images: d?.images || [],
-      tags: d?.tags?.map((t)=> ({label: t, key: t})) ?? [],
+      tags: d?.tags?.map((t) => ({ label: t, key: t })) ?? [],
       vendor: d?.vendor || '',
       channels: [],
       template_suffix: 'product',
@@ -125,7 +125,7 @@ const ProductForm = ({ id }) => {
 
     // set product structure
     if (d.structure === ProductStructure.PARENT && d.attributes) {
-      const attrs: AttrOption[] = decodeBuf(
+      const attrs: AttrOption[] = base64Decode(
         d.attributes,
       ) as AttrOption[];
       initialValues.variation_options = attrs.map(attr => {
@@ -141,7 +141,7 @@ const ProductForm = ({ id }) => {
       initialValues.tags = [];
       for (const tag of d.tags) {
         if (typeof tag === 'string') {
-          initialValues.tags.push({label: tag, key: tag});
+          initialValues.tags.push({ label: tag, key: tag });
         } else if (typeof tag === 'object') {
           initialValues.tags.push(tag);
         }
@@ -195,7 +195,7 @@ const ProductForm = ({ id }) => {
           product_id: productId || '',
           shop_id: shop?.shop_id,
           num_in_stock: d.quantity,
-          centre_id: loc.centre_id!,
+          centre_id: loc.centre_id??'',
           centre_sku: slugify(d.title),
           cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
           price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
@@ -218,7 +218,7 @@ const ProductForm = ({ id }) => {
       }
     } // v.stock_records = d.stock_records[v.title!];
     if (d.variation_options.length > 0) {
-      p.attributes = encodeBuf(
+      p.attributes = b64Encode(
         d.variation_options.map(vo => {
           return {
             name: vo.attribute.label,
@@ -367,7 +367,7 @@ const ProductForm = ({ id }) => {
         width: values.width.toString(),
       };
 
-      variant.attributes = encodeBuf(
+      variant.attributes = b64Encode(
         variant.title?.split('-').map((opt, i) => {
           return { name: attributes[i].label, value: opt };
         }),
@@ -377,9 +377,10 @@ const ProductForm = ({ id }) => {
         const record: InventoryType = {
           variant_id: productId || '',
           product_id: productId || '',
+          shop_id: shop?.shop_id,
           num_in_stock: values.quantity,
           // TODO: centreId && centreSku should be replaced with correct on
-          centre_id: centre_id!,
+          centre_id: centre_id?? '',
           centre_sku: slugify(t),
           cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
           price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
@@ -700,8 +701,21 @@ const ProductForm = ({ id }) => {
                           id="price"
                           name="price"
                           onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={Number.parseFloat(values.price).toString()}
+                          onBlur={(e) => {
+                            const val = e.target.value as string
+                            if (val) {
+                              const num = Number.parseFloat(val)
+                              if (!isNaN(num)) {
+                                setFieldValue('price', num.toFixed(2))
+                              } else {
+                                setFieldValue('price', '0.00')
+                              }
+
+                            } else {
+                              setFieldValue('price', '0.00')
+                            }
+                          }}
+                          value={values.price}
                           className="form-input w-full md:w-min"
                           type="text"
                           placeholder="GHS 0.00"
@@ -724,8 +738,21 @@ const ProductForm = ({ id }) => {
                           id="compare_at_price"
                           name="compare_at_price"
                           onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={Number.parseFloat(values.compare_at_price).toString()}
+                          onBlur={(e) => {
+                            const val = e.target.value as string
+                            if (val) {
+                              const num = Number.parseFloat(val)
+                              if (!isNaN(num)) {
+                                setFieldValue('compare_at_price', num.toFixed(2))
+                              } else {
+                                setFieldValue('compare_at_price', '0.00')
+                              }
+
+                            } else {
+                              setFieldValue('compare_at_price', '0.00')
+                            }
+                          }}
+                          value={values.compare_at_price}
                           className="form-input w-full md:w-min"
                           type="text"
                           placeholder="GHS 0.00"
@@ -750,8 +777,21 @@ const ProductForm = ({ id }) => {
                           id="cost_per_item"
                           name="cost_per_item"
                           onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={Number.parseFloat(values.cost_per_item).toString()}
+                          onBlur={(e) => {
+                            const val = e.target.value as string
+                            if (val) {
+                              const num = Number.parseFloat(val)
+                              if (!isNaN(num)) {
+                                setFieldValue('cost_per_item', num.toFixed(2))
+                              } else {
+                                setFieldValue('cost_per_item', '0.00')
+                              }
+
+                            } else {
+                              setFieldValue('cost_per_item', '0.00')
+                            }
+                          }}
+                          value={values.cost_per_item}
                           className="form-input w-full md:w-min"
                           type="text"
                           placeholder="GHS 0.00"

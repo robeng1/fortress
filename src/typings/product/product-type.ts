@@ -48,7 +48,7 @@ export interface ProductType {
   product_id?: string;
   upc?: string;
   shop_id?: string;
-  attributes?: Buffer;
+  attributes?: string;
   title?: string;
   description?: string;
   created_at?: string;
@@ -94,7 +94,7 @@ export interface ProductType {
   hs_code?: string;
   mid_code?: string;
   deleted_at?: string | null;
-  metadata?: Buffer;
+  metadata?: string;
   weight?: string;
   length?: string;
   height?: string;
