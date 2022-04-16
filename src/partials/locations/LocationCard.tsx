@@ -8,7 +8,6 @@ export default function LocationCard({ handleShow, location }) {
         className="py-1 px-3 mb-4 md:p-5 text-coolGray-800 shadow rounded-lg"
       >
         <div className="flex md:space-y-0 md:space-x-6 align-top">
-
           <div className="flex flex-col px-3 md:px-0">
             <div className="flex md:space-x-6 flex-row">
               <h4 className="text-sm md:text-lg font-semibold text-left">

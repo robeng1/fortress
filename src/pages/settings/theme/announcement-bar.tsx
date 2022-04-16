@@ -1,8 +1,8 @@
-import AnnouncementBar from "forms/theme/announcement-bar";
-import Header from "partials/Header";
-import Sidebar from "partials/Sidebar";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import AnnouncementBar from 'forms/theme/announcement-bar';
+import Header from 'partials/Header';
+import Sidebar from 'partials/Sidebar';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AnnouncementBarMutation() {
   const navigate = useNavigate();

@@ -1,5 +1,3 @@
-
-
 export interface CollectType {
   shop_id?: string;
   collection_id?: string;

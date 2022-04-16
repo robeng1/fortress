@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 import { formatPesosMoney } from 'utils/money';
 
 export default function ProductList({ handleShow, products }) {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <>
       <div className="md:hidden">

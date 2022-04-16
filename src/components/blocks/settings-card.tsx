@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link} from 'react-router-dom';
-import {ArrowNext} from 'components/icons/arrow-next'
+import { Link } from 'react-router-dom';
+import { ArrowNext } from 'components/icons/arrow-next';
 
 type SettingsCardProps = {
   icon?: JSX.Element;
@@ -20,7 +20,7 @@ const SettingsCard: React.FC<SettingsCardProps> = ({
   disabled = false,
 }) => {
   if (disabled) {
-    to = "/settings";
+    to = '/settings';
   }
 
   return (
@@ -92,4 +92,3 @@ export const SettingsCardNoIcon: React.FC<SettingsCardProps> = ({
     </Link>
   );
 };
-

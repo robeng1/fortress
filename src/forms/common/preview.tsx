@@ -31,7 +31,7 @@ export const StyledImageCard = styled(Box)`
 
 export const StyledImageBox = styled(Flex)`
   flex-wrap: wrap;
-  justify-content:center ;
+  justify-content: center;
   .img-container {
     border: 1px solid black;
     background-color: white;

@@ -5,7 +5,6 @@ import Header from 'partials/Header';
 import LocationsPanel from 'partials/settings/LocationsPanel';
 import { Link } from 'react-router-dom';
 
-
 function Locations() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

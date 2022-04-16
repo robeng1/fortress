@@ -1,9 +1,18 @@
 export interface AddressType {
+  name?: string;
   street?: string;
   city?: string;
-  area?: string;
   province?: string;
+  postcode?: string;
   country?: string;
+  notes?: string;
+  latitude?: number | string;
+  longitude?: number | string;
+  description?: string;
+  place_id?: string;
+  address_line_2?: string;
+  raw?: string;
+  area?: string;
 }
 
 export interface CurrencyType {

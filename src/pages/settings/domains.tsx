@@ -139,7 +139,10 @@ function Domains() {
             <div className="px-5 py-4">
               <div className="text-sm">
                 <p>Copy these and update your DNS records.</p>
-                <p>We're working hard to automate this process. Contact 0246493078 if you need help setting the records</p>
+                <p>
+                  We're working hard to automate this process. Contact
+                  0246493078 if you need help setting the records
+                </p>
                 <div className="font-medium text-slate-800 mb-1">
                   CNAME : shops.myreoplex.com
                 </div>

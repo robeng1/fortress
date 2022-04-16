@@ -1,4 +1,3 @@
-
 import Banner from 'forms/theme/banner';
 import Header from 'partials/Header';
 import Sidebar from 'partials/Sidebar';

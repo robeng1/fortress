@@ -59,7 +59,6 @@ function Collections() {
     setCurrentCollectionId(collectionId);
   };
   const collections = data?.collections || [];
-  
 
   return (
     <div className="flex h-screen overflow-hidden">

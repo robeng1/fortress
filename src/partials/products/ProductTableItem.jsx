@@ -35,7 +35,7 @@ function ProductTableItem(props) {
           <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={proxyURL(props.image, 50,50)}
+              src={proxyURL(props.image, 50, 50)}
               alt={props.name}
             />
           </div>
@@ -55,7 +55,7 @@ function ProductTableItem(props) {
         <div className="text-left">{props.type}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="text-left">{props.status|| 'Available'}</div>
+        <div className="text-left">{props.status || 'Available'}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="text-center">{props.variants}</div>

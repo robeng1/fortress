@@ -56,7 +56,6 @@ function Discounts() {
   };
   const discounts = data?.discounts || [];
 
-
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}

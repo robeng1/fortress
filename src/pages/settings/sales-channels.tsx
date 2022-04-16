@@ -64,7 +64,6 @@ function SalesChannels() {
           </div>
         </main>
       </div>
-      
     </div>
   );
 }

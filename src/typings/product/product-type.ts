@@ -45,14 +45,14 @@ export interface VariationTheme {
 }
 
 export interface ProductType {
-  product_id: string;
+  product_id?: string;
   upc?: string;
-  shop_id: string;
-  attributes?: Buffer | Uint8Array | string;
+  shop_id?: string;
+  attributes?: Buffer;
   title?: string;
   description?: string;
   created_at?: string;
-  updated_at?: string;
+  updated_at?: string | null;
   image?: string;
   sku?: string;
   track_stock?: boolean;
@@ -61,7 +61,7 @@ export interface ProductType {
   status?: string;
   item_condition?: string;
   swatch_image_url?: string;
-  type?: string;
+  material?: string;
   product_type_id?: string;
   is_discountable?: boolean;
   options?: ProductOption[];
@@ -79,29 +79,29 @@ export interface ProductType {
   inheritance_id?: string;
   product_status?: string;
   template_suffix?: string;
-  bucket?: number;
+  bucket?: string;
   tags?: string[];
   page_title?: string;
   page_description?: string;
   images?: ProductImage[];
-  shard?: number;
+  sid?: number;
   collections?: CollectionType[];
   stock_records?: InventoryType[];
-  material?: string;
-  sid?: number;
-  variant_rank?: number | string;
+  variant_rank?: number;
   position?: number;
   ean?: string;
   allow_backorder?: boolean;
   hs_code?: string;
   mid_code?: string;
-  metadata?: Buffer | Uint8Array | string;
+  deleted_at?: string | null;
+  metadata?: Buffer;
   weight?: string;
   length?: string;
   height?: string;
   width?: string;
   profile_id?: string;
   collection_fks?: string[];
+  collection_options?: { [key: string]: string };
 }
 
 export interface ProductListType {

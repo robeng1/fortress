@@ -9,11 +9,7 @@ import { mToS, sToM } from 'utils/money';
 import { initialValues, Values } from './values';
 import { ShopType } from 'typings/settings/shop-type';
 
-
-export const valuesToDiscount = (
-  d: Values,
-  shop?: ShopType,
-): DiscountType => {
+export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
   const disc: DiscountType = {
     shop_id: shop?.shop_id || '',
     name: d.title,

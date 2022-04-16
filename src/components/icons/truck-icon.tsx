@@ -39,4 +39,3 @@ export const TruckIcon: React.FC<IconProps> = ({
     </svg>
   );
 };
-

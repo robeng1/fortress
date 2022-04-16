@@ -34,7 +34,7 @@ export interface Values {
   locations: string[] | undefined;
   variation_options: VarOption[];
   images: ProductImage[];
-  tags: string[];
+  tags: SelectOption[];
   vendor: string;
   channels: string[];
   template_suffix: string;

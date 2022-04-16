@@ -7,7 +7,7 @@ type FileUploadFieldProps = {
   errorMessage?: string;
   placeholder?: string;
   className?: string;
-  multiple?: boolean
+  multiple?: boolean;
 };
 
 const FileUploadField: React.FC<FileUploadFieldProps> = ({
@@ -30,7 +30,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
 
     e.preventDefault();
 
-    const files:unknown[] = [];
+    const files: unknown[] = [];
 
     if (e.dataTransfer.items) {
       // Use DataTransferItemList interface to access the file(s)

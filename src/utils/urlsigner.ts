@@ -62,7 +62,7 @@ export const proxyURL = (
   height = 100,
   extension = defaultExtension,
 ): string => {
-  if (!url || url === "") return `https://via.placeholder.com/${width}`
+  if (!url || url === '') return `https://via.placeholder.com/${width}`;
   const opts = {
     url,
     width,

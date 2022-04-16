@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -31,8 +31,8 @@ import TagInput from 'components/blocks/tag-input';
 import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
 import Images from './images';
-import { AttrOption, Values, VarOption } from './values';
-import { b64Encode, base64Decode, decodeBuf } from 'utils/buff';
+import { AttrOption, SelectOption, Values, VarOption } from './values';
+import { b64Encode, base64Decode, decodeBuf, encodeBuf } from 'utils/buff';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -59,6 +59,8 @@ const ProductForm = ({ id }) => {
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
 
+  const [selectedCollections, setSelectedCollections] = useState<SelectOption[]>([])
+
   // query for getting the product, TODO: move into a hook
   const { data: product } = useQuery<ProductType>(
     ['product', productId],
@@ -83,15 +85,15 @@ const ProductForm = ({ id }) => {
       shipping_required: d?.shipping_required || true,
       track_quantity: d?.track_stock || true,
       quantity: !isEmpty(record) ? record?.num_in_stock || 1 : 1,
-      type: { key: d?.type || '', label: d?.type || '' },
       stock_records: d?.stock_records || [],
       variants: d?.variants || [],
       variation_options: [],
       images: d?.images || [],
-      tags: d?.tags || [],
+      tags: d?.tags?.map((t)=> ({label: t, key: t})) ?? [],
       vendor: d?.vendor || '',
       channels: [],
       template_suffix: 'product',
+      collections: selectedCollections,
       price: !isEmpty(record)
         ? mToCurrency(record?.price_excl_tax).toString()
         : '',
@@ -115,20 +117,17 @@ const ProductForm = ({ id }) => {
     if (!d) {
       return initialValues;
     }
-    if (d?.collection_fks) {
-      if (shop?.shop_id) {
-        const options = filterCollectionsAsOptions(
-          shop?.shop_id,
-          d?.collection_fks,
-        );
-        options.then(result => {
-          initialValues.collections = result;
-        });
-      }
+    // set the product type
+    if (d.categories && d.categories.length > 0) {
+      const _type = d.categories[0]
+      initialValues.type = { label: _type, key: _type }
     }
 
-    if (d.structure === ProductStructure.PARENT) {
-      const attrs: AttrOption[] = base64Decode(d.attributes as string) as AttrOption[];
+    // set product structure
+    if (d.structure === ProductStructure.PARENT && d.attributes) {
+      const attrs: AttrOption[] = decodeBuf(
+        d.attributes,
+      ) as AttrOption[];
       initialValues.variation_options = attrs.map(attr => {
         return {
           attribute: { label: attr.name, value: attr.name.toLowerCase() },
@@ -137,6 +136,16 @@ const ProductForm = ({ id }) => {
           }),
         };
       });
+    }
+    if (d.tags && d.tags.length > 0) {
+      initialValues.tags = [];
+      for (const tag of d.tags) {
+        if (typeof tag === 'string') {
+          initialValues.tags.push({label: tag, key: tag});
+        } else if (typeof tag === 'object') {
+          initialValues.tags.push(tag);
+        }
+      }
     }
     return initialValues;
   };
@@ -151,10 +160,10 @@ const ProductForm = ({ id }) => {
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
-      weight: d.weight.toString(),
-      height: d.height.toString(),
-      length: d.length.toString(),
-      width: d.width.toString(),
+      weight: d.weight?.toString() ?? '',
+      height: d.height?.toString() ?? '',
+      length: d.length?.toString() ?? '',
+      width: d.width?.toString() ?? '',
       images: images.map(url => {
         return {
           url: url,
@@ -164,7 +173,7 @@ const ProductForm = ({ id }) => {
       }),
       page_title: d.page_title,
       page_description: d.page_description,
-      vendor: d.vendor,
+      vendor: d.vendor ?? '',
       stock_records: [],
       collection_fks: [],
       variants: [],
@@ -176,7 +185,6 @@ const ProductForm = ({ id }) => {
       p.variants = d.variants.map(v => {
         v.structure = ProductStructure.CHILD;
         v.shop_id = shop?.shop_id!;
-        // v.stock_records = d.stock_records[v.title!];
         return v;
       });
     } else {
@@ -187,7 +195,6 @@ const ProductForm = ({ id }) => {
           product_id: productId || '',
           shop_id: shop?.shop_id,
           num_in_stock: d.quantity,
-          // TODO: centreId && centreSku should be replaced with correct on
           centre_id: loc.centre_id!,
           centre_sku: slugify(d.title),
           cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
@@ -201,17 +208,17 @@ const ProductForm = ({ id }) => {
       });
     }
     if (d.tags.length > 0) {
-      p.tags = []
+      p.tags = [];
       for (const tag of d.tags) {
         if (typeof tag === 'string') {
-          p.tags.push(tag)
+          p.tags.push(tag);
         } else if (typeof tag === 'object') {
-          p.tags.push(tag['label'])
+          p.tags.push(tag['label']);
         }
       }
-    }
+    } // v.stock_records = d.stock_records[v.title!];
     if (d.variation_options.length > 0) {
-      p.attributes = b64Encode(
+      p.attributes = encodeBuf(
         d.variation_options.map(vo => {
           return {
             name: vo.attribute.label,
@@ -220,9 +227,23 @@ const ProductForm = ({ id }) => {
         }),
       );
     }
-
     return p;
   };
+
+  useEffect(() => {
+    if (product && product?.collection_fks) {
+      if (shop?.shop_id) {
+        const options = filterCollectionsAsOptions(
+          shop?.shop_id,
+          product?.collection_fks,
+        );
+        options.then(result => {
+          setSelectedCollections(result);
+        });
+      }
+    }
+  }, [product])
+
 
   // create the product
   const { mutate: createProduct, isLoading: isCreatingProduct } = useMutation(
@@ -346,7 +367,7 @@ const ProductForm = ({ id }) => {
         width: values.width.toString(),
       };
 
-      variant.attributes = JSON.stringify(
+      variant.attributes = encodeBuf(
         variant.title?.split('-').map((opt, i) => {
           return { name: attributes[i].label, value: opt };
         }),
@@ -394,7 +415,6 @@ const ProductForm = ({ id }) => {
     }
   };
   const initvals = productToValuesMapper(product);
-
 
   // TODO: break form page into sections
   return (
@@ -681,7 +701,7 @@ const ProductForm = ({ id }) => {
                           name="price"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.price}
+                          value={Number.parseFloat(values.price).toString()}
                           className="form-input w-full md:w-min"
                           type="text"
                           placeholder="GHS 0.00"
@@ -705,7 +725,7 @@ const ProductForm = ({ id }) => {
                           name="compare_at_price"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.compare_at_price}
+                          value={Number.parseFloat(values.compare_at_price).toString()}
                           className="form-input w-full md:w-min"
                           type="text"
                           placeholder="GHS 0.00"
@@ -731,7 +751,7 @@ const ProductForm = ({ id }) => {
                           name="cost_per_item"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.cost_per_item}
+                          value={Number.parseFloat(values.cost_per_item).toString()}
                           className="form-input w-full md:w-min"
                           type="text"
                           placeholder="GHS 0.00"

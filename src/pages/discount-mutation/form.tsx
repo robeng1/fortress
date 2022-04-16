@@ -15,7 +15,6 @@ function DiscountMutation() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedItems, setSelectedItems] = useState<any>([]);
 
-  
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };

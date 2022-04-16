@@ -54,7 +54,7 @@ function StorePanel() {
       },
     },
   );
-  
+
   return (
     <div>
       <Loading open={isUpdatingShop} />

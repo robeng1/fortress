@@ -32,4 +32,3 @@ export const MailIcon: React.FC<IconProps> = ({
     </svg>
   );
 };
-

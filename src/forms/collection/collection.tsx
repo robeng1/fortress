@@ -3,7 +3,10 @@ import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
-import { CollectionType, CollectType } from 'typings/collection/collection-type';
+import {
+  CollectionType,
+  CollectType,
+} from 'typings/collection/collection-type';
 import { request, ResponseError } from 'utils/request';
 import { ProductViewListType } from 'typings/product/product-type';
 import useShop from 'hooks/use-shop';

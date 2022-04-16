@@ -40,7 +40,7 @@ function ProductMutation() {
                 <div className="mb-4 sm:mb-0">
                   <div className="m-1.5">
                     <button
-                      onClick={() => navigate("/shop/products")}
+                      onClick={() => navigate('/shop/products')}
                       className="btn border border-transparent focus:outline-none rounded shadow bg-white appearance-none"
                     >
                       <svg

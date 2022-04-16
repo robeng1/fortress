@@ -103,7 +103,7 @@ export default function DiscountTable({ selectedItems, discounts }) {
           msg="Create some discounts to get started"
           action={{
             name: 'Create discount',
-            func: () => navigate("/discounts/new"),
+            func: () => navigate('/discounts/new'),
           }}
         />
       )}

@@ -54,7 +54,9 @@ export default function useRates() {
       keepPreviousData: true,
     },
   );
-  const rates: Rate[] = (wbrates ?? initialState).concat(ibrates || initialState);
+  const rates: Rate[] = (wbrates ?? initialState).concat(
+    ibrates || initialState,
+  );
   return {
     rates,
   };

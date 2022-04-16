@@ -94,7 +94,7 @@ export default function VoucherTable({ selectedItems, vouchers }) {
           msg="Create some vouchers to get started"
           action={{
             name: 'Create voucher',
-            func: () => navigate("/vouchers/new"),
+            func: () => navigate('/vouchers/new'),
           }}
         />
       )}
