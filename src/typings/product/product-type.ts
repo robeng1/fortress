@@ -1,6 +1,5 @@
 import { CollectionType } from '../collection/collection-type';
 import { InventoryType } from '../inventory/inventory-type';
-import { Buffer } from 'buffer';
 
 export interface ProductImage {
   caption?: string;
@@ -34,6 +33,12 @@ export enum ProductStructure {
   STANDALONE = 0,
   PARENT = 1,
   CHILD = 2,
+}
+
+export enum ProductStructureStr {
+  STANDALONE = 'STANDALONE',
+  PARENT = 'PARENT',
+  CHILD = 'CHILD',
 }
 
 export interface VariationTheme {

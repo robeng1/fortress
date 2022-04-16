@@ -11,7 +11,7 @@ import ProdutVariantPreview from 'forms/product/variant';
 import { fortressURL } from 'endpoints/urls';
 import { customSelectStyles } from 'forms/product/styles';
 import { attributeOptions } from 'data/select';
-import { ProductStructure, ProductType } from 'typings/product/product-type';
+import { ProductStructure, ProductStructureStr, ProductType } from 'typings/product/product-type';
 import { InventoryType } from 'typings/inventory/inventory-type';
 import slugify from 'slugify';
 import {
@@ -44,7 +44,7 @@ const ProductSchema = Yup.object().shape({
 });
 
 const ProductForm = ({ id }) => {
-  const qc = useQueryClient();
+  const klient = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
   const { locations } = useCentres();
@@ -78,7 +78,7 @@ const ProductForm = ({ id }) => {
       : undefined;
 
   const productToValuesMapper = (d: ProductType | undefined): Values => {
-    const initVals: Values = {
+    const vals: Values = {
       title: d?.title || '',
       description: d?.description ?? '',
       is_parent: !isEmpty(d?.variants),
@@ -115,39 +115,41 @@ const ProductForm = ({ id }) => {
       page_description: d?.description || '',
     };
     if (!d) {
-      return initVals;
+      return vals;
     }
     // set the product type
     if (d.categories && d.categories.length > 0) {
       const _type = d.categories[0]
-      initVals.type = { label: _type, key: _type }
+      vals.type = { label: _type, key: _type }
     }
 
-    // set product structure
-    if (d.structure === ProductStructure.PARENT && d.attributes) {
+    // set product attributes
+    if (d.structure === ProductStructureStr.PARENT && d.attributes) {
       const attrs: AttrOption[] = base64Decode(
         d.attributes,
       ) as AttrOption[];
-      initVals.variation_options = attrs.map(attr => {
+      console.log(attrs)
+      vals.variation_options = attrs.map(attr => {
         return {
           attribute: { label: attr.name, value: attr.name.toLowerCase() },
           values: attr.values.map(v => {
-            return v.toLowerCase();
+            return v;
           }),
         };
       });
     }
+    // set tags
     if (d.tags && d.tags.length > 0) {
-      initVals.tags = [];
+      vals.tags = [];
       for (const tag of d.tags) {
         if (typeof tag === 'string') {
-          initVals.tags.push({ label: tag, key: tag });
+          vals.tags.push({ label: tag, key: tag });
         } else if (typeof tag === 'object') {
-          initVals.tags.push(tag);
+          vals.tags.push(tag);
         }
       }
     }
-    return initVals;
+    return vals;
   };
 
   const valuesToProductMapper = (d: Values): ProductType => {
@@ -216,7 +218,7 @@ const ProductForm = ({ id }) => {
           p.tags.push(tag['label']);
         }
       }
-    } // v.stock_records = d.stock_records[v.title!];
+    }
     if (d.variation_options.length > 0) {
       p.attributes = b64Encode(
         d.variation_options.map(vo => {
@@ -255,7 +257,7 @@ const ProductForm = ({ id }) => {
     {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
-        qc.setQueryData(['product', productId], newProduct);
+        klient.setQueryData(['product', productId], newProduct);
         toast('Product created successfully');
       },
       onError: (e: ResponseError) => {
@@ -274,7 +276,7 @@ const ProductForm = ({ id }) => {
     {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
-        qc.setQueryData(['product', productId], newProduct);
+        klient.setQueryData(['product', productId], newProduct);
       },
       onError: (e: ResponseError) => { },
     },
