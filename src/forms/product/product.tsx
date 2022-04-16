@@ -153,6 +153,7 @@ const ProductForm = ({ id }) => {
 
   const valuesToProductMapper = (d: Values): ProductType => {
     const p: ProductType = {
+      ...product,
       shop_id: shop?.shop_id!,
       product_id: productId,
       title: d.title,
