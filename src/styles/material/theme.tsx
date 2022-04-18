@@ -81,7 +81,7 @@ const theme = createTheme({
     h1: {
       color: '#0A1929',
       fontFamily:
-        '"Sora",-apple-system,BlinkMacSystemFont,"Segoe UI",Sora,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
+        '"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
       fontSize: 'clamp(2.625rem, 1.2857rem + 3.5714vw, 4rem)',
       fontWeight: 800,
       lineHeight: 1.1142857142857143,
@@ -89,7 +89,7 @@ const theme = createTheme({
     h2: {
       color: '#132F4C',
       fontFamily:
-        '"Sora",-apple-system,BlinkMacSystemFont,"Segoe UI",Sora,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
+        '"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
       fontSize: 'clamp(1.5rem, 0.9643rem + 1.4286vw, 2.25rem)',
       fontWeight: 800,
       lineHeight: 1.2222222222222223,

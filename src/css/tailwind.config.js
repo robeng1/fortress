@@ -48,7 +48,7 @@ module.exports = {
         blue: '2px solid rgba(0, 112, 244, 0.5)',
       },
       fontFamily: {
-        inter: ['Sora', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1.5' }],
