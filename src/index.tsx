@@ -123,14 +123,14 @@ export function App() {
           }
         />
 
-        {/* <Route
+        <Route
           path="/shop/inventory"
           element={
             <RequireAuth path="/shop/inventory">
               <Inventory />
             </RequireAuth>
           }
-        /> */}
+        />
         <Route
           path="/finances/balance"
           element={

@@ -238,7 +238,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 </span>
                               </NavLink>
                             </li>
-                            {/* <li
+                            <li
                               className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('inventory') && 'bg-gray-200'
                               }`}
@@ -256,7 +256,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Inventory
                                 </span>
                               </NavLink>
-                            </li> */}
+                            </li>
                             <li
                               className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('collections') &&
