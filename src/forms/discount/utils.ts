@@ -8,6 +8,7 @@ import { VoucherSetType } from 'typings/voucher/voucherset';
 import { mToS, sToM } from 'utils/money';
 import { initialValues, Values } from './values';
 import { ShopType } from 'typings/settings/shop-type';
+import { ABSOLUTE, PERCENTAGE, BUY_X_GET_Y, COUNT, COVERAGE, VALUE, VOUCHER, MULTIBUY, FIXED_PRICE, FREE } from './consts';
 
 export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
   const disc: DiscountType = {
@@ -15,25 +16,46 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
     name: d.title,
     description: d.description,
     offer_type: d.type,
+    short_name: '',
     max_basket_applications: d.max_basket_applications,
-    max_global_applications: d.max_global_applications,
-    max_user_applications: d.max_user_applications,
+    max_global_applications: d.max_global_applications ?? null,
+    max_user_applications: d.max_user_applications ?? null,
     page_title: d.page_title,
     page_description: d.page_description,
     start: moment(d.start_date + ' ' + d.start_time).toISOString(),
     end: moment(d.end_date + ' ' + d.end_time).toISOString(),
-    // image: { image_url: image },
+    discount_id: '',
+    slug: '',
+    group_id: '',
+    exclusive: false,
+    status: '',
+    condition: null,
+    benefit: null,
+    priority: 0,
+    max_discount: null,
+    total_discount: null,
+    num_applications: 0,
+    num_orders: 0,
+    redirect_url: '',
+    created_at: '',
+    image: '',
+    categories: [],
+    keywords: [],
+    voucher: null,
+    deleted_at: '',
+    metadata: '',
+    club_id: ''
   };
   if (d.discount_id) disc.discount_id = d.discount_id;
   disc.max_discount = sToM(d.max_discount, shop?.currency?.iso_code);
   switch (d.incentive_type) {
-    case 'fixed_discount': {
+    case ABSOLUTE: {
       const condition: ConditionType = {
         condition_type: d.condition_type,
       };
-      if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+      if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
-      } else if (d.condition_type === 'value') {
+      } else if (d.condition_type === VALUE) {
         condition.money_value = sToM(
           d.condition_value_money,
           shop?.currency?.iso_code,
@@ -62,13 +84,13 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       disc.benefit = benefit;
       break;
     }
-    case 'percentage': {
+    case PERCENTAGE: {
       const condition: ConditionType = {
         condition_type: d.condition_type,
       };
-      if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+      if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
-      } else if (d.condition_type === 'value') {
+      } else if (d.condition_type === VALUE) {
         condition.money_value = sToM(
           d.condition_value_money,
           shop?.currency?.iso_code,
@@ -97,13 +119,13 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       disc.benefit = benefit;
       break;
     }
-    case 'multibuy':
+    case MULTIBUY:
       const condition: ConditionType = {
         condition_type: d.condition_type,
       };
-      if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+      if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
-      } else if (d.condition_type === 'value') {
+      } else if (d.condition_type === VALUE) {
         condition.money_value = sToM(
           d.condition_value_money,
           shop?.currency?.iso_code,
@@ -130,13 +152,13 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       benefit.collection = benRange;
       disc.benefit = benefit;
       break;
-    case 'fixed_price': {
+    case FIXED_PRICE: {
       const condition: ConditionType = {
         condition_type: d.condition_type,
       };
-      if (d.condition_type === 'coverage' || d.condition_type === 'count') {
+      if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
-      } else if (d.condition_type === 'value') {
+      } else if (d.condition_type === VALUE) {
         condition.money_value = sToM(
           d.condition_value_money,
           shop?.currency?.iso_code,
@@ -165,16 +187,16 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       disc.benefit = benefit;
       break;
     }
-    case 'buy-x-get-y': {
+    case BUY_X_GET_Y: {
       const condition: ConditionType = {
         condition_type: d.buy_x_get_y_condition_type,
       };
       if (
-        d.buy_x_get_y_condition_type === 'coverage' ||
-        d.buy_x_get_y_condition_type === 'count'
+        d.buy_x_get_y_condition_type === COVERAGE ||
+        d.buy_x_get_y_condition_type === COUNT
       ) {
         condition.value_int = d.buy_x_get_y_condition_value as number;
-      } else if (d.buy_x_get_y_condition_type === 'value') {
+      } else if (d.buy_x_get_y_condition_type === VALUE) {
         condition.money_value = sToM(
           d.buy_x_get_y_condition_value,
           shop?.currency?.iso_code,
@@ -201,15 +223,15 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       const benefit: BenefitType = {
         benefit_type: d.buy_x_get_y_discounted_value_type,
       };
-      if (d.buy_x_get_y_discounted_value_type === 'fixed_discount') {
+      if (d.buy_x_get_y_discounted_value_type === ABSOLUTE) {
         benefit.value_m = sToM(
           d.buy_x_get_y_discounted_value,
           shop?.currency?.iso_code,
         );
-      } else if (d.buy_x_get_y_discounted_value_type === 'percentage') {
-        benefit.value_i = parseInt(d.buy_x_get_y_discounted_value);
-      } else if (d.buy_x_get_y_discounted_value_type === 'free') {
-        benefit.benefit_type = 'percentage';
+      } else if (d.buy_x_get_y_discounted_value_type === PERCENTAGE) {
+        benefit.value_i = Number.parseInt(d.buy_x_get_y_discounted_value);
+      } else if (d.buy_x_get_y_discounted_value_type === FREE) {
+        benefit.benefit_type = PERCENTAGE;
         benefit.value_i = 100;
       }
 
@@ -236,7 +258,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       // wierd like how did we get here?
     }
   }
-  if (d.type === 'voucher') {
+  if (d.type === VOUCHER) {
     if (d.code_type === 'single') {
       const voucher: VoucherType = {
         voucher_id: '',
@@ -266,6 +288,6 @@ export const handleSelectedResults =
     setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
     field: string,
   ) =>
-  (selectedResults: unknown[]) => {
-    setFieldValue(field, [...selectedResults]);
-  };
+    (selectedResults: unknown[]) => {
+      setFieldValue(field, [...selectedResults]);
+    };

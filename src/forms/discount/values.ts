@@ -1,3 +1,5 @@
+import { COUNT, NONE, PERCENTAGE, SITE } from "./consts";
+
 // TODO:(fix range keys)
 export interface Values {
   discount_id: string | undefined;
@@ -66,26 +68,26 @@ export const initialValues: Values = {
   description: '',
   page_title: '',
   page_description: '',
-  type: 'site',
+  type: SITE,
   all_products: false,
   specific_products: false,
   included_products: [],
   excluded_products: [],
   included_collections: [],
-  incentive_type: 'percentage',
+  incentive_type: PERCENTAGE,
   max_affected_items: null,
   buy_x_get_y_condition_value: '',
   buy_x_get_y_condition_range_type: 'specific_products',
   buy_x_get_y_condition_range_keys: [],
-  buy_x_get_y_condition_type: 'count',
+  buy_x_get_y_condition_type: COUNT,
   buy_x_get_y_ben_range_type: 'specific_products',
   buy_x_get_y_ben_range_keys: [],
   buy_x_get_y_ben_max_affected_items: 1,
-  buy_x_get_y_discounted_value_type: 'percentage',
+  buy_x_get_y_discounted_value_type: PERCENTAGE,
   buy_x_get_y_discounted_value: '',
   condition_value_money: '',
   condition_value_int: 1,
-  condition_type: 'none',
+  condition_type: NONE,
   value: '',
   applies_to: 'all_products',
   exclusive: true,
