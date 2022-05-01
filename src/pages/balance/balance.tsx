@@ -11,7 +11,7 @@ import FilterButton from 'components/dropdown-filter';
 import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
-import { UidAtom } from 'store/authorization-atom';
+import { uidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/date-select';
 import { currencyToM, mToSFormatted, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/blocks/button';
@@ -28,7 +28,7 @@ function Balance() {
   const { shop } = useShop();
   const shopId = shop?.shop_id;
   const { paymentAccount } = usePayment();
-  const [usraId] = useAtom(UidAtom);
+  const [usraId] = useAtom(uidAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`;
   const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`;
 

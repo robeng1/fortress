@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import useShop from './use-shop';
 const initialState: Account = {};
 
-const getPd = async (id?: string) => {
+const getPaymentInformation = async (id?: string) => {
   try {
     const resp = await request(`${paymentURL}/${id}/accounts`);
     const accounts: Account[] = resp?.accounts;
@@ -27,7 +27,7 @@ export default function usePayment() {
     isLoading,
     isIdle,
     isRefetching,
-  } = useQuery<Account>(['payment', shopId], () => getPd(shopId), {
+  } = useQuery<Account>(['payment', shopId], () => getPaymentInformation(shopId), {
     enabled: !!shopId && shopId != undefined,
     keepPreviousData: true,
   });

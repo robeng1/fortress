@@ -9,7 +9,7 @@ import FilterButton from 'components/dropdown-filter';
 import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
-import { UidAtom } from 'store/authorization-atom';
+import { uidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/date-select';
 import useShop from 'hooks/use-shop';
 import { ThemeProvider } from 'styles/material/theme';
@@ -18,7 +18,7 @@ function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { shop } = useShop();
   const shopId = shop?.shop_id;
-  const [accountId] = useAtom(UidAtom);
+  const [accountId] = useAtom(uidAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
 
   const [page, setPage] = useState(1);

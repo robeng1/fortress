@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
 import { ShopType } from 'typings/settings/shop-type';
-import { UidAtom } from 'store/authorization-atom';
+import { uidAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
 import { toast } from 'react-toastify';
 import useShop from 'hooks/use-shop';
@@ -13,7 +13,7 @@ import { Loading } from 'components/blocks/backdrop';
 function PoliciesPanel() {
   const queryClient = useQueryClient();
   const { shop } = useShop();
-  const [accountId] = useAtom(UidAtom);
+  const [accountId] = useAtom(uidAtom);
   const requestURL = `${fortressURL}/shops`;
 
   // update the shop

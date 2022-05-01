@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ShopType } from 'typings/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
-import { UidAtom } from 'store/authorization-atom';
+import { uidAtom } from 'store/authorization-atom';
 import { toast } from 'react-toastify';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
@@ -15,7 +15,7 @@ import { useUpload } from 'hooks/use-upload';
 function StorePanel() {
   const queryClient = useQueryClient();
   const { shop } = useShop();
-  const [accountId] = useAtom(UidAtom);
+  const [accountId] = useAtom(uidAtom);
   const requestURL = `${fortressURL}/shops`;
   const [image, setImage] = useState(shop?.image);
   const { upload } = useUpload();
@@ -74,10 +74,9 @@ function StorePanel() {
             ...shop?.address,
           },
           currency: {
-            name: '',
-            iso_code: 'GHS',
-            symbol: '',
-            ...shop?.currency,
+            name: shop?.currency?.name ?? '',
+            iso_code: shop?.currency?.iso_code ?? 'GHS',
+            symbol: shop?.currency?.name ?? '',
           },
         }}
         onSubmit={(values, { setSubmitting }) => {
@@ -353,9 +352,7 @@ function StorePanel() {
                       <option value="GHS">GHS</option>
                       <option value="NGN">NGN</option>
                       <option value="ZAR">ZAR</option>
-                      <option value="RWF">RWF</option>
-                      <option value="UGX">UGX</option>
-                      <option value="KES">KES</option>
+                      <option value="USD">USD</option>
                     </select>
                   </div>
                 </div>

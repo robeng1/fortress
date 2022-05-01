@@ -10,7 +10,7 @@ import {
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 import { paymentURL } from 'endpoints/urls';
-import { UidAtom } from 'store/authorization-atom';
+import { uidAtom } from 'store/authorization-atom';
 import usePayment from 'hooks/use-payment';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
@@ -19,7 +19,7 @@ function PaymentsPanel() {
   const queryClient = useQueryClient();
   const { shop } = useShop();
   const { paymentAccount } = usePayment();
-  const [accountId] = useAtom(UidAtom);
+  const [accountId] = useAtom(uidAtom);
   const requestURL = `${paymentURL}/${accountId}/accounts`;
 
   // create the colletion
