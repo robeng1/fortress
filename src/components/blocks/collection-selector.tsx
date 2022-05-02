@@ -95,6 +95,8 @@ function CollectionSelector({
           }),
         });
         response.then((value) => setCollections(value?.collections ?? []))
+      }else{
+        setCollections([])
       }
     } catch (error) {
     }

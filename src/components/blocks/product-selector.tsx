@@ -97,6 +97,8 @@ function ProductSelector({
           }),
         });
         response.then((value) => setProducts(value?.products ?? []))
+      } else {
+        setProducts([])
       }
     } catch (error) { }
   }, [isCheck])
