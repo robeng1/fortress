@@ -8,7 +8,7 @@ import { VoucherSetType } from 'typings/voucher/voucherset';
 import { mToS, sToM } from 'utils/money';
 import { initialValues, Values } from './values';
 import { ShopType } from 'typings/settings/shop-type';
-import { ABSOLUTE, PERCENTAGE, BUY_X_GET_Y, COUNT, COVERAGE, VALUE, VOUCHER, MULTIBUY, FIXED_PRICE, FREE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS } from './consts';
+import { ABSOLUTE, PERCENTAGE, BUY_X_GET_Y, COUNT, COVERAGE, VALUE, VOUCHER, MULTIBUY, FIXED_PRICE, FREE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, ALL_PRODUCTS } from './consts';
 
 export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
   const disc: DiscountType = {
@@ -72,7 +72,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         value_m: sToM(d.value, shop?.currency?.iso_code),
       };
       const benRange: RangeType = {
-        includes_all_products: d.applies_to === 'all_products',
+        includes_all_products: d.applies_to === ALL_PRODUCTS,
       };
       if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
@@ -107,7 +107,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         value_i: parseInt(d.value as string),
       };
       const benRange: RangeType = {
-        includes_all_products: d.applies_to === 'all_products',
+        includes_all_products: d.applies_to === ALL_PRODUCTS,
       };
       if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
@@ -141,7 +141,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         benefit_type: d.incentive_type,
       };
       const benRange: RangeType = {
-        includes_all_products: d.applies_to === 'all_products',
+        includes_all_products: d.applies_to === ALL_PRODUCTS,
       };
       if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
@@ -175,7 +175,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         value_m: sToM(d.value, shop?.currency?.iso_code),
       };
       const benRange: RangeType = {
-        includes_all_products: d.applies_to === 'all_products',
+        includes_all_products: d.applies_to === ALL_PRODUCTS,
       };
       if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
@@ -239,7 +239,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
 
       // range
       const benRange: RangeType = {
-        includes_all_products: d.buy_x_get_y_ben_range_type === 'all_products',
+        includes_all_products: d.buy_x_get_y_ben_range_type === ALL_PRODUCTS,
       };
       if (d.buy_x_get_y_ben_range_type === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.buy_x_get_y_ben_range_keys;
@@ -331,7 +331,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
       disc.incentive_type =
         d.benefit.benefit_type || initialValues.incentive_type;
       disc.applies_to = d.benefit.collection?.includes_all_products
-        ? 'all_products'
+        ? ALL_PRODUCTS
         : '';
       if (
         d.benefit.collection &&
@@ -377,7 +377,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
       // deconstructing the condition range
       disc.buy_x_get_y_condition_range_type = d.condition.collection
         ?.includes_all_products
-        ? 'all_products'
+        ? ALL_PRODUCTS
         : '';
       if (
         d.condition.collection &&
@@ -409,7 +409,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
       // deconstructing the benefit range
       disc.buy_x_get_y_ben_range_type = d.benefit.collection
         ?.includes_all_products
-        ? 'all_products'
+        ? ALL_PRODUCTS
         : '';
       if (
         d.benefit.collection &&

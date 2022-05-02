@@ -7,11 +7,11 @@ import { fortressURL } from 'endpoints/urls';
 import { DiscountType } from 'typings/discount/discount-type';
 import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';
-import { initialValues, Values } from './values';
-import { discountToValues, valuesToDiscount} from './utils';
+import { initialValues } from './values';
+import { discountToValues, valuesToDiscount } from './utils';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
-import { ABSOLUTE, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, VALUE, VOUCHER } from './consts';
+import { ABSOLUTE, ALL_PRODUCTS, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, VALUE, VOUCHER } from './consts';
 import ProductSelector from 'components/blocks/product-selector';
 import CollectionSelector from 'components/blocks/collection-selector';
 
@@ -425,8 +425,8 @@ const DiscountForm = ({ id }) => {
                           SPECIFIC_PRODUCTS ? (
                           <div className="w-full">
                             <ProductSelector
-                              id="quick-find-modal-cr"
-                              searchId="quick-find-cr"
+                              id="quick-find-modal-crp"
+                              searchId="quick-find-crp"
                               queryKey="products-opt-search"
                               onChange={(items: string[]) => {
                                 setFieldValue('buy_x_get_y_condition_range_keys', items)
@@ -438,8 +438,8 @@ const DiscountForm = ({ id }) => {
                           </div>
                         ) : (
                           <CollectionSelector
-                            id="quick-find-modal-cr"
-                            searchId="quick-find-cr"
+                            id="quick-find-modal-crc"
+                            searchId="quick-find-crc"
                             queryKey="collections-opt-search"
                             onChange={(items: string[]) => {
                               setFieldValue('buy_x_get_y_condition_range_keys', items)
@@ -513,8 +513,8 @@ const DiscountForm = ({ id }) => {
                         {values.buy_x_get_y_ben_range_type ===
                           SPECIFIC_PRODUCTS ? (
                           <ProductSelector
-                            id="quick-find-modal-br"
-                            searchId="quick-find-br"
+                            id="quick-find-modal-brp"
+                            searchId="quick-find-brp"
                             queryKey="products-opt-search"
                             onChange={(items: string[]) => {
                               setFieldValue('buy_x_get_y_ben_range_keys', items)
@@ -525,8 +525,8 @@ const DiscountForm = ({ id }) => {
                           />
                         ) : (
                           <CollectionSelector
-                            id="quick-find-modal-cr"
-                            searchId="quick-find-cr"
+                            id="quick-find-modal-brc"
+                            searchId="quick-find-brc"
                             queryKey="collections-opt-search"
                             onChange={(items: any[]) => {
                               setFieldValue('buy_x_get_y_ben_range_keys', items)
@@ -717,9 +717,9 @@ const DiscountForm = ({ id }) => {
                                   name="applies_to"
                                   className="form-radio"
                                   onChange={e =>
-                                    setFieldValue('applies_to', 'all_products')
+                                    setFieldValue('applies_to', ALL_PRODUCTS)
                                   }
-                                  checked={values.applies_to === 'all_products'}
+                                  checked={values.applies_to === ALL_PRODUCTS}
                                   value={values.applies_to}
                                 />
                                 <span className="text-sm ml-2">
@@ -775,7 +775,7 @@ const DiscountForm = ({ id }) => {
                           </div>
                         </div>
                         <div
-                          className={`${values.applies_to === 'all_products' ||
+                          className={`${values.applies_to === ALL_PRODUCTS ||
                             values.applies_to === ''
                             ? 'hidden'
                             : 'block'
@@ -1314,31 +1314,6 @@ const DiscountForm = ({ id }) => {
                       </div>
                     </section>
                   )}
-                  {/* <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
-                      Cover Image
-                    </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="w-full">
-                        <Dashboard
-                          uppy={uppy}
-                          proudlyDisplayPoweredByUppy={false}
-                          showProgressDetails={true}
-                          width="100%"
-                          height="400px"
-                          theme="light"
-                          note="Images and video only, 2–6 files, up to 1 MB"
-                          metaFields={[
-                            {
-                              id: 'alt',
-                              name: 'Alt',
-                              placeholder: 'describe what the image is about',
-                            },
-                          ]}
-                        />
-                      </div>
-                    </div>
-                  </section> */}
                   <section className="hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Search Engine Preview

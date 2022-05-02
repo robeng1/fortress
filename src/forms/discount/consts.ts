@@ -16,3 +16,4 @@ export const SITE = 'Site'
 // Misc
 export const SPECIFIC_PRODUCTS = 'specific_products'
 export const SPECIFIC_COLLECTIONS = 'specific_collections'
+export const ALL_PRODUCTS = 'all_products'
