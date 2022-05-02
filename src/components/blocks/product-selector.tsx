@@ -180,6 +180,7 @@ function ProductSelector({
                       onClick={e => {
                         e.stopPropagation();
                         onChange(isCheck);
+                        setOpen(!open)
                       }}
                       className="btn-xs bg-purple-500 hover:bg-purple-600 text-white"
                     >
@@ -267,17 +268,16 @@ function ProductSelector({
                 <div className="text-sm font-medium text-gray-900">
                   {product.title}
                 </div>
-                <div
+                <button
                   onClick={e => {
                     e.stopPropagation();
                     handleRemove(product.product_id)
                     onChange(isCheck)
-                    klient.invalidateQueries([`${queryKey}-s_products`]);
                   }}
                   className="text-sm text-gray-500 cursor-pointer"
                 >
                   X
-                </div>
+                </button>
               </div>
             </div>
           </li>
