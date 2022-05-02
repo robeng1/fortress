@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import PlacesAutocomplete, {
   geocodeByAddress,
-  getLatLng,
 } from 'react-places-autocomplete';
 import { LocationType } from 'typings/inventory/inventory-type';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -12,15 +11,18 @@ import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 import { getAddress } from 'typings/settings/shop-type';
+import { useNavigate } from 'react-router-dom';
 
 type FieldSetter = (field: string, value: any, sv?: boolean | undefined) => void
 type AddressHandler = (address: string, placeId: string) => void
 
-function LocationsForm({ handleShow, id }) {
+function LocationsForm({ id }) {
+  const navigate = useNavigate();
   const klient = useQueryClient();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/centres`;
   const [centreId, setCentreId] = useState(id);
+  const [showFields, setShowFields] = useState<boolean>(false);
 
   // query for getting the collection
   const { data: centre } = useQuery<LocationType>(
@@ -68,6 +70,7 @@ function LocationsForm({ handleShow, id }) {
             sf('address.longitude', loc.lng)
             sf('address.latitude', loc.lat)
             sf('address.place_id', placeId)
+            setShowFields(true)
           }
         })
         .catch(error => {
@@ -88,6 +91,8 @@ function LocationsForm({ handleShow, id }) {
         setCentreId(newLocation.centre_id);
         klient.setQueryData(['location', newLocation.centre_id], newLocation);
         toast('Location created successfully');
+        navigate('/')
+
       },
       onError: (e: ResponseError) => {
         toast('Location creation failed due to ' + e.message);
@@ -129,35 +134,18 @@ function LocationsForm({ handleShow, id }) {
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
           setFieldValue,
-          setFieldError,
-          setValues,
-          setFieldTouched,
           handleSubmit,
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow">
+          <div className="flex-grow w-full">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
-              <h2 className="text-2xl text-gray-500 font-bold mb-5">
-                Locations
-              </h2>
               <section>
-                <h3 className="text-xl leading-snug text-gray-500 font-bold mb-1">
-                  Shipping Locations
-                </h3>
-                <div className="text-sm">
-                  These are the places where you ship your orders from
-                  <br />
-                  (Could be from a warehouse, your home, a fulfilment partner)
-                </div>
-
-                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                <div className="sm:flex sm:w-full sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
@@ -178,7 +166,7 @@ function LocationsForm({ handleShow, id }) {
                     />
                   </div>
                 </div>
-                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                <div className="sm:flex sm:w-full sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
@@ -223,70 +211,74 @@ function LocationsForm({ handleShow, id }) {
                     </PlacesAutocomplete>
                   </div>
                 </div>
-                <section className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full sm:w-1/2">
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="address.country"
-                    >
-                      Country
-                    </label>
-                    <select
-                      id="address.country"
-                      name="address.country"
-                      autoComplete="country"
-                      className="form-select block"
-                      value={values.address?.country}
-                      onChange={handleChange}
-                    >
-                      <option value="">Please Select</option>
-                      <option value="GH">Ghana</option>
-                      <option value="NG">Nigeria</option>
-                      <option value="RW">Rwanda</option>
-                      <option value="KY">Kenya</option>
-                      <option value="SA">South Africa</option>
-                    </select>
+                {showFields && (
+                  <div>
+                    <section className="sm:flex sm:w-full sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-full sm:w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="address.country"
+                        >
+                          Country
+                        </label>
+                        <select
+                          id="address.country"
+                          name="address.country"
+                          autoComplete="country"
+                          className="form-select block"
+                          value={values.address?.country}
+                          onChange={handleChange}
+                        >
+                          <option value="">Please Select</option>
+                          <option value="GH">Ghana</option>
+                          <option value="NG">Nigeria</option>
+                          <option value="RW">Rwanda</option>
+                          <option value="KY">Kenya</option>
+                          <option value="SA">South Africa</option>
+                        </select>
+                      </div>
+                      <div className="w-full sm:w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="address.city"
+                        >
+                          City
+                        </label>
+                        <input
+                          id="address.city"
+                          name="address.city"
+                          className="form-input w-full"
+                          type="text"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.address?.city}
+                          placeholder="Kumasi"
+                        />
+                      </div>
+                    </section>
+                    <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-full">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="address.province"
+                        >
+                          Province or Region
+                        </label>
+                        <input
+                          id="address.province"
+                          name="address.province"
+                          className="form-input w-full"
+                          type="text"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.address?.province}
+                          autoComplete="region"
+                          placeholder="Ashanti Region"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="w-full sm:w-1/2">
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="address.city"
-                    >
-                      City
-                    </label>
-                    <input
-                      id="address.city"
-                      name="address.city"
-                      className="form-input w-full"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.address?.city}
-                      placeholder="Kumasi"
-                    />
-                  </div>
-                </section>
-                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full">
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="address.province"
-                    >
-                      Province or Region
-                    </label>
-                    <input
-                      id="address.province"
-                      name="address.province"
-                      className="form-input w-full"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.address?.province}
-                      autoComplete="region"
-                      placeholder="Ashanti Region"
-                    />
-                  </div>
-                </div>
+                )}
                 <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="flex items-center sm:w-1/2">
                     <input
@@ -322,12 +314,6 @@ function LocationsForm({ handleShow, id }) {
             <footer>
               <div className="flex flex-col px-6 py-5 md:border-t md:border-gray-200">
                 <div className="flex self-end">
-                  <button
-                    onClick={() => handleShow(false)}
-                    className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
-                  >
-                    Cancel
-                  </button>
                   <button
                     onClick={e => {
                       e.stopPropagation();

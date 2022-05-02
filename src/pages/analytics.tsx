@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
@@ -11,10 +11,14 @@ import AnalyticsCard06 from 'partials/analytics/AnalyticsCard06';
 import AnalyticsCard07 from 'partials/analytics/AnalyticsCard07';
 import AnalyticsCard00 from 'partials/analytics/AnalyticsCard00';
 import { useStats } from 'hooks/use-webstats';
+import { useOnboarding } from 'hooks/use-onboarding';
+import { useNavigate } from 'react-router-dom';
 
 function Analytics() {
+  useOnboarding();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { webStats } = useStats();
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}

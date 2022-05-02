@@ -33,6 +33,7 @@ import TextArea from 'components/blocks/text-area';
 import Images from './images';
 import { AttrOption, SelectOption, Values, VarOption } from './values';
 import { b64Encode, base64Decode, decodeBuf, encodeBuf } from 'utils/buff';
+import { useOnboarding } from 'hooks/use-onboarding';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -44,6 +45,7 @@ const ProductSchema = Yup.object().shape({
 });
 
 const ProductForm = ({ id }) => {
+  useOnboarding();
   const klient = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();

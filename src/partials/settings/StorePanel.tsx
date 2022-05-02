@@ -13,7 +13,7 @@ import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
 
 function StorePanel() {
-  const queryClient = useQueryClient();
+  const klient = useQueryClient();
   const { shop } = useShop();
   const [accountId] = useAtom(uidAtom);
   const requestURL = `${fortressURL}/shops`;
@@ -46,7 +46,7 @@ function StorePanel() {
       }),
     {
       onSuccess: (newShop: ShopType) => {
-        queryClient.setQueryData(['shop', accountId], newShop);
+        klient.setQueryData(['shop', accountId], newShop);
         toast('Shop data updated succesffully');
       },
       onError: (e: ResponseError) => {

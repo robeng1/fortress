@@ -73,3 +73,88 @@ export interface StartType {
   handle?: string;
   password?: string;
 }
+
+export interface RealAddress {
+  locality: string
+  administrative_area_level_1: string
+  administrative_area_level_2: string
+  sublocality_level_1: string
+  sublocality_level_2: string
+  sublocality: string
+  country: string
+  route: string
+  lat: number
+  lng: number
+  place_id: string
+}
+
+export interface AddressComponent {
+  long_name: string
+  short_name: string
+  types: string[]
+}
+
+export interface PlusCode {
+  compound_code: string
+  global_code: string
+}
+
+export interface Location {
+  lat: number
+  lng: number
+}
+
+export interface Geometry {
+  location: Location
+  location_type: string
+}
+
+export interface AddressTypeFromAPI {
+  address_components: AddressComponent[]
+  formatted_address: string
+  place_id: string
+  plus_code: PlusCode
+  geometry: Geometry
+  types: string[]
+}
+
+export const getAddress = (
+  address: AddressTypeFromAPI | google.maps.GeocoderResult,
+): RealAddress => {
+  const components = address.address_components
+  return {
+    locality:
+      components.find(addr => addr.types.includes('locality'))?.long_name ?? '',
+    administrative_area_level_1:
+      components.find(addr =>
+        addr.types.includes('administrative_area_level_1'),
+      )?.long_name ?? '',
+    administrative_area_level_2:
+      components.find(addr =>
+        addr.types.includes('administrative_area_level_1'),
+      )?.long_name ?? '',
+    sublocality:
+      components.find(addr => addr.types.includes('sublocality'))?.long_name ??
+      '',
+    country:
+      components.find(addr => addr.types.includes('country'))?.long_name ?? '',
+    route:
+      components.find(addr => addr.types.includes('route'))?.long_name ?? '',
+    sublocality_level_1:
+      components.find(addr => addr.types.includes('sublocality_level_1'))
+        ?.long_name ?? '',
+    sublocality_level_2:
+      components.find(addr => addr.types.includes('sublocality_level_2'))
+        ?.long_name ?? '',
+    lat:
+      typeof address.geometry.location.lat === 'function'
+        ? address.geometry.location.lat()
+        : address.geometry.location.lat,
+    lng:
+      typeof address.geometry.location.lng === 'function'
+        ? address.geometry.location.lng()
+        : address.geometry.location.lng,
+    place_id: address.place_id,
+  }
+}
+

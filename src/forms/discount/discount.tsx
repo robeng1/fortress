@@ -14,8 +14,10 @@ import { Loading } from 'components/blocks/backdrop';
 import { ABSOLUTE, ALL_PRODUCTS, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, VALUE, VOUCHER } from './consts';
 import ProductSelector from 'components/blocks/product-selector';
 import CollectionSelector from 'components/blocks/collection-selector';
+import { useOnboarding } from 'hooks/use-onboarding';
 
 const DiscountForm = ({ id }) => {
+  useOnboarding();
   const navigate = useNavigate();
   const klient = useQueryClient();
   const { shop } = useShop();

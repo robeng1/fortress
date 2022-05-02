@@ -1,7 +1,6 @@
 import { Wallet } from 'components/icons/category';
 import { CouponIcon } from 'components/icons/coupon-icon';
 import { ProductIcon } from 'components/icons/product-icon';
-import TagIcon from 'components/icons/tag-icon';
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import ReoplexLogo from '../images/reoplex.png';

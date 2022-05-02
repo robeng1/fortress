@@ -43,6 +43,9 @@ import HeroMutation from 'pages/settings/theme/hero';
 import FeaturedCollection from 'pages/settings/theme/collection-featured';
 import VoucherMutation from 'pages/voucher-mutation/form';
 import Vouchers from 'pages/voucher/voucher';
+import OnboardingCurrency from 'forms/onboarding/currency';
+import OnboardingCentre from 'forms/onboarding/centre';
+import OnboardingPayment from 'forms/onboarding/payment';
 const ResetPassword = lazy(() => import('pages/reset-password'));
 
 export function App() {
@@ -62,6 +65,30 @@ export function App() {
         <meta name="description" content="Reoplex Merchant Dashboard" />
       </Helmet>
       <Routes>
+        <Route
+          path={'/onboarding/currency'}
+          element={
+            <RequireAuth path={'/onboarding/currency'}>
+              <OnboardingCurrency />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={'/onboarding/location'}
+          element={
+            <RequireAuth path={'/onboarding/location'}>
+              <OnboardingCentre />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={'/onboarding/payment'}
+          element={
+            <RequireAuth path={'/onboarding/payment'}>
+              <OnboardingPayment />
+            </RequireAuth>
+          }
+        />
         <Route
           path={'/'}
           element={
