@@ -5,6 +5,7 @@ import { proxyURL } from 'utils/urlsigner';
 import ModalBasic from 'components/modal-basic';
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
+import { ProductViewType } from 'typings/product/product-type';
 const initiallySelected: any[] = [];
 function ProductSelector({
   id,
@@ -30,6 +31,8 @@ function ProductSelector({
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const [products, setProducts] = useState<ProductViewType[]>([])
   const { data } = useQuery(
     [queryKey, debouncedSearchTerm],
     () =>
@@ -78,30 +81,25 @@ function ProductSelector({
     setIsCheck(isCheck.filter((key) => key !== id));
   };
 
-  // query for getting included products for a condition's range TODO: should be moved into a hook
-  const {
-    data: { products },
-  } = useQuery<any>(
-    [`${queryKey}-s_products`],
-    async () =>
-      await request(filterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shopId,
-          id_list: isCheck,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: isCheck.length > 0,
-      keepPreviousData: true,
-      initialData: { products: [] },
-    },
-  );
 
   useEffect(() => {
     open && searchInput.current && searchInput.current.focus();
   }, [open]);
+
+  useEffect(() => {
+    try {
+      if (isCheck.length > 0) {
+        const response = request(filterURL, {
+          method: 'POST',
+          body: JSON.stringify({
+            shop_id: shopId,
+            id_list: isCheck,
+          }),
+        });
+        response.then((value) => setProducts(value?.products ?? []))
+      }
+    } catch (error) { }
+  }, [isCheck])
 
   return (
     <div>

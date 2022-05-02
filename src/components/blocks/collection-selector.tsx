@@ -5,6 +5,7 @@ import { proxyURL } from 'utils/urlsigner';
 import ModalBasic from 'components/modal-basic';
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
+import { CollectionViewType } from 'typings/collection/collection-type';
 const initiallySelected: any[] = [];
 function CollectionSelector({
   id,
@@ -16,6 +17,7 @@ function CollectionSelector({
   shopId,
 }) {
   const klient = useQueryClient();
+  const selectedItemsqk = `${queryKey}-s-collections`
   const matchKey = 'key'
   const optionSearchURL = `${fortressURL}/shops/${shopId}/collections/option-search`;
   const filterURL = `${fortressURL}/shops/${shopId}/collections-views/filter`;
@@ -30,6 +32,7 @@ function CollectionSelector({
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [collections, setCollections] = useState<CollectionViewType[]>([])
   const { data } = useQuery(
     [queryKey, debouncedSearchTerm],
     () =>
@@ -77,30 +80,25 @@ function CollectionSelector({
     setIsCheck(isCheck.filter((key) => key !== id));
   };
 
-  // query for getting included products for a condition's range TODO: should be moved into a hook
-  const {
-    data: { collections },
-  } = useQuery<any>(
-    [`${queryKey}-s_collections`],
-    async () =>
-      await request(filterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shopId,
-          id_list: isCheck,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: isCheck.length > 0,
-      keepPreviousData: true,
-      initialData: { products: [] },
-    },
-  );
-
   useEffect(() => {
     open && searchInput.current && searchInput.current.focus();
   }, [open]);
+
+  useEffect(() => {
+    try {
+      if (isCheck.length > 0) {
+        const response = request(filterURL, {
+          method: 'POST',
+          body: JSON.stringify({
+            shop_id: shopId,
+            id_list: isCheck,
+          }),
+        });
+        response.then((value) => setCollections(value?.collections ?? []))
+      }
+    } catch (error) {
+    }
+  }, [isCheck])
 
   return (
     <div>
