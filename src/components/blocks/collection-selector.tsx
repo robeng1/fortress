@@ -26,7 +26,7 @@ function CollectionSelector({
 
   const [open, setOpen] = useState(false);
   const [selectAll, setSelectAll] = useState<boolean>(false);
-  const [isCheck, setIsCheck] = useState<string[]>([]);
+  const [isCheck, setIsCheck] = useState<string[]>(value);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -208,7 +208,6 @@ function CollectionSelector({
                         <li key={it[matchKey]}>
                           <div
                             className="flex items-center p-2 text-gray-800 rounded group"
-                          // onClick={() => setModalOpen(!modalOpen)}
                           >
                             <label className="inline-flex flex-shrink-0 mr-3">
                               <span className="sr-only">Select</span>
@@ -218,7 +217,7 @@ function CollectionSelector({
                                 type="checkbox"
                                 onChange={handleClick}
                                 checked={isCheck.some(
-                                  (item: any) => item[matchKey] === it[matchKey],
+                                  (item: string) => item === it[matchKey],
                                 )}
                               />
                             </label>
