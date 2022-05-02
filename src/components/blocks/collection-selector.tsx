@@ -115,7 +115,7 @@ function CollectionSelector({
           <input
             type="text"
             className="form-input w-full"
-            placeholder="Search products..."
+            placeholder="Search collections..."
           />
           <button className="flex items-center justify-center px-4 border-l">
             <svg
@@ -148,7 +148,7 @@ function CollectionSelector({
                   autoComplete="off"
                   onChange={e => setSearchTerm(e.target.value)}
                   value={searchTerm}
-                  placeholder={`Search products...`}
+                  placeholder={`Search collections...`}
                   ref={searchInput}
                 />
                 <button
