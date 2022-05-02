@@ -8,7 +8,7 @@ import { VoucherSetType } from 'typings/voucher/voucherset';
 import { mToS, sToM } from 'utils/money';
 import { initialValues, Values } from './values';
 import { ShopType } from 'typings/settings/shop-type';
-import { ABSOLUTE, PERCENTAGE, BUY_X_GET_Y, COUNT, COVERAGE, VALUE, VOUCHER, MULTIBUY, FIXED_PRICE, FREE } from './consts';
+import { ABSOLUTE, PERCENTAGE, BUY_X_GET_Y, COUNT, COVERAGE, VALUE, VOUCHER, MULTIBUY, FIXED_PRICE, FREE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS } from './consts';
 
 export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
   const disc: DiscountType = {
@@ -74,10 +74,10 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       const benRange: RangeType = {
         includes_all_products: d.applies_to === 'all_products',
       };
-      if (d.applies_to === 'specific_products') {
+      if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
       }
-      if (d.applies_to === 'specific_collections') {
+      if (d.applies_to === SPECIFIC_COLLECTIONS) {
         benRange.included_collections = d.included_collections;
       }
       benefit.collection = benRange;
@@ -109,10 +109,10 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       const benRange: RangeType = {
         includes_all_products: d.applies_to === 'all_products',
       };
-      if (d.applies_to === 'specific_products') {
+      if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
       }
-      if (d.applies_to === 'specific_collections') {
+      if (d.applies_to === SPECIFIC_COLLECTIONS) {
         benRange.included_collections = d.included_collections;
       }
       benefit.collection = benRange;
@@ -143,10 +143,10 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       const benRange: RangeType = {
         includes_all_products: d.applies_to === 'all_products',
       };
-      if (d.applies_to === 'specific_products') {
+      if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
       }
-      if (d.applies_to === 'specific_collections') {
+      if (d.applies_to === SPECIFIC_COLLECTIONS) {
         benRange.included_collections = d.included_collections;
       }
       benefit.collection = benRange;
@@ -177,10 +177,10 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       const benRange: RangeType = {
         includes_all_products: d.applies_to === 'all_products',
       };
-      if (d.applies_to === 'specific_products') {
+      if (d.applies_to === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.included_products;
       }
-      if (d.applies_to === 'specific_collections') {
+      if (d.applies_to === SPECIFIC_COLLECTIONS) {
         benRange.included_collections = d.included_collections;
       }
       benefit.collection = benRange;
@@ -208,10 +208,10 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       const condRange: RangeType = {
         includes_all_products: false,
       };
-      if (d.buy_x_get_y_condition_range_type === 'specific_products') {
+      if (d.buy_x_get_y_condition_range_type === SPECIFIC_PRODUCTS) {
         condRange.included_products = d.buy_x_get_y_condition_range_keys;
       }
-      if (d.buy_x_get_y_condition_range_type === 'specific_collections') {
+      if (d.buy_x_get_y_condition_range_type === SPECIFIC_COLLECTIONS) {
         condRange.included_collections = d.buy_x_get_y_condition_range_keys;
       }
       // assign range to condition
@@ -241,10 +241,10 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       const benRange: RangeType = {
         includes_all_products: d.buy_x_get_y_ben_range_type === 'all_products',
       };
-      if (d.buy_x_get_y_ben_range_type === 'specific_products') {
+      if (d.buy_x_get_y_ben_range_type === SPECIFIC_PRODUCTS) {
         benRange.included_products = d.buy_x_get_y_ben_range_keys;
       }
-      if (d.buy_x_get_y_ben_range_type === 'specific_collections') {
+      if (d.buy_x_get_y_ben_range_type === SPECIFIC_COLLECTIONS) {
         benRange.included_collections = d.buy_x_get_y_ben_range_keys;
       }
       // assign range to benefit
@@ -283,11 +283,161 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
   return disc;
 };
 
-export const handleSelectedResults =
-  (
-    setFieldValue: (f: string, v: any, sv?: boolean | undefined) => void,
-    field: string,
-  ) =>
-    (selectedResults: unknown[]) => {
-      setFieldValue(field, [...selectedResults]);
-    };
+export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
+  if (!d) {
+    return initialValues;
+  }
+  const disc: Values = {
+    ...initialValues,
+    discount_id: d.discount_id,
+    title: d.name || initialValues.title,
+    description: d.description || initialValues.description,
+    type: d.offer_type || initialValues.type,
+    max_basket_applications: d.max_basket_applications || 1,
+    max_global_applications: d.max_global_applications ?? undefined,
+    max_user_applications: d.max_user_applications ?? undefined,
+    page_title: d.page_title || initialValues.page_title,
+    page_description: d.page_description || initialValues.page_description,
+    start_date: moment(d.start).format('YYYY-MM-DD'),
+    start_time: moment(d.start).format('HH:mm:ss'),
+    end_date: moment(d.end).format('YYYY-MM-DD'),
+    end_time: moment(d.end).format('HH:mm:ss'),
+  };
+  if (
+    d.benefit?.benefit_type === ABSOLUTE ||
+    d.benefit?.benefit_type === FIXED_PRICE ||
+    d.benefit?.benefit_type === MULTIBUY ||
+    d.benefit?.benefit_type === PERCENTAGE
+  ) {
+    // condition deconstruction
+    disc.condition_type =
+      d.condition?.condition_type || initialValues.condition_type;
+    if (
+      d.condition?.condition_type === COVERAGE ||
+      d.condition?.condition_type === COUNT
+    ) {
+      disc.condition_value_int =
+        d.condition.value_int || initialValues.condition_value_int;
+    } else if (d.condition?.condition_type === VALUE) {
+      // will be quite weird that these values would not exist
+      // at the time when they are needed
+      // d.condition.money_value
+      disc.condition_value_money = mToS(d.condition.money_value!);
+    } else {
+      // TODO:(romeo) remove this block as it's weird as we should NEVER! reach here
+    }
+    // benefit deconstruction
+    if (d.benefit) {
+      disc.incentive_type =
+        d.benefit.benefit_type || initialValues.incentive_type;
+      disc.applies_to = d.benefit.collection?.includes_all_products
+        ? 'all_products'
+        : '';
+      if (
+        d.benefit.collection &&
+        d.benefit.collection?.included_collections &&
+        d.benefit.collection?.included_collections?.length > 0
+      ) {
+        disc.applies_to = SPECIFIC_COLLECTIONS;
+        disc.included_collections =
+          d.benefit.collection?.included_collections;
+      } else if (
+        d.benefit.collection &&
+        d.benefit.collection?.included_products &&
+        d.benefit.collection?.included_products?.length > 0
+      ) {
+        disc.applies_to = SPECIFIC_PRODUCTS;
+        disc.included_products = d.benefit.collection?.included_products;
+      }
+      if (d.benefit.value_m) {
+        disc.value = mToS(d.benefit.value_m);
+      } else if (d.benefit.value_i) {
+        disc.value = d.benefit.value_i;
+      }
+    }
+  } else {
+    // deconstructing buy-x-get-y
+    if (d.condition) {
+      disc.buy_x_get_y_condition_type =
+        d.condition?.condition_type ||
+        initialValues.buy_x_get_y_condition_type;
+      if (
+        d.condition?.condition_type === COVERAGE ||
+        d.condition?.condition_type === COUNT
+      ) {
+        disc.buy_x_get_y_condition_value =
+          d.condition.value_int || initialValues.buy_x_get_y_condition_value;
+      } else if (d.condition?.condition_type === VALUE) {
+        // will be quite weird that these values would not exist
+        // at the time when they are needed
+        disc.buy_x_get_y_condition_value = mToS(d.condition.money_value);
+      } else {
+        // TODO:(romeo)  remove this block as it's weird as we should NEVER! reach here
+      }
+      // deconstructing the condition range
+      disc.buy_x_get_y_condition_range_type = d.condition.collection
+        ?.includes_all_products
+        ? 'all_products'
+        : '';
+      if (
+        d.condition.collection &&
+        d.condition.collection?.included_collections &&
+        d.condition.collection?.included_collections?.length > 0
+      ) {
+        disc.buy_x_get_y_condition_range_type = SPECIFIC_COLLECTIONS;
+        disc.buy_x_get_y_condition_range_keys =
+          d.condition.collection?.included_collections ||
+          initialValues.buy_x_get_y_condition_range_keys;
+      } else if (
+        d.condition.collection &&
+        d.condition.collection?.included_products &&
+        d.condition.collection?.included_products?.length > 0
+      ) {
+        disc.buy_x_get_y_condition_range_type = SPECIFIC_PRODUCTS;
+        disc.buy_x_get_y_condition_range_keys =
+          d.condition.collection?.included_products ||
+          initialValues.buy_x_get_y_condition_range_keys;
+      }
+    }
+
+    // benefit deconstruction
+    if (d.benefit) {
+      disc.buy_x_get_y_discounted_value_type =
+        d.benefit.benefit_type ||
+        initialValues.buy_x_get_y_discounted_value_type;
+
+      // deconstructing the benefit range
+      disc.buy_x_get_y_ben_range_type = d.benefit.collection
+        ?.includes_all_products
+        ? 'all_products'
+        : '';
+      if (
+        d.benefit.collection &&
+        d.benefit.collection?.included_collections &&
+        d.benefit.collection?.included_collections?.length > 0
+      ) {
+        disc.buy_x_get_y_ben_range_type = SPECIFIC_COLLECTIONS;
+        disc.buy_x_get_y_ben_range_keys =
+          d.benefit.collection?.included_collections;
+      } else if (
+        d.benefit.collection &&
+        d.benefit.collection?.included_products &&
+        d.benefit.collection?.included_products?.length > 0
+      ) {
+        disc.buy_x_get_y_ben_range_type = SPECIFIC_PRODUCTS;
+        disc.buy_x_get_y_ben_range_keys =
+          d.benefit.collection?.included_products;
+      }
+      if (d.benefit.value_m) {
+        disc.buy_x_get_y_discounted_value = mToS(d.benefit.value_m);
+      } else if (d.benefit.value_i) {
+        disc.buy_x_get_y_discounted_value = d.benefit.value_i as string;
+      }
+      disc.buy_x_get_y_ben_max_affected_items =
+        d.benefit.max_affected_items ||
+        initialValues.buy_x_get_y_ben_max_affected_items;
+    }
+  }
+  disc.max_discount = mToS(d.max_discount);
+  return disc;
+}

@@ -1,27 +1,23 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import union from 'lodash/union';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
 import { DiscountType } from 'typings/discount/discount-type';
-import SearchSelect from 'components/blocks/modal-searcher';
 import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';
 import { initialValues, Values } from './values';
-import { valuesToDiscount, handleSelectedResults } from './utils';
-import { proxyURL } from 'utils/urlsigner';
+import { discountToValues, valuesToDiscount} from './utils';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
-import moment from 'moment';
-import { mToS } from 'utils/money';
-import { ABSOLUTE, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, VALUE, VOUCHER } from './consts';
+import { ABSOLUTE, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, VALUE, VOUCHER } from './consts';
+import ProductSelector from 'components/blocks/product-selector';
+import CollectionSelector from 'components/blocks/collection-selector';
 
-// TODO: (romeo) simplify & refactor duplicated pieces of logic
 const DiscountForm = ({ id }) => {
   const navigate = useNavigate();
-  const qc = useQueryClient();
+  const klient = useQueryClient();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
   const [discountId, setDiscountId] = useState(id);
@@ -40,41 +36,9 @@ const DiscountForm = ({ id }) => {
   // TODO: hook this up since it's already baked in the backend
   // const [image, setImage] = useState(discount?.image?.image_url);
 
-  // for normal offers benefit range
-  const [searchInclProductsOpen, setSearchInclProductsOpen] = useState(false);
-  const [searchInclCollectionsOpen, setSearchInclCollectionsOpen] =
-    useState(false);
-
-  // collections to include in the condition range
-  const [searchBXCRInclProductsOpen, setSearchBXCRInclProductsOpen] =
-    useState(false);
-  const [searchBXCRInclCollectionsOpen, setSearchBXCRInclCollectionsOpen] =
-    useState(false);
-
-  // products to include in the benefit range
-  const [searchBxBRInclProductsOpen, setSearchBxBRInclProductsOpen] =
-    useState(false);
-  const [searchBxBRInclCollectionsOpen, setSearchBxBRInclCollectionsOpen] =
-    useState(false);
-
   // this is only useful for controlling which queries should be
   // enabled to prevent react-query from running all the quries
   const [isBx, setIsBx] = useState<boolean>(false);
-
-  // keep track of product & collection IDs included in range for
-  // non buy-x-get-y discounts
-  const [inclPids, setInclPids] = useState<string[]>([]);
-  const [inclCids, setInclCids] = useState<string[]>([]);
-
-  // keep track of product & collection IDs included in range for
-  // buy-x-get-y discounts
-  // condition ids
-  const [bxCondInclPids, setBxCondInclPids] = useState<string[]>([]);
-  const [bxCondInclCids, setBxCondInclCids] = useState<string[]>([]);
-
-  // benefit ids
-  const [bxBInclPids, setBxBInclPids] = useState<string[]>([]);
-  const [bxBInclCids, setBxBInclCids] = useState<string[]>([]);
 
   // create the discount, TODO: should be moved into a hook
   const { mutate: createDiscount, isLoading: isCreatingDiscount } = useMutation(
@@ -86,7 +50,7 @@ const DiscountForm = ({ id }) => {
     {
       onSuccess: (newDiscount: DiscountType) => {
         setDiscountId(newDiscount.discount_id);
-        qc.setQueryData(['discount', discountId], newDiscount);
+        klient.setQueryData(['discount', discountId], newDiscount);
         toast('Discount created successfully');
       },
       onError: (e: ResponseError) => {
@@ -105,7 +69,7 @@ const DiscountForm = ({ id }) => {
     {
       onSuccess: (newDiscount: DiscountType) => {
         setDiscountId(newDiscount.discount_id);
-        qc.setQueryData(['discount', discountId], newDiscount);
+        klient.setQueryData(['discount', discountId], newDiscount);
         toast('Discount updated successfully');
       },
       onError: (e: ResponseError) => {
@@ -114,317 +78,9 @@ const DiscountForm = ({ id }) => {
     },
   );
 
-  // options search URLs
-  const collectionOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/collections/option-search`;
-  const productOptionSearchURL = `${fortressURL}/shops/${shop?.shop_id}/products/option-search`;
-
-  // raw query urls
-  const collectionFilterURL = `${fortressURL}/shops/${shop?.shop_id}/collection-views/filter`;
-  const productFilterURL = `${fortressURL}/shops/${shop?.shop_id}/product-views/filter`;
-
-  const productQueryComposer = (term: string): Record<string, any> => {
-    return { limit: 15, term, shop_id: shop?.shop_id, type: 'product' };
-  };
-
-  const collectionQueryComposer = (term: string): Record<string, any> => {
-    return { limit: 15, term, shop_id: shop?.shop_id, type: 'collection' };
-  };
-
-  // query for getting included products TODO: should be moved into a hook
-  const {
-    data: { products: includedProducts },
-  } = useQuery<any>(
-    ['included-products', discountId],
-    async () =>
-      await request(productFilterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shop?.shop_id,
-          id_list: inclPids,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: inclPids.length > 0 && !isBx,
-      keepPreviousData: true,
-      initialData: { products: [] },
-    },
-  );
-
-  // query for getting included collections TODO: should be moved into a hook
-  const {
-    data: { collections: includedCollections },
-  } = useQuery<any>(
-    ['included-collections', discountId],
-    async () =>
-      await request(collectionFilterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shop?.shop_id,
-          id_list: inclCids,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: inclCids.length > 0 && !isBx,
-      keepPreviousData: true,
-      initialData: { collections: [] },
-    },
-  );
-
-  // query for getting included products for a condition's range TODO: should be moved into a hook
-  const {
-    data: { products: condRangeIncludedProducts },
-  } = useQuery<any>(
-    ['cond-range-included-products', discountId],
-    async () =>
-      await request(productFilterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shop?.shop_id,
-          id_list: bxCondInclPids,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: bxCondInclPids.length > 0 && isBx,
-      keepPreviousData: true,
-      initialData: { products: [] },
-    },
-  );
-
-  // query for getting included collections for a condition's range TODO: should be moved into a hook
-  const {
-    data: { collections: condRangeIncludedCollections },
-  } = useQuery<any>(
-    ['cond-range-included-collections', discountId],
-    async () =>
-      await request(collectionFilterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shop?.shop_id,
-          id_list: bxCondInclCids,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: bxCondInclCids.length > 0 && isBx,
-      keepPreviousData: true,
-      initialData: { collections: [] },
-    },
-  );
-
-  // query for getting included products for a condition's range TODO: should be moved into a hook
-  const {
-    data: { products: benRangeIncludedProducts },
-  } = useQuery<any>(
-    ['ben-range-included-products', discountId],
-    async () =>
-      await request(productFilterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shop?.shop_id,
-          id_list: bxBInclPids,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: bxBInclPids.length > 0 && isBx,
-      keepPreviousData: true,
-      initialData: { products: [] },
-    },
-  );
-
-  // query for getting included collections for a condition's range TODO: should be moved into a hook
-  const {
-    data: { collections: benRangeIncludedCollections },
-  } = useQuery<any>(
-    ['ben-range-included-collections', discountId],
-    async () =>
-      await request(collectionFilterURL, {
-        method: 'POST',
-        body: JSON.stringify({
-          shop_id: shop?.shop_id,
-          id_list: bxBInclCids,
-        }),
-      }),
-    {
-      // The query will not execute until the discountId exists
-      enabled: bxBInclCids.length > 0 && isBx,
-      keepPreviousData: true,
-      initialData: { collections: [] },
-    },
-  );
-
-  const discountToValues = (d: DiscountType | undefined): Values => {
-    if (!d) {
-      return initialValues;
-    }
-    const disc: Values = {
-      ...initialValues,
-      discount_id: d.discount_id,
-      title: d.name || initialValues.title,
-      description: d.description || initialValues.description,
-      type: d.offer_type || initialValues.type,
-      max_basket_applications: d.max_basket_applications || 1,
-      max_global_applications: d.max_global_applications ?? undefined,
-      max_user_applications: d.max_user_applications ?? undefined,
-      page_title: d.page_title || initialValues.page_title,
-      page_description: d.page_description || initialValues.page_description,
-      start_date: moment(d.start).format('YYYY-MM-DD'),
-      start_time: moment(d.start).format('HH:mm:ss'),
-      end_date: moment(d.end).format('YYYY-MM-DD'),
-      end_time: moment(d.end).format('HH:mm:ss'),
-    };
-    if (
-      d.benefit?.benefit_type === ABSOLUTE ||
-      d.benefit?.benefit_type === FIXED_PRICE ||
-      d.benefit?.benefit_type === MULTIBUY ||
-      d.benefit?.benefit_type === PERCENTAGE
-    ) {
-      // condition deconstruction
-      disc.condition_type =
-        d.condition?.condition_type || initialValues.condition_type;
-      if (
-        d.condition?.condition_type === COVERAGE ||
-        d.condition?.condition_type === COUNT
-      ) {
-        disc.condition_value_int =
-          d.condition.value_int || initialValues.condition_value_int;
-      } else if (d.condition?.condition_type === VALUE) {
-        // will be quite weird that these values would not exist
-        // at the time when they are needed
-        // d.condition.money_value
-        disc.condition_value_money = mToS(d.condition.money_value!);
-      } else {
-        // TODO:(romeo) remove this block as it's weird as we should NEVER! reach here
-      }
-
-      // benefit deconstruction
-      if (d.benefit) {
-        disc.incentive_type =
-          d.benefit.benefit_type || initialValues.incentive_type;
-        disc.applies_to = d.benefit.collection?.includes_all_products
-          ? 'all_products'
-          : '';
-        if (
-          d.benefit.collection &&
-          d.benefit.collection?.included_collections &&
-          d.benefit.collection?.included_collections?.length > 0
-        ) {
-          disc.applies_to = 'specific_collections';
-          disc.included_collections =
-            d.benefit.collection?.included_collections;
-          setInclCids(disc.included_collections || []);
-        } else if (
-          d.benefit.collection &&
-          d.benefit.collection?.included_products &&
-          d.benefit.collection?.included_products?.length > 0
-        ) {
-          disc.applies_to = 'specific_products';
-          disc.included_products = d.benefit.collection?.included_products;
-          setInclPids(disc.included_products || []);
-        }
-        if (d.benefit.value_m) {
-          disc.value = mToS(d.benefit.value_m);
-        } else if (d.benefit.value_i) {
-          disc.value = d.benefit.value_i;
-        }
-      }
-    } else {
-      // deconstructing buy-x-get-y
-      if (d.condition) {
-        disc.buy_x_get_y_condition_type =
-          d.condition?.condition_type ||
-          initialValues.buy_x_get_y_condition_type;
-        if (
-          d.condition?.condition_type === COVERAGE ||
-          d.condition?.condition_type === COUNT
-        ) {
-          disc.buy_x_get_y_condition_value =
-            d.condition.value_int || initialValues.buy_x_get_y_condition_value;
-        } else if (d.condition?.condition_type === VALUE) {
-          // will be quite weird that these values would not exist
-          // at the time when they are needed
-          disc.buy_x_get_y_condition_value = mToS(d.condition.money_value);
-        } else {
-          // TODO:(romeo)  remove this block as it's weird as we should NEVER! reach here
-        }
-        // deconstructing the condition range
-        disc.buy_x_get_y_condition_range_type = d.condition.collection
-          ?.includes_all_products
-          ? 'all_products'
-          : '';
-        if (
-          d.condition.collection &&
-          d.condition.collection?.included_collections &&
-          d.condition.collection?.included_collections?.length > 0
-        ) {
-          disc.buy_x_get_y_condition_range_type = 'specific_collections';
-          disc.buy_x_get_y_condition_range_keys =
-            d.condition.collection?.included_collections ||
-            initialValues.buy_x_get_y_condition_range_keys;
-          setBxCondInclCids(disc.buy_x_get_y_condition_range_keys);
-        } else if (
-          d.condition.collection &&
-          d.condition.collection?.included_products &&
-          d.condition.collection?.included_products?.length > 0
-        ) {
-          disc.buy_x_get_y_condition_range_type = 'specific_products';
-          disc.buy_x_get_y_condition_range_keys =
-            d.condition.collection?.included_products ||
-            initialValues.buy_x_get_y_condition_range_keys;
-          setBxCondInclPids(disc.buy_x_get_y_condition_range_keys);
-        }
-      }
-
-      // benefit deconstruction
-      if (d.benefit) {
-        disc.buy_x_get_y_discounted_value_type =
-          d.benefit.benefit_type ||
-          initialValues.buy_x_get_y_discounted_value_type;
-
-        // deconstructing the benefit range
-        disc.buy_x_get_y_ben_range_type = d.benefit.collection
-          ?.includes_all_products
-          ? 'all_products'
-          : '';
-        if (
-          d.benefit.collection &&
-          d.benefit.collection?.included_collections &&
-          d.benefit.collection?.included_collections?.length > 0
-        ) {
-          disc.buy_x_get_y_ben_range_type = 'specific_collections';
-          disc.buy_x_get_y_ben_range_keys =
-            d.benefit.collection?.included_collections;
-          setBxBInclCids(disc.buy_x_get_y_ben_range_keys);
-        } else if (
-          d.benefit.collection &&
-          d.benefit.collection?.included_products &&
-          d.benefit.collection?.included_products?.length > 0
-        ) {
-          disc.buy_x_get_y_ben_range_type = 'specific_products';
-          disc.buy_x_get_y_ben_range_keys =
-            d.benefit.collection?.included_products;
-          setBxBInclPids(disc.buy_x_get_y_ben_range_keys);
-        }
-        if (d.benefit.value_m) {
-          disc.buy_x_get_y_discounted_value = mToS(d.benefit.value_m);
-        } else if (d.benefit.value_i) {
-          disc.buy_x_get_y_discounted_value = d.benefit.value_i as string;
-        }
-        disc.buy_x_get_y_ben_max_affected_items =
-          d.benefit.max_affected_items ||
-          initialValues.buy_x_get_y_ben_max_affected_items;
-      }
-    }
-    disc.max_discount = mToS(d.max_discount);
-    return disc;
-  };
-
   const initialVals = {
     ...initialValues,
-    ...discountToValues(discount),
+    ...discountToValues(discount, shop),
   };
 
   return (
@@ -607,8 +263,8 @@ const DiscountForm = ({ id }) => {
                 <div className="col-span-3 md:col-span-2">
                   <section
                     className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${values.incentive_type === BUY_X_GET_Y
-                        ? 'block'
-                        : 'hidden'
+                      ? 'block'
+                      : 'hidden'
                       }`}
                   >
                     <h2 className="block text-lg font-semibold mb-1">
@@ -690,11 +346,11 @@ const DiscountForm = ({ id }) => {
                           </label>
                           <div
                             className={`relative ${values.buy_x_get_y_condition_type === COUNT ||
-                                values.buy_x_get_y_condition_type ===
-                                COVERAGE ||
-                                values.buy_x_get_y_condition_type === ''
-                                ? 'hidden'
-                                : 'block'
+                              values.buy_x_get_y_condition_type ===
+                              COVERAGE ||
+                              values.buy_x_get_y_condition_type === ''
+                              ? 'hidden'
+                              : 'block'
                               }`}
                           >
                             <input
@@ -714,9 +370,9 @@ const DiscountForm = ({ id }) => {
                           </div>
                           <div
                             className={`relative ${values.buy_x_get_y_condition_type === VALUE ||
-                                values.buy_x_get_y_condition_type === ''
-                                ? 'hidden'
-                                : 'block'
+                              values.buy_x_get_y_condition_type === ''
+                              ? 'hidden'
+                              : 'block'
                               }`}
                           >
                             <input
@@ -766,230 +422,40 @@ const DiscountForm = ({ id }) => {
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         {values.buy_x_get_y_condition_range_type ===
-                          'specific_products' ? (
+                          SPECIFIC_PRODUCTS ? (
                           <div className="w-full">
-                            <div className="w-full">
-                              <div
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  setSearchBXCRInclProductsOpen(
-                                    !searchBXCRInclProductsOpen,
-                                  );
-                                }}
-                                className="flex border-1 rounded"
-                              >
-                                <input
-                                  type="text"
-                                  className="form-input w-full"
-                                  placeholder="Search products..."
-                                />
-                                <button className="flex items-center justify-center px-4 border-l">
-                                  <svg
-                                    className="w-6 h-6 text-gray-600"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                  </svg>
-                                </button>
-                              </div>
-                              <SearchSelect
-                                id="quick-find-modal-cr"
-                                searchId="quick-find-cr"
-                                modalOpen={searchBXCRInclProductsOpen}
-                                setModalOpen={setSearchBXCRInclProductsOpen}
-                                queryURL={productOptionSearchURL}
-                                composeQuery={productQueryComposer}
-                                matchKey="key"
-                                queryKey="products-opt-search"
-                                handleResultSelected={(items: any[]) => {
-                                  const keys = items.map(item => item['key']);
-                                  const nl = union(keys, bxCondInclPids);
-                                  handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_condition_range_keys',
-                                  )(nl);
-                                  setBxCondInclPids(nl);
-                                  qc.invalidateQueries([
-                                    'cond-range-included-products',
-                                    discountId,
-                                  ]);
-                                }}
-                                alreadySelected={union(
-                                  values.buy_x_get_y_condition_range_keys,
-                                  bxCondInclPids,
-                                )}
-                                placeholder="Products"
-                                queryEnabled={!!shop?.shop_id}
-                              />
-                            </div>
-                            <ul className="text-sm w-full">
-                              {condRangeIncludedProducts.map((product: any) => (
-                                <li
-                                  key={product.product_id}
-                                  className="flex items-center"
-                                >
-                                  <div className="flex w-full items-center py-2 text-gray-500 rounded group">
-                                    <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
-                                      <img
-                                        src={
-                                          product.image_url
-                                            ? proxyURL(
-                                              product.image_url,
-                                              50,
-                                              50,
-                                            )
-                                            : 'https://via.placeholder.com/50'
-                                        }
-                                        alt={product.handle}
-                                      />
-                                    </div>
-                                    <div className="w-full flex-grow flex justify-between">
-                                      <div className="text-sm font-medium text-gray-900">
-                                        {product.title}
-                                      </div>
-                                      <div
-                                        onClick={e => {
-                                          e.stopPropagation();
-                                          setBxCondInclPids(previousKeys =>
-                                            previousKeys.filter(
-                                              k => k !== product.product_id,
-                                            ),
-                                          );
-                                          qc.invalidateQueries([
-                                            'cond-range-included-products',
-                                            discountId,
-                                          ]);
-                                        }}
-                                        className="text-sm text-gray-500 cursor-pointer"
-                                      >
-                                        X
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
+                            <ProductSelector
+                              id="quick-find-modal-cr"
+                              searchId="quick-find-cr"
+                              queryKey="products-opt-search"
+                              onChange={(items: string[]) => {
+                                setFieldValue('buy_x_get_y_condition_range_keys', items)
+                              }}
+                              value={values.buy_x_get_y_condition_range_keys}
+                              queryEnabled={!!shop?.shop_id}
+                              shopId={shop?.shop_id}
+                            />
                           </div>
                         ) : (
-                          <div className="w-full">
-                            <div className="w-full">
-                              <div
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  setSearchBXCRInclCollectionsOpen(
-                                    !searchBXCRInclCollectionsOpen,
-                                  );
-                                }}
-                                className="flex border-1 rounded"
-                              >
-                                <input
-                                  type="text"
-                                  className="form-input w-full"
-                                  placeholder="Search collections..."
-                                />
-                                <button className="flex items-center justify-center px-4 border-l">
-                                  <svg
-                                    className="w-6 h-6 text-gray-600"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                  </svg>
-                                </button>
-                              </div>
-                              <SearchSelect
-                                id="quick-find-modal-cr"
-                                searchId="quick-find-cr"
-                                modalOpen={searchBXCRInclCollectionsOpen}
-                                setModalOpen={setSearchBXCRInclCollectionsOpen}
-                                queryURL={collectionOptionSearchURL}
-                                composeQuery={collectionQueryComposer}
-                                matchKey="key"
-                                queryKey="collections-opt-search"
-                                handleResultSelected={(items: any[]) => {
-                                  const keys = items.map(item => item['key']);
-                                  const nl = union(keys, bxCondInclCids);
-                                  handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_condition_range_keys',
-                                  )(nl);
-                                  setBxCondInclCids(nl);
-                                  qc.invalidateQueries([
-                                    'cond-range-included-collections',
-                                    discountId,
-                                  ]);
-                                }}
-                                alreadySelected={union(
-                                  values.buy_x_get_y_condition_range_keys,
-                                  bxCondInclCids,
-                                )}
-                                placeholder="Collections"
-                                queryEnabled={!!shop?.shop_id}
-                              />
-                            </div>
-                            <ul className="text-sm w-full">
-                              {condRangeIncludedCollections.map(
-                                (collection: any) => (
-                                  <li
-                                    key={collection.collection_id}
-                                    className="flex items-center"
-                                  >
-                                    <div className="flex w-full items-center py-2 text-gray-500 rounded group">
-                                      <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img
-                                          src={
-                                            collection.image_url
-                                              ? proxyURL(
-                                                collection.image_url,
-                                                50,
-                                                50,
-                                              )
-                                              : 'https://via.placeholder.com/50'
-                                          }
-                                          alt={collection.handle}
-                                        />
-                                      </div>
-                                      <div className="w-full flex-grow flex justify-between">
-                                        <div className="text-sm font-medium text-gray-900">
-                                          {collection.title}
-                                        </div>
-                                        <div
-                                          onClick={e => {
-                                            e.stopPropagation();
-                                            setBxCondInclCids(previousKeys =>
-                                              previousKeys.filter(
-                                                k =>
-                                                  k !==
-                                                  collection.collection_id,
-                                              ),
-                                            );
-                                            qc.invalidateQueries([
-                                              'cond-range-included-collections',
-                                              discountId,
-                                            ]);
-                                          }}
-                                          className="text-sm text-gray-500 cursor-pointer"
-                                        >
-                                          X
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                ),
-                              )}
-                            </ul>
-                          </div>
+                          <CollectionSelector
+                            id="quick-find-modal-cr"
+                            searchId="quick-find-cr"
+                            queryKey="collections-opt-search"
+                            onChange={(items: string[]) => {
+                              setFieldValue('buy_x_get_y_condition_range_keys', items)
+                            }}
+                            value={values.buy_x_get_y_condition_range_keys}
+                            queryEnabled={!!shop?.shop_id}
+                            shopId={shop?.shop_id}
+                          />
                         )}
                       </div>
                     </div>
                   </section>
                   <section
                     className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${values.incentive_type === BUY_X_GET_Y
-                        ? 'block'
-                        : 'hidden'
+                      ? 'block'
+                      : 'hidden'
                       }`}
                   >
                     <h2 className="block text-lg font-semibold mb-1">
@@ -1045,222 +511,30 @@ const DiscountForm = ({ id }) => {
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         {values.buy_x_get_y_ben_range_type ===
-                          'specific_products' ? (
-                          <div className="w-full">
-                            <div className="w-full">
-                              <div
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  setSearchBxBRInclProductsOpen(
-                                    !searchBxBRInclProductsOpen,
-                                  );
-                                }}
-                                className="flex border-1 rounded"
-                              >
-                                <input
-                                  type="text"
-                                  className="form-input w-full"
-                                  placeholder="Search products..."
-                                />
-                                <button className="flex items-center justify-center px-4 border-l">
-                                  <svg
-                                    className="w-6 h-6 text-gray-600"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                  </svg>
-                                </button>
-                              </div>
-                              <SearchSelect
-                                id="quick-find-modal-br"
-                                searchId="quick-find-br"
-                                modalOpen={searchBxBRInclProductsOpen}
-                                setModalOpen={setSearchBxBRInclProductsOpen}
-                                queryURL={productOptionSearchURL}
-                                composeQuery={productQueryComposer}
-                                matchKey="key"
-                                queryKey="products-opt-search"
-                                handleResultSelected={(items: any[]) => {
-                                  const keys = items.map(item => item['key']);
-                                  const nl = union(keys, bxBInclPids);
-                                  handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_ben_range_keys',
-                                  )(nl);
-                                  setBxBInclPids(nl);
-                                  qc.invalidateQueries([
-                                    'ben-range-included-products',
-                                    discountId,
-                                  ]);
-                                }}
-                                alreadySelected={union(
-                                  values.buy_x_get_y_ben_range_keys,
-                                  bxBInclPids,
-                                )}
-                                placeholder="Products"
-                                queryEnabled={!!shop?.shop_id}
-                              />
-                            </div>
-                            <ul className="text-sm w-full">
-                              {benRangeIncludedProducts.map((product: any) => (
-                                <li
-                                  key={product.product_id}
-                                  className="flex items-center"
-                                >
-                                  <div className="flex w-full items-center py-2 text-gray-500 rounded group">
-                                    <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
-                                      <img
-                                        src={
-                                          product.image_url
-                                            ? proxyURL(
-                                              product.image_url,
-                                              50,
-                                              50,
-                                            )
-                                            : 'https://via.placeholder.com/50'
-                                        }
-                                        alt={product.handle}
-                                      />
-                                    </div>
-                                    <div className="w-full flex-grow flex justify-between">
-                                      <div className="text-sm font-medium text-gray-900">
-                                        {product.title}
-                                      </div>
-                                      <div
-                                        onClick={e => {
-                                          e.stopPropagation();
-                                          setBxBInclPids(previousKeys =>
-                                            previousKeys.filter(
-                                              k => k !== product.product_id,
-                                            ),
-                                          );
-                                          qc.invalidateQueries([
-                                            'ben-range-included-products',
-                                            discountId,
-                                          ]);
-                                        }}
-                                        className="text-sm text-gray-500 cursor-pointer"
-                                      >
-                                        X
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
+                          SPECIFIC_PRODUCTS ? (
+                          <ProductSelector
+                            id="quick-find-modal-br"
+                            searchId="quick-find-br"
+                            queryKey="products-opt-search"
+                            onChange={(items: string[]) => {
+                              setFieldValue('buy_x_get_y_ben_range_keys', items)
+                            }}
+                            value={values.buy_x_get_y_ben_range_keys}
+                            queryEnabled={!!shop?.shop_id}
+                            shopId={shop?.shop_id}
+                          />
                         ) : (
-                          <div className="w-full">
-                            <div className="w-full">
-                              <div
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  setSearchBxBRInclCollectionsOpen(
-                                    !searchBxBRInclCollectionsOpen,
-                                  );
-                                }}
-                                className="flex border-1 rounded"
-                              >
-                                <input
-                                  type="text"
-                                  className="form-input w-full"
-                                  placeholder="Search collections..."
-                                />
-                                <button className="flex items-center justify-center px-4 border-l">
-                                  <svg
-                                    className="w-6 h-6 text-gray-600"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                  </svg>
-                                </button>
-                              </div>
-                              <SearchSelect
-                                id="quick-find-modal-br"
-                                searchId="quick-find-br"
-                                modalOpen={searchBxBRInclCollectionsOpen}
-                                setModalOpen={setSearchBxBRInclCollectionsOpen}
-                                queryURL={collectionOptionSearchURL}
-                                composeQuery={collectionQueryComposer}
-                                matchKey="key"
-                                queryKey="collections-opt-search"
-                                handleResultSelected={(items: any[]) => {
-                                  const keys = items.map(item => item['key']);
-                                  const nl = union(keys, bxBInclCids);
-                                  handleSelectedResults(
-                                    setFieldValue,
-                                    'buy_x_get_y_ben_range_keys',
-                                  )(nl);
-                                  setBxBInclCids(nl);
-                                  qc.invalidateQueries([
-                                    'cond-range-included-collections',
-                                    discountId,
-                                  ]);
-                                }}
-                                alreadySelected={union(
-                                  values.buy_x_get_y_ben_range_keys,
-                                  bxBInclCids,
-                                )}
-                                placeholder="Collections"
-                                queryEnabled={!!shop?.shop_id}
-                              />
-                            </div>
-                            <ul className="text-sm w-full">
-                              {benRangeIncludedCollections.map(
-                                (collection: any) => (
-                                  <li
-                                    key={collection.collection_id}
-                                    className="flex items-center"
-                                  >
-                                    <div className="flex w-full items-center py-2 text-gray-500 rounded group">
-                                      <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img
-                                          src={
-                                            collection.image_url
-                                              ? proxyURL(
-                                                collection.image_url,
-                                                50,
-                                                50,
-                                              )
-                                              : 'https://via.placeholder.com/50'
-                                          }
-                                          alt={collection.handle}
-                                        />
-                                      </div>
-                                      <div className="w-full flex-grow flex justify-between">
-                                        <div className="text-sm font-medium text-gray-900">
-                                          {collection.title}
-                                        </div>
-                                        <div
-                                          onClick={e => {
-                                            e.stopPropagation();
-                                            setBxBInclCids(previousKeys =>
-                                              previousKeys.filter(
-                                                k =>
-                                                  k !==
-                                                  collection.collection_id,
-                                              ),
-                                            );
-                                            qc.invalidateQueries([
-                                              'ben-range-included-collections',
-                                              discountId,
-                                            ]);
-                                          }}
-                                          className="text-sm text-gray-500 cursor-pointer"
-                                        >
-                                          X
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                ),
-                              )}
-                            </ul>
-                          </div>
+                          <CollectionSelector
+                            id="quick-find-modal-cr"
+                            searchId="quick-find-cr"
+                            queryKey="collections-opt-search"
+                            onChange={(items: any[]) => {
+                              setFieldValue('buy_x_get_y_ben_range_keys', items)
+                            }}
+                            value={values.buy_x_get_y_ben_range_keys}
+                            queryEnabled={!!shop?.shop_id}
+                            shopId={shop?.shop_id}
+                          />
                         )}
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
@@ -1340,9 +614,9 @@ const DiscountForm = ({ id }) => {
                       </div>
                       <div
                         className={`relative w-1/2 ${values.buy_x_get_y_discounted_value_type === FREE ||
-                            values.buy_x_get_y_condition_type === ''
-                            ? 'hidden'
-                            : 'block'
+                          values.buy_x_get_y_condition_type === ''
+                          ? 'hidden'
+                          : 'block'
                           }`}
                       >
                         <input
@@ -1352,9 +626,9 @@ const DiscountForm = ({ id }) => {
                           onBlur={handleBlur}
                           value={values.buy_x_get_y_discounted_value}
                           className={`form-input w-full pr-8 ${(values.buy_x_get_y_discounted_value_type ===
-                              FIXED_PRICE ||
-                              values.buy_x_get_y_discounted_value_type ===
-                              ABSOLUTE) &&
+                            FIXED_PRICE ||
+                            values.buy_x_get_y_discounted_value_type ===
+                            ABSOLUTE) &&
                             'pl-12'
                             }`}
                           // step={1}
@@ -1388,9 +662,9 @@ const DiscountForm = ({ id }) => {
                     <div>
                       <section
                         className={`rounded bg-white overflow-hidden p-3 ${values.incentive_type === BUY_X_GET_Y ||
-                            values.incentive_type === MULTIBUY
-                            ? 'hidden'
-                            : 'block'
+                          values.incentive_type === MULTIBUY
+                          ? 'hidden'
+                          : 'block'
                           }`}
                       >
                         <div className="sm:w-1/2 mb-4">
@@ -1463,11 +737,11 @@ const DiscountForm = ({ id }) => {
                                   onChange={e =>
                                     setFieldValue(
                                       'applies_to',
-                                      'specific_products',
+                                      SPECIFIC_PRODUCTS,
                                     )
                                   }
                                   checked={
-                                    values.applies_to === 'specific_products'
+                                    values.applies_to === SPECIFIC_PRODUCTS
                                   }
                                   value={values.applies_to}
                                 />
@@ -1485,11 +759,11 @@ const DiscountForm = ({ id }) => {
                                   onChange={e =>
                                     setFieldValue(
                                       'applies_to',
-                                      'specific_collections',
+                                      SPECIFIC_COLLECTIONS,
                                     )
                                   }
                                   checked={
-                                    values.applies_to === 'specific_collections'
+                                    values.applies_to === SPECIFIC_COLLECTIONS
                                   }
                                   value={values.applies_to}
                                 />
@@ -1502,242 +776,46 @@ const DiscountForm = ({ id }) => {
                         </div>
                         <div
                           className={`${values.applies_to === 'all_products' ||
-                              values.applies_to === ''
-                              ? 'hidden'
-                              : 'block'
+                            values.applies_to === ''
+                            ? 'hidden'
+                            : 'block'
                             }`}
                         >
                           <div
                             className={`sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5`}
                           >
-                            {values.applies_to === 'specific_products' ? (
-                              <div className="w-full">
-                                <div className="w-full">
-                                  <div
-                                    onClick={e => {
-                                      e.stopPropagation();
-                                      setSearchInclProductsOpen(
-                                        !searchInclProductsOpen,
-                                      );
-                                    }}
-                                    className="flex border-1 rounded"
-                                  >
-                                    <input
-                                      type="text"
-                                      className="form-input w-full"
-                                      placeholder="Search products..."
-                                    />
-                                    <button className="flex items-center justify-center px-4 border-l">
-                                      <svg
-                                        className="w-6 h-6 text-gray-600"
-                                        fill="currentColor"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                      </svg>
-                                    </button>
-                                  </div>
-                                  <SearchSelect
-                                    id="quick-find-modal-ip"
-                                    searchId="quick-find-ip"
-                                    modalOpen={searchInclProductsOpen}
-                                    setModalOpen={setSearchInclProductsOpen}
-                                    queryURL={productOptionSearchURL}
-                                    composeQuery={productQueryComposer}
-                                    matchKey="key"
-                                    queryKey="products-opt-search"
-                                    handleResultSelected={(items: any[]) => {
-                                      const keys: string[] = items.map(
-                                        item => item['key'],
-                                      );
-                                      const nl = union(keys, inclPids);
-                                      handleSelectedResults(
-                                        setFieldValue,
-                                        'included_products',
-                                      )(nl);
-                                      setInclPids(nl);
-                                      qc.invalidateQueries([
-                                        'included-products',
-                                        discountId,
-                                      ]);
-                                    }}
-                                    alreadySelected={union(
-                                      values.included_products,
-                                      inclPids,
-                                    )}
-                                    placeholder="Products"
-                                    queryEnabled={!!shop?.shop_id}
-                                  />
-                                </div>
-                                <ul className="text-sm w-full">
-                                  {includedProducts.map((product: any) => (
-                                    <li
-                                      key={product.product_id}
-                                      className="flex items-center"
-                                    >
-                                      <div className="flex w-full items-center py-2 text-gray-500 rounded group">
-                                        <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
-                                          <img
-                                            src={
-                                              product.image_url
-                                                ? proxyURL(
-                                                  product.image_url,
-                                                  50,
-                                                  50,
-                                                )
-                                                : 'https://via.placeholder.com/50'
-                                            }
-                                            alt={product.handle}
-                                          />
-                                        </div>
-                                        <div className="w-full flex-grow flex justify-between">
-                                          <div className="text-sm font-medium text-gray-900">
-                                            {product.title}
-                                          </div>
-                                          <div
-                                            onClick={e => {
-                                              e.stopPropagation();
-                                              setInclPids(previousKeys =>
-                                                previousKeys.filter(
-                                                  k => k !== product.product_id,
-                                                ),
-                                              );
-                                              qc.invalidateQueries([
-                                                'included-products',
-                                                discountId,
-                                              ]);
-                                            }}
-                                            className="text-sm text-gray-500 cursor-pointer"
-                                          >
-                                            X
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
+                            {values.applies_to === SPECIFIC_PRODUCTS ? (
+                              <ProductSelector
+                                id="quick-find-modal-ip"
+                                searchId="quick-find-ip"
+                                queryKey="products-opt-search"
+                                onChange={(items: string[]) => {
+                                  setFieldValue('included_products', items)
+                                }}
+                                value={values.included_products}
+                                queryEnabled={!!shop?.shop_id}
+                                shopId={shop?.shop_id}
+                              />
                             ) : (
-                              <div className="w-full">
-                                <div className="w-full">
-                                  <div
-                                    onClick={e => {
-                                      e.stopPropagation();
-                                      setSearchInclCollectionsOpen(
-                                        !searchInclCollectionsOpen,
-                                      );
-                                    }}
-                                    className="flex border-1 rounded"
-                                  >
-                                    <input
-                                      type="text"
-                                      className="form-input w-full"
-                                      placeholder="Search collections..."
-                                    />
-                                    <button className="flex items-center justify-center px-4 border-l">
-                                      <svg
-                                        className="w-6 h-6 text-gray-600"
-                                        fill="currentColor"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                      </svg>
-                                    </button>
-                                  </div>
-                                  <SearchSelect
-                                    id="quick-find-modal-ic"
-                                    searchId="quick-find-ic"
-                                    modalOpen={searchInclCollectionsOpen}
-                                    setModalOpen={setSearchInclCollectionsOpen}
-                                    queryURL={collectionOptionSearchURL}
-                                    composeQuery={collectionQueryComposer}
-                                    matchKey="key"
-                                    queryKey="collections-opt-search"
-                                    handleResultSelected={(items: any[]) => {
-                                      const keys: string[] = items.map(
-                                        item => item['key'],
-                                      );
-                                      const nl = union(keys, inclCids);
-                                      handleSelectedResults(
-                                        setFieldValue,
-                                        'included_collections',
-                                      )(nl);
-                                      setInclCids(nl);
-                                      qc.invalidateQueries([
-                                        'included-collections',
-                                        discountId,
-                                      ]);
-                                    }}
-                                    alreadySelected={union(
-                                      values.included_collections,
-                                      inclCids,
-                                    )}
-                                    placeholder="Collections"
-                                    queryEnabled={!!shop?.shop_id}
-                                  />
-                                </div>
-                                <ul className="text-sm w-full">
-                                  {includedCollections.map(
-                                    (collection: any) => (
-                                      <li
-                                        key={collection.collection_id}
-                                        className="flex items-center"
-                                      >
-                                        <div className="flex w-full items-center py-2 text-gray-500 rounded group">
-                                          <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
-                                            <img
-                                              src={
-                                                collection.image_url
-                                                  ? proxyURL(
-                                                    collection.image_url,
-                                                    50,
-                                                    50,
-                                                  )
-                                                  : 'https://via.placeholder.com/50'
-                                              }
-                                              alt={collection.handle}
-                                            />
-                                          </div>
-                                          <div className="w-full flex-grow flex justify-between">
-                                            <div className="text-sm font-medium text-gray-900">
-                                              {collection.title}
-                                            </div>
-                                            <div
-                                              onClick={e => {
-                                                e.stopPropagation();
-                                                setInclCids(previousKeys =>
-                                                  previousKeys.filter(
-                                                    k =>
-                                                      k !==
-                                                      collection.collection_id,
-                                                  ),
-                                                );
-                                                qc.invalidateQueries([
-                                                  'included-collections',
-                                                  discountId,
-                                                ]);
-                                              }}
-                                              className="text-sm text-gray-500 cursor-pointer"
-                                            >
-                                              X
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </li>
-                                    ),
-                                  )}
-                                </ul>
-                              </div>
+                              <CollectionSelector
+                                id="quick-find-modal-ic"
+                                searchId="quick-find-modal-ic"
+                                queryKey="collections-opt-search"
+                                onChange={(items: any[]) => {
+                                  setFieldValue('included_collections', items)
+                                }}
+                                value={values.included_collections}
+                                queryEnabled={!!shop?.shop_id}
+                                shopId={shop?.shop_id}
+                              />
                             )}
                           </div>
                         </div>
                       </section>
                       <div
                         className={`sm:w-full mt-6 ${values.incentive_type === BUY_X_GET_Y
-                            ? 'hidden'
-                            : 'block'
+                          ? 'hidden'
+                          : 'block'
                           }`}
                       >
                         <label
@@ -1833,11 +911,11 @@ const DiscountForm = ({ id }) => {
                           )}
                           <div
                             className={`relative ${values.condition_type === COUNT ||
-                                values.condition_type === COVERAGE ||
-                                values.condition_type === '' ||
-                                values.condition_type === NONE
-                                ? 'hidden'
-                                : 'block'
+                              values.condition_type === COVERAGE ||
+                              values.condition_type === '' ||
+                              values.condition_type === NONE
+                              ? 'hidden'
+                              : 'block'
                               }`}
                           >
                             <input
@@ -1857,10 +935,10 @@ const DiscountForm = ({ id }) => {
                           </div>
                           <div
                             className={`relative ${values.condition_type === VALUE ||
-                                values.condition_type === '' ||
-                                values.condition_type === NONE
-                                ? 'hidden'
-                                : 'block'
+                              values.condition_type === '' ||
+                              values.condition_type === NONE
+                              ? 'hidden'
+                              : 'block'
                               }`}
                           >
                             <input

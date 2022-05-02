@@ -12,3 +12,7 @@ export const FREE = 'Free'
 
 export const VOUCHER = 'Voucher'
 export const SITE = 'Site'
+
+// Misc
+export const SPECIFIC_PRODUCTS = 'specific_products'
+export const SPECIFIC_COLLECTIONS = 'specific_collections'

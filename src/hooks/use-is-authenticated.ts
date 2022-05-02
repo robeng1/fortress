@@ -1,10 +1,8 @@
 import { theKeepURL } from 'endpoints/urls';
 import { useAtom } from 'jotai';
 import { useQuery } from 'react-query';
-import { sessionAtom, sidAtom } from 'store/authorization-atom';
-import { request, ResponseError } from 'utils/request';
-import { Session } from 'typings/user/session';
-const emptySession = {}
+import { sidAtom } from 'store/authorization-atom';
+import { request } from 'utils/request';
 const authCheck = async (id?: string) => {
   try {
     const resp = await request(`${theKeepURL}/auth/sessions/${id}/is-authenticated`);
