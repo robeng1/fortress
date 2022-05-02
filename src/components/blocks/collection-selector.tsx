@@ -245,7 +245,7 @@ function CollectionSelector({
         </ModalBasic>
       </div>
       <ul className="text-sm w-full">
-        {collections.map(
+        {collections && collections.map(
           (collection: any) => (
             <li
               key={collection.collection_id}

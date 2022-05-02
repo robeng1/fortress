@@ -246,7 +246,7 @@ function ProductSelector({
         </ModalBasic>
       </div>
       <ul className="text-sm w-full">
-        {products.map((product: any) => (
+        {products && products.map((product: any) => (
           <li
             key={product.product_id}
             className="flex items-center"
