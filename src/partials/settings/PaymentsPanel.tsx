@@ -18,7 +18,7 @@ import { Loading } from 'components/blocks/backdrop';
 function PaymentsPanel() {
   const queryClient = useQueryClient();
   const { shop } = useShop();
-  const { paymentAccount } = usePayment();
+  const { shopAccount: paymentAccount } = usePayment();
   const [accountId] = useAtom(uidAtom);
   const requestURL = `${paymentURL}/${accountId}/accounts`;
 

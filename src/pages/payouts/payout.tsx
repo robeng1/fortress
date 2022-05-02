@@ -19,7 +19,7 @@ function Payouts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { shop } = useShop();
   const shopId = shop?.shop_id;
-  const { paymentAccount } = usePayment();
+  const { shopAccount: paymentAccount } = usePayment();
   const [accountId] = useAtom(uidAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
 

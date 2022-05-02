@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { useDebounce } from 'hooks/use-debounce';
 import { proxyURL } from 'utils/urlsigner';
 import ModalBasic from 'components/modal-basic';
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
 import { ProductViewType } from 'typings/product/product-type';
-const initiallySelected: any[] = [];
+const initiallySelected: string[] = [];
 function ProductSelector({
   id,
   searchId,
@@ -16,7 +16,6 @@ function ProductSelector({
   queryEnabled = false,
   shopId,
 }) {
-  const klient = useQueryClient();
   const matchKey = 'key'
   const optionSearchURL = `${fortressURL}/shops/${shopId}/products/option-search`;
   const filterURL = `${fortressURL}/shops/${shopId}/product-views/filter`;
@@ -79,6 +78,7 @@ function ProductSelector({
   };
   const handleRemove = (id: string) => {
     setIsCheck(isCheck.filter((key) => key !== id));
+    onChange(isCheck)
   };
 
 

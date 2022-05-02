@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { useDebounce } from 'hooks/use-debounce';
 import { proxyURL } from 'utils/urlsigner';
 import ModalBasic from 'components/modal-basic';
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
 import { CollectionViewType } from 'typings/collection/collection-type';
-const initiallySelected: any[] = [];
+const initiallySelected: string[] = [];
 function CollectionSelector({
   id,
   searchId,
@@ -16,8 +16,6 @@ function CollectionSelector({
   queryEnabled = false,
   shopId,
 }) {
-  const klient = useQueryClient();
-  const selectedItemsqk = `${queryKey}-s-collections`
   const matchKey = 'key'
   const optionSearchURL = `${fortressURL}/shops/${shopId}/collections/option-search`;
   const filterURL = `${fortressURL}/shops/${shopId}/collections-views/filter`;
@@ -78,6 +76,7 @@ function CollectionSelector({
   };
   const handleRemove = (id: string) => {
     setIsCheck(isCheck.filter((key) => key !== id));
+    onChange(isCheck)
   };
 
   useEffect(() => {
@@ -95,7 +94,7 @@ function CollectionSelector({
           }),
         });
         response.then((value) => setCollections(value?.collections ?? []))
-      }else{
+      } else {
         setCollections([])
       }
     } catch (error) {

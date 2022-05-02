@@ -27,7 +27,7 @@ function Balance() {
   const [open, setOpen] = useState(false);
   const { shop } = useShop();
   const shopId = shop?.shop_id;
-  const { paymentAccount } = usePayment();
+  const { shopAccount: paymentAccount } = usePayment();
   const [usraId] = useAtom(uidAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`;
   const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`;

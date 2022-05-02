@@ -22,7 +22,7 @@ export default function usePayment() {
   const { shop } = useShop();
   const shopId = shop?.shop_id;
   const {
-    data: paymentAccount,
+    data: shopAccount,
     refetch,
     isLoading,
     isIdle,
@@ -33,7 +33,7 @@ export default function usePayment() {
   });
   return {
     refetch,
-    paymentAccount,
+    shopAccount,
     isLoading,
     isIdle,
     isRefetching,
