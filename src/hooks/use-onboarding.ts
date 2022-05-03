@@ -13,11 +13,11 @@ export function useOnboarding() {
     invalidCurrency = true
   }
   let noLocation = false
-  if (!locations || locations.length === 0) {
+  if (locations === undefined || locations.length < 1) {
     noLocation = true
   }
   let noPayoutInfo = false
-  if (!shopAccount) {
+  if (!shopAccount || (shopAccount && !shopAccount.account_id)) {
     noPayoutInfo = true
   }
   const navigate = useNavigate();
@@ -25,14 +25,26 @@ export function useOnboarding() {
   const { pathname } = location;
 
   useEffect(() => {
-    if (invalidCurrency && !pathname.includes('onboarding/currency')) {
-      navigate('/onboarding/currency')
-    } else if (noPayoutInfo && !pathname.includes('onboarding/payment')) {
-      navigate('/onboarding/payment')
-    } else if (noLocation && !pathname.includes('onboarding/location')) {
-      navigate('/onboarding/location')
+    if (shop) {
+      if (invalidCurrency && pathname !== '/onboarding/currency') {
+        navigate('/onboarding/currency')
+      } else if (invalidCurrency && pathname == '/onboarding/currency') {
+        // DO NOTHING
+      }
+      else if (noPayoutInfo && pathname !== '/onboarding/payment') {
+        navigate('/onboarding/payment')
+      } else if (noPayoutInfo && pathname == '/onboarding/payment') {
+        // DO NOTHING
+      }
+      else if (noLocation && pathname !== '/onboarding/location') {
+        navigate('/onboarding/location')
+      } else if (noLocation && pathname == '/onboarding/location') {
+        // DO NOTHING
+      } else {
+        navigate('/')
+      }
     }
-  }, [noLocation, noPayoutInfo, invalidCurrency])
+  }, [shop, noLocation, noPayoutInfo, invalidCurrency])
 
   return {
     invalidCurrency,

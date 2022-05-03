@@ -12,11 +12,13 @@ import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 import { getAddress } from 'typings/settings/shop-type';
 import { useNavigate } from 'react-router-dom';
+import { useOnboarding } from 'hooks/use-onboarding';
 
 type FieldSetter = (field: string, value: any, sv?: boolean | undefined) => void
 type AddressHandler = (address: string, placeId: string) => void
 
 function LocationsForm({ id }) {
+  useOnboarding();
   const navigate = useNavigate();
   const klient = useQueryClient();
   const { shop } = useShop();
