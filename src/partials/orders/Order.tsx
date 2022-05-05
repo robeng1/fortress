@@ -41,7 +41,7 @@ export default function Order({ handleShow, id }) {
       onSuccess: () => {
         return queryClient.invalidateQueries(['order', orderId]);
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => { },
     },
   );
 
@@ -105,42 +105,38 @@ export default function Order({ handleShow, id }) {
               </header>
               <div className="mt-2 flex flex-initial items-baseline">
                 <div className="flex md:flex-row flex-col flex-initial items-baseline align-middle shadow justify-start rounded-lg px-3 py-3">
-                  <h1 className="font-semibold text-2xl">#{order.number}</h1>
+                  <h1 className="font-semibold text-xl">#{order.number}</h1>
                   <p className="pl-3 text-gray-700">
-                    {new Date(order.created_at!).toString()} from Draft Orders
+                    {new Date(order.created_at!).toLocaleString()} from Draft Orders
                   </p>
-                  {/* <span className="bg-gray-300 border-2 border-white inline-flex items-center leading-none ml-3 px-2 py-1 rounded-full text-gray-700 text-sm">
-              Paid
-            </span>
-            <span className="bg-yellow-300 border-2 border-white inline-flex items-center leading-none ml-2 px-2 py-1 rounded-full text-black text-sm">
-              Unfilled
-            </span> */}
+                  <span className="bg-gray-300 border-2 border-white inline-flex items-center leading-none ml-3 px-2 py-1 rounded-full text-gray-700 text-sm">
+                    Paid
+                  </span>
                 </div>
               </div>
-              {/* <div className="flex mt-2">
-          <button className="focus:bg-gray-300 focus:outline-none hover:text-gray-800 inline-flex leading-snug px-2 py-2 rounded text-gray-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              id="print"
-              className="fill-current h-5 text-gray-600"
-            >
-              <path d="M21.5 8h-19c-1 0-1.8.9-1.8 1.9v6.4c0 1.1.8 1.9 1.8 1.9h2.8v2.7c0 1 .8 1.8 1.8 1.8h9.8c1.1 0 1.9-.8 1.9-1.8v-2.7h2.7c1 0 1.9-.8 1.9-1.9V9.9c-.1-1-.9-1.9-1.9-1.9zM3.8 12.8c-.8 0-1.4-.6-1.4-1.4S3 10 3.8 10s1.4.6 1.4 1.4-.6 1.4-1.4 1.4zm12.8 7.1c0 .4-.4.7-.7.7H8c-.3 0-.7-.3-.7-.7v-4.5c0-.4.4-.7.7-.7h7.9c.3 0 .7.3.7.7v4.5zm2.1-14.8c0 .4-.3.7-.7.7H5.9c-.4 0-.7-.3-.7-.7V2c0-.4.3-.7.7-.7H18c.4 0 .7.3.7.7v3.1z"></path>
-            </svg>
-            <span className="pl-2 text-sm">Print Order</span>
-          </button>
-          <button className="focus:bg-gray-300 focus:outline-none hover:text-gray-800 inline-flex leading-snug ml-4 px-2 py-2 rounded text-gray-600">
-            <span className="pr-1 text-sm">More actions</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              className="fill-current h-5 text-gray-600"
-            >
-              <path d="M6.28 9.28l3.366 3.366c.196.196.512.196.708 0L13.72 9.28c.293-.293.293-.767 0-1.06-.14-.14-.332-.22-.53-.22H6.81c-.414 0-.75.336-.75.75 0 .2.08.39.22.53z"></path>
-            </svg>
-          </button>
-        </div> */}
-
+              <div className="flex mt-2">
+                <button className="focus:bg-gray-300 focus:outline-none hover:text-gray-800 inline-flex leading-snug px-2 py-2 rounded text-gray-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    id="print"
+                    className="fill-current h-5 text-gray-600"
+                  >
+                    <path d="M21.5 8h-19c-1 0-1.8.9-1.8 1.9v6.4c0 1.1.8 1.9 1.8 1.9h2.8v2.7c0 1 .8 1.8 1.8 1.8h9.8c1.1 0 1.9-.8 1.9-1.8v-2.7h2.7c1 0 1.9-.8 1.9-1.9V9.9c-.1-1-.9-1.9-1.9-1.9zM3.8 12.8c-.8 0-1.4-.6-1.4-1.4S3 10 3.8 10s1.4.6 1.4 1.4-.6 1.4-1.4 1.4zm12.8 7.1c0 .4-.4.7-.7.7H8c-.3 0-.7-.3-.7-.7v-4.5c0-.4.4-.7.7-.7h7.9c.3 0 .7.3.7.7v4.5zm2.1-14.8c0 .4-.3.7-.7.7H5.9c-.4 0-.7-.3-.7-.7V2c0-.4.3-.7.7-.7H18c.4 0 .7.3.7.7v3.1z"></path>
+                  </svg>
+                  <span className="pl-2 text-sm">Print Order</span>
+                </button>
+                <button className="focus:bg-gray-300 focus:outline-none hover:text-gray-800 inline-flex leading-snug ml-4 px-2 py-2 rounded text-gray-600">
+                  <span className="pr-1 text-sm">More actions</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    className="fill-current h-5 text-gray-600"
+                  >
+                    <path d="M6.28 9.28l3.366 3.366c.196.196.512.196.708 0L13.72 9.28c.293-.293.293-.767 0-1.06-.14-.14-.332-.22-.53-.22H6.81c-.414 0-.75.336-.75.75 0 .2.08.39.22.53z"></path>
+                  </svg>
+                </button>
+              </div>
               <section className="flex flex-col md:flex-row mt-6 mb-20">
                 <div className="flex-1 mb-6 md:mr-4">
                   <div className="bg-white border mb-6 rounded shadow">
@@ -185,11 +181,11 @@ export default function Order({ handleShow, id }) {
                           </div>
                           <div className="flex gap-x-5 md:gap-28 md:self-center self-start pl-2">
                             <div className="font-medium text-green-900 text-sm">
-                              {mToSFormatted(line.unit_price_incl_tax)} x{' '}
+                              {mToSFormatted(line.unit_price_excl_tax)} x{' '}
                               {line.quantity}
                             </div>
                             <div className="font-medium text-green-900 text-sm">
-                              {mToSFormatted(line.line_price_incl_tax!)}
+                              {mToSFormatted(line.line_price_excl_tax!)}
                             </div>
                           </div>
                         </div>
