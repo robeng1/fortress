@@ -8,7 +8,7 @@ export default function OrderCard({ handleShow, order }) {
     >
       <div className="w-full flex flex-grow justify-between text-base font-medium text-gray-900">
         <p className={`text-sm text-gray-900 text-center`}>
-          #{new Date(order.updated_at).toString()}
+          #{new Date(order.updated_at).toLocaleDateString()}
         </p>
         <p className="ml-4 font-medium text-green-500">
           {formatPesosMoney(order.total, order.currency)}
@@ -28,23 +28,24 @@ export default function OrderCard({ handleShow, order }) {
       <div className="w-full flex justify-between">
         <div className="flex flex-col justify-between">
           <div className="text-sm font-medium text-gray-800">
-            {order.customer_name} {order.location}
+            {order.customer_name} {order.location === "null" ? "Accra" : order.location}
           </div>
           <div className="flex text-base font-medium text-gray-900">
             <p
               className={`text-sm text-gray-500 rounded-full text-center px-2.5`}
             >
-              {order.num_items} items
+              {order.num_items} {order.num_items === 1 ? "item" : "items"}
             </p>
           </div>
         </div>
         <div className="flex flex-shrink-0 -space-x-3 -ml-px align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
-          {order.item_images.slice(0, 3).map(im => (
+          {order.item_images.slice(0, 3).map((url, i) => (
             <img
-              src={im}
-              alt={''}
+              src={url}
+              alt={'product image'}
               width="32"
               height="32"
+              key={i}
               className="rounded-full border-2 border-white box-content"
             />
           ))}

@@ -90,12 +90,12 @@ function OrdersTable({ selectedItems, handleShow, orders }) {
                       id={order.order_id}
                       image={order.item_images[0]}
                       order={order.order_id}
-                      date={new Date(order.updated_at).toISOString()}
+                      date={new Date(order.updated_at).toLocaleString()}
                       customer={order.customer_name}
-                      total={formatPesosMoney(order.total_int, order.currency)}
+                      total={formatPesosMoney(order.total, order.currency)}
                       status={order.status}
-                      location={order.location}
-                      items={order.num_item}
+                      location={order.location === "null" ? "Accra" : order.location}
+                      items={order.num_items}
                       type={order.order_type}
                       handleClick={handleClick}
                       isChecked={isCheck.includes(order.order_id)}
