@@ -32,7 +32,7 @@ function ProductTableItem(props) {
         className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"
       >
         <div className="flex items-center">
-          <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
               src={proxyURL(props.image, 50, 50)}
