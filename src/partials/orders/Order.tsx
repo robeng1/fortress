@@ -142,7 +142,7 @@ export default function Order({ handleShow, id }) {
                       <span className="font-semibold inline-flex items-center text-gray-700">
                         <i className="border-2 border-dashed border-yellow-700 h-5 inline-block mr-3 rounded-full w-5 shadow-yellow-large"></i>
                         <span>
-                          {!(order.status === OrderStatusType.ORDER_COMPLETED)
+                          {!(order.status === OrderStatusType.ORDER_COMPLETED|| "Complete")
                             ? 'Unfulfilled'
                             : 'FulFilled'}
                         </span>
@@ -159,8 +159,8 @@ export default function Order({ handleShow, id }) {
                         </svg>
                       </button>
                     </header>
-                    {order.lines?.map(line => (
-                      <div className="border-b flex mx-5 py-2">
+                    {order.lines?.map((line, index) => (
+                      <div key={index} className="border-b flex mx-5 py-2">
                         <div className="flex-shrink-0 w-[60px] md:w-[48px]  align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
                           <img
                             src={line.product?.image}
