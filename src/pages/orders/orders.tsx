@@ -32,7 +32,7 @@ function Orders() {
   const query = `SELECT * FROM "order" WHERE shop_id = '${
     shop?.shop_id
   }' ORDER BY updated_at DESC LIMIT ${
-    (page - 1) * itemsPerPage + 1
+    (page - 1) * (itemsPerPage + 1)
   }, ${itemsPerPage}`;
 
   const { data } = useQuery(
