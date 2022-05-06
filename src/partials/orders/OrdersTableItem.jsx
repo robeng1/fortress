@@ -45,7 +45,7 @@ function OrdersTableItem(props) {
                 alt={props.id}
               />
             </div>
-            <div className="font-medium text-light-purple-500">
+            <div className="text-light-purple-500 font-thin text-sm">
               {props.order}
             </div>
           </div>
@@ -67,7 +67,7 @@ function OrdersTableItem(props) {
               props.status,
             )}`}
           >
-            {props.status}
+            {props.status === "Authorized" ? "New" : props.status}
           </div>
         </td>
         <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">

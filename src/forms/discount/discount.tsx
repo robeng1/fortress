@@ -9,7 +9,7 @@ import { request, ResponseError } from 'utils/request';
 import useShop from 'hooks/use-shop';
 import { initialValues } from './values';
 import { discountToValues, valuesToDiscount } from './utils';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
 import { ABSOLUTE, ALL_PRODUCTS, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, VALUE, VOUCHER } from './consts';
 import ProductSelector from 'components/blocks/product-selector';
@@ -17,7 +17,9 @@ import CollectionSelector from 'components/blocks/collection-selector';
 import { useOnboarding } from 'hooks/use-onboarding';
 
 const DiscountForm = ({ id }) => {
-  useOnboarding();
+  const location = useLocation();
+  const { pathname } = location;
+  useOnboarding(pathname);
   const navigate = useNavigate();
   const klient = useQueryClient();
   const { shop } = useShop();

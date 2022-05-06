@@ -4,7 +4,7 @@ import useCentres from "./use-location";
 import usePayment from "./use-payment";
 import useShop from "./use-shop";
 
-export function useOnboarding() {
+export function useOnboarding(loc?) {
   const { shop } = useShop();
   const { locations } = useCentres();
   const { shopAccount } = usePayment();
@@ -41,7 +41,7 @@ export function useOnboarding() {
       } else if (noLocation && pathname == '/onboarding/location') {
         // DO NOTHING
       } else {
-        navigate('/')
+        navigate(loc??'/')
       }
     }
   }, [shop, noLocation, noPayoutInfo, invalidCurrency])

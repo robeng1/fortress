@@ -28,9 +28,7 @@ export default function Order({ handleShow, id }) {
   // update the order status
   const {
     mutate: updateOrderStatus,
-    // isLoading: isUpdatingOrder,
-    // isError: orderUpdateFailed,
-    // error: orderUpdateError,
+    isLoading: isUpdatingOrder,
   } = useMutation(
     (status: OrderStatusType) =>
       request(`${requestURL}/${orderId}/set-status`, {
@@ -61,7 +59,7 @@ export default function Order({ handleShow, id }) {
   };
   return (
     <>
-      {isLoading ? (
+      {isLoading || isUpdatingOrder ? (
         <Loader />
       ) : (
         <>

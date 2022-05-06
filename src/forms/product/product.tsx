@@ -26,7 +26,7 @@ import { mToCurrency, sToM } from 'utils/money';
 import ReactSelect from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import TagInput from 'components/blocks/tag-input';
 import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
@@ -45,7 +45,9 @@ const ProductSchema = Yup.object().shape({
 });
 
 const ProductForm = ({ id }) => {
-  useOnboarding();
+  const location = useLocation();
+  const { pathname } = location;
+  useOnboarding(pathname);
   const klient = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
