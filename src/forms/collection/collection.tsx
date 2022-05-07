@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
@@ -18,7 +18,7 @@ import { useUpload } from 'hooks/use-upload';
 
 export default function CollectionForm({ id }) {
   const matchKey = 'key';
-  const qc = useQueryClient();
+  const klient = useQueryClient();
   const navigate = useNavigate();
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/collections`;
@@ -100,11 +100,11 @@ export default function CollectionForm({ id }) {
       {
         onSuccess: (newCollection: CollectionType) => {
           setCollectionId(newCollection.collection_id);
-          qc.setQueryData(['collection', collectionId], newCollection);
-          toast('Collection created successfully');
+          klient.setQueryData(['collection', collectionId], newCollection);
+          toast.success('Collection created successfully');
         },
         onError: (e: ResponseError) => {
-          toast('Collection creation failed due to ' + e.message);
+          toast.error('Collection creation failed due to ' + e.message);
         },
       },
     );
@@ -120,11 +120,11 @@ export default function CollectionForm({ id }) {
       {
         onSuccess: (newCollection: CollectionType) => {
           setCollectionId(newCollection.collection_id);
-          qc.setQueryData(['collection', collectionId], newCollection);
-          toast('Collection updated successfully');
+          klient.setQueryData(['collection', collectionId], newCollection);
+          toast.success('Collection updated successfully');
         },
         onError: (e: ResponseError) => {
-          toast('Collection could not be updated due to ' + e.message);
+          toast.error('Collection could not be updated due to ' + e.message);
         },
       },
     );
@@ -138,9 +138,9 @@ export default function CollectionForm({ id }) {
       }),
     {
       onSuccess: (newCollect: CollectType) => {
-        qc.invalidateQueries(['collection-products', page]);
+        klient.invalidateQueries(['collection-products', page]);
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => { },
     },
   );
 
@@ -154,9 +154,9 @@ export default function CollectionForm({ id }) {
       }),
     {
       onSuccess: (newCollect: CollectType) => {
-        qc.invalidateQueries(['collection-products', page]);
+        klient.invalidateQueries(['collection-products', page]);
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => { },
     },
   );
 
@@ -168,9 +168,9 @@ export default function CollectionForm({ id }) {
       }),
     {
       onSuccess: () => {
-        qc.invalidateQueries(['collection-products', page]);
+        klient.invalidateQueries(['collection-products', page]);
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => { },
     },
   );
 
@@ -196,7 +196,7 @@ export default function CollectionForm({ id }) {
   return (
     <>
       <div>
-        <Loading open={isCreatingCollection || isUpdatingCollection} />
+        <Loading open={isCreatingCollection || isUpdatingCollection || isDirty} />
         <Formik
           enableReinitialize
           initialValues={{

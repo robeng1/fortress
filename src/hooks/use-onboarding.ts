@@ -1,23 +1,24 @@
 import { useEffect } from "react";
+import isEmpty from "lodash/isEmpty"
 import { useLocation, useNavigate } from "react-router-dom";
 import useCentres from "./use-location";
 import usePayment from "./use-payment";
 import useShop from "./use-shop";
 
-export function useOnboarding(loc?) {
-  const { shop } = useShop();
-  const { locations } = useCentres();
-  const { shopAccount } = usePayment();
+export function useOnboarding(loc?: string) {
+  const { shop, isLoading: shopIsLoading } = useShop();
+  const { locations, isLoading: locationIsLoading } = useCentres();
+  const { shopAccount, isLoading: accountIsLoading } = usePayment();
   let invalidCurrency = false
   if (!shop?.currency) {
     invalidCurrency = true
   }
   let noLocation = false
-  if (locations === undefined || locations.length < 1) {
+  if (!locationIsLoading && (locations === undefined || isEmpty(locations))) {
     noLocation = true
   }
   let noPayoutInfo = false
-  if (!shopAccount || (shopAccount && !shopAccount.account_id)) {
+  if (!accountIsLoading && (isEmpty(shopAccount) || (shopAccount && !shopAccount.account_id))) {
     noPayoutInfo = true
   }
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export function useOnboarding(loc?) {
   const { pathname } = location;
 
   useEffect(() => {
-    if (shop) {
+    if (!shopIsLoading && shop) {
       if (invalidCurrency && pathname !== '/onboarding/currency') {
         navigate('/onboarding/currency')
       } else if (invalidCurrency && pathname == '/onboarding/currency') {
@@ -41,7 +42,7 @@ export function useOnboarding(loc?) {
       } else if (noLocation && pathname == '/onboarding/location') {
         // DO NOTHING
       } else {
-        navigate(loc??'/')
+        navigate(loc ?? '/')
       }
     }
   }, [shop, noLocation, noPayoutInfo, invalidCurrency])

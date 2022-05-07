@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 
 import './css/style.scss';
 import 'tippy.js/dist/tippy.css';
@@ -24,7 +24,22 @@ ReactDOM.render(
           <React.StrictMode>
             <Router>
               <App />
-              <ToastContainer />
+              <Toaster position="top-right"
+                reverseOrder={false}
+                gutter={8}
+                toastOptions={{
+                  className: '',
+                  style: {
+                    border: '1px solid #713200',
+                    padding: '16px',
+                    color: '#713200',
+                  },
+                  iconTheme: {
+                    primary: '#713200',
+                    secondary: '#FFFAEE',
+                  },
+                }}
+              />
             </Router>
           </React.StrictMode>
         </HelmetProvider>

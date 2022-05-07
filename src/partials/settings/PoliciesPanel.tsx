@@ -6,7 +6,7 @@ import { fortressURL } from 'endpoints/urls';
 import { ShopType } from 'typings/settings/shop-type';
 import { uidAtom } from 'store/authorization-atom';
 import { request, ResponseError } from 'utils/request';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 
@@ -26,10 +26,10 @@ function PoliciesPanel() {
     {
       onSuccess: (newShop: ShopType) => {
         queryClient.setQueryData(['shop', accountId], newShop);
-        toast('Polices updated succesffully');
+        toast.success('Polices updated succesffully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );

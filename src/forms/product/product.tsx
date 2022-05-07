@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import * as Yup from 'yup';
 import _ from 'lodash';

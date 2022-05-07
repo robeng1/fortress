@@ -1,5 +1,5 @@
 import React from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import {

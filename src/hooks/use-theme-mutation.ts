@@ -1,11 +1,11 @@
-import { Buffer } from 'buffer';
 import { Theme } from 'typings/theme/theme';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
 import useShop from './use-shop';
 import useTheme from './use-theme';
 import { request, ResponseError } from 'utils/request';
+import { base64Decode } from 'utils/buff';
 
 export function useThemeMutation() {
   const qc = useQueryClient();
@@ -14,8 +14,10 @@ export function useThemeMutation() {
   const config = theme?.config;
   if (typeof config?.settings === 'string') {
     const b64: string = theme?.config?.settings as unknown as string;
-    if (config)
-      config.settings = JSON.parse(Buffer.from(b64, 'base64').toString('utf8'));
+    if (config) {
+      config.settings = base64Decode(b64) as Record<string, any>
+    }
+
   }
 
   const { mutate: updateTheme, isLoading: isUpdatingTheme } = useMutation(
@@ -27,10 +29,10 @@ export function useThemeMutation() {
     {
       onSuccess: (updatedTheme: Theme) => {
         qc.setQueryData(['theme'], updatedTheme);
-        toast('Site updated successfully');
+        toast.success('Site updated successfully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );

@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Formik } from 'formik';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
 import { ShopType } from 'typings/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
 import { uidAtom } from 'store/authorization-atom';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import useShop from 'hooks/use-shop';
-import { Loading } from 'components/blocks/backdrop';
 import { useOnboarding } from 'hooks/use-onboarding';
 
 function Currency() {
@@ -30,11 +28,11 @@ function Currency() {
     {
       onSuccess: (newShop: ShopType) => {
         klient.setQueryData(['shop', accountId], newShop);
-        toast('Currency has been updated successfully');
+        toast.success('Currency has been updated successfully');
         navigate('/onboarding/payment')
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );

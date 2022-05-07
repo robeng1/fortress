@@ -6,7 +6,7 @@ import { ShopType } from 'typings/settings/shop-type';
 import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
 import { uidAtom } from 'store/authorization-atom';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 import SimpleImageDropzone from 'components/single-image-dropzone';
@@ -47,17 +47,17 @@ function StorePanel() {
     {
       onSuccess: (newShop: ShopType) => {
         klient.setQueryData(['shop', accountId], newShop);
-        toast('Shop data updated succesffully');
+        toast.success('Shop data updated succesffully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );
 
   return (
     <div>
-      <Loading open={isUpdatingShop} />
+      <Loading open={isUpdatingShop || isDirty} />
       <Formik
         enableReinitialize
         initialValues={{

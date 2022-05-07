@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { Formik } from 'formik';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -53,10 +53,10 @@ function RatesForm({ handleShow, rate }) {
       onSuccess: (newRate: WeightBasedRateType) => {
         setRateId(newRate.rate_id);
         queryClient.invalidateQueries(['weight-based-rates', shop?.shop_id]);
-        toast('Rate created successfully');
+        toast.success('Rate created successfully');
       },
       onError: (e: ResponseError) => {
-        toast('Rate creation failed due to ' + e.message);
+        toast.error('Rate creation failed due to ' + e.message);
       },
     },
   );

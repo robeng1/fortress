@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
+import toast from 'react-hot-toast';
 
 import { Loader } from 'components/loader';
 import { OrderStatusType, OrderType } from 'typings/order/order-type';
@@ -37,7 +38,8 @@ export default function Order({ handleShow, id }) {
       }),
     {
       onSuccess: () => {
-        return queryClient.invalidateQueries(['order', orderId]);
+        queryClient.invalidateQueries(['order', orderId]);
+        toast.success("Order status has been updated")
       },
       onError: (e: ResponseError) => { },
     },

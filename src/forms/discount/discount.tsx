@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import { fortressURL } from 'endpoints/urls';
@@ -55,10 +55,10 @@ const DiscountForm = ({ id }) => {
       onSuccess: (newDiscount: DiscountType) => {
         setDiscountId(newDiscount.discount_id);
         klient.setQueryData(['discount', discountId], newDiscount);
-        toast('Discount created successfully');
+        toast.success('Discount created successfully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );

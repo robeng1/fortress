@@ -1,17 +1,8 @@
-import ModalBasic from 'components/modal-basic';
-import { fortressURL } from 'endpoints/urls';
-import { Formik } from 'formik';
 import useModal from 'hooks/use-modal';
-import useShop from 'hooks/use-shop';
-import { toast } from 'react-toastify';
 import React from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { InventoryType, InventoryViewType } from 'typings/inventory/inventory-type';
-import { ProductType } from 'typings/product/product-type';
+import { InventoryViewType } from 'typings/inventory/inventory-type';
 import { pesosRawMoney } from 'utils/money';
-import { request, ResponseError } from 'utils/request';
 import { proxyURL } from 'utils/urlsigner';
-import StockManger from './stock-manager';
 import VariantEditor from './editor';
 
 type VariantManagerProps = {

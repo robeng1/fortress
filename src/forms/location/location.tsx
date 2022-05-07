@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { Formik } from 'formik';
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -87,10 +87,10 @@ function LocationsForm({ handleShow, id }) {
       onSuccess: (newLocation: LocationType) => {
         setCentreId(newLocation.centre_id);
         klient.setQueryData(['location', newLocation.centre_id], newLocation);
-        toast('Location created successfully');
+        toast.success('Location created successfully');
       },
       onError: (e: ResponseError) => {
-        toast('Location creation failed due to ' + e.message);
+        toast.error('Location creation failed due to ' + e.message);
       },
     },
   );

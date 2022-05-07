@@ -1,5 +1,5 @@
 import React from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { Formik } from 'formik';
 import {
@@ -31,11 +31,11 @@ function PaymentsPanel() {
       }),
     {
       onSuccess: (newAccount: Account) => {
-        toast('Payment data updated succesffully');
+        toast.success('Payment data updated succesffully');
         queryClient.setQueryData(['payment', shop?.shop_id], newAccount);
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );

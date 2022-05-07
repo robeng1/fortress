@@ -1,16 +1,13 @@
 import ModalBasic from 'components/modal-basic';
 import { fortressURL } from 'endpoints/urls';
 import { Formik } from 'formik';
-import useModal from 'hooks/use-modal';
 import useShop from 'hooks/use-shop';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import React from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { InventoryType, InventoryViewType } from 'typings/inventory/inventory-type';
 import { ProductType } from 'typings/product/product-type';
-import { pesosRawMoney } from 'utils/money';
 import { request, ResponseError } from 'utils/request';
-import { proxyURL } from 'utils/urlsigner';
 import StockManger from './stock-manager';
 
 type VariantEditorProps = {
@@ -45,10 +42,10 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
     {
       onSuccess: (newVariant: ProductType) => {
         // klient.invalidateQueries(['domains']);
-        toast('Updated successfully');
+        toast.success('Updated successfully');
       },
       onError: (e: ResponseError) => {
-        // toast(e.message);
+        toast.error(e.message);
       },
     },
   );
