@@ -30,7 +30,7 @@ export default function InventoryCard({ product }) {
             </h3>
           </div>
         </div>
-        <div className="flex justify-between text-base font-medium text-gray-900">
+        <div className="flex justify-between align-bottom text-base font-medium text-gray-900">
           <p
             className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5 ${statusColor(
               inventory,
@@ -38,7 +38,7 @@ export default function InventoryCard({ product }) {
           >
             {inventory}
           </p>
-          <p className="ml-4 text-sm text-gray-500">{price}</p>
+          <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">{price}</p>
         </div>
       </div>
     </>

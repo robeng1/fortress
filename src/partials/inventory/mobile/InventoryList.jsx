@@ -8,9 +8,9 @@ export default function InventoryList({ records }) {
         <div className="mt-0">
           <div className="flow-root">
             <ul className="px-3 py-1 divide-y divide-gray-200">
-              {records.map(product => (
+              {records.map((product, index) => (
                 <li
-                  key={`${product.product_id}-${product.variant_id}-${product.centre_id}`}
+                  key={`${index}`}
                   className="flex pr-3 py-2"
                 >
                   <InventoryCard

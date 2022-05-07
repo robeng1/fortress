@@ -76,10 +76,10 @@ const InventoryTable = ({ selectedItems, headings, records }) => {
                 </thead>
                 {/* Table body */}
                 <tbody className="text-sm border-gray-200 divide-y divide-gray-200">
-                  {records.map(product => {
+                  {records.map((product, index) => {
                     return (
                       <InventoryTableItem
-                        key={`${product.product_id}-${product.variant_id}-${product.centre_id}`}
+                        key={`${index}`}
                         id={`${product.product_id}-${product.variant_id}-${product.centre_id}`}
                         image={product.image_url}
                         name={product.title}

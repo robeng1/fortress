@@ -1,3 +1,4 @@
+import Button from 'components/blocks/button';
 import React from 'react';
 import { proxyURL } from 'utils/urlsigner';
 function InventoryTableItem(props) {
@@ -27,7 +28,7 @@ function InventoryTableItem(props) {
               alt={props.name}
             />
           </div>
-          <div className="font-medium text-gray-800">{props.name}</div>
+          <div className="font-medium text-gray-800 hover:underline cursor-pointer">{props.name}</div>
         </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
@@ -39,7 +40,7 @@ function InventoryTableItem(props) {
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
-          onChange={() => {}}
+          onChange={() => { }}
           className="form-input w-full sm:w-28 rounded-sm"
           value={props.price}
         ></input>
@@ -49,10 +50,13 @@ function InventoryTableItem(props) {
           type="number"
           step={1}
           min={0}
-          onChange={() => {}}
+          onChange={() => { }}
           className="form-input w-full sm:w-28 rounded-sm"
           value={props.variants}
         ></input>
+      </td>
+      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <Button variant='normal' size='small'>Save</Button>
       </td>
     </tr>
   );
