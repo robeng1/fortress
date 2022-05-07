@@ -69,6 +69,9 @@ const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedIte
                       <div className="font-semibold">SKU</div>
                     </th>
                     <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                      <div className="font-semibold">Allocated</div>
+                    </th>
+                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
                       <div className="font-semibold">
                         Price{' '}
                         {!isEmpty(records) && `(in ${records[0].currency})`}

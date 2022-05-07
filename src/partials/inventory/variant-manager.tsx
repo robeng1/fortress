@@ -11,7 +11,7 @@ type VariantManagerProps = {
 }
 
 const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, handleClick }) => {
-  const [showSaveButton, setShowSaveButton] = useState<boolean>(false)
+  const [showSaveButton, setShowSaveButton] = useState<boolean>(true)
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
@@ -49,6 +49,16 @@ const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, han
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
+          type="number"
+          step={1}
+          min={0}
+          onChange={() => { }}
+          className="form-input w-full sm:w-28 rounded-sm"
+          value={product.num_allocated}
+        ></input>
+      </td>
+      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <input
           onChange={() => { }}
           className="form-input w-full sm:w-28 rounded-sm"
           value={pesosRawMoney(product.price_excl_tax)}
@@ -65,7 +75,7 @@ const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, han
         ></input>
       </td>
       <td className={`px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap ${showSaveButton ? "" : "hidden"}`}>
-        <Button variant='normal' size='small'>Save</Button>
+        <Button variant='outline' size='small'>Save</Button>
       </td>
     </tr>
   );
