@@ -9,12 +9,12 @@ import Header from 'partials/Header';
 import FilterButton from 'components/dropdown-filter';
 import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
-import InventoryTable from 'partials/inventory/InventoryTable';
+import VariantTable from 'partials/inventory/variants-table';
 import useShop from 'hooks/use-shop';
 import { ThemeProvider } from 'styles/material/theme';
 import { InventoryViewListType, InventoryViewType } from 'typings/inventory/inventory-type';
 
-function Inventories() {
+function Inventory() {
   const { shop } = useShop();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,13 +39,13 @@ function Inventories() {
     {
       keepPreviousData: true,
       enabled: !!shop?.shop_id,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
     },
   );
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };
-  const records = data?.records || [];
+  const records = data?.records ?? [];
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -75,7 +75,7 @@ function Inventories() {
             </div>
 
             {/* Table */}
-            <InventoryTable
+            <VariantTable
               selectedItems={handleSelectedItems}
               total={data?.total ?? 0}
               // TODO: do not index duplicates in the first place
@@ -110,4 +110,4 @@ function Inventories() {
   );
 }
 
-export default Inventories;
+export default Inventory;

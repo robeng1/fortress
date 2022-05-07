@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { InventoryViewType } from 'typings/inventory/inventory-type';
-import InventoryCard from './InventoryCard';
+import MobileVarianManager from './mobile-variant-manager';
 
-type InventoryListProps = {
+type VariantListProps = {
   records: InventoryViewType[]
 }
-const InventoryList: React.FC<InventoryListProps> = ({ records }) => {
+const VarianList: React.FC<VariantListProps> = ({ records }) => {
   return (
     <>
       <div className="md:hidden">
@@ -17,7 +17,7 @@ const InventoryList: React.FC<InventoryListProps> = ({ records }) => {
                   key={`${index}`}
                   className="flex pr-3 py-2"
                 >
-                  <InventoryCard
+                  <MobileVarianManager
                     product={product}
                   />
                 </li>
@@ -30,4 +30,4 @@ const InventoryList: React.FC<InventoryListProps> = ({ records }) => {
   );
 }
 
-export default InventoryList
+export default VarianList

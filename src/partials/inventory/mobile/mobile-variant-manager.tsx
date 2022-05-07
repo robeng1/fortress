@@ -3,13 +3,13 @@ import { InventoryViewType } from 'typings/inventory/inventory-type';
 import { pesosRawMoney } from 'utils/money';
 import { proxyURL } from 'utils/urlsigner';
 
-type InventoryTableItemProps = {
+type MobileVariantManagerProps = {
   handleClick?: (e: any) => void
   isChecked?: boolean,
   product: InventoryViewType
 }
 
-const InventoryCard: React.FC<InventoryTableItemProps> = ({ product }) => {
+const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) => {
   const statusColor = status => {
     switch (status) {
       case 'Not tracked':
@@ -54,4 +54,4 @@ const InventoryCard: React.FC<InventoryTableItemProps> = ({ product }) => {
   );
 }
 
-export default InventoryCard;
+export default MobileVarianManager;

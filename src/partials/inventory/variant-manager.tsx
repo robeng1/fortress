@@ -1,16 +1,17 @@
 import Button from 'components/blocks/button';
-import React from 'react';
+import React, { useState } from 'react';
 import { InventoryViewType } from 'typings/inventory/inventory-type';
 import { pesosRawMoney } from 'utils/money';
 import { proxyURL } from 'utils/urlsigner';
 
-type InventoryTableItemProps = {
+type VariantManagerProps = {
   handleClick: (e: any) => void
   isChecked: boolean,
   product: InventoryViewType
 }
 
-const InventoryTableItem: React.FC<InventoryTableItemProps> = ({ product, isChecked, handleClick }) => {
+const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, handleClick }) => {
+  const [showSaveButton, setShowSaveButton] = useState<boolean>(false)
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
@@ -27,7 +28,6 @@ const InventoryTableItem: React.FC<InventoryTableItemProps> = ({ product, isChec
           </label>
         </div>
       </td>
-
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="flex items-center">
           <div className="w-10 h-10  flex-shrink-0 mr-2 sm:mr-3">
@@ -64,11 +64,11 @@ const InventoryTableItem: React.FC<InventoryTableItemProps> = ({ product, isChec
           value={product.num_in_stock}
         ></input>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className={`px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap ${showSaveButton ? "" : "hidden"}`}>
         <Button variant='normal' size='small'>Save</Button>
       </td>
     </tr>
   );
 }
 
-export default InventoryTableItem;
+export default VariantManager;

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import InventoryTableItem from './InventoryTableItem';
-import InventoryList from './mobile/InventoryList';
+import VariantManager from './variant-manager';
+import VarianList from './mobile/variant-list';
 import EmptyState from 'partials/EmptyState';
 import { pesosRawMoney } from 'utils/money';
 import { InventoryViewListType, InventoryViewType } from 'typings/inventory/inventory-type';
 
-type InventoryTableProps = {
+type VariantTableProps = {
   selectedItems: (items: string[]) => void
 } & InventoryViewListType
 
-const InventoryTable: React.FC<InventoryTableProps> = ({ records, total, selectedItems }) => {
+const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedItems }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState<string[]>([]);
 
@@ -42,7 +42,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ records, total, selecte
     <>
       {records && records.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
-          <InventoryList records={records} />
+          <VarianList records={records} />
           <div className="hidden md:block">
             <div className="overflow-x-auto">
               <table className="table-auto w-full">
@@ -83,7 +83,7 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ records, total, selecte
                 <tbody className="text-sm border-gray-200 divide-y divide-gray-200">
                   {records.map((product, index) => {
                     return (
-                      <InventoryTableItem
+                      <VariantManager
                         key={`${index}`}
                         product={product}
                         handleClick={handleClick}
@@ -109,4 +109,4 @@ const InventoryTable: React.FC<InventoryTableProps> = ({ records, total, selecte
   );
 };
 
-export default InventoryTable;
+export default VariantTable;
