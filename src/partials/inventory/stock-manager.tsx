@@ -172,8 +172,8 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, onChange }) => {
                   Quantity
                 </label>
                 <input
-                  id="quantity"
-                  name="quantity"
+                  id="num_in_stock"
+                  name="num_in_stock"
                   onChange={handleChange}
                   onBlur={(e) => {
                     onChange({ ...stock, num_in_stock: values.num_in_stock })

@@ -3,7 +3,8 @@ import { fortressURL } from 'endpoints/urls';
 import { Formik } from 'formik';
 import useModal from 'hooks/use-modal';
 import useShop from 'hooks/use-shop';
-import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import React from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { InventoryType, InventoryViewType } from 'typings/inventory/inventory-type';
 import { ProductType } from 'typings/product/product-type';
@@ -42,7 +43,7 @@ const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, han
     {
       onSuccess: (newVariant: ProductType) => {
         // klient.invalidateQueries(['domains']);
-        // toast('Domain updated successfully');
+        toast('Updated successfully');
       },
       onError: (e: ResponseError) => {
         // toast(e.message);
