@@ -17,7 +17,7 @@ function OrdersTableItem(props) {
     <tbody className="text-sm">
       {/* Row */}
       <tr>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+        <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
           <div className="flex items-center">
             <label className="inline-flex">
               <span className="sr-only">Select</span>
@@ -33,7 +33,7 @@ function OrdersTableItem(props) {
         </td>
         <td
           onClick={() => props.handleShow(true, props.id)}
-          className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"
+          className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap"
         >
           <div className="flex items-center text-gray-800">
             <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-3">
@@ -50,18 +50,18 @@ function OrdersTableItem(props) {
             </div>
           </div>
         </td>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div>{props.date}</div>
         </td>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div className="font-medium text-gray-800">{props.customer}</div>
         </td>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div className="text-left font-medium text-green-500">
             {props.total}
           </div>
         </td>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div
             className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 ${statusColor(
               props.status,
@@ -70,10 +70,10 @@ function OrdersTableItem(props) {
             {props.status === "Authorized" ? "New" : props.status}
           </div>
         </td>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+        <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div className="text-center">{props.items}</div>
         </td>
-        <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+        <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
           <div className="items-right">{props.location}</div>
         </td>
       </tr>

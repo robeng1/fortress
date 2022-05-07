@@ -42,7 +42,7 @@ function ProductsTable({ selectedItems, handleShow, products }) {
                 {/* Table header */}
                 <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
                   <tr>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
                       <div className="flex items-center">
                         <label className="inline-flex">
                           <span className="sr-only">Select all</span>
@@ -55,22 +55,22 @@ function ProductsTable({ selectedItems, handleShow, products }) {
                         </label>
                       </div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Product</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Inventory</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Type</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Status</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold">Variants</div>
                     </th>
-                    {/* <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    {/* <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                   <span className="sr-only">Menu</span>
                 </th> */}
                   </tr>

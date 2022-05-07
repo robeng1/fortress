@@ -6,7 +6,7 @@ function CollectionItemTable(props) {
   const navigate = useNavigate();
   return (
     <tr>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+      <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
         <div className="flex items-center">
           <label className="inline-flex">
             <span className="sr-only">Select</span>
@@ -20,7 +20,7 @@ function CollectionItemTable(props) {
           </label>
         </div>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+      <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
         <div className="flex items-center relative">
           <button>
             <svg
@@ -35,10 +35,10 @@ function CollectionItemTable(props) {
       </td>
       <td
         onClick={() => navigate(`/shop/collections/${props.id}`)}
-        className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap"
+        className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap"
       >
         <div className="flex items-center">
-          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+          <div className="w-8 h-8 flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
               src={proxyURL(props.image, 50, 50)}
@@ -49,13 +49,13 @@ function CollectionItemTable(props) {
         </div>
       </td>
 
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
         <div className="text-left">{props.conditions}</div>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
         <div className="text-left">{props.itemCount}</div>
       </td>
-      <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+      <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
         <div className="text-left">{props.channels ?? "All"}</div>
       </td>
     </tr>

@@ -43,7 +43,7 @@ function CollectionsTable({ selectedItems, collections }) {
                 {/* Table header */}
                 <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
                   <tr>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
                       <div className="flex items-center">
                         <label className="inline-flex">
                           <span className="sr-only">Select all</span>
@@ -56,21 +56,21 @@ function CollectionsTable({ selectedItems, collections }) {
                         </label>
                       </div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
                       <span className="sr-only">Favourite</span>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Collection</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Tags</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">
                         Number of Items
                       </div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
                       <div className="font-semibold text-left">Channels</div>
                     </th>
                   </tr>
