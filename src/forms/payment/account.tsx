@@ -45,7 +45,7 @@ function PaymentsAccountPanel() {
 
   // update the account
   const { mutate: updateAccount, isLoading: isUpdatingAccount } = useMutation(
-    (payload: any) =>
+    (payload: { account: Account }) =>
       request(`${requestURL}/${paymentAccount?.account_id}`, {
         method: 'PATCH',
         body: JSON.stringify(payload),
@@ -68,6 +68,7 @@ function PaymentsAccountPanel() {
           account_id: paymentAccount?.account_id || '',
           name: shop?.business_name || '',
           primary_user: shop?.shop_id,
+          currency: shop?.currency,
           // payment_data: account?.payment_data || 'wallet',
           wallet: {
             merchant: paymentAccount?.wallet?.merchant || '',
