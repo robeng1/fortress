@@ -1,7 +1,9 @@
+import useModal from 'hooks/use-modal';
 import * as React from 'react';
 import { InventoryViewType } from 'typings/inventory/inventory-type';
 import { pesosRawMoney } from 'utils/money';
 import { proxyURL } from 'utils/urlsigner';
+import VariantEditor from '../editor';
 
 type MobileVariantManagerProps = {
   handleClick?: (e: any) => void
@@ -10,6 +12,7 @@ type MobileVariantManagerProps = {
 }
 
 const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) => {
+  const { isOpen, handleOpen, handleClose } = useModal(false);
   const statusColor = status => {
     switch (status) {
       case 'Not tracked':
@@ -35,7 +38,7 @@ const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) =
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="/">{title}</a>
+              <p onClick={handleOpen}>{title}</p>
             </h3>
           </div>
         </div>
@@ -50,6 +53,7 @@ const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) =
           <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">{pesosRawMoney(price_excl_tax)}</p>
         </div>
       </div>
+      <VariantEditor product={product} isOpen={isOpen} handleOpen={handleOpen} handleClose={handleClose} />
     </>
   );
 }
