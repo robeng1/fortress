@@ -147,8 +147,8 @@ export interface OrderListType {
 }
 
 export interface OrderViewType {
-  num_item: number;
-  total_int: number;
+  num_items: number;
+  total: number;
   potential_earning: number;
   shop_id: string;
   order_id: string;

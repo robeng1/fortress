@@ -1,9 +1,16 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProductCard from './ProductCard';
+import ProductCard from './product-card';
 import { formatPesosMoney } from 'utils/money';
+import { ProductViewType } from 'typings/product/product-type';
 
-export default function ProductList({ handleShow, products }) {
+type ProductListProps = {
+  selectedItems?: (items: string[]) => void
+  handleShow: (show: boolean) => void
+  products: ProductViewType[]
+}
+
+const ProductList: React.FC<ProductListProps> = ({ handleShow, products }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -17,20 +24,7 @@ export default function ProductList({ handleShow, products }) {
                     handleShow={() =>
                       navigate(`/shop/products/${product.product_id}`)
                     }
-                    product={{
-                      id: product.product_id,
-                      image: product.image_url,
-                      name: product.title,
-                      inventory: `${product.num_in_stock} in stock`,
-                      type: product.product_type,
-                      status: product.product_status,
-                      variants: product.num_variants,
-                      fav: false,
-                      price: formatPesosMoney(
-                        product.price_int,
-                        product.currency,
-                      ),
-                    }}
+                    product={product}
                   />
                 </li>
               ))}
@@ -41,3 +35,5 @@ export default function ProductList({ handleShow, products }) {
     </>
   );
 }
+
+export default ProductList;

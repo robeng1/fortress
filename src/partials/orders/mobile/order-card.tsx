@@ -1,6 +1,15 @@
 import { formatPesosMoney } from 'utils/money';
 import * as React from 'react';
-export default function OrderCard({ handleShow, order }) {
+import { OrderViewType } from 'typings/order/order-type';
+
+type OrderTableItemProps = {
+  order: OrderViewType
+  handleClick?: (e: any) => void
+  isChecked?: boolean
+  handleShow: (show: boolean, id?: string) => void
+}
+
+const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
   return (
     <div
       onClick={() => handleShow(true, order.order_id)}
@@ -54,3 +63,5 @@ export default function OrderCard({ handleShow, order }) {
     </div>
   );
 }
+
+export default OrderCard;

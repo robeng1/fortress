@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import Product from './ProductTableItem';
-import ProductList from './mobile/ProductList';
+import Product from './product-item';
+import ProductList from './mobile/product-list';
 import EmptyState from 'partials/EmptyState';
 import { useNavigate } from 'react-router-dom';
-function ProductsTable({ selectedItems, handleShow, products }) {
+import { ProductViewType } from 'typings/product/product-type';
+
+type ProductsTableProps = {
+  selectedItems: (items: string[]) => void
+  handleShow: (show: boolean) => void
+  products: ProductViewType[]
+}
+
+const ProductsTable: React.FC<ProductsTableProps> = ({ selectedItems, handleShow, products }) => {
   const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState([]);
+  const [isCheck, setIsCheck] = useState<string[]>([]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setIsCheck(products.map(li => li.product_id));
+    setIsCheck(products?.map(li => li.product_id) ?? []);
     if (selectAll) {
       setIsCheck([]);
     }
@@ -81,14 +89,8 @@ function ProductsTable({ selectedItems, handleShow, products }) {
                     return (
                       <Product
                         key={product.product_id}
-                        id={product.product_id}
-                        image={product.image_url}
-                        name={product.title}
-                        inventory={`${product.num_in_stock} in stock`}
-                        type={product.categories[0]}
-                        status={product.status}
-                        variants={product.num_variants}
-                        fav={false}
+                        product={product}
+                        selectedItems={selectedItems}
                         handleShow={() =>
                           navigate(`/shop/products/${product.product_id}`)
                         }

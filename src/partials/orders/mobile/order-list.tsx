@@ -1,7 +1,13 @@
 import * as React from 'react';
-import OrderCard from './OrderCard';
+import { OrderViewType } from 'typings/order/order-type';
+import OrderCard from './order-card';
+type OrderListProps = {
+  selectedItems: (items: string[]) => void
+  handleShow: (show: boolean) => void
+  orders: OrderViewType[]
+}
 
-export default function OrderList({ handleShow, orders }) {
+const OrderList: React.FC<OrderListProps> = ({ handleShow, orders }) => {
   return (
     <>
       <div className="md:hidden">
@@ -20,3 +26,4 @@ export default function OrderList({ handleShow, orders }) {
     </>
   );
 }
+export default OrderList;

@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import OrderItem from './OrdersTableItem';
-import OrderList from './mobile/OrderList';
+import OrderItem from './table-item';
+import OrderList from './mobile/order-list';
 import EmptyState from 'partials/EmptyState';
-import { formatPesosMoney } from 'utils/money';
+import { OrderViewType } from 'typings/order/order-type';
 
-function OrdersTable({ selectedItems, handleShow, orders }) {
+type OrderTableProps = {
+  selectedItems: (items: string[]) => void
+  handleShow: (show: boolean) => void
+  orders: OrderViewType[]
+}
+
+const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, handleShow, orders }) => {
   const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState([]);
+  const [isCheck, setIsCheck] = useState<string[]>([]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setIsCheck(orders.map(li => li.order_id));
+    setIsCheck(orders?.map(li => li.order_id) ?? []);
     if (selectAll) {
       setIsCheck([]);
     }
@@ -35,7 +41,7 @@ function OrdersTable({ selectedItems, handleShow, orders }) {
       {orders.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
           <div>
-            <OrderList handleShow={handleShow} orders={orders} />
+            <OrderList selectedItems={selectedItems} handleShow={handleShow} orders={orders} />
             {/* Table */}
             <div className="hidden md:block overflow-x-auto">
               <table className="table-auto w-full divide-y divide-gray-200">
@@ -87,16 +93,7 @@ function OrdersTable({ selectedItems, handleShow, orders }) {
                     <OrderItem
                       handleShow={handleShow}
                       key={order.order_id}
-                      id={order.order_id}
-                      image={order.item_images[0]}
-                      order={order.order_id}
-                      date={new Date(order.updated_at).toLocaleString()}
-                      customer={order.customer_name}
-                      total={formatPesosMoney(order.total, order.currency)}
-                      status={order.status}
-                      location={order.location === "null" ? "Accra" : order.location}
-                      items={order.num_items}
-                      type={order.order_type}
+                      order={order}
                       handleClick={handleClick}
                       isChecked={isCheck.includes(order.order_id)}
                     />
@@ -110,6 +107,7 @@ function OrdersTable({ selectedItems, handleShow, orders }) {
         <EmptyState
           heading="No orders yet"
           msg="Your orders will appear here as they come in"
+          action={undefined}
         />
       )}
     </>

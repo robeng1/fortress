@@ -10,7 +10,7 @@ import Header from 'partials/Header';
 import FilterButton from 'components/dropdown-filter';
 import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
-import ProductsTable from 'partials/products/ProductsTable';
+import ProductsTable from 'partials/products/products-table';
 import useShop from 'hooks/use-shop';
 import { request } from 'utils/request';
 import { ThemeProvider } from 'styles/material/theme';
