@@ -15,7 +15,7 @@ import useShop from 'hooks/use-shop';
 import { Formik } from 'formik';
 
 function Domains() {
-  const qc = useQueryClient();
+  const klient = useQueryClient();
   const { shop } = useShop();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { entries } = useDomains();
@@ -45,7 +45,7 @@ function Domains() {
       }),
     {
       onSuccess: (newDomain: DNSEntry) => {
-        qc.invalidateQueries(['domains']);
+        klient.invalidateQueries(['domains']);
         toast('Domain added successfully');
       },
       onError: (e: ResponseError) => {
@@ -62,7 +62,7 @@ function Domains() {
       }),
     {
       onSuccess: (newDomain: DNSEntry) => {
-        qc.invalidateQueries(['domains']);
+        klient.invalidateQueries(['domains']);
         toast('Domain updated successfully');
       },
       onError: (e: ResponseError) => {

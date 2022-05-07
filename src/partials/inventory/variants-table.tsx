@@ -3,8 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import VariantManager from './variant-manager';
 import VarianList from './mobile/variant-list';
 import EmptyState from 'partials/EmptyState';
-import { pesosRawMoney } from 'utils/money';
-import { InventoryViewListType, InventoryViewType } from 'typings/inventory/inventory-type';
+import { InventoryViewListType } from 'typings/inventory/inventory-type';
 
 type VariantTableProps = {
   selectedItems: (items: string[]) => void

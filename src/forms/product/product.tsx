@@ -371,6 +371,7 @@ const ProductForm = ({ id }) => {
         height: values.height.toString(),
         length: values.length.toString(),
         width: values.width.toString(),
+        track_stock: values.track_quantity,
       };
 
       variant.attributes = b64Encode(
