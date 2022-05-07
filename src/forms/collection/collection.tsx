@@ -15,6 +15,7 @@ import { Loading } from 'components/blocks/backdrop';
 import TextArea from 'components/blocks/text-area';
 import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
+import { proxyURL } from 'utils/urlsigner';
 
 export default function CollectionForm({ id }) {
   const matchKey = 'key';
@@ -320,7 +321,7 @@ export default function CollectionForm({ id }) {
                       <SimpleImageDropzone
                         onChange={onImageChange}
                         label={'Collection Banner'}
-                        value={image}
+                        value={image? proxyURL(image, 255, 255): undefined}
                         height={255}
                         width={255}
                       />

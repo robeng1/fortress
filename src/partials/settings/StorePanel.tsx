@@ -11,6 +11,7 @@ import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
+import { proxyURL } from 'utils/urlsigner';
 
 function StorePanel() {
   const klient = useQueryClient();
@@ -105,7 +106,7 @@ function StorePanel() {
                   <SimpleImageDropzone
                     onChange={onImageChange}
                     label={'Shop logo'}
-                    value={image}
+                    value={image? proxyURL(image, 255, 255): undefined}
                     height={255}
                     width={255}
                   />

@@ -5,6 +5,8 @@ import { CloseIcon } from 'components/icons/close-icon';
 import Card from 'components/blocks/card';
 import ImagesDropzone from 'components/image-dropzone';
 import { useUpload } from 'hooks/use-upload';
+import toast from 'react-hot-toast';
+import { proxyURL } from 'utils/urlsigner';
 
 const Images = ({ product, handleUpload, handleIsSaving }) => {
   const { upload } = useUpload();
@@ -39,8 +41,7 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
         handleIsSaving(false);
         setUploads([]);
         setIsDirty(false);
-        // throw a toast
-        console.log(allImages);
+        toast.success("Images uploaded")
         handleUpload(allImages);
       });
   };
@@ -66,7 +67,7 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
                 e.stopPropagation();
               }}
               sx={{ position: 'relative' }}
-              src={image}
+              src={proxyURL(image, 300, 300)}
             >
               <CloseIcon
                 onClick={e => {
