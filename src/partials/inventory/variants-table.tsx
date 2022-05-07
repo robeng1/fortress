@@ -49,7 +49,7 @@ const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedIte
                 {/* Table header */}
                 <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
                   <tr>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
+                    <th className="px-2 first:pl-3 last:pr-3 py-3 whitespace-nowrap w-px">
                       <div className="flex items-center">
                         <label className="inline-flex">
                           <span className="sr-only">Select all</span>
@@ -62,22 +62,22 @@ const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedIte
                         </label>
                       </div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                    <th className="px-2 first:pl-3 last:pr-3 py-3 text-left whitespace-nowrap">
                       <div className="font-semibold">Product</div>
                     </th>
-                    <th className="px-2 first:pl-5 text-left last:pr-5 py-3 whitespace-nowrap">
+                    <th className="px-2 first:pl-3 text-left last:pr-3 py-3 whitespace-nowrap">
                       <div className="font-semibold">SKU</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                    <th className="px-2 first:pl-3 last:pr-3 py-3 text-left whitespace-nowrap">
                       <div className="font-semibold">Allocated</div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                    <th className="px-2 first:pl-3 last:pr-3 py-3 text-left whitespace-nowrap">
                       <div className="font-semibold">
                         Price{' '}
                         {!isEmpty(records) && `(in ${records[0].currency})`}
                       </div>
                     </th>
-                    <th className="px-2 first:pl-5 last:pr-5 py-3 text-left whitespace-nowrap">
+                    <th className="px-2 first:pl-3 last:pr-3 py-3 text-left whitespace-nowrap">
                       <div className="font-semibold">Available</div>
                     </th>
                   </tr>
