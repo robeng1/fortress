@@ -1,5 +1,6 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
+import uniqBy from 'lodash/uniqBy';
 import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/bottom-navigation';
@@ -10,8 +11,8 @@ import SearchForm from 'partials/actions/SearchForm';
 import { fortressURL } from 'endpoints/urls';
 import InventoryTable from 'partials/inventory/InventoryTable';
 import useShop from 'hooks/use-shop';
-import { isEmptyArray } from 'formik';
 import { ThemeProvider } from 'styles/material/theme';
+import { InventoryViewListType, InventoryViewType } from 'typings/inventory/inventory-type';
 
 function Inventories() {
   const { shop } = useShop();
@@ -23,7 +24,7 @@ function Inventories() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const { data } = useQuery(
+  const { data } = useQuery<InventoryViewListType>(
     ['inventoryviews', page],
     async () =>
       await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
@@ -76,16 +77,18 @@ function Inventories() {
             {/* Table */}
             <InventoryTable
               selectedItems={handleSelectedItems}
-              records={records || []}
-              headings={undefined}
+              total={data?.total ?? 0}
+              // TODO: do not index duplicates in the first place
+              records={records ? uniqBy(records, function (e: InventoryViewType) {
+                return e.variant_id;
+              }) : []}
             />
-
             {/* Pagination */}
-            {!isEmpty(records) && data?.total > itemsPerPage && (
+            {!isEmpty(records) && data && data?.total > itemsPerPage && (
               <ThemeProvider>
                 <Pagination
                   count={
-                    data?.total > itemsPerPage
+                    data && data?.total > itemsPerPage
                       ? Math.ceil(data?.total / itemsPerPage)
                       : 1
                   }

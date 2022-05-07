@@ -1,7 +1,16 @@
 import Button from 'components/blocks/button';
 import React from 'react';
+import { InventoryViewType } from 'typings/inventory/inventory-type';
+import { pesosRawMoney } from 'utils/money';
 import { proxyURL } from 'utils/urlsigner';
-function InventoryTableItem(props) {
+
+type InventoryTableItemProps = {
+  handleClick: (e: any) => void
+  isChecked: boolean,
+  product: InventoryViewType
+}
+
+const InventoryTableItem: React.FC<InventoryTableItemProps> = ({ product, isChecked, handleClick }) => {
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap w-px">
@@ -9,11 +18,11 @@ function InventoryTableItem(props) {
           <label className="inline-flex">
             <span className="sr-only">Select</span>
             <input
-              id={props.id}
+              id={product.variant_id}
               className="form-checkbox"
               type="checkbox"
-              onChange={props.handleClick}
-              checked={props.isChecked}
+              onChange={handleClick}
+              checked={isChecked}
             />
           </label>
         </div>
@@ -24,25 +33,25 @@ function InventoryTableItem(props) {
           <div className="w-10 h-10  flex-shrink-0 mr-2 sm:mr-3">
             <img
               className="rounded"
-              src={proxyURL(props.image, 50, 50)}
-              alt={props.name}
+              src={proxyURL(product.image_url, 50, 50)}
+              alt={product.title}
             />
           </div>
-          <div className="font-medium text-gray-800 hover:underline cursor-pointer">{props.name}</div>
+          <div className="font-medium text-gray-800 hover:underline cursor-pointer">{product.title}</div>
         </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div
           className={`inline-flex font-medium rounded-full text-left py-0.5 `}
         >
-          Something
+          {product.sku && product.sku !== "" ? product.sku : product.centre_sku}
         </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <input
           onChange={() => { }}
           className="form-input w-full sm:w-28 rounded-sm"
-          value={props.price}
+          value={pesosRawMoney(product.price_excl_tax)}
         ></input>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
@@ -52,7 +61,7 @@ function InventoryTableItem(props) {
           min={0}
           onChange={() => { }}
           className="form-input w-full sm:w-28 rounded-sm"
-          value={props.variants}
+          value={product.num_in_stock}
         ></input>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">

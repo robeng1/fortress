@@ -51,12 +51,17 @@ export interface InventoryListType {
   next_page_token?: string;
 }
 
+export interface InventoryViewListType {
+  records?: InventoryViewType[];
+  total: number;
+}
+
 export interface InventoryViewType {
   num_allocated: number;
   num_in_stock: number;
-  price_excl_tax_int: number;
-  compare_at_price_int: number;
-  cost_per_item_int: number;
+  price_excl_tax: number;
+  compare_at_price: number;
+  cost_per_item: number;
   title: string;
   description: string;
   sku: string;

@@ -4,15 +4,20 @@ import InventoryTableItem from './InventoryTableItem';
 import InventoryList from './mobile/InventoryList';
 import EmptyState from 'partials/EmptyState';
 import { pesosRawMoney } from 'utils/money';
+import { InventoryViewListType, InventoryViewType } from 'typings/inventory/inventory-type';
 
-const InventoryTable = ({ selectedItems, headings, records }) => {
+type InventoryTableProps = {
+  selectedItems: (items: string[]) => void
+} & InventoryViewListType
+
+const InventoryTable: React.FC<InventoryTableProps> = ({ records, total, selectedItems }) => {
   const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState([]);
+  const [isCheck, setIsCheck] = useState<string[]>([]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
     setIsCheck(
-      records.map(li => `${li.product_id}-${li.variant_id}-${li.centre_id}`),
+      records?.map(li => `${li.product_id}-${li.variant_id}-${li.centre_id}`) ?? [],
     );
     if (selectAll) {
       setIsCheck([]);
@@ -35,7 +40,7 @@ const InventoryTable = ({ selectedItems, headings, records }) => {
 
   return (
     <>
-      {records.length > 0 ? (
+      {records && records.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
           <InventoryList records={records} />
           <div className="hidden md:block">
@@ -80,17 +85,10 @@ const InventoryTable = ({ selectedItems, headings, records }) => {
                     return (
                       <InventoryTableItem
                         key={`${index}`}
-                        id={`${product.product_id}-${product.variant_id}-${product.centre_id}`}
-                        image={product.image_url}
-                        name={product.title}
-                        inventory={product.sku}
-                        type={product.item_condition}
-                        price={pesosRawMoney(product.price_excl_tax)}
-                        variants={product.num_in_stock}
-                        fav={false}
+                        product={product}
                         handleClick={handleClick}
                         isChecked={isCheck.includes(
-                          `${product.product_id}-${product.variant_id}-${product.centre_id}`,
+                          `${product.variant_id}`,
                         )}
                       />
                     );
@@ -104,6 +102,7 @@ const InventoryTable = ({ selectedItems, headings, records }) => {
         <EmptyState
           heading="No inventory yet"
           msg="Inventory will appear here when you add products"
+          action={undefined}
         />
       )}
     </>

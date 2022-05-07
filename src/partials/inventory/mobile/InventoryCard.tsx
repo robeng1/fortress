@@ -1,6 +1,15 @@
 import * as React from 'react';
+import { InventoryViewType } from 'typings/inventory/inventory-type';
+import { pesosRawMoney } from 'utils/money';
 import { proxyURL } from 'utils/urlsigner';
-export default function InventoryCard({ product }) {
+
+type InventoryTableItemProps = {
+  handleClick?: (e: any) => void
+  isChecked?: boolean,
+  product: InventoryViewType
+}
+
+const InventoryCard: React.FC<InventoryTableItemProps> = ({ product }) => {
   const statusColor = status => {
     switch (status) {
       case 'Not tracked':
@@ -11,13 +20,13 @@ export default function InventoryCard({ product }) {
         return '';
     }
   };
-  const { image, imageAlt, name, price, inventory } = product;
+  const { image_url, price_excl_tax, title, num_in_stock } = product;
   return (
     <>
       <div className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
         <img
-          src={proxyURL(image, 50, 50)}
-          alt={imageAlt || ''}
+          src={proxyURL(image_url, 50, 50)}
+          alt={title}
           className="w-full h-full object-center object-cover"
         />
       </div>
@@ -26,21 +35,23 @@ export default function InventoryCard({ product }) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="/">{name}</a>
+              <a href="/">{title}</a>
             </h3>
           </div>
         </div>
         <div className="flex justify-between align-bottom text-base font-medium text-gray-900">
           <p
             className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5 ${statusColor(
-              inventory,
+              num_in_stock,
             )}`}
           >
-            {inventory}
+            {num_in_stock}
           </p>
-          <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">{price}</p>
+          <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">{pesosRawMoney(price_excl_tax)}</p>
         </div>
       </div>
     </>
   );
 }
+
+export default InventoryCard;
