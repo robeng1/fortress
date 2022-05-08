@@ -133,9 +133,9 @@ function Currency() {
                       updateShop({
                         ...shop,
                         currency: {
-                          name: shop?.currency?.name ?? '',
+                          name:'',
                           iso_code: currency ?? 'GHS',
-                          symbol: shop?.currency?.name ?? '',
+                          symbol: '',
                         },
                       })
                     }}>Next Step -&gt;</button>
