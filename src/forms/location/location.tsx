@@ -240,11 +240,11 @@ function LocationsForm({ handleShow, id }) {
                       onChange={handleChange}
                     >
                       <option value="">Please Select</option>
-                      <option value="GH">Ghana</option>
-                      <option value="NG">Nigeria</option>
-                      <option value="RW">Rwanda</option>
-                      <option value="KY">Kenya</option>
-                      <option value="SA">South Africa</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="Rwanda">Rwanda</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="South Africa">South Africa</option>
                     </select>
                   </div>
                   <div className="w-full sm:w-1/2">
