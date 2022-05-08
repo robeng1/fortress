@@ -27,7 +27,7 @@ function AnalyticsCard05({ topChannels }) {
                       style={{ width: `${100 - 10 * index}%` }}
                     ></div>
                     <div className="relative flex justify-between space-x-2">
-                      <div>{key}</div>
+                      <div>{key!=="null"? key: "Organic"}</div>
                       <div className="font-medium">
                         {formatThousands(value)}
                       </div>
