@@ -128,7 +128,8 @@ function Currency() {
                     </label>
                   </div>
                   <div className="flex items-center justify-between">
-                    <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-auto" onClick={() => {
+                    <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-auto" onClick={(e) => {
+                      e.stopPropagation()
                       updateShop({
                         ...shop,
                         currency: {
