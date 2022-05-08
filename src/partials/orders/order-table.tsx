@@ -6,7 +6,7 @@ import { OrderViewType } from 'typings/order/order-type';
 
 type OrderTableProps = {
   selectedItems: (items: string[]) => void
-  handleShow: (show: boolean) => void
+  handleShow: (show: boolean, id?:string) => void
   orders: OrderViewType[]
 }
 

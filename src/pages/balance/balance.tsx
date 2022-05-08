@@ -13,7 +13,7 @@ import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 import { uidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/date-select';
-import { currencyToM, mToSFormatted, sToCurrency, sToM } from 'utils/money';
+import { currencyToM, mToS, mToSFormatted, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/blocks/button';
 import { TransferKind, TransferType } from 'typings/payment/transfer';
 import { toast } from 'react-toastify';
@@ -21,6 +21,7 @@ import Input from 'components/blocks/input';
 import useShop from 'hooks/use-shop';
 import usePayment from 'hooks/use-payment';
 import { ThemeProvider } from 'styles/material/theme';
+import { TransactionType, TransactionViewType } from 'typings/payment/transaction-type';
 
 function Balance() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -66,21 +67,20 @@ function Balance() {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${usraId}' ORDER BY created_at DESC LIMIT ${
-    (page - 1) * itemsPerPage + 1
-  }, ${itemsPerPage}`;
+  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${(page - 1) * itemsPerPage + 1
+    }, ${itemsPerPage}`;
 
-  const { data } = useQuery<any, ResponseError>(
+  const { data } = useQuery<TransactionViewType[], ResponseError>(
     ['account-activities', page],
     async () => {
       try {
         const resp = await request(`${requestURL}/transactions`, {
           method: 'POST',
-          body: JSON.stringify({ query }),
+          body: JSON.stringify(query),
           headers: { 'Content-Type': 'application/json' },
         });
         return resp;
-      } catch (error) {}
+      } catch (error) { }
     },
 
     {
@@ -204,9 +204,8 @@ function Balance() {
                   <Transition
                     show={open}
                     tag="div"
-                    className={`origin-top-right z-10 absolute top-full min-w-56 bg-white border border-gray-200 pt-1.5 rounded shadow-lg overflow-hidden mt-1 ${
-                      align === 'right' ? 'right-0' : 'left-0'
-                    }`}
+                    className={`origin-top-right z-10 absolute top-full min-w-56 bg-white border border-gray-200 pt-1.5 rounded shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'right-0' : 'left-0'
+                      }`}
                     enter="transition ease-out duration-200 transform"
                     enterStart="opacity-0 -translate-y-2"
                     enterEnd="opacity-100 translate-y-0"
@@ -305,46 +304,31 @@ function Balance() {
                       </thead>
                       {/* Table body */}
                       <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
-                        {/* Row */}
-                        <tr>
-                          <td className="p-2 w-1/6">
-                            <div className="text-left text-gray-500">
-                              Yesterday
-                            </div>
-                          </td>
-                          <td className="p-2 w-3/6">
-                            <div className="flex items-center">
-                              <div className="text-gray-500">For order</div>
-                            </div>
-                          </td>
-                          <td className="p-2 w-2/6">
-                            <div className="text-right text-gray-500">
-                              $3,877
-                            </div>
-                          </td>
-                        </tr>
+                        {data && data.map((txn, index) =>
+                          <tr key={index}>
+                            <td className="p-2 w-1/6">
+                              <div className="text-left text-gray-500">
+                                {new Date(txn.created_at).toDateString()}
+                              </div>
+                            </td>
+                            <td className="p-2 w-3/6">
+                              <div className="flex items-center">
+                                <div className="text-gray-500">{txn.description}</div>
+                              </div>
+                            </td>
+                            <td className="p-2 w-2/6">
+                              <div className="text-right text-gray-500">
+                                {mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Pagination */}
-            {data && (
-              <ThemeProvider>
-                <Pagination
-                  count={data?.total / itemsPerPage}
-                  variant="outlined"
-                  color="primary"
-                  className="mt-4 md:mt-8"
-                  page={page}
-                  onChange={(event: ChangeEvent<unknown>, page: number) =>
-                    setPage(page)
-                  }
-                />
-              </ThemeProvider>
-            )}
           </div>
         </main>
 

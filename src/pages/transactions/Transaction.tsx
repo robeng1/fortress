@@ -13,32 +13,41 @@ import { uidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/date-select';
 import useShop from 'hooks/use-shop';
 import { ThemeProvider } from 'styles/material/theme';
+import usePayment from 'hooks/use-payment';
+import { TransactionViewType } from 'typings/payment/transaction-type';
+import { mToSFormatted } from 'utils/money';
 
 function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { shop } = useShop();
   const shopId = shop?.shop_id;
   const [accountId] = useAtom(uidAtom);
+  const { shopAccount: paymentAccount } = usePayment();
   const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
 
   const [page, setPage] = useState(1);
   const [itemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${accountId}' ORDER BY created_at DESC LIMIT ${
+  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${
     (page - 1) * itemsPerPage + 1
   }, ${itemsPerPage}`;
 
-  const { data } = useQuery<any, ResponseError>(
+  const { data } = useQuery<TransactionViewType[], ResponseError>(
     ['transactions', page],
-    async () =>
-      await request(`${requestURL}/transactions`, {
-        method: 'POST',
-        body: JSON.stringify({ query }),
-        headers: { 'Content-Type': 'application/json' },
-      }),
+    async () => {
+      try {
+        const resp = await request(`${requestURL}/transactions`, {
+          method: 'POST',
+          body: JSON.stringify(query),
+          headers: { 'Content-Type': 'application/json' },
+        });
+        return resp;
+      } catch (error) { }
+    },
+
     {
       keepPreviousData: true,
-      enabled: !!accountId,
+      enabled: !!accountId && !!paymentAccount?.account_id,
       refetchOnWindowFocus: false,
       staleTime: 2000,
     },
@@ -118,24 +127,25 @@ function Transactions() {
                       </thead>
                       {/* Table body */}
                       <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
-                        {/* Row */}
-                        <tr>
-                          <td className="p-2 w-1/6">
-                            <div className="text-left text-gray-800">
-                              Yesterday
-                            </div>
-                          </td>
-                          <td className="p-2 w-3/6">
-                            <div className="flex items-center">
-                              <div className="text-gray-800">For order</div>
-                            </div>
-                          </td>
-                          <td className="p-2 w-2/6">
-                            <div className="text-right text-gray-800">
-                              $3,877
-                            </div>
-                          </td>
-                        </tr>
+                        {data && data.map((txn, index) =>
+                          <tr key={index}>
+                            <td className="p-2 w-1/6">
+                              <div className="text-left text-gray-500">
+                                {new Date(txn.created_at).toDateString()}
+                              </div>
+                            </td>
+                            <td className="p-2 w-3/6">
+                              <div className="flex items-center">
+                                <div className="text-gray-500">{txn.description}</div>
+                              </div>
+                            </td>
+                            <td className="p-2 w-2/6">
+                              <div className="text-right text-gray-500">
+                                {mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -143,21 +153,7 @@ function Transactions() {
               </div>
             </div>
 
-            {/* Pagination */}
-            {data && (
-              <ThemeProvider>
-                <Pagination
-                  count={data?.total / itemsPerPage}
-                  variant="outlined"
-                  color="primary"
-                  className="mt-4 md:mt-8"
-                  page={page}
-                  onChange={(event: ChangeEvent<unknown>, page: number) =>
-                    setPage(page)
-                  }
-                />
-              </ThemeProvider>
-            )}
+            
           </div>
         </main>
 

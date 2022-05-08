@@ -58,7 +58,7 @@ function Orders() {
     setSelectedItems([...selectedItems]);
   };
 
-  const handleShow = (display: Boolean, orderId: string) => {
+  const handleShow = (display: Boolean, orderId?: string) => {
     setCurrentlyShowingOrderId(orderId);
     setShowOrder(display);
   };

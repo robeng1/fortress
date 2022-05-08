@@ -35,7 +35,7 @@ function Payouts() {
     async () =>
       await request(`${requestURL}/transactions`, {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify(query),
         headers: { 'Content-Type': 'application/json' },
       }),
     {
