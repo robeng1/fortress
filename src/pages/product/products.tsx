@@ -73,9 +73,9 @@ function Products() {
                     {/* Search form */}
                     <div className="flex justify-start gap-2">
                       <SearchForm placeholder="Search products..." />
-                      <div className="">
+                      {/* <div className="">
                         <FilterButton align="right" />
-                      </div>
+                      </div> */}
                     </div>
                     <button
                       onClick={() => navigate('/shop/products/new')}
@@ -98,7 +98,7 @@ function Products() {
               {/* Table */}
               <ProductsTable
                 selectedItems={handleSelectedItems}
-                handleShow={undefined}
+                handleShow={(shoe: boolean) => { }}
                 products={products || []}
               />
 

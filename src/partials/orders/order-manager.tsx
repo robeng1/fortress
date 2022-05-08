@@ -151,7 +151,7 @@ export default function Order({ handleShow, id }) {
                       </span>
 
                       <button className="hidden md:inline-flex focus:bg-gray-300 focus:outline-none hover:text-gray-800 leading-snug ml-auto px-2 py-2 rounded text-gray-600">
-                        <span>375 Vanderbilt Avenue</span>
+                        {/* <span>375 Vanderbilt Avenue</span> */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import Datepicker from 'components/date-picker';
@@ -12,10 +11,11 @@ import AnalyticsCard07 from 'partials/analytics/AnalyticsCard07';
 import AnalyticsCard00 from 'partials/analytics/AnalyticsCard00';
 import { useStats } from 'hooks/use-webstats';
 import { useOnboarding } from 'hooks/use-onboarding';
-import { useNavigate } from 'react-router-dom';
+import { useSession } from 'hooks/use-session';
 
 function Analytics() {
   useOnboarding();
+  const { requiresEmailVerification } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { webStats } = useStats();
 

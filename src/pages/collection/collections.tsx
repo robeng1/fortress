@@ -83,9 +83,9 @@ function Collections() {
                   {/* Search form */}
                   <div className="flex justify-start gap-2">
                     <SearchForm placeholder="Search collections..." />
-                    <div className="">
+                    {/* <div className="">
                       <FilterButton align="right" />
-                    </div>
+                    </div> */}
                     <div className="">
                       <DeleteButton selectedItems={selectedItems} />
                     </div>

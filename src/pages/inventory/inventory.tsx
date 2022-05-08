@@ -68,9 +68,9 @@ function Inventory() {
               <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
                 {/* Search form */}
                 <SearchForm placeholder="Search inventory" />
-                <div className="block">
+                {/* <div className="block">
                   <FilterButton align="right" />
-                </div>
+                </div> */}
               </div>
             </div>
 

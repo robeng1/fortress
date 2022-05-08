@@ -58,7 +58,7 @@ const ProductTableItem: React.FC<ProductTableItemProps> = ({ product, selectedIt
             `${product.num_in_stock} in stock`,
           )}`}
         >
-          ${product.num_in_stock} in stock
+          {product.num_in_stock} in stock
         </div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">

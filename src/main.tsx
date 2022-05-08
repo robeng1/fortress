@@ -13,18 +13,19 @@ import { Provider, useAtom } from 'jotai';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider as EmotionThemeProvider } from './styles/emotion';
 
-const qc = new QueryClient();
+const klient = new QueryClient();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
-  <QueryClientProvider client={qc}>
+  <QueryClientProvider client={klient}>
     <Provider>
       <EmotionThemeProvider>
         <HelmetProvider>
           <React.StrictMode>
             <Router>
               <App />
-              <Toaster position="top-right"
+              <Toaster
+                position="top-right"
                 reverseOrder={false}
                 gutter={8}
                 toastOptions={{
