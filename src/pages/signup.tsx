@@ -44,6 +44,7 @@ function Signup() {
       submitData({
         ...values,
         business_display_name: values.handle,
+        handle: slugit(values.handle),
         permanent_domain: `${slugit(values.handle)}.myreoplex.com`,
       });
     },
