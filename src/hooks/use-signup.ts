@@ -40,7 +40,7 @@ export function useSignup() {
   );
   const navigate = useNavigate();
   const location = useLocation();
-  const { from } = (location.state as LocationState) || { from: '/' };
+  const { from } = (location.state as LocationState) || { from: '/onboarding/currency' };
 
   const isAuthenticated = !isEmpty(session);
   const submitData = (values: StartType) => {
@@ -56,7 +56,7 @@ export function useSignup() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from || '/');
+      navigate(from || '/onboarding/currency');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, from]);
