@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, lazy, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
-import ProductForm from 'forms/product/product';
 import { useNavigate, useParams } from 'react-router-dom';
 import VoucherForm from 'forms/voucher/voucher';
 

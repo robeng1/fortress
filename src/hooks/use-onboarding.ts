@@ -10,7 +10,7 @@ export function useOnboarding(loc?: string) {
   const { locations, isLoading: locationIsLoading } = useCentres();
   const { shopAccount, isLoading: accountIsLoading } = usePayment();
   let invalidCurrency = false
-  if (!shop?.currency) {
+  if (!shop?.currency || shop.currency.iso_code === "" || isEmpty(shop.currency)) {
     invalidCurrency = true
   }
   let noLocation = false
