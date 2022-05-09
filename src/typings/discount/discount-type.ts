@@ -28,14 +28,14 @@ export interface DiscountType {
   'num_applications': (number);
   'num_orders': (number);
   'redirect_url': (string);
-  'created_at': string;
+  'created_at'?: string;
   'image': (string);
   'categories': (string)[];
   'keywords': (string)[];
   'page_title': (string);
   'page_description': (string);
   'voucher': (VoucherType | null);
-  'deleted_at': string;
+  'deleted_at'?: string;
   'metadata': (string);
   'club_id': (string);
   vouchers?: VoucherType[];

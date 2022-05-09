@@ -37,12 +37,10 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
     num_applications: 0,
     num_orders: 0,
     redirect_url: '',
-    created_at: '',
     image: '',
     categories: [],
     keywords: [],
     voucher: null,
-    deleted_at: '',
     metadata: '',
     club_id: ''
   };
