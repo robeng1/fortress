@@ -127,75 +127,80 @@ const VoucherForm = ({ id, codeType }) => {
           enableReinitialize={true}
           initialValues={{
             name: '',
-            description: '',
             start_date: '',
             start_time: '',
             end_date: '',
+            description: '',
             end_time: '',
-            discount: null,
+            discount_id: '',
             code_type: SINGLE_CODE_TYPE,
             code: '',
-            code_usage: '',
+            usage: '',
             code_length: 6,
-            number_of_codes: 1,
+            count: 1,
           }}
           onSubmit={(values, { setSubmitting }) => {
-            if (voucher || voucherSet) {
-              if (!values.discount || values.discount === "") {
-                toast.error("Discount is required for voucher")
-                return
-              }
-              if (values.code_type === SINGLE_CODE_TYPE) {
-                updateSingle({
-                  ...voucher,
-                  ...values,
-                  voucher_id: id,
-                  start_datetime: moment(
-                    values.start_date + ' ' + values.start_time,
-                  ).toISOString(),
-                  end_datetime: moment(
-                    values.end_date + ' ' + values.end_time,
-                  ).toISOString(),
-                });
-              } else {
-                updateSet({
-                  ...voucherSet,
-                  ...values,
-                  set_id: id,
-                  start_datetime: moment(
-                    values.start_date + ' ' + values.start_time,
-                  ).toISOString(),
-                  end_datetime: moment(
-                    values.end_date + ' ' + values.end_time,
-                  ).toISOString(),
-                });
-              }
+            if (!values.discount_id || values.discount_id === null || values.discount_id === "") {
+              toast.error("Discount is required for voucher")
+              return
             } else {
-              if (values.code_type === SINGLE_CODE_TYPE) {
-                createSingle({
-                  ...values,
-                  voucher_id: '',
-                  start_datetime: moment(
-                    values.start_date + ' ' + values.start_time,
-                  ).toISOString(),
-                  end_datetime: moment(
-                    values.end_date + ' ' + values.end_time,
-                  ).toISOString(),
-                });
+              if (voucher || voucherSet) {
+                if (values.code_type === SINGLE_CODE_TYPE) {
+                  const vals = values as unknown as VoucherType
+                  updateSingle({
+                    ...voucher,
+                    ...vals,
+                    voucher_id: id,
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
+                } else {
+                  const vals = values as unknown as VoucherSetType
+                  updateSet({
+                    ...voucherSet,
+                    ...vals,
+                    set_id: id,
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
+                }
               } else {
-                createSet({
-                  ...values,
-                  set_id: '',
-                  start_datetime: moment(
-                    values.start_date + ' ' + values.start_time,
-                  ).toISOString(),
-                  end_datetime: moment(
-                    values.end_date + ' ' + values.end_time,
-                  ).toISOString(),
-                });
+                if (values.code_type === SINGLE_CODE_TYPE) {
+                  const vals = values as unknown as VoucherType
+                  createSingle({
+                    ...vals,
+                    voucher_id: '',
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
+                } else {
+                  const vals = values as unknown as VoucherSetType
+                  createSet({
+                    ...vals,
+                    set_id: '',
+                    start_datetime: moment(
+                      values.start_date + ' ' + values.start_time,
+                    ).toISOString(),
+                    end_datetime: moment(
+                      values.end_date + ' ' + values.end_time,
+                    ).toISOString(),
+                  });
+                }
               }
+              setSubmitting(false);
             }
-            setSubmitting(false);
           }}
         >
           {({
@@ -328,7 +333,7 @@ const VoucherForm = ({ id, codeType }) => {
                               name="number_of_codes"
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={values.number_of_codes}
+                              value={values.count}
                               className="form-input"
                               type="number"
                               min={1}
@@ -351,8 +356,8 @@ const VoucherForm = ({ id, codeType }) => {
                           id="discount"
                           name="discount"
                           closeMenuOnSelect={true}
-                          defaultValue={values.discount}
-                          value={values.discount}
+                          defaultValue={values.discount_id}
+                          value={values.discount_id}
                           isClearable
                           isSearchable
                           isMulti={false}
@@ -377,7 +382,7 @@ const VoucherForm = ({ id, codeType }) => {
                         name="code_usage"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.code_usage}
+                        value={values.usage}
                         id="code_usage"
                         className="form-select block w-full"
                       >
