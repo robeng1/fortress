@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Sidebar from 'partials/Sidebar';
 import Header from 'partials/Header';
 import BottomNav from 'components/bottom-navigation';
@@ -13,6 +13,7 @@ import { request, ResponseError } from 'utils/request';
 import { domainURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
 import { Formik } from 'formik';
+import isValidDomain from 'is-valid-domain';
 
 function Domains() {
   const klient = useQueryClient();
@@ -46,10 +47,10 @@ function Domains() {
     {
       onSuccess: (newDomain: DNSEntry) => {
         klient.invalidateQueries(['domains']);
-        toast('Domain added successfully');
+        toast.success('Domain added successfully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );
@@ -63,10 +64,10 @@ function Domains() {
     {
       onSuccess: (newDomain: DNSEntry) => {
         klient.invalidateQueries(['domains']);
-        toast('Domain updated successfully');
+        toast.success('Domain updated successfully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );
@@ -156,9 +157,21 @@ function Domains() {
                 // validationSchema={ProductSchema}
                 onSubmit={(values, { setSubmitting }) => {
                   if (values.id && values.id !== '') {
-                    updateDomain({ ...values });
+                    if (isValidDomain(values?.domain ?? '')) {
+                      updateDomain({ ...values });
+                    } else {
+                      toast.error("Domain is invalid")
+                    }
                   } else {
-                    addDomain({ ...values });
+                    if (!values.domain?.includes('.myreoplex.com')) {
+                      if (isValidDomain(values?.domain ?? '')) {
+                        addDomain({ ...values });
+                      } else {
+                        toast.error("Domain is invalid")
+                      }
+                    } else {
+                      toast.error("Only one `myreoplex.com` domain is allowed per shop")
+                    }
                   }
                   setSubmitting(false);
                 }}
@@ -189,6 +202,7 @@ function Domains() {
                           value={values.domain}
                           className="form-input w-full px-2 py-1"
                           type="text"
+                          disabled={!!(values.domain && values.domain !== "" && values.domain.includes('.myreoplex.com'))}
                           required
                         />
                       </div>
