@@ -84,7 +84,10 @@ export default function DiscountTable({ selectedItems, discounts }) {
                             {discount.num_applications}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button className="text-purple-600 hover:text-purple-900">
+                            <button onClick={(e) => {
+                              e.stopPropagation()
+                              navigate(`/discounts/${discount.discount_id}`)
+                            }} className="text-purple-600 hover:text-purple-900">
                               Edit
                             </button>
                           </td>

@@ -41,8 +41,7 @@ function DiscountMutation() {
               <div className="mb-4 sm:mb-0">
                 <div className="m-1.5">
                   <button
-                    type="button"
-                    onClick={() => navigate(-1)}
+                    onClick={(e) => navigate(-1)}
                     className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
                   >
                     <svg
