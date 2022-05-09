@@ -101,7 +101,7 @@ function ProductSelector({
         setProducts([])
       }
     } catch (error) { }
-  }, [isCheck])
+  }, [isCheck,value])
 
   return (
     <div>

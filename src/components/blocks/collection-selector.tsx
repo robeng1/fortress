@@ -99,7 +99,7 @@ function CollectionSelector({
       }
     } catch (error) {
     }
-  }, [isCheck])
+  }, [isCheck, value])
 
   return (
     <div>
