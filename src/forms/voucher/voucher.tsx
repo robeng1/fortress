@@ -243,7 +243,7 @@ const VoucherForm = ({ id, codeType }) => {
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <label
                       className="block text-sm font-medium mb-1"
-                      htmlFor="incentive_type"
+                      htmlFor="code_type"
                     >
                       Code type
                     </label>
@@ -253,8 +253,8 @@ const VoucherForm = ({ id, codeType }) => {
                           type="radio"
                           name="code_type"
                           className="form-radio"
-                          onChange={e => setFieldValue('code_type', 'single')}
-                          checked={values.code_type === 'single'}
+                          onChange={e => setFieldValue('code_type', SINGLE_CODE_TYPE)}
+                          checked={values.code_type === SINGLE_CODE_TYPE}
                           value={values.code_type}
                         />
                         <span className="text-sm ml-2">Single</span>
@@ -266,14 +266,14 @@ const VoucherForm = ({ id, codeType }) => {
                           type="radio"
                           name="code_type"
                           className="form-radio"
-                          onChange={e => setFieldValue('code_type', 'set')}
-                          checked={values.code_type === 'set'}
+                          onChange={e => setFieldValue('code_type', MULTI_CODE_TYPE)}
+                          checked={values.code_type === MULTI_CODE_TYPE}
                           value={values.code_type}
                         />
                         <span className="text-sm ml-2">Multi</span>
                       </label>
                     </div>
-                    {values.code_type === 'single' && (
+                    {values.code_type === SINGLE_CODE_TYPE && (
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <label
@@ -295,7 +295,7 @@ const VoucherForm = ({ id, codeType }) => {
                         </div>
                       </div>
                     )}
-                    {values.code_type === 'set' && (
+                    {values.code_type === MULTI_CODE_TYPE && (
                       <>
                         <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                           <div className="w-full">
@@ -324,13 +324,13 @@ const VoucherForm = ({ id, codeType }) => {
                           <div className="w-full">
                             <label
                               className="block text-sm font-medium mb-1"
-                              htmlFor="number_of_codes"
+                              htmlFor="count"
                             >
                               Number of codes
                             </label>
                             <input
-                              id="number_of_codes"
-                              name="number_of_codes"
+                              id="count"
+                              name="count"
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.count}
@@ -348,13 +348,13 @@ const VoucherForm = ({ id, codeType }) => {
                       <div className="w-full">
                         <label
                           className="block text-sm font-medium mb-1"
-                          htmlFor="discount"
+                          htmlFor="discount_id"
                         >
                           Which offer apply for this voucher(s)?
                         </label>
                         <ReactSelect
-                          id="discount"
-                          name="discount"
+                          id="discount_id"
+                          name="discount_id"
                           closeMenuOnSelect={true}
                           defaultValue={values.discount_id}
                           value={values.discount_id}
@@ -374,16 +374,16 @@ const VoucherForm = ({ id, codeType }) => {
                     <div className="sm:w-1/2 mt-6">
                       <label
                         className="block text-sm font-medium mb-1"
-                        htmlFor="code_usage"
+                        htmlFor="usage"
                       >
                         Usage
                       </label>
                       <select
-                        name="code_usage"
+                        name="usage"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.usage}
-                        id="code_usage"
+                        id="usage"
                         className="form-select block w-full"
                       >
                         <option value="">Please Select</option>
