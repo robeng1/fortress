@@ -23,7 +23,7 @@ import {
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { mToCurrency, sToM } from 'utils/money';
-import ReactSelect from 'react-select/async-creatable';
+import ReactSelect from 'react-select/async';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
 import { useLocation, useNavigate } from 'react-router-dom';
