@@ -41,7 +41,9 @@ export default function Order({ handleShow, id }) {
         queryClient.invalidateQueries(['order', orderId]);
         toast.success("Order status has been updated")
       },
-      onError: (e: ResponseError) => { },
+      onError: (e: ResponseError) => {
+        toast.error(e.message)
+      },
     },
   );
 
