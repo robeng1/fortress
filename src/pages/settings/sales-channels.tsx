@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import BottomNav from 'components/bottom-navigation';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
-import SalesChannelsPanel from 'partials/settings/SalesChannelsPanel';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
+import SalesChannelsPanel from 'partials/settings/channels-panel';
 import { Link } from 'react-router-dom';
 
 function SalesChannels() {

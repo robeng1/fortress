@@ -1,6 +1,6 @@
 import Hero from 'forms/theme/section-hero';
-import Header from 'partials/Header';
-import Sidebar from 'partials/Sidebar';
+import Header from 'partials/header';
+import Sidebar from 'partials/sidebar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

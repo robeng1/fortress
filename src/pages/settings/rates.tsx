@@ -1,7 +1,7 @@
 import React, { lazy, useState } from 'react';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
-import RatesPanel from 'partials/settings/RatesPanel';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
+import RatesPanel from 'partials/settings/rates-panel';
 import { Link } from 'react-router-dom';
 
 function Rates() {

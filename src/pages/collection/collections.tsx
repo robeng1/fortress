@@ -4,8 +4,8 @@ import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import { fortressURL } from 'endpoints/urls';
 
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import DeleteButton from 'partials/actions/DeleteButton';
 import SearchForm from 'partials/actions/SearchForm';
 import FilterButton from 'components/dropdown-filter';

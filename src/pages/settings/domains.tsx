@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import BottomNav from 'components/bottom-navigation';
 import { Link } from 'react-router-dom';
 import useDomains from 'hooks/use-domains';

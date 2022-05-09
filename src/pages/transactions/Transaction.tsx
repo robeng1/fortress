@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import { paymentURL } from 'endpoints/urls';
 
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import FilterButton from 'components/dropdown-filter';
 import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';
@@ -28,9 +28,8 @@ function Transactions() {
   const [page, setPage] = useState(1);
   const [itemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${
-    (page - 1) * itemsPerPage + 1
-  }, ${itemsPerPage}`;
+  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${(page - 1) * itemsPerPage + 1
+    }, ${itemsPerPage}`;
 
   const { data } = useQuery<TransactionViewType[], ResponseError>(
     ['transactions', page],
@@ -153,7 +152,7 @@ function Transactions() {
               </div>
             </div>
 
-            
+
           </div>
         </main>
 

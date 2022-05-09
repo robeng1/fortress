@@ -53,7 +53,7 @@ export interface DiscountViewType {
   name: string;
   title: string;
   slug: string;
-  cover_photo?: string;
+  image_url?: string;
   type: string;
   status?: string;
   keywords?: string[];

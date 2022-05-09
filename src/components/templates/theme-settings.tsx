@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import PageDescription from 'components/blocks/page-description';
 
 const ThemeSettingsOverview: React.FC = ({ children }) => {

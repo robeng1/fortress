@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, lazy, ChangeEvent } from 'react';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import ProductForm from 'forms/product/product';
 import { useNavigate, useParams } from 'react-router-dom';
 

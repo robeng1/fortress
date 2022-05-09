@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Sidebar from '../../partials/Sidebar';
-import Header from '../../partials/Header';
+import Sidebar from '../../partials/sidebar';
+import Header from '../../partials/header';
 
 import NotFoundImage from '../../images/404-illustration.svg';
 

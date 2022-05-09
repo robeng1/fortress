@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import Datepicker from 'components/date-picker';
 import BottomNav from 'components/bottom-navigation';
 import AnalyticsCard01 from 'partials/analytics/AnalyticsCard01';

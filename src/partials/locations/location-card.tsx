@@ -1,6 +1,12 @@
 import * as React from 'react';
+import { LocationType } from 'typings/inventory/inventory-type';
 
-export default function LocationCard({ handleShow, location }) {
+type LocationCardProps = {
+  location: LocationType
+  handleShow: (show: boolean, id?: string) => void
+}
+
+const LocationCard: React.FC<LocationCardProps> = ({ handleShow, location }) => {
   return (
     <>
       <div
@@ -30,3 +36,4 @@ export default function LocationCard({ handleShow, location }) {
     </>
   );
 }
+export default LocationCard;

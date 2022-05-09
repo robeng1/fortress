@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import ReoplexLogo from '../images/reoplex.png';
 
-import SidebarLinkGroup from './SidebarLinkGroup';
+import SidebarLinkGroup from './sidebar-link-group';
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();

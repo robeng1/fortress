@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import LocationCard from '../locations/LocationCard';
+import LocationCard from '../locations/location-card';
 import LocationForm from 'forms/location/location';
 import useCentres from 'hooks/use-location';
 

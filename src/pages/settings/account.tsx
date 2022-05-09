@@ -1,8 +1,8 @@
 import React, { lazy, useState } from 'react';
 
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
-import StorePanel from 'partials/settings/StorePanel';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
+import StorePanel from 'partials/settings/store-panel';
 import { Link } from 'react-router-dom';
 
 function Account() {

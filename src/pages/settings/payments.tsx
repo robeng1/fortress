@@ -1,8 +1,8 @@
 import React, { lazy, useState } from 'react';
 
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
-import PaymentsPanel from 'partials/settings/PaymentsPanel';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
+import PaymentsPanel from 'partials/settings/payments-panel';
 import { Link } from 'react-router-dom';
 function Payments() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

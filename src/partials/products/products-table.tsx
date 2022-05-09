@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Product from './product-item';
 import ProductList from './mobile/product-list';
-import EmptyState from 'partials/EmptyState';
+import EmptyState from 'partials/empty-state';
 import { useNavigate } from 'react-router-dom';
 import { ProductViewType } from 'typings/product/product-type';
 

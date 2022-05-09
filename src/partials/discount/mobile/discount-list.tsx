@@ -1,8 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DiscountCard from './DiscountCard';
-
-export default function DiscountList({ handleShow, discounts }) {
+import { DiscountViewType } from 'typings/discount/discount-type';
+import DiscountCard from './discount-card';
+type DiscountListProps = {
+  discounts: DiscountViewType[]
+}
+const DiscountList: React.FC<DiscountListProps> = ({ discounts }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -27,3 +30,5 @@ export default function DiscountList({ handleShow, discounts }) {
     </>
   );
 }
+
+export default DiscountList;

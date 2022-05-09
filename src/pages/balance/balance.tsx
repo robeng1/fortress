@@ -5,8 +5,8 @@ import Transition from '../../utils/transition';
 
 import { paymentURL } from 'endpoints/urls';
 
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import FilterButton from 'components/dropdown-filter';
 import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';

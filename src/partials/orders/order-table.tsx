@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import OrderItem from './table-item';
 import OrderList from './mobile/order-list';
-import EmptyState from 'partials/EmptyState';
+import EmptyState from 'partials/empty-state';
 import { OrderViewType } from 'typings/order/order-type';
 
 type OrderTableProps = {
   selectedItems: (items: string[]) => void
-  handleShow: (show: boolean, id?:string) => void
+  handleShow: (show: boolean, id?: string) => void
   orders: OrderViewType[]
 }
 

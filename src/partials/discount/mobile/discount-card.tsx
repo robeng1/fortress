@@ -1,16 +1,22 @@
 import React from 'react';
+import { DiscountViewType } from 'typings/discount/discount-type';
 
-export default function DiscountCard({ discount, handleShow }) {
+type DiscountCardProps = {
+  discount: DiscountViewType
+  handleShow: () => void
+}
+
+const DiscountCard: React.FC<DiscountCardProps> = ({ discount, handleShow }) => {
   return (
     <>
       <div
         onClick={handleShow}
         className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
       >
-        {discount.image && (
+        {discount.image_url && (
           <img
             className="w-full h-full object-center object-cover"
-            src={discount.image?.image_url}
+            src={discount.image_url}
             alt={discount.name}
           />
         )}
@@ -36,3 +42,4 @@ export default function DiscountCard({ discount, handleShow }) {
     </>
   );
 }
+export default DiscountCard;

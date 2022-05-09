@@ -1,5 +1,5 @@
 import React from 'react';
-import EmptyState from 'partials/EmptyState';
+import EmptyState from 'partials/empty-state';
 import VoucherList from './mobile/VoucherList';
 import { useNavigate } from 'react-router-dom';
 

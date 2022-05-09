@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import RateForm from 'forms/rates/rate';
-import RateCard from '../shipping/RateCard';
+import RateCard from '../shipping/rate-card';
 
 import useRates from 'hooks/use-rates';
 

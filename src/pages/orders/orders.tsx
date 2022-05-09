@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/bottom-navigation';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
 import DeleteButton from 'partials/actions/DeleteButton';
 import DateSelect from 'components/date-select';
 import FilterButton from 'components/dropdown-filter';
@@ -29,11 +29,9 @@ function Orders() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const query = `SELECT * FROM "order" WHERE shop_id = '${
-    shop?.shop_id
-  }' ORDER BY updated_at DESC LIMIT ${
-    (page - 1) * (itemsPerPage + 1)
-  }, ${itemsPerPage}`;
+  const query = `SELECT * FROM "order" WHERE shop_id = '${shop?.shop_id
+    }' ORDER BY updated_at DESC LIMIT ${(page - 1) * (itemsPerPage + 1)
+    }, ${itemsPerPage}`;
 
   const { data } = useQuery(
     ['orderviews', page],
@@ -48,7 +46,7 @@ function Orders() {
           },
         );
         return views;
-      } catch (error) {}
+      } catch (error) { }
     },
 
     { keepPreviousData: true, enabled: !!shop?.shop_id },

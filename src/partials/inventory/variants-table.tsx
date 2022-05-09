@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import VariantManager from './variant-manager';
 import VarianList from './mobile/variant-list';
-import EmptyState from 'partials/EmptyState';
+import EmptyState from 'partials/empty-state';
 import { InventoryViewListType } from 'typings/inventory/inventory-type';
 
 type VariantTableProps = {

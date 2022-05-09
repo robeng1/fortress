@@ -1,9 +1,14 @@
 import React from 'react';
-import EmptyState from 'partials/EmptyState';
-import DiscountList from './mobile/DiscountList';
+import EmptyState from 'partials/empty-state';
+import DiscountList from './mobile/discount-list';
 import { useNavigate } from 'react-router-dom';
+import { DiscountViewType } from 'typings/discount/discount-type';
 
-export default function DiscountTable({ selectedItems, discounts }) {
+type DiscountTableProps = {
+  selectedItems: (items: string[]) => void
+  discounts: DiscountViewType[]
+}
+const  DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts }) =>{
   const navigate = useNavigate();
   return (
     <>
@@ -52,10 +57,10 @@ export default function DiscountTable({ selectedItems, discounts }) {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="flex-shrink-0 h-10 w-10">
-                                {discount.image && (
+                                {discount.image_url && (
                                   <img
                                     className="h-10 w-10 rounded"
-                                    src={discount.image?.image_url}
+                                    src={discount.image_url}
                                     alt={discount.name}
                                   />
                                 )}
@@ -113,3 +118,5 @@ export default function DiscountTable({ selectedItems, discounts }) {
     </>
   );
 }
+
+export default DiscountTable;

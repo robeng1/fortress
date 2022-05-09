@@ -1,9 +1,9 @@
 import React, { lazy, useState } from 'react';
 
 import BottomNav from 'components/bottom-navigation';
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
-import PoliciesPanel from 'partials/settings/PoliciesPanel';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
+import PoliciesPanel from 'partials/settings/policies-panel';
 import { Link } from 'react-router-dom';
 
 function Policies() {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import EmptyState from 'partials/EmptyState';
+import EmptyState from 'partials/empty-state';
 import Collection from './CollectionTableItem';
 import CollectionList from './mobile/CollectionList';
 

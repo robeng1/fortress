@@ -1,8 +1,8 @@
 import React, { lazy, useState } from 'react';
 
-import Sidebar from 'partials/Sidebar';
-import Header from 'partials/Header';
-import LocationsPanel from 'partials/settings/LocationsPanel';
+import Sidebar from 'partials/sidebar';
+import Header from 'partials/header';
+import LocationsPanel from 'partials/settings/locations-panel';
 import { Link } from 'react-router-dom';
 
 function Locations() {
