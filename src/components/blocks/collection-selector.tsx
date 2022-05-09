@@ -18,7 +18,7 @@ function CollectionSelector({
 }) {
   const matchKey = 'key'
   const optionSearchURL = `${fortressURL}/shops/${shopId}/collections/option-search`;
-  const filterURL = `${fortressURL}/shops/${shopId}/collections-views/filter`;
+  const filterURL = `${fortressURL}/shops/${shopId}/collection-views/filter`;
 
   const querybody = (term: string): Record<string, any> => {
     return { limit: 15, term, shop_id: shopId, type: 'collection' };
