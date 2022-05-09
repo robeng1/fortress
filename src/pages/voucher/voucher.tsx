@@ -76,9 +76,9 @@ function Vouchers() {
                   {/* Search form */}
                   <div className="flex justify-start gap-2">
                     <SearchForm placeholder="Search vouchers..." />
-                    <div className="">
+                    {/* <div className="">
                       <FilterButton align="right" />
-                    </div>
+                    </div> */}
                   </div>
                   <button
                     onClick={() => navigate('/vouchers/new')}

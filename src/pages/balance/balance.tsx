@@ -190,7 +190,7 @@ function Balance() {
                 {/* Dropdown */}
                 <DateSelect />
                 {/* Filter button */}
-                <FilterButton align="right" />
+                {/* <FilterButton align="right" /> */}
                 <div className="relative inline-flex">
                   <Button
                     ref={trigger}

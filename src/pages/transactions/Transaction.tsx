@@ -97,7 +97,7 @@ function Transactions() {
                 {/* Dropdown */}
                 <DateSelect />
                 {/* Filter button */}
-                <FilterButton align="right" />
+                {/* <FilterButton align="right" /> */}
               </div>
             </div>
 

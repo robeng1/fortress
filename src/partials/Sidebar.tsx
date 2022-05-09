@@ -352,7 +352,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 </span>
                               </NavLink>
                             </li>
-                            <li
+                            {/* <li
                               className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
                                 pathname.includes('payouts') && 'bg-gray-200'
                               }`}
@@ -370,7 +370,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   Payouts
                                 </span>
                               </NavLink>
-                            </li>
+                            </li> */}
                           </ul>
                         </div>
                       </div>
