@@ -20,7 +20,7 @@ export default function DiscountCard({ discount, handleShow }) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <a href="/">{discount.name}</a>
+              <div onClick={handleShow}>{discount.name}</div>
             </h3>
           </div>
         </div>
