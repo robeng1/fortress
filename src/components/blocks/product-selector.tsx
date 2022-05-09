@@ -88,12 +88,12 @@ function ProductSelector({
 
   useEffect(() => {
     try {
-      if (isCheck.length > 0) {
+      if (isCheck.length > 0 || value.length > 0) {
         const response = request(filterURL, {
           method: 'POST',
           body: JSON.stringify({
             shop_id: shopId,
-            id_list: isCheck,
+            id_list: isCheck.length > 0 ? isCheck : value,
           }),
         });
         response.then((value) => setProducts(value?.products ?? []))
