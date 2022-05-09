@@ -59,6 +59,8 @@ export default function Order({ handleShow, id }) {
     e.preventDefault();
     updateOrderStatus(OrderStatusType.ORDER_DECLINED);
   };
+  const commonDisable = (order?.status === OrderStatusType.ORDER_COMPLETED || order?.status === OrderStatusType.ORDER_DECLINED)
+  const disableMarkAsProcessingButton = commonDisable || order?.status === OrderStatusType.ORDER_PROCESSING
   return (
     <>
       {isLoading || isUpdatingOrder ? (
@@ -144,7 +146,7 @@ export default function Order({ handleShow, id }) {
                       <span className="font-semibold inline-flex items-center text-gray-700">
                         <i className="border-2 border-dashed border-yellow-700 h-5 inline-block mr-3 rounded-full w-5 shadow-yellow-large"></i>
                         <span>
-                          {!(order.status === OrderStatusType.ORDER_COMPLETED|| "Complete")
+                          {!(order.status === OrderStatusType.ORDER_COMPLETED || "Complete")
                             ? 'Unfulfilled'
                             : 'FulFilled'}
                         </span>
@@ -193,27 +195,32 @@ export default function Order({ handleShow, id }) {
                     ))}
 
                     <footer className="border-t flex md:flex-row flex-col justify-end px-5 py-4">
-                      <button
+                      {!disableMarkAsProcessingButton && <button
                         onClick={handleMarkAsProcessing}
                         type="button"
+                        disabled={disableMarkAsProcessingButton}
                         className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
                       >
                         Mark as processing
-                      </button>
-                      <button
+                      </button>}
+                      {!commonDisable && <button
                         onClick={handleMarkAsFulfilled}
                         type="button"
+                        disabled={commonDisable}
                         className="text-white bg-purple-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
                       >
                         Mark as fulfilled
                       </button>
-                      <button
+                      }
+                      {!commonDisable && <button
                         onClick={handleCancellation}
+                        disabled={commonDisable}
                         type="button"
                         className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
                       >
                         Cancel
-                      </button>
+                      </button>}
+
                     </footer>
                   </div>
 
