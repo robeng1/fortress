@@ -11,11 +11,15 @@ import useShop from 'hooks/use-shop';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
 import customSelectStyles from 'forms/product/styles';
+import toast from 'react-hot-toast';
+
+const SINGLE_CODE_TYPE = 'single'
+const MULTI_CODE_TYPE = 'multi'
 
 const VoucherForm = ({ id, codeType }) => {
-  codeType = 'single';
+  codeType = SINGLE_CODE_TYPE;
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const klient = useQueryClient();
   const { shop } = useShop();
   const vRequestURL = `${fortressURL}/shops/${shop?.shop_id}/vouchers`;
   const vsRequestURL = `${fortressURL}/shops/${shop?.shop_id}/voucher-sets`;
@@ -26,7 +30,7 @@ const VoucherForm = ({ id, codeType }) => {
     async () => await request(`${vRequestURL}/${id}`),
     {
       // The query will not execute until the id exists
-      enabled: !!id && codeType === 'single',
+      enabled: !!id && codeType === SINGLE_CODE_TYPE,
       keepPreviousData: true,
     },
   );
@@ -38,13 +42,13 @@ const VoucherForm = ({ id, codeType }) => {
       async () => await request(`${vsRequestURL}/${id}`),
       {
         // The query will not execute until the id exists
-        enabled: !!id && codeType === 'multi',
+        enabled: !!id && codeType === MULTI_CODE_TYPE,
         keepPreviousData: true,
       },
     );
 
   // create the voucher
-  const { mutate: createVoucher } = useMutation(
+  const { mutate: createSingle } = useMutation(
     (payload: VoucherType) =>
       request(vRequestURL, {
         method: 'POST',
@@ -52,15 +56,17 @@ const VoucherForm = ({ id, codeType }) => {
       }),
     {
       onSuccess: (newVoucher: VoucherType) => {
-        // setCollectionId(newCollection.collection_id);
-        queryClient.setQueryData(['voucher', id], newVoucher);
+        klient.setQueryData(['voucher', id], newVoucher);
+        toast.success("Voucher created successfully")
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast.error(e.message)
+      },
     },
   );
 
   // update the voucher
-  const { mutate: updateVoucher } = useMutation(
+  const { mutate: updateSingle } = useMutation(
     (payload: VoucherType) =>
       request(`${vRequestURL}/${id}`, {
         method: 'PATCH',
@@ -68,15 +74,17 @@ const VoucherForm = ({ id, codeType }) => {
       }),
     {
       onSuccess: (newVoucher: VoucherType) => {
-        // setCollectionId(newCollection.collection_id);
-        queryClient.setQueryData(['voucher', id], newVoucher);
+        klient.setQueryData(['voucher', id], newVoucher);
+        toast.success("Voucher updated successfully")
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast.error(e.message)
+      },
     },
   );
 
   // create the voucherset
-  const { mutate: createVoucherSet } = useMutation(
+  const { mutate: createSet } = useMutation(
     (payload: VoucherSetType) =>
       request(vsRequestURL, {
         method: 'POST',
@@ -84,14 +92,17 @@ const VoucherForm = ({ id, codeType }) => {
       }),
     {
       onSuccess: (newVoucherSet: VoucherSetType) => {
-        queryClient.setQueryData(['voucherset', id], newVoucherSet);
+        klient.setQueryData(['voucherset', id], newVoucherSet);
+        toast.success("Voucher set created successfully")
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast.error(e.message)
+      },
     },
   );
 
   // update the voucherset
-  const { mutate: updateVoucherSet } = useMutation(
+  const { mutate: updateSet } = useMutation(
     (payload: VoucherSetType) =>
       request(`${vsRequestURL}/${id}`, {
         method: 'PATCH',
@@ -99,9 +110,12 @@ const VoucherForm = ({ id, codeType }) => {
       }),
     {
       onSuccess: (newVoucherSet: VoucherSetType) => {
-        queryClient.setQueryData(['voucherset', id], newVoucherSet);
+        klient.setQueryData(['voucherset', id], newVoucherSet);
+        toast.success("Voucher set updated successfully")
       },
-      onError: (e: ResponseError) => {},
+      onError: (e: ResponseError) => {
+        toast.error(e.message)
+      },
     },
   );
 
@@ -119,7 +133,7 @@ const VoucherForm = ({ id, codeType }) => {
             end_date: '',
             end_time: '',
             discount: null,
-            code_type: 'single',
+            code_type: SINGLE_CODE_TYPE,
             code: '',
             code_usage: '',
             code_length: 6,
@@ -127,8 +141,12 @@ const VoucherForm = ({ id, codeType }) => {
           }}
           onSubmit={(values, { setSubmitting }) => {
             if (voucher || voucherSet) {
-              if (values.code_type === 'single') {
-                updateVoucher({
+              if (!values.discount || values.discount === "") {
+                toast.error("Discount is required for voucher")
+                return
+              }
+              if (values.code_type === SINGLE_CODE_TYPE) {
+                updateSingle({
                   ...voucher,
                   ...values,
                   voucher_id: id,
@@ -140,7 +158,7 @@ const VoucherForm = ({ id, codeType }) => {
                   ).toISOString(),
                 });
               } else {
-                updateVoucherSet({
+                updateSet({
                   ...voucherSet,
                   ...values,
                   set_id: id,
@@ -153,8 +171,8 @@ const VoucherForm = ({ id, codeType }) => {
                 });
               }
             } else {
-              if (values.code_type === 'single') {
-                createVoucher({
+              if (values.code_type === SINGLE_CODE_TYPE) {
+                createSingle({
                   ...values,
                   voucher_id: '',
                   start_datetime: moment(
@@ -165,7 +183,7 @@ const VoucherForm = ({ id, codeType }) => {
                   ).toISOString(),
                 });
               } else {
-                createVoucherSet({
+                createSet({
                   ...values,
                   set_id: '',
                   start_datetime: moment(
@@ -187,9 +205,6 @@ const VoucherForm = ({ id, codeType }) => {
             handleChange,
             handleBlur,
             setFieldValue,
-            setFieldError,
-            setValues,
-            setFieldTouched,
             handleSubmit,
             isSubmitting,
             /* and other goodies */
