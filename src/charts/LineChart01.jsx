@@ -57,6 +57,7 @@ function LineChart01({ data, width, height }) {
         },
         plugins: {
           tooltip: {
+            enabled: false,
             callbacks: {
               title: () => false, // Disable tooltip title
               label: context => formatValue(context.parsed.y),
@@ -69,6 +70,9 @@ function LineChart01({ data, width, height }) {
         interaction: {
           intersect: false,
           mode: 'nearest',
+        },
+        hover:{
+          
         },
         maintainAspectRatio: false,
         resizeDelay: 200,

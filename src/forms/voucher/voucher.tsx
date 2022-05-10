@@ -12,6 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
 import customSelectStyles from 'forms/product/styles';
 import toast from 'react-hot-toast';
+import InputHeader from 'components/blocks/input-header';
 
 const SINGLE_CODE_TYPE = 'single'
 const MULTI_CODE_TYPE = 'multi'
@@ -263,7 +264,7 @@ const VoucherForm = ({ id, codeType }) => {
                     </div>
                   </section>
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <label
+                    {/* <label
                       className="block text-sm font-medium mb-1"
                       htmlFor="code_type"
                     >
@@ -281,8 +282,8 @@ const VoucherForm = ({ id, codeType }) => {
                         />
                         <span className="text-sm ml-2">Single</span>
                       </label>
-                    </div>
-                    <div className="m-3">
+                    </div> */}
+                    {/* <div className="m-3">
                       <label className="flex items-center">
                         <input
                           type="radio"
@@ -294,16 +295,11 @@ const VoucherForm = ({ id, codeType }) => {
                         />
                         <span className="text-sm ml-2">Multi</span>
                       </label>
-                    </div>
+                    </div> */}
                     {values.code_type === SINGLE_CODE_TYPE && (
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-1">
                         <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="code"
-                          >
-                            Code
-                          </label>
+                          <InputHeader label='Code' tooltipContent='This is the code that customers will enter to activate the discount' />
                           <input
                             id="code"
                             name="code"

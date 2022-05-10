@@ -37,14 +37,14 @@ function AnalyticsCard06({ topPages }) {
             </ul>
           </div>
           {/* Card footer */}
-          <div className="text-center pt-4 pb-1 border-t border-gray-100">
+          {/* <div className="text-center pt-4 pb-1 border-t border-gray-100">
             <Link
               className="text-sm font-medium text-purple-500 hover:text-purple-600"
               to="#0"
             >
               Page Report -&gt;
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

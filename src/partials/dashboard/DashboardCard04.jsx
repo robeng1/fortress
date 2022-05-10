@@ -1,10 +1,13 @@
 import React from 'react';
-import BarChart from '../../charts/BarChart01';
+import useShop from 'hooks/use-shop';
+import LineChart from '../../charts/LineChart01';
+import { mToCurrency, mToSFormatted, sToCurrency, sToM, sToMFromCents } from 'utils/money';
 
 // Import utilities
-import { tailwindConfig } from '../../utils/utils';
+import { tailwindConfig, hexToRGB } from '../../utils/utils';
 
-function DashboardCard04() {
+function DashboardCard01({ volume, dataset }) {
+  const { shop } = useShop();
   const chartData = {
     labels: [
       '12-01-2020',
@@ -13,39 +16,86 @@ function DashboardCard04() {
       '03-01-2021',
       '04-01-2021',
       '05-01-2021',
+      '06-01-2021',
+      '07-01-2021',
+      '08-01-2021',
+      '09-01-2021',
+      '10-01-2021',
+      '11-01-2021',
+      '12-01-2021',
+      '01-01-2022',
+      '02-01-2022',
+      '03-01-2022',
+      '04-01-2022',
+      '05-01-2022',
+      '06-01-2022',
+      '07-01-2022',
+      '08-01-2022',
+      '09-01-2022',
+      '10-01-2022',
+      '11-01-2022',
+      '12-01-2022',
+      '01-01-2023',
     ],
     datasets: [
-      // Light purple bars
+      // Indigo line
       {
-        label: 'Direct',
-        data: [800, 1600, 900, 1300, 1950, 1700],
-        backgroundColor: tailwindConfig().theme.colors.purple[400],
-        hoverBackgroundColor: tailwindConfig().theme.colors.purple[500],
-        barPercentage: 0.66,
-        categoryPercentage: 0.66,
+        data: [
+          732, 610, 610, 504, 504, 504, 349, 349, 504, 342, 504, 610, 391, 192,
+          154, 273, 191, 191, 126, 263, 349, 252, 423, 622, 470, 532,
+        ],
+        fill: true,
+        backgroundColor: `rgba(${hexToRGB(
+          tailwindConfig().theme.colors.purple[500],
+        )}, 0.08)`,
+        borderColor: tailwindConfig().theme.colors.purple[500],
+        borderWidth: 2,
+        tension: 0,
+        pointRadius: 0,
+        pointHoverRadius: 3,
+        pointBackgroundColor: tailwindConfig().theme.colors.purple[500],
+        clip: 20,
       },
-      // purple bars
+      // Gray line
       {
-        label: 'Indirect',
-        data: [4900, 2600, 5350, 4800, 5200, 4800],
-        backgroundColor: tailwindConfig().theme.colors.purple[500],
-        hoverBackgroundColor: tailwindConfig().theme.colors.purple[600],
-        barPercentage: 0.66,
-        categoryPercentage: 0.66,
+        data: [
+          532, 532, 532, 404, 404, 314, 314, 314, 314, 314, 234, 314, 234, 234,
+          314, 314, 314, 388, 314, 202, 202, 202, 202, 314, 720, 642,
+        ],
+        borderColor: tailwindConfig().theme.colors.gray[300],
+        borderWidth: 2,
+        tension: 0,
+        pointRadius: 0,
+        pointHoverRadius: 3,
+        pointBackgroundColor: tailwindConfig().theme.colors.gray[300],
+        clip: 20,
       },
     ],
   };
 
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
-      <header className="px-5 py-4 border-b border-gray-100">
-        <h2 className="font-semibold text-gray-800">Direct VS Indirect</h2>
-      </header>
+    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-gray-200">
+      <div className="px-5 pt-5">
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Total Orders</h2>
+        <div className="text-xs font-semibold text-gray-400 uppercase mb-1">
+          Orders
+        </div>
+        <div className="flex items-start">
+          <div className="text-3xl font-bold text-gray-800 mr-2">{!!volume
+            ? volume
+            : '-'}</div>
+          {/* <div className="text-sm font-semibold text-white px-1.5 bg-green-500 rounded-full">
+            +49%
+          </div> */}
+        </div>
+      </div>
       {/* Chart built with Chart.js 3 */}
-      {/* Change the height attribute to adjust the chart height */}
-      <BarChart data={chartData} width={595} height={248} />
+      <div className="flex-grow">
+        {/* Change the height attribute to adjust the chart height */}
+        <LineChart data={chartData} width={389} height={128} />
+      </div>
     </div>
   );
 }
 
-export default DashboardCard04;
+export default DashboardCard01;
