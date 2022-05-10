@@ -28,7 +28,7 @@ function AnalyticsCard01({
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800">
                   {!!grossRevenue
-                    ? formatThousands(mToCurrency(sToMFromCents(grossRevenue, shop?.currency?.iso_code)).value)
+                    ? mToCurrency(sToMFromCents(grossRevenue, shop?.currency?.iso_code)).format()
                     : 'No earnings yet'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
@@ -47,7 +47,7 @@ function AnalyticsCard01({
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800">
                   {!!netRevenue
-                    ? formatThousands(mToCurrency(sToMFromCents(netRevenue, shop?.currency?.iso_code)).value)
+                    ? mToCurrency(sToMFromCents(netRevenue, shop?.currency?.iso_code)).format()
                     : 'No revenue yet'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
@@ -83,7 +83,7 @@ function AnalyticsCard01({
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800">
                   {!!aov
-                    ? formatThousands(aov)
+                    ? mToCurrency(sToMFromCents(aov, shop?.currency?.iso_code)).format()
                     : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-yellow-500">-7%</div> */}

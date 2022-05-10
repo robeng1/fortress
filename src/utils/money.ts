@@ -37,8 +37,8 @@ export function sToM(m: string | number, c: string = 'GHS'): MoneyType {
   return { amount: d.intValue, currency: c };
 }
 export function sToMFromCents(m: string | number, c: string = 'GHS'): MoneyType {
-  const d = currency(m, { fromCents: true });
-  return { amount: d.intValue, currency: c };
+  const d = currency(m, { fromCents: true, pattern });
+  return { amount: d.intValue, currency: c, };
 }
 
 export function formatPesosMoney(
