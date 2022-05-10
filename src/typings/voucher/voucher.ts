@@ -17,7 +17,7 @@ export type VoucherType = {
   shard_key?: number;
   shard_pos?: number;
 }
-export e VoucherViewType {
+export interface VoucherViewType {
   num_applications?: number;
   num_orders?: number;
   num_basket_additions?: number;
