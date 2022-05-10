@@ -1,4 +1,6 @@
+import useShop from 'hooks/use-shop';
 import React from 'react';
+import { mToCurrency, sToCurrency, sToM, sToMFromCents } from 'utils/money';
 
 // Import utilities
 import { formatThousands } from 'utils/utils';
@@ -6,10 +8,11 @@ import { formatThousands } from 'utils/utils';
 function AnalyticsCard01({
   grossRevenue,
   netRevenue,
-  totalSales,
-  totalCustomers,
+  volume,
+  aov,
   totalNewCustomers,
 }) {
+  const { shop } = useShop();
   return (
     <div className="flex flex-col col-span-full xl:col-span-8 border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none">
       <header className="px-5 py-4 border-b border-gray-100 flex items-center">
@@ -17,7 +20,6 @@ function AnalyticsCard01({
       </header>
       <div className="px-5 py-5">
         <div className="flex flex-wrap ">
-          {/* Unique Visitors */}
           <div className="flex items-center py-2">
             <div className="mr-5">
               <div className="text-2xl font-medium text-gray-500 mr-2 ">
@@ -26,7 +28,7 @@ function AnalyticsCard01({
               <div className="flex items-center">
                 <div className="text-sm text-gray-500">
                   {!!grossRevenue
-                    ? formatThousands(grossRevenue)
+                    ? formatThousands(mToCurrency(sToMFromCents(grossRevenue, shop?.currency?.iso_code)).value)
                     : 'No earnings yet'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
@@ -37,7 +39,6 @@ function AnalyticsCard01({
               aria-hidden="true"
             ></div>
           </div>
-          {/* Unique Visitors */}
           <div className="flex items-center py-2">
             <div className="mr-5">
               <div className="text-2xl font-medium text-gray-500 mr-2 ">
@@ -46,7 +47,7 @@ function AnalyticsCard01({
               <div className="flex items-center">
                 <div className="text-sm text-gray-500">
                   {!!netRevenue
-                    ? formatThousands(netRevenue)
+                    ? formatThousands(mToCurrency(sToMFromCents(netRevenue, shop?.currency?.iso_code)).value)
                     : 'No revenue yet'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
@@ -57,15 +58,14 @@ function AnalyticsCard01({
               aria-hidden="true"
             ></div>
           </div>
-          {/* Total Pageviews */}
           <div className="flex items-center py-2">
             <div className="mr-5">
               <div className="text-2xl font-medium text-gray-500 mr-2">
-                Sales
+                Volume
               </div>
               <div className="flex items-center">
                 <div className="text-sm text-gray-500">
-                  {!!totalSales ? formatThousands(totalSales) : 'No orders yet'}
+                  {!!volume ? formatThousands(volume) : 'No orders yet'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+7%</div> */}
               </div>
@@ -75,17 +75,16 @@ function AnalyticsCard01({
               aria-hidden="true"
             ></div>
           </div>
-          {/* Bounce Rate */}
           <div className="flex items-center py-2">
             <div className="mr-5">
               <div className="text-2xl font-medium text-gray-500 mr-2">
-                Total customers
+                AOV
               </div>
               <div className="flex items-center">
                 <div className="text-sm text-gray-500">
-                  {!!totalCustomers
-                    ? formatThousands(totalCustomers)
-                    : 'No customers yet'}
+                  {!!aov
+                    ? formatThousands(aov)
+                    : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-yellow-500">-7%</div> */}
               </div>
@@ -94,22 +93,6 @@ function AnalyticsCard01({
               className="hidden md:block w-px h-8 bg-gray-200 mr-5"
               aria-hidden="true"
             ></div>
-          </div>
-          {/* Visit Duration*/}
-          <div className="flex items-center">
-            <div>
-              <div className="text-2xl font-medium text-gray-500 mr-2">
-                New customers
-              </div>
-              <div className="flex items-center">
-                <div className="text-sm text-gray-500">
-                  {!!totalNewCustomers
-                    ? formatThousands(totalNewCustomers)
-                    : 'No new customers'}
-                </div>
-                {/* <div className="text-sm font-medium text-yellow-500">+7%</div> */}
-              </div>
-            </div>
           </div>
         </div>
       </div>

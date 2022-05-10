@@ -50,11 +50,11 @@ function Analytics() {
           </div>
           <div className="justify-between items-center mb-8">
             <AnalyticsCard00
-              totalSales={undefined}
-              totalCustomers={undefined}
+              volume={webStats?.order_volume}
+              aov={webStats?.average_order_value}
               totalNewCustomers={undefined}
-              grossRevenue={undefined}
-              netRevenue={undefined}
+              grossRevenue={webStats?.gross_revenue}
+              netRevenue={webStats?.net_revenue}
             />
           </div>
           {/* Cards */}
