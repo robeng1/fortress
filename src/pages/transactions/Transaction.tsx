@@ -47,7 +47,6 @@ function Transactions() {
     {
       keepPreviousData: true,
       enabled: !!accountId && !!paymentAccount?.account_id,
-      staleTime: 2000,
     },
   );
 
