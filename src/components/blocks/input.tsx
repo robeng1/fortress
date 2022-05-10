@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import React, { InputHTMLAttributes } from 'react';
+import InputHeader from './input-header';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -10,6 +11,9 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   type?: string;
   shadow?: boolean;
+  required?: boolean;
+  tooltipContent?: string;
+  tooltip?: React.ReactNode;
   variant?: 'normal' | 'solid' | 'outline';
 }
 const classes = {
@@ -28,10 +32,13 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       note,
       name,
       error,
+      required,
       children,
       variant = 'normal',
       shadow = false,
       type = 'text',
+      tooltip,
+      tooltipContent,
       inputClassName,
       ...rest
     },
@@ -52,12 +59,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className={className}>
-        <label
-          htmlFor={name}
-          className="block text-body-dark font-semibold text-sm leading-none mb-3"
-        >
-          {label}
-        </label>
+        <InputHeader label={label} required={required} tooltip={tooltip} tooltipContent={tooltipContent}/>
         <input
           id={name}
           name={name}

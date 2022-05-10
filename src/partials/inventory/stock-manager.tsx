@@ -1,3 +1,4 @@
+import InputHeader from 'components/blocks/input-header';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
 import { InventoryType } from 'typings/inventory/inventory-type';
@@ -50,12 +51,7 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, onChange }) => {
             </h2>
             <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
               <div className="sm:w-1/2">
-                <label
-                  className="block text-sm font-medium mb-1"
-                  htmlFor="price"
-                >
-                  Price
-                </label>
+                <InputHeader label='Price' tooltipContent='The actual selling price of this product' />
                 <input
                   id="price"
                   name="price"
@@ -88,12 +84,7 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, onChange }) => {
               </div>
 
               <div className="sm:w-1/2">
-                <label
-                  className="block text-sm font-medium mb-1"
-                  htmlFor="compare_at_price w-full md:w-min"
-                >
-                  Compare at price
-                </label>
+                <InputHeader label='Compare at price' tooltipContent='The original listing price of this product. This is normally displayed as a strikethrough along with the price' />
                 <input
                   id="compare_at_price"
                   name="compare_at_price"
@@ -128,12 +119,7 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, onChange }) => {
             </div>
             <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
               <div className="sm:w-1/2">
-                <label
-                  className="block text-sm font-medium mb-1"
-                  htmlFor="cost_per_item"
-                >
-                  Cost per item
-                </label>
+                <InputHeader label='Cost per item' tooltipContent="The cost of this product. This isn't shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service" />
                 <input
                   id="cost_per_item"
                   name="cost_per_item"

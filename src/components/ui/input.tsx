@@ -66,7 +66,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 					type={type}
 					ref={ref}
 					// @ts-ignore
-					placeholder={t(placeholderKey)}
+					placeholder={placeholder}
 					className={rootClassName}
 					autoComplete="off"
 					spellCheck="false"

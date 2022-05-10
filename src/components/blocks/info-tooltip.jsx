@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from 'components/blocks/reflexbox';
 import Tooltip from './tooltip';
 import styled from '@emotion/styled';
-import { ReactComponent as InfoIcon } from '../../images/info.svg';
+import { ReactComponent as InfoIcon } from 'images/info.svg';
 
 const StyledBox = styled(Box)`
   & svg {

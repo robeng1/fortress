@@ -15,6 +15,7 @@ import { ABSOLUTE, ALL_PRODUCTS, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE
 import ProductSelector from 'components/blocks/product-selector';
 import CollectionSelector from 'components/blocks/collection-selector';
 import { useOnboarding } from 'hooks/use-onboarding';
+import InputHeader from 'components/blocks/input-header';
 
 const DiscountForm = ({ id }) => {
   const location = useLocation();
@@ -122,12 +123,7 @@ const DiscountForm = ({ id }) => {
                   <section className="rounded bg-white shadow p-3">
                     <div className="flex items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="title"
-                        >
-                          Discount Title
-                        </label>
+                        <InputHeader label='Title' tooltipContent='This will be displayed in the customer&apos;s cart' />
                         <input
                           id="title"
                           name="title"
@@ -143,12 +139,7 @@ const DiscountForm = ({ id }) => {
                     </div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="type"
-                        >
-                          Discount Type
-                        </label>
+                        <InputHeader label='Discount Type' tooltipContent='Manual discounts require the customer to enter a code to activate, automatic gets applied automatically to the customer&apos;s cart provided the necessary conditons are met' />
                         <select
                           name="type"
                           onChange={handleChange}

@@ -22,11 +22,11 @@ function AnalyticsCard01({
         <div className="flex flex-wrap ">
           <div className="flex items-center py-2">
             <div className="mr-5">
-              <div className="text-2xl font-medium text-gray-500 mr-2 ">
-                Gross revenue
+              <div className="text-2xl font-medium text-gray-500 mr-2 mb-2">
+                Total Sales
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-semibold text-gray-800">
+                <div className="text-3xl font-medium text-gray-800">
                   {!!grossRevenue
                     ? mToSFormatted(sToMFromCents(grossRevenue, shop?.currency?.iso_code))
                     : '-'}
@@ -41,11 +41,11 @@ function AnalyticsCard01({
           </div>
           <div className="flex items-center py-2">
             <div className="mr-5">
-              <div className="text-2xl font-medium text-gray-500 mr-2 ">
-                Net revenue
+              <div className="text-2xl font-medium text-gray-500 mr-2 mb-2">
+                Net Revenue
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-semibold text-gray-800">
+                <div className="text-3xl font-medium text-gray-800">
                   {!!netRevenue
                     ? mToSFormatted(sToMFromCents(netRevenue, shop?.currency?.iso_code))
                     : '-'}
@@ -60,11 +60,11 @@ function AnalyticsCard01({
           </div>
           <div className="flex items-center py-2">
             <div className="mr-5">
-              <div className="text-2xl font-medium text-gray-500 mr-2">
-                Order volume
+              <div className="text-2xl font-medium text-gray-500 mr-2 mb-2">
+                Total Orders
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-semibold text-gray-800">
+                <div className="text-3xl font-medium text-gray-800">
                   {!!volume ? formatThousands(volume) : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+7%</div> */}
@@ -78,10 +78,10 @@ function AnalyticsCard01({
           <div className="flex items-center py-2">
             <div className="mr-5">
               <div className="text-2xl font-medium text-gray-500 mr-2">
-                Average order value
+                AOV
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-semibold text-gray-800">
+                <div className="text-3xl font-medium text-gray-800">
                   {!!aov
                     ? mToSFormatted(sToMFromCents(aov, shop?.currency?.iso_code))
                     : '-'}

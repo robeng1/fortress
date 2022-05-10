@@ -153,6 +153,7 @@ const VoucherForm = ({ id, codeType }) => {
                     code: vals.code,
                     usage: vals.usage,
                     voucher_id: id,
+                    shop_id: shop?.shop_id,
                     discount_id: values.discount['key'],
                     start_datetime: moment(
                       values.start_date + ' ' + values.start_time,
@@ -169,6 +170,7 @@ const VoucherForm = ({ id, codeType }) => {
                     description: vals.description,
                     code_length: vals.code_length,
                     count: vals.count,
+                    shop_id: shop?.shop_id,
                     discount_id: values.discount['key'],
                     set_id: id,
                     start_datetime: moment(
@@ -186,6 +188,7 @@ const VoucherForm = ({ id, codeType }) => {
                     name: vals.name,
                     code: vals.code,
                     usage: vals.usage,
+                    shop_id: shop?.shop_id,
                     voucher_id: '',
                     discount_id: values.discount['key'],
                     start_datetime: moment(
@@ -203,6 +206,7 @@ const VoucherForm = ({ id, codeType }) => {
                     count: vals.count,
                     description: vals.description,
                     set_id: '',
+                    shop_id: shop?.shop_id,
                     discount_id: values.discount['key'],
                     start_datetime: moment(
                       values.start_date + ' ' + values.start_time,

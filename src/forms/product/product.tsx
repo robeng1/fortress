@@ -34,6 +34,8 @@ import Images from './images';
 import { AttrOption, SelectOption, Values, VarOption } from './values';
 import { b64Encode, base64Decode, decodeBuf, encodeBuf } from 'utils/buff';
 import { useOnboarding } from 'hooks/use-onboarding';
+import Input from 'components/ui/input';
+import InputHeader from 'components/blocks/input-header';
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -521,12 +523,7 @@ const ProductForm = ({ id }) => {
                       </h2>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="type"
-                          >
-                            Type
-                          </label>
+                          <InputHeader label='Type' tooltipContent='Choose a product category' />
                           <ReactSelect
                             menuPortalTarget={document.body}
                             isSearchable
@@ -564,12 +561,7 @@ const ProductForm = ({ id }) => {
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="collections"
-                          >
-                            Collections
-                          </label>
+                          <InputHeader label='Collections' tooltipContent='Make this product part of a collection, this makes it easier to group products and display them' />
                           <ReactSelect
                             value={values.collections}
                             menuPortalTarget={document.body}
@@ -590,12 +582,7 @@ const ProductForm = ({ id }) => {
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="tags"
-                          >
-                            Tags
-                          </label>
+                          <InputHeader label='Tags' tooltipContent='Add tags to products for grouping and search indexing' />
                           <ReactSelect
                             id="tags"
                             name="tags"
@@ -701,12 +688,7 @@ const ProductForm = ({ id }) => {
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="sm:w-1/2">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="price"
-                        >
-                          Price
-                        </label>
+                        <InputHeader label='Price' tooltipContent='The actual selling price of this product' />
                         <input
                           id="price"
                           name="price"
@@ -738,12 +720,7 @@ const ProductForm = ({ id }) => {
                       </div>
 
                       <div className="sm:w-1/2">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="compare_at_price w-full md:w-min"
-                        >
-                          Compare at price
-                        </label>
+                        <InputHeader label='Compare at price' tooltipContent='The original listing price of this product. This is normally displayed as a strikethrough along with the price' />
                         <input
                           id="compare_at_price"
                           name="compare_at_price"
@@ -777,12 +754,7 @@ const ProductForm = ({ id }) => {
                     </div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="sm:w-1/2">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="cost_per_item"
-                        >
-                          Cost per item
-                        </label>
+                        <InputHeader label='Cost per item' tooltipContent='The cost of this product. This isn&apos;t shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service' />
                         <input
                           id="cost_per_item"
                           name="cost_per_item"

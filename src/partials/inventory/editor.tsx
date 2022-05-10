@@ -9,6 +9,7 @@ import { InventoryType, InventoryViewType } from 'typings/inventory/inventory-ty
 import { ProductType } from 'typings/product/product-type';
 import { request, ResponseError } from 'utils/request';
 import StockManger from './stock-manager';
+import InputHeader from 'components/blocks/input-header';
 
 type VariantEditorProps = {
   handleClick?: (e: any) => void
@@ -198,15 +199,10 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                             onBlur={handleBlur}
                             checked={values.allow_backorder}
                             id="allow_backorder"
-                            className="form-checkbox"
+                            className="form-checkbox mr-2"
                             type="checkbox"
                           />
-                          <label
-                            className="block text-sm ml-2"
-                            htmlFor="allow_backorder"
-                          >
-                            Allow backorders
-                          </label>
+                          <InputHeader label='Allow backorders' tooltipContent='Customers can still order even if this product is out of stock' />
                         </div>
                         <div className="flex items-center w-full">
                           <input
@@ -215,15 +211,10 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                             onBlur={handleBlur}
                             checked={values.track_stock}
                             id="track_stock"
-                            className="form-checkbox"
+                            className="form-checkbox mr-2"
                             type="checkbox"
                           />
-                          <label
-                            className="block text-sm ml-2"
-                            htmlFor="track_stock"
-                          >
-                            Track stock
-                          </label>
+                          <InputHeader label='Manage inventory' tooltipContent='Customers can still order even if this product is out of stock' />
                         </div>
                       </div>
                     </section>

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 const Largest = props => css`
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Helvetica Neue, Ubuntu, sans-serif;
   font-size: 22px;
   font-weight: 300;
@@ -10,7 +10,7 @@ const Largest = props => css`
 `;
 
 const Large = props => css`
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Helvetica Neue, Ubuntu, sans-serif;
   font-size: 18px;
   font-weight: 300;
@@ -19,7 +19,7 @@ const Large = props => css`
 `;
 
 const Medium = props => css`
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Helvetica Neue, Ubuntu, sans-serif;
   font-size: 16px;
   font-weight: 300;
@@ -28,7 +28,7 @@ const Medium = props => css`
 `;
 
 const Base = props => css`
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Helvetica Neue, Ubuntu, sans-serif;
   font-size: 14px;
   font-weight: 300;
@@ -37,7 +37,7 @@ const Base = props => css`
 `;
 
 const Small = props => css`
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Helvetica Neue, Ubuntu, sans-serif;
   font-size: 12px;
   font-weight: 300;
