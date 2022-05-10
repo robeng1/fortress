@@ -29,7 +29,7 @@ function Balance() {
   const { shop } = useShop();
   const shopId = shop?.shop_id;
   const { shopAccount: paymentAccount } = usePayment();
-  const [usraId] = useAtom(uidAtom);
+  const [accountId] = useAtom(uidAtom);
   const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`;
   const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`;
 
@@ -85,8 +85,7 @@ function Balance() {
 
     {
       keepPreviousData: true,
-      enabled: !!usraId && !!paymentAccount?.account_id,
-      refetchOnWindowFocus: false,
+      enabled: !!accountId && !!paymentAccount?.account_id,
       staleTime: 2000,
     },
   );
@@ -252,7 +251,7 @@ function Balance() {
                                   transfer_kind: TransferKind.TRANSFER,
                                   source_id: paymentAccount?.account_id,
                                   loopy: false,
-                                  authorisor_id: usraId,
+                                  authorisor_id: accountId,
                                   unit_amount:
                                     sToCurrency(amountToWithdraw).intValue,
                                   is_system: false,

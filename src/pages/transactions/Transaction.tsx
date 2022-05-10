@@ -47,7 +47,6 @@ function Transactions() {
     {
       keepPreviousData: true,
       enabled: !!accountId && !!paymentAccount?.account_id,
-      refetchOnWindowFocus: false,
       staleTime: 2000,
     },
   );
