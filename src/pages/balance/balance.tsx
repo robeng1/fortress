@@ -67,7 +67,7 @@ function Balance() {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${(page - 1) * itemsPerPage + 1
+  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${((page - 1) * itemsPerPage + 1) - 1
     }, ${itemsPerPage}`;
 
   const { data } = useQuery<TransactionViewType[], ResponseError>(
