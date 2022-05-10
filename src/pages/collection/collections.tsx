@@ -18,6 +18,7 @@ import CollectionForm from 'forms/collection/collection';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styles/material/theme';
+import ThreeDots from 'components/ui/loaders/three-dots';
 
 function Collections() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ function Collections() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const { data } = useQuery<any, ResponseError>(
+  const { data, isLoading } = useQuery<any, ResponseError>(
     ['collectionviews', page],
     async () =>
       await request(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
@@ -107,33 +108,37 @@ function Collections() {
                 </div>
               </div>
             </div>
+            {isLoading &&
+              <div className="sm:flex sm:items-center justify-center">
+                <ThreeDots />
+              </div>
+            }
+            {!isLoading && <>
+              <CollectionsTable
+                selectedItems={handleSelectedItems}
+                // handleShow={handleShow}
+                collections={collections || []}
+              />
 
-            {/* Table */}
-            <CollectionsTable
-              selectedItems={handleSelectedItems}
-              // handleShow={handleShow}
-              collections={collections || []}
-            />
-
-            {/* Pagination */}
-            {!isEmpty(collections) && data?.total > itemsPerPage && (
-              <ThemeProvider>
-                <Pagination
-                  count={
-                    data?.total > itemsPerPage
-                      ? Math.ceil(data?.total / itemsPerPage)
-                      : 1
-                  }
-                  variant="outlined"
-                  color="primary"
-                  className="mt-4 md:mt-8"
-                  page={page}
-                  onChange={(event: ChangeEvent<unknown>, page: number) =>
-                    setPage(page)
-                  }
-                />
-              </ThemeProvider>
-            )}
+              {/* Pagination */}
+              {!isEmpty(collections) && data?.total > itemsPerPage && (
+                <ThemeProvider>
+                  <Pagination
+                    count={
+                      data?.total > itemsPerPage
+                        ? Math.ceil(data?.total / itemsPerPage)
+                        : 1
+                    }
+                    variant="outlined"
+                    color="primary"
+                    className="mt-4 md:mt-8"
+                    page={page}
+                    onChange={(event: ChangeEvent<unknown>, page: number) =>
+                      setPage(page)
+                    }
+                  />
+                </ThemeProvider>
+              )}</>}
           </div>
         </main>
         <BottomNav />

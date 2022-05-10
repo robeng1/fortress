@@ -1,6 +1,6 @@
 import { MoneyType } from '../money';
 
-export interface VoucherType {
+export type VoucherType = {
   name?: string;
   code?: string;
   discount_id?: string;
@@ -17,7 +17,7 @@ export interface VoucherType {
   shard_key?: number;
   shard_pos?: number;
 }
-export interface VoucherViewType {
+export e VoucherViewType {
   num_applications?: number;
   num_orders?: number;
   num_basket_additions?: number;

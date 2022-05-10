@@ -12,6 +12,7 @@ import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import VoucherTable from 'partials/voucher/VoucherTable';
 import { ThemeProvider } from 'styles/material/theme';
+import ThreeDots from 'components/ui/loaders/three-dots';
 
 function Vouchers() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function Vouchers() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['voucherviews', page],
     async () =>
       await fetch(`${fortressURL}/shops/${shop?.shop_id}/voucher-views`, {
@@ -95,30 +96,38 @@ function Vouchers() {
                 </div>
               </div>
             </div>
-            {/* Table */}
-            <VoucherTable
-              selectedItems={handleSelectedItems}
-              vouchers={vouchers || []}
-            />
-            {/* Pagination */}
-            {!isEmpty(vouchers) && data?.total > itemsPerPage && (
-              <ThemeProvider>
-                <Pagination
-                  count={
-                    data?.total > itemsPerPage
-                      ? Math.ceil(data?.total / itemsPerPage)
-                      : 1
-                  }
-                  variant="outlined"
-                  color="primary"
-                  className="mt-4 md:mt-8"
-                  page={page}
-                  onChange={(event: ChangeEvent<unknown>, page: number) =>
-                    setPage(page)
-                  }
-                />
-              </ThemeProvider>
-            )}
+            {isLoading &&
+              <div className="sm:flex sm:items-center justify-center">
+                <ThreeDots />
+              </div>
+            }
+            {!isLoading && <>
+              {/* Table */}
+              <VoucherTable
+                selectedItems={handleSelectedItems}
+                vouchers={vouchers || []}
+              />
+              {/* Pagination */}
+              {!isEmpty(vouchers) && data?.total > itemsPerPage && (
+                <ThemeProvider>
+                  <Pagination
+                    count={
+                      data?.total > itemsPerPage
+                        ? Math.ceil(data?.total / itemsPerPage)
+                        : 1
+                    }
+                    variant="outlined"
+                    color="primary"
+                    className="mt-4 md:mt-8"
+                    page={page}
+                    onChange={(event: ChangeEvent<unknown>, page: number) =>
+                      setPage(page)
+                    }
+                  />
+                </ThemeProvider>
+              )}
+            </>}
+
           </div>
         </main>
         <BottomNav />

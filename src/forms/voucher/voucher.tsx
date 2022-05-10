@@ -132,7 +132,7 @@ const VoucherForm = ({ id, codeType }) => {
             end_date: '',
             description: '',
             end_time: '',
-            discount_id: '',
+            discount: null,
             code_type: SINGLE_CODE_TYPE,
             code: '',
             usage: '',
@@ -140,7 +140,7 @@ const VoucherForm = ({ id, codeType }) => {
             count: 1,
           }}
           onSubmit={(values, { setSubmitting }) => {
-            if (!values.discount_id || values.discount_id === null || values.discount_id === "") {
+            if (!values.discount || values.discount === null || values.discount === "") {
               toast.error("Discount is required for voucher")
               return
             } else {
@@ -149,20 +149,27 @@ const VoucherForm = ({ id, codeType }) => {
                   const vals = values as unknown as VoucherType
                   updateSingle({
                     ...voucher,
-                    ...vals,
+                    name: vals.name,
+                    code: vals.code,
+                    usage: vals.usage,
                     voucher_id: id,
+                    discount_id: values.discount['key'],
                     start_datetime: moment(
                       values.start_date + ' ' + values.start_time,
                     ).toISOString(),
                     end_datetime: moment(
                       values.end_date + ' ' + values.end_time,
                     ).toISOString(),
-                  });
+                  } as VoucherType);
                 } else {
                   const vals = values as unknown as VoucherSetType
                   updateSet({
                     ...voucherSet,
-                    ...vals,
+                    name: vals.name,
+                    description: vals.description,
+                    code_length: vals.code_length,
+                    count: vals.count,
+                    discount_id: values.discount['key'],
                     set_id: id,
                     start_datetime: moment(
                       values.start_date + ' ' + values.start_time,
@@ -170,33 +177,40 @@ const VoucherForm = ({ id, codeType }) => {
                     end_datetime: moment(
                       values.end_date + ' ' + values.end_time,
                     ).toISOString(),
-                  });
+                  } as VoucherSetType);
                 }
               } else {
                 if (values.code_type === SINGLE_CODE_TYPE) {
                   const vals = values as unknown as VoucherType
                   createSingle({
-                    ...vals,
+                    name: vals.name,
+                    code: vals.code,
+                    usage: vals.usage,
                     voucher_id: '',
+                    discount_id: values.discount['key'],
                     start_datetime: moment(
                       values.start_date + ' ' + values.start_time,
                     ).toISOString(),
                     end_datetime: moment(
                       values.end_date + ' ' + values.end_time,
                     ).toISOString(),
-                  });
+                  } as VoucherType);
                 } else {
                   const vals = values as unknown as VoucherSetType
                   createSet({
-                    ...vals,
+                    name: vals.name,
+                    code_length: vals.code_length,
+                    count: vals.count,
+                    description: vals.description,
                     set_id: '',
+                    discount_id: values.discount['key'],
                     start_datetime: moment(
                       values.start_date + ' ' + values.start_time,
                     ).toISOString(),
                     end_datetime: moment(
                       values.end_date + ' ' + values.end_time,
                     ).toISOString(),
-                  });
+                  } as VoucherSetType);
                 }
               }
               setSubmitting(false);
@@ -348,16 +362,15 @@ const VoucherForm = ({ id, codeType }) => {
                       <div className="w-full">
                         <label
                           className="block text-sm font-medium mb-1"
-                          htmlFor="discount_id"
+                          htmlFor="discount"
                         >
                           Which offer apply for this voucher(s)?
                         </label>
                         <ReactSelect
-                          id="discount_id"
-                          name="discount_id"
+                          id="discount"
+                          name="discount"
                           closeMenuOnSelect={true}
-                          defaultValue={values.discount_id}
-                          value={values.discount_id}
+                          value={values.discount}
                           isClearable
                           isSearchable
                           isMulti={false}

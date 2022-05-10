@@ -13,6 +13,7 @@ import VariantTable from 'partials/inventory/variants-table';
 import useShop from 'hooks/use-shop';
 import { ThemeProvider } from 'styles/material/theme';
 import { InventoryViewListType, InventoryViewType } from 'typings/inventory/inventory-type';
+import ThreeDots from 'components/ui/loaders/three-dots';
 
 function Inventory() {
   const { shop } = useShop();
@@ -24,7 +25,7 @@ function Inventory() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const { data } = useQuery<InventoryViewListType>(
+  const { data, isLoading } = useQuery<InventoryViewListType>(
     ['inventoryviews', page],
     async () =>
       await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
@@ -73,35 +74,40 @@ function Inventory() {
                 </div> */}
               </div>
             </div>
-
+            {isLoading &&
+              <div className="sm:flex sm:items-center justify-center">
+                <ThreeDots />
+              </div>
+            }
             {/* Table */}
-            <VariantTable
-              selectedItems={handleSelectedItems}
-              total={data?.total ?? 0}
-              // TODO: do not index duplicates in the first place
-              records={records ? uniqBy(records, function (e: InventoryViewType) {
-                return e.variant_id;
-              }) : []}
-            />
-            {/* Pagination */}
-            {!isEmpty(records) && data && data?.total > itemsPerPage && (
-              <ThemeProvider>
-                <Pagination
-                  count={
-                    data && data?.total > itemsPerPage
-                      ? Math.ceil(data?.total / itemsPerPage)
-                      : 1
-                  }
-                  variant="outlined"
-                  color="primary"
-                  className="mt-4 md:mt-8"
-                  page={page}
-                  onChange={(event: ChangeEvent<unknown>, page: number) =>
-                    setPage(page)
-                  }
-                />
-              </ThemeProvider>
-            )}
+            {!isLoading && <>
+              <VariantTable
+                selectedItems={handleSelectedItems}
+                total={data?.total ?? 0}
+                // TODO: do not index duplicates in the first place
+                records={records ? uniqBy(records, function (e: InventoryViewType) {
+                  return e.variant_id;
+                }) : []}
+              />
+              {/* Pagination */}
+              {!isEmpty(records) && data && data?.total > itemsPerPage && (
+                <ThemeProvider>
+                  <Pagination
+                    count={
+                      data && data?.total > itemsPerPage
+                        ? Math.ceil(data?.total / itemsPerPage)
+                        : 1
+                    }
+                    variant="outlined"
+                    color="primary"
+                    className="mt-4 md:mt-8"
+                    page={page}
+                    onChange={(event: ChangeEvent<unknown>, page: number) =>
+                      setPage(page)
+                    }
+                  />
+                </ThemeProvider>
+              )}</>}
             <BottomNav />
           </div>
         </main>

@@ -1,4 +1,4 @@
-export interface VoucherSetType {
+export type VoucherSetType = {
   set_id?: string;
   name?: string;
   count?: number;

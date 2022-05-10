@@ -15,6 +15,7 @@ import Order from 'partials/orders/order-manager';
 import useShop from 'hooks/use-shop';
 import { ThemeProvider } from 'styles/material/theme';
 import { request } from 'utils/request';
+import ThreeDots from 'components/ui/loaders/three-dots';
 
 function Orders() {
   const { shop } = useShop();
@@ -33,7 +34,7 @@ function Orders() {
     }' ORDER BY updated_at DESC LIMIT ${(page - 1) * (itemsPerPage + 1)
     }, ${itemsPerPage}`;
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['orderviews', page],
     async () => {
       try {
@@ -108,8 +109,11 @@ function Orders() {
               </button>
             </div>
           </div>
-
-          {/* More actions */}
+          {isLoading &&
+            <div className="sm:flex sm:items-center justify-center">
+              <ThreeDots />
+            </div>
+          }
           {data && (
             <div className="sm:flex sm:justify-between sm:items-center mb-5">
               {/* Left side */}
@@ -134,29 +138,31 @@ function Orders() {
               </div> */}
             </div>
           )}
+          {!isLoading && <>
+            {/* Table */}
+            <OrdersTable
+              handleShow={handleShow}
+              selectedItems={handleSelectedItems}
+              orders={data?.views || []}
+            />
 
-          {/* Table */}
-          <OrdersTable
-            handleShow={handleShow}
-            selectedItems={handleSelectedItems}
-            orders={data?.views || []}
-          />
+            {/* Pagination */}
+            {!isEmpty(orders) && data?.total > itemsPerPage && (
+              <ThemeProvider>
+                <Pagination
+                  count={data?.total / itemsPerPage}
+                  variant="outlined"
+                  color="primary"
+                  className="mt-4 md:mt-8"
+                  page={page}
+                  onChange={(event: ChangeEvent<unknown>, page: number) =>
+                    setPage(page)
+                  }
+                />
+              </ThemeProvider>
+            )}
+          </>}
 
-          {/* Pagination */}
-          {!isEmpty(orders) && data?.total > itemsPerPage && (
-            <ThemeProvider>
-              <Pagination
-                count={data?.total / itemsPerPage}
-                variant="outlined"
-                color="primary"
-                className="mt-4 md:mt-8"
-                page={page}
-                onChange={(event: ChangeEvent<unknown>, page: number) =>
-                  setPage(page)
-                }
-              />
-            </ThemeProvider>
-          )}
         </div>
       </main>
     );

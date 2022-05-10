@@ -14,6 +14,8 @@ import ProductsTable from 'partials/products/products-table';
 import useShop from 'hooks/use-shop';
 import { request } from 'utils/request';
 import { ThemeProvider } from 'styles/material/theme';
+import ProductListCardLoader from 'components/ui/loaders/product-list-card-loader';
+import ThreeDots from 'components/ui/loaders/three-dots';
 
 function Products() {
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ function Products() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [productItemsPerPage, setProductItemsPerPage] = useState<number>(15);
 
-  const { data: productData } = useQuery(
+  const { data: productData, isLoading } = useQuery(
     ['productviews', productPage],
     async () =>
       await request(`${fortressURL}/shops/${shop?.shop_id}/product-views`, {
@@ -94,33 +96,39 @@ function Products() {
                   </div>
                 </div>
               </div>
+              {isLoading &&
+                <div className="sm:flex sm:items-center justify-center">
+                  <ThreeDots />
+                </div>
+              }
+              {!isLoading && <>
+                <ProductsTable
+                  selectedItems={handleSelectedItems}
+                  handleShow={(shoe: boolean) => { }}
+                  products={products || []}
+                />
 
-              {/* Table */}
-              <ProductsTable
-                selectedItems={handleSelectedItems}
-                handleShow={(shoe: boolean) => { }}
-                products={products || []}
-              />
 
-              {/* Pagination */}
-              {!isEmpty(products) && productData?.total > productItemsPerPage && (
-                <ThemeProvider>
-                  <Pagination
-                    count={
-                      productData?.total > productItemsPerPage
-                        ? Math.ceil(productData?.total / productItemsPerPage)
-                        : 1
-                    }
-                    variant="outlined"
-                    color="primary"
-                    className="mt-4 md:mt-8"
-                    page={productPage}
-                    onChange={(event: ChangeEvent<unknown>, page: number) =>
-                      setProductPage(page)
-                    }
-                  />
-                </ThemeProvider>
-              )}
+                {!isEmpty(products) && productData?.total > productItemsPerPage && (
+                  <ThemeProvider>
+                    <Pagination
+                      count={
+                        productData?.total > productItemsPerPage
+                          ? Math.ceil(productData?.total / productItemsPerPage)
+                          : 1
+                      }
+                      variant="outlined"
+                      color="primary"
+                      className="mt-4 md:mt-8"
+                      page={productPage}
+                      onChange={(event: ChangeEvent<unknown>, page: number) =>
+                        setProductPage(page)
+                      }
+                    />
+                  </ThemeProvider>
+                )}
+              </>
+              }
             </div>
           </main>
         </>

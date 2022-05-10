@@ -13,6 +13,7 @@ import DiscountForm from 'forms/discount/discount';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styles/material/theme';
+import ThreeDots from 'components/ui/loaders/three-dots';
 
 function Discounts() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function Discounts() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['discountviews', page],
     async () =>
       await fetch(`${fortressURL}/shops/${shop?.shop_id}/offer-views`, {
@@ -100,30 +101,36 @@ function Discounts() {
                 </div>
               </div>
             </div>
+            {isLoading &&
+              <div className="sm:flex sm:items-center justify-center">
+                <ThreeDots />
+              </div>
+            }
             {/* Table */}
-            <DiscountTable
-              selectedItems={handleSelectedItems}
-              discounts={discounts || []}
-            />
-            {/* Pagination */}
-            {!isEmpty(discounts) && data?.total > itemsPerPage && (
-              <ThemeProvider>
-                <Pagination
-                  count={
-                    data?.total > itemsPerPage
-                      ? Math.ceil(data?.total / itemsPerPage)
-                      : 1
-                  }
-                  variant="outlined"
-                  color="primary"
-                  className="mt-4 md:mt-8"
-                  page={page}
-                  onChange={(event: ChangeEvent<unknown>, page: number) =>
-                    setPage(page)
-                  }
-                />
-              </ThemeProvider>
-            )}
+            {!isLoading && <>
+              <DiscountTable
+                selectedItems={handleSelectedItems}
+                discounts={discounts || []}
+              />
+              {/* Pagination */}
+              {!isEmpty(discounts) && data?.total > itemsPerPage && (
+                <ThemeProvider>
+                  <Pagination
+                    count={
+                      data?.total > itemsPerPage
+                        ? Math.ceil(data?.total / itemsPerPage)
+                        : 1
+                    }
+                    variant="outlined"
+                    color="primary"
+                    className="mt-4 md:mt-8"
+                    page={page}
+                    onChange={(event: ChangeEvent<unknown>, page: number) =>
+                      setPage(page)
+                    }
+                  />
+                </ThemeProvider>
+              )}</>}
           </div>
         </main>
         <BottomNav />

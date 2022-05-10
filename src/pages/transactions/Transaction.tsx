@@ -16,6 +16,7 @@ import { ThemeProvider } from 'styles/material/theme';
 import usePayment from 'hooks/use-payment';
 import { TransactionViewType } from 'typings/payment/transaction-type';
 import { mToSFormatted } from 'utils/money';
+import ThreeDots from 'components/ui/loaders/three-dots';
 
 function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,7 +32,7 @@ function Transactions() {
   const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${((page - 1) * itemsPerPage + 1) - 1
     }, ${itemsPerPage}`;
 
-  const { data } = useQuery<TransactionViewType[], ResponseError>(
+  const { data, isLoading } = useQuery<TransactionViewType[], ResponseError>(
     ['transactions', page],
     async () => {
       try {
@@ -97,58 +98,65 @@ function Transactions() {
                 {/* <FilterButton align="right" /> */}
               </div>
             </div>
-
-            <div>
-              <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-gray-200">
-                <div className="p-3">
-                  {/* Table */}
-                  <div className="overflow-x-auto">
-                    <table className="table-auto w-full">
-                      {/* Table header */}
-                      <thead className="text-xs uppercase text-gray-400 bg-gray-50 rounded-lg">
-                        <tr>
-                          <th className="p-2">
-                            <div className="font-semibold text-left">Date</div>
-                          </th>
-                          <th className="p-2">
-                            <div className="font-semibold text-left">
-                              Description
-                            </div>
-                          </th>
-                          <th className="p-2">
-                            <div className="font-semibold text-right">
-                              Amount
-                            </div>
-                          </th>
-                        </tr>
-                      </thead>
-                      {/* Table body */}
-                      <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
-                        {data && data.map((txn, index) =>
-                          <tr key={index}>
-                            <td className="p-2 w-1/6">
-                              <div className="text-left text-gray-500">
-                                {new Date(txn.created_at).toDateString()}
+            {isLoading &&
+              <div className="sm:flex sm:items-center justify-center">
+                <ThreeDots />
+              </div>
+            }
+            {!isLoading && <>
+              <div>
+                <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-gray-200">
+                  <div className="p-3">
+                    {/* Table */}
+                    <div className="overflow-x-auto">
+                      <table className="table-auto w-full">
+                        {/* Table header */}
+                        <thead className="text-xs uppercase text-gray-400 bg-gray-50 rounded-lg">
+                          <tr>
+                            <th className="p-2">
+                              <div className="font-semibold text-left">Date</div>
+                            </th>
+                            <th className="p-2">
+                              <div className="font-semibold text-left">
+                                Description
                               </div>
-                            </td>
-                            <td className="p-2 w-3/6">
-                              <div className="flex items-center">
-                                <div className="text-gray-500">{txn.description}</div>
+                            </th>
+                            <th className="p-2">
+                              <div className="font-semibold text-right">
+                                Amount
                               </div>
-                            </td>
-                            <td className="p-2 w-2/6">
-                              <div className="text-right text-gray-500">
-                                {mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
-                              </div>
-                            </td>
+                            </th>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
+                        </thead>
+                        {/* Table body */}
+                        <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
+                          {data && data.map((txn, index) =>
+                            <tr key={index}>
+                              <td className="p-2 w-1/6">
+                                <div className="text-left text-gray-500">
+                                  {new Date(txn.created_at).toDateString()}
+                                </div>
+                              </td>
+                              <td className="p-2 w-3/6">
+                                <div className="flex items-center">
+                                  <div className="text-gray-500">{txn.description}</div>
+                                </div>
+                              </td>
+                              <td className="p-2 w-2/6">
+                                <div className="text-right text-gray-500">
+                                  {mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </>}
+
 
 
           </div>
