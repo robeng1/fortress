@@ -26,7 +26,7 @@ function AnalyticsCard01({
                 Gross revenue
               </div>
               <div className="flex items-center">
-                <div className="text-sm text-gray-500">
+                <div className="text-3xl font-bold text-gray-800">
                   {!!grossRevenue
                     ? formatThousands(mToCurrency(sToMFromCents(grossRevenue, shop?.currency?.iso_code)).value)
                     : 'No earnings yet'}
@@ -45,7 +45,7 @@ function AnalyticsCard01({
                 Net revenue
               </div>
               <div className="flex items-center">
-                <div className="text-sm text-gray-500">
+                <div className="text-3xl font-bold text-gray-800">
                   {!!netRevenue
                     ? formatThousands(mToCurrency(sToMFromCents(netRevenue, shop?.currency?.iso_code)).value)
                     : 'No revenue yet'}
@@ -64,7 +64,7 @@ function AnalyticsCard01({
                 Volume
               </div>
               <div className="flex items-center">
-                <div className="text-sm text-gray-500">
+                <div className="text-3xl font-bold text-gray-800">
                   {!!volume ? formatThousands(volume) : 'No orders yet'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+7%</div> */}
@@ -78,10 +78,10 @@ function AnalyticsCard01({
           <div className="flex items-center py-2">
             <div className="mr-5">
               <div className="text-2xl font-medium text-gray-500 mr-2">
-                AOV
+                Average order value
               </div>
               <div className="flex items-center">
-                <div className="text-sm text-gray-500">
+                <div className="text-3xl font-bold text-gray-800">
                   {!!aov
                     ? formatThousands(aov)
                     : '-'}
