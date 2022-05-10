@@ -83,5 +83,13 @@ function curr(code: string): Currency<number> {
 }
 
 function symbol(c: string): string {
-  return 'GHS';
+  switch (c) {
+    case 'GHS':
+      return 'GH₵'
+    case 'USD':
+      return '$'
+    default:
+      return c
+  }
 }
+

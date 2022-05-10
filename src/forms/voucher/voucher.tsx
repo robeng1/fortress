@@ -500,7 +500,7 @@ const VoucherForm = ({ id, codeType }) => {
                 <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                   <div className="flex self-end md:self-center">
                     <button
-                      onClick={() => navigate(-1)}
+                      onClick={() => navigate('/shop/vouchers')}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel

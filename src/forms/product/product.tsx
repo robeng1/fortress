@@ -201,7 +201,7 @@ const ProductForm = ({ id }) => {
           product_id: productId || '',
           shop_id: shop?.shop_id,
           num_in_stock: d.quantity,
-          centre_id: loc.centre_id??'',
+          centre_id: loc.centre_id ?? '',
           centre_sku: slugify(d.title),
           cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
           price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
@@ -281,8 +281,11 @@ const ProductForm = ({ id }) => {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
         klient.setQueryData(['product', productId], newProduct);
+        toast('Product updated successfully');
       },
-      onError: (e: ResponseError) => { },
+      onError: (e: ResponseError) => {
+        toast(e.message);
+      },
     },
   );
 
@@ -387,7 +390,7 @@ const ProductForm = ({ id }) => {
           shop_id: shop?.shop_id,
           num_in_stock: values.quantity,
           // TODO: centreId && centreSku should be replaced with correct on
-          centre_id: centre_id?? '',
+          centre_id: centre_id ?? '',
           centre_sku: slugify(t),
           cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
           price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
@@ -1282,7 +1285,7 @@ const ProductForm = ({ id }) => {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate(-1)}
+                      onClick={(e) => navigate('/shop/products')}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel

@@ -1394,7 +1394,7 @@ const DiscountForm = ({ id }) => {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate(-1)}
+                      onClick={() => navigate('/shop/discounts')}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel

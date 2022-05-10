@@ -327,77 +327,13 @@ export default function CollectionForm({ id }) {
                       />
                     </div>
                   </section>
-                  {/* {collectionId && (
-                    <section
-                      onClick={handleOpen}
-                      className="rounded cursor-pointer bg-white shadow overflow-hidden p-3 mb-10"
-                    >
-                      Products
-                      {collectionProducts && collectionProducts?.products && (
-                        <div>
-                          {collectionProducts?.products.map(product => (
-                            <div
-                              key={product.product_id}
-                              className="flex items-center"
-                            >
-                              <div className="flex-shrink-0 h-10 w-10">
-                                <img
-                                  className="h-10 w-10"
-                                  src={product.image_url}
-                                  alt={product.title}
-                                />
-                              </div>
-                              <div className="ml-4 flex justify-between">
-                                <div className="text-sm font-medium text-gray-900">
-                                  {product.title}
-                                </div>
-                                <div
-                                  onClick={e => {
-                                    e.stopPropagation();
-                                    removeProductFromCollection(
-                                      product.product_id,
-                                    );
-                                  }}
-                                  className="text-sm text-gray-500 cursor-pointer"
-                                >
-                                  X
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {collectionProducts &&
-                        collectionProducts?.products &&
-                        collectionProducts.next_page_token && (
-                          <div>
-                            <PaginationClassic
-                              previous={{
-                                disabled: previousPage === '',
-                                callBack: setPage(previousPage),
-                              }}
-                              next={{
-                                disabled:
-                                  collectionProducts?.next_page_token === '' ||
-                                  collectionProducts?.next_page_token ===
-                                    undefined,
-                                callBack: () => {
-                                  setPreviousPage(page);
-                                  setPage(collectionProducts?.next_page_token);
-                                },
-                              }}
-                            />
-                          </div>
-                        )}
-                    </section>
-                            )*/}
                 </div>
               </div>
               <footer>
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate(-1)}
+                      onClick={() => navigate('/shop/collections')}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel

@@ -1,6 +1,6 @@
 import useShop from 'hooks/use-shop';
 import React from 'react';
-import { mToCurrency, sToCurrency, sToM, sToMFromCents } from 'utils/money';
+import { mToCurrency, mToSFormatted, sToCurrency, sToM, sToMFromCents } from 'utils/money';
 
 // Import utilities
 import { formatThousands } from 'utils/utils';
@@ -26,9 +26,9 @@ function AnalyticsCard01({
                 Gross revenue
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-bold text-gray-800">
+                <div className="text-3xl font-semibold text-gray-800">
                   {!!grossRevenue
-                    ? mToCurrency(sToMFromCents(grossRevenue, shop?.currency?.iso_code)).format()
+                    ? mToSFormatted(sToMFromCents(grossRevenue, shop?.currency?.iso_code))
                     : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
@@ -45,9 +45,9 @@ function AnalyticsCard01({
                 Net revenue
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-bold text-gray-800">
+                <div className="text-3xl font-semibold text-gray-800">
                   {!!netRevenue
-                    ? mToCurrency(sToMFromCents(netRevenue, shop?.currency?.iso_code)).format()
+                    ? mToSFormatted(sToMFromCents(netRevenue, shop?.currency?.iso_code))
                     : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
@@ -61,10 +61,10 @@ function AnalyticsCard01({
           <div className="flex items-center py-2">
             <div className="mr-5">
               <div className="text-2xl font-medium text-gray-500 mr-2">
-                Volume
+                Order volume
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-bold text-gray-800">
+                <div className="text-3xl font-semibold text-gray-800">
                   {!!volume ? formatThousands(volume) : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+7%</div> */}
@@ -81,9 +81,9 @@ function AnalyticsCard01({
                 Average order value
               </div>
               <div className="flex items-center">
-                <div className="text-3xl font-bold text-gray-800">
+                <div className="text-3xl font-semibold text-gray-800">
                   {!!aov
-                    ? mToCurrency(sToMFromCents(aov, shop?.currency?.iso_code)).format()
+                    ? mToSFormatted(sToMFromCents(aov, shop?.currency?.iso_code))
                     : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-yellow-500">-7%</div> */}
