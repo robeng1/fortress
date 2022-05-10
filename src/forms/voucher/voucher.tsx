@@ -147,6 +147,9 @@ const VoucherForm = ({ id, codeType }) => {
               if (voucher || voucherSet) {
                 if (values.code_type === SINGLE_CODE_TYPE) {
                   const vals = values as unknown as VoucherType
+                  if (!voucher?.total_discount) {
+                    vals.total_discount = { amount: 0, currency: shop?.currency?.iso_code! }
+                  }
                   updateSingle({
                     ...voucher,
                     name: vals.name,
@@ -190,6 +193,7 @@ const VoucherForm = ({ id, codeType }) => {
                     usage: vals.usage,
                     shop_id: shop?.shop_id,
                     voucher_id: '',
+                    total_discount: { amount: 0, currency: shop?.currency?.iso_code },
                     discount_id: values.discount['key'],
                     start_datetime: moment(
                       values.start_date + ' ' + values.start_time,
