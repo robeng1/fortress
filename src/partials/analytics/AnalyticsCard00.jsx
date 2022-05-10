@@ -29,7 +29,7 @@ function AnalyticsCard01({
                 <div className="text-3xl font-bold text-gray-800">
                   {!!grossRevenue
                     ? mToCurrency(sToMFromCents(grossRevenue, shop?.currency?.iso_code)).format()
-                    : 'No earnings yet'}
+                    : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
               </div>
@@ -48,7 +48,7 @@ function AnalyticsCard01({
                 <div className="text-3xl font-bold text-gray-800">
                   {!!netRevenue
                     ? mToCurrency(sToMFromCents(netRevenue, shop?.currency?.iso_code)).format()
-                    : 'No revenue yet'}
+                    : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
               </div>
@@ -65,7 +65,7 @@ function AnalyticsCard01({
               </div>
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800">
-                  {!!volume ? formatThousands(volume) : 'No orders yet'}
+                  {!!volume ? formatThousands(volume) : '-'}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+7%</div> */}
               </div>
