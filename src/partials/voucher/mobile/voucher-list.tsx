@@ -1,8 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import VoucherCard from './VoucherCard';
+import { VoucherType } from 'typings/voucher/voucher';
+import VoucherCard from './voucher-card';
 
-export default function DiscountList({ handleShow, vouchers }) {
+type VoucherListProps = {
+  selectedItems?: (items: string[]) => void
+  handleShow?: (show: boolean) => void
+  vouchers: VoucherType[]
+}
+
+const VoucherList: React.FC<VoucherListProps> = ({ handleShow, vouchers }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -27,3 +34,4 @@ export default function DiscountList({ handleShow, vouchers }) {
     </>
   );
 }
+export default VoucherList

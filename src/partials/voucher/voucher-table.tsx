@@ -1,9 +1,16 @@
 import React from 'react';
 import EmptyState from 'partials/empty-state';
-import VoucherList from './mobile/VoucherList';
+import VoucherList from './mobile/voucher-list';
 import { useNavigate } from 'react-router-dom';
+import { VoucherType } from 'typings/voucher/voucher';
 
-export default function VoucherTable({ selectedItems, vouchers }) {
+
+type VoucherTableProps = {
+  selectedItems: (items: string[]) => void
+  vouchers: VoucherType[]
+}
+
+const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -53,11 +60,9 @@ export default function VoucherTable({ selectedItems, vouchers }) {
                             <div className="flex items-center">
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">
-                                  {voucher.name}
+                                  {voucher.code}
                                 </div>
-                                <div className="text-sm text-gray-500">
-                                  {voucher.title}
-                                </div>
+                                
                               </div>
                             </div>
                           </td>
@@ -68,11 +73,11 @@ export default function VoucherTable({ selectedItems, vouchers }) {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              {voucher.active ? 'Active' : 'Inactive'}
+                              {voucher.code}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {voucher.num_applications}
+                            {voucher.num_cart_additions}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button className="text-purple-600 hover:text-purple-900">
@@ -101,3 +106,5 @@ export default function VoucherTable({ selectedItems, vouchers }) {
     </>
   );
 }
+
+export default VoucherTable;

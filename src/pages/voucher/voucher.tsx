@@ -10,9 +10,11 @@ import FilterButton from 'components/dropdown-filter';
 import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
-import VoucherTable from 'partials/voucher/VoucherTable';
+import VoucherTable from 'partials/voucher/voucher-table';
 import { ThemeProvider } from 'styles/material/theme';
 import ThreeDots from 'components/ui/loaders/three-dots';
+import { request } from 'utils/request';
+import { VoucherViews } from 'typings/voucher/voucher';
 
 function Vouchers() {
   const navigate = useNavigate();
@@ -26,18 +28,18 @@ function Vouchers() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading } = useQuery<VoucherViews>(
     ['voucherviews', page],
     async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/voucher-views`, {
+      await request(`${fortressURL}/shops/${shop?.shop_id}/voucher-views`, {
         method: 'POST',
         body: JSON.stringify({
-          offset: ((page - 1) * itemsPerPage + 1)-1,
+          offset: (page - 1) * itemsPerPage + 1,
           limit: itemsPerPage,
           shop_id: shop?.shop_id,
         }),
         headers: { 'Content-Type': 'application/json' },
-      }).then(result => result.json()),
+      }),
     {
       keepPreviousData: true,
       enabled: !!shop?.shop_id,
@@ -108,12 +110,12 @@ function Vouchers() {
                 vouchers={vouchers || []}
               />
               {/* Pagination */}
-              {!isEmpty(vouchers) && data?.total > itemsPerPage && (
+              {!isEmpty(vouchers) && (data?.total ?? 0) > itemsPerPage && (
                 <ThemeProvider>
                   <Pagination
                     count={
-                      data?.total > itemsPerPage
-                        ? Math.ceil(data?.total / itemsPerPage)
+                      data?.total ?? 0 > itemsPerPage
+                        ? Math.ceil(data?.total ?? 1 / itemsPerPage)
                         : 1
                     }
                     variant="outlined"
