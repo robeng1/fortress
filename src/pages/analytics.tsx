@@ -9,7 +9,7 @@ import AnalyticsCard05 from 'partials/analytics/AnalyticsCard05';
 import AnalyticsCard06 from 'partials/analytics/AnalyticsCard06';
 import AnalyticsCard07 from 'partials/analytics/AnalyticsCard07';
 import AnalyticsCard00 from 'partials/analytics/AnalyticsCard00';
-import { useStats } from 'hooks/use-webstats';
+import { useStats } from 'hooks/use-shopstats';
 import { useOnboarding } from 'hooks/use-onboarding';
 import { useSession } from 'hooks/use-session';
 import DashboardCard01 from 'partials/dashboard/DashboardCard01';

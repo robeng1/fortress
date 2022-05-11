@@ -47,10 +47,10 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
           <div className="flex items-center text-gray-800">
             <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-3">
               <img
-                className="ml-1"
+                className="ml-1 rounded-full w-10 h-10"
                 src={order.item_images[0]}
-                width="20"
-                height="20"
+                // width="w"
+                // height="10"
                 alt={order.order_id}
               />
             </div>
