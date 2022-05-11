@@ -32,7 +32,7 @@ function Vouchers() {
       await fetch(`${fortressURL}/shops/${shop?.shop_id}/voucher-views`, {
         method: 'POST',
         body: JSON.stringify({
-          offset: (page - 1) * itemsPerPage + 1,
+          offset: ((page - 1) * itemsPerPage + 1)-1,
           limit: itemsPerPage,
           shop_id: shop?.shop_id,
         }),
