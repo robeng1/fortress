@@ -35,14 +35,10 @@ module.exports = {
         },
       },
       boxShadow: {
-        DEFAULT:
-          '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
+        DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
         md: '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
         lg: '0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.01)',
         xl: '0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.01)',
-        cta: '0px 0px 0px 4px rgba(124, 58, 237, 0.1)',
-        dropdown: '0px 2px 16px rgba(0, 0, 0, 0.08);',
-        input: '0px 0px 0px 4px #8B5CF61A',
       },
       outline: {
         blue: '2px solid rgba(0, 112, 244, 0.5)',
@@ -70,7 +66,6 @@ module.exports = {
         '4xlarge': '48px',
         '5xlarge': '60px',
       },
-
       spacing: {
         '2xsmall': '0.25rem',
         xsmall: '0.5rem',

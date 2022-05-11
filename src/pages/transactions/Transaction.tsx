@@ -17,6 +17,7 @@ import usePayment from 'hooks/use-payment';
 import { TransactionViewType } from 'typings/payment/transaction-type';
 import { mToSFormatted } from 'utils/money';
 import ThreeDots from 'components/ui/loaders/three-dots';
+import TransactionItem from 'partials/balance/transaction-item';
 
 function Transactions() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -104,7 +105,7 @@ function Transactions() {
               </div>
             }
             {!isLoading && <>
-              <div>
+              <div className='hidden lg:block'>
                 <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-gray-200">
                   <div className="p-3">
                     {/* Table */}
@@ -143,8 +144,8 @@ function Transactions() {
                                 </div>
                               </td>
                               <td className="p-2 w-2/6">
-                                <div className="text-right text-gray-500">
-                                  {mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                                <div className={`text-right text-gray-800 ${txn.minor_amount < 0 ? "text-gray-800 " : "text-green-500"}`}>
+                                  {txn.minor_amount < 0 ? "-" : "+"}{mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
                                 </div>
                               </td>
                             </tr>
@@ -154,6 +155,11 @@ function Transactions() {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className='block lg:hidden space-y-2'>
+                {data && data.map((txn, index) =>
+                  <TransactionItem key={index} txn={txn} />
+                )}
               </div>
             </>}
 
