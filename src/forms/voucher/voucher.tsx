@@ -6,7 +6,7 @@ import { request, ResponseError } from 'utils/request';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { VoucherSetType } from 'typings/voucher/voucherset';
 import { fortressURL } from 'endpoints/urls';
-import ReactSelect from 'react-select/async-creatable';
+import ReactSelect from 'react-select/async';
 import useShop from 'hooks/use-shop';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
