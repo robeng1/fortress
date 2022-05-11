@@ -8,7 +8,7 @@ import Header from 'partials/header';
 import DeleteButton from 'partials/actions/DeleteButton';
 import DateSelect from 'components/date-select';
 import FilterButton from 'components/dropdown-filter';
-import SearchForm from 'partials/actions/SearchForm';
+import SearchForm from 'partials/actions/search-box';
 import { fortressURL } from 'endpoints/urls';
 import OrdersTable from 'partials/orders/order-table';
 import Order from 'partials/orders/order-manager';

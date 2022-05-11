@@ -8,7 +8,6 @@ import AnalyticsCard02 from 'partials/analytics/AnalyticsCard02';
 import AnalyticsCard05 from 'partials/analytics/AnalyticsCard05';
 import AnalyticsCard06 from 'partials/analytics/AnalyticsCard06';
 import AnalyticsCard07 from 'partials/analytics/AnalyticsCard07';
-import AnalyticsCard00 from 'partials/analytics/AnalyticsCard00';
 import { useStats } from 'hooks/use-shopstats';
 import { useOnboarding } from 'hooks/use-onboarding';
 import { useSession } from 'hooks/use-session';
@@ -16,13 +15,12 @@ import DashboardCard01 from 'partials/dashboard/DashboardCard01';
 import DashboardCard02 from 'partials/dashboard/DashboardCard02';
 import DashboardCard03 from 'partials/dashboard/DashboardCard03';
 import DashboardCard04 from 'partials/dashboard/DashboardCard04';
-import AnalyticsCard08 from 'partials/analytics/AnalyticsCard08';
 
 function Analytics() {
   useOnboarding();
-  const { requiresEmailVerification } = useSession();
+  const { isEmailVerified } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { webStats } = useStats();
+  const { stats } = useStats();
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -54,24 +52,24 @@ function Analytics() {
             </div>
           </div>
           <div className="grid grid-cols-12 gap-6">
-            <DashboardCard01 sales={webStats?.gross_revenue} dataset={[]} />
-            <DashboardCard02 sales={webStats?.net_revenue} dataset={[]} />
-            <DashboardCard03 sales={webStats?.average_order_value} dataset={[]} />
-            <DashboardCard04 volume={webStats?.order_volume} dataset={[]} />
+            <DashboardCard01 sales={stats?.gross_revenue} dataset={[]} />
+            <DashboardCard02 sales={stats?.net_revenue} dataset={[]} />
+            <DashboardCard03 sales={stats?.average_order_value} dataset={[]} />
+            <DashboardCard04 volume={stats?.order_volume} dataset={[]} />
             <AnalyticsCard01
-              totalPageViews={webStats?.total_page_views}
-              uniqueVisitors={webStats?.unique_visitors}
-              visitDuration={webStats?.visit_duration}
-              visitorsDataset={webStats?.visitors_dataset}
-              bounceRate={webStats?.bounce_rate}
+              totalPageViews={stats?.total_page_views}
+              uniqueVisitors={stats?.unique_visitors}
+              visitDuration={stats?.visit_duration}
+              visitorsDataset={stats?.visitors_dataset}
+              bounceRate={stats?.bounce_rate}
             />
             <AnalyticsCard02
-              topPages={webStats?.top_live_pages}
-              liveVisitors={webStats?.live_visitors}
+              topPages={stats?.top_live_pages}
+              liveVisitors={stats?.live_visitors}
             />
-            <AnalyticsCard05 topChannels={webStats?.top_channels} />
-            <AnalyticsCard06 topPages={webStats?.top_pages} />
-            <AnalyticsCard07 topDevices={webStats?.top_devices} />
+            <AnalyticsCard05 topChannels={stats?.top_channels} />
+            <AnalyticsCard06 topPages={stats?.top_pages} />
+            <AnalyticsCard07 topDevices={stats?.top_devices} />
           </div>
         </div>
         <BottomNav />

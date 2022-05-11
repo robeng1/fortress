@@ -2,25 +2,20 @@
 import React, { useState, lazy, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/bottom-navigation';
 import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
 import FilterButton from 'components/dropdown-filter';
-import SearchForm from 'partials/actions/SearchForm';
-import { fortressURL } from 'endpoints/urls';
+import SearchForm from 'partials/actions/search-box';
 import ProductsTable from 'partials/products/products-table';
 import useShop from 'hooks/use-shop';
-import { request } from 'utils/request';
 import { ThemeProvider } from 'styles/material/theme';
-import ProductListCardLoader from 'components/ui/loaders/product-list-card-loader';
 import ThreeDots from 'components/ui/loaders/three-dots';
+import useProductViews from 'hooks/use-product-views';
 
 function Products() {
   const navigate = useNavigate();
-  const { shop } = useShop();
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<any>([]);
 
@@ -28,29 +23,13 @@ function Products() {
     setSelectedItems([...selectedItems]);
   };
 
-  // products
-  const [productPage, setProductPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [productItemsPerPage, setProductItemsPerPage] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(15);
+  const [term, setTerm] = useState<string>("");
 
-  const { data: productData, isLoading } = useQuery(
-    ['productviews', productPage],
-    async () =>
-      await request(`${fortressURL}/shops/${shop?.shop_id}/product-views`, {
-        method: 'POST',
-        body: JSON.stringify({
-          offset: (productPage - 1) * productItemsPerPage + 1,
-          limit: productItemsPerPage,
-          shop_id: shop?.shop_id,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      }),
-    {
-      keepPreviousData: true,
-      enabled: !!shop?.shop_id,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const { productData, isLoading } = useProductViews(page, limit, term)
+
   const products = productData?.products || [];
   return (
     <div className="flex h-screen overflow-hidden">
@@ -74,7 +53,12 @@ function Products() {
                   <div className="flex justify-between gap-2 w-full">
                     {/* Search form */}
                     <div className="flex justify-start gap-2">
-                      <SearchForm placeholder="Search products..." />
+                      <SearchForm
+                        placeholder="Search products..."
+                        value={term}
+                        onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                          setTerm(e.currentTarget.value)
+                        }} />
                       {/* <div className="">
                         <FilterButton align="right" />
                       </div> */}
@@ -109,20 +93,20 @@ function Products() {
                 />
 
 
-                {!isEmpty(products) && productData?.total > productItemsPerPage && (
+                {!isEmpty(products) && (productData?.total ?? 0) > limit && (
                   <ThemeProvider>
                     <Pagination
                       count={
-                        productData?.total > productItemsPerPage
-                          ? Math.ceil(productData?.total / productItemsPerPage)
+                        (productData?.total ?? 0) > limit
+                          ? Math.ceil((productData?.total ?? 0) / limit)
                           : 1
                       }
                       variant="outlined"
                       color="primary"
                       className="mt-4 md:mt-8"
-                      page={productPage}
+                      page={page}
                       onChange={(event: ChangeEvent<unknown>, page: number) =>
-                        setProductPage(page)
+                        setPage(page)
                       }
                     />
                   </ThemeProvider>

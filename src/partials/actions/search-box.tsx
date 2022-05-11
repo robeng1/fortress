@@ -1,6 +1,16 @@
 import React from 'react';
 
-function SearchForm({ placeholder }) {
+type SearchBoxProps = {
+  placeholder: string
+  className?: string;
+  onSubmit?: (e: React.SyntheticEvent) => void;
+  onClear?: (e: React.SyntheticEvent) => void;
+  onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
+  name?: string;
+  value?: string;
+}
+
+const SearchForm: React.FC<SearchBoxProps> = ({ className, placeholder, onChange, onClear, onSubmit, name, value }) => {
   return (
     <form className="relative">
       <label htmlFor="action-search" className="sr-only">
@@ -8,6 +18,9 @@ function SearchForm({ placeholder }) {
       </label>
       <input
         id="action-search"
+        onChange={onChange}
+        value={value}
+        name={name}
         className="form-input w-full border border-transparent focus:outline-none rounded shadow bg-white px-2 pl-8 appearance-none leading-normal ds-input"
         type="search"
         placeholder={placeholder}

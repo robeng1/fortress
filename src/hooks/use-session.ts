@@ -33,7 +33,7 @@ export function useSession() {
   } else {
     session = sess
   }
-  const requiresEmailVerification: boolean = session?.identity?.email_verification_required ?? false
+  const isEmailVerified: boolean = !(session?.identity?.email_verification_required ?? false)
 
   return {
     session,
@@ -41,6 +41,6 @@ export function useSession() {
     isLoading,
     isIdle,
     isRefetching,
-    requiresEmailVerification
+    isEmailVerified
   };
 }

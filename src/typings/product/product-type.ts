@@ -139,5 +139,5 @@ export interface ProductViewType {
 
 export interface ProductViewListType {
   products: ProductViewType[];
-  next_page_token: string;
+  total: number;
 }

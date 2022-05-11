@@ -5,7 +5,7 @@ import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/bottom-navigation';
 import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
-import SearchForm from 'partials/actions/SearchForm';
+import SearchForm from 'partials/actions/search-box';
 import FilterButton from 'components/dropdown-filter';
 import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';

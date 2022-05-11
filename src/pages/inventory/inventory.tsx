@@ -7,7 +7,7 @@ import BottomNav from 'components/bottom-navigation';
 import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
 import FilterButton from 'components/dropdown-filter';
-import SearchForm from 'partials/actions/SearchForm';
+import SearchForm from 'partials/actions/search-box';
 import { fortressURL } from 'endpoints/urls';
 import VariantTable from 'partials/inventory/variants-table';
 import useShop from 'hooks/use-shop';

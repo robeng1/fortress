@@ -8,14 +8,14 @@ export function useStats() {
   const { shop } = useShop();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/stats`;
 
-  const { data: webStats, isLoading: statsIsLoading } =
+  const { data: stats, isLoading: statsIsLoading } =
     useQuery<WebAnalyticResponseBody>(
       ['web-analytics'],
       async () => await request(`${requestURL}`),
       { enabled: !!shop?.shop_id },
     );
   return {
-    webStats,
+    stats,
     statsIsLoading,
   };
 }

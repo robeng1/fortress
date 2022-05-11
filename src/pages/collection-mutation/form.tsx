@@ -7,7 +7,7 @@ import { fortressURL } from 'endpoints/urls';
 import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
 import DeleteButton from 'partials/actions/DeleteButton';
-import SearchForm from 'partials/actions/SearchForm';
+import SearchForm from 'partials/actions/search-box';
 import FilterButton from 'components/dropdown-filter';
 import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';
