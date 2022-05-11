@@ -8,7 +8,7 @@ type TransactionItemItemProps = {
 const TransactionItem: React.FC<TransactionItemItemProps> = ({ txn }) => {
   return (
     <div
-      className={`shadow-lg rounded-sm border px-5 py-4 'bg-white border-slate-200'}`}
+      className={`shadow-lg rounded-sm border px-5 py-4 bg-white border-slate-200`}
     >
       <div className="md:flex justify-between items-center space-y-4 md:space-y-0 space-x-2">
         {/* Left side */}
