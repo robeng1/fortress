@@ -107,11 +107,10 @@ const DiscountForm = ({ id }) => {
             if (discount) {
               toast.promise(
                 updateDiscount({
-                  ...discount,
                   ...valuesToDiscount({ ...values }, shop),
                 }),
                 {
-                  loading: "Creating discount",
+                  loading: "Updating discount",
                   success: null,
                   error: null
                 }

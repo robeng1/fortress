@@ -8,9 +8,8 @@ type DiscountCardProps = {
 
 const DiscountCard: React.FC<DiscountCardProps> = ({ discount, handleShow }) => {
   return (
-    <>
+    <div className='flex flex-1 cursor-pointer' onClick={handleShow}>
       <div
-        onClick={handleShow}
         className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden"
       >
         {discount.image_url && (
@@ -26,7 +25,7 @@ const DiscountCard: React.FC<DiscountCardProps> = ({ discount, handleShow }) => 
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <div onClick={handleShow}>{discount.name}</div>
+              <div>{discount.name}</div>
             </h3>
           </div>
         </div>
@@ -39,7 +38,7 @@ const DiscountCard: React.FC<DiscountCardProps> = ({ discount, handleShow }) => 
           <p className="ml-4 text-sm text-gray-500">{discount.status}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 export default DiscountCard;

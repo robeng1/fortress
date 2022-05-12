@@ -8,7 +8,7 @@ type VoucherCardProps ={
 
 const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, handleShow }) => {
   return (
-    <>
+    <div className='flex flex-1 cursor-pointer'>
       <div className="ml-2 flex-1 flex flex-col pl-2">
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
@@ -26,7 +26,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({ voucher, handleShow }) => {
           <p className="ml-4 text-sm text-gray-500">{voucher.name?? voucher.code}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 export default VoucherCard;

@@ -5,7 +5,7 @@ import { BenefitType } from 'typings/discount/benefit-type';
 import { RangeType } from 'typings/discount/range-type';
 import { VoucherType } from 'typings/voucher/voucher';
 import { VoucherSetType } from 'typings/voucher/voucherset';
-import { mToS, sToM } from 'utils/money';
+import { mToS, sToM as strToMoney } from 'utils/money';
 import { initialValues, Values } from './values';
 import { ShopType } from 'typings/settings/shop-type';
 import { ABSOLUTE, PERCENTAGE, BUY_X_GET_Y, COUNT, COVERAGE, VALUE, VOUCHER, MULTIBUY, FIXED_PRICE, FREE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, ALL_PRODUCTS } from './consts';
@@ -28,7 +28,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
     slug: '',
     group_id: '',
     exclusive: false,
-    status: '',
+    status: 'Open',
     condition: null,
     benefit: null,
     priority: 0,
@@ -45,7 +45,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
     club_id: ''
   };
   if (d.discount_id) disc.discount_id = d.discount_id;
-  disc.max_discount = sToM(d.max_discount, shop?.currency?.iso_code);
+  disc.max_discount = strToMoney(d.max_discount, shop?.currency?.iso_code);
   switch (d.incentive_type) {
     case ABSOLUTE: {
       const condition: ConditionType = {
@@ -54,20 +54,20 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
       } else if (d.condition_type === VALUE) {
-        condition.money_value = sToM(
+        condition.money_value = strToMoney(
           d.condition_value_money,
           shop?.currency?.iso_code,
         );
       } else {
         condition.value_int = 0;
-        condition.money_value = sToM(0.0, shop?.currency?.iso_code);
+        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code);
       }
       disc.condition = condition;
 
       // benefit construction
       const benefit: BenefitType = {
         benefit_type: d.incentive_type,
-        value_m: sToM(d.value, shop?.currency?.iso_code),
+        value_m: strToMoney(d.value, shop?.currency?.iso_code),
       };
       const benRange: RangeType = {
         includes_all_products: d.applies_to === ALL_PRODUCTS,
@@ -89,13 +89,13 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
       } else if (d.condition_type === VALUE) {
-        condition.money_value = sToM(
+        condition.money_value = strToMoney(
           d.condition_value_money,
           shop?.currency?.iso_code,
         );
       } else {
         condition.value_int = 0;
-        condition.money_value = sToM(0.0, shop?.currency?.iso_code);
+        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code);
       }
       disc.condition = condition;
 
@@ -124,13 +124,13 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
       } else if (d.condition_type === VALUE) {
-        condition.money_value = sToM(
+        condition.money_value = strToMoney(
           d.condition_value_money,
           shop?.currency?.iso_code,
         );
       } else {
         condition.value_int = 0;
-        condition.money_value = sToM(0.0, shop?.currency?.iso_code);
+        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code);
       }
       disc.condition = condition;
 
@@ -157,20 +157,20 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
         condition.value_int = d.condition_value_int;
       } else if (d.condition_type === VALUE) {
-        condition.money_value = sToM(
+        condition.money_value = strToMoney(
           d.condition_value_money,
           shop?.currency?.iso_code,
         );
       } else {
         condition.value_int = 0;
-        condition.money_value = sToM(0.0, shop?.currency?.iso_code);
+        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code);
       }
       disc.condition = condition;
 
       // benefit construction
       const benefit: BenefitType = {
         benefit_type: d.incentive_type,
-        value_m: sToM(d.value, shop?.currency?.iso_code),
+        value_m: strToMoney(d.value, shop?.currency?.iso_code),
       };
       const benRange: RangeType = {
         includes_all_products: d.applies_to === ALL_PRODUCTS,
@@ -195,13 +195,13 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       ) {
         condition.value_int = d.buy_x_get_y_condition_value as number;
       } else if (d.buy_x_get_y_condition_type === VALUE) {
-        condition.money_value = sToM(
+        condition.money_value = strToMoney(
           d.buy_x_get_y_condition_value,
           shop?.currency?.iso_code,
         );
       } else {
         condition.value_int = 0;
-        condition.money_value = sToM(0.0, shop?.currency?.iso_code);
+        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code);
       }
       const condRange: RangeType = {
         includes_all_products: false,
@@ -222,7 +222,7 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         benefit_type: d.buy_x_get_y_discounted_value_type,
       };
       if (d.buy_x_get_y_discounted_value_type === ABSOLUTE) {
-        benefit.value_m = sToM(
+        benefit.value_m = strToMoney(
           d.buy_x_get_y_discounted_value,
           shop?.currency?.iso_code,
         );

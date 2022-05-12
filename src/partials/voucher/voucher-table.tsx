@@ -46,7 +46,7 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                           scope="col"
                           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Usage
+                          Usages
                         </th>
                         <th scope="col" className="relative px-6 py-3">
                           <span className="sr-only">Edit</span>
@@ -59,7 +59,7 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
+                                <div className="text-sm font-medium text-gray-900 cursor-pointer hover:underline">
                                   {voucher.name ?? voucher.code}
                                 </div>
                               </div>
@@ -78,11 +78,7 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {voucher.num_cart_additions}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button className="text-purple-600 hover:text-purple-900">
-                              Edit
-                            </button>
-                          </td>
+                          
                         </tr>
                       ))}
                     </tbody>
