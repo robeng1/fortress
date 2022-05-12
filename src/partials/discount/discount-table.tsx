@@ -77,7 +77,7 @@ const  DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {discount.type === 'site' ? 'Automatic' : 'Code'}
+                              {discount.type === 'Site' ? 'Automatic' : 'Manual'}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">

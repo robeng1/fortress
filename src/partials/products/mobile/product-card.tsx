@@ -11,15 +11,11 @@ type ProductCardProps = {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, handleShow }) => {
-  const statusColor = status => {
-    switch (status) {
-      case 'Not tracked':
-        return 'bg-green-100 text-green-600';
-      case '0 in stock':
-        return 'bg-red-100 text-red-600';
-      default:
-        return '';
+  const statusColor = stock => {
+    if (stock > 0) {
+      return 'bg-green-100 text-green-600';
     }
+    return 'bg-red-100 text-red-600';
   };
   const { image_url, title } = product;
   return (
@@ -41,8 +37,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, handleShow }) => {
         </div>
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p
-            className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5 ${statusColor(
-              `${product.num_in_stock} in stock}`
+            className={`mt-1 text-sm text-gray-500 rounded text-center py-0.5 px-2 ${statusColor(
+              product.num_in_stock
             )}`}
           >
             {`${product.num_in_stock} in stock`}

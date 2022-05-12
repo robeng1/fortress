@@ -34,7 +34,7 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
       keepPreviousData: true,
     },
   );
-  const { mutate: update, isLoading: isUpdating } = useMutation(
+  const { mutateAsync: update, isLoading: isUpdating } = useMutation(
     (payload: ProductType) =>
       request(url, {
         method: 'PATCH',
@@ -98,6 +98,7 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
     width: '',
     profile_id: '',
     ...variant,
+    images: [],
   }
   return (
     <>
@@ -115,7 +116,15 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
               enableReinitialize
               initialValues={initialValues}
               onSubmit={(values, { setSubmitting }) => {
-                update({ ...values })
+                setSubmitting(true)
+                toast.promise(
+                  update({ ...values, images: [] }),
+                  {
+                    loading: "Updating product",
+                    success: null,
+                    error: null
+                  }
+                )
                 setSubmitting(false);
               }}
             >
@@ -215,6 +224,18 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                             type="checkbox"
                           />
                           <InputHeader label='Manage inventory' tooltipContent='Customers can still order even if this product is out of stock' />
+                        </div>
+                        <div className="flex items-center w-full">
+                          <input
+                            name="is_discountable"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            checked={values.is_discountable}
+                            id="is_discountable"
+                            className="form-checkbox mr-2"
+                            type="checkbox"
+                          />
+                          <InputHeader label='Is discountable' tooltipContent='Whether this product should be included in a discount' />
                         </div>
                       </div>
                     </section>

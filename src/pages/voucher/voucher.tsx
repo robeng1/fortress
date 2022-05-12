@@ -28,7 +28,7 @@ function Vouchers() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
 
-  const { data, isLoading } = useQuery<VoucherViews>(
+  const { data, isLoading, } = useQuery<VoucherViews>(
     ['voucherviews', page],
     async () =>
       await request(`${fortressURL}/shops/${shop?.shop_id}/voucher-views`, {

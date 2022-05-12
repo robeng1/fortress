@@ -140,7 +140,7 @@ const ImageUpload = ({
                 width: '100%',
                 objectFit: 'contain',
               }}
-              src={value}
+              src={value && value.includes("static.reoplex.com") ? proxyURL(value, 300, 300) : value}
             />
           ) : (
             <div>Upload</div>

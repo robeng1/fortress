@@ -46,7 +46,7 @@ const DiscountForm = ({ id }) => {
   const [isBx, setIsBx] = useState<boolean>(false);
 
   // create the discount, TODO: should be moved into a hook
-  const { mutate: createDiscount, isLoading: isCreatingDiscount } = useMutation(
+  const { mutateAsync: createDiscount, isLoading: isCreatingDiscount } = useMutation(
     (payload: DiscountType) =>
       request(requestURL, {
         method: 'POST',
@@ -65,7 +65,7 @@ const DiscountForm = ({ id }) => {
   );
 
   // update the update TODO: should be moved into a hook
-  const { mutate: updateDiscount, isLoading: isUpdatingDiscount } = useMutation(
+  const { mutateAsync: updateDiscount, isLoading: isUpdatingDiscount } = useMutation(
     (payload: DiscountType) =>
       request(`${requestURL}/${discountId}`, {
         method: 'PATCH',
@@ -88,23 +88,44 @@ const DiscountForm = ({ id }) => {
     ...discountToValues(discount, shop),
   };
 
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Fetching data", {id: "discount-fetching"})
+    } else {
+      toast.dismiss("discount-fetching")
+    }
+  }, [isLoading])
+
   return (
     <div className="w-full">
       <div>
-        <Loading open={isCreatingDiscount || isUpdatingDiscount || isLoading} />
         <Formik
           enableReinitialize
           initialValues={initialVals}
           onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(true)
             if (discount) {
-              updateDiscount({
-                ...discount,
-                ...valuesToDiscount({ ...values }, shop),
-              });
+              toast.promise(
+                updateDiscount({
+                  ...discount,
+                  ...valuesToDiscount({ ...values }, shop),
+                }),
+                {
+                  loading: "Creating discount",
+                  success: null,
+                  error: null
+                }
+              )
             } else {
-              createDiscount({
+              toast.promise(createDiscount({
                 ...valuesToDiscount({ ...values }, shop),
-              });
+              }),
+                {
+                  loading: "Creating discount",
+                  success: null,
+                  error: null
+                }
+              )
             }
             setSubmitting(false);
           }}
@@ -676,7 +697,12 @@ const DiscountForm = ({ id }) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.value}
-                              className="form-input w-full pr-8"
+                              className={`form-input w-full pr-8 ${(values.incentive_type ===
+                                FIXED_PRICE ||
+                                values.incentive_type ===
+                                ABSOLUTE) &&
+                                'pl-12'
+                                }`}
                               type="text"
                             />
                             {values.incentive_type === PERCENTAGE && (

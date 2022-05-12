@@ -49,7 +49,7 @@ const VoucherForm = ({ id, codeType }) => {
     );
 
   // create the voucher
-  const { mutate: createSingle } = useMutation(
+  const { mutateAsync: createVoucher } = useMutation(
     (payload: VoucherType) =>
       request(vRequestURL, {
         method: 'POST',
@@ -67,7 +67,7 @@ const VoucherForm = ({ id, codeType }) => {
   );
 
   // update the voucher
-  const { mutate: updateSingle } = useMutation(
+  const { mutateAsync: updateVoucher } = useMutation(
     (payload: VoucherType) =>
       request(`${vRequestURL}/${id}`, {
         method: 'PATCH',
@@ -103,7 +103,7 @@ const VoucherForm = ({ id, codeType }) => {
   );
 
   // update the voucherset
-  const { mutate: updateSet } = useMutation(
+  const { mutate: updateSet, isLoading } = useMutation(
     (payload: VoucherSetType) =>
       request(`${vsRequestURL}/${id}`, {
         method: 'PATCH',
@@ -122,7 +122,7 @@ const VoucherForm = ({ id, codeType }) => {
 
   return (
     <>
-      <Loading open={isVoucherLoading || isVoucherSetLoading} />
+      <Loading open={isVoucherLoading || isVoucherSetLoading || isLoading} />
       <div>
         <Formik
           enableReinitialize={true}
@@ -141,6 +141,7 @@ const VoucherForm = ({ id, codeType }) => {
             count: 1,
           }}
           onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(true)
             if (!values.discount || values.discount === null || values.discount === "") {
               toast.error("Discount is required for voucher")
               return
@@ -151,7 +152,7 @@ const VoucherForm = ({ id, codeType }) => {
                   if (!voucher?.total_discount) {
                     vals.total_discount = { amount: 0, currency: shop?.currency?.iso_code! }
                   }
-                  updateSingle({
+                  updateVoucher({
                     ...voucher,
                     name: vals.name,
                     code: vals.code,
@@ -188,21 +189,28 @@ const VoucherForm = ({ id, codeType }) => {
               } else {
                 if (values.code_type === SINGLE_CODE_TYPE) {
                   const vals = values as unknown as VoucherType
-                  createSingle({
-                    name: vals.name,
-                    code: vals.code,
-                    usage: vals.usage,
-                    shop_id: shop?.shop_id,
-                    voucher_id: '',
-                    total_discount: { amount: 0, currency: shop?.currency?.iso_code },
-                    discount_id: values.discount['key'],
-                    start_datetime: moment(
-                      values.start_date + ' ' + values.start_time,
-                    ).toISOString(),
-                    end_datetime: moment(
-                      values.end_date + ' ' + values.end_time,
-                    ).toISOString(),
-                  } as VoucherType);
+                  toast.promise(
+                    createVoucher({
+                      name: vals.name,
+                      code: vals.code,
+                      usage: vals.usage,
+                      shop_id: shop?.shop_id,
+                      voucher_id: '',
+                      total_discount: { amount: 0, currency: shop?.currency?.iso_code },
+                      discount_id: values.discount['key'],
+                      start_datetime: moment(
+                        values.start_date + ' ' + values.start_time,
+                      ).toISOString(),
+                      end_datetime: moment(
+                        values.end_date + ' ' + values.end_time,
+                      ).toISOString(),
+                    } as VoucherType),
+                    {
+                      loading: 'Saving voucher',
+                      success: null,
+                      error: null,
+                    },
+                  );
                 } else {
                   const vals = values as unknown as VoucherSetType
                   createSet({

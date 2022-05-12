@@ -15,12 +15,21 @@ import DashboardCard01 from 'partials/dashboard/DashboardCard01';
 import DashboardCard02 from 'partials/dashboard/DashboardCard02';
 import DashboardCard03 from 'partials/dashboard/DashboardCard03';
 import DashboardCard04 from 'partials/dashboard/DashboardCard04';
+import { toast } from 'react-toastify';
 
 function Analytics() {
   useOnboarding();
   const { isEmailVerified } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { stats } = useStats();
+  const { stats, statsIsLoading } = useStats();
+
+  useEffect(() => {
+    if (statsIsLoading) {
+      toast.loading("Fetching data")
+    } else {
+      toast.dismiss("Fetching data")
+    }
+  }, [statsIsLoading])
 
   return (
     <div className="flex h-screen overflow-hidden">

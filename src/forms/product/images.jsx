@@ -67,7 +67,7 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
                 e.stopPropagation();
               }}
               sx={{ position: 'relative' }}
-              src={proxyURL(image, 300, 300)}
+              src={image && image.includes("static.reoplex.com") ? proxyURL(image, 300, 300) : image}
             >
               <CloseIcon
                 onClick={e => {

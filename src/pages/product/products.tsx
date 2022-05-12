@@ -9,7 +9,6 @@ import Header from 'partials/header';
 import FilterButton from 'components/dropdown-filter';
 import SearchForm from 'partials/actions/search-box';
 import ProductsTable from 'partials/products/products-table';
-import useShop from 'hooks/use-shop';
 import { ThemeProvider } from 'styles/material/theme';
 import ThreeDots from 'components/ui/loaders/three-dots';
 import useProductViews from 'hooks/use-product-views';

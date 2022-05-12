@@ -84,7 +84,7 @@ const SingleImageDropzone = ({ value, onChange, label, ...props }) => {
         })}
       >
         <input {...getInputProps()} />
-        <Image src={value || ''} {...props} />
+        <Image src={value && value.includes("static.reoplex.com") ? proxyURL(value, 300, 300) : value} {...props} />
       </Container>
     </Box>
   );

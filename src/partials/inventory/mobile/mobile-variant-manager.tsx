@@ -1,7 +1,8 @@
 import useModal from 'hooks/use-modal';
+import useShop from 'hooks/use-shop';
 import * as React from 'react';
 import { InventoryViewType } from 'typings/inventory/inventory-type';
-import { pesosRawMoney } from 'utils/money';
+import { mToSFormatted, pesosRawMoney } from 'utils/money';
 import { proxyURL } from 'utils/urlsigner';
 import VariantEditor from '../editor';
 
@@ -13,20 +14,17 @@ type MobileVariantManagerProps = {
 
 const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) => {
   const { isOpen, handleOpen, handleClose } = useModal(false);
-  const statusColor = status => {
-    switch (status) {
-      case 'Not tracked':
-        return 'bg-green-100 text-green-600';
-      case '0 in stock':
-        return 'bg-red-100 text-red-600';
-      default:
-        return '';
+  const { shop } = useShop();
+  const statusColor = stock => {
+    if (stock > 0){
+      return 'bg-green-100 text-green-600';
     }
+    return 'bg-red-100 text-red-600';
   };
   const { image_url, price_excl_tax, title, num_in_stock } = product;
   return (
-    <>
-      <div className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
+    <main className='flex flex-1 cursor-pointer' onClick={handleOpen}>
+      <div className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center cursor-pointer justify-center border border-gray-100 rounded-md overflow-hidden">
         <img
           src={proxyURL(image_url, 50, 50)}
           alt={title}
@@ -38,23 +36,23 @@ const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) =
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <p onClick={handleOpen}>{title}</p>
+              <p>{title}</p>
             </h3>
           </div>
         </div>
         <div className="flex justify-between align-bottom text-base font-medium text-gray-900">
           <p
-            className={`mt-1 text-sm text-gray-500 rounded-full text-center py-0.5 ${statusColor(
+            className={`mt-1 text-sm text-gray-500 rounded text-center py-0.5 px-2 ${statusColor(
               num_in_stock,
             )}`}
           >
-            {num_in_stock}
+            {num_in_stock} In stock
           </p>
-          <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">{pesosRawMoney(price_excl_tax)}</p>
+          <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">{mToSFormatted({ amount: price_excl_tax, currency: shop?.currency?.iso_code ?? 'GHS' })}</p>
         </div>
       </div>
       <VariantEditor product={product} isOpen={isOpen} handleOpen={handleOpen} handleClose={handleClose} />
-    </>
+    </main>
   );
 }
 

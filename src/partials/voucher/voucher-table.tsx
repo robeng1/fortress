@@ -60,9 +60,8 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                             <div className="flex items-center">
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">
-                                  {voucher.code}
+                                  {voucher.name ?? voucher.code}
                                 </div>
-                                
                               </div>
                             </div>
                           </td>
