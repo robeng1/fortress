@@ -256,28 +256,28 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
       // wierd like how did we get here?
     }
   }
-  if (d.type === VOUCHER) {
-    if (d.code_type === 'single') {
-      const voucher: VoucherType = {
-        voucher_id: '',
-        code: d.code,
-        shop_id: shop?.shop_id,
-        discount_id: d.discount_id,
-        usage: d.code_usage,
-      };
-      disc.vouchers = [voucher];
-    } else if (d.code_type === 'set') {
-      const voucherSet: VoucherSetType = {
-        set_id: '',
-        shop_id: shop?.shop_id,
-        usage: d.code_usage,
-        discount_id: d.discount_id,
-        code_length: d.code_length,
-        count: d.number_of_codes,
-      };
-      disc.voucher_sets = [voucherSet];
-    }
-  }
+  // if (d.type === VOUCHER) {
+  //   if (d.code_type === 'single') {
+  //     const voucher: VoucherType = {
+  //       voucher_id: '',
+  //       code: d.code,
+  //       shop_id: shop?.shop_id,
+  //       discount_id: d.discount_id,
+  //       usage: d.code_usage,
+  //     };
+  //     disc.vouchers = [voucher];
+  //   } else if (d.code_type === 'set') {
+  //     const voucherSet: VoucherSetType = {
+  //       set_id: '',
+  //       shop_id: shop?.shop_id,
+  //       usage: d.code_usage,
+  //       discount_id: d.discount_id,
+  //       code_length: d.code_length,
+  //       count: d.number_of_codes,
+  //     };
+  //     disc.voucher_sets = [voucherSet];
+  //   }
+  // }
   return disc;
 };
 

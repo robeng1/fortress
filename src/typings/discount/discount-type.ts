@@ -38,8 +38,6 @@ export interface DiscountType {
   'deleted_at'?: string;
   'metadata': (string);
   'club_id': (string);
-  vouchers?: VoucherType[];
-  voucher_sets?: VoucherSetType[];
 }
 
 export interface DiscountListType {

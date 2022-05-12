@@ -10,7 +10,6 @@ import useShop from 'hooks/use-shop';
 import { initialValues } from './values';
 import { discountToValues, valuesToDiscount } from './utils';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Loading } from 'components/blocks/backdrop';
 import { ABSOLUTE, ALL_PRODUCTS, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, VALUE, VOUCHER } from './consts';
 import ProductSelector from 'components/blocks/product-selector';
 import CollectionSelector from 'components/blocks/collection-selector';

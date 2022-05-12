@@ -51,7 +51,7 @@ const DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts 
                     <tbody className="bg-white divide-y divide-gray-200">
                       {discounts.map(discount => (
                         <tr key={discount.discount_id}>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-6 py-2 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="flex-shrink-0 h-10 w-10">
                                 {discount.image_url && (
