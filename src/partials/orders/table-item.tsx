@@ -23,7 +23,7 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
   };
 
   return (
-    <tbody className="text-sm">
+    <tbody className="text-xs">
       {/* Row */}
       <tr>
         <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap w-px">
@@ -45,28 +45,26 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
           className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap"
         >
           <div className="flex items-center text-gray-800">
-            <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-3">
+            <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-3">
               <img
-                className="ml-1 rounded-full w-10 h-10"
+                className="ml-1 rounded-full w-7 h-7"
                 src={order.item_images[0]}
-                // width="w"
-                // height="10"
                 alt={order.order_id}
               />
             </div>
-            <div className="text-light-purple-500 font-thin text-sm">
+            <div className="text-light-purple-500 font-thin text-xs">
               {order.order_id}
             </div>
           </div>
         </td>
         <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
-          <div>{new Date(order.updated_at).toLocaleString()}</div>
+          <div>{new Date(order.updated_at).toLocaleDateString()}</div>
         </td>
         <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div className="font-medium text-gray-800">{order.customer_name}</div>
         </td>
         <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
-          <div className="text-left font-medium text-green-500">
+          <div className="text-left font-medium text-green-600">
             {formatPesosMoney(order.total, order.currency)}
           </div>
         </td>

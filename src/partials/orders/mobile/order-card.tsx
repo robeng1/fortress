@@ -15,33 +15,32 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
       onClick={() => handleShow(true, order.order_id)}
       className="block w-full"
     >
-      <div className="w-full flex flex-grow justify-between text-base font-medium text-gray-900">
-        <p className={`text-sm text-gray-900 text-center`}>
+      <div className="w-full flex flex-grow justify-between text-xs font-medium text-gray-900">
+        <div className={`flex text-xs text-gray-900 text-center`}>
           #{new Date(order.updated_at).toLocaleDateString()}
-        </p>
-        <p className="ml-4 font-medium text-green-500">
+          <div className="ml-2 flex justify-between text-xs font-semibold text-gray-900">
+            <h3>
+              <div className="inline-flex font-medium rounded-md text-center px-2.5 bg-green-100 text-green-600">
+                {order.status}
+              </div>
+            </h3>
+          </div>
+        </div>
+        <p className="ml-4 font-medium text-green-600">
           {formatPesosMoney(order.total, order.currency)}
         </p>
       </div>
-
-      <div className="flex justify-between text-sm font-semibold text-gray-900">
-        <h3>
-          <div className="inline-flex font-medium rounded-md text-center px-2.5 py-0.5 bg-green-100 text-green-600">
-            {order.status}
-          </div>
-        </h3>
-      </div>
       <div className="w-full flex justify-between">
         <div className="flex flex-col justify-between">
-          <div className="text-sm font-medium text-gray-800">
+          <div className="text-xs font-medium text-gray-800">
             {order.customer_name}
           </div>
-          <div className="text-sm font-normal text-gray-800">
+          <div className="text-xs font-normal text-gray-800">
             {order.location === "null" ? "Accra" : order.location}
           </div>
           <div className="flex text-base font-medium text-gray-900">
             <p
-              className={`text-sm text-gray-500 rounded-full text-center`}
+              className={`text-xs text-gray-500 rounded-full text-center`}
             >
               {order.num_items} {order.num_items === 1 ? "item" : "items"}
             </p>
@@ -53,7 +52,7 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
               src={url}
               alt={'product image'}
               key={i}
-              className="rounded-full border-none border-white box-content ml-1 w-10 h-10"
+              className="rounded-full border-none border-white box-content ml-1 w-7 h-7 "
             />
           ))}
         </div>

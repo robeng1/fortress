@@ -3,7 +3,6 @@ import { CouponIcon } from 'components/icons/coupon-icon';
 import { ProductIcon } from 'components/icons/product-icon';
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import ReoplexLogo from '../images/reoplex.png';
 
 import SidebarLinkGroup from './sidebar-link-group';
 
@@ -94,13 +93,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </button>
             {/* Logo */}
             <NavLink to="/" className="block">
-              <img
-                className="w-8 h-8"
-                src={ReoplexLogo}
-                width="8"
-                height="8"
-                alt="reoplex"
-              />
+              <div className="w-8 h-8 relative flex justify-center items-center rounded-full bg-blue-500 text-xl text-white uppercase">R</div>
             </NavLink>
           </div>
 
@@ -141,7 +134,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </g>
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname === '/' && 'text-gray-900'
                         }`}
                       >
@@ -180,7 +173,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname.includes('orders') && 'text-gray-900'
                         }`}
                       >
@@ -221,7 +214,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                   d="M19 0h-9c-.265 0-.52.106-.707.293l-9 9a.999.999 0 0 0 0 1.414l9 9a.997.997 0 0 0 1.414 0l9-9A.997.997 0 0 0 20 10V1a1 1 0 0 0-1-1zm-9 17.586L2.414 10 4 8.414 11.586 16 10 17.586zm8-8l-5 5L5.414 7l5-5H18v7.586zM15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
                                 />
                               </svg>
-                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Products
                               </span>
                             </div>
@@ -239,7 +232,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className={`block text-gray-900 hover:text-black transition duration-150 truncate `}
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('products') &&
                                     'text-gray-900'
                                   }`}
@@ -258,7 +251,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('inventory') &&
                                     'text-gray-900'
                                   }`}
@@ -278,7 +271,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('collections') &&
                                     'text-gray-900'
                                   }`}
@@ -315,7 +308,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               <Wallet />
-                              <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                              <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Finances
                               </span>
                             </div>
@@ -333,7 +326,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('finances/balance') &&
                                     'text-gray-900'
                                   }`}
@@ -353,7 +346,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes(
                                       'finances/transactions',
                                     ) && 'text-gray-900'
@@ -373,7 +366,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                  className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                                     pathname.includes('finances/payouts') &&
                                     'text-gray-900'
                                   }`}
@@ -448,7 +441,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname === '/discounts' && 'text-gray-900'
                         }`}
                       >
@@ -472,7 +465,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <div className="flex items-center align-middle">
                       <CouponIcon />
                       <span
-                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname === '/discounts' && 'text-gray-900'
                         }`}
                       >
@@ -526,7 +519,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                        className={`text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
                           pathname === '/settings' && 'text-gray-900'
                         }`}
                       >

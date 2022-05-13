@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Transition from '../utils/transition';
 
-import UserAvatar from '../images/user-header.png';
 import { useAtom } from 'jotai';
 import { clearSessionAtom } from 'store/authorization-atom';
+import useShop from 'hooks/use-shop';
+import { proxyURL } from 'utils/urlsigner';
 
 function DropdownProfile({ align, shopName = 'Demo' }) {
+  const { shop } = useShop();
   const [, clearSession] = useAtom(clearSessionAtom);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -53,13 +55,16 @@ function DropdownProfile({ align, shopName = 'Demo' }) {
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img
-          className="w-8 h-8 rounded-full"
-          src={UserAvatar}
-          width="32"
-          height="32"
-          alt="User"
-        />
+        {(shop && shop.image && shop.image != "")
+          && <img
+            className="w-8 h-8 rounded-full"
+            src={proxyURL(shop.image, 50, 50)}
+            width="32"
+            height="32"
+            alt="User"
+          />
+        }
+        {!(shop && shop.image) && <div className="w-8 h-8 flex justify-center items-center rounded-full bg-blue-500 text-xl text-white uppercase">{shopName.charAt(0)}</div>}
         <div className="hidden md:flex  items-center truncate">
           <span className="truncate ml-2 text-sm font-medium group-hover:text-gray-800">
             {shopName.charAt(0).toUpperCase() + shopName.slice(1)}
@@ -74,9 +79,8 @@ function DropdownProfile({ align, shopName = 'Demo' }) {
       </button>
 
       <Transition
-        className={`origin-top-right z-10 absolute top-full min-w-44 bg-white border border-gray-200 py-1.5 rounded shadow-lg overflow-hidden mt-1 ${
-          align === 'right' ? 'right-0' : 'left-0'
-        }`}
+        className={`origin-top-right z-10 absolute top-full min-w-44 bg-white border border-gray-200 py-1.5 rounded shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'right-0' : 'left-0'
+          }`}
         show={dropdownOpen}
         enter="transition ease-out duration-200 transform"
         enterStart="opacity-0 -translate-y-2"
