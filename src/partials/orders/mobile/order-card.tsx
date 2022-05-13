@@ -17,7 +17,7 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
     >
       <div className="w-full flex flex-grow justify-between text-xs font-medium text-gray-900">
         <div className={`flex text-xs text-gray-900 text-center`}>
-          #{new Date(order.updated_at).toLocaleDateString()}
+          {new Date(order.updated_at).toLocaleDateString()}
           <div className="ml-2 flex justify-between text-xs font-semibold text-gray-900">
             <h3>
               <div className="inline-flex font-medium rounded-md text-center px-2.5 bg-green-100 text-green-600">
