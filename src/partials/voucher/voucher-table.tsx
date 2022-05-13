@@ -26,29 +26,29 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                       <tr>
                         <th
                           scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Name
                         </th>
                         <th
                           scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Code
                         </th>
                         <th
                           scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Status
                         </th>
                         <th
                           scope="col"
-                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          className="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           Usages
                         </th>
-                        <th scope="col" className="relative px-6 py-3">
+                        <th scope="col" className="relative px-6 py-2">
                           <span className="sr-only">Edit</span>
                         </th>
                       </tr>
@@ -65,17 +65,17 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-6 py-2 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
                               {voucher.code}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
+                          <td className="px-6 py-2 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                               {voucher.code}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-500">
                             {voucher.num_cart_additions}
                           </td>
                           
