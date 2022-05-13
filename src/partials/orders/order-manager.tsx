@@ -83,7 +83,7 @@ export default function Order({ handleShow, id }) {
                   >
                     <path d="M12 16c-.256 0-.512-.098-.707-.293l-5-5c-.39-.39-.39-1.023 0-1.414l5-5c.39-.39 1.023-.39 1.414 0s.39 1.023 0 1.414L8.414 10l4.293 4.293c.39.39.39 1.023 0 1.414-.195.195-.45.293-.707.293z"></path>
                   </svg>
-                  <span>Orders</span>
+                    <span>{order.number}</span>
                 </button>
 
                 <button className="flex-none hover:bg-gray-300 ml-auto px-1 py-1 rounded">
@@ -107,13 +107,13 @@ export default function Order({ handleShow, id }) {
                   </svg>
                 </button>
               </header>
-              <div className="mt-2 flex flex-initial items-baseline">
-                <div className="flex md:flex-row flex-col flex-initial items-baseline align-middle shadow justify-start rounded-lg px-3 py-3">
-                  <h1 className="font-semibold text-sm">#{order.number}</h1>
-                  <p className="pl-3 text-gray-700">
+                <div className="mt-2 flex flex-initial items-baseline">
+                  <div className="flex md:flex-row flex-col bg-white w-full flex-initial items-baseline align-middle shadow justify-start rounded-lg px-1 md:px-3 py-3">
+                  <h1 className="font-bold bg-white text-gray-800 text-sm">ID: {order.number}</h1>
+                  <p className="md:pl-3 pl-1 text-gray-700">
                     {new Date(order.created_at!).toLocaleString()}
                   </p>
-                  <span className="bg-gray-300 border-2 border-white inline-flex items-center leading-none ml-3 px-2 py-1 rounded-full text-gray-700 text-sm">
+                  <span className="bg-gray-300 border-2 border-white inline-flex items-center leading-none ml-1 md:ml-3 px-2 py-1 rounded-full text-gray-700 text-sm">
                     Paid
                   </span>
                 </div>
