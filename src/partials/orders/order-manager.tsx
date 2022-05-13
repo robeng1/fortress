@@ -109,9 +109,9 @@ export default function Order({ handleShow, id }) {
               </header>
               <div className="mt-2 flex flex-initial items-baseline">
                 <div className="flex md:flex-row flex-col flex-initial items-baseline align-middle shadow justify-start rounded-lg px-3 py-3">
-                  <h1 className="font-semibold text-xl">#{order.number}</h1>
+                  <h1 className="font-semibold text-sm">#{order.number}</h1>
                   <p className="pl-3 text-gray-700">
-                    {new Date(order.created_at!).toLocaleString()} from Draft Orders
+                    {new Date(order.created_at!).toLocaleString()}
                   </p>
                   <span className="bg-gray-300 border-2 border-white inline-flex items-center leading-none ml-3 px-2 py-1 rounded-full text-gray-700 text-sm">
                     Paid
