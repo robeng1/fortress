@@ -356,7 +356,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     <div className="flex items-center align-middle">
                       <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0"  width="24" height="24" viewBox="0 0 24 24"><path d="M22,4H2A1,1,0,0,0,1,5V19a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V5A1,1,0,0,0,22,4ZM21,18H19V15a1,1,0,0,0-2,0v3H3V6H17V9a1,1,0,0,0,2,0V6h2ZM13.71,8.29a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0,1,1,0,0,1,0-1.42l6-6A1,1,0,0,1,13.71,8.29ZM7,9a1,1,0,1,1,1,1A1,1,0,0,1,7,9Zm6,6a1,1,0,1,1-1-1A1,1,0,0,1,13,15Z" /></svg>
                       <span
-                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === '/vouchers' && 'text-gray-900'
+                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === '/vouchers' && 'text-gray-900'
                           }`}
                       >
                         Vouchers
