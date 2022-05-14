@@ -164,7 +164,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center ali">
-                              <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" className="flex-shrink-0" width="24" height="24" viewBox="0 0 24 24"><path d="M9.8,22.7c-0.8,0-1.5-0.3-2-0.8l-5.7-5.7c-1.2-1.2-1.1-3.2,0.2-4.4l8.6-8.6c0.3-0.3,0.7-0.5,1.1-0.6l5.9-1.1c0.6-0.1,1.3,0.1,1.8,0.6l2.1,2.1c0.5,0.5,0.7,1.1,0.6,1.7l-1,6c-0.1,0.4-0.3,0.8-0.6,1.1l-8.6,8.6C11.5,22.4,10.6,22.7,9.8,22.7z M18.9,2.9l-0.7,0.7l-6,1.1l-8.6,8.6c-0.5,0.5-0.6,1.2-0.2,1.6l5.7,5.7c0.2,0.2,0.5,0.3,0.7,0.2c0.3,0,0.6-0.2,0.9-0.4l8.6-8.6l1-6l-2.1-2.1L18.9,2.9z" /><path d="M17,6c-0.6,0-1,0.4-1,1s0.4,1,1,1s1-0.4,1-1S17.6,6,17,6L17,6z" /></svg>
+                              <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" className="flex-shrink-0" width="24" height="24" viewBox="0 0 24 24"><path d="M9.8,22.7c-0.8,0-1.5-0.3-2-0.8l-5.7-5.7c-1.2-1.2-1.1-3.2,0.2-4.4l8.6-8.6c0.3-0.3,0.7-0.5,1.1-0.6l5.9-1.1c0.6-0.1,1.3,0.1,1.8,0.6l2.1,2.1c0.5,0.5,0.7,1.1,0.6,1.7l-1,6c-0.1,0.4-0.3,0.8-0.6,1.1l-8.6,8.6C11.5,22.4,10.6,22.7,9.8,22.7z M18.9,2.9l-0.7,0.7l-6,1.1l-8.6,8.6c-0.5,0.5-0.6,1.2-0.2,1.6l5.7,5.7c0.2,0.2,0.5,0.3,0.7,0.2c0.3,0,0.6-0.2,0.9-0.4l8.6-8.6l1-6l-2.1-2.1L18.9,2.9z" /><path d="M17,6c-0.6,0-1,0.4-1,1s0.4,1,1,1s1-0.4,1-1S17.6,6,17,6L17,6z" /></svg>
                               <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Products
                               </span>
@@ -251,7 +251,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0" width="24" height="24"  viewBox="0 0 24 24"><path d="M21,13.5A2.5,2.5,0,0,1,19,16V17a1,1,0,0,1-2,0V16H16a1,1,0,0,1,0-2h2.5a.5.5,0,0,0,0-1h-1A2.5,2.5,0,0,1,17,8.05V7a1,1,0,0,1,2,0V8h1a1,1,0,0,1,0,2H17.5a.5.5,0,0,0,0,1h1A2.5,2.5,0,0,1,21,13.5ZM21,21a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V9A1,1,0,0,1,4,8H7V3A1,1,0,0,1,8,2h4a1,1,0,0,1,1,1V20h7A1,1,0,0,1,21,21ZM5,20H7V10H5Zm4,0h2V4H9Z" /></svg>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0" width="24" height="24" viewBox="0 0 24 24"><path d="M21,13.5A2.5,2.5,0,0,1,19,16V17a1,1,0,0,1-2,0V16H16a1,1,0,0,1,0-2h2.5a.5.5,0,0,0,0-1h-1A2.5,2.5,0,0,1,17,8.05V7a1,1,0,0,1,2,0V8h1a1,1,0,0,1,0,2H17.5a.5.5,0,0,0,0,1h1A2.5,2.5,0,0,1,21,13.5ZM21,21a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V9A1,1,0,0,1,4,8H7V3A1,1,0,0,1,8,2h4a1,1,0,0,1,1,1V20h7A1,1,0,0,1,21,21ZM5,20H7V10H5Zm4,0h2V4H9Z" /></svg>
                               <span className="text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Finances
                               </span>
@@ -354,7 +354,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       }`}
                   >
                     <div className="flex items-center align-middle">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0"  width="24" height="24" viewBox="0 0 24 24"><path d="M22,4H2A1,1,0,0,0,1,5V19a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V5A1,1,0,0,0,22,4ZM21,18H19V15a1,1,0,0,0-2,0v3H3V6H17V9a1,1,0,0,0,2,0V6h2ZM13.71,8.29a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0,1,1,0,0,1,0-1.42l6-6A1,1,0,0,1,13.71,8.29ZM7,9a1,1,0,1,1,1,1A1,1,0,0,1,7,9Zm6,6a1,1,0,1,1-1-1A1,1,0,0,1,13,15Z" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0" width="24" height="24" viewBox="0 0 24 24"><path d="M22,4H2A1,1,0,0,0,1,5V19a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V5A1,1,0,0,0,22,4ZM21,18H19V15a1,1,0,0,0-2,0v3H3V6H17V9a1,1,0,0,0,2,0V6h2ZM13.71,8.29a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0,1,1,0,0,1,0-1.42l6-6A1,1,0,0,1,13.71,8.29ZM7,9a1,1,0,1,1,1,1A1,1,0,0,1,7,9Zm6,6a1,1,0,1,1-1-1A1,1,0,0,1,13,15Z" /></svg>
                       <span
                         className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === '/vouchers' && 'text-gray-900'
                           }`}

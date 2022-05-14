@@ -88,10 +88,10 @@ export default function BottomNav() {
               className={`${pathname.includes('shop') && '!text-purple-900'}`}
               label="Products"
               icon={
-                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" 
-                className={`fill-current flex-shrink-0 text-gray-900 ${pathname.includes('shop') && '!text-purple-900'
-                  }`} width="24" height="24" viewBox="0 0 24 24"><path className={`fill-current flex-shrink-0 text-gray-900 ${pathname.includes('shop') && '!text-purple-900'
-                    }`} d="M9.8,22.7c-0.8,0-1.5-0.3-2-0.8l-5.7-5.7c-1.2-1.2-1.1-3.2,0.2-4.4l8.6-8.6c0.3-0.3,0.7-0.5,1.1-0.6l5.9-1.1c0.6-0.1,1.3,0.1,1.8,0.6l2.1,2.1c0.5,0.5,0.7,1.1,0.6,1.7l-1,6c-0.1,0.4-0.3,0.8-0.6,1.1l-8.6,8.6C11.5,22.4,10.6,22.7,9.8,22.7z M18.9,2.9l-0.7,0.7l-6,1.1l-8.6,8.6c-0.5,0.5-0.6,1.2-0.2,1.6l5.7,5.7c0.2,0.2,0.5,0.3,0.7,0.2c0.3,0,0.6-0.2,0.9-0.4l8.6-8.6l1-6l-2.1-2.1L18.9,2.9z" /><path d="M17,6c-0.6,0-1,0.4-1,1s0.4,1,1,1s1-0.4,1-1S17.6,6,17,6L17,6z" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24"
+                  className={`fill-current flex-shrink-0 text-gray-900 ${pathname.includes('shop') && '!text-purple-900'
+                    }`} width="24" height="24" viewBox="0 0 24 24"><path className={`fill-current flex-shrink-0 text-gray-900 ${pathname.includes('shop') && '!text-purple-900'
+                      }`} d="M9.8,22.7c-0.8,0-1.5-0.3-2-0.8l-5.7-5.7c-1.2-1.2-1.1-3.2,0.2-4.4l8.6-8.6c0.3-0.3,0.7-0.5,1.1-0.6l5.9-1.1c0.6-0.1,1.3,0.1,1.8,0.6l2.1,2.1c0.5,0.5,0.7,1.1,0.6,1.7l-1,6c-0.1,0.4-0.3,0.8-0.6,1.1l-8.6,8.6C11.5,22.4,10.6,22.7,9.8,22.7z M18.9,2.9l-0.7,0.7l-6,1.1l-8.6,8.6c-0.5,0.5-0.6,1.2-0.2,1.6l5.7,5.7c0.2,0.2,0.5,0.3,0.7,0.2c0.3,0,0.6-0.2,0.9-0.4l8.6-8.6l1-6l-2.1-2.1L18.9,2.9z" /><path d="M17,6c-0.6,0-1,0.4-1,1s0.4,1,1,1s1-0.4,1-1S17.6,6,17,6L17,6z" /></svg>
               }
             />
             <BottomNavigationAction
@@ -104,7 +104,7 @@ export default function BottomNav() {
               className={`${pathname.includes('settings') && '!text-purple-900'
                 }`}
               label="Settings"
-              
+
               icon={
                 <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" className={`fill-current flex-shrink-0 text-gray-900 ${pathname.includes('settings') && '!text-purple-900'
                   }`} width="24" height="24" viewBox="0 0 24 24"><path className={`fill-current flex-shrink-0 text-gray-900 ${pathname.includes('settings') && '!text-purple-900'
