@@ -10,6 +10,7 @@ import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styles/material/theme';
 import ThreeDots from 'components/ui/loaders/three-dots';
+import useDiscountViews from 'hooks/use-discount-views';
 
 function Discounts() {
   const navigate = useNavigate();
@@ -94,12 +95,12 @@ function Discounts() {
                 discounts={discounts || []}
               />
               {/* Pagination */}
-              {!isEmpty(discounts) && discountData?.total > limit && (
+              {!isEmpty(discounts) && (discountData?.total ?? 0) > limit && (
                 <ThemeProvider>
                   <Pagination
                     count={
-                      discountData?.total > limit
-                        ? Math.ceil(discountData?.total / limit)
+                      (discountData?.total ?? 0) > limit
+                        ? Math.ceil((discountData?.total ?? 0) / limit)
                         : 1
                     }
                     variant="outlined"
@@ -121,7 +122,4 @@ function Discounts() {
 }
 
 export default Discounts;
-function useDiscountViews(page: number, limit: number, term: string): { discountData: any; isLoading: any; } {
-  throw new Error('Function not implemented.');
-}
 

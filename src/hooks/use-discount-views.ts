@@ -4,7 +4,7 @@ import useShop from './use-shop';
 import { fortressURL } from 'endpoints/urls';
 import { DiscountListType } from 'typings/discount/discount-type';
 
-export default function useCollectionViews(page: number, itemsPerPage: number, term = '') {
+export default function useDiscountViews(page: number, itemsPerPage: number, term = '') {
   const { shop } = useShop();
   const url = term && term == "" ? `${fortressURL}/shops/${shop?.shop_id}/offer-views` : `${fortressURL}/shops/${shop?.shop_id}/offer-views/search`
   const body = {
