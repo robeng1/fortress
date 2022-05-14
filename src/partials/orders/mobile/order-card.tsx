@@ -10,6 +10,21 @@ type OrderTableItemProps = {
 }
 
 const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
+  let status = 'New'
+  switch (order.status) {
+    case 'Complete':
+    case 'Customer completed':
+    case 'Escrow autocompleted':
+    case 'Completed':
+      status = 'Completed'
+      break;
+    case 'Authorized':
+      status = 'New'
+      break
+    default:
+      status = order.status
+      break;
+  }
   return (
     <div
       onClick={() => handleShow(true, order.order_id)}
@@ -21,7 +36,7 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
           <div className="ml-2 flex justify-between text-xs font-semibold text-gray-900">
             <h3>
               <div className="inline-flex font-medium rounded-md text-center px-2.5 bg-green-100 text-green-600">
-                {order.status}
+                {status}
               </div>
             </h3>
           </div>

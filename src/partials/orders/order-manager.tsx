@@ -61,7 +61,7 @@ export default function Order({ handleShow, id }) {
     e.preventDefault();
     updateOrderStatus(OrderStatusType.ORDER_DECLINED);
   };
-  const commonDisable = (order?.status === 'ORDER_COMPLETED' || order?.status === 'ORDER_DECLINED')
+  const commonDisable = (order?.status === 'ORDER_COMPLETED' || order?.status === 'ORDER_DECLINED' || order?.status === 'ORDER_ATTENTION' || order?.status === 'AWAITING_CUSTOMER_CONFIRMATION' || order?.status === 'CUSTOMER_COMPLETED' || order?.status === 'ESCROW_AUTOCOMPLETED')
   const disableMarkAsProcessingButton = commonDisable || order?.status === 'ORDER_PROCESSING'
   return (
     <>

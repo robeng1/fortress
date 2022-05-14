@@ -21,7 +21,21 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
         return 'bg-gray-100 text-gray-500';
     }
   };
-
+  let status = 'New'
+  switch (order.status) {
+    case 'Complete':
+    case 'Customer completed':
+    case 'Escrow autocompleted':
+    case 'Completed':
+      status = 'Completed'
+      break;
+    case 'Authorized':
+      status = 'New'
+      break
+    default:
+      status = order.status
+      break;
+  }
   return (
     <tbody className="text-xs">
       {/* Row */}
@@ -71,10 +85,10 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
         <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div
             className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 ${statusColor(
-              order.status,
+              status,
             )}`}
           >
-            {order.status === "Authorized" ? "New" : order.status}
+            {status}
           </div>
         </td>
         <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
