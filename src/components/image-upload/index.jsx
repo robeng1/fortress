@@ -3,6 +3,7 @@ import { Text, Flex, Image } from 'rebass';
 import { Label } from '@rebass/forms';
 import styled from '@emotion/styled';
 import Typography from '../blocks/typography';
+import { proxyURL } from 'utils/urlsigner';
 
 const StyledLabel = styled.div`
   ${Typography.Base}

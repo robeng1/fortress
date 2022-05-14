@@ -7,6 +7,8 @@ import { Loading } from 'components/blocks/backdrop';
 import { Template } from 'typings/theme/template';
 import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
+import { proxyURL } from 'utils/urlsigner';
+
 
 function Banner() {
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ function Banner() {
   };
   return (
     <div>
-      <Loading open={isUpdatingTheme} />
+      <Loading open={isUpdatingTheme || isDirty} />
       <Formik
         enableReinitialize
         initialValues={{

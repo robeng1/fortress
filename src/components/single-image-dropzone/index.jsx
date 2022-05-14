@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Box, Image as RebassImage, Text } from 'rebass';
+import { proxyURL } from 'utils/urlsigner';
 
 const Image = styled(RebassImage)`
   height: 255px;
