@@ -40,9 +40,10 @@ export interface CollectionType {
   shard?: number;
 }
 
-export interface CollectionListType {
-  collections?: CollectionType[];
-  next_page_token?: string;
+export interface CollectionViewListType {
+  collections?: CollectionViewType[];
+  total: number
+  cursor?: string
 }
 
 export interface CollectionViewType {

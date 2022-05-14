@@ -1,24 +1,19 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
-import { fortressURL } from 'endpoints/urls';
 
 import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
 import DeleteButton from 'partials/actions/DeleteButton';
 import SearchForm from 'partials/actions/search-box';
-import FilterButton from 'components/dropdown-filter';
 import BottomNav from 'components/bottom-navigation';
-import { useAtom } from 'jotai';
-import { request, ResponseError } from 'utils/request';
 
 import CollectionsTable from 'partials/collections/CollectionsTable';
-import CollectionForm from 'forms/collection/collection';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styles/material/theme';
 import ThreeDots from 'components/ui/loaders/three-dots';
+import useCollectionViews from 'hooks/use-collection-views';
 
 function Collections() {
   const navigate = useNavigate();
@@ -31,26 +26,11 @@ function Collections() {
 
   const [page, setPage] = useState(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(15);
 
-  const { data, isLoading } = useQuery<any, ResponseError>(
-    ['collectionviews', page],
-    async () =>
-      await request(`${fortressURL}/shops/${shop?.shop_id}/collection-views`, {
-        method: 'POST',
-        body: JSON.stringify({
-          offset: (page - 1) * itemsPerPage + 1,
-          limit: itemsPerPage,
-          shop_id: shop?.shop_id,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      }),
-    {
-      keepPreviousData: true,
-      enabled: !!shop?.shop_id,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const [term, setTerm] = useState<string>("");
+
+  const { collectionData, isLoading } = useCollectionViews(page, limit, term)
 
   const handleSelectedItems = selectedItems => {
     setSelectedItems([...selectedItems]);
@@ -59,7 +39,7 @@ function Collections() {
   const handleShow = (display: Boolean, collectionId: string) => {
     setCurrentCollectionId(collectionId);
   };
-  const collections = data?.collections || [];
+  const collections = collectionData?.collections || [];
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -83,10 +63,12 @@ function Collections() {
                 <div className="flex justify-between gap-2 w-full">
                   {/* Search form */}
                   <div className="flex justify-start gap-2">
-                    <SearchForm placeholder="Search collections..." />
-                    {/* <div className="">
-                      <FilterButton align="right" />
-                    </div> */}
+                    <SearchForm
+                      placeholder="Search collections..."
+                      value={term}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                        setTerm(e.currentTarget.value)
+                      }} />
                     <div className="">
                       <DeleteButton selectedItems={selectedItems} />
                     </div>
@@ -121,12 +103,12 @@ function Collections() {
               />
 
               {/* Pagination */}
-              {!isEmpty(collections) && data?.total > itemsPerPage && (
+              {!isEmpty(collections) && (collectionData?.total ?? 0) > limit && (
                 <ThemeProvider>
                   <Pagination
                     count={
-                      data?.total > itemsPerPage
-                        ? Math.ceil(data?.total / itemsPerPage)
+                      (collectionData?.total ?? 0) > limit
+                        ? Math.ceil((collectionData?.total ?? 0) / limit)
                         : 1
                     }
                     variant="outlined"
