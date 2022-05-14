@@ -41,8 +41,9 @@ export interface DiscountType {
 }
 
 export interface DiscountListType {
-  discounts?: DiscountType[];
-  next_page_token?: string;
+  discounts?: DiscountViewType[];
+  total: number
+
 }
 
 export interface DiscountViewType {

@@ -1,15 +1,11 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/bottom-navigation';
 import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
 import SearchForm from 'partials/actions/search-box';
-import FilterButton from 'components/dropdown-filter';
-import { fortressURL } from 'endpoints/urls';
 import DiscountTable from 'partials/discount/discount-table';
-import DiscountForm from 'forms/discount/discount';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styles/material/theme';
@@ -27,26 +23,11 @@ function Discounts() {
 
   const [page, setPage] = useState<number>(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(15);
 
-  const { data, isLoading } = useQuery(
-    ['discountviews', page],
-    async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/offer-views`, {
-        method: 'POST',
-        body: JSON.stringify({
-          offset: (page - 1) * itemsPerPage + 1,
-          limit: itemsPerPage,
-          shop_id: shop?.shop_id,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      }).then(result => result.json()),
-    {
-      keepPreviousData: true,
-      enabled: !!shop?.shop_id,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const [term, setTerm] = useState<string>("");
+
+  const { discountData, isLoading } = useDiscountViews(page, limit, term)
 
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
@@ -55,7 +36,7 @@ function Discounts() {
   const handleShow = (display: Boolean, discountId: String) => {
     setCurrentDiscountId(prevState => discountId);
   };
-  const discounts = data?.discounts || [];
+  const discounts = discountData?.discounts || [];
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -113,12 +94,12 @@ function Discounts() {
                 discounts={discounts || []}
               />
               {/* Pagination */}
-              {!isEmpty(discounts) && data?.total > itemsPerPage && (
+              {!isEmpty(discounts) && discountData?.total > limit && (
                 <ThemeProvider>
                   <Pagination
                     count={
-                      data?.total > itemsPerPage
-                        ? Math.ceil(data?.total / itemsPerPage)
+                      discountData?.total > limit
+                        ? Math.ceil(discountData?.total / limit)
                         : 1
                     }
                     variant="outlined"
@@ -140,3 +121,7 @@ function Discounts() {
 }
 
 export default Discounts;
+function useDiscountViews(page: number, limit: number, term: string): { discountData: any; isLoading: any; } {
+  throw new Error('Function not implemented.');
+}
+
