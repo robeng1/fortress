@@ -14,6 +14,7 @@ import useShop from 'hooks/use-shop';
 import { ThemeProvider } from 'styles/material/theme';
 import { InventoryViewListType, InventoryViewType } from 'typings/inventory/inventory-type';
 import ThreeDots from 'components/ui/loaders/three-dots';
+import useStockViews from 'hooks/use-stock-views';
 
 function Inventory() {
   const { shop } = useShop();
@@ -23,26 +24,11 @@ function Inventory() {
 
   const [page, setPage] = useState(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(15);
 
-  const { data, isLoading } = useQuery<InventoryViewListType>(
-    ['inventoryviews', page],
-    async () =>
-      await fetch(`${fortressURL}/shops/${shop?.shop_id}/inventory-views`, {
-        method: 'POST',
-        body: JSON.stringify({
-          offset: (page - 1) * itemsPerPage + 1,
-          limit: itemsPerPage,
-          shop_id: shop?.shop_id,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      }).then(result => result.json()),
-    {
-      keepPreviousData: true,
-      enabled: !!shop?.shop_id,
-      refetchOnWindowFocus: true,
-    },
-  );
+  const [term, setTerm] = useState<string>("");
+  const { data, isLoading } = useStockViews(page, limit, term)
+
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
   };
@@ -68,7 +54,12 @@ function Inventory() {
               {/* Right: Actions */}
               <div className="grid grid-flow-col sm:auto-cols-max md:justify-start justify-between gap-2">
                 {/* Search form */}
-                <SearchForm placeholder="Search inventory" />
+                <SearchForm
+                  placeholder="Search inventory..."
+                  value={term}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                    setTerm(e.currentTarget.value)
+                  }} />
                 {/* <div className="block">
                   <FilterButton align="right" />
                 </div> */}
@@ -90,12 +81,12 @@ function Inventory() {
                 }) : []}
               />
               {/* Pagination */}
-              {!isEmpty(records) && data && data?.total > itemsPerPage && (
+              {!isEmpty(records) && data && data?.total > limit && (
                 <ThemeProvider>
                   <Pagination
                     count={
-                      data && data?.total > itemsPerPage
-                        ? Math.ceil(data?.total / itemsPerPage)
+                      data && data?.total > limit
+                        ? Math.ceil(data?.total / limit)
                         : 1
                     }
                     variant="outlined"
