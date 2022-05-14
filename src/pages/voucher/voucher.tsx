@@ -1,20 +1,16 @@
 import React, { ChangeEvent, lazy, useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { useQuery } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import BottomNav from 'components/bottom-navigation';
 import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
 import SearchForm from 'partials/actions/search-box';
-import FilterButton from 'components/dropdown-filter';
-import { fortressURL } from 'endpoints/urls';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import VoucherTable from 'partials/voucher/voucher-table';
 import { ThemeProvider } from 'styles/material/theme';
 import ThreeDots from 'components/ui/loaders/three-dots';
-import { request } from 'utils/request';
-import { VoucherViews } from 'typings/voucher/voucher';
+import useVoucherViews from 'hooks/use-voucher-views';
 
 function Vouchers() {
   const navigate = useNavigate();
@@ -26,26 +22,10 @@ function Vouchers() {
 
   const [page, setPage] = useState<number>(1);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(15);
 
-  const { data, isLoading, } = useQuery<VoucherViews>(
-    ['voucherviews', page],
-    async () =>
-      await request(`${fortressURL}/shops/${shop?.shop_id}/voucher-views`, {
-        method: 'POST',
-        body: JSON.stringify({
-          offset: (page - 1) * itemsPerPage + 1,
-          limit: itemsPerPage,
-          shop_id: shop?.shop_id,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      }),
-    {
-      keepPreviousData: true,
-      enabled: !!shop?.shop_id,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const [term, setTerm] = useState<string>("");
+  const { data, isLoading } = useVoucherViews(page, limit, term)
 
   const handleSelectedItems = (selectedItems: any) => {
     setSelectedItems([...selectedItems]);
@@ -78,7 +58,12 @@ function Vouchers() {
                 <div className="flex justify-between gap-2 w-full">
                   {/* Search form */}
                   <div className="flex justify-start gap-2">
-                    <SearchForm placeholder="Search vouchers..." />
+                    <SearchForm
+                      placeholder="Search vouchers..."
+                      value={term}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                        setTerm(e.currentTarget.value)
+                      }} />
                     {/* <div className="">
                       <FilterButton align="right" />
                     </div> */}
@@ -110,12 +95,12 @@ function Vouchers() {
                 vouchers={vouchers || []}
               />
               {/* Pagination */}
-              {!isEmpty(vouchers) && (data?.total ?? 0) > itemsPerPage && (
+              {!isEmpty(vouchers) && (data?.total ?? 0) > limit && (
                 <ThemeProvider>
                   <Pagination
                     count={
-                      data?.total ?? 0 > itemsPerPage
-                        ? Math.ceil(data?.total ?? 1 / itemsPerPage)
+                      data?.total ?? 0 > limit
+                        ? Math.ceil(data?.total ?? 1 / limit)
                         : 1
                     }
                     variant="outlined"

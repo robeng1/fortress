@@ -1,4 +1,5 @@
 import { request, ResponseError } from 'utils/request';
+import isEmpty from "lodash/isEmpty"
 import { useQuery } from 'react-query';
 import useShop from './use-shop';
 import { fortressURL } from 'endpoints/urls';
@@ -6,7 +7,7 @@ import { ProductViewListType } from 'typings/product/product-type';
 
 export default function useProductViews(page: number, itemsPerPage: number, term = '') {
   const { shop } = useShop();
-  const url = term && term == "" ? `${fortressURL}/shops/${shop?.shop_id}/product-views` : `${fortressURL}/shops/${shop?.shop_id}/product-views/search`
+  const url = isEmpty(term) ? `${fortressURL}/shops/${shop?.shop_id}/product-views` : `${fortressURL}/shops/${shop?.shop_id}/product-views/search`
   const body = {
     offset: (page - 1) * itemsPerPage + 1,
     limit: itemsPerPage,
