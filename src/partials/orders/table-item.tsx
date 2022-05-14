@@ -25,6 +25,7 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
   switch (order.status) {
     case 'Complete':
     case 'Customer completed':
+    case 'Customer Completed':
     case 'Escrow autocompleted':
     case 'Completed':
       status = 'Completed'
