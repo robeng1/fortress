@@ -276,7 +276,7 @@ export default function Order({ handleShow, id }) {
                         )}
                       </span>
                     </div>
-                    <footer className="border-t flex justify-end px-5 py-4">
+                    {/* <footer className="border-t flex justify-end px-5 py-4">
                       <button
                         onClick={handleCancellation}
                         type="button"
@@ -284,7 +284,7 @@ export default function Order({ handleShow, id }) {
                       >
                         Refund
                       </button>
-                    </footer>
+                    </footer> */}
                   </div>
                 </div>
                 <div className="md:w-1/3">
