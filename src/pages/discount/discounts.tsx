@@ -61,7 +61,12 @@ function Discounts() {
                 <div className="flex justify-between gap-2 w-full">
                   {/* Search form */}
                   <div className="flex justify-start gap-2">
-                    <SearchForm placeholder="Search discounts..." />
+                    <SearchForm
+                      placeholder="Search discounts..."
+                      value={term}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                        setTerm(e.currentTarget.value)
+                      }} />
                     {/* <div className="">
                       <FilterButton align="right" />
                     </div> */}
