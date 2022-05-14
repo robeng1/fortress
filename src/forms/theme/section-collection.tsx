@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loading } from 'components/blocks/backdrop';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
-import { collectionOptions } from 'services';
+import { collectionOptions, filterCollectionsAsOptions } from 'services';
 import useShop from 'hooks/use-shop';
 import ReactSelect from 'react-select/async-creatable';
 import customSelectStyles from 'forms/product/styles';
+import { request } from 'http';
+import { useQuery } from 'react-query';
+import { CollectionType } from 'typings/collection/collection-type';
+import product from 'forms/product/product';
+import { SelectOption } from 'forms/product/values';
 
 function SectionCollection() {
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { theme, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const [selectedCollection, setSelectedCollection] = useState<SelectOption>()
+  const { theme, update, isUpdatingTheme } = useThemeMutation();
   const ind = theme?.templates?.findIndex(t => t.type === 'index');
   const tpl = theme?.templates && ind ? theme?.templates[ind] : {};
   const cob = JSON.parse(tpl?.content ?? '{}');
@@ -19,10 +25,21 @@ function SectionCollection() {
     cob && cob.sections && cob.sections.featured_collection
       ? cob.sections.featured_collection.settings
       : {};
-  initialValues.collection_featured = {
-    key: initialValues.collection_featured,
-    label: initialValues.collection_featured,
-  };
+
+  useEffect(() => {
+    if (initialValues.collection_featured) {
+      if (shop?.shop_id) {
+        const options = filterCollectionsAsOptions(
+          shop?.shop_id,
+          [initialValues.collection_featured],
+        );
+        options.then(result => {
+          setSelectedCollection(result ? result[0] : undefined);
+        });
+      }
+    }
+  }, [theme])
+
   return (
     <div>
       <Loading open={isUpdatingTheme} />
@@ -30,9 +47,9 @@ function SectionCollection() {
         enableReinitialize
         initialValues={{
           headline: 'Selected products',
-          collection_featured: { key: 'all', label: 'All' },
           collection_products_limit: 4,
           ...initialValues,
+          collection_featured: selectedCollection,
         }}
         onSubmit={(values, { setSubmitting }) => {
           const vals = { ...values };
@@ -43,15 +60,15 @@ function SectionCollection() {
             ...content?.sections,
             featured_collection: {
               ...content.sections.featured_collection,
-              settings: { ...vals },
+              settings: { ...vals, collection_featured: values.collection_featured.key },
             },
           };
           const modfTemp = tpl;
           modfTemp.content = JSON.stringify(content);
           const modfTheme = theme;
           modfTheme!.templates![ind!] = modfTemp;
-          updateTheme(modfTheme!);
-          setSubmitting(false);
+          update(modfTheme!);
+          // setSubmitting(false);
         }}
       >
         {({
@@ -104,7 +121,7 @@ function SectionCollection() {
                       cacheOptions
                       closeMenuOnSelect={false}
                       onChange={option =>
-                        setFieldValue('collection_featured', option)
+                        setFieldValue('collection_featured', { key: option.key, label: option.label })
                       }
                       placeholder="Select collection"
                       loadOptions={collectionOptions(shop?.shop_id || '')}

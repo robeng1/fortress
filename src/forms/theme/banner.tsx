@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { proxyURL } from 'utils/urlsigner';
 function Banner() {
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { theme, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const { theme, update, isUpdatingTheme } = useThemeMutation();
   const ind = theme?.templates?.findIndex(t => t.type === 'index');
   const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
   const cob = JSON.parse(tpl?.content ?? '{}');
@@ -27,7 +27,7 @@ function Banner() {
   const { upload } = useUpload();
 
   const [isDirty, setIsDirty] = useState(false);
-
+  console.log(initialValues)
   const onImageChange = (files: File[]) => {
     if (files.length < 1) return;
     const pickf = files[0];
@@ -44,6 +44,10 @@ function Banner() {
       return;
     });
   };
+  useEffect(() => {
+    setImage(initialValues['image'])
+  }, [theme])
+
   return (
     <div>
       <Loading open={isUpdatingTheme || isDirty} />
@@ -66,14 +70,14 @@ function Banner() {
             ...content?.sections,
             'section-banner': {
               ...content.sections['section-banner'],
-              settings: { ...vals },
+              settings: { ...vals, image },
             },
           };
           const modfTemp = tpl;
           modfTemp.content = JSON.stringify(content);
           const modfTheme = theme;
           modfTheme!.templates![ind!] = modfTemp;
-          updateTheme(modfTheme!);
+          update(modfTheme!);
           setSubmitting(false);
         }}
       >

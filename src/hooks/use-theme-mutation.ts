@@ -5,7 +5,7 @@ import { fortressURL } from 'endpoints/urls';
 import useShop from './use-shop';
 import useTheme from './use-theme';
 import { request, ResponseError } from 'utils/request';
-import { base64Decode } from 'utils/buff';
+import { b64Encode, base64Decode } from 'utils/buff';
 
 export function useThemeMutation() {
   const qc = useQueryClient();
@@ -17,7 +17,6 @@ export function useThemeMutation() {
     if (config) {
       config.settings = base64Decode(b64) as Record<string, any>
     }
-
   }
 
   const { mutate: updateTheme, isLoading: isUpdatingTheme } = useMutation(
@@ -36,7 +35,17 @@ export function useThemeMutation() {
       },
     },
   );
+  const update = (payload: Theme) => {
+    updateTheme({
+      ...payload,
+      config: {
+        ...payload.config,
+        settings: b64Encode(payload.config?.settings)
+      },
+    })
+  }
   return {
+    update,
     updateTheme,
     isUpdatingTheme,
     theme,

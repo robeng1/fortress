@@ -7,15 +7,15 @@ import { Loading } from 'components/blocks/backdrop';
 
 function Footer() {
   const navigate = useNavigate();
-  const { theme, config, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const { theme, config, update, isUpdatingTheme } = useThemeMutation();
   const initialValues =
     config &&
-    config.settings &&
-    (config?.settings as Record<string, any>).sections
+      config.settings &&
+      (config?.settings as Record<string, any>).sections
       ? (config?.settings as Record<string, any>).sections['layout-footer']
         ? (config?.settings as Record<string, any>).sections['layout-footer'][
-            'settings'
-          ] ?? {}
+        'settings'
+        ] ?? {}
         : {}
       : {};
   return (
@@ -49,13 +49,11 @@ function Footer() {
               },
             },
           };
-          updateTheme({
+          update({
             ...theme,
             config: {
               ...cfg,
-              settings: Buffer.from(JSON.stringify(cfg.settings)).toString(
-                'base64',
-              ),
+              settings: cfg.settings
             },
           });
           setSubmitting(false);

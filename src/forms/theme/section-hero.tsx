@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { proxyURL } from 'utils/urlsigner';
 function Hero() {
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { theme, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const { theme, update, isUpdatingTheme } = useThemeMutation();
   const ind = theme?.templates?.findIndex(t => t.type === 'index');
   const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
   const cob = JSON.parse(tpl?.content ?? '{}');
@@ -42,6 +42,9 @@ function Hero() {
       return;
     });
   };
+  useEffect(() => {
+    setImage(initialValues['image'])
+  }, [theme])
 
   return (
     <div>
@@ -65,7 +68,7 @@ function Hero() {
             ...content?.sections,
             'section-hero': {
               ...content.sections['section-hero'],
-              settings: { ...vals },
+              settings: { ...vals, image },
             },
           };
           const modfTemp = tpl;
@@ -73,7 +76,7 @@ function Hero() {
           const modfTheme = theme;
 
           modfTheme!.templates![ind!] = modfTemp;
-          updateTheme(modfTheme!);
+          update(modfTheme!);
           setSubmitting(false);
         }}
       >

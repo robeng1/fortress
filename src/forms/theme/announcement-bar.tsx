@@ -7,7 +7,7 @@ import { Loading } from 'components/blocks/backdrop';
 
 function AnnouncementBar() {
   const navigate = useNavigate();
-  const { theme, config, updateTheme, isUpdatingTheme } = useThemeMutation();
+  const { theme, config, update, isUpdatingTheme } = useThemeMutation();
   const initialValues =
     config &&
     config.settings &&
@@ -46,13 +46,11 @@ function AnnouncementBar() {
               },
             },
           };
-          updateTheme({
+          update({
             ...theme,
             config: {
               ...cfg,
-              settings: Buffer.from(JSON.stringify(cfg.settings)).toString(
-                'base64',
-              ),
+              settings: cfg.settings
             },
           });
           setSubmitting(false);
