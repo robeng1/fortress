@@ -51,7 +51,7 @@ const Container = styled(Box)`
     font-weight: 500;
     font-size: 18px;
     content: ${props =>
-      props.noImages ? `"${props.clues.empty}"` : `"${props.clues.onDrag}"`};
+    props.noImages ? `"${props.clues.empty}"` : `"${props.clues.onDrag}"`};
     position: absolute;
     left: 0;
     right: 0;
@@ -59,7 +59,7 @@ const Container = styled(Box)`
     top: 0;
     z-index: 40;
     background-color: ${props =>
-      props.noImages ? '#F5F7FA' : 'rgba(255, 255, 255, 0.85)'};
+    props.noImages ? '#F5F7FA' : 'rgba(255, 255, 255, 0.85)'};
   }
 `;
 
@@ -113,7 +113,7 @@ const ImagesDropzone = ({
     >
       <input
         {...getInputProps({
-          multiple: true,
+          multiple: multiple,
         })}
       />
       {children}
