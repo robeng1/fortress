@@ -59,7 +59,7 @@ function Analytics() {
                 {entries && !isEmptyArray(entries) && entries?.length > 0 && <>
                   <p className='text-sm md:text-xl cursor-pointer text-gray-800'>Here's your website link: {" "} 
                     <span className='underline text-blue-500'>
-                      <a href={`https://${entries[0].domain}`}>Link</a>
+                      <a href={`https://${entries[0].domain}`} target="_blank">Link</a>
                     </span></p>
                 </>}
               </h4>
