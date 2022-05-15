@@ -7,10 +7,6 @@ import { collectionOptions, filterCollectionsAsOptions } from 'services';
 import useShop from 'hooks/use-shop';
 import ReactSelect from 'react-select/async-creatable';
 import customSelectStyles from 'forms/product/styles';
-import { request } from 'http';
-import { useQuery } from 'react-query';
-import { CollectionType } from 'typings/collection/collection-type';
-import product from 'forms/product/product';
 import { SelectOption } from 'forms/product/values';
 
 function SectionCollection() {
