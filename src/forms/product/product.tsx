@@ -24,6 +24,7 @@ import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { mToCurrency, sToM } from 'utils/money';
 import ReactSelect from 'react-select/async';
+import ReactSelectCreatable from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -583,7 +584,7 @@ const ProductForm = ({ id }) => {
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <InputHeader label='Tags' tooltipContent='Add tags to products for grouping and search indexing' />
-                          <ReactSelect
+                          <ReactSelectCreatable
                             id="tags"
                             name="tags"
                             closeMenuOnSelect={true}

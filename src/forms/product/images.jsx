@@ -51,6 +51,7 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
       <Card.Header>Images</Card.Header>
       <Card.Body flexDirection="column" px={3}>
         <ImagesDropzone
+          multiple={true}
           images={images}
           value={uploads}
           onChange={files => {
