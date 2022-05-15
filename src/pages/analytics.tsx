@@ -16,10 +16,13 @@ import DashboardCard02 from 'partials/dashboard/DashboardCard02';
 import DashboardCard03 from 'partials/dashboard/DashboardCard03';
 import DashboardCard04 from 'partials/dashboard/DashboardCard04';
 import { toast } from 'react-toastify';
+import useDomains from 'hooks/use-domains';
+import { isEmptyArray } from 'formik';
 
 function Analytics() {
   useOnboarding();
   const { isEmailVerified } = useSession();
+  const { entries } = useDomains();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { stats, statsIsLoading } = useStats();
 
@@ -51,6 +54,14 @@ function Analytics() {
             <div className="mb-4 sm:mb-0">
               <h4 className="text-xl md:text-xl text-gray-500 font-bold">
                 Overview
+              </h4>
+              <h4 className="text-xl md:text-xl text-gray-500 font-medium">
+                {entries && !isEmptyArray(entries) && entries?.length > 0 && <>
+                  <p className='text-sm md:text-xl cursor-pointer text-gray-800'>Here's your website link: {" "} 
+                    <span className='underline text-blue-500'>
+                      <a href={`https://${entries[0].domain}`}>Link</a>
+                    </span></p>
+                </>}
               </h4>
             </div>
 
