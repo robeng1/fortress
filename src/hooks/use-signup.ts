@@ -40,7 +40,7 @@ export function useSignup() {
   );
   const navigate = useNavigate();
   const location = useLocation();
-  const { from } = (location.state as LocationState) || { from: '/onboarding/currency' };
+  const { from } = { from: '/onboarding/currency' };
 
   const isAuthenticated = !isEmpty(session);
   const submitData = (values: StartType) => {
