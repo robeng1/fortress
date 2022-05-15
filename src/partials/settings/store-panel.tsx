@@ -12,10 +12,12 @@ import { Loading } from 'components/blocks/backdrop';
 import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
 import { proxyURL } from 'utils/urlsigner';
+import { useHasSale } from 'hooks/use-has-sale';
 
 function StorePanel() {
   const klient = useQueryClient();
   const { shop } = useShop();
+  const hasSale = useHasSale()
   const [accountId] = useAtom(uidAtom);
   const requestURL = `${fortressURL}/shops`;
   const [image, setImage] = useState(shop?.image);
@@ -106,7 +108,7 @@ function StorePanel() {
                   <SimpleImageDropzone
                     onChange={onImageChange}
                     label={'Shop logo'}
-                    value={image? proxyURL(image, 255, 255): undefined}
+                    value={image ? proxyURL(image, 255, 255) : undefined}
                     height={255}
                     width={255}
                   />
@@ -348,6 +350,7 @@ function StorePanel() {
                       value={values.currency.iso_code}
                       className="form-select w-full"
                       placeholder="GHS"
+                      disabled={hasSale}
                     >
                       <option value="">Please select</option>
                       <option value="GHS">GHS</option>
