@@ -60,7 +60,7 @@ function SectionCollection() {
             ...content?.sections,
             featured_collection: {
               ...content.sections.featured_collection,
-              settings: { ...vals, collection_featured: values.collection_featured.key },
+              settings: { ...vals, collection_featured: values.collection_featured?.key?? 'all' },
             },
           };
           const modfTemp = tpl;
