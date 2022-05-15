@@ -138,6 +138,7 @@ function Currency() {
                           symbol: '',
                         },
                       })
+                      navigate('/onboarding/payment')
                     }}>Next Step -&gt;</button>
                   </div>
                 </form>
