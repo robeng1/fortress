@@ -71,7 +71,7 @@ function Transactions() {
             {/* More actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-5">
               {/* Left side */}
-              <div className="mb-4 sm:mb-0">
+              {/* <div className="mb-4 sm:mb-0">
                 <ul className="flex flex-wrap -m-1">
                   <li className="m-1">
                     <button className="inline-flex cursor-pointer items-center justify-center text-sm font-medium leading-5 rounded-full px-3 py-1 border border-transparent shadow-sm bg-indigo-500 text-white duration-150 ease-in-out">
@@ -89,7 +89,7 @@ function Transactions() {
                     </button>
                   </li>
                 </ul>
-              </div>
+              </div> */}
 
               {/* Right side */}
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
