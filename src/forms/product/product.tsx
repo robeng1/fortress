@@ -524,7 +524,7 @@ const ProductForm = ({ id }) => {
                       </h2>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <InputHeader label='Type' tooltipContent='Choose a product category' />
+                          <InputHeader label='Product Category' tooltipContent='Choose a product category' />
                           <ReactSelect
                             menuPortalTarget={document.body}
                             isSearchable
