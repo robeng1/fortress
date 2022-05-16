@@ -26,7 +26,6 @@ export default function useStockView(page: number, itemsPerPage: number, term = 
       }),
     {
       keepPreviousData: true,
-      refetchOnWindowFocus: false,
       enabled: !!shop?.shop_id,
     },
   );

@@ -76,7 +76,7 @@ function Inventory() {
                 selectedItems={handleSelectedItems}
                 total={data?.total ?? 0}
                 // TODO: do not index duplicates in the first place
-                records={records ? uniqBy(records, function (e: InventoryViewType) {
+                records={records ? uniqBy(records.sort((a, b) => (b.created_at ?? 0) - (a.created_at ?? 0)), function (e: InventoryViewType) {
                   return e.variant_id;
                 }) : []}
               />
