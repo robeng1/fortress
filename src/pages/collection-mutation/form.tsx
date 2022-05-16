@@ -13,7 +13,7 @@ import BottomNav from 'components/bottom-navigation';
 import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 
-import CollectionsTable from 'partials/collections/CollectionsTable';
+import CollectionsTable from 'partials/collections/collections-table';
 import CollectionForm from 'forms/collection/collection';
 import useShop from 'hooks/use-shop';
 import { useNavigate, useParams } from 'react-router-dom';

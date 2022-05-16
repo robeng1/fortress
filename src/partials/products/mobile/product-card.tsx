@@ -1,4 +1,7 @@
+import useClipboard from 'hooks/use-clipboard';
+import useShop from 'hooks/use-shop';
 import * as React from 'react';
+import { IoIosCopy, IoMdCopy } from 'react-icons/io';
 import { ProductViewType } from 'typings/product/product-type';
 import { formatPesosMoney } from 'utils/money';
 import { proxyURL } from 'utils/urlsigner';
@@ -7,10 +10,12 @@ type ProductCardProps = {
   product: ProductViewType
   handleClick?: (e: any) => void
   isChecked?: boolean
-  handleShow: (show: boolean, id?: string) => void
+  handleShow: () => void
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, handleShow }) => {
+  const { shop } = useShop();
+  const [isCopied, handleCopy] = useClipboard(`https://${shop?.permanent_domain}/products/${product.handle}`,);
   const statusColor = stock => {
     if (stock > 0) {
       return 'bg-green-100 text-green-600';
@@ -24,14 +29,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, handleShow }) => {
         <img
           src={proxyURL(image_url, 50, 50)}
           alt={title || ''}
+          onClick={() => handleShow()}
           className="w-full h-full object-center object-cover"
         />
       </div>
-      <div onClick={() => handleShow(false)} className="ml-2 flex-1 flex flex-col pl-2">
+      <div className="ml-2 flex-1 flex flex-col pl-2">
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <div>
-              <div>{title}</div>
+              <div className='flex'>
+                {title}
+                {!!shop && <span className='ml-2'>
+                  <IoIosCopy className="text-gray-500 w-4 h-4 cursor-pointer" onClick={handleCopy} />
+                </span>}
+              </div>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import DeleteButton from 'partials/actions/DeleteButton';
 import SearchForm from 'partials/actions/search-box';
 import BottomNav from 'components/bottom-navigation';
 
-import CollectionsTable from 'partials/collections/CollectionsTable';
+import CollectionsTable from 'partials/collections/collections-table';
 import useShop from 'hooks/use-shop';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styles/material/theme';
@@ -98,7 +98,6 @@ function Collections() {
             {!isLoading && <>
               <CollectionsTable
                 selectedItems={handleSelectedItems}
-                // handleShow={handleShow}
                 collections={collections || []}
               />
 

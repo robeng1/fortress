@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EmptyState from 'partials/empty-state';
-import Collection from './CollectionTableItem';
-import CollectionList from './mobile/CollectionList';
+import Collection from './collection-table-item';
+import CollectionList from './mobile/collection-list';
+import { CollectionViewType } from 'typings/collection/collection-type';
 
-function CollectionsTable({ selectedItems, collections }) {
+type CollectionsTableProps = {
+  selectedItems: (items: string[]) => void
+  collections: CollectionViewType[]
+}
+
+const CollectionsTable: React.FC<CollectionsTableProps> = ({ selectedItems, collections }) => {
   const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState([]);
+  const [isCheck, setIsCheck] = useState<any[]>([]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -81,15 +87,10 @@ function CollectionsTable({ selectedItems, collections }) {
                     return (
                       <Collection
                         key={collection.collection_id}
-                        id={collection.collection_id}
-                        image={collection.image_url}
-                        name={collection.title}
-                        conditions="Manual"
-                        itemCount={collection.all_products_count}
-                        channels={collection.sales_channels}
-                        fav={false}
+                        collection={collection}
                         handleClick={handleClick}
                         isChecked={isCheck.includes(collection.collection_id)}
+                        selectedItems={selectedItems}
                       />
                     );
                   })}

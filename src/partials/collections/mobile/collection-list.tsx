@@ -1,8 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import CollectionCard from './CollectionCard';
+import { CollectionViewType } from 'typings/collection/collection-type';
+import CollectionCard from './collection-card';
 
-export default function CollectionList({ collections }) {
+type CollectionsListProps = {
+  collections: CollectionViewType[]
+}
+const CollectionList: React.FC<CollectionsListProps> = ({ collections }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -27,3 +31,5 @@ export default function CollectionList({ collections }) {
     </>
   );
 }
+
+export default CollectionList;

@@ -53,7 +53,7 @@ export interface CollectionViewType {
   all_products_count?: number;
   shop_id: string;
   collection_id: string;
-  image?: string;
+  image_url?: string;
   active: boolean;
   all_tags: string[];
   sales_channels: string[];

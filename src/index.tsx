@@ -27,7 +27,7 @@ import Rates from './pages/settings/rates';
 import Policies from './pages/settings/policies';
 import PageNotFound from 'pages/utility/PageNotFound';
 import { RequireAuth } from './components/protected-route';
-import Transactions from './pages/transactions/Transaction';
+import Transactions from './pages/transactions/transaction';
 import Payouts from './pages/payouts/payout';
 import Balance from './pages/balance/balance';
 import SettingsIndex from './pages/settings/overview';

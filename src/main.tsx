@@ -31,14 +31,14 @@ ReactDOM.render(
                 toastOptions={{
                   className: '',
                   style: {
-                    border: '1px solid #713200',
+                    // border: '1px solid #713200',
                     padding: '16px',
-                    color: '#713200',
+                    // color: '#713200',
                   },
-                  iconTheme: {
-                    primary: '#713200',
-                    secondary: '#FFFAEE',
-                  },
+                  // iconTheme: {
+                  //   primary: '#713200',
+                  //   secondary: '#FFFAEE',
+                  // },
                 }}
               />
             </Router>
