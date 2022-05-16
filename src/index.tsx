@@ -32,20 +32,21 @@ import Payouts from './pages/payouts/payout';
 import Balance from './pages/balance/balance';
 import SettingsIndex from './pages/settings/overview';
 import Domains from 'pages/settings/domains';
-import ProductMutation from 'pages/product-mutation/form';
-import CollectionMutation from 'pages/collection-mutation/form';
-import DiscountMutation from 'pages/discount-mutation/form';
 import ThemeSettings from 'pages/settings/theme';
 import AnnouncementBarMutation from 'pages/settings/theme/announcement-bar';
 import FooterMutation from 'pages/settings/theme/footer';
 import BannerMutation from 'pages/settings/theme/banner';
 import HeroMutation from 'pages/settings/theme/hero';
 import FeaturedCollection from 'pages/settings/theme/collection-featured';
-import VoucherMutation from 'pages/voucher-mutation/form';
-import Vouchers from 'pages/voucher/voucher';
 import OnboardingCurrency from 'forms/onboarding/currency';
 import OnboardingCentre from 'forms/onboarding/centre';
 import OnboardingPayment from 'forms/onboarding/payment';
+
+const Vouchers = lazy(() => import('pages/voucher/voucher'));
+const VoucherMutation = lazy(() => import('pages/voucher-mutation/form'));
+const DiscountMutation = lazy(() => import('pages/discount-mutation/form'));
+const CollectionMutation = lazy(() => import('pages/collection-mutation/form'));
+const ProductMutation = lazy(() => import('pages/product-mutation/form'));
 const ResetPassword = lazy(() => import('pages/reset-password'));
 
 export function App() {

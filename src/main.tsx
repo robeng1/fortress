@@ -12,6 +12,9 @@ import { App } from './index';
 import { Provider, useAtom } from 'jotai';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider as EmotionThemeProvider } from './styles/emotion';
+import { Suspense } from 'react';
+import { Loading } from 'components/blocks/backdrop';
+import { Loader } from 'components/loader';
 
 const klient = new QueryClient();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
@@ -23,6 +26,7 @@ ReactDOM.render(
         <HelmetProvider>
           <React.StrictMode>
             <Router>
+              <Suspense fallback={<Loader/>}>
               <App />
               <Toaster
                 position="top-right"
@@ -41,6 +45,7 @@ ReactDOM.render(
                   // },
                 }}
               />
+            </Suspense>
             </Router>
           </React.StrictMode>
         </HelmetProvider>
