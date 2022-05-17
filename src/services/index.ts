@@ -1,6 +1,11 @@
 import { fortressURL } from 'endpoints/urls';
 import { request } from 'utils/request';
 
+export interface SelectOption {
+  key: string;
+  label: string;
+}
+
 export const collectionOptions =
   (shopId: string) => async (term: string, callback) => {
     const response = await fetch(
@@ -47,7 +52,7 @@ export const productOptions =
 export const filterProductsAsOptions = async (
   shopId: string,
   ids: string[],
-) => {
+): Promise<readonly SelectOption[]> => {
   const resp = await request(
     `${fortressURL}/shops/${shopId}/products/as-options`,
     {

@@ -7,6 +7,7 @@ import { mToCurrency, sToM } from 'utils/money';
 
 type StockMangerProps = {
   onChange: (e: InventoryType) => void
+  currency: string
   stock: InventoryType
 }
 
@@ -17,14 +18,13 @@ interface Values {
   num_in_stock: number
 }
 
-const StockManger: React.FC<StockMangerProps> = ({ stock, onChange }) => {
+const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) => {
   const initialValues: Values = {
     compare_at_price: mToCurrency(stock?.compare_at_price).toString(),
     price_excl_tax: mToCurrency(stock?.price_excl_tax).toString(),
     cost_per_item: mToCurrency(stock?.cost_per_item).toString(),
     num_in_stock: stock.num_in_stock ?? 1
   }
-  const currency = stock.price_excl_tax?.currency
   return (
     <>
       <Formik

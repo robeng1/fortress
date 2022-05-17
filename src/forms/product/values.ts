@@ -28,13 +28,13 @@ export interface Values {
   track_quantity: boolean;
   quantity: number;
   type?: { key: string; label: string };
-  collections?: SelectOption[];
+  collection_fks?: string[];
   stock_records: InventoryType[];
   variants: ProductType[];
   locations: string[] | undefined;
   variation_options: VarOption[];
   images: ProductImage[];
-  tags: SelectOption[];
+  tags: string[];
   vendor: string;
   channels: string[];
   template_suffix: string;

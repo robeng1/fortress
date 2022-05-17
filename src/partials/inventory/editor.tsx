@@ -240,13 +240,18 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                       </div>
                     </section>
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                      {values.stock_records?.map((record, index) => <StockManger key={index} stock={record} onChange={(stk: InventoryType) => {
-                        const rcs = values.stock_records
-                        if (rcs) {
-                          rcs[index] = stk
-                          setFieldValue("stock_records", rcs)
-                        }
-                      }} />)}
+                      {values.stock_records?.map((record, index) => 
+                      <StockManger
+                        key={index}
+                        stock={record}
+                        currency={shop?.currency?.iso_code!}
+                        onChange={(stk: InventoryType) => {
+                          const stocks = values.stock_records
+                          if (stocks) {
+                            stocks[index] = stk
+                            setFieldValue("stock_records", stocks)
+                          }
+                        }} />)}
                     </section>
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                       <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">

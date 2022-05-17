@@ -15,10 +15,7 @@ import { ProductStructure, ProductStructureStr, ProductType } from 'typings/prod
 import { InventoryType } from 'typings/inventory/inventory-type';
 import slugify from 'slugify';
 import {
-  collectionOptions,
-  filterCollectionsAsOptions,
   productTypeOptions,
-  tagOptions,
 } from 'services';
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
@@ -35,8 +32,12 @@ import Images from './images';
 import { AttrOption, SelectOption, Values, VarOption } from './values';
 import { b64Encode, base64Decode, decodeBuf, encodeBuf } from 'utils/buff';
 import { useOnboarding } from 'hooks/use-onboarding';
-import Input from 'components/ui/input';
 import InputHeader from 'components/blocks/input-header';
+import CollectionSelect from './blocks/collection-select';
+import TagSelect from './blocks/tag-select';
+
+const SIMPLE_PRODUCT_VIEW = 'SIMPLE_PRODUCT_VIEW'
+const COMPLEX_PRODUCT_VIEW = 'COMPLEX_PRODUCT_VIEW'
 
 // animated components for react select
 const animatedComponents = makeAnimated();
@@ -57,16 +58,15 @@ const ProductForm = ({ id }) => {
   const { locations } = useCentres();
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
 
+  const [formView, setFormView] = React.useState<string>(SIMPLE_PRODUCT_VIEW)
   const [images, setImages] = React.useState<string[]>([]);
   const [isSavingImages, setIsSavingImages] = React.useState<boolean>(false);
+
   const handleUpload = (images: string[]) => setImages(images);
 
   const [productId, setProductId] = useState(id);
-
   const [selectedItems, setSelectedItems] = useState<unknown>([]);
   const [showVariants, setShowVariants] = useState(false);
-
-  const [selectedCollections, setSelectedCollections] = useState<SelectOption[]>([])
 
   // query for getting the product, TODO: move into a hook
   const { data: product } = useQuery<ProductType>(
@@ -96,11 +96,10 @@ const ProductForm = ({ id }) => {
       variants: d?.variants || [],
       variation_options: [],
       images: d?.images || [],
-      tags: d?.tags?.map((t) => ({ label: t, key: t })) ?? [],
+      tags: d?.tags ?? [],
       vendor: d?.vendor || '',
       channels: [],
       template_suffix: 'product',
-      collections: selectedCollections,
       price: !isEmpty(record)
         ? mToCurrency(record?.price_excl_tax).toString()
         : '',
@@ -144,17 +143,6 @@ const ProductForm = ({ id }) => {
         };
       });
     }
-    // set tags
-    if (d.tags && d.tags.length > 0) {
-      vals.tags = [];
-      for (const tag of d.tags) {
-        if (typeof tag === 'string') {
-          vals.tags.push({ label: tag, key: tag });
-        } else if (typeof tag === 'object') {
-          vals.tags.push(tag);
-        }
-      }
-    }
     return vals;
   };
 
@@ -169,6 +157,7 @@ const ProductForm = ({ id }) => {
       shipping_required: d.shipping_required,
       upc: d.barcode,
       sku: d.sku,
+      tags: d.tags,
       weight: d.weight?.toString() ?? '',
       height: d.height?.toString() ?? '',
       length: d.length?.toString() ?? '',
@@ -184,11 +173,12 @@ const ProductForm = ({ id }) => {
       page_description: d.page_description,
       vendor: d.vendor ?? '',
       stock_records: [],
-      collection_fks: [],
+      collection_fks: d.collection_fks,
       variants: [],
     };
-    p.collection_fks = d.collections?.map(c => c.key);
+
     if (d.type) p.categories = [d.type.key];
+
     if (d.is_parent) {
       p.structure = ProductStructure.PARENT;
       p.variants = d.variants.map(v => {
@@ -198,32 +188,39 @@ const ProductForm = ({ id }) => {
       });
     } else {
       p.structure = ProductStructure.STANDALONE;
-      p.stock_records = (locations ?? []).map(loc => {
-        const record: InventoryType = {
-          variant_id: productId || '',
-          product_id: productId || '',
-          shop_id: shop?.shop_id,
-          num_in_stock: d.quantity,
-          centre_id: loc.centre_id ?? '',
-          centre_sku: slugify(d.title),
-          cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
-          price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
-          compare_at_price: sToM(d.compare_at_price, shop?.currency?.iso_code),
-          unlimited: d.unlimited,
-          track_quantity: d.track_quantity,
-          taxable: false,
-        };
-        return record;
-      });
-    }
-    if (d.tags.length > 0) {
-      p.tags = [];
-      for (const tag of d.tags) {
-        if (typeof tag === 'string') {
-          p.tags.push(tag);
-        } else if (typeof tag === 'object') {
-          p.tags.push(tag['label']);
-        }
+      if (product){
+        p.stock_records = product.stock_records?.map(stock => {
+          const records: InventoryType = {
+            ...stock,
+            num_in_stock: d.quantity,
+            centre_sku: slugify(d.title),
+            cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
+            price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
+            compare_at_price: sToM(d.compare_at_price, shop?.currency?.iso_code),
+            unlimited: d.unlimited,
+            track_quantity: d.track_quantity,
+            taxable: false,
+          };
+          return records;
+        });
+      }else{
+        p.stock_records = (locations ?? []).map(loc => {
+          const record: InventoryType = {
+            variant_id: productId || '',
+            product_id: productId || '',
+            shop_id: shop?.shop_id,
+            num_in_stock: d.quantity,
+            centre_id: loc.centre_id ?? '',
+            centre_sku: slugify(d.title),
+            cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
+            price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
+            compare_at_price: sToM(d.compare_at_price, shop?.currency?.iso_code),
+            unlimited: d.unlimited,
+            track_quantity: d.track_quantity,
+            taxable: false,
+          };
+          return record;
+        });
       }
     }
     if (d.variation_options.length > 0) {
@@ -238,20 +235,6 @@ const ProductForm = ({ id }) => {
     }
     return p;
   };
-
-  useEffect(() => {
-    if (product && product?.collection_fks) {
-      if (shop?.shop_id) {
-        const options = filterCollectionsAsOptions(
-          shop?.shop_id,
-          product?.collection_fks,
-        );
-        options.then(result => {
-          setSelectedCollections(result);
-        });
-      }
-    }
-  }, [product])
 
 
   // create the product
@@ -379,7 +362,6 @@ const ProductForm = ({ id }) => {
         width: values.width.toString(),
         track_stock: values.track_quantity,
       };
-
       variant.attributes = b64Encode(
         variant.title?.split('-').map((opt, i) => {
           return { name: attributes[i].label, value: opt };
@@ -563,43 +545,22 @@ const ProductForm = ({ id }) => {
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <InputHeader label='Collections' tooltipContent='Make this product part of a collection, this makes it easier to group products and display them' />
-                          <ReactSelect
-                            value={values.collections}
-                            menuPortalTarget={document.body}
-                            isMulti
-                            cacheOptions
-                            closeMenuOnSelect={false}
-                            onChange={option =>
-                              setFieldValue('collections', option)
-                            }
-                            placeholder="Select collections"
-                            loadOptions={collectionOptions(shop?.shop_id!)}
-                            styles={{
-                              ...customSelectStyles,
-                            }}
-                            className="w-full"
+                          <CollectionSelect
+                            value={values.collection_fks ?? []}
+                            multi
+                            onChange={option => setFieldValue('collection_fks', (option as string[]))}
+                            shop_id={shop?.shop_id!}
                           />
                         </div>
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <InputHeader label='Tags' tooltipContent='Add tags to products for grouping and search indexing' />
-                          <ReactSelectCreatable
-                            id="tags"
-                            name="tags"
-                            closeMenuOnSelect={true}
-                            defaultValue={values.tags}
-                            value={values.tags}
-                            isClearable
-                            isSearchable
-                            menuPortalTarget={document.body}
-                            isMulti
-                            onChange={option => setFieldValue('tags', option)}
-                            loadOptions={tagOptions(shop?.shop_id!)}
-                            styles={{
-                              ...customSelectStyles,
-                            }}
-                            className="w-full"
+                          <TagSelect
+                            value={values.tags ?? []}
+                            multi
+                            onChange={option => setFieldValue('tags', (option as string[]))}
+                            shop_id={shop?.shop_id!}
                           />
                         </div>
                       </div>
