@@ -99,6 +99,7 @@ const ProductForm = ({ id }) => {
       tags: d?.tags ?? [],
       vendor: d?.vendor || '',
       channels: [],
+      collection_fks: d?.collection_fks,
       template_suffix: 'product',
       price: !isEmpty(record)
         ? mToCurrency(record?.price_excl_tax).toString()
@@ -188,7 +189,7 @@ const ProductForm = ({ id }) => {
       });
     } else {
       p.structure = ProductStructure.STANDALONE;
-      if (product){
+      if (product) {
         p.stock_records = product.stock_records?.map(stock => {
           const records: InventoryType = {
             ...stock,
@@ -203,7 +204,7 @@ const ProductForm = ({ id }) => {
           };
           return records;
         });
-      }else{
+      } else {
         p.stock_records = (locations ?? []).map(loc => {
           const record: InventoryType = {
             variant_id: productId || '',
@@ -547,7 +548,7 @@ const ProductForm = ({ id }) => {
                           <InputHeader label='Collections' tooltipContent='Make this product part of a collection, this makes it easier to group products and display them' />
                           <CollectionSelect
                             value={values.collection_fks ?? []}
-                            multi
+                            multi={true}
                             onChange={option => setFieldValue('collection_fks', (option as string[]))}
                             shop_id={shop?.shop_id!}
                           />
