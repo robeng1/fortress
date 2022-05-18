@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { Loader } from 'components/loader';
 import { OrderStatusType, OrderType } from 'typings/order/order-type';
 import { request, ResponseError } from 'utils/request';
-import { mToSFormatted, mToCurrency, formatCurrency } from 'utils/money';
+import { mToSFormattedK, mToCurrency, formatCurrency } from 'utils/money';
 import useShop from 'hooks/use-shop';
 
 export default function Order({ handleShow, id }) {
@@ -185,11 +185,11 @@ export default function Order({ handleShow, id }) {
                           </div>
                           <div className="flex gap-x-5 md:gap-28 md:self-center self-start pl-2">
                             <div className="font-medium text-green-900 text-sm">
-                              {mToSFormatted(line.unit_price_excl_tax)} x{' '}
+                              {mToSFormattedK(line.unit_price_excl_tax)} x{' '}
                               {line.quantity}
                             </div>
                             <div className="font-medium text-green-900 text-sm">
-                              {mToSFormatted(line.line_price_excl_tax!)}
+                              {mToSFormattedK(line.line_price_excl_tax!)}
                             </div>
                           </div>
                         </div>
@@ -234,15 +234,14 @@ export default function Order({ handleShow, id }) {
                     <div className="flex mt-4 mx-5 py-2 text-gray-700 text-sm">
                       <span>Subtotal</span>
                       <span className="ml-auto">
-                        {mToSFormatted(order.total_excl_tax)}
+                        {mToSFormattedK(order.total_excl_tax)}
                       </span>
                     </div>
 
                     <div className="flex mx-5 pb-2 text-gray-700 text-sm">
-                      <span className="w-1/6">Shipping</span>
-                      <span className="">Manual (0.0kg)</span>
+                      <span className="w-1/8">Shipping</span>
                       <span className="ml-auto">
-                        {mToSFormatted(order.shipping_incl_tax)}
+                        {mToSFormattedK(order.shipping_incl_tax)}
                       </span>
                     </div>
                     <div className="flex mx-5 pb-2 text-gray-700 text-sm">
@@ -252,6 +251,7 @@ export default function Order({ handleShow, id }) {
                           mToCurrency(order.total_incl_tax).subtract(
                             mToCurrency(order.total_excl_tax),
                           ),
+                          order.total_excl_tax.currency,
                         )}
                       </span>
                     </div>
@@ -262,6 +262,7 @@ export default function Order({ handleShow, id }) {
                           mToCurrency(order.total_incl_tax).add(
                             mToCurrency(order.shipping_incl_tax),
                           ),
+                          order.total_excl_tax.currency,
                         )}
                       </span>
                     </div>
@@ -273,6 +274,7 @@ export default function Order({ handleShow, id }) {
                           mToCurrency(order.total_incl_tax).add(
                             mToCurrency(order.shipping_incl_tax),
                           ),
+                          order.total_excl_tax.currency,
                         )}
                       </span>
                     </div>

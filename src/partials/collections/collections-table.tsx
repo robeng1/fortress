@@ -102,7 +102,7 @@ const CollectionsTable: React.FC<CollectionsTableProps> = ({ selectedItems, coll
       ) : (
         <EmptyState
           heading="No collections yet"
-          msg="Create some collections to get started"
+          msg="Collections are a way to group products."
           action={{
             name: 'Create collection',
             func: () => navigate('/shop/collections/new'),

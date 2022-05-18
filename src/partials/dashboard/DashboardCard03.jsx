@@ -1,10 +1,10 @@
 import React from 'react';
 import useShop from 'hooks/use-shop';
 import LineChart from '../../charts/LineChart01';
-import { mToCurrency, mToSFormatted, sToCurrency, sToM, sToMFromCents } from 'utils/money';
+import { mToCurrency, mToSFormatted, mToSFormattedK, sToCurrency, sToM, sToMFromCents } from 'utils/money';
 
 // Import utilities
-import { tailwindConfig, hexToRGB } from '../../utils/utils';
+import { tailwindConfig, hexToRGB, formatThousands, formatDuration } from '../../utils/utils';
 
 function DashboardCard01({ sales, dataset }) {
   const { shop } = useShop();
@@ -82,7 +82,7 @@ function DashboardCard01({ sales, dataset }) {
         </div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-gray-800 mr-2">{!!sales
-            ? mToSFormatted(sToMFromCents(sales, shop?.currency?.iso_code))
+            ? mToSFormattedK(sToMFromCents(sales, shop?.currency?.iso_code))
             : '-'}</div>
           {/* <div className="text-sm font-semibold text-white px-1.5 bg-green-500 rounded-full">
             +49%

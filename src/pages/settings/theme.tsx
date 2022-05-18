@@ -8,34 +8,34 @@ const ThemeSettings = () => {
     <>
       <ThemeSettingsOverview>
         <SettingsCardNoIcon
-          heading={'Announcementbar'}
+          heading={'Announcement bar'}
           description={'Edit announcement bar of your site'}
           disabled={false}
           to={`/settings/theme/announcement-bar`}
         />
         <SettingsCardNoIcon
-          heading={'Footer'}
-          description={'Edit footer your site'}
-          disabled={false}
-          to={`/settings/theme/footer`}
-        />
-        <SettingsCardNoIcon
-          heading={'Banner'}
-          description={"Edit the banner of your site's home page"}
-          disabled={false}
-          to={`/settings/theme/banner`}
-        />
-        <SettingsCardNoIcon
-          heading={'Hero'}
+          heading={'Banner 1'}
           description={"Edit the hero section of your site's home page"}
           disabled={false}
           to={`/settings/theme/hero`}
+        />
+        <SettingsCardNoIcon
+          heading={'Banner 2'}
+          description={"Edit the banner of your site's home page"}
+          disabled={false}
+          to={`/settings/theme/banner`}
         />
         <SettingsCardNoIcon
           heading={'Collection'}
           description={"Edit the collection section of your site's home page"}
           disabled={false}
           to={`/settings/theme/featured-collection`}
+        />
+        <SettingsCardNoIcon
+          heading={'Footer'}
+          description={'Edit footer your site'}
+          disabled={false}
+          to={`/settings/theme/footer`}
         />
       </ThemeSettingsOverview>
       <BottomNav />

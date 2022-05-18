@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Box, Flex, Image } from 'rebass';
-import { proxyURL } from 'utils/urlsigner';
 
 const StyledImageCard = styled(Image)`
   cursor: default;

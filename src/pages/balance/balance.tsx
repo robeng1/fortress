@@ -13,7 +13,7 @@ import { useAtom } from 'jotai';
 import { request, ResponseError } from 'utils/request';
 import { uidAtom } from 'store/authorization-atom';
 import DateSelect from 'components/date-select';
-import { currencyToM, mToS, mToSFormatted, sToCurrency, sToM } from 'utils/money';
+import { currencyToM, mToS, mToSFormatted, mToSFormattedK, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/blocks/button';
 import { TransferKind, TransferType } from 'typings/payment/transfer';
 import { toast } from 'react-toastify';
@@ -147,7 +147,7 @@ function Balance() {
                     </div>
                     <div className="flex items-center mb-3">
                       <p className="text-4xl font-bold">
-                        {mToSFormatted(paymentAccount?.balance)}
+                        {mToSFormattedK(paymentAccount?.balance)}
                       </p>
                     </div>
                   </div>
@@ -172,7 +172,7 @@ function Balance() {
                     </div>
                     <div className="flex items-center mb-3">
                       <p className="text-4xl font-bold">
-                        {mToSFormatted(paymentAccount?.blocked_amount)}
+                        {mToSFormattedK(paymentAccount?.blocked_amount)}
                       </p>
                     </div>
                   </div>

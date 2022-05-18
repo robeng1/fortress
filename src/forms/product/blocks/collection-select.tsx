@@ -1,4 +1,5 @@
 import customSelectStyles from 'forms/product/styles';
+import isEmpty from 'lodash/isEmpty';
 import React, { useEffect, useState } from 'react'
 import { MultiValue, SingleValue } from 'react-select';
 import ReactSelect, { AsyncProps } from 'react-select/async';
@@ -37,7 +38,7 @@ const CollectionSelect: React.FC<CollectionSelectProps> = ({ multi, onChange, va
   }
 
   useEffect(() => {
-    if (value && shop_id) {
+    if (value && !isEmpty(value) && shop_id) {
       const options = filterCollectionsAsOptions(
         shop_id,
         Array.isArray(value) ? value : [value]

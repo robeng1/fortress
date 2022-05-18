@@ -26,7 +26,6 @@ export default function useProductViews(page: number, itemsPerPage: number, term
       }),
     {
       keepPreviousData: true,
-      refetchOnWindowFocus: false,
       enabled: !!shop?.shop_id,
     },
   );

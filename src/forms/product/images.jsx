@@ -7,9 +7,11 @@ import ImagesDropzone from 'components/image-dropzone';
 import { useUpload } from 'hooks/use-upload';
 import toast from 'react-hot-toast';
 import { proxyURL } from 'utils/urlsigner';
+import { useDeleteImage } from 'hooks/use-delete-image';
 
 const Images = ({ product, handleUpload, handleIsSaving }) => {
   const { upload } = useUpload();
+  const { deleteUpload } = useDeleteImage()
   const [uploads, setUploads] = useState([]);
   const [images, setImages] = useState([]);
   const [isSavingImages, setIsSavingImages] = useState(false);
@@ -17,9 +19,9 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
 
   useEffect(() => {
     if (product) {
-      let imgs = product.images.map(({ url }) => url);
-      imgs = [...new Set(imgs)].filter(Boolean);
-      setImages([...imgs]);
+      let photos = product.images.map(({ url }) => url);
+      photos = [...new Set(photos)].filter(Boolean);
+      setImages([...photos]);
     }
   }, [product]);
 
@@ -31,12 +33,12 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
         const uploaded = results?.map(({ ssl_url }) => ssl_url);
         return uploaded;
       })
-      .then(uploadedImgs => {
+      .then(uploadedImages => {
         const minusLocalImages = _.difference(
           images,
           uploads.map(u => u['preview']),
         );
-        const allImages = [...minusLocalImages, ...(uploadedImgs ?? [])];
+        const allImages = [...minusLocalImages, ...(uploadedImages ?? [])];
         setIsSavingImages(false);
         handleIsSaving(false);
         setUploads([]);
@@ -73,10 +75,14 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
               <CloseIcon
                 onClick={e => {
                   e.stopPropagation();
-                  const newImages = images.filter(img => image != img);
+                  const newImages = images.filter(photo => image != photo);
+                  const toBeDeleted = product.images.filter((photo) => photo.url === image)
+                  toBeDeleted.forEach(unwanted => {
+                    deleteUpload(unwanted)
+                  });
                   setImages(newImages);
                   const newUploads = uploads.filter(
-                    img => image != img.preview,
+                    photo => image != photo.preview,
                   );
                   setUploads(newUploads);
                   setIsDirty(true);

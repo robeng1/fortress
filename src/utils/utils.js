@@ -28,6 +28,18 @@ export const formatValue = value =>
     notation: 'compact',
   }).format(value);
 
+export const formatValueWithCurrency = (value, currency) =>
+  Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    // maximumSignificantDigits: 3,
+    maximumFractionDigits: 2, 
+    minimumFractionDigits: 2,
+    currencyDisplay: 'narrowSymbol',
+    notation: 'compact',
+    useGrouping: true,
+  }).format(value);
+
 export const formatThousands = value =>
   Intl.NumberFormat('en-US', {
     maximumSignificantDigits: 3,
@@ -67,8 +79,8 @@ function weekParts(intSeconds) {
 function zip(xs, ys) {
   return xs.length === ys.length
     ? xs.map(function (x, i) {
-        return [x, ys[i]];
-      })
+      return [x, ys[i]];
+    })
     : undefined;
 }
 
