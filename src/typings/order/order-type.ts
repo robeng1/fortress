@@ -142,6 +142,7 @@ export interface OrderType {
   customer_email?: string;
   customer_phone?: string;
   customer_profile_image_url?: string;
+  phone?: string
 }
 
 export interface OrderListType {

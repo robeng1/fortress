@@ -78,7 +78,7 @@ const Tag: React.FC<TagProps> = ({ multi, onChange, value, shop_id }) => {
           onChange={option =>
             multiOnChange(option)
           }
-          placeholder="Select tags"
+          placeholder="Select/Create tags"
           loadOptions={tagOptions(shop_id)}
           styles={{
             ...customSelectStyles,

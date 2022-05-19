@@ -74,7 +74,7 @@ const ProductForm = ({ id }) => {
     async () => await request(`${requestURL}/${productId}`),
     {
       // The query will not execute until the productId exists
-      enabled: !!productId,
+      enabled: !!productId && !!shop,
       keepPreviousData: true,
     },
   );
@@ -97,7 +97,7 @@ const ProductForm = ({ id }) => {
       variation_options: [],
       images: d?.images || [],
       tags: d?.tags ?? [],
-      vendor: d?.vendor || '',
+      vendor: d?.vendor || shop?.business_name || '',
       channels: [],
       collection_fks: d?.collection_fks,
       template_suffix: 'product',
@@ -455,7 +455,7 @@ const ProductForm = ({ id }) => {
                           className="block text-sm font-medium mb-1"
                           htmlFor="title"
                         >
-                          Title
+                          Name
                         </label>
                         <input
                           id="title"
@@ -605,7 +605,7 @@ const ProductForm = ({ id }) => {
                     </section> */}
                   </div>
 
-                  <div className="col-span-2 md:col-span-1 mt-4">
+                  {/* <div className="col-span-2 md:col-span-1 mt-4">
                     <section className="rounded bg-white shadow p-3 sm:mb-10">
                       <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Theme Templates
@@ -631,7 +631,7 @@ const ProductForm = ({ id }) => {
                         </div>
                       </div>
                     </section>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="md:col-span-2">
                   <section className="bg-white shadow overflow-hidden p-3 mb-10">
@@ -964,7 +964,7 @@ const ProductForm = ({ id }) => {
 
                   <section className="rounded bg-white shadow overflow-hidden relative p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-8">
-                      Variants
+                      Options
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="flex items-center w-full">
@@ -981,7 +981,7 @@ const ProductForm = ({ id }) => {
                           className="block text-sm ml-2"
                           htmlFor="is_parent"
                         >
-                          Product with variants
+                          This product has optons, like color or size
                         </label>
                       </div>
                     </div>
@@ -1012,7 +1012,7 @@ const ProductForm = ({ id }) => {
                                   className="block text-sm font-medium mb-1"
                                   htmlFor="option"
                                 >
-                                  Attribute name
+                                  Option name
                                 </label>
                                 <Creatable
                                   closeMenuOnSelect={true}
@@ -1051,7 +1051,7 @@ const ProductForm = ({ id }) => {
                                   className="block text-sm font-medium mb-1"
                                   htmlFor="values"
                                 >
-                                  Attribute values
+                                  Option values
                                 </label>
                                 <TagInput
                                   values={op.values}

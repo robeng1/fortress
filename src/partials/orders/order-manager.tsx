@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { fortressURL } from 'endpoints/urls';
 import toast from 'react-hot-toast';
@@ -338,7 +339,7 @@ export default function Order({ handleShow, id }) {
                           : order.customer_email}
                       </span>
                       <span className="block mb-5 mt-1 text-purple-500 text-sm">
-                        {order.customer_phone}
+                          {isEmpty(order.customer_phone)?order.phone: order.customer_phone}
                       </span>
                     </div>
 
