@@ -42,16 +42,16 @@ const CTAs: React.FC<CTAProps> = ({ noProducts, noRates, noTheme }) => {
   return (
     <>
       {(noProducts || noRates || noTheme) && <div className="py-12 bg-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <div className="lg:text-center">
-            <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Setup</h2>
+            <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Store Setup</h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
               You are almost there
             </p>
           </div>
 
-          <div className="mt-10 cursor-pointer bg-white shadow-md py-12 px-4 sm:px-6 lg:px-8">
-            <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+          <div className="mt-10 cursor-pointer bg-white shadow-md py-12 px-4 sm:px-6 lg:px-6">
+            <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-1 md:gap-x-8 md:gap-y-10">
               {features.map((feature) => (
                 <>
                   {feature.show && <div key={feature.key} className="relative px-2">

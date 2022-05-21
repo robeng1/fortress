@@ -77,7 +77,7 @@ function Analytics() {
             </div>
           </div>
           <div>
-            <CTAs noProducts={!hasProduct} noRates={!hasRates} noTheme={false} />
+            <CTAs noProducts={hasProduct} noRates={!hasRates} noTheme={false} />
           </div>
           <div className="grid grid-cols-12 gap-6">
             <DashboardCard01 sales={stats?.gross_revenue} dataset={[]} />
