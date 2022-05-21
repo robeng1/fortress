@@ -3,8 +3,10 @@ import { useQuery } from 'react-query';
 import useShop from './use-shop';
 import { fortressURL } from 'endpoints/urls';
 import { ProductViewListType } from 'typings/product/product-type';
+import { useEffect, useState } from 'react';
 
 export default function useHasProducts() {
+  const [hasItems, setHasItems] = useState<boolean>(true)
   const { shop } = useShop();
   const url = `${fortressURL}/shops/${shop?.shop_id}/product-views`
   const body = {
@@ -25,9 +27,14 @@ export default function useHasProducts() {
       enabled: !!shop?.shop_id,
     },
   );
-  const hasProduct = (shop !== undefined && !productCheckIsLoading && productData?.products && productData.products.length > 0) ? true: false
+  useEffect(() => {
+    if (shop && productData){
+      setHasItems(!!(productData?.products && productData.products.length > 0))
+    }
+  }, [shop, productCheckIsLoading, productData])
+  
   return {
-    hasProduct,
+    hasProduct: hasItems,
     productCheckIsLoading
   }
 }
