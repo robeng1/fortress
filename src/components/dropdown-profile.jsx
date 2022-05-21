@@ -64,7 +64,7 @@ function DropdownProfile({ align, shopName = 'Demo' }) {
             alt="User"
           />
         }
-        {!(shop && shop.image) && <div className="w-8 h-8 flex justify-center items-center rounded-full bg-blue-500 text-xl text-white uppercase">{shopName.charAt(0)}</div>}
+        {!(shop && shop.image) && <div className="w-8 h-8 flex justify-center items-center rounded-full bg-purple-500 text-xl text-white uppercase">{shopName.charAt(0)}</div>}
         <div className="hidden md:flex  items-center truncate">
           <span className="truncate ml-2 text-sm font-medium group-hover:text-gray-800">
             {shopName.charAt(0).toUpperCase() + shopName.slice(1)}

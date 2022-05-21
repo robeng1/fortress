@@ -20,7 +20,6 @@ import {
 import Creatable from 'react-select/creatable';
 import { request, ResponseError } from 'utils/request';
 import { mToCurrency, sToM } from 'utils/money';
-import ReactSelect from 'react-select/async';
 import ReactSelectCreatable from 'react-select/async-creatable';
 import useCentres from 'hooks/use-location';
 import useShop from 'hooks/use-shop';
@@ -177,8 +176,8 @@ const ProductForm = ({ id }) => {
       collection_fks: d.collection_fks,
       variants: [],
     };
-
-    if (d.type) p.categories = [d.type.key];
+    console.log(d.type)
+    if (d.type) p.categories = [d.type.key ?? d.type.label];
 
     if (d.is_parent) {
       p.structure = ProductStructure.PARENT;
@@ -508,7 +507,7 @@ const ProductForm = ({ id }) => {
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <InputHeader label='Product Category' tooltipContent='Choose a product category' />
-                          <ReactSelect
+                          <ReactSelectCreatable
                             menuPortalTarget={document.body}
                             isSearchable
                             cacheOptions

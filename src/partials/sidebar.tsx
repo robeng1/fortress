@@ -91,7 +91,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </button>
             {/* Logo */}
             <NavLink to="/" className="block">
-              <div className="w-8 h-8 relative flex justify-center items-center rounded-full bg-blue-500 text-xl text-white uppercase">R</div>
+              <div className="w-8 h-8 relative flex justify-center items-center rounded-full bg-purple-500 text-xl text-white uppercase">R</div>
             </NavLink>
           </div>
 

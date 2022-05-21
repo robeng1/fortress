@@ -58,7 +58,7 @@ function Analytics() {
               <h4 className="text-xl md:text-xl text-gray-500 font-medium">
                 {entries && !isEmptyArray(entries) && entries?.length > 0 && <>
                   <p className='text-sm md:text-xl cursor-pointer text-gray-800'>Here's your website link: {" "} 
-                    <span className='underline text-blue-500'>
+                    <span className='underline text-purple-500'>
                       <a href={`https://${entries[0].domain}`} target="_blank">Link</a>
                     </span></p>
                 </>}

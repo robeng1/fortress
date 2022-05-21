@@ -27,7 +27,7 @@ function SalesChannels() {
               <li className="flex items-center">
                 <Link
                   to="/settings"
-                  className="text-blue-500 hover:text-indigo-500"
+                  className="text-purple-500 hover:text-indigo-500"
                 >
                   Settings
                 </Link>
