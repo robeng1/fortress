@@ -25,7 +25,7 @@ export default function useHasProducts() {
       enabled: !!shop?.shop_id,
     },
   );
-  const hasProduct = (!!shop && !productCheckIsLoading && productData?.products && productData.products.length > 0) ? true: false
+  const hasProduct = (shop !== undefined && !productCheckIsLoading && productData?.products && productData.products.length > 0) ? true: false
   return {
     hasProduct,
     productCheckIsLoading
