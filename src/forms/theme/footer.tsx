@@ -45,7 +45,10 @@ function Footer() {
               ...cfg.settings['sections'],
               'layout-footer': {
                 ...cfg.settings['sections']['layout-footer'],
-                settings: { ...vals },
+                settings: { ...vals, 
+                  social_instagram_link: values.social_instagram_link && values.social_instagram_link !== "" ? `https://instagram.com/${values.social_instagram_link}` : '',
+                  social_twitter_link: values.social_twitter_link && values.social_twitter_link !== "" ? `https://twitter.com/${values.social_twitter_link}` : '' 
+                },
               },
             },
           };
