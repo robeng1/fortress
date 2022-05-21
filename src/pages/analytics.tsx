@@ -18,10 +18,15 @@ import DashboardCard04 from 'partials/dashboard/DashboardCard04';
 import { toast } from 'react-toastify';
 import useDomains from 'hooks/use-domains';
 import { isEmptyArray } from 'formik';
+import useHasProducts from 'hooks/use-has-products';
+import CTAs from 'partials/cta';
+import useHasRates from 'hooks/use-has-rates';
 
 function Analytics() {
   useOnboarding();
   const { isEmailVerified } = useSession();
+  const { hasProduct } = useHasProducts();
+  const { hasRates } = useHasRates();
   const { entries } = useDomains();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { stats, statsIsLoading } = useStats();
@@ -57,7 +62,7 @@ function Analytics() {
               </h4>
               <h4 className="text-xl md:text-xl text-gray-500 font-medium">
                 {entries && !isEmptyArray(entries) && entries?.length > 0 && <>
-                  <p className='text-sm md:text-xl cursor-pointer text-gray-800'>Here's your website link: {" "} 
+                  <p className='text-sm md:text-xl cursor-pointer text-gray-800'>Here's your website link: {" "}
                     <span className='underline text-purple-500'>
                       <a href={`https://${entries[0].domain}`} target="_blank">Link</a>
                     </span></p>
@@ -70,6 +75,9 @@ function Analytics() {
               {/* Datepicker built with flatpickr */}
               <Datepicker align="right" />
             </div>
+          </div>
+          <div>
+            <CTAs noProducts={!hasProduct} noRates={!hasRates} noTheme={false} />
           </div>
           <div className="grid grid-cols-12 gap-6">
             <DashboardCard01 sales={stats?.gross_revenue} dataset={[]} />

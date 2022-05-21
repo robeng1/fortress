@@ -398,6 +398,7 @@ function RatesForm({ handleShow, rate }) {
                   <TagInput
                     id="cities"
                     name="cities"
+                    placeholder=" Eg. Accra, Kumasi, Kasoa"
                     values={values.cities}
                     onChange={cities => setFieldValue('cities', cities)}
                     className="w-full"
