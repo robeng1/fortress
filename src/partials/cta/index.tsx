@@ -46,7 +46,7 @@ const CTAs: React.FC<CTAProps> = ({ noProducts, noRates, noTheme }) => {
           <div className="lg:text-center">
             <h2 className="text-base text-purple-600 font-semibold tracking-wide uppercase">Setup</h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Let's get you setup asap!
+              You are almost there
             </p>
           </div>
 
