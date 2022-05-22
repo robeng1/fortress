@@ -9,7 +9,6 @@
 import React, { useEffect, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import 'react-toastify/dist/ReactToastify.css';
 import './charts/ChartjsConfig';
 
 import Signup from './pages/signup';
@@ -46,6 +45,7 @@ import Vouchers from 'pages/voucher/voucher';
 import OnboardingCurrency from 'forms/onboarding/currency';
 import OnboardingCentre from 'forms/onboarding/centre';
 import OnboardingPayment from 'forms/onboarding/payment';
+import OrderManager from 'pages/order-manager/manager';
 const ResetPassword = lazy(() => import('pages/reset-password'));
 
 export function App() {
@@ -110,6 +110,14 @@ export function App() {
           element={
             <RequireAuth path="/orders">
               <Orders />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/orders/:id"
+          element={
+            <RequireAuth path="/orders/:id">
+              <OrderManager />
             </RequireAuth>
           }
         />

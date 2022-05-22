@@ -3,14 +3,15 @@ import OrderItem from './table-item';
 import OrderList from './mobile/order-list';
 import EmptyState from 'partials/empty-state';
 import { OrderViewType } from 'typings/order/order-type';
+import { useNavigate } from 'react-router-dom';
 
 type OrderTableProps = {
   selectedItems: (items: string[]) => void
-  handleShow: (show: boolean, id?: string) => void
   orders: OrderViewType[]
 }
 
-const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, handleShow, orders }) => {
+const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, orders }) => {
+  const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
   const [isCheck, setIsCheck] = useState<string[]>([]);
 
@@ -41,7 +42,7 @@ const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, handleShow, ord
       {orders.length > 0 ? (
         <div className="border border-transparent focus:outline-none rounded-md shadow-lg bg-white appearance-none relative">
           <div>
-            <OrderList selectedItems={selectedItems} handleShow={handleShow} orders={orders} />
+            <OrderList selectedItems={selectedItems} orders={orders} />
             {/* Table */}
             <div className="hidden md:block overflow-x-auto">
               <table className="table-auto w-full divide-y divide-gray-200">
@@ -91,7 +92,7 @@ const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, handleShow, ord
                 {orders.map(order => {
                   return (
                     <OrderItem
-                      handleShow={handleShow}
+                      handleShow={() => navigate(`/orders/${order.order_id}`)}
                       key={order.order_id}
                       order={order}
                       handleClick={handleClick}

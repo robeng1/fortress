@@ -1,13 +1,14 @@
 import * as React from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { OrderViewType } from 'typings/order/order-type';
 import OrderCard from './order-card';
 type OrderListProps = {
   selectedItems: (items: string[]) => void
-  handleShow: (show: boolean) => void
   orders: OrderViewType[]
 }
 
-const OrderList: React.FC<OrderListProps> = ({ handleShow, orders }) => {
+const OrderList: React.FC<OrderListProps> = ({ orders }) => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="md:hidden">
@@ -16,7 +17,7 @@ const OrderList: React.FC<OrderListProps> = ({ handleShow, orders }) => {
             <ul className="p-3 divide-y divide-gray-200  -mt-5">
               {orders.map(order => (
                 <li key={order.order_id} className="flex pr-3 py-2">
-                  <OrderCard handleShow={handleShow} order={order} />
+                  <OrderCard handleShow={() => navigate(`/orders/${order.order_id}`)} order={order} />
                 </li>
               ))}
             </ul>

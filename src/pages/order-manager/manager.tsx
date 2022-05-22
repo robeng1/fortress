@@ -14,7 +14,7 @@ import Sidebar from 'partials/sidebar';
 import Header from 'partials/header';
 import BottomNav from 'components/bottom-navigation';
 
-export default function Order() {
+export default function OrderManager() {
   const navigate = useNavigate();
   const { id } = useParams();
   const queryClient = useQueryClient();
@@ -414,6 +414,6 @@ export default function Order() {
         <BottomNav />
       </div>
     </div>
-   
+
   );
 }

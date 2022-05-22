@@ -7,7 +7,7 @@ type OrderTableItemProps = {
   order: OrderViewType
   handleClick: (e: any) => void
   isChecked: boolean
-  handleShow: (show: boolean, id?: string) => void
+  handleShow: () => void
 }
 
 const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, handleShow, isChecked }) => {
@@ -56,7 +56,7 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
           </div>
         </td>
         <td
-          onClick={() => handleShow(true, order.order_id)}
+          onClick={handleShow}
           className="cursor-pointer hover:underline px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap"
         >
           <div className="flex items-center text-gray-800">

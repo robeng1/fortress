@@ -6,7 +6,7 @@ type OrderTableItemProps = {
   order: OrderViewType
   handleClick?: (e: any) => void
   isChecked?: boolean
-  handleShow: (show: boolean, id?: string) => void
+  handleShow: () => void
 }
 
 const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
@@ -27,7 +27,7 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
   }
   return (
     <div
-      onClick={() => handleShow(true, order.order_id)}
+      onClick={handleShow}
       className="block w-full"
     >
       <div className="w-full flex flex-grow justify-between text-xs font-medium text-gray-900">

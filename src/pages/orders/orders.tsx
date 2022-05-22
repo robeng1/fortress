@@ -141,7 +141,6 @@ function Orders() {
           {!isLoading && <>
             {/* Table */}
             <OrdersTable
-              handleShow={handleShow}
               selectedItems={handleSelectedItems}
               orders={data?.views || []}
             />
@@ -182,11 +181,7 @@ function Orders() {
           location="Orders"
         />
 
-        {showOrder ? (
-          <Order id={currentlyShowingOrderId} handleShow={handleShow} />
-        ) : (
-          renderList()
-        )}
+        {renderList()}
         <BottomNav />
       </div>
     </div>
