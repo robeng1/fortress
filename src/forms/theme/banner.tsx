@@ -8,12 +8,13 @@ import { Template } from 'typings/theme/template';
 import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
 import { proxyURL } from 'utils/urlsigner';
+import toast from 'react-hot-toast';
 
 
 function Banner() {
   const navigate = useNavigate();
   const { shop } = useShop();
-  const { theme, update, isUpdatingTheme } = useThemeMutation();
+  const { theme, update, isUpdatingTheme, isLoadingTheme} = useThemeMutation();
   const ind = theme?.templates?.findIndex(t => t.type === 'index');
   const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
   const cob = JSON.parse(tpl?.content ?? '{}');
@@ -27,7 +28,6 @@ function Banner() {
   const { upload } = useUpload();
 
   const [isDirty, setIsDirty] = useState(false);
-  console.log(initialValues)
   const onImageChange = (files: File[]) => {
     if (files.length < 1) return;
     const pickf = files[0];
@@ -48,9 +48,17 @@ function Banner() {
     setImage(initialValues['image'])
   }, [theme])
 
+  useEffect(() => {
+    if (isUpdatingTheme) {
+      toast.loading("Updating theme", { id: "saving-banner" })
+    } else {
+      toast.dismiss("saving-banner")
+    }
+  }, [isUpdatingTheme])
+
   return (
     <div>
-      <Loading open={isUpdatingTheme || isDirty} />
+      <Loading open={isUpdatingTheme || isDirty || isLoadingTheme} />
       <Formik
         enableReinitialize
         initialValues={{

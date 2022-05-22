@@ -8,12 +8,13 @@ import useShop from 'hooks/use-shop';
 import ReactSelect from 'react-select/async-creatable';
 import customSelectStyles from 'forms/product/styles';
 import { SelectOption } from 'forms/product/values';
+import toast from 'react-hot-toast';
 
 function SectionCollection() {
   const navigate = useNavigate();
   const { shop } = useShop();
   const [selectedCollection, setSelectedCollection] = useState<SelectOption>()
-  const { theme, update, isUpdatingTheme } = useThemeMutation();
+  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
   const ind = theme?.templates?.findIndex(t => t.type === 'index');
   const tpl = theme?.templates && ind ? theme?.templates[ind] : {};
   const cob = JSON.parse(tpl?.content ?? '{}');
@@ -36,9 +37,17 @@ function SectionCollection() {
     }
   }, [theme])
 
+  useEffect(() => {
+    if (isUpdatingTheme) {
+      toast.loading("Updating theme", { id: "saving-featured-collection" })
+    } else {
+      toast.dismiss("saving-featured-collection")
+    }
+  }, [isUpdatingTheme])
+
   return (
     <div>
-      <Loading open={isUpdatingTheme} />
+      <Loading open={isUpdatingTheme || isLoadingTheme} />
       <Formik
         enableReinitialize
         initialValues={{

@@ -68,7 +68,7 @@ const ProductForm = ({ id }) => {
   const [showVariants, setShowVariants] = useState(false);
 
   // query for getting the product, TODO: move into a hook
-  const { data: product } = useQuery<ProductType>(
+  const { data: product, isLoading: isLoadingProduct } = useQuery<ProductType>(
     ['product', productId],
     async () => await request(`${requestURL}/${productId}`),
     {
@@ -418,11 +418,19 @@ const ProductForm = ({ id }) => {
   };
   const initvals = productToValuesMapper(product);
 
+  useEffect(() => {
+    if (isLoadingProduct) {
+      toast.loading("Fetching data", { id: "product-fetching" })
+    } else {
+      toast.dismiss("product-fetching")
+    }
+  }, [isLoadingProduct])
+
   // TODO: break form page into sections
   return (
     <>
       <Loading
-        open={isCreatingProduct || isUpdatingProduct || isSavingImages}
+        open={isCreatingProduct || isUpdatingProduct || isSavingImages || isLoadingProduct}
       />
       <Formik
         enableReinitialize

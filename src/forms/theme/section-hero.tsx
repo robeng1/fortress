@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
-import useShop from 'hooks/use-shop';
 import { Loading } from 'components/blocks/backdrop';
 import { Template } from 'typings/theme/template';
 import SimpleImageDropzone from 'components/single-image-dropzone';
 import { useUpload } from 'hooks/use-upload';
-import { proxyURL } from 'utils/urlsigner';
+import toast from 'react-hot-toast';
 
 
 function Hero() {
   const navigate = useNavigate();
-  const { shop } = useShop();
-  const { theme, update, isUpdatingTheme } = useThemeMutation();
+  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
   const ind = theme?.templates?.findIndex(t => t.type === 'index');
   const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
   const cob = JSON.parse(tpl?.content ?? '{}');
@@ -46,9 +44,17 @@ function Hero() {
     setImage(initialValues['image'])
   }, [theme])
 
+  useEffect(() => {
+    if (isUpdatingTheme) {
+      toast.loading("Updating theme", { id: "saving-hero" })
+    } else {
+      toast.dismiss("saving-hero")
+    }
+  }, [isUpdatingTheme])
+
   return (
     <div>
-      <Loading open={isUpdatingTheme || isDirty} />
+      <Loading open={isUpdatingTheme || isDirty|| isLoadingTheme} />
       <Formik
         enableReinitialize
         initialValues={{

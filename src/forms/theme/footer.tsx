@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
 import { Formik } from 'formik';
 import { useThemeMutation } from 'hooks/use-theme-mutation';
 import { useNavigate } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
+import toast from 'react-hot-toast';
 
 function Footer() {
   const navigate = useNavigate();
-  const { theme, config, update, isUpdatingTheme } = useThemeMutation();
+  const { theme, config, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
   const initialValues =
     config &&
       config.settings &&
@@ -18,9 +19,16 @@ function Footer() {
         ] ?? {}
         : {}
       : {};
+  useEffect(() => {
+    if (isUpdatingTheme) {
+      toast.loading("Updating theme", { id: "saving-footer" })
+    } else {
+      toast.dismiss("saving-footer")
+    }
+  }, [isUpdatingTheme])
   return (
     <div>
-      <Loading open={isUpdatingTheme} />
+      <Loading open={isUpdatingTheme || isLoadingTheme} />
       <Formik
         enableReinitialize
         initialValues={{

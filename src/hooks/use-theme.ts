@@ -24,7 +24,7 @@ export default function useTheme() {
   const {
     data: theme,
     refetch,
-    isLoading,
+    isLoading: isLoadingTheme,
     isIdle,
     isRefetching,
   } = useQuery<Theme>(['theme', shopId], () => fetchThemes(shopId), {
@@ -34,7 +34,7 @@ export default function useTheme() {
   return {
     refetch,
     theme,
-    isLoading,
+    isLoadingTheme,
     isIdle,
     isRefetching,
   };

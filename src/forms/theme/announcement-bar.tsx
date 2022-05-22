@@ -7,7 +7,7 @@ import { Loading } from 'components/blocks/backdrop';
 
 function AnnouncementBar() {
   const navigate = useNavigate();
-  const { theme, config, update, isUpdatingTheme } = useThemeMutation();
+  const { theme, config, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
   const initialValues =
     config &&
     config.settings &&
@@ -22,7 +22,7 @@ function AnnouncementBar() {
       : {};
   return (
     <div>
-      <Loading open={isUpdatingTheme} />
+      <Loading open={isUpdatingTheme || isLoadingTheme} />
       <Formik
         enableReinitialize
         initialValues={{
