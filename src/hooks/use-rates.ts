@@ -10,6 +10,7 @@ import {
 import { useQuery } from 'react-query';
 import { request } from 'utils/request';
 import useShop from './use-shop';
+import { useEffect, useState } from 'react';
 
 type Rate = WeightBasedRateType & ItemBasedRateType;
 
@@ -38,15 +39,16 @@ const findIbrs = async (id?: string) => {
 };
 
 export default function useRates() {
+  const [hasRates, setHasRates] = useState<boolean>(true);
   const { shop } = useShop();
-  const { data: wbrates } = useQuery<WeightBasedRateType[]>(
+  const { data: wbrates, isLoading: wbLoading } = useQuery<WeightBasedRateType[]>(
     ['weight-based-rates', shop?.shop_id],
     () => findWbrs(shop?.shop_id),
     {
       enabled: !!shop?.shop_id,
     },
   );
-  const { data: ibrates } = useQuery<ItemBasedRateType[]>(
+  const { data: ibrates, isLoading: ibLoading } = useQuery<ItemBasedRateType[]>(
     ['item-based-rates', shop?.shop_id],
     () => findIbrs(shop?.shop_id),
     {
@@ -57,7 +59,14 @@ export default function useRates() {
   const rates: Rate[] = (wbrates ?? initialState).concat(
     ibrates || initialState,
   );
+  useEffect(() => {
+    if (shop && (wbrates || ibrates)) {
+      setHasRates(!!(rates && rates.length > 0))
+    }
+  }, [shop, wbrates, ibrates, wbLoading, ibLoading])
+
   return {
+    hasRates,
     rates,
   };
 }

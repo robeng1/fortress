@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Formik } from 'formik';
 import { useAtom } from 'jotai';
 import { useMutation, useQueryClient } from 'react-query';
@@ -58,6 +58,11 @@ function StorePanel() {
     },
   );
 
+  useEffect(() => {
+    setImage(shop?.image)
+  }, [shop])
+  
+
   return (
     <div>
       <Loading open={isUpdatingShop || isDirty} />
@@ -68,6 +73,7 @@ function StorePanel() {
           email: shop?.email || '',
           phone: shop?.phone || '',
           business_name: shop?.business_name || '',
+          image: shop?.image,
           address: {
             street: '',
             city: '',

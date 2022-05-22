@@ -42,7 +42,7 @@ export interface InventoryType {
   taxable?: boolean;
   track_quantity?: boolean;
   unlimited?: boolean;
-  shard?: number;
+  sid?: number;
   stock_id?: number;
 }
 

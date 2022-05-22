@@ -176,7 +176,6 @@ const ProductForm = ({ id }) => {
       collection_fks: d.collection_fks,
       variants: [],
     };
-    console.log(d.type)
     if (d.type) p.categories = [d.type.key ?? d.type.label];
 
     if (d.is_parent) {
@@ -248,10 +247,10 @@ const ProductForm = ({ id }) => {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
         klient.setQueryData(['product', productId], newProduct);
-        toast('Product created successfully');
+        toast.success('Product created successfully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );
@@ -267,10 +266,10 @@ const ProductForm = ({ id }) => {
       onSuccess: (newProduct: ProductType) => {
         setProductId(newProduct.product_id);
         klient.setQueryData(['product', productId], newProduct);
-        toast('Product updated successfully');
+        toast.success('Product updated successfully');
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast.error(e.message);
       },
     },
   );
@@ -339,56 +338,63 @@ const ProductForm = ({ id }) => {
       shouldValidate?: boolean | undefined,
     ) => void,
   ) => {
+    const old = product?.variants ?? []
+
     const variationOptions = values.variation_options;
 
     const attributes = variationOptions.map(v => v.attribute);
     const attributeValues = variationOptions.map(v => v.values);
 
-    const labels = attributeValues.map(vl => vl.map(a => a));
+    const labels = attributeValues.map(label => label.map(a => a.trim()));
 
     const titles = cartesian(...labels).map((v: string[] | string) =>
-      typeof v === 'string' ? v : v.join('-'),
+      typeof v === 'string' ? v : v.join('-').trim(),
     );
 
-    const variants: ProductType[] = titles.map((t: string) => {
-      const variant: ProductType = {
-        title: t,
-        shop_id: shop?.shop_id!,
-        product_id: productId || '',
-        structure: ProductStructure.CHILD,
-        weight: values.weight.toString(),
-        height: values.height.toString(),
-        length: values.length.toString(),
-        width: values.width.toString(),
-        track_stock: values.track_quantity,
-      };
-      variant.attributes = b64Encode(
-        variant.title?.split('-').map((opt, i) => {
-          return { name: attributes[i].label, value: opt };
-        }),
-      );
-
-      variant.stock_records = (locations ?? []).map(({ centre_id }) => {
-        const record: InventoryType = {
-          variant_id: productId || '',
+    const variants: ProductType[] = titles.map((title: string) => {
+      const foundv = old.find((v) => v.title === title)
+      let variant: ProductType;
+      if (foundv) {
+        variant = foundv
+      } else {
+        variant = {
+          title: title,
+          shop_id: shop?.shop_id!,
           product_id: productId || '',
-          shop_id: shop?.shop_id,
-          num_in_stock: values.quantity,
-          // TODO: centreId && centreSku should be replaced with correct on
-          centre_id: centre_id ?? '',
-          centre_sku: slugify(t),
-          cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
-          price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
-          compare_at_price: sToM(
-            values.compare_at_price,
-            shop?.currency?.iso_code,
-          ),
-          unlimited: values.unlimited,
-          track_quantity: values.track_quantity,
-          taxable: false,
+          structure: ProductStructure.CHILD,
+          weight: values.weight.toString(),
+          height: values.height.toString(),
+          length: values.length.toString(),
+          width: values.width.toString(),
+          track_stock: values.track_quantity,
         };
-        return record;
-      });
+        variant.attributes = b64Encode(
+          variant.title?.split('-').map((opt, i) => {
+            return { name: attributes[i].label, value: opt };
+          }),
+        );
+        variant.stock_records = (locations ?? []).map(({ centre_id }) => {
+          const record: InventoryType = {
+            variant_id: productId || '',
+            product_id: productId || '',
+            shop_id: shop?.shop_id,
+            num_in_stock: values.quantity,
+            // TODO: centreId && centreSku should be replaced with correct on
+            centre_id: centre_id ?? '',
+            centre_sku: slugify(title),
+            cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
+            price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
+            compare_at_price: sToM(
+              values.compare_at_price,
+              shop?.currency?.iso_code,
+            ),
+            unlimited: values.unlimited,
+            track_quantity: values.track_quantity,
+            taxable: false,
+          };
+          return record;
+        });
+      }
       return variant;
     });
     // setFieldValue('variants', [...values.variants, ...vars]);
