@@ -1,5 +1,5 @@
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Pagination from '@mui/material/Pagination';
 import Transition from '../../utils/transition';
 
@@ -16,7 +16,6 @@ import DateSelect from 'components/date-select';
 import { currencyToM, mToS, mToSFormatted, mToSFormattedK, sToCurrency, sToM } from 'utils/money';
 import Button from 'components/blocks/button';
 import { TransferKind, TransferType } from 'typings/payment/transfer';
-import { toast } from 'react-toastify';
 import Input from 'components/blocks/input';
 import useShop from 'hooks/use-shop';
 import usePayment from 'hooks/use-payment';
@@ -24,8 +23,10 @@ import { ThemeProvider } from 'styles/material/theme';
 import { TransactionType, TransactionViewType } from 'typings/payment/transaction-type';
 import ThreeDots from 'components/ui/loaders/three-dots';
 import TransactionItem from 'partials/balance/transaction-item';
+import toast from 'react-hot-toast';
 
 function Balance() {
+  const klient = useQueryClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const { shop } = useShop();
@@ -91,20 +92,19 @@ function Balance() {
     },
   );
 
-  const { mutate: makeWithdrawal } = useMutation(
+  const { mutateAsync: makeWithdrawal } = useMutation(
     (payload: TransferType) =>
       request(withdrawalURL, {
         method: 'POST',
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ transfer: payload }),
       }),
     {
       onSuccess: (transfer: TransferType) => {
-        // setCollectionId(newCollection.collection_id);
-        // queryClient.setQueryData(['collection', collectionId], newCollection);
-        toast('Amount succefully sent');
+        klient.invalidateQueries(['account-activities', page])
+        toast.success('Amount succefully sent');
       },
       onError: (e: ResponseError) => {
-        toast('Could not process withdraw at this time due to ' + e.message);
+        toast.error('Could not process withdraw at this time due to ' + e.message);
       },
     },
   );
@@ -252,7 +252,7 @@ function Balance() {
                                   transfer_kind: TransferKind.TRANSFER,
                                   source_id: paymentAccount?.account_id,
                                   loopy: false,
-                                  authorisor_id: accountId,
+                                  authorisor_id: shop?.shop_id,
                                   unit_amount:
                                     sToCurrency(amountToWithdraw).intValue,
                                   is_system: false,
@@ -262,7 +262,11 @@ function Balance() {
                                   ),
                                   description: 'payout',
                                 };
-                                makeWithdrawal(trsf);
+                                toast.promise(makeWithdrawal(trsf), {
+                                  loading: "Processing cashout",
+                                  success: "Cashout processed",
+                                  error: null
+                                })
                                 setOpen(false);
                               }}
                               onBlur={() => setOpen(false)}
@@ -323,7 +327,7 @@ function Balance() {
                               </td>
                               <td className="p-2 w-2/6">
                                 <div className={`text-right text-gray-800 ${txn.minor_amount < 0 ? "text-gray-800 " : "text-green-500"}`}>
-                                  {txn.minor_amount < 0? "-":"+"}{mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                                  {txn.minor_amount < 0 ? "" : "+"}{mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
                                 </div>
                               </td>
                             </tr>

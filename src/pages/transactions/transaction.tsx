@@ -145,7 +145,7 @@ function Transactions() {
                               </td>
                               <td className="p-2 w-2/6">
                                 <div className={`text-right text-gray-800 ${txn.minor_amount < 0 ? "text-gray-800 " : "text-green-500"}`}>
-                                  {txn.minor_amount < 0 ? "-" : "+"}{mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                                  {txn.minor_amount < 0 ? "" : "+"}{mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
                                 </div>
                               </td>
                             </tr>
