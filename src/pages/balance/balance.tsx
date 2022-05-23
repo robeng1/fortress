@@ -260,7 +260,7 @@ function Balance() {
                                     sToCurrency(amountToWithdraw),
                                     shop?.currency?.iso_code,
                                   ),
-                                  description: 'payout',
+                                  description: 'Payout',
                                 };
                                 toast.promise(makeWithdrawal(trsf), {
                                   loading: "Processing cashout",
