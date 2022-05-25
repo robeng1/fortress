@@ -46,7 +46,7 @@ import OnboardingCurrency from 'forms/onboarding/currency';
 import OnboardingCentre from 'forms/onboarding/centre';
 import OnboardingPayment from 'forms/onboarding/payment';
 import OrderManager from 'pages/order-manager/manager';
-const ResetPassword = lazy(() => import('pages/reset-password'));
+import ResetPassword from 'pages/reset-password';
 
 export function App() {
   const location = useLocation();
