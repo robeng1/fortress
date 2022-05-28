@@ -125,6 +125,8 @@ module.exports = {
       },
       zIndex: {
         60: '60',
+        90: '90',
+        999: '999',
       },
       keyframes: {
         ring: {
