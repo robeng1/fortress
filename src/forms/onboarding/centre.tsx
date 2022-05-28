@@ -13,7 +13,7 @@ function Centre() {
         {/* Content */}
         <div className="w-full md:w-1/2">
 
-          <div className="min-h-screen h-full flex flex-col after:flex-1">
+          <div className="min-h-screen h-full w-screen flex flex-col after:flex-1">
 
             <div className="flex-1">
               <div className="flex items-center justify-center h-16 px-4 sm:px-6 lg:px-8">
