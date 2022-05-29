@@ -7,7 +7,6 @@ type FileUploadFieldProps = {
   errorMessage?: string
   placeholder?: string
   className?: string
-  multiple?: boolean
 }
 
 const FileUploadField: React.FC<FileUploadFieldProps> = ({
@@ -15,7 +14,6 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
   filetypes,
   placeholder,
   errorMessage,
-  multiple,
   className,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -30,7 +28,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
 
     e.preventDefault()
 
-    const files: unknown[] = []
+    const files: any[] = []
 
     if (e.dataTransfer.items) {
       // Use DataTransferItemList interface to access the file(s)
@@ -60,18 +58,20 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
 
   return (
     <div
-      onClick={() => inputRef?.current?.click()}
+      onClick={() => {
+        if (inputRef) inputRef?.current?.click()
+      }}
       onDrop={handleFileDrop}
       onDragOver={(e) => e.preventDefault()}
       className={clsx(
-        "flex flex-col select-none inter-base-regular text-grey-50 cursor-pointer items-center justify-center w-full h-full rounded-rounded border-2 border-dashed border-grey-20 transition-colors hover:border-purple-60 hover:text-grey-40",
+        "flex flex-col select-none inter-base-regular text-grey-50 cursor-pointer items-center justify-center w-full h-full rounded-rounded border-2 border-dashed border-grey-20 transition-colors hover:border-violet-60 hover:text-grey-40",
         className
       )}
     >
       <div className="flex flex-col items-center">
         <p>
           Drop your images here, or{" "}
-          <span className="text-purple-60">click to browse</span>
+          <span className="text-violet-60">click to browse</span>
         </p>
         {placeholder}
       </div>
@@ -84,7 +84,6 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
         ref={inputRef}
         accept={filetypes.join(", ")}
         type="file"
-        multiple={multiple}
         onChange={handleFileUpload}
         className="hidden"
       />

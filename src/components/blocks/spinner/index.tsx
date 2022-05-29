@@ -2,7 +2,7 @@ import clsx from "clsx"
 import React from "react"
 
 type SpinnerProps = {
-  size?: "lg" | "medium" | "sm"
+  size?: "lg" | "md" | "sm"
   variant?: "primary" | "secondary"
 }
 
@@ -15,7 +15,7 @@ const Spinner: React.FC<SpinnerProps> = ({
       className={clsx(
         "flex items-center justify-center",
         { "h-[24px] w-[24px]": size === "lg" },
-        { "h-[20px] w-[20px]": size === "medium" },
+        { "h-[20px] w-[20px]": size === "md" },
         { "h-[16px] w-[16px]": size === "sm" }
       )}
     >
