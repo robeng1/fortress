@@ -22,23 +22,23 @@ const ThemeSettingsOverview: React.FC = ({ children }) => {
         />
 
         <main className="mb-10 md:mb-0">
-          
           <div className="bg-white p-lg">
             <PageDescription
               title={"Theme settings"}
               subtitle={"Manage the content and looks of your business"}
             />
-            
+
             <div className="grid md:grid-cols-2 auto-cols-fr grid-cols-1 gap-x-base gap-y-xs bg-white">
               {children}
             </div>
-            <button onClick={() => navigate('/settings')} className="btn my-2 border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
+            <button
+              onClick={() => navigate("/settings")}
+              className="btn my-2 border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
+            >
               Cancel
             </button>
           </div>
-          
         </main>
-        
       </div>
     </div>
   )

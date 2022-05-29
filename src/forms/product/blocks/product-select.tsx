@@ -1,4 +1,3 @@
-import customSelectStyles from "forms/product/styles"
 import isEmpty from "lodash/isEmpty"
 import React, { useEffect, useState } from "react"
 import { MultiValue, SingleValue } from "react-select"
@@ -64,9 +63,6 @@ const ProductSelect: React.FC<ProductSelectProps> = ({
           onChange={(option) => singleOnChange(option)}
           placeholder="Select products"
           loadOptions={productOptions(shop_id)}
-          styles={{
-            ...customSelectStyles,
-          }}
           className="w-full"
         />
       )}
@@ -80,9 +76,6 @@ const ProductSelect: React.FC<ProductSelectProps> = ({
           onChange={(option) => multiOnChange(option)}
           placeholder="Select products"
           loadOptions={productOptions(shop_id)}
-          styles={{
-            ...customSelectStyles,
-          }}
           className="w-full"
         />
       )}

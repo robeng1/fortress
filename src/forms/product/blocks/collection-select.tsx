@@ -19,16 +19,16 @@ export interface SelectOption {
 const customStyles = {
   option: (provided, state) => ({
     ...provided,
-    borderBottom: '1px dotted pink',
-    color: state.isSelected ? 'red' : 'blue',
+    borderBottom: "1px dotted pink",
+    color: state.isSelected ? "red" : "blue",
     padding: 20,
   }),
   singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 300ms';
+    const opacity = state.isDisabled ? 0.5 : 1
+    const transition = "opacity 300ms"
 
-    return { ...provided, opacity, transition, };
-  }
+    return { ...provided, opacity, transition }
+  },
 }
 
 const CollectionSelect: React.FC<CollectionSelectProps> = ({

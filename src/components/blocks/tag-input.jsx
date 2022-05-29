@@ -90,7 +90,9 @@ const TagInput = ({ onChange, values, onBlur = () => {}, ...props }) => {
 
   return (
     <Wrapper
-      className={`${isFocused ? "form-input" : ""} border-blue-40 focus:border-2 focus:border-blue-500 border-opacity-100`}
+      className={`${
+        isFocused ? "form-input" : ""
+      } border-blue-40 focus:border-2 focus:border-blue-500 border-opacity-100`}
       focused={isFocused}
       variant="forms.input"
     >

@@ -67,13 +67,9 @@ const BodyCard: React.FC<BodyCardProps> = ({
           </div>
         </div>
         {subtitle && (
-          <h3 className="inter-sm-regular pt-1.5 text-grey-50">
-            {subtitle}
-          </h3>
+          <h3 className="inter-sm-regular pt-1.5 text-grey-50">{subtitle}</h3>
         )}
-        {children && (
-          <div className="flex flex-col grow my-lg">{children}</div>
-        )}
+        {children && <div className="flex flex-col grow my-lg">{children}</div>}
       </div>
       {events && events.length > 0 ? (
         <div className="pb-lg pt-base px-xl border-t border-grey-20">

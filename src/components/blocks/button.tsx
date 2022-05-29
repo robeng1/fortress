@@ -145,5 +145,4 @@ const AltButton = React.forwardRef<HTMLButtonElement, AltButtonProps>(
   }
 )
 
-export {AltButton}
-
+export { AltButton }

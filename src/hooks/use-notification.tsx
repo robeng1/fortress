@@ -1,6 +1,6 @@
 import React from "react"
 import { toast } from "react-hot-toast"
-import Notification, { NotificationTypes } from "components/blocks/notification"
+import Notification, { NotificationTypes } from "components/notification"
 
 const useNotification = () => {
   return (title: string, message: string, type: NotificationTypes) => {

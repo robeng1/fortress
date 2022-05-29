@@ -61,7 +61,9 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
   }
   useEffect(() => {
     if (product) {
-      let photos = product.images.map(({ url }) => {url})
+      let photos = product.images.map(({ url }) => {
+        url
+      })
       photos = [...new Set(photos)].filter(Boolean)
       setImages([...photos])
     }

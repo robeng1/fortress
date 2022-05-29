@@ -224,7 +224,10 @@ function PaymentsPanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                  <button onClick={()=> navigate('/settings')} className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
+                  <button
+                    onClick={() => navigate("/settings")}
+                    className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
+                  >
                     Cancel
                   </button>
                   <button

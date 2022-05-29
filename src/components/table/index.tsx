@@ -61,7 +61,7 @@ type TableType = {
   Row: TableElement<TableRowProps>
   Cell: TableElement<TableCellProps>
   Pagination: React.ForwardRefExoticComponent<TablePaginationProps> &
-  React.RefAttributes<unknown>
+    React.RefAttributes<unknown>
 } & TableElement<TableProps>
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(

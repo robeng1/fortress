@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import React, { useEffect, useRef } from "react"
-import {SearchIcon} from "components/icons/search-icon"
+import { SearchIcon } from "components/icons/search-icon"
 
 type TableSearchProps = {
   autoFocus?: boolean

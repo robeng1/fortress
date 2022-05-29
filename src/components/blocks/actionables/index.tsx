@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import clsx from "clsx"
 import React from "react"
-import {AltButton as Button}  from "components/blocks/button"
+import { AltButton as Button } from "components/blocks/button"
 import MoreHorizontalIcon from "components/icons/more-horizontal-icon"
 
 export type ActionType = {
@@ -27,7 +27,7 @@ const Actionables: React.FC<ActionablesProps> = ({
     return null
   }
 
-  return (actions?.length??0) > 1 || forceDropdown ? (
+  return (actions?.length ?? 0) > 1 || forceDropdown ? (
     <div>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
