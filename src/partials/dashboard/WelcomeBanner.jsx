@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function WelcomeBanner() {
   return (
@@ -74,7 +74,7 @@ function WelcomeBanner() {
         <p>Here is what’s happening with your projects today:</p>
       </div>
     </div>
-  );
+  )
 }
 
-export default WelcomeBanner;
+export default WelcomeBanner

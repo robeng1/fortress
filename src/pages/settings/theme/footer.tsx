@@ -1,13 +1,13 @@
-import AnnouncementBar from 'forms/theme/announcement-bar';
-import Footer from 'forms/theme/footer';
-import Header from 'partials/header';
-import Sidebar from 'partials/sidebar';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import AnnouncementBar from "forms/theme/announcement-bar"
+import Footer from "forms/theme/footer"
+import Header from "partials/header"
+import Sidebar from "partials/sidebar"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function FooterMutation() {
-  const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -59,7 +59,7 @@ function FooterMutation() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default FooterMutation;
+export default FooterMutation

@@ -1,7 +1,7 @@
 // import { OrderStatusType } from 'models/order/order-type';
-import React from 'react';
-import { OrderViewType } from 'typings/order/order-type';
-import { formatPesosMoney } from 'utils/money';
+import React from "react"
+import { OrderViewType } from "typings/order/order-type"
+import { formatPesosMoney } from "utils/money"
 
 type OrderTableItemProps = {
   order: OrderViewType
@@ -10,32 +10,37 @@ type OrderTableItemProps = {
   handleShow: () => void
 }
 
-const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, handleShow, isChecked }) => {
-  const statusColor = status => {
+const OrdersTableItem: React.FC<OrderTableItemProps> = ({
+  order,
+  handleClick,
+  handleShow,
+  isChecked,
+}) => {
+  const statusColor = (status) => {
     switch (status) {
-      case 'Approved':
-        return 'bg-green-100 text-green-600';
-      case 'Refunded':
-        return 'bg-yellow-100 text-yellow-600';
+      case "Approved":
+        return "bg-green-100 text-green-600"
+      case "Refunded":
+        return "bg-yellow-100 text-yellow-600"
       default:
-        return 'bg-gray-100 text-gray-500';
+        return "bg-gray-100 text-gray-500"
     }
-  };
-  let status = 'New'
+  }
+  let status = "New"
   switch (order.status) {
-    case 'Complete':
-    case 'Customer completed':
-    case 'Customer Completed':
-    case 'Escrow autocompleted':
-    case 'Completed':
-      status = 'Completed'
-      break;
-    case 'Authorized':
-      status = 'New'
+    case "Complete":
+    case "Customer completed":
+    case "Customer Completed":
+    case "Escrow autocompleted":
+    case "Completed":
+      status = "Completed"
+      break
+    case "Authorized":
+      status = "New"
       break
     default:
       status = order.status
-      break;
+      break
   }
   return (
     <tbody className="text-xs">
@@ -86,7 +91,7 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
         <td className="px-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
           <div
             className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 ${statusColor(
-              status,
+              status
             )}`}
           >
             {status}
@@ -100,7 +105,7 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({ order, handleClick, ha
         </td>
       </tr>
     </tbody>
-  );
+  )
 }
 
-export default OrdersTableItem;
+export default OrdersTableItem

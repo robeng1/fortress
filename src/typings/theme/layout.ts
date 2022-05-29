@@ -1,6 +1,6 @@
 export interface Layout {
-  identifier?: string;
-  content?: string;
-  theme_id?: string;
-  content_hash?: string;
+  identifier?: string
+  content?: string
+  theme_id?: string
+  content_hash?: string
 }

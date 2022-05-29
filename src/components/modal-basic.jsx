@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react';
-import Transition from '../utils/transition';
+import React, { useRef, useEffect } from "react"
+import Transition from "../utils/transition"
 
 function ModalBasic({ children, id, title, modalOpen, setModalOpen }) {
-  const modalContent = useRef(null);
+  const modalContent = useRef(null)
 
   // close on click outside
   // useEffect(() => {
@@ -17,12 +17,12 @@ function ModalBasic({ children, id, title, modalOpen, setModalOpen }) {
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!modalOpen || keyCode !== 27) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!modalOpen || keyCode !== 27) return
+      setModalOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <>
@@ -62,9 +62,9 @@ function ModalBasic({ children, id, title, modalOpen, setModalOpen }) {
               <div className="font-semibold text-gray-800">{title}</div>
               <button
                 className="text-gray-400 hover:text-gray-500"
-                onClick={e => {
-                  e.stopPropagation();
-                  setModalOpen(false);
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setModalOpen(false)
                 }}
               >
                 <div className="sr-only">Close</div>
@@ -78,7 +78,7 @@ function ModalBasic({ children, id, title, modalOpen, setModalOpen }) {
         </div>
       </Transition>
     </>
-  );
+  )
 }
 
-export default ModalBasic;
+export default ModalBasic

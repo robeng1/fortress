@@ -1,5 +1,5 @@
-import React from 'react';
-import LineChart from '../../charts/LineChart03';
+import React from "react"
+import LineChart from "../../charts/LineChart03"
 
 // Import utilities
 import {
@@ -7,7 +7,7 @@ import {
   hexToRGB,
   formatThousands,
   formatDuration,
-} from '../../utils/utils';
+} from "../../utils/utils"
 
 function AnalyticsCard01({
   uniqueVisitors,
@@ -17,15 +17,15 @@ function AnalyticsCard01({
   visitorsDataset,
 }) {
   const chartData = {
-    labels: !!visitorsDataset ? visitorsDataset.map(ds => ds.key) : [],
+    labels: !!visitorsDataset ? visitorsDataset.map((ds) => ds.key) : [],
     datasets: [
       // Indigo line
       {
-        label: 'Current',
-        data: !!visitorsDataset ? visitorsDataset.map(ds => ds.value) : [],
+        label: "Current",
+        data: !!visitorsDataset ? visitorsDataset.map((ds) => ds.value) : [],
         fill: true,
         backgroundColor: `rgba(${hexToRGB(
-          tailwindConfig().theme.colors.purple[500],
+          tailwindConfig().theme.colors.purple[500]
         )}, 0.08)`,
         borderColor: tailwindConfig().theme.colors.purple[500],
         borderWidth: 2,
@@ -36,8 +36,8 @@ function AnalyticsCard01({
       },
       // Gray line
       {
-        label: 'Previous',
-        data: !!visitorsDataset ? visitorsDataset.map(ds => ds.value) : [],
+        label: "Previous",
+        data: !!visitorsDataset ? visitorsDataset.map((ds) => ds.value) : [],
         borderColor: tailwindConfig().theme.colors.gray[300],
         fill: false,
         borderWidth: 2,
@@ -47,7 +47,7 @@ function AnalyticsCard01({
         pointBackgroundColor: tailwindConfig().theme.colors.gray[300],
       },
     ],
-  };
+  }
   return (
     <div className="flex flex-col col-span-full xl:col-span-8 border border-transparent focus:outline-none rounded-md shadow-lg bg-white  appearance-none">
       <header className="px-5 py-4 border-b border-gray-100 flex items-center">
@@ -60,7 +60,7 @@ function AnalyticsCard01({
             <div className="mr-5">
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800 mr-2">
-                  {!!uniqueVisitors ? formatThousands(uniqueVisitors) : '-'}
+                  {!!uniqueVisitors ? formatThousands(uniqueVisitors) : "-"}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+49%</div> */}
               </div>
@@ -76,7 +76,7 @@ function AnalyticsCard01({
             <div className="mr-5">
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800 mr-2">
-                  {!!totalPageViews ? formatThousands(totalPageViews) : '-'}
+                  {!!totalPageViews ? formatThousands(totalPageViews) : "-"}
                 </div>
                 {/* <div className="text-sm font-medium text-green-500">+7%</div> */}
               </div>
@@ -92,7 +92,7 @@ function AnalyticsCard01({
             <div className="mr-5">
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800 mr-2">
-                  {!!bounceRate ? `${bounceRate}%` : '-'}
+                  {!!bounceRate ? `${bounceRate}%` : "-"}
                 </div>
                 {/* <div className="text-sm font-medium text-yellow-500">-7%</div> */}
               </div>
@@ -108,7 +108,7 @@ function AnalyticsCard01({
             <div>
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800 mr-2">
-                  {!!visitDuration ? formatDuration(visitDuration) : '-'}
+                  {!!visitDuration ? formatDuration(visitDuration) : "-"}
                 </div>
                 {/* <div className="text-sm font-medium text-yellow-500">+7%</div> */}
               </div>
@@ -123,7 +123,7 @@ function AnalyticsCard01({
         <LineChart data={chartData} width={800} height={300} />
       </div>
     </div>
-  );
+  )
 }
 
-export default AnalyticsCard01;
+export default AnalyticsCard01

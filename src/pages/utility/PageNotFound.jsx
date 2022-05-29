@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react"
 
-import Sidebar from '../../partials/sidebar';
-import Header from '../../partials/header';
+import Sidebar from "../../partials/sidebar"
+import Header from "../../partials/header"
 
-import NotFoundImage from '../../images/404-illustration.svg';
+import NotFoundImage from "../../images/404-illustration.svg"
 
 function PageNotFound() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -46,7 +46,7 @@ function PageNotFound() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default PageNotFound;
+export default PageNotFound

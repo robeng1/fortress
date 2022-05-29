@@ -1,45 +1,45 @@
-import React, { ChangeEvent, lazy, useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import Pagination from '@mui/material/Pagination';
+import React, { ChangeEvent, lazy, useState } from "react"
+import isEmpty from "lodash/isEmpty"
+import Pagination from "@mui/material/Pagination"
 
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import DeleteButton from 'partials/actions/DeleteButton';
-import SearchForm from 'partials/actions/search-box';
-import BottomNav from 'components/bottom-navigation';
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import DeleteButton from "partials/actions/DeleteButton"
+import SearchForm from "partials/actions/search-box"
+import BottomNav from "components/bottom-navigation"
 
-import CollectionsTable from 'partials/collections/collections-table';
-import useShop from 'hooks/use-shop';
-import { useNavigate } from 'react-router-dom';
-import { ThemeProvider } from 'styles/material/theme';
-import ThreeDots from 'components/ui/loaders/three-dots';
-import useCollectionViews from 'hooks/use-collection-views';
+import CollectionsTable from "partials/collections/collections-table"
+import useShop from "hooks/use-shop"
+import { useNavigate } from "react-router-dom"
+import { ThemeProvider } from "styles/material/theme"
+import ThreeDots from "components/ui/loaders/three-dots"
+import useCollectionViews from "hooks/use-collection-views"
 
 function Collections() {
-  const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState<any>([])
   const [currentCollectionId, setCurrentCollectionId] = useState<
     string | undefined
-  >();
-  const { shop } = useShop();
+  >()
+  const { shop } = useShop()
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [limit, setLimit] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(15)
 
-  const [term, setTerm] = useState<string>("");
+  const [term, setTerm] = useState<string>("")
 
   const { collectionData, isLoading } = useCollectionViews(page, limit, term)
 
-  const handleSelectedItems = selectedItems => {
-    setSelectedItems([...selectedItems]);
-  };
+  const handleSelectedItems = (selectedItems) => {
+    setSelectedItems([...selectedItems])
+  }
 
   const handleShow = (display: Boolean, collectionId: string) => {
-    setCurrentCollectionId(collectionId);
-  };
-  const collections = collectionData?.collections || [];
+    setCurrentCollectionId(collectionId)
+  }
+  const collections = collectionData?.collections || []
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -68,13 +68,14 @@ function Collections() {
                       value={term}
                       onChange={(e: React.FormEvent<HTMLInputElement>) => {
                         setTerm(e.currentTarget.value)
-                      }} />
+                      }}
+                    />
                     <div className="">
                       <DeleteButton selectedItems={selectedItems} />
                     </div>
                   </div>
                   <button
-                    onClick={() => navigate('/shop/collections/new')}
+                    onClick={() => navigate("/shop/collections/new")}
                     className="btn bg-purple-600 hover:bg-purple-600 text-white"
                   >
                     <svg
@@ -90,42 +91,45 @@ function Collections() {
                 </div>
               </div>
             </div>
-            {isLoading &&
+            {isLoading && (
               <div className="sm:flex sm:items-center justify-center">
                 <ThreeDots />
               </div>
-            }
-            {!isLoading && <>
-              <CollectionsTable
-                selectedItems={handleSelectedItems}
-                collections={collections || []}
-              />
+            )}
+            {!isLoading && (
+              <>
+                <CollectionsTable
+                  selectedItems={handleSelectedItems}
+                  collections={collections || []}
+                />
 
-              {/* Pagination */}
-              {!isEmpty(collections) && (collectionData?.total ?? 0) > limit && (
-                <ThemeProvider>
-                  <Pagination
-                    count={
-                      (collectionData?.total ?? 0) > limit
-                        ? Math.ceil((collectionData?.total ?? 0) / limit)
-                        : 1
-                    }
-                    variant="outlined"
-                    color="primary"
-                    className="mt-4 md:mt-8"
-                    page={page}
-                    onChange={(event: ChangeEvent<unknown>, page: number) =>
-                      setPage(page)
-                    }
-                  />
-                </ThemeProvider>
-              )}</>}
+                {/* Pagination */}
+                {!isEmpty(collections) && (collectionData?.total ?? 0) > limit && (
+                  <ThemeProvider>
+                    <Pagination
+                      count={
+                        (collectionData?.total ?? 0) > limit
+                          ? Math.ceil((collectionData?.total ?? 0) / limit)
+                          : 1
+                      }
+                      variant="outlined"
+                      color="primary"
+                      className="mt-4 md:mt-8"
+                      page={page}
+                      onChange={(event: ChangeEvent<unknown>, page: number) =>
+                        setPage(page)
+                      }
+                    />
+                  </ThemeProvider>
+                )}
+              </>
+            )}
           </div>
         </main>
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Collections;
+export default Collections

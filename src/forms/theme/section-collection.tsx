@@ -1,37 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { Loading } from 'components/blocks/backdrop';
-import { Formik } from 'formik';
-import { useThemeMutation } from 'hooks/use-theme-mutation';
-import { useNavigate } from 'react-router-dom';
-import { collectionOptions, filterCollectionsAsOptions } from 'services';
-import useShop from 'hooks/use-shop';
-import ReactSelect from 'react-select/async-creatable';
-import { SelectOption } from 'forms/product/values';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react"
+import { Loading } from "components/blocks/backdrop"
+import { Formik } from "formik"
+import { useThemeMutation } from "hooks/use-theme-mutation"
+import { useNavigate } from "react-router-dom"
+import { collectionOptions, filterCollectionsAsOptions } from "services"
+import useShop from "hooks/use-shop"
+import ReactSelect from "react-select/async-creatable"
+import { SelectOption } from "forms/product/values"
+import toast from "react-hot-toast"
 
 function SectionCollection() {
-  const navigate = useNavigate();
-  const { shop } = useShop();
+  const navigate = useNavigate()
+  const { shop } = useShop()
   const [selectedCollection, setSelectedCollection] = useState<SelectOption>()
-  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
-  const ind = theme?.templates?.findIndex(t => t.type === 'index');
-  const tpl = theme?.templates && ind ? theme?.templates[ind] : {};
-  const cob = JSON.parse(tpl?.content ?? '{}');
+  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation()
+  const ind = theme?.templates?.findIndex((t) => t.type === "index")
+  const tpl = theme?.templates && ind ? theme?.templates[ind] : {}
+  const cob = JSON.parse(tpl?.content ?? "{}")
   const initialValues =
     cob && cob.sections && cob.sections.featured_collection
       ? cob.sections.featured_collection.settings
-      : {};
+      : {}
 
   useEffect(() => {
     if (initialValues.collection_featured) {
       if (shop?.shop_id) {
-        const options = filterCollectionsAsOptions(
-          shop?.shop_id,
-          [initialValues.collection_featured],
-        );
-        options.then(result => {
-          setSelectedCollection(result ? result[0] : undefined);
-        });
+        const options = filterCollectionsAsOptions(shop?.shop_id, [
+          initialValues.collection_featured,
+        ])
+        options.then((result) => {
+          setSelectedCollection(result ? result[0] : undefined)
+        })
       }
     }
   }, [theme])
@@ -50,28 +49,31 @@ function SectionCollection() {
       <Formik
         enableReinitialize
         initialValues={{
-          headline: 'Selected products',
+          headline: "Selected products",
           collection_products_limit: 4,
           ...initialValues,
           collection_featured: selectedCollection,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values };
-          let content = cob;
-          if (!content) content = {};
-          if (!content.sections) content.sections = {};
+          const vals = { ...values }
+          let content = cob
+          if (!content) content = {}
+          if (!content.sections) content.sections = {}
           content.sections = {
             ...content?.sections,
             featured_collection: {
               ...content.sections.featured_collection,
-              settings: { ...vals, collection_featured: values.collection_featured?.key?? 'all' },
+              settings: {
+                ...vals,
+                collection_featured: values.collection_featured?.key ?? "all",
+              },
             },
-          };
-          const modfTemp = tpl;
-          modfTemp.content = JSON.stringify(content);
-          const modfTheme = theme;
-          modfTheme!.templates![ind!] = modfTemp;
-          update(modfTheme!);
+          }
+          const modfTemp = tpl
+          modfTemp.content = JSON.stringify(content)
+          const modfTheme = theme
+          modfTheme!.templates![ind!] = modfTemp
+          update(modfTheme!)
           // setSubmitting(false);
         }}
       >
@@ -124,11 +126,14 @@ function SectionCollection() {
                       menuPortalTarget={document.body}
                       cacheOptions
                       closeMenuOnSelect={false}
-                      onChange={option =>
-                        setFieldValue('collection_featured', { key: option.key, label: option.label })
+                      onChange={(option) =>
+                        setFieldValue("collection_featured", {
+                          key: option.key,
+                          label: option.label,
+                        })
                       }
                       placeholder="Select collection"
-                      loadOptions={collectionOptions(shop?.shop_id || '')}
+                      loadOptions={collectionOptions(shop?.shop_id || "")}
                       className="w-full"
                     />
                   </div>
@@ -168,9 +173,9 @@ function SectionCollection() {
                     Cancel
                   </button>
                   <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -183,7 +188,7 @@ function SectionCollection() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default SectionCollection;
+export default SectionCollection

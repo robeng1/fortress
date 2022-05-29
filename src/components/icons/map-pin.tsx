@@ -1,4 +1,4 @@
-import IconProps from 'types/icon-type';
+import IconProps from "types/icon-type"
 
 export const MapPin: React.FC<IconProps> = ({ ...props }) => {
   return (
@@ -8,5 +8,5 @@ export const MapPin: React.FC<IconProps> = ({ ...props }) => {
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}

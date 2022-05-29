@@ -1,10 +1,10 @@
-import * as React from 'react';
+import * as React from "react"
 
 export default function LocationCard({ handleShow, rate }) {
   return (
     <>
       <div
-        onClick={e => handleShow(true, rate)}
+        onClick={(e) => handleShow(true, rate)}
         className="py-1 px-3 mb-4 md:p-5 text-coolGray-800 shadow rounded-lg"
       >
         <div className="flex md:space-y-0 md:space-x-6 align-top">
@@ -19,11 +19,11 @@ export default function LocationCard({ handleShow, rate }) {
               {rate.description}
             </p>
             <p className="text-coolGray-600 font-medium text-sm md:text-md">
-              {rate && rate.cities && rate.cities.join(', ')}
+              {rate && rate.cities && rate.cities.join(", ")}
             </p>
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }

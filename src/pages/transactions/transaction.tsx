@@ -1,56 +1,59 @@
-import { ChangeEvent, useState } from 'react';
-import { useQuery } from 'react-query';
-import Pagination from '@mui/material/Pagination';
-import { paymentURL } from 'endpoints/urls';
+import { ChangeEvent, useState } from "react"
+import { useQuery } from "react-query"
+import Pagination from "@mui/material/Pagination"
+import { paymentURL } from "endpoints/urls"
 
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import FilterButton from 'components/dropdown-filter';
-import BottomNav from 'components/bottom-navigation';
-import { useAtom } from 'jotai';
-import { request, ResponseError } from 'utils/request';
-import { uidAtom } from 'store/authorization-atom';
-import DateSelect from 'components/date-select';
-import useShop from 'hooks/use-shop';
-import { ThemeProvider } from 'styles/material/theme';
-import usePayment from 'hooks/use-payment';
-import { TransactionViewType } from 'typings/payment/transaction-type';
-import { mToSFormatted } from 'utils/money';
-import ThreeDots from 'components/ui/loaders/three-dots';
-import TransactionItem from 'partials/balance/transaction-item';
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import FilterButton from "components/dropdown-filter"
+import BottomNav from "components/bottom-navigation"
+import { useAtom } from "jotai"
+import { request, ResponseError } from "utils/request"
+import { uidAtom } from "store/authorization-atom"
+import DateSelect from "components/date-select"
+import useShop from "hooks/use-shop"
+import { ThemeProvider } from "styles/material/theme"
+import usePayment from "hooks/use-payment"
+import { TransactionViewType } from "typings/payment/transaction-type"
+import { mToSFormatted } from "utils/money"
+import ThreeDots from "components/ui/loaders/three-dots"
+import TransactionItem from "partials/balance/transaction-item"
 
 function Transactions() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { shop } = useShop();
-  const shopId = shop?.shop_id;
-  const [accountId] = useAtom(uidAtom);
-  const { shopAccount: paymentAccount } = usePayment();
-  const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { shop } = useShop()
+  const shopId = shop?.shop_id
+  const [accountId] = useAtom(uidAtom)
+  const { shopAccount: paymentAccount } = usePayment()
+  const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`
 
-  const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState<number>(15);
+  const [page, setPage] = useState(1)
+  const [itemsPerPage] = useState<number>(15)
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${((page - 1) * itemsPerPage + 1) - 1
-    }, ${itemsPerPage}`;
+  const query = `SELECT * FROM transaction WHERE account_id = '${
+    paymentAccount?.account_id
+  }' ORDER BY created_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1 - 1
+  }, ${itemsPerPage}`
 
   const { data, isLoading } = useQuery<TransactionViewType[], ResponseError>(
-    ['transactions', page],
+    ["transactions", page],
     async () => {
       try {
         const resp = await request(`${requestURL}/transactions`, {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify(query),
-          headers: { 'Content-Type': 'application/json' },
-        });
-        return resp;
-      } catch (error) { }
+          headers: { "Content-Type": "application/json" },
+        })
+        return resp
+      } catch (error) {}
     },
 
     {
       keepPreviousData: true,
       enabled: !!accountId && !!paymentAccount?.account_id,
-    },
-  );
+    }
+  )
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -99,79 +102,94 @@ function Transactions() {
                 {/* <FilterButton align="right" /> */}
               </div>
             </div>
-            {isLoading &&
+            {isLoading && (
               <div className="sm:flex sm:items-center justify-center">
                 <ThreeDots />
               </div>
-            }
-            {!isLoading && <>
-              <div className='hidden lg:block'>
-                <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-gray-200">
-                  <div className="p-3">
-                    {/* Table */}
-                    <div className="overflow-x-auto">
-                      <table className="table-auto w-full">
-                        {/* Table header */}
-                        <thead className="text-xs uppercase text-gray-400 bg-gray-50 rounded-lg">
-                          <tr>
-                            <th className="p-2">
-                              <div className="font-semibold text-left">Date</div>
-                            </th>
-                            <th className="p-2">
-                              <div className="font-semibold text-left">
-                                Description
-                              </div>
-                            </th>
-                            <th className="p-2">
-                              <div className="font-semibold text-right">
-                                Amount
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                        {/* Table body */}
-                        <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
-                          {data && data.map((txn, index) =>
-                            <tr key={index}>
-                              <td className="p-2 w-1/6">
-                                <div className="text-left text-gray-500">
-                                  {new Date(txn.created_at).toDateString()}
+            )}
+            {!isLoading && (
+              <>
+                <div className="hidden lg:block">
+                  <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-gray-200">
+                    <div className="p-3">
+                      {/* Table */}
+                      <div className="overflow-x-auto">
+                        <table className="table-auto w-full">
+                          {/* Table header */}
+                          <thead className="text-xs uppercase text-gray-400 bg-gray-50 rounded-lg">
+                            <tr>
+                              <th className="p-2">
+                                <div className="font-semibold text-left">
+                                  Date
                                 </div>
-                              </td>
-                              <td className="p-2 w-3/6">
-                                <div className="flex items-center">
-                                  <div className="text-gray-500">{txn.description}</div>
+                              </th>
+                              <th className="p-2">
+                                <div className="font-semibold text-left">
+                                  Description
                                 </div>
-                              </td>
-                              <td className="p-2 w-2/6">
-                                <div className={`text-right text-gray-800 ${txn.minor_amount < 0 ? "text-gray-800 " : "text-green-500"}`}>
-                                  {txn.minor_amount < 0 ? "" : "+"}{mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                              </th>
+                              <th className="p-2">
+                                <div className="font-semibold text-right">
+                                  Amount
                                 </div>
-                              </td>
+                              </th>
                             </tr>
-                          )}
-                        </tbody>
-                      </table>
+                          </thead>
+                          {/* Table body */}
+                          <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
+                            {data &&
+                              data.map((txn, index) => (
+                                <tr key={index}>
+                                  <td className="p-2 w-1/6">
+                                    <div className="text-left text-gray-500">
+                                      {new Date(txn.created_at).toDateString()}
+                                    </div>
+                                  </td>
+                                  <td className="p-2 w-3/6">
+                                    <div className="flex items-center">
+                                      <div className="text-gray-500">
+                                        {txn.description}
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td className="p-2 w-2/6">
+                                    <div
+                                      className={`text-right text-gray-800 ${
+                                        txn.minor_amount < 0
+                                          ? "text-gray-800 "
+                                          : "text-green-500"
+                                      }`}
+                                    >
+                                      {txn.minor_amount < 0 ? "" : "+"}
+                                      {mToSFormatted({
+                                        amount: txn.minor_amount,
+                                        currency: txn.currency,
+                                      })}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className='block lg:hidden space-y-2'>
-                {data && data.map((txn, index) =>
-                  <TransactionItem key={index} txn={txn} />
-                )}
-              </div>
-            </>}
-
-
-
+                <div className="block lg:hidden space-y-2">
+                  {data &&
+                    data.map((txn, index) => (
+                      <TransactionItem key={index} txn={txn} />
+                    ))}
+                </div>
+              </>
+            )}
           </div>
         </main>
 
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Transactions;
+export default Transactions

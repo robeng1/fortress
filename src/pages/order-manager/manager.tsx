@@ -1,76 +1,80 @@
-import React, { useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { fortressURL } from 'endpoints/urls';
-import toast from 'react-hot-toast';
+import React, { useState } from "react"
+import isEmpty from "lodash/isEmpty"
+import { useQuery, useMutation, useQueryClient } from "react-query"
+import { fortressURL } from "endpoints/urls"
+import toast from "react-hot-toast"
 
-import { Loader } from 'components/loader';
-import { OrderStatusType, OrderType } from 'typings/order/order-type';
-import { request, ResponseError } from 'utils/request';
-import { mToSFormattedK, mToCurrency, formatCurrency } from 'utils/money';
-import useShop from 'hooks/use-shop';
-import { useNavigate, useParams } from 'react-router-dom';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import BottomNav from 'components/bottom-navigation';
+import { Loader } from "components/loader"
+import { OrderStatusType, OrderType } from "typings/order/order-type"
+import { request, ResponseError } from "utils/request"
+import { mToSFormattedK, mToCurrency, formatCurrency } from "utils/money"
+import useShop from "hooks/use-shop"
+import { useNavigate, useParams } from "react-router-dom"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import BottomNav from "components/bottom-navigation"
 
 export default function OrderManager() {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const queryClient = useQueryClient();
-  const { shop } = useShop();
-  const [orderId] = useState<string | undefined>(id);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/orders`;
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const queryClient = useQueryClient()
+  const { shop } = useShop()
+  const [orderId] = useState<string | undefined>(id)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/orders`
 
   // query for getting the order
   const { data: order, isLoading } = useQuery<OrderType, ResponseError>(
-    ['order', orderId],
+    ["order", orderId],
     async () => await request(`${requestURL}/${orderId}`),
     {
       // The query will not execute until the orderId exists
       enabled: !!orderId,
       keepPreviousData: true,
-    },
-  );
+    }
+  )
 
   // update the order status
-  const {
-    mutate: updateOrderStatus,
-    isLoading: isUpdatingOrder,
-  } = useMutation(
+  const { mutate: updateOrderStatus, isLoading: isUpdatingOrder } = useMutation(
     (status: OrderStatusType) =>
       request(`${requestURL}/${orderId}/set-status`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify({ order_id: orderId, status }),
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['order', orderId]);
+        queryClient.invalidateQueries(["order", orderId])
         toast.success("Order status has been updated")
       },
       onError: (e: ResponseError) => {
         toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
-  const handleMarkAsFulfilled = e => {
-    e.preventDefault();
-    updateOrderStatus(OrderStatusType.ORDER_COMPLETED);
-  };
+  const handleMarkAsFulfilled = (e) => {
+    e.preventDefault()
+    updateOrderStatus(OrderStatusType.ORDER_COMPLETED)
+  }
 
-  const handleMarkAsProcessing = e => {
-    e.preventDefault();
-    updateOrderStatus(OrderStatusType.ORDER_PROCESSING);
-  };
+  const handleMarkAsProcessing = (e) => {
+    e.preventDefault()
+    updateOrderStatus(OrderStatusType.ORDER_PROCESSING)
+  }
   // TODO: (romeo) cancellation and refund have subtle diff, fix this shit
-  const handleCancellation = e => {
-    e.preventDefault();
-    updateOrderStatus(OrderStatusType.ORDER_DECLINED);
-  };
-  const commonDisable = (order?.status === 'ORDER_COMPLETED' || order?.status === 'ORDER_DECLINED' || order?.status === 'ORDER_ATTENTION' || order?.status === 'AWAITING_CUSTOMER_CONFIRMATION' || order?.status === 'CUSTOMER_COMPLETED' || order?.status === 'ESCROW_AUTOCOMPLETED')
-  const disableMarkAsProcessingButton = commonDisable || order?.status === 'ORDER_PROCESSING'
+  const handleCancellation = (e) => {
+    e.preventDefault()
+    updateOrderStatus(OrderStatusType.ORDER_DECLINED)
+  }
+  const commonDisable =
+    order?.status === "ORDER_COMPLETED" ||
+    order?.status === "ORDER_DECLINED" ||
+    order?.status === "ORDER_ATTENTION" ||
+    order?.status === "AWAITING_CUSTOMER_CONFIRMATION" ||
+    order?.status === "CUSTOMER_COMPLETED" ||
+    order?.status === "ESCROW_AUTOCOMPLETED"
+  const disableMarkAsProcessingButton =
+    commonDisable || order?.status === "ORDER_PROCESSING"
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -94,7 +98,7 @@ export default function OrderManager() {
                 <main className="flex-1 pt-12 px-2 md:px-4 w-full h-full overflow-auto bg-gray-100 mb-3">
                   <header className="flex">
                     <button
-                      onClick={() => navigate('/orders')}
+                      onClick={() => navigate("/orders")}
                       className="inline-flex text-gray-600"
                     >
                       <svg
@@ -130,7 +134,9 @@ export default function OrderManager() {
                   </header>
                   <div className="mt-2 flex flex-initial items-baseline">
                     <div className="flex md:flex-row flex-col bg-white w-full flex-initial items-baseline align-middle shadow justify-start rounded-lg px-1 md:px-3 py-3">
-                      <h1 className="font-bold bg-white text-gray-800 text-sm">ID: {order.number}</h1>
+                      <h1 className="font-bold bg-white text-gray-800 text-sm">
+                        ID: {order.number}
+                      </h1>
                       <p className="md:pl-3 pl-1 text-gray-700">
                         {new Date(order.created_at!).toLocaleString()}
                       </p>
@@ -169,9 +175,12 @@ export default function OrderManager() {
                           <span className="font-semibold inline-flex items-center text-gray-700">
                             <i className="border-2 border-dashed border-yellow-700 h-5 inline-block mr-3 rounded-full w-5 shadow-yellow-lg"></i>
                             <span>
-                              {!(order.status === OrderStatusType.ORDER_COMPLETED || "Complete")
-                                ? 'Unfulfilled'
-                                : 'FulFilled'}
+                              {!(
+                                order.status ===
+                                  OrderStatusType.ORDER_COMPLETED || "Complete"
+                              )
+                                ? "Unfulfilled"
+                                : "FulFilled"}
                             </span>
                           </span>
 
@@ -206,7 +215,7 @@ export default function OrderManager() {
                               </div>
                               <div className="flex gap-x-5 md:gap-28 md:self-center self-start pl-2">
                                 <div className="font-medium text-green-900 text-sm">
-                                  {mToSFormattedK(line.unit_price_excl_tax)} x{' '}
+                                  {mToSFormattedK(line.unit_price_excl_tax)} x{" "}
                                   {line.quantity}
                                 </div>
                                 <div className="font-medium text-green-900 text-sm">
@@ -218,32 +227,36 @@ export default function OrderManager() {
                         ))}
 
                         <footer className="border-t flex md:flex-row flex-col justify-end px-5 py-4">
-                          {!disableMarkAsProcessingButton && <button
-                            onClick={handleMarkAsProcessing}
-                            type="button"
-                            disabled={disableMarkAsProcessingButton}
-                            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
-                          >
-                            Mark as processing
-                          </button>}
-                          {!commonDisable && <button
-                            onClick={handleMarkAsFulfilled}
-                            type="button"
-                            disabled={commonDisable}
-                            className="text-white bg-purple-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
-                          >
-                            Mark as fulfilled
-                          </button>
-                          }
-                          {!commonDisable && <button
-                            onClick={handleCancellation}
-                            disabled={commonDisable}
-                            type="button"
-                            className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
-                          >
-                            Cancel
-                          </button>}
-
+                          {!disableMarkAsProcessingButton && (
+                            <button
+                              onClick={handleMarkAsProcessing}
+                              type="button"
+                              disabled={disableMarkAsProcessingButton}
+                              className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
+                            >
+                              Mark as processing
+                            </button>
+                          )}
+                          {!commonDisable && (
+                            <button
+                              onClick={handleMarkAsFulfilled}
+                              type="button"
+                              disabled={commonDisable}
+                              className="text-white bg-purple-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
+                            >
+                              Mark as fulfilled
+                            </button>
+                          )}
+                          {!commonDisable && (
+                            <button
+                              onClick={handleCancellation}
+                              disabled={commonDisable}
+                              type="button"
+                              className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center md:mr-3 mb-3"
+                            >
+                              Cancel
+                            </button>
+                          )}
                         </footer>
                       </div>
 
@@ -270,9 +283,9 @@ export default function OrderManager() {
                           <span className="ml-auto">
                             {formatCurrency(
                               mToCurrency(order.total_incl_tax).subtract(
-                                mToCurrency(order.total_excl_tax),
+                                mToCurrency(order.total_excl_tax)
                               ),
-                              order.total_excl_tax.currency,
+                              order.total_excl_tax.currency
                             )}
                           </span>
                         </div>
@@ -281,9 +294,9 @@ export default function OrderManager() {
                           <span className="ml-auto">
                             {formatCurrency(
                               mToCurrency(order.total_incl_tax).add(
-                                mToCurrency(order.shipping_incl_tax),
+                                mToCurrency(order.shipping_incl_tax)
                               ),
-                              order.total_excl_tax.currency,
+                              order.total_excl_tax.currency
                             )}
                           </span>
                         </div>
@@ -293,9 +306,9 @@ export default function OrderManager() {
                           <span className="ml-auto">
                             {formatCurrency(
                               mToCurrency(order.total_incl_tax).add(
-                                mToCurrency(order.shipping_incl_tax),
+                                mToCurrency(order.shipping_incl_tax)
                               ),
-                              order.total_excl_tax.currency,
+                              order.total_excl_tax.currency
                             )}
                           </span>
                         </div>
@@ -325,7 +338,9 @@ export default function OrderManager() {
 
                       <div className="bg-white border mt-4 rounded shadow">
                         <header className="flex p-5">
-                          <span className="font-medium text-base">Customer</span>
+                          <span className="font-medium text-base">
+                            Customer
+                          </span>
                           <span className="bg-purple-800 flex h-8 items-center justify-center ml-auto relative rounded-full shadow-lg w-8">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -354,12 +369,14 @@ export default function OrderManager() {
                             </button>
                           </header>
                           <span className="block mb-5 mt-1 text-purple-500 text-sm">
-                            {order.guest_email !== ''
+                            {order.guest_email !== ""
                               ? order.guest_email
                               : order.customer_email}
                           </span>
                           <span className="block mb-5 mt-1 text-purple-500 text-sm">
-                            {isEmpty(order.customer_phone) ? order.phone : order.customer_phone}
+                            {isEmpty(order.customer_phone)
+                              ? order.phone
+                              : order.customer_phone}
                           </span>
                         </div>
 
@@ -414,6 +431,5 @@ export default function OrderManager() {
         <BottomNav />
       </div>
     </div>
-
-  );
+  )
 }

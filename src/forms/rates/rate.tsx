@@ -1,121 +1,121 @@
-import React, { useState } from 'react';
-import toast from 'react-hot-toast';
-import { Formik } from 'formik';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-import { useMutation, useQueryClient } from 'react-query';
-import { request, ResponseError } from 'utils/request';
-import { fortressURL } from 'endpoints/urls';
-import { WeightBasedRateType } from 'typings/rates/weight-based-rate';
-import { ItemBasedRateType } from 'typings/rates/item-based-rate';
-import { modelOptions, ShippingRateModelOption } from 'data/select';
-import { sToCurrency } from 'utils/money';
-import { rateToIB, rateToWB, rawToRate } from './mappers';
-import useShop from 'hooks/use-shop';
-import { Loading } from 'components/blocks/backdrop';
-import TagInput from 'components/blocks/tag-input';
+import React, { useState } from "react"
+import toast from "react-hot-toast"
+import { Formik } from "formik"
+import Select from "react-select"
+import makeAnimated from "react-select/animated"
+import { useMutation, useQueryClient } from "react-query"
+import { request, ResponseError } from "utils/request"
+import { fortressURL } from "endpoints/urls"
+import { WeightBasedRateType } from "typings/rates/weight-based-rate"
+import { ItemBasedRateType } from "typings/rates/item-based-rate"
+import { modelOptions, ShippingRateModelOption } from "data/select"
+import { sToCurrency } from "utils/money"
+import { rateToIB, rateToWB, rawToRate } from "./mappers"
+import useShop from "hooks/use-shop"
+import { Loading } from "components/blocks/backdrop"
+import TagInput from "components/blocks/tag-input"
 
-const animatedComponents = makeAnimated();
+const animatedComponents = makeAnimated()
 
 export interface RateType {
-  shop_id?: string;
-  model?: ShippingRateModelOption;
-  name?: string;
-  description?: string;
-  cities?: string[];
-  price_per_order_amt: string;
-  price_per_weight_amt: string;
-  price_per_item_amt: string;
-  free_shipping_threshold: string;
+  shop_id?: string
+  model?: ShippingRateModelOption
+  name?: string
+  description?: string
+  cities?: string[]
+  price_per_order_amt: string
+  price_per_weight_amt: string
+  price_per_item_amt: string
+  free_shipping_threshold: string
 }
 
 function RatesForm({ handleShow, rate }) {
-  const queryClient = useQueryClient();
-  const { shop } = useShop();
-  const wbrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/wbrs`;
-  const ibrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/ibrs`;
-  const [rateId, setRateId] = useState(rate?.rate_id);
+  const queryClient = useQueryClient()
+  const { shop } = useShop()
+  const wbrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/wbrs`
+  const ibrRequestURL = `${fortressURL}/shops/${shop?.shop_id}/ibrs`
+  const [rateId, setRateId] = useState(rate?.rate_id)
 
   const initialValues: RateType = {
     ...rawToRate(rate),
     shop_id: shop?.shop_id,
-  };
+  }
 
   // create the weight based rate
   const { mutate: createWBRate, isLoading: isCreatingWBRate } = useMutation(
     (payload: WeightBasedRateType) =>
       request(wbrRequestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newRate: WeightBasedRateType) => {
-        setRateId(newRate.rate_id);
-        queryClient.invalidateQueries(['weight-based-rates', shop?.shop_id]);
-        toast.success('Rate created successfully');
+        setRateId(newRate.rate_id)
+        queryClient.invalidateQueries(["weight-based-rates", shop?.shop_id])
+        toast.success("Rate created successfully")
       },
       onError: (e: ResponseError) => {
-        toast.error('Rate creation failed due to ' + e.message);
+        toast.error("Rate creation failed due to " + e.message)
       },
-    },
-  );
+    }
+  )
 
   // update the weight based rate
   const { mutate: updateWBRate, isLoading: isUpdatingWBRate } = useMutation(
     (payload: WeightBasedRateType) =>
       request(`${wbrRequestURL}/${rateId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newRate: WeightBasedRateType) => {
-        setRateId(newRate.rate_id);
-        queryClient.invalidateQueries(['weight-based-rates', shop?.shop_id]);
-        toast('Rate created successfully');
+        setRateId(newRate.rate_id)
+        queryClient.invalidateQueries(["weight-based-rates", shop?.shop_id])
+        toast("Rate created successfully")
       },
       onError: (e: ResponseError) => {
-        toast('Rate creation failed due to ' + e.message);
+        toast("Rate creation failed due to " + e.message)
       },
-    },
-  );
+    }
+  )
 
   // create the weight based rate
   const { mutate: createIBRate, isLoading: isCreatingIBRate } = useMutation(
     (payload: ItemBasedRateType) =>
       request(ibrRequestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newRate: ItemBasedRateType) => {
-        setRateId(newRate.rate_id);
-        queryClient.invalidateQueries(['item-based-rates', shop?.shop_id]);
-        toast('Rate created successfully');
+        setRateId(newRate.rate_id)
+        queryClient.invalidateQueries(["item-based-rates", shop?.shop_id])
+        toast("Rate created successfully")
       },
       onError: (e: ResponseError) => {
-        toast('Rate creation failed due to ' + e.message);
+        toast("Rate creation failed due to " + e.message)
       },
-    },
-  );
+    }
+  )
 
   // update the item based rate
   const { mutate: updateIBRate, isLoading: isUpdatingIBRate } = useMutation(
     (payload: ItemBasedRateType) =>
       request(`${ibrRequestURL}/${rateId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newRate: ItemBasedRateType) => {
-        setRateId(newRate.rate_id);
-        queryClient.invalidateQueries(['item-based-rates', shop?.shop_id]);
-        toast('Rate created successfully');
+        setRateId(newRate.rate_id)
+        queryClient.invalidateQueries(["item-based-rates", shop?.shop_id])
+        toast("Rate created successfully")
       },
       onError: (e: ResponseError) => {
-        toast('Rate creation failed due to ' + e.message);
+        toast("Rate creation failed due to " + e.message)
       },
-    },
-  );
+    }
+  )
 
   return (
     <div>
@@ -131,21 +131,21 @@ function RatesForm({ handleShow, rate }) {
         enableReinitialize
         initialValues={{ ...initialValues }}
         onSubmit={(values, { setSubmitting }) => {
-          if (!rateId || rateId === '') {
-            if (values.model?.value === 'WEIGHT_BASED') {
-              createWBRate(rateToWB(values));
+          if (!rateId || rateId === "") {
+            if (values.model?.value === "WEIGHT_BASED") {
+              createWBRate(rateToWB(values))
             } else {
-              createIBRate(rateToIB(values));
+              createIBRate(rateToIB(values))
             }
           } else {
-            if (values.model?.value === 'ITEM_BASED') {
-              updateWBRate(rateToWB(values));
+            if (values.model?.value === "ITEM_BASED") {
+              updateWBRate(rateToWB(values))
             } else {
-              updateIBRate(rateToIB(values));
+              updateIBRate(rateToIB(values))
             }
           }
 
-          setSubmitting(false);
+          setSubmitting(false)
         }}
       >
         {({
@@ -229,10 +229,10 @@ function RatesForm({ handleShow, rate }) {
                       defaultValue={values.model}
                       value={values.model}
                       isSearchable
-                      onChange={option =>
+                      onChange={(option) =>
                         setFieldValue(
-                          'model',
-                          option as ShippingRateModelOption,
+                          "model",
+                          option as ShippingRateModelOption
                         )
                       }
                       components={animatedComponents}
@@ -242,7 +242,7 @@ function RatesForm({ handleShow, rate }) {
                   </div>
                 </div>
               </section>
-              {values.model && values.model.value === 'WEIGHT_BASED' && (
+              {values.model && values.model.value === "WEIGHT_BASED" && (
                 <>
                   <section className="sm:flex w-full sm:items-center md:w-1/2 align-middle items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3">
                     <div className="w-full md:w-1/2 sm:w-full">
@@ -256,10 +256,10 @@ function RatesForm({ handleShow, rate }) {
                         id="price_per_order_amt"
                         name="price_per_order_amt"
                         onChange={handleChange}
-                        onBlur={event =>
+                        onBlur={(event) =>
                           setFieldValue(
-                            'price_per_order_amt',
-                            sToCurrency(event.currentTarget.value).toString(),
+                            "price_per_order_amt",
+                            sToCurrency(event.currentTarget.value).toString()
                           )
                         }
                         value={values.price_per_order_amt}
@@ -282,10 +282,10 @@ function RatesForm({ handleShow, rate }) {
                         id="price_per_weight_amt"
                         name="price_per_weight_amt"
                         onChange={handleChange}
-                        onBlur={event =>
+                        onBlur={(event) =>
                           setFieldValue(
-                            'price_per_weight_amt',
-                            sToCurrency(event.currentTarget.value).toString(),
+                            "price_per_weight_amt",
+                            sToCurrency(event.currentTarget.value).toString()
                           )
                         }
                         value={values.price_per_weight_amt}
@@ -297,7 +297,7 @@ function RatesForm({ handleShow, rate }) {
                   </section>
                 </>
               )}
-              {values.model && values.model.value === 'ITEM_BASED' && (
+              {values.model && values.model.value === "ITEM_BASED" && (
                 <>
                   <section className="sm:flex w-full sm:items-center md:w-1/2 align-middle items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-3">
                     <div className="w-full md:w-2/5 sm:w-full">
@@ -311,10 +311,10 @@ function RatesForm({ handleShow, rate }) {
                         id="price_per_order_amt"
                         name="price_per_order_amt"
                         onChange={handleChange}
-                        onBlur={event =>
+                        onBlur={(event) =>
                           setFieldValue(
-                            'price_per_order_amt',
-                            sToCurrency(event.currentTarget.value).toString(),
+                            "price_per_order_amt",
+                            sToCurrency(event.currentTarget.value).toString()
                           )
                         }
                         value={values.price_per_order_amt}
@@ -337,10 +337,10 @@ function RatesForm({ handleShow, rate }) {
                         id="price_per_item_amt"
                         name="price_per_item_amt"
                         onChange={handleChange}
-                        onBlur={event =>
+                        onBlur={(event) =>
                           setFieldValue(
-                            'price_per_item_amt',
-                            sToCurrency(event.currentTarget.value).toString(),
+                            "price_per_item_amt",
+                            sToCurrency(event.currentTarget.value).toString()
                           )
                         }
                         value={values.price_per_item_amt}
@@ -362,10 +362,10 @@ function RatesForm({ handleShow, rate }) {
                         id="free_shipping_threshold"
                         name="free_shipping_threshold"
                         onChange={handleChange}
-                        onBlur={event =>
+                        onBlur={(event) =>
                           setFieldValue(
-                            'free_shipping_threshold',
-                            sToCurrency(event.currentTarget.value).toString(),
+                            "free_shipping_threshold",
+                            sToCurrency(event.currentTarget.value).toString()
                           )
                         }
                         value={values.free_shipping_threshold}
@@ -377,10 +377,10 @@ function RatesForm({ handleShow, rate }) {
                   </section>
                 </>
               )}
-              {values.model && values.model.value === 'WEIGHT_BANDED' && (
+              {values.model && values.model.value === "WEIGHT_BANDED" && (
                 <section>Render weight banded model form</section>
               )}
-              {values.model && values.model.value === 'PRICE_BANDED' && (
+              {values.model && values.model.value === "PRICE_BANDED" && (
                 <section>Render price banded model form</section>
               )}
               <div className="w-full md:w-1/2 sm:w-full">
@@ -396,7 +396,7 @@ function RatesForm({ handleShow, rate }) {
                     name="cities"
                     placeholder=" Eg. Accra, Kumasi, Kasoa"
                     values={values.cities}
-                    onChange={cities => setFieldValue('cities', cities)}
+                    onChange={(cities) => setFieldValue("cities", cities)}
                     className="w-full"
                   />
                 </div>
@@ -413,9 +413,9 @@ function RatesForm({ handleShow, rate }) {
                   </button>
                   <button
                     type="submit"
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -428,7 +428,7 @@ function RatesForm({ handleShow, rate }) {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default RatesForm;
+export default RatesForm

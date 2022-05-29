@@ -1,4 +1,4 @@
-import ContentLoader from 'react-content-loader';
+import ContentLoader from "react-content-loader"
 
 const CardIconLoader = (props: any) => (
   <ContentLoader
@@ -13,6 +13,6 @@ const CardIconLoader = (props: any) => (
   >
     <rect x="0" y="0" rx="9" ry="9" width="240" height="240" />
   </ContentLoader>
-);
+)
 
-export default CardIconLoader;
+export default CardIconLoader

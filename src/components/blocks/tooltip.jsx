@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import ReactTooltip from 'react-tooltip';
-import Typography from './typography';
+import React from "react"
+import styled from "@emotion/styled"
+import ReactTooltip from "react-tooltip"
+import Typography from "./typography"
 
 const Tooltip = ({ ...props }) => {
   return (
@@ -13,8 +13,8 @@ const Tooltip = ({ ...props }) => {
       effect="solid"
       {...props}
     />
-  );
-};
+  )
+}
 
 const StyledTooltip = styled(Tooltip)`
   ${Typography.Base};
@@ -29,5 +29,5 @@ const StyledTooltip = styled(Tooltip)`
   &.show {
     opacity: 1;
   }
-`;
-export default StyledTooltip;
+`
+export default StyledTooltip

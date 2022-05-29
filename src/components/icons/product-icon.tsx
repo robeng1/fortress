@@ -1,5 +1,5 @@
-import React from 'react';
-export const ProductIcon = ({ width = '15.6', height = '13' }) => {
+import React from "react"
+export const ProductIcon = ({ width = "15.6", height = "13" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,5 +14,5 @@ export const ProductIcon = ({ width = '15.6', height = '13' }) => {
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}

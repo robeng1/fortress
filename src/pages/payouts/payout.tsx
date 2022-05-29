@@ -1,49 +1,50 @@
-import { ChangeEvent, useState } from 'react';
-import { useQuery } from 'react-query';
-import Pagination from '@mui/material/Pagination';
-import { paymentURL } from 'endpoints/urls';
+import { ChangeEvent, useState } from "react"
+import { useQuery } from "react-query"
+import Pagination from "@mui/material/Pagination"
+import { paymentURL } from "endpoints/urls"
 
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import FilterButton from 'components/dropdown-filter';
-import BottomNav from 'components/bottom-navigation';
-import { useAtom } from 'jotai';
-import { request, ResponseError } from 'utils/request';
-import { uidAtom } from 'store/authorization-atom';
-import DateSelect from 'components/date-select';
-import useShop from 'hooks/use-shop';
-import usePayment from 'hooks/use-payment';
-import { ThemeProvider } from 'styles/material/theme';
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import FilterButton from "components/dropdown-filter"
+import BottomNav from "components/bottom-navigation"
+import { useAtom } from "jotai"
+import { request, ResponseError } from "utils/request"
+import { uidAtom } from "store/authorization-atom"
+import DateSelect from "components/date-select"
+import useShop from "hooks/use-shop"
+import usePayment from "hooks/use-payment"
+import { ThemeProvider } from "styles/material/theme"
 
 function Payouts() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { shop } = useShop();
-  const shopId = shop?.shop_id;
-  const { shopAccount: paymentAccount } = usePayment();
-  const [accountId] = useAtom(uidAtom);
-  const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`;
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { shop } = useShop()
+  const shopId = shop?.shop_id
+  const { shopAccount: paymentAccount } = usePayment()
+  const [accountId] = useAtom(uidAtom)
+  const requestURL = `${paymentURL}/${shopId}/accounts/${accountId}`
 
-  const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState<number>(15);
+  const [page, setPage] = useState(1)
+  const [itemsPerPage] = useState<number>(15)
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${accountId}' ORDER BY created_at DESC LIMIT ${(page - 1) * itemsPerPage + 1
-    }, ${itemsPerPage}`;
+  const query = `SELECT * FROM transaction WHERE account_id = '${accountId}' ORDER BY created_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1
+  }, ${itemsPerPage}`
 
   const { data } = useQuery<any, ResponseError>(
-    ['payouts', page],
+    ["payouts", page],
     async () =>
       await request(`${requestURL}/transactions`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(query),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       }),
     {
       keepPreviousData: true,
       enabled: !!accountId,
       refetchOnWindowFocus: false,
       staleTime: 2000,
-    },
-  );
+    }
+  )
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -145,7 +146,7 @@ function Payouts() {
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Payouts;
+export default Payouts

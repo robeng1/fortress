@@ -1,4 +1,4 @@
-import { domainURL, fortressURL, paymentURL, theKeepURL } from 'endpoints/urls';
+import { domainURL, fortressURL, paymentURL, theKeepURL } from "endpoints/urls"
 
 export const useReoplex = () => {
   const urls = {
@@ -6,9 +6,9 @@ export const useReoplex = () => {
     application: fortressURL,
     users: theKeepURL,
     domains: domainURL,
-  };
+  }
 
   return {
     urls,
-  };
-};
+  }
+}

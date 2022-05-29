@@ -1,42 +1,42 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Transition from '../utils/transition';
+import React, { useState, useRef, useEffect } from "react"
+import Transition from "../utils/transition"
 
-import DropdownImage from '../images/user-avatar-32.png';
-import DropdownImage01 from '../images/channel-01.png';
-import DropdownImage02 from '../images/channel-02.png';
-import DropdownImage03 from '../images/channel-03.png';
+import DropdownImage from "../images/user-avatar-32.png"
+import DropdownImage01 from "../images/channel-01.png"
+import DropdownImage02 from "../images/channel-02.png"
+import DropdownImage03 from "../images/channel-03.png"
 
 function DropdownSwitch({ align }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  const trigger = useRef(null);
-  const dropdown = useRef(null);
+  const trigger = useRef(null)
+  const dropdown = useRef(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!dropdown.current) return;
+      if (!dropdown.current) return
       if (
         !dropdownOpen ||
         dropdown.current.contains(target) ||
         trigger.current.contains(target)
       )
-        return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+        return
+      setDropdownOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!dropdownOpen || keyCode !== 27) return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!dropdownOpen || keyCode !== 27) return
+      setDropdownOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <div className="relative">
@@ -66,7 +66,7 @@ function DropdownSwitch({ align }) {
       </button>
       <Transition
         className={`origin-top-right z-10 absolute top-full min-w-60 bg-white border border-gray-200 py-1.5 rounded shadow-lg overflow-hidden mt-1 ${
-          align === 'right' ? 'right-0' : 'left-0'
+          align === "right" ? "right-0" : "left-0"
         }`}
         show={dropdownOpen}
         enter="transition ease-out duration-200 transform"
@@ -150,7 +150,7 @@ function DropdownSwitch({ align }) {
         </ul>
       </Transition>
     </div>
-  );
+  )
 }
 
-export default DropdownSwitch;
+export default DropdownSwitch

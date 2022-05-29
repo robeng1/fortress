@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react"
 
-import Sidebar from '../../partials/sidebar';
-import Header from '../../partials/header';
-import PaginationClassic from '../../components/pagination-classic';
+import Sidebar from "../../partials/sidebar"
+import Header from "../../partials/header"
+import PaginationClassic from "../../components/pagination-classic"
 
-import User01 from '../../images/user-32-01.jpg';
-import User02 from '../../images/user-32-02.jpg';
-import User07 from '../../images/user-32-07.jpg';
+import User01 from "../../images/user-32-01.jpg"
+import User02 from "../../images/user-32-02.jpg"
+import User07 from "../../images/user-32-07.jpg"
 
 function Changelog() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -324,7 +324,7 @@ function Changelog() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default Changelog;
+export default Changelog

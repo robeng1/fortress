@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { MultiValue, SingleValue } from 'react-select';
-import ReactSelect from 'react-select/async-creatable';
-import {
-  tagOptions,
-} from 'services';
+import React, { useEffect, useState } from "react"
+import { MultiValue, SingleValue } from "react-select"
+import ReactSelect from "react-select/async-creatable"
+import { tagOptions } from "services"
 
 type TagProps = {
   multi: boolean
@@ -13,11 +11,9 @@ type TagProps = {
 }
 
 export interface SelectOption {
-  key: string;
-  label: string;
+  key: string
+  label: string
 }
-
-
 
 const Tag: React.FC<TagProps> = ({ multi, onChange, value, shop_id }) => {
   const [singleValue, setSingleValue] = useState<SingleValue<SelectOption>>()
@@ -36,50 +32,44 @@ const Tag: React.FC<TagProps> = ({ multi, onChange, value, shop_id }) => {
 
   useEffect(() => {
     if (value && value.length > 0) {
-      let tags: SelectOption[] = [];
+      let tags: SelectOption[] = []
       for (const tag of value) {
-        if (typeof tag === 'string') {
-          tags.push({ label: tag, key: tag });
-        } else if (typeof tag === 'object') {
-          tags.push(tag);
+        if (typeof tag === "string") {
+          tags.push({ label: tag, key: tag })
+        } else if (typeof tag === "object") {
+          tags.push(tag)
         }
       }
     }
   }, [])
 
-
   return (
     <>
-      {!multi &&
+      {!multi && (
         <ReactSelect
           value={singleValue}
           menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
-          onChange={option =>
-            singleOnChange(option)
-          }
+          onChange={(option) => singleOnChange(option)}
           placeholder="Select tags"
           loadOptions={tagOptions(shop_id)}
-
           className="w-full"
         />
-      }
-      {multi &&
+      )}
+      {multi && (
         <ReactSelect
           value={multiValue}
           isMulti
           menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
-          onChange={option =>
-            multiOnChange(option)
-          }
+          onChange={(option) => multiOnChange(option)}
           placeholder="Select/Create tags"
           loadOptions={tagOptions(shop_id)}
           className="w-full"
         />
-      }
+      )}
     </>
   )
 }

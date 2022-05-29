@@ -1,44 +1,44 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Transition from '../utils/transition';
+import React, { useState, useRef, useEffect } from "react"
+import Transition from "../utils/transition"
 
 function DropdownEditMenu({ children, align, ...rest }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  const trigger = useRef(null);
-  const dropdown = useRef(null);
+  const trigger = useRef(null)
+  const dropdown = useRef(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!dropdown.current) return;
+      if (!dropdown.current) return
       if (
         !dropdownOpen ||
         dropdown.current.contains(target) ||
         trigger.current.contains(target)
       )
-        return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+        return
+      setDropdownOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!dropdownOpen || keyCode !== 27) return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!dropdownOpen || keyCode !== 27) return
+      setDropdownOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <div {...rest}>
       <button
         ref={trigger}
         className={`text-gray-400 hover:text-gray-500 rounded-full ${
-          dropdownOpen && 'bg-gray-100 text-gray-500'
+          dropdownOpen && "bg-gray-100 text-gray-500"
         }`}
         aria-haspopup="true"
         onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -55,7 +55,7 @@ function DropdownEditMenu({ children, align, ...rest }) {
         show={dropdownOpen}
         tag="div"
         className={`origin-top-right z-10 absolute top-full min-w-36 bg-white border border-gray-200 py-1.5 rounded shadow-lg overflow-hidden mt-1 ${
-          align === 'right' ? 'right-0' : 'left-0'
+          align === "right" ? "right-0" : "left-0"
         }`}
         enter="transition ease-out duration-200 transform"
         enterStart="opacity-0 -translate-y-2"
@@ -73,7 +73,7 @@ function DropdownEditMenu({ children, align, ...rest }) {
         </ul>
       </Transition>
     </div>
-  );
+  )
 }
 
-export default DropdownEditMenu;
+export default DropdownEditMenu

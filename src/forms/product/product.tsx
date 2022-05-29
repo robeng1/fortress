@@ -1,91 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import toast from 'react-hot-toast';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import * as Yup from 'yup';
-import _ from 'lodash';
-import makeAnimated from 'react-select/animated';
-import { Formik } from 'formik';
-import { cartesian } from 'utils/cartesian';
-import ProdutVariantPreview from 'forms/product/variant';
-import { fortressURL } from 'endpoints/urls';
-import { attributeOptions } from 'data/select';
-import { ProductStructure, ProductStructureStr, ProductType } from 'typings/product/product-type';
-import { InventoryType } from 'typings/inventory/inventory-type';
-import slugify from 'slugify';
+import React, { useEffect, useState } from "react"
+import isEmpty from "lodash/isEmpty"
+import toast from "react-hot-toast"
+import { useQuery, useMutation, useQueryClient } from "react-query"
+import * as Yup from "yup"
+import _ from "lodash"
+import makeAnimated from "react-select/animated"
+import { Formik } from "formik"
+import { cartesian } from "utils/cartesian"
+import ProdutVariantPreview from "forms/product/variant"
+import { fortressURL } from "endpoints/urls"
+import { attributeOptions } from "data/select"
 import {
-  productTypeOptions,
-} from 'services';
-import Creatable from 'react-select/creatable';
-import { request, ResponseError } from 'utils/request';
-import { mToCurrency, sToM } from 'utils/money';
-import ReactSelectCreatable from 'react-select/async-creatable';
-import useCentres from 'hooks/use-location';
-import useShop from 'hooks/use-shop';
-import { useLocation, useNavigate } from 'react-router-dom';
-import TagInput from 'components/blocks/tag-input';
-import { Loading } from 'components/blocks/backdrop';
-import TextArea from 'components/blocks/text-area';
-import Images from './images';
-import { AttrOption, SelectOption, Values, VarOption } from './values';
-import { b64Encode, base64Decode, decodeBuf, encodeBuf } from 'utils/buff';
-import { useOnboarding } from 'hooks/use-onboarding';
-import InputHeader from 'components/blocks/input-header';
-import CollectionSelect from './blocks/collection-select';
-import TagSelect from './blocks/tag-select';
+  ProductStructure,
+  ProductStructureStr,
+  ProductType,
+} from "typings/product/product-type"
+import { InventoryType } from "typings/inventory/inventory-type"
+import slugify from "slugify"
+import { productTypeOptions } from "services"
+import Creatable from "react-select/creatable"
+import { request, ResponseError } from "utils/request"
+import { mToCurrency, sToM } from "utils/money"
+import ReactSelectCreatable from "react-select/async-creatable"
+import useCentres from "hooks/use-location"
+import useShop from "hooks/use-shop"
+import { useLocation, useNavigate } from "react-router-dom"
+import TagInput from "components/blocks/tag-input"
+import { Loading } from "components/blocks/backdrop"
+import TextArea from "components/blocks/text-area"
+import Images from "./images"
+import { AttrOption, SelectOption, Values, VarOption } from "./values"
+import { b64Encode, base64Decode, decodeBuf, encodeBuf } from "utils/buff"
+import { useOnboarding } from "hooks/use-onboarding"
+import InputHeader from "components/blocks/input-header"
+import CollectionSelect from "./blocks/collection-select"
 
-const SIMPLE_PRODUCT_VIEW = 'SIMPLE_PRODUCT_VIEW'
-const COMPLEX_PRODUCT_VIEW = 'COMPLEX_PRODUCT_VIEW'
+const SIMPLE_PRODUCT_VIEW = "SIMPLE_PRODUCT_VIEW"
+const COMPLEX_PRODUCT_VIEW = "COMPLEX_PRODUCT_VIEW"
 
 // animated components for react select
-const animatedComponents = makeAnimated();
-const defaultCurrency = 'GHS';
+const animatedComponents = makeAnimated()
+const defaultCurrency = "GHS"
 
 const ProductSchema = Yup.object().shape({
-  title: Yup.string().required('Required'),
-  description: Yup.string().required('Required'),
-});
+  title: Yup.string().required("Required"),
+  description: Yup.string().required("Required"),
+})
 
 const ProductForm = ({ id }) => {
-  const location = useLocation();
-  const { pathname } = location;
-  useOnboarding(pathname);
-  const klient = useQueryClient();
-  const navigate = useNavigate();
-  const { shop } = useShop();
-  const { locations } = useCentres();
-  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`;
+  const location = useLocation()
+  const { pathname } = location
+  useOnboarding(pathname)
+  const klient = useQueryClient()
+  const navigate = useNavigate()
+  const { shop } = useShop()
+  const { locations } = useCentres()
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`
 
   const [formView, setFormView] = React.useState<string>(SIMPLE_PRODUCT_VIEW)
-  const [images, setImages] = React.useState<string[]>([]);
-  const [isSavingImages, setIsSavingImages] = React.useState<boolean>(false);
+  const [images, setImages] = React.useState<string[]>([])
+  const [isSavingImages, setIsSavingImages] = React.useState<boolean>(false)
 
-  const handleUpload = (images: string[]) => setImages(images);
+  const handleUpload = (images: string[]) => setImages(images)
 
-  const [productId, setProductId] = useState(id);
-  const [selectedItems, setSelectedItems] = useState<unknown>([]);
-  const [showVariants, setShowVariants] = useState(false);
+  const [productId, setProductId] = useState(id)
+  const [selectedItems, setSelectedItems] = useState<unknown>([])
+  const [showVariants, setShowVariants] = useState(false)
 
   // query for getting the product, TODO: move into a hook
   const { data: product, isLoading: isLoadingProduct } = useQuery<ProductType>(
-    ['product', productId],
+    ["product", productId],
     async () => await request(`${requestURL}/${productId}`),
     {
       // The query will not execute until the productId exists
       enabled: !!productId && !!shop,
       keepPreviousData: true,
-    },
-  );
+    }
+  )
 
   const record: InventoryType | undefined =
     product?.stock_records && product?.stock_records.length > 0
       ? product?.stock_records[0]
-      : undefined;
+      : undefined
 
   const productToValuesMapper = (d: ProductType | undefined): Values => {
     const vals: Values = {
-      title: d?.title || '',
-      description: d?.description ?? '',
+      title: d?.title || "",
+      description: d?.description ?? "",
       is_parent: !isEmpty(d?.variants),
       shipping_required: d?.shipping_required || true,
       track_quantity: d?.track_stock || true,
@@ -95,32 +96,32 @@ const ProductForm = ({ id }) => {
       variation_options: [],
       images: d?.images || [],
       tags: d?.tags ?? [],
-      vendor: d?.vendor || shop?.business_name || '',
+      vendor: d?.vendor || shop?.business_name || "",
       channels: [],
       collection_fks: d?.collection_fks,
-      template_suffix: 'product',
+      template_suffix: "product",
       price: !isEmpty(record)
         ? mToCurrency(record?.price_excl_tax).toString()
-        : '',
+        : "",
       compare_at_price: !isEmpty(record)
         ? mToCurrency(record?.compare_at_price).toString()
-        : '',
+        : "",
       cost_per_item: !isEmpty(record)
         ? mToCurrency(record?.cost_per_item).toString()
-        : '',
-      sku: d?.sku || '',
-      barcode: d?.upc || '',
+        : "",
+      sku: d?.sku || "",
+      barcode: d?.upc || "",
       unlimited: d?.track_stock || true,
-      weight: d?.weight || '',
-      length: d?.length || '',
-      width: d?.width || '',
-      height: d?.height || '',
-      locations: locations?.map(loc => loc.centre_id!),
-      page_title: d?.page_title || '',
-      page_description: d?.description || '',
-    };
+      weight: d?.weight || "",
+      length: d?.length || "",
+      width: d?.width || "",
+      height: d?.height || "",
+      locations: locations?.map((loc) => loc.centre_id!),
+      page_title: d?.page_title || "",
+      page_description: d?.description || "",
+    }
     if (!d) {
-      return vals;
+      return vals
     }
     // set the product type
     if (d.categories && d.categories.length > 0) {
@@ -130,20 +131,18 @@ const ProductForm = ({ id }) => {
 
     // set product attributes
     if (d.structure === ProductStructureStr.PARENT && d.attributes) {
-      const attrs: AttrOption[] = base64Decode(
-        d.attributes,
-      ) as AttrOption[];
-      vals.variation_options = attrs.map(attr => {
+      const attrs: AttrOption[] = base64Decode(d.attributes) as AttrOption[]
+      vals.variation_options = attrs.map((attr) => {
         return {
           attribute: { label: attr.name, value: attr.name.toLowerCase() },
-          values: attr.values.map(v => {
-            return v;
+          values: attr.values.map((v) => {
+            return v
           }),
-        };
-      });
+        }
+      })
     }
-    return vals;
-  };
+    return vals
+  }
 
   const valuesToProductMapper = (d: Values): ProductType => {
     const p: ProductType = {
@@ -157,125 +156,130 @@ const ProductForm = ({ id }) => {
       upc: d.barcode,
       sku: d.sku,
       tags: d.tags,
-      weight: d.weight?.toString() ?? '',
-      height: d.height?.toString() ?? '',
-      length: d.length?.toString() ?? '',
-      width: d.width?.toString() ?? '',
-      images: images.map(url => {
+      weight: d.weight?.toString() ?? "",
+      height: d.height?.toString() ?? "",
+      length: d.length?.toString() ?? "",
+      width: d.width?.toString() ?? "",
+      images: images.map((url) => {
         return {
           url: url,
           alt: d.title,
           shop_id: shop?.shop_id,
-        };
+        }
       }),
       page_title: d.page_title,
       page_description: d.page_description,
-      vendor: d.vendor ?? '',
+      vendor: d.vendor ?? "",
       stock_records: [],
       collection_fks: d.collection_fks,
       variants: [],
-    };
-    if (d.type) p.categories = [d.type.key ?? d.type.label];
+    }
+    if (d.type) p.categories = [d.type.key ?? d.type.label]
 
     if (d.is_parent) {
-      p.structure = ProductStructure.PARENT;
-      p.variants = d.variants.map(v => {
-        v.structure = ProductStructure.CHILD;
-        v.shop_id = shop?.shop_id!;
-        return v;
-      });
+      p.structure = ProductStructure.PARENT
+      p.variants = d.variants.map((v) => {
+        v.structure = ProductStructure.CHILD
+        v.shop_id = shop?.shop_id!
+        return v
+      })
     } else {
-      p.structure = ProductStructure.STANDALONE;
+      p.structure = ProductStructure.STANDALONE
       if (product) {
-        p.stock_records = product.stock_records?.map(stock => {
+        p.stock_records = product.stock_records?.map((stock) => {
           const records: InventoryType = {
             ...stock,
             num_in_stock: d.quantity,
             centre_sku: slugify(d.title),
             cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
             price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
-            compare_at_price: sToM(d.compare_at_price, shop?.currency?.iso_code),
+            compare_at_price: sToM(
+              d.compare_at_price,
+              shop?.currency?.iso_code
+            ),
             unlimited: d.unlimited,
             track_quantity: d.track_quantity,
             taxable: false,
-          };
-          return records;
-        });
+          }
+          return records
+        })
       } else {
-        p.stock_records = (locations ?? []).map(loc => {
+        p.stock_records = (locations ?? []).map((loc) => {
           const record: InventoryType = {
-            variant_id: productId || '',
-            product_id: productId || '',
+            variant_id: productId || "",
+            product_id: productId || "",
             shop_id: shop?.shop_id,
             num_in_stock: d.quantity,
-            centre_id: loc.centre_id ?? '',
+            centre_id: loc.centre_id ?? "",
             centre_sku: slugify(d.title),
             cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
             price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
-            compare_at_price: sToM(d.compare_at_price, shop?.currency?.iso_code),
+            compare_at_price: sToM(
+              d.compare_at_price,
+              shop?.currency?.iso_code
+            ),
             unlimited: d.unlimited,
             track_quantity: d.track_quantity,
             taxable: false,
-          };
-          return record;
-        });
+          }
+          return record
+        })
       }
     }
     if (d.variation_options.length > 0) {
       p.attributes = b64Encode(
-        d.variation_options.map(vo => {
+        d.variation_options.map((vo) => {
           return {
             name: vo.attribute.label,
-            values: vo.values.map(v => v),
-          };
-        }),
-      );
+            values: vo.values.map((v) => v),
+          }
+        })
+      )
     }
-    return p;
-  };
-
+    return p
+  }
 
   // create the product
   const { mutate: createProduct, isLoading: isCreatingProduct } = useMutation(
     (payload: ProductType) =>
       request(requestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newProduct: ProductType) => {
-        setProductId(newProduct.product_id);
-        klient.setQueryData(['product', productId], newProduct);
-        toast.success('Product created successfully');
+        setProductId(newProduct.product_id)
+        klient.setQueryData(["product", productId], newProduct)
+        toast.success("Product created successfully")
       },
       onError: (e: ResponseError) => {
-        toast.error(e.message);
+        toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   // update the collection
   const { mutate: updateProduct, isLoading: isUpdatingProduct } = useMutation(
     (payload: ProductType) =>
       request(`${requestURL}/${productId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newProduct: ProductType) => {
-        setProductId(newProduct.product_id);
-        klient.setQueryData(['product', productId], newProduct);
-        toast.success('Product updated successfully');
+        setProductId(newProduct.product_id)
+        klient.setQueryData(["product", productId], newProduct)
+        toast.success("Product updated successfully")
       },
       onError: (e: ResponseError) => {
-        toast.error(e.message);
+        toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   const handleSelectedItems = (selectedItems: unknown[]) => {
-    setSelectedItems([...selectedItems]);
-  };
+    setSelectedItems([...selectedItems])
+  }
 
   // passed down to variants table for updating price. TODO: move into a diff file
   const updatePrice =
@@ -284,19 +288,19 @@ const ProductForm = ({ id }) => {
       setFieldValue: (
         field: string,
         value: any,
-        shouldValidate?: boolean | undefined,
-      ) => void,
+        shouldValidate?: boolean | undefined
+      ) => void
     ) =>
-      (index: number, newValue: string) => {
-        const variants = values.variants;
-        const va = values.variants[index];
-        va.stock_records![0].price_excl_tax = sToM(
-          newValue,
-          shop?.currency?.iso_code,
-        );
-        variants[index] = va;
-        setFieldValue('variants', variants);
-      };
+    (index: number, newValue: string) => {
+      const variants = values.variants
+      const va = values.variants[index]
+      va.stock_records![0].price_excl_tax = sToM(
+        newValue,
+        shop?.currency?.iso_code
+      )
+      variants[index] = va
+      setFieldValue("variants", variants)
+    }
 
   // passed down to variants table for updating quantity of child
   // TODO: move into a diff file
@@ -306,27 +310,27 @@ const ProductForm = ({ id }) => {
       setFieldValue: (
         field: string,
         value: any,
-        shouldValidate?: boolean | undefined,
-      ) => void,
+        shouldValidate?: boolean | undefined
+      ) => void
     ) =>
-      (index: number, newValue: number) => {
-        const variants = values.variants;
-        const va = values.variants[index];
-        va.stock_records![0].num_in_stock = newValue;
-        variants[index] = va;
-        setFieldValue('variants', variants);
-      };
+    (index: number, newValue: number) => {
+      const variants = values.variants
+      const va = values.variants[index]
+      va.stock_records![0].num_in_stock = newValue
+      variants[index] = va
+      setFieldValue("variants", variants)
+    }
 
   // validates variation options before allowing variants to be
   // generated from options
   const validateVarOptions = (options: VarOption[], func?: any): boolean => {
-    let isValid = options.length > 0;
-    options.forEach(opt => {
-      if (_.isEmpty(opt.attribute) || _.isEmpty(opt.values)) isValid = false;
-    });
-    if (isValid && func) func();
-    return isValid;
-  };
+    let isValid = options.length > 0
+    options.forEach((opt) => {
+      if (_.isEmpty(opt.attribute) || _.isEmpty(opt.values)) isValid = false
+    })
+    if (isValid && func) func()
+    return isValid
+  }
 
   // TODO: move into a diff file
   const createVars = (
@@ -334,88 +338,88 @@ const ProductForm = ({ id }) => {
     setFieldValue?: (
       field: string,
       value: any,
-      shouldValidate?: boolean | undefined,
-    ) => void,
+      shouldValidate?: boolean | undefined
+    ) => void
   ) => {
     const old = product?.variants ?? []
 
-    const variationOptions = values.variation_options;
+    const variationOptions = values.variation_options
 
-    const attributes = variationOptions.map(v => v.attribute);
-    const attributeValues = variationOptions.map(v => v.values);
+    const attributes = variationOptions.map((v) => v.attribute)
+    const attributeValues = variationOptions.map((v) => v.values)
 
-    const labels = attributeValues.map(label => label.map(a => a.trim()));
+    const labels = attributeValues.map((label) => label.map((a) => a.trim()))
 
     const titles = cartesian(...labels).map((v: string[] | string) =>
-      typeof v === 'string' ? v : v.join('-').trim(),
-    );
+      typeof v === "string" ? v : v.join("-").trim()
+    )
 
     const variants: ProductType[] = titles.map((title: string) => {
       const foundv = old.find((v) => v.title === title)
-      let variant: ProductType;
+      let variant: ProductType
       if (foundv) {
         variant = foundv
       } else {
         variant = {
           title: title,
           shop_id: shop?.shop_id!,
-          product_id: productId || '',
+          product_id: productId || "",
           structure: ProductStructure.CHILD,
           weight: values.weight.toString(),
           height: values.height.toString(),
           length: values.length.toString(),
           width: values.width.toString(),
           track_stock: values.track_quantity,
-        };
+        }
         variant.attributes = b64Encode(
-          variant.title?.split('-').map((opt, i) => {
-            return { name: attributes[i].label, value: opt };
-          }),
-        );
+          variant.title?.split("-").map((opt, i) => {
+            return { name: attributes[i].label, value: opt }
+          })
+        )
         variant.stock_records = (locations ?? []).map(({ centre_id }) => {
           const record: InventoryType = {
-            variant_id: productId || '',
-            product_id: productId || '',
+            variant_id: productId || "",
+            product_id: productId || "",
             shop_id: shop?.shop_id,
             num_in_stock: values.quantity,
             // TODO: centreId && centreSku should be replaced with correct on
-            centre_id: centre_id ?? '',
+            centre_id: centre_id ?? "",
             centre_sku: slugify(title),
             cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
             price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
             compare_at_price: sToM(
               values.compare_at_price,
-              shop?.currency?.iso_code,
+              shop?.currency?.iso_code
             ),
             unlimited: values.unlimited,
             track_quantity: values.track_quantity,
             taxable: false,
-          };
-          return record;
-        });
+          }
+          return record
+        })
       }
-      return variant;
-    });
+      return variant
+    })
     // setFieldValue('variants', [...values.variants, ...vars]);
     if (setFieldValue) {
-      setFieldValue('variants', [...variants]);
+      setFieldValue("variants", [...variants])
     } else {
-      return variants;
+      return variants
     }
-  };
+  }
 
   const handleSubmit = (values: Values) => {
     if (values.is_parent && _.isEmpty(values.variants)) {
-      values.variants = createVars(values) || [];
+      values.variants = createVars(values) || []
     }
-    const p = valuesToProductMapper({ ...values });
-    if (!productId || productId === '') {
-      createProduct(p);
+    const p = valuesToProductMapper({ ...values })
+    if (!productId || productId === "") {
+      createProduct(p)
     } else {
-      updateProduct(p);
+      updateProduct(p)
     }
-  };
-  const initvals = productToValuesMapper(product);
+  }
+  const initvals = productToValuesMapper(product)
 
   useEffect(() => {
     if (isLoadingProduct) {
@@ -429,7 +433,12 @@ const ProductForm = ({ id }) => {
   return (
     <>
       <Loading
-        open={isCreatingProduct || isUpdatingProduct || isSavingImages || isLoadingProduct}
+        open={
+          isCreatingProduct ||
+          isUpdatingProduct ||
+          isSavingImages ||
+          isLoadingProduct
+        }
       />
       <Formik
         enableReinitialize
@@ -438,8 +447,8 @@ const ProductForm = ({ id }) => {
         onSubmit={(values, { setSubmitting }) => {
           handleSubmit({
             ...values,
-          });
-          setSubmitting(false);
+          })
+          setSubmitting(false)
         }}
       >
         {({
@@ -519,14 +528,17 @@ const ProductForm = ({ id }) => {
                       </h2>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <InputHeader label='Category' tooltipContent='Choose a product category' />
+                          <InputHeader
+                            label="Category"
+                            tooltipContent="Choose a product category"
+                          />
                           <ReactSelectCreatable
                             menuPortalTarget={document.body}
                             isSearchable
                             cacheOptions
                             value={values.type}
                             loadOptions={productTypeOptions}
-                            onChange={option => setFieldValue('type', option)}
+                            onChange={(option) => setFieldValue("type", option)}
                             className="w-full"
                           />
                         </div>
@@ -554,23 +566,36 @@ const ProductForm = ({ id }) => {
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <InputHeader label='Collections' tooltipContent='Make this product part of a collection, this makes it easier to group products and display them' />
+                          <InputHeader
+                            label="Collections"
+                            tooltipContent="Make this product part of a collection, this makes it easier to group products and display them"
+                          />
                           <CollectionSelect
                             value={values.collection_fks ?? []}
                             multi={true}
-                            onChange={option => setFieldValue('collection_fks', (option as string[]))}
+                            onChange={(option) =>
+                              setFieldValue(
+                                "collection_fks",
+                                option as string[]
+                              )
+                            }
                             shop_id={shop?.shop_id!}
                           />
                         </div>
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <InputHeader label='Tags' tooltipContent='Add tags to products for grouping and search indexing' />
-                          <TagSelect
-                            value={values.tags ?? []}
-                            multi
-                            onChange={option => setFieldValue('tags', (option as string[]))}
-                            shop_id={shop?.shop_id!}
+                          <InputHeader
+                            label="Tags"
+                            tooltipContent="Add tags to products for grouping and search indexing"
+                          />
+                          <TagInput
+                            values={values.tags ?? []}
+                            placeholder="Comma separated"
+                            onChange={(option) =>
+                              setFieldValue("tags", option as string[])
+                            }
+                            className="w-full"
                           />
                         </div>
                       </div>
@@ -660,7 +685,10 @@ const ProductForm = ({ id }) => {
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="sm:w-1/2">
-                        <InputHeader label='Price' tooltipContent='The actual selling price of this product' />
+                        <InputHeader
+                          label="Price"
+                          tooltipContent="The actual selling price of this product"
+                        />
                         <input
                           id="price"
                           name="price"
@@ -670,13 +698,12 @@ const ProductForm = ({ id }) => {
                             if (val) {
                               const num = Number.parseFloat(val)
                               if (!isNaN(num)) {
-                                setFieldValue('price', num.toFixed(2))
+                                setFieldValue("price", num.toFixed(2))
                               } else {
-                                setFieldValue('price', '0.00')
+                                setFieldValue("price", "0.00")
                               }
-
                             } else {
-                              setFieldValue('price', '0.00')
+                              setFieldValue("price", "0.00")
                             }
                           }}
                           value={values.price}
@@ -692,7 +719,10 @@ const ProductForm = ({ id }) => {
                       </div>
 
                       <div className="sm:w-1/2">
-                        <InputHeader label='Compare at price' tooltipContent='The original listing price of this product. This is normally displayed as a strikethrough along with the price' />
+                        <InputHeader
+                          label="Compare at price"
+                          tooltipContent="The original listing price of this product. This is normally displayed as a strikethrough along with the price"
+                        />
                         <input
                           id="compare_at_price"
                           name="compare_at_price"
@@ -702,13 +732,15 @@ const ProductForm = ({ id }) => {
                             if (val) {
                               const num = Number.parseFloat(val)
                               if (!isNaN(num)) {
-                                setFieldValue('compare_at_price', num.toFixed(2))
+                                setFieldValue(
+                                  "compare_at_price",
+                                  num.toFixed(2)
+                                )
                               } else {
-                                setFieldValue('compare_at_price', '0.00')
+                                setFieldValue("compare_at_price", "0.00")
                               }
-
                             } else {
-                              setFieldValue('compare_at_price', '0.00')
+                              setFieldValue("compare_at_price", "0.00")
                             }
                           }}
                           value={values.compare_at_price}
@@ -726,7 +758,10 @@ const ProductForm = ({ id }) => {
                     </div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="sm:w-1/2">
-                        <InputHeader label='Cost per item' tooltipContent='The cost of this product. This isn&apos;t shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service' />
+                        <InputHeader
+                          label="Cost per item"
+                          tooltipContent="The cost of this product. This isn't shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service"
+                        />
                         <input
                           id="cost_per_item"
                           name="cost_per_item"
@@ -736,13 +771,12 @@ const ProductForm = ({ id }) => {
                             if (val) {
                               const num = Number.parseFloat(val)
                               if (!isNaN(num)) {
-                                setFieldValue('cost_per_item', num.toFixed(2))
+                                setFieldValue("cost_per_item", num.toFixed(2))
                               } else {
-                                setFieldValue('cost_per_item', '0.00')
+                                setFieldValue("cost_per_item", "0.00")
                               }
-
                             } else {
-                              setFieldValue('cost_per_item', '0.00')
+                              setFieldValue("cost_per_item", "0.00")
                             }
                           }}
                           value={values.cost_per_item}
@@ -1005,9 +1039,9 @@ const ProductForm = ({ id }) => {
                               <h1 className="mb-0">Option {index + 1}</h1>
                               <button
                                 onClick={() => {
-                                  let opts = values.variation_options;
-                                  opts.splice(index, 1);
-                                  setFieldValue('variation_options', opts);
+                                  let opts = values.variation_options
+                                  opts.splice(index, 1)
+                                  setFieldValue("variation_options", opts)
                                 }}
                                 type="button"
                                 className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 mr-3 mb-3"
@@ -1030,24 +1064,24 @@ const ProductForm = ({ id }) => {
                                   isClearable
                                   isSearchable
                                   menuPortalTarget={document.body}
-                                  onChange={option => {
-                                    let opt = values.variation_options[index];
+                                  onChange={(option) => {
+                                    let opt = values.variation_options[index]
                                     opt.attribute = option as Record<
                                       string,
                                       string
-                                    >;
+                                    >
 
-                                    let opts = values.variation_options;
-                                    opts[index] = opt;
-                                    setFieldValue('variation_options', opts);
+                                    let opts = values.variation_options
+                                    opts[index] = opt
+                                    setFieldValue("variation_options", opts)
                                   }}
                                   components={animatedComponents}
                                   options={attributeOptions.filter(
-                                    attr =>
+                                    (attr) =>
                                       !values.variation_options.some(
-                                        opt =>
-                                          attr.value === opt.attribute?.value,
-                                      ),
+                                        (opt) =>
+                                          attr.value === opt.attribute?.value
+                                      )
                                   )}
                                   className="w-full"
                                 />
@@ -1061,12 +1095,12 @@ const ProductForm = ({ id }) => {
                                 </label>
                                 <TagInput
                                   values={op.values}
-                                  onChange={options => {
-                                    let opt = values.variation_options[index];
-                                    opt.values = options as string[];
-                                    let opts = values.variation_options;
-                                    opts[index] = opt;
-                                    setFieldValue('variation_options', opts);
+                                  onChange={(options) => {
+                                    let opt = values.variation_options[index]
+                                    opt.values = options as string[]
+                                    let opts = values.variation_options
+                                    opts[index] = opt
+                                    setFieldValue("variation_options", opts)
                                   }}
                                   className="w-full"
                                 />
@@ -1077,14 +1111,14 @@ const ProductForm = ({ id }) => {
                         <div className="mt-5">
                           <button
                             onClick={() => {
-                              setFieldValue('variation_options', [
+                              setFieldValue("variation_options", [
                                 ...values.variation_options,
                                 {
                                   attribute: null,
 
                                   values: [],
                                 },
-                              ]);
+                              ])
                             }}
                             className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
                           >
@@ -1095,12 +1129,12 @@ const ProductForm = ({ id }) => {
                           <div className="rounded bg-white shadow p-3 mt-6 mb-10">
                             {validateVarOptions(values.variation_options) && (
                               <button
-                                onClick={e => {
-                                  e.stopPropagation();
+                                onClick={(e) => {
+                                  e.stopPropagation()
                                   if (!showVariants) {
-                                    createVars(values, setFieldValue);
+                                    createVars(values, setFieldValue)
                                   }
-                                  setShowVariants(!showVariants);
+                                  setShowVariants(!showVariants)
                                 }}
                                 className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 mr-3 mb-3"
                               >
@@ -1130,11 +1164,11 @@ const ProductForm = ({ id }) => {
                                     productVariants={values.variants}
                                     updatePrice={updatePrice(
                                       values,
-                                      setFieldValue,
+                                      setFieldValue
                                     )}
                                     updateQuantity={updateQuantity(
                                       values,
-                                      setFieldValue,
+                                      setFieldValue
                                     )}
                                     currency={
                                       shop?.currency?.iso_code ||
@@ -1226,15 +1260,15 @@ const ProductForm = ({ id }) => {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={(e) => navigate('/shop/products')}
+                      onClick={(e) => navigate("/shop/products")}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel
                     </button>
                     <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleSubmit();
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleSubmit()
                       }}
                       type="button"
                       className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
@@ -1249,7 +1283,7 @@ const ProductForm = ({ id }) => {
         )}
       </Formik>
     </>
-  );
-};
+  )
+}
 
-export default ProductForm;
+export default ProductForm

@@ -1,4 +1,4 @@
-export const Bed: React.FC<React.SVGAttributes<{}>> = props => (
+export const Bed: React.FC<React.SVGAttributes<{}>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="60"
@@ -14,4 +14,4 @@ export const Bed: React.FC<React.SVGAttributes<{}>> = props => (
       fill="#212121"
     />
   </svg>
-);
+)

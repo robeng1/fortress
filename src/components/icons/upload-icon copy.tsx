@@ -1,7 +1,7 @@
 export const UploadIcon = ({
-  color = 'currentColor',
-  width = '41px',
-  height = '30px',
+  color = "currentColor",
+  width = "41px",
+  height = "30px",
   ...rest
 }) => {
   return (
@@ -21,5 +21,5 @@ export const UploadIcon = ({
         />
       </g>
     </svg>
-  );
-};
+  )
+}

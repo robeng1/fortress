@@ -1,9 +1,9 @@
-import React from 'react';
-import IconProps from 'types/icon-type';
+import React from "react"
+import IconProps from "types/icon-type"
 
 export const TruckIcon: React.FC<IconProps> = ({
-  size = '24',
-  color = 'currentColor',
+  size = "24",
+  color = "currentColor",
   ...attributes
 }) => {
   return (
@@ -37,5 +37,5 @@ export const TruckIcon: React.FC<IconProps> = ({
         strokeLinejoin="round"
       />
     </svg>
-  );
-};
+  )
+}

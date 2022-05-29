@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react"
 export const MembersIcon = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
 }) => {
   return (
     <svg
@@ -18,5 +18,5 @@ export const MembersIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

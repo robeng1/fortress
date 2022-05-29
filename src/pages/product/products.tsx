@@ -1,35 +1,35 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, lazy, ChangeEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import isEmpty from 'lodash/isEmpty';
-import Pagination from '@mui/material/Pagination';
-import BottomNav from 'components/bottom-navigation';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import FilterButton from 'components/dropdown-filter';
-import SearchForm from 'partials/actions/search-box';
-import ProductsTable from 'partials/products/products-table';
-import { ThemeProvider } from 'styles/material/theme';
-import ThreeDots from 'components/ui/loaders/three-dots';
-import useProductViews from 'hooks/use-product-views';
+import React, { useState, lazy, ChangeEvent } from "react"
+import { useNavigate } from "react-router-dom"
+import isEmpty from "lodash/isEmpty"
+import Pagination from "@mui/material/Pagination"
+import BottomNav from "components/bottom-navigation"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import FilterButton from "components/dropdown-filter"
+import SearchForm from "partials/actions/search-box"
+import ProductsTable from "partials/products/products-table"
+import { ThemeProvider } from "styles/material/theme"
+import ThreeDots from "components/ui/loaders/three-dots"
+import useProductViews from "hooks/use-product-views"
 
 function Products() {
-  const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState<any>([])
 
   const handleSelectedItems = (selectedItems: any) => {
-    setSelectedItems([...selectedItems]);
-  };
+    setSelectedItems([...selectedItems])
+  }
 
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [limit, setLimit] = useState<number>(15);
-  const [term, setTerm] = useState<string>("");
+  const [limit, setLimit] = useState<number>(15)
+  const [term, setTerm] = useState<string>("")
 
   const { productData, isLoading } = useProductViews(page, limit, term)
 
-  const products = productData?.products || [];
+  const products = productData?.products || []
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -57,13 +57,14 @@ function Products() {
                         value={term}
                         onChange={(e: React.FormEvent<HTMLInputElement>) => {
                           setTerm(e.currentTarget.value)
-                        }} />
+                        }}
+                      />
                       {/* <div className="">
                         <FilterButton align="right" />
                       </div> */}
                     </div>
                     <button
-                      onClick={() => navigate('/shop/products/new')}
+                      onClick={() => navigate("/shop/products/new")}
                       className="btn bg-purple-600 hover:bg-indigo-600 text-white"
                     >
                       <svg
@@ -79,46 +80,46 @@ function Products() {
                   </div>
                 </div>
               </div>
-              {isLoading &&
+              {isLoading && (
                 <div className="sm:flex sm:items-center justify-center">
                   <ThreeDots />
                 </div>
-              }
-              {!isLoading && <>
-                <ProductsTable
-                  selectedItems={handleSelectedItems}
-                  handleShow={(shoe: boolean) => { }}
-                  products={products || []}
-                />
+              )}
+              {!isLoading && (
+                <>
+                  <ProductsTable
+                    selectedItems={handleSelectedItems}
+                    handleShow={(shoe: boolean) => {}}
+                    products={products || []}
+                  />
 
-
-                {!isEmpty(products) && (productData?.total ?? 0) > limit && (
-                  <ThemeProvider>
-                    <Pagination
-                      count={
-                        (productData?.total ?? 0) > limit
-                          ? Math.ceil((productData?.total ?? 0) / limit)
-                          : 1
-                      }
-                      variant="outlined"
-                      color="primary"
-                      className="mt-4 md:mt-8"
-                      page={page}
-                      onChange={(event: ChangeEvent<unknown>, page: number) =>
-                        setPage(page)
-                      }
-                    />
-                  </ThemeProvider>
-                )}
-              </>
-              }
+                  {!isEmpty(products) && (productData?.total ?? 0) > limit && (
+                    <ThemeProvider>
+                      <Pagination
+                        count={
+                          (productData?.total ?? 0) > limit
+                            ? Math.ceil((productData?.total ?? 0) / limit)
+                            : 1
+                        }
+                        variant="outlined"
+                        color="primary"
+                        className="mt-4 md:mt-8"
+                        page={page}
+                        onChange={(event: ChangeEvent<unknown>, page: number) =>
+                          setPage(page)
+                        }
+                      />
+                    </ThemeProvider>
+                  )}
+                </>
+              )}
             </div>
           </main>
         </>
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Products;
+export default Products

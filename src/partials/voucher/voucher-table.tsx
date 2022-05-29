@@ -1,17 +1,19 @@
-import React from 'react';
-import EmptyState from 'partials/empty-state';
-import VoucherList from './mobile/voucher-list';
-import { useNavigate } from 'react-router-dom';
-import { VoucherType } from 'typings/voucher/voucher';
-
+import React from "react"
+import EmptyState from "partials/empty-state"
+import VoucherList from "./mobile/voucher-list"
+import { useNavigate } from "react-router-dom"
+import { VoucherType } from "typings/voucher/voucher"
 
 type VoucherTableProps = {
   selectedItems: (items: string[]) => void
   vouchers: VoucherType[]
 }
 
-const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) => {
-  const navigate = useNavigate();
+const VoucherTable: React.FC<VoucherTableProps> = ({
+  selectedItems,
+  vouchers,
+}) => {
+  const navigate = useNavigate()
   return (
     <>
       {vouchers.length > 0 ? (
@@ -54,7 +56,7 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {vouchers.map(voucher => (
+                      {vouchers.map((voucher) => (
                         <tr key={voucher.voucher_id}>
                           <td className="px-6 py-2 whitespace-nowrap">
                             <div className="flex items-center">
@@ -78,7 +80,6 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
                           <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-500">
                             {voucher.num_cart_additions}
                           </td>
-                          
                         </tr>
                       ))}
                     </tbody>
@@ -93,13 +94,13 @@ const VoucherTable: React.FC<VoucherTableProps> = ({ selectedItems, vouchers }) 
           heading="No vouchers yet"
           msg="Create some vouchers to get started"
           action={{
-            name: 'Create voucher',
-            func: () => navigate('/vouchers/new'),
+            name: "Create voucher",
+            func: () => navigate("/vouchers/new"),
           }}
         />
       )}
     </>
-  );
+  )
 }
 
-export default VoucherTable;
+export default VoucherTable

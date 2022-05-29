@@ -1,47 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { Formik } from 'formik';
-import { useThemeMutation } from 'hooks/use-theme-mutation';
-import { useNavigate } from 'react-router-dom';
-import { Loading } from 'components/blocks/backdrop';
-import { Template } from 'typings/theme/template';
-import SimpleImageDropzone from 'components/single-image-dropzone';
-import { useUpload } from 'hooks/use-upload';
-import toast from 'react-hot-toast';
-
+import React, { useEffect, useState } from "react"
+import { Formik } from "formik"
+import { useThemeMutation } from "hooks/use-theme-mutation"
+import { useNavigate } from "react-router-dom"
+import { Loading } from "components/blocks/backdrop"
+import { Template } from "typings/theme/template"
+import SimpleImageDropzone from "components/single-image-dropzone"
+import { useUpload } from "hooks/use-upload"
+import toast from "react-hot-toast"
 
 function Hero() {
-  const navigate = useNavigate();
-  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
-  const ind = theme?.templates?.findIndex(t => t.type === 'index');
-  const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
-  const cob = JSON.parse(tpl?.content ?? '{}');
+  const navigate = useNavigate()
+  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation()
+  const ind = theme?.templates?.findIndex((t) => t.type === "index")
+  const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {}
+  const cob = JSON.parse(tpl?.content ?? "{}")
   const initialValues =
-    cob && cob.sections && cob.sections['section-hero']
-      ? cob.sections['section-hero'].settings
-      : {};
-  const [image, setImage] = useState(initialValues['image'] ?? '');
-  const { upload } = useUpload();
+    cob && cob.sections && cob.sections["section-hero"]
+      ? cob.sections["section-hero"].settings
+      : {}
+  const [image, setImage] = useState(initialValues["image"] ?? "")
+  const { upload } = useUpload()
 
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState(false)
 
   const onImageChange = (files: File[]) => {
-    if (files.length < 1) return;
-    const pickf = files[0];
-    setImage(pickf['preview'] ?? '');
-    setIsDirty(true);
-    upload(files).then(bundle => {
+    if (files.length < 1) return
+    const pickf = files[0]
+    setImage(pickf["preview"] ?? "")
+    setIsDirty(true)
+    upload(files).then((bundle) => {
       // const statuses = bundle.transloadit; // Array of Assembly statuses
-      const assemblyResults = bundle.results;
+      const assemblyResults = bundle.results
       if (assemblyResults) {
-        const url = assemblyResults[0].ssl_url;
-        setImage(url);
-        setIsDirty(false);
+        const url = assemblyResults[0].ssl_url
+        setImage(url)
+        setIsDirty(false)
       }
-      return;
-    });
-  };
+      return
+    })
+  }
   useEffect(() => {
-    setImage(initialValues['image'])
+    setImage(initialValues["image"])
   }, [theme])
 
   useEffect(() => {
@@ -54,36 +53,36 @@ function Hero() {
 
   return (
     <div>
-      <Loading open={isUpdatingTheme || isDirty|| isLoadingTheme} />
+      <Loading open={isUpdatingTheme || isDirty || isLoadingTheme} />
       <Formik
         enableReinitialize
         initialValues={{
-          image: '',
-          headline: '',
-          text: '',
-          'button-url': '',
-          'button-text': '',
+          image: "",
+          headline: "",
+          text: "",
+          "button-url": "",
+          "button-text": "",
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values };
-          let content = cob;
-          if (!content) content = {};
-          if (!content.sections) content.sections = {};
+          const vals = { ...values }
+          let content = cob
+          if (!content) content = {}
+          if (!content.sections) content.sections = {}
           content.sections = {
             ...content?.sections,
-            'section-hero': {
-              ...content.sections['section-hero'],
+            "section-hero": {
+              ...content.sections["section-hero"],
               settings: { ...vals, image },
             },
-          };
-          const modfTemp = tpl;
-          modfTemp.content = JSON.stringify(content);
-          const modfTheme = theme;
+          }
+          const modfTemp = tpl
+          modfTemp.content = JSON.stringify(content)
+          const modfTheme = theme
 
-          modfTheme!.templates![ind!] = modfTemp;
-          update(modfTheme!);
-          setSubmitting(false);
+          modfTheme!.templates![ind!] = modfTemp
+          update(modfTheme!)
+          setSubmitting(false)
         }}
       >
         {({
@@ -109,7 +108,7 @@ function Hero() {
                   <div className="w-full">
                     <SimpleImageDropzone
                       onChange={onImageChange}
-                      label={'Hero Banner'}
+                      label={"Hero Banner"}
                       value={image}
                       height="50%"
                       width="100%"
@@ -176,7 +175,7 @@ function Hero() {
                       name="button-text"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values['button-text']}
+                      value={values["button-text"]}
                       className="form-input w-full"
                       type="text"
                       placeholder="View all"
@@ -197,7 +196,7 @@ function Hero() {
                       name="button-url"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values['button-url']}
+                      value={values["button-url"]}
                       className="form-input w-full"
                       type="text"
                       placeholder="/collections/all"
@@ -217,9 +216,9 @@ function Hero() {
                     Cancel
                   </button>
                   <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -232,7 +231,7 @@ function Hero() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default Hero;
+export default Hero

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react"
 
 import {
   Chart,
@@ -8,11 +8,11 @@ import {
   TimeScale,
   Tooltip,
   Legend,
-} from 'chart.js';
-import 'chartjs-adapter-moment';
+} from "chart.js"
+import "chartjs-adapter-moment"
 
 // Import utilities
-import { formatValue } from '../utils/utils';
+import { formatValue } from "../utils/utils"
 
 Chart.register(
   BarController,
@@ -20,17 +20,17 @@ Chart.register(
   LinearScale,
   TimeScale,
   Tooltip,
-  Legend,
-);
+  Legend
+)
 
 function BarChart02({ data, width, height }) {
-  const canvas = useRef(null);
+  const canvas = useRef(null)
 
   useEffect(() => {
-    const ctx = canvas.current;
+    const ctx = canvas.current
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
-      type: 'bar',
+      type: "bar",
       data: data,
       options: {
         layout: {
@@ -50,17 +50,17 @@ function BarChart02({ data, width, height }) {
             beginAtZero: true,
             ticks: {
               maxTicksLimit: 5,
-              callback: value => formatValue(value),
+              callback: (value) => formatValue(value),
             },
           },
           x: {
             stacked: true,
-            type: 'time',
+            type: "time",
             time: {
-              parser: 'MM-DD-YYYY',
-              unit: 'month',
+              parser: "MM-DD-YYYY",
+              unit: "month",
               displayFormats: {
-                month: 'MMM YY',
+                month: "MMM YY",
               },
             },
             grid: {
@@ -80,13 +80,13 @@ function BarChart02({ data, width, height }) {
           tooltip: {
             callbacks: {
               title: () => false, // Disable tooltip title
-              label: context => formatValue(context.parsed.y),
+              label: (context) => formatValue(context.parsed.y),
             },
           },
         },
         interaction: {
           intersect: false,
-          mode: 'nearest',
+          mode: "nearest",
         },
         animation: {
           duration: 200,
@@ -94,12 +94,12 @@ function BarChart02({ data, width, height }) {
         maintainAspectRatio: false,
         resizeDelay: 200,
       },
-    });
-    return () => chart.destroy();
+    })
+    return () => chart.destroy()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  return <canvas ref={canvas} width={width} height={height}></canvas>;
+  return <canvas ref={canvas} width={width} height={height}></canvas>
 }
 
-export default BarChart02;
+export default BarChart02

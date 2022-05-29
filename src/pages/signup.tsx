@@ -1,40 +1,40 @@
-import React, { useEffect, useMemo } from 'react';
-import * as yup from 'yup';
-import { Link } from 'react-router-dom';
-import { useFormik } from 'formik';
-import PasswordInput from 'components/blocks/password-input';
-import Input from 'components/blocks/input';
-import Button from 'components/blocks/button';
-import { Footer } from 'components/blocks/footer';
-import { useSignup } from 'hooks/use-signup';
-import { useHandleValidator } from 'hooks/use-validate-handle';
+import React, { useEffect, useMemo } from "react"
+import * as yup from "yup"
+import { Link } from "react-router-dom"
+import { useFormik } from "formik"
+import PasswordInput from "components/blocks/password-input"
+import Input from "components/blocks/input"
+import Button from "components/blocks/button"
+import { Footer } from "components/blocks/footer"
+import { useSignup } from "hooks/use-signup"
+import { useHandleValidator } from "hooks/use-validate-handle"
 
 function Signup() {
-  const { isHandleUnique } = useHandleValidator();
-  const { submitData, slugit, isLoading, isError, error: err } = useSignup();
+  const { isHandleUnique } = useHandleValidator()
+  const { submitData, slugit, isLoading, isError, error: err } = useSignup()
 
   const formSchema = yup.object().shape({
-    email: yup.string().email('Not a valid email').required('Required'),
-    password: yup.string().required('Required'),
+    email: yup.string().email("Not a valid email").required("Required"),
+    password: yup.string().required("Required"),
     handle: yup
       .string()
-      .required('Required')
+      .required("Required")
       .test(
-        'check-handle-is-unique',
-        'Handle is already taken',
-        async value => {
-          const isValid: boolean = await isHandleUnique(value);
-          return !isValid;
-        },
+        "check-handle-is-unique",
+        "Handle is already taken",
+        async (value) => {
+          const isValid: boolean = await isHandleUnique(value)
+          return !isValid
+        }
       ),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      handle: '',
-      password: '',
-      business_display_name: '',
+      email: "",
+      handle: "",
+      password: "",
+      business_display_name: "",
     },
     validationSchema: formSchema,
     validateOnChange: true,
@@ -46,9 +46,9 @@ function Signup() {
         business_display_name: values.handle,
         handle: slugit(values.handle),
         permanent_domain: `${slugit(values.handle)}.myreoplex.com`,
-      });
+      })
     },
-  });
+  })
 
   const {
     values,
@@ -58,7 +58,7 @@ function Signup() {
     handleBlur,
     handleSubmit,
     isSubmitting,
-  } = formik;
+  } = formik
   return (
     <div className="flex flex-col md:items-center md:justify-center h-screen bg-slate-100 sm:bg-gray-100">
       <div className="md:m-auto max-w-md w-full bg-white sm:shadow p-5 sm:p-8 rounded">
@@ -88,7 +88,7 @@ function Signup() {
               onChange={handleChange}
               value={values.password}
               onBlur={handleBlur}
-              label={'Password*'}
+              label={"Password*"}
               error={touched.password ? errors.password : undefined}
             />
             <Input
@@ -124,10 +124,10 @@ function Signup() {
             className="w-full mt-3 btn bg-purple-600 hover:bg-purple-600 text-white"
             loading={isLoading}
             type="button"
-            onClick={e => {
-              e.stopPropagation();
-              e.preventDefault();
-              handleSubmit();
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              handleSubmit()
             }}
             disabled={isLoading || !errors}
           >
@@ -136,7 +136,7 @@ function Signup() {
         </form>
         <div className="pt-5 mt-6 border-t border-gray-200">
           <div className="text-sm">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link
               className="font-bold text-purple-500 hover:text-purple-600"
               to="/signin"
@@ -150,7 +150,7 @@ function Signup() {
         <Footer />
       </div>
     </div>
-  );
+  )
 }
 
-export default Signup;
+export default Signup

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react"
 
 type PageDescriptionProps = {
-  title?: string;
-  subtitle?: string;
-};
+  title?: string
+  subtitle?: string
+}
 
 const PageDescription: React.FC<PageDescriptionProps> = ({
   title,
@@ -14,7 +14,7 @@ const PageDescription: React.FC<PageDescriptionProps> = ({
       <h1 className="font-bold mb-xs text-xl">{title}</h1>
       <h2 className="text-grey-50">{subtitle}</h2>
     </div>
-  );
-};
+  )
+}
 
-export default PageDescription;
+export default PageDescription

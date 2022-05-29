@@ -1,5 +1,5 @@
-import React from 'react';
-export const OrderIcon = ({ width = '11.321', height = '13' }) => {
+import React from "react"
+export const OrderIcon = ({ width = "11.321", height = "13" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -30,5 +30,5 @@ export const OrderIcon = ({ width = '11.321', height = '13' }) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}

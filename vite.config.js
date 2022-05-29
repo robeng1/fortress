@@ -1,14 +1,13 @@
-import { defineConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths';
-import postcss from './postcss.config.js'
-import react from '@vitejs/plugin-react'
-import svgr from 'vite-plugin-svgr'
-
+import { defineConfig } from "vite"
+import tsconfigPaths from "vite-tsconfig-paths"
+import postcss from "./postcss.config.js"
+import react from "@vitejs/plugin-react"
+import svgr from "vite-plugin-svgr"
 
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
-    'process.env': process.env,
+    "process.env": process.env,
   },
   css: {
     postcss,
@@ -18,8 +17,8 @@ export default defineConfig({
     alias: [
       {
         find: /^~.+/,
-        replacement: val => {
-          return val.replace(/^~/, '');
+        replacement: (val) => {
+          return val.replace(/^~/, "")
         },
       },
     ],
@@ -29,4 +28,4 @@ export default defineConfig({
       transformMixedEsModules: true,
     },
   },
-});
+})

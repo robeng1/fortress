@@ -1,22 +1,22 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, lazy, ChangeEvent } from 'react';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import ProductForm from 'forms/product/product';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, lazy, ChangeEvent } from "react"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import ProductForm from "forms/product/product"
+import { useNavigate, useParams } from "react-router-dom"
 
 function ProductMutation() {
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const navigate = useNavigate()
+  const { id } = useParams()
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState<any>([])
   const [currentlyBeingEditedProductId, setCurrentlyBeingEditedProductId] =
-    useState<string | undefined>(id !== 'new' ? id : undefined);
+    useState<string | undefined>(id !== "new" ? id : undefined)
 
   const handleSelectedItems = (selectedItems: any) => {
-    setSelectedItems([...selectedItems]);
-  };
+    setSelectedItems([...selectedItems])
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -40,7 +40,7 @@ function ProductMutation() {
                 <div className="mb-4 sm:mb-0">
                   <div className="m-1.5">
                     <button
-                      onClick={() => navigate('/shop/products')}
+                      onClick={() => navigate("/shop/products")}
                       className="btn border border-transparent focus:outline-none rounded shadow bg-white appearance-none"
                     >
                       <svg
@@ -72,7 +72,7 @@ function ProductMutation() {
         </>
       </div>
     </div>
-  );
+  )
 }
 
-export default ProductMutation;
+export default ProductMutation

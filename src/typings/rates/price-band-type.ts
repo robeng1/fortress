@@ -1,6 +1,6 @@
-import { MoneyType } from '../money';
+import { MoneyType } from "../money"
 
 export interface PriceBandType {
-  upper_limit?: MoneyType | null;
-  charge?: MoneyType | null;
+  upper_limit?: MoneyType | null
+  charge?: MoneyType | null
 }

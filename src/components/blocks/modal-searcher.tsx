@@ -1,10 +1,10 @@
-import React, { useRef, useEffect, useState } from 'react';
-import Transition from 'utils/transition';
-import { useQuery } from 'react-query';
-import { useDebounce } from 'hooks/use-debounce';
-import { proxyURL } from 'utils/urlsigner';
-import ModalBasic from 'components/modal-basic';
-const initiallySelected: any[] = [];
+import React, { useRef, useEffect, useState } from "react"
+import Transition from "utils/transition"
+import { useQuery } from "react-query"
+import { useDebounce } from "hooks/use-debounce"
+import { proxyURL } from "utils/urlsigner"
+import ModalBasic from "components/modal-basic"
+const initiallySelected: any[] = []
 function SelectableResultSearchModal({
   id,
   searchId,
@@ -16,58 +16,58 @@ function SelectableResultSearchModal({
   queryKey,
   handleResultSelected,
   alreadySelected = initiallySelected,
-  placeholder = 'Anything',
+  placeholder = "Anything",
   queryEnabled = false,
 }) {
-  const [selectAll, setSelectAll] = useState<boolean>(false);
-  const [isCheck, setIsCheck] = useState<any>([]);
-  const [value, setValue] = useState<string>('');
-  const debouncedValue = useDebounce(value, 500);
+  const [selectAll, setSelectAll] = useState<boolean>(false)
+  const [isCheck, setIsCheck] = useState<any>([])
+  const [value, setValue] = useState<string>("")
+  const debouncedValue = useDebounce(value, 500)
   const { data } = useQuery(
     [queryKey, debouncedValue],
     () =>
       fetch(queryURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ ...composeQuery(debouncedValue) }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       })
-        .then(response => response.json())
-        .catch(e => {}),
+        .then((response) => response.json())
+        .catch((e) => {}),
     {
       enabled: queryEnabled && Boolean(debouncedValue),
-    },
-  );
+    }
+  )
 
   // const modalContent = useRef<HTMLDivElement>(null);
-  const searchInput = useRef<HTMLInputElement>(null);
+  const searchInput = useRef<HTMLInputElement>(null)
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setIsCheck(data ? data.result : []);
+    setSelectAll(!selectAll)
+    setIsCheck(data ? data.result : [])
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    e.stopPropagation();
-    const { id, checked } = e.target;
-    setSelectAll(false);
+  const handleClick = (e) => {
+    e.stopPropagation()
+    const { id, checked } = e.target
+    setSelectAll(false)
     if (checked) {
       setIsCheck([
         ...isCheck,
-        data?.result.find(result => result[matchKey] === id),
-      ]);
+        data?.result.find((result) => result[matchKey] === id),
+      ])
     }
 
     if (!checked) {
-      setIsCheck(isCheck.filter((item: any) => item[matchKey] !== id));
+      setIsCheck(isCheck.filter((item: any) => item[matchKey] !== id))
     }
-  };
+  }
 
   useEffect(() => {
-    modalOpen && searchInput.current && searchInput.current.focus();
-  }, [modalOpen]);
+    modalOpen && searchInput.current && searchInput.current.focus()
+  }, [modalOpen])
 
   return (
     <div>
@@ -90,7 +90,7 @@ function SelectableResultSearchModal({
                 className="w-full border-0 focus:ring-transparent placeholder-gray-400 appearance-none py-3 pl-10 pr-4"
                 type="search"
                 autoComplete="off"
-                onChange={e => setValue(e.target.value)}
+                onChange={(e) => setValue(e.target.value)}
                 value={value}
                 placeholder={`Search ${placeholder}...`}
                 ref={searchInput}
@@ -120,9 +120,9 @@ function SelectableResultSearchModal({
                     Results
                   </div>
                   <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleResultSelected(isCheck);
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleResultSelected(isCheck)
                     }}
                     className="btn-xs bg-purple-500 hover:bg-purple-600 text-white"
                   >
@@ -144,9 +144,9 @@ function SelectableResultSearchModal({
                   {data?.result
                     .filter(
                       (x: Record<string, string>) =>
-                        !alreadySelected.includes(x[matchKey]),
+                        !alreadySelected.includes(x[matchKey])
                     )
-                    .map(it => (
+                    .map((it) => (
                       <li key={it[matchKey]}>
                         <div
                           className="flex items-center p-2 text-gray-800 rounded group"
@@ -160,7 +160,7 @@ function SelectableResultSearchModal({
                               type="checkbox"
                               onChange={handleClick}
                               checked={isCheck.some(
-                                (item: any) => item[matchKey] === it[matchKey],
+                                (item: any) => item[matchKey] === it[matchKey]
                               )}
                             />
                           </label>
@@ -170,7 +170,7 @@ function SelectableResultSearchModal({
                               src={
                                 it.image_url
                                   ? proxyURL(it.image_url, 50, 50)
-                                  : 'https://via.placeholder.com/50'
+                                  : "https://via.placeholder.com/50"
                               }
                               alt={it.label}
                             />
@@ -186,7 +186,7 @@ function SelectableResultSearchModal({
         </div>
       </ModalBasic>
     </div>
-  );
+  )
 }
 
-export default SelectableResultSearchModal;
+export default SelectableResultSearchModal

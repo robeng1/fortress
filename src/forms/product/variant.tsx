@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react"
 
-import ProductVariant from './variant-item';
-import { ProductType } from 'typings/product/product-type';
+import ProductVariant from "./variant-item"
+import { ProductType } from "typings/product/product-type"
 
 const ProdutVariantPreview = ({
   selectedItems,
@@ -10,29 +10,29 @@ const ProdutVariantPreview = ({
   updateQuantity,
   currency,
 }) => {
-  const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState<string[]>([]);
+  const [selectAll, setSelectAll] = useState(false)
+  const [isCheck, setIsCheck] = useState<string[]>([])
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setIsCheck(productVariants.map((li: ProductType) => li.title));
+    setSelectAll(!selectAll)
+    setIsCheck(productVariants.map((li: ProductType) => li.title))
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    const { id, checked } = e.target;
-    setSelectAll(false);
-    setIsCheck([...isCheck, id]);
+  const handleClick = (e) => {
+    const { id, checked } = e.target
+    setSelectAll(false)
+    setIsCheck([...isCheck, id])
     if (!checked) {
-      setIsCheck(isCheck.filter(item => item !== id));
+      setIsCheck(isCheck.filter((item) => item !== id))
     }
-  };
+  }
 
   useEffect(() => {
-    selectedItems(isCheck);
-  }, [isCheck]);
+    selectedItems(isCheck)
+  }, [isCheck])
 
   return (
     <div className="overflow-x-auto">
@@ -89,12 +89,12 @@ const ProdutVariantPreview = ({
                 handleClick={handleClick}
                 isChecked={isCheck.includes(product.title!)}
               />
-            );
+            )
           })}
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default ProdutVariantPreview;
+export default ProdutVariantPreview

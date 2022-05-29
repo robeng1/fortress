@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react"
 export const ArrowDown = ({
-  color = 'currentColor',
-  width = '12px',
-  height = '12px',
+  color = "currentColor",
+  width = "12px",
+  height = "12px",
   ...props
 }) => {
   return (
@@ -20,5 +20,5 @@ export const ArrowDown = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

@@ -1,12 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { useDebounce } from 'hooks/use-debounce';
-import { proxyURL } from 'utils/urlsigner';
-import ModalBasic from 'components/modal-basic';
-import { fortressURL } from 'endpoints/urls';
-import { request } from 'utils/request';
-import { CollectionViewType } from 'typings/collection/collection-type';
-const initiallySelected: string[] = [];
+import React, { useRef, useEffect, useState } from "react"
+import { useQuery } from "react-query"
+import { useDebounce } from "hooks/use-debounce"
+import { proxyURL } from "utils/urlsigner"
+import ModalBasic from "components/modal-basic"
+import { fortressURL } from "endpoints/urls"
+import { request } from "utils/request"
+import { CollectionViewType } from "typings/collection/collection-type"
+const initiallySelected: string[] = []
 function CollectionSelector({
   id,
   searchId,
@@ -16,100 +16,94 @@ function CollectionSelector({
   queryEnabled = false,
   shopId,
 }) {
-  const matchKey = 'key'
-  const optionSearchURL = `${fortressURL}/shops/${shopId}/collections/option-search`;
-  const filterURL = `${fortressURL}/shops/${shopId}/collection-views/filter`;
+  const matchKey = "key"
+  const optionSearchURL = `${fortressURL}/shops/${shopId}/collections/option-search`
+  const filterURL = `${fortressURL}/shops/${shopId}/collection-views/filter`
 
   const querybody = (term: string): Record<string, any> => {
-    return { limit: 15, term, shop_id: shopId, type: 'collection' };
-  };
+    return { limit: 15, term, shop_id: shopId, type: "collection" }
+  }
 
-  const [open, setOpen] = useState(false);
-  const [selectAll, setSelectAll] = useState<boolean>(false);
-  const [isCheck, setIsCheck] = useState<string[]>(value);
+  const [open, setOpen] = useState(false)
+  const [selectAll, setSelectAll] = useState<boolean>(false)
+  const [isCheck, setIsCheck] = useState<string[]>(value)
 
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [searchTerm, setSearchTerm] = useState<string>("")
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
   const [collections, setCollections] = useState<CollectionViewType[]>([])
   const { data } = useQuery(
     [queryKey, debouncedSearchTerm],
     () =>
       fetch(optionSearchURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ ...querybody(debouncedSearchTerm) }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       })
-        .then(response => response.json())
-        .catch(e => { }),
+        .then((response) => response.json())
+        .catch((e) => {}),
     {
       enabled: queryEnabled && Boolean(debouncedSearchTerm),
-    },
-  );
-  const searchInput = useRef<HTMLInputElement>(null);
+    }
+  )
+  const searchInput = useRef<HTMLInputElement>(null)
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
+    setSelectAll(!selectAll)
     let checks: string[] = []
     if (data && data.result) {
       checks = data.result.map((d: any) => d[matchKey])
     }
-    setIsCheck(checks);
+    setIsCheck(checks)
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    e.stopPropagation();
-    const { id, checked } = e.target;
-    setSelectAll(false);
+  const handleClick = (e) => {
+    e.stopPropagation()
+    const { id, checked } = e.target
+    setSelectAll(false)
     if (checked) {
-      setIsCheck([
-        ...isCheck,
-        id,
-      ]);
+      setIsCheck([...isCheck, id])
     }
 
     if (!checked) {
-      setIsCheck(isCheck.filter((key) => key !== id));
+      setIsCheck(isCheck.filter((key) => key !== id))
     }
-  };
+  }
   const handleRemove = (id: string) => {
-    setIsCheck(isCheck.filter((key) => key !== id));
+    setIsCheck(isCheck.filter((key) => key !== id))
     onChange(isCheck)
-  };
+  }
 
   useEffect(() => {
-    open && searchInput.current && searchInput.current.focus();
-  }, [open]);
+    open && searchInput.current && searchInput.current.focus()
+  }, [open])
 
   useEffect(() => {
     try {
       if (isCheck.length > 0 || value.length) {
         const response = request(filterURL, {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify({
             shop_id: shopId,
             id_list: isCheck.length > 0 ? isCheck : value,
           }),
-        });
+        })
         response.then((value) => setCollections(value?.collections ?? []))
       } else {
         setCollections([])
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   }, [isCheck, value])
 
   return (
     <div>
       <div className="w-full">
         <div
-          onClick={e => {
-            e.stopPropagation();
-            setOpen(
-              !open,
-            );
+          onClick={(e) => {
+            e.stopPropagation()
+            setOpen(!open)
           }}
           className="flex border-1 rounded"
         >
@@ -147,7 +141,7 @@ function CollectionSelector({
                   className="w-full border-0 focus:ring-transparent placeholder-gray-400 appearance-none py-3 pl-10 pr-4"
                   type="search"
                   autoComplete="off"
-                  onChange={e => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   value={searchTerm}
                   placeholder={`Search collections...`}
                   ref={searchInput}
@@ -177,9 +171,9 @@ function CollectionSelector({
                       Results
                     </div>
                     <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        onChange(isCheck);
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onChange(isCheck)
                         setOpen(!open)
                       }}
                       className="btn-xs bg-purple-500 hover:bg-purple-600 text-white"
@@ -202,13 +196,11 @@ function CollectionSelector({
                     {data?.result
                       .filter(
                         (x: Record<string, string>) =>
-                          !value.includes(x[matchKey]),
+                          !value.includes(x[matchKey])
                       )
-                      .map(it => (
+                      .map((it) => (
                         <li key={it[matchKey]}>
-                          <div
-                            className="flex items-center p-2 text-gray-800 rounded group"
-                          >
+                          <div className="flex items-center p-2 text-gray-800 rounded group">
                             <label className="inline-flex flex-shrink-0 mr-3">
                               <span className="sr-only">Select</span>
                               <input
@@ -217,7 +209,7 @@ function CollectionSelector({
                                 type="checkbox"
                                 onChange={handleClick}
                                 checked={isCheck.some(
-                                  (item: string) => item === it[matchKey],
+                                  (item: string) => item === it[matchKey]
                                 )}
                               />
                             </label>
@@ -227,7 +219,7 @@ function CollectionSelector({
                                 src={
                                   it.image_url
                                     ? proxyURL(it.image_url, 50, 50)
-                                    : 'https://via.placeholder.com/50'
+                                    : "https://via.placeholder.com/50"
                                 }
                                 alt={it.label}
                               />
@@ -244,23 +236,16 @@ function CollectionSelector({
         </ModalBasic>
       </div>
       <ul className="text-sm w-full">
-        {collections && collections.map(
-          (collection: any) => (
-            <li
-              key={collection.collection_id}
-              className="flex items-center"
-            >
+        {collections &&
+          collections.map((collection: any) => (
+            <li key={collection.collection_id} className="flex items-center">
               <div className="flex w-full items-center py-2 text-gray-500 rounded group">
                 <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
                   <img
                     src={
                       collection.image_url
-                        ? proxyURL(
-                          collection.image_url,
-                          50,
-                          50,
-                        )
-                        : 'https://via.placeholder.com/50'
+                        ? proxyURL(collection.image_url, 50, 50)
+                        : "https://via.placeholder.com/50"
                     }
                     alt={collection.handle}
                   />
@@ -270,7 +255,7 @@ function CollectionSelector({
                     {collection.title}
                   </div>
                   <button
-                    onClick={e => {
+                    onClick={(e) => {
                       handleRemove(collection.collection_id)
                       onChange(isCheck)
                     }}
@@ -281,11 +266,10 @@ function CollectionSelector({
                 </div>
               </div>
             </li>
-          ),
-        )}
+          ))}
       </ul>
     </div>
-  );
+  )
 }
 
-export default CollectionSelector;
+export default CollectionSelector

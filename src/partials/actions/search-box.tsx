@@ -1,16 +1,24 @@
-import React from 'react';
+import React from "react"
 
 type SearchBoxProps = {
   placeholder: string
-  className?: string;
-  onSubmit?: (e: React.SyntheticEvent) => void;
-  onClear?: (e: React.SyntheticEvent) => void;
-  onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
-  name?: string;
-  value?: string;
+  className?: string
+  onSubmit?: (e: React.SyntheticEvent) => void
+  onClear?: (e: React.SyntheticEvent) => void
+  onChange?: (e: React.FormEvent<HTMLInputElement>) => void
+  name?: string
+  value?: string
 }
 
-const SearchForm: React.FC<SearchBoxProps> = ({ className, placeholder, onChange, onClear, onSubmit, name, value }) => {
+const SearchForm: React.FC<SearchBoxProps> = ({
+  className,
+  placeholder,
+  onChange,
+  onClear,
+  onSubmit,
+  name,
+  value,
+}) => {
   return (
     <form className="relative">
       <label htmlFor="action-search" className="sr-only">
@@ -40,11 +48,11 @@ const SearchForm: React.FC<SearchBoxProps> = ({ className, placeholder, onChange
         </svg>
       </button>
     </form>
-  );
+  )
 }
 
 SearchForm.defaultProps = {
-  placeholder: 'Search…',
-};
+  placeholder: "Search…",
+}
 
-export default SearchForm;
+export default SearchForm

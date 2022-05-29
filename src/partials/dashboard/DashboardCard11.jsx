@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function DashboardCard11() {
   return (
@@ -32,7 +32,7 @@ function DashboardCard11() {
                       href="#0"
                     >
                       Qonto
-                    </a>{' '}
+                    </a>{" "}
                     billing
                   </div>
                   <div className="flex-shrink-0 self-start ml-2">
@@ -59,7 +59,7 @@ function DashboardCard11() {
                       href="#0"
                     >
                       Cruip.com
-                    </a>{' '}
+                    </a>{" "}
                     Market Ltd 70 Wilson St London
                   </div>
                   <div className="flex-shrink-0 self-start ml-2">
@@ -140,7 +140,7 @@ function DashboardCard11() {
                       href="#0"
                     >
                       App.com
-                    </a>{' '}
+                    </a>{" "}
                     Market Ltd 70 Wilson St London
                   </div>
                   <div className="flex-shrink-0 self-start ml-2">
@@ -169,7 +169,7 @@ function DashboardCard11() {
                       href="#0"
                     >
                       App.com
-                    </a>{' '}
+                    </a>{" "}
                     Market Ltd 70 Wilson St London
                   </div>
                   <div className="flex-shrink-0 self-start ml-2">
@@ -182,7 +182,7 @@ function DashboardCard11() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default DashboardCard11;
+export default DashboardCard11

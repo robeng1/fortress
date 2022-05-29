@@ -1,20 +1,25 @@
-import useModal from 'hooks/use-modal';
-import React from 'react';
-import { InventoryViewType } from 'typings/inventory/inventory-type';
-import { pesosRawMoney } from 'utils/money';
-import { proxyURL } from 'utils/urlsigner';
-import VariantEditor from './editor';
+import useModal from "hooks/use-modal"
+import React from "react"
+import { InventoryViewType } from "typings/inventory/inventory-type"
+import { pesosRawMoney } from "utils/money"
+import { proxyURL } from "utils/urlsigner"
+import VariantEditor from "./editor"
 
 type VariantManagerProps = {
   handleClick: (e: any) => void
-  isChecked: boolean,
+  isChecked: boolean
   product: InventoryViewType
 }
 
-const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, handleClick }) => {
-  const { isOpen, handleOpen, handleClose } = useModal(false);
+const VariantManager: React.FC<VariantManagerProps> = ({
+  product,
+  isChecked,
+  handleClick,
+}) => {
+  const { isOpen, handleOpen, handleClose } = useModal(false)
 
-  const sku = product.sku && product.sku !== "" ? product.sku : product.centre_sku
+  const sku =
+    product.sku && product.sku !== "" ? product.sku : product.centre_sku
   return (
     <tr>
       <td className="px-2 first:pl-3 last:pr-3 py-3 whitespace-nowrap w-px">
@@ -40,7 +45,12 @@ const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, han
               alt={product.title}
             />
           </div>
-          <div onClick={handleOpen} className="font-medium text-gray-800 hover:underline cursor-pointer">{product.title}</div>
+          <div
+            onClick={handleOpen}
+            className="font-medium text-gray-800 hover:underline cursor-pointer"
+          >
+            {product.title}
+          </div>
         </div>
       </td>
       <td className="px-2 first:pl-3 last:pr-3 py-2 whitespace-nowrap">
@@ -51,20 +61,22 @@ const VariantManager: React.FC<VariantManagerProps> = ({ product, isChecked, han
         </div>
       </td>
       <td className="px-2 first:pl-3 last:pr-3 py-2 whitespace-nowrap">
-        <div
-        >{product.num_allocated}</div>
+        <div>{product.num_allocated}</div>
       </td>
       <td className="px-2 first:pl-3 last:pr-3 py-2 whitespace-nowrap">
-        <div
-        >{pesosRawMoney(product.price_excl_tax)}</div>
+        <div>{pesosRawMoney(product.price_excl_tax)}</div>
       </td>
       <td className="px-2 first:pl-3 last:pr-3 py-2 whitespace-nowrap">
-        <div
-        >{product.num_in_stock}</div>
-        <VariantEditor product={product} isOpen={isOpen} handleOpen={handleOpen} handleClose={handleClose} />
+        <div>{product.num_in_stock}</div>
+        <VariantEditor
+          product={product}
+          isOpen={isOpen}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+        />
       </td>
     </tr>
-  );
+  )
 }
 
-export default VariantManager;
+export default VariantManager

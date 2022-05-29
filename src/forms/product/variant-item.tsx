@@ -1,13 +1,13 @@
-import { mToS } from 'utils/money';
-import React, { useState, useEffect } from 'react';
+import { mToS } from "utils/money"
+import React, { useState, useEffect } from "react"
 
 function ProductVariant(props) {
-  const [price, setPrice] = useState<string>('');
-  const [quantity, setQuantity] = useState<number>(1);
+  const [price, setPrice] = useState<string>("")
+  const [quantity, setQuantity] = useState<number>(1)
   useEffect(() => {
-    setPrice(mToS(props.price));
-    setQuantity(props.quantity);
-  }, [props.price, props.quantity]);
+    setPrice(mToS(props.price))
+    setQuantity(props.quantity)
+  }, [props.price, props.quantity])
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
@@ -30,7 +30,7 @@ function ProductVariant(props) {
           <div className="hidden md:flex w-10 h-10 flex-shrink-0 sm:mr-3">
             <img
               className="rounded"
-              src={props.image || 'https://via.placeholder.com/150'}
+              src={props.image || "https://via.placeholder.com/150"}
               width="40"
               height="40"
               alt={props.name}
@@ -48,8 +48,8 @@ function ProductVariant(props) {
           type="number"
           step={1}
           min={0}
-          onBlur={e => props.updateQuantity(props.index, quantity)}
-          onChange={e => setQuantity(Number.parseInt(e.target.value))}
+          onBlur={(e) => props.updateQuantity(props.index, quantity)}
+          onChange={(e) => setQuantity(Number.parseInt(e.target.value))}
           className="form-input w-full rounded-sm"
           value={quantity}
         ></input>
@@ -58,13 +58,13 @@ function ProductVariant(props) {
         <input
           className="form-input w-full rounded-sm"
           type="text"
-          onBlur={e => props.updatePrice(props.index, price)}
-          onChange={e => setPrice(e.target.value)}
+          onBlur={(e) => props.updatePrice(props.index, price)}
+          onChange={(e) => setPrice(e.target.value)}
           value={price}
         ></input>
       </td>
     </tr>
-  );
+  )
 }
 
-export default ProductVariant;
+export default ProductVariant

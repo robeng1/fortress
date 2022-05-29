@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react"
 export const SiteSettingsIcon = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
 }) => {
   return (
     <svg
@@ -184,5 +184,5 @@ export const SiteSettingsIcon = ({
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}

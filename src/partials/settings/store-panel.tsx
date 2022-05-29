@@ -1,67 +1,66 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Formik } from 'formik';
-import { useAtom } from 'jotai';
-import { useMutation, useQueryClient } from 'react-query';
-import { ShopType } from 'typings/settings/shop-type';
-import { request, ResponseError } from 'utils/request';
-import { fortressURL } from 'endpoints/urls';
-import { uidAtom } from 'store/authorization-atom';
-import toast from 'react-hot-toast';
-import useShop from 'hooks/use-shop';
-import { Loading } from 'components/blocks/backdrop';
-import SimpleImageDropzone from 'components/single-image-dropzone';
-import { useUpload } from 'hooks/use-upload';
-import { proxyURL } from 'utils/urlsigner';
-import { useHasSale } from 'hooks/use-has-sale';
+import React, { useState, useRef, useEffect } from "react"
+import { Formik } from "formik"
+import { useAtom } from "jotai"
+import { useMutation, useQueryClient } from "react-query"
+import { ShopType } from "typings/settings/shop-type"
+import { request, ResponseError } from "utils/request"
+import { fortressURL } from "endpoints/urls"
+import { uidAtom } from "store/authorization-atom"
+import toast from "react-hot-toast"
+import useShop from "hooks/use-shop"
+import { Loading } from "components/blocks/backdrop"
+import SimpleImageDropzone from "components/single-image-dropzone"
+import { useUpload } from "hooks/use-upload"
+import { proxyURL } from "utils/urlsigner"
+import { useHasSale } from "hooks/use-has-sale"
 
 function StorePanel() {
-  const klient = useQueryClient();
-  const { shop } = useShop();
+  const klient = useQueryClient()
+  const { shop } = useShop()
   const hasSale = useHasSale()
-  const [accountId] = useAtom(uidAtom);
-  const requestURL = `${fortressURL}/shops`;
-  const [image, setImage] = useState(shop?.image);
-  const { upload } = useUpload();
+  const [accountId] = useAtom(uidAtom)
+  const requestURL = `${fortressURL}/shops`
+  const [image, setImage] = useState(shop?.image)
+  const { upload } = useUpload()
 
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState(false)
 
   const onImageChange = (files: File[]) => {
-    if (files.length < 1) return;
-    const pickf = files[0];
-    setImage(pickf['preview'] ?? '');
-    setIsDirty(true);
-    upload(files).then(bundle => {
+    if (files.length < 1) return
+    const pickf = files[0]
+    setImage(pickf["preview"] ?? "")
+    setIsDirty(true)
+    upload(files).then((bundle) => {
       // const statuses = bundle.transloadit; // Array of Assembly statuses
-      const assemblyResults = bundle.results;
+      const assemblyResults = bundle.results
       if (assemblyResults) {
-        const url = assemblyResults[0].ssl_url;
-        setImage(url);
-        setIsDirty(false);
+        const url = assemblyResults[0].ssl_url
+        setImage(url)
+        setIsDirty(false)
       }
-    });
-  };
+    })
+  }
   // update the shop
   const { mutate: updateShop, isLoading: isUpdatingShop } = useMutation(
     (payload: ShopType) =>
       request(`${requestURL}/${shop?.shop_id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newShop: ShopType) => {
-        klient.setQueryData(['shop', accountId], newShop);
-        toast.success('Shop data updated succesffully');
+        klient.setQueryData(["shop", accountId], newShop)
+        toast.success("Shop data updated succesffully")
       },
       onError: (e: ResponseError) => {
-        toast.error(e.message);
+        toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   useEffect(() => {
     setImage(shop?.image)
   }, [shop])
-  
 
   return (
     <div>
@@ -69,28 +68,28 @@ function StorePanel() {
       <Formik
         enableReinitialize
         initialValues={{
-          business_display_name: shop?.business_display_name || '',
-          email: shop?.email || '',
-          phone: shop?.phone || '',
-          business_name: shop?.business_name || '',
+          business_display_name: shop?.business_display_name || "",
+          email: shop?.email || "",
+          phone: shop?.phone || "",
+          business_name: shop?.business_name || "",
           image: shop?.image,
           address: {
-            street: '',
-            city: '',
-            area: '',
-            province: '',
-            country: '',
+            street: "",
+            city: "",
+            area: "",
+            province: "",
+            country: "",
             ...shop?.address,
           },
           currency: {
-            name: shop?.currency?.name ?? '',
-            iso_code: shop?.currency?.iso_code ?? 'GHS',
-            symbol: shop?.currency?.name ?? '',
+            name: shop?.currency?.name ?? "",
+            iso_code: shop?.currency?.iso_code ?? "GHS",
+            symbol: shop?.currency?.name ?? "",
           },
         }}
         onSubmit={(values, { setSubmitting }) => {
-          updateShop({ ...shop, ...values, image });
-          setSubmitting(false);
+          updateShop({ ...shop, ...values, image })
+          setSubmitting(false)
         }}
       >
         {({
@@ -113,7 +112,7 @@ function StorePanel() {
                   <div className="store-image-upload-progress-indicator"></div>
                   <SimpleImageDropzone
                     onChange={onImageChange}
-                    label={'Shop logo'}
+                    label={"Shop logo"}
                     value={image ? proxyURL(image, 255, 255) : undefined}
                     height={255}
                     width={255}
@@ -377,9 +376,9 @@ function StorePanel() {
                   </button>
                   <button
                     type="submit"
-                    onClick={e => {
-                      e.preventDefault();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -392,7 +391,7 @@ function StorePanel() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default StorePanel;
+export default StorePanel

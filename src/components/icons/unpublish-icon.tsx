@@ -1,9 +1,9 @@
-import React from 'react';
-import IconProps from 'types/icon-type';
+import React from "react"
+import IconProps from "types/icon-type"
 
 export const UnpublishIcon: React.FC<IconProps> = ({
-  size = '20',
-  color = 'currentColor',
+  size = "20",
+  color = "currentColor",
   ...attributes
 }) => {
   return (
@@ -51,7 +51,7 @@ export const UnpublishIcon: React.FC<IconProps> = ({
         strokeLinejoin="round"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default UnpublishIcon;
+export default UnpublishIcon

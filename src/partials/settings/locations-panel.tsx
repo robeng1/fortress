@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import LocationCard from '../locations/location-card';
-import LocationForm from 'forms/location/location';
-import useCentres from 'hooks/use-location';
+import React, { useState } from "react"
+import isEmpty from "lodash/isEmpty"
+import LocationCard from "../locations/location-card"
+import LocationForm from "forms/location/location"
+import useCentres from "hooks/use-location"
 
 function LocationsPanel() {
-  const { locations } = useCentres();
-  const [showLocationForm, setShowLocationForm] = useState(false);
+  const { locations } = useCentres()
+  const [showLocationForm, setShowLocationForm] = useState(false)
   const [currentlyBeingEditedCentreId, setCurrentlyBeingEditedCentreId] =
-    useState<string | undefined>();
+    useState<string | undefined>()
 
   const handleShow = (show: boolean, id?: string) => {
-    setCurrentlyBeingEditedCentreId(id);
-    setShowLocationForm(show);
-  };
+    setCurrentlyBeingEditedCentreId(id)
+    setShowLocationForm(show)
+  }
   return (
     <div className="flex-grow">
       {/* Panel body */}
@@ -54,12 +54,12 @@ function LocationsPanel() {
               ))}
             </section>
           ) : (
-            'No locations to show'
+            "No locations to show"
           )}
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default LocationsPanel;
+export default LocationsPanel

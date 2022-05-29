@@ -1,15 +1,15 @@
-import React from 'react';
-import DoughnutChart from '../../charts/DoughnutChart';
+import React from "react"
+import DoughnutChart from "../../charts/DoughnutChart"
 
 // Import utilities
-import { tailwindConfig } from '../../utils/utils';
+import { tailwindConfig } from "../../utils/utils"
 
 function DashboardCard06() {
   const chartData = {
-    labels: ['United States', 'Italy', 'Other'],
+    labels: ["United States", "Italy", "Other"],
     datasets: [
       {
-        label: 'Top Countries',
+        label: "Top Countries",
         data: [35, 30, 35],
         backgroundColor: [
           tailwindConfig().theme.colors.purple[500],
@@ -24,7 +24,7 @@ function DashboardCard06() {
         hoverBorderColor: tailwindConfig().theme.colors.white,
       },
     ],
-  };
+  }
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-gray-200">
@@ -35,7 +35,7 @@ function DashboardCard06() {
       {/* Change the height attribute to adjust the chart height */}
       <DoughnutChart data={chartData} width={389} height={260} />
     </div>
-  );
+  )
 }
 
-export default DashboardCard06;
+export default DashboardCard06

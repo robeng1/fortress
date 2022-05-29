@@ -1,6 +1,6 @@
-import { MoneyType } from '../money';
-import { OrderLineType } from './orderline-type';
-import { UserAddressType } from './user-address-type';
+import { MoneyType } from "../money"
+import { OrderLineType } from "./orderline-type"
+import { UserAddressType } from "./user-address-type"
 export enum MethodType {
   FBS = 0,
   SR = 1,
@@ -44,15 +44,15 @@ export enum PaymentEventType {
 }
 
 export interface PaymentEvent {
-  event_id?: string;
-  source_id?: string;
-  amount?: MoneyType | null;
-  reference?: string;
-  lines?: { [key: string]: number };
-  type?: PaymentEventType | keyof typeof PaymentEventType;
-  created_at?: string;
-  shipping_event_id?: string;
-  remaining?: MoneyType | null;
+  event_id?: string
+  source_id?: string
+  amount?: MoneyType | null
+  reference?: string
+  lines?: { [key: string]: number }
+  type?: PaymentEventType | keyof typeof PaymentEventType
+  created_at?: string
+  shipping_event_id?: string
+  remaining?: MoneyType | null
 }
 
 export enum ShippingEventType {
@@ -61,113 +61,113 @@ export enum ShippingEventType {
 }
 
 export interface ShippingEvent {
-  event_id?: string;
-  order_id?: string;
-  lines?: { [key: string]: number };
-  type?: ShippingEventType | keyof typeof ShippingEventType;
-  notes?: string;
-  created_at?: string;
+  event_id?: string
+  order_id?: string
+  lines?: { [key: string]: number }
+  type?: ShippingEventType | keyof typeof ShippingEventType
+  notes?: string
+  created_at?: string
 }
 
 export interface OrderDiscountType {
-  category?: number;
-  discount_id?: string;
-  offer_name?: string;
-  voucher_id?: string;
-  voucher_code?: string;
-  frequency?: number;
-  amount?: MoneyType | null;
-  message?: string;
+  category?: number
+  discount_id?: string
+  offer_name?: string
+  voucher_id?: string
+  voucher_code?: string
+  frequency?: number
+  amount?: MoneyType | null
+  message?: string
 }
 
 export interface OrderStatusChangeType {
-  old_status?: OrderStatusType | keyof typeof OrderStatusType;
-  new_status?: OrderStatusType | keyof typeof OrderStatusType;
-  created_at?: string;
-  number?: string;
+  old_status?: OrderStatusType | keyof typeof OrderStatusType
+  new_status?: OrderStatusType | keyof typeof OrderStatusType
+  created_at?: string
+  number?: string
 }
 
 export interface ShopOrderType {
-  guest_email?: string;
-  order_id?: string;
-  status?: OrderStatusType | keyof typeof OrderStatusType;
-  created_at?: string;
-  job_id?: string;
-  total_incl_tax?: MoneyType | null;
-  total_incl_tax_nanos?: number | string;
-  total_excl_tax?: MoneyType | null;
-  total_excl_tax_nanos?: number | string;
-  shipping_incl_tax?: MoneyType | null;
-  shipping_excl_tax?: MoneyType | null;
-  shipping_incl_tax_nanos?: number | string;
-  shipping_excl_tax_nanos?: number | string;
-  user_id?: string;
-  potential_earning?: MoneyType | null;
-  potential_earning_nanos?: number | string;
-  date_placed?: string;
-  shop_id?: string;
-  due_at?: string;
+  guest_email?: string
+  order_id?: string
+  status?: OrderStatusType | keyof typeof OrderStatusType
+  created_at?: string
+  job_id?: string
+  total_incl_tax?: MoneyType | null
+  total_incl_tax_nanos?: number | string
+  total_excl_tax?: MoneyType | null
+  total_excl_tax_nanos?: number | string
+  shipping_incl_tax?: MoneyType | null
+  shipping_excl_tax?: MoneyType | null
+  shipping_incl_tax_nanos?: number | string
+  shipping_excl_tax_nanos?: number | string
+  user_id?: string
+  potential_earning?: MoneyType | null
+  potential_earning_nanos?: number | string
+  date_placed?: string
+  shop_id?: string
+  due_at?: string
 }
 
 export interface ShopOrderListType {
-  orders?: ShopOrderType[];
-  next_page_token?: string;
+  orders?: ShopOrderType[]
+  next_page_token?: string
 }
 export interface OrderType {
-  number: string;
-  billing_address?: UserAddressType;
-  account_id?: string;
-  total_incl_tax: MoneyType;
-  total_excl_tax: MoneyType;
-  shipping_incl_tax: MoneyType;
-  shipping_excl_tax: MoneyType;
-  shipping_address: UserAddressType;
+  number: string
+  billing_address?: UserAddressType
+  account_id?: string
+  total_incl_tax: MoneyType
+  total_excl_tax: MoneyType
+  shipping_incl_tax: MoneyType
+  shipping_excl_tax: MoneyType
+  shipping_address: UserAddressType
   // shipping_templates?: Template[];
-  lines: OrderLineType[];
-  date_placed?: string;
-  discounts?: OrderDiscountType[];
-  payment_events?: PaymentEvent[];
-  shipping_events?: ShippingEvent[];
-  status_changes?: OrderStatusChangeType[];
-  status: OrderStatusType | keyof typeof OrderStatusType;
-  guest_email?: string;
-  group_id?: string;
-  shipping_plan?: MethodType | keyof typeof MethodType;
-  shop_id?: string;
-  job_id?: string;
-  basket_id?: string;
-  created_at?: string;
-  customer_id: string;
-  customer_name?: string;
-  customer_email?: string;
-  customer_phone?: string;
-  customer_profile_image_url?: string;
+  lines: OrderLineType[]
+  date_placed?: string
+  discounts?: OrderDiscountType[]
+  payment_events?: PaymentEvent[]
+  shipping_events?: ShippingEvent[]
+  status_changes?: OrderStatusChangeType[]
+  status: OrderStatusType | keyof typeof OrderStatusType
+  guest_email?: string
+  group_id?: string
+  shipping_plan?: MethodType | keyof typeof MethodType
+  shop_id?: string
+  job_id?: string
+  basket_id?: string
+  created_at?: string
+  customer_id: string
+  customer_name?: string
+  customer_email?: string
+  customer_phone?: string
+  customer_profile_image_url?: string
   phone?: string
 }
 
 export interface OrderListType {
-  orders?: OrderType[];
-  next_page_token?: string;
+  orders?: OrderType[]
+  next_page_token?: string
 }
 
 export interface OrderViewType {
-  num_items: number;
-  total: number;
-  potential_earning: number;
-  shop_id: string;
-  order_id: string;
-  datename: string;
-  status: string;
-  customer_name: string;
-  customer_id: string;
-  location: string;
-  item_images: string[];
-  order_type: string;
-  currency: string;
-  date_placed: number;
-  created_at: number;
-  updated_at: number;
-  job_id: string;
-  archived: boolean;
-  tags: string[];
+  num_items: number
+  total: number
+  potential_earning: number
+  shop_id: string
+  order_id: string
+  datename: string
+  status: string
+  customer_name: string
+  customer_id: string
+  location: string
+  item_images: string[]
+  order_type: string
+  currency: string
+  date_placed: number
+  created_at: number
+  updated_at: number
+  job_id: string
+  archived: boolean
+  tags: string[]
 }

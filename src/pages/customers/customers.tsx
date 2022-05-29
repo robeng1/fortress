@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from "react"
 
-import Sidebar from '../../partials/sidebar';
-import Header from '../../partials/header';
-import DeleteButton from '../../partials/actions/DeleteButton';
-import DateSelect from '../../components/date-select';
-import FilterButton from '../../components/dropdown-filter';
-import CustomersTable from '../../partials/customers/CustomersTable';
-import PaginationClassic from '../../components/pagination-classic';
+import Sidebar from "../../partials/sidebar"
+import Header from "../../partials/header"
+import DeleteButton from "../../partials/actions/DeleteButton"
+import DateSelect from "../../components/date-select"
+import FilterButton from "../../components/dropdown-filter"
+import CustomersTable from "../../partials/customers/CustomersTable"
+import PaginationClassic from "../../components/pagination-classic"
 
 function Customers() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<unknown>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState<unknown>([])
 
-  const handleSelectedItems = selectedItems => {
-    setSelectedItems([...selectedItems]);
-  };
+  const handleSelectedItems = (selectedItems) => {
+    setSelectedItems([...selectedItems])
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -73,7 +73,7 @@ function Customers() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default Customers;
+export default Customers

@@ -1,12 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { useDebounce } from 'hooks/use-debounce';
-import { proxyURL } from 'utils/urlsigner';
-import ModalBasic from 'components/modal-basic';
-import { fortressURL } from 'endpoints/urls';
-import { request } from 'utils/request';
-import { ProductViewType } from 'typings/product/product-type';
-const initiallySelected: string[] = [];
+import React, { useRef, useEffect, useState } from "react"
+import { useQuery } from "react-query"
+import { useDebounce } from "hooks/use-debounce"
+import { proxyURL } from "utils/urlsigner"
+import ModalBasic from "components/modal-basic"
+import { fortressURL } from "endpoints/urls"
+import { request } from "utils/request"
+import { ProductViewType } from "typings/product/product-type"
+const initiallySelected: string[] = []
 function ProductSelector({
   id,
   searchId,
@@ -16,102 +16,96 @@ function ProductSelector({
   queryEnabled = false,
   shopId,
 }) {
-  const matchKey = 'key'
-  const optionSearchURL = `${fortressURL}/shops/${shopId}/products/option-search`;
-  const filterURL = `${fortressURL}/shops/${shopId}/product-views/filter`;
+  const matchKey = "key"
+  const optionSearchURL = `${fortressURL}/shops/${shopId}/products/option-search`
+  const filterURL = `${fortressURL}/shops/${shopId}/product-views/filter`
 
   const querybody = (term: string): Record<string, any> => {
-    return { limit: 15, term, shop_id: shopId, type: 'product' };
-  };
+    return { limit: 15, term, shop_id: shopId, type: "product" }
+  }
 
-  const [open, setOpen] = useState(false);
-  const [selectAll, setSelectAll] = useState<boolean>(false);
-  const [isCheck, setIsCheck] = useState<string[]>(value);
+  const [open, setOpen] = useState(false)
+  const [selectAll, setSelectAll] = useState<boolean>(false)
+  const [isCheck, setIsCheck] = useState<string[]>(value)
 
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [searchTerm, setSearchTerm] = useState<string>("")
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
   const [products, setProducts] = useState<ProductViewType[]>([])
   const { data } = useQuery(
     [queryKey, debouncedSearchTerm],
     () =>
       fetch(optionSearchURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ ...querybody(debouncedSearchTerm) }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       })
-        .then(response => response.json())
-        .catch(e => { }),
+        .then((response) => response.json())
+        .catch((e) => {}),
     {
       enabled: queryEnabled && Boolean(debouncedSearchTerm),
-    },
-  );
-  const searchInput = useRef<HTMLInputElement>(null);
+    }
+  )
+  const searchInput = useRef<HTMLInputElement>(null)
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
+    setSelectAll(!selectAll)
     let checks: string[] = []
     if (data && data.result) {
       // TODO: make any typed
       checks = data.result.map((d: any) => d[matchKey])
     }
-    setIsCheck(checks);
+    setIsCheck(checks)
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    e.stopPropagation();
-    const { id, checked } = e.target;
-    setSelectAll(false);
+  const handleClick = (e) => {
+    e.stopPropagation()
+    const { id, checked } = e.target
+    setSelectAll(false)
     if (checked) {
-      setIsCheck([
-        ...isCheck,
-        id,
-      ]);
+      setIsCheck([...isCheck, id])
     }
 
     if (!checked) {
-      setIsCheck(isCheck.filter((key) => key !== id));
+      setIsCheck(isCheck.filter((key) => key !== id))
     }
-  };
+  }
   const handleRemove = (id: string) => {
-    setIsCheck(isCheck.filter((key) => key !== id));
+    setIsCheck(isCheck.filter((key) => key !== id))
     onChange(isCheck)
-  };
-
+  }
 
   useEffect(() => {
-    open && searchInput.current && searchInput.current.focus();
-  }, [open]);
+    open && searchInput.current && searchInput.current.focus()
+  }, [open])
 
   useEffect(() => {
     try {
       if (isCheck.length > 0 || value.length > 0) {
         const response = request(filterURL, {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify({
             shop_id: shopId,
             id_list: isCheck.length > 0 ? isCheck : value,
           }),
-        });
+        })
         response.then((value) => setProducts(value?.products ?? []))
       } else {
         setProducts([])
       }
-    } catch (error) { }
-  }, [isCheck,value])
+    } catch (error) {}
+  }, [isCheck, value])
 
   return (
     <div>
       <div className="w-full">
         <div
-          onClick={e => {
-            e.stopPropagation();
-            setOpen(
-              !open,
-            );
+          onClick={(e) => {
+            e.stopPropagation()
+            setOpen(!open)
           }}
           className="flex border-1 rounded"
         >
@@ -149,7 +143,7 @@ function ProductSelector({
                   className="w-full border-0 focus:ring-transparent placeholder-gray-400 appearance-none py-3 pl-10 pr-4"
                   type="search"
                   autoComplete="off"
-                  onChange={e => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   value={searchTerm}
                   placeholder={`Search products...`}
                   ref={searchInput}
@@ -179,9 +173,9 @@ function ProductSelector({
                       Results
                     </div>
                     <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        onChange(isCheck);
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onChange(isCheck)
                         setOpen(!open)
                       }}
                       className="btn-xs bg-purple-500 hover:bg-purple-600 text-white"
@@ -204,13 +198,11 @@ function ProductSelector({
                     {data?.result
                       .filter(
                         (x: Record<string, string>) =>
-                          !value.includes(x[matchKey]),
+                          !value.includes(x[matchKey])
                       )
-                      .map(it => (
+                      .map((it) => (
                         <li key={it[matchKey]}>
-                          <div
-                            className="flex items-center p-2 text-gray-800 rounded group"
-                          >
+                          <div className="flex items-center p-2 text-gray-800 rounded group">
                             <label className="inline-flex flex-shrink-0 mr-3">
                               <span className="sr-only">Select</span>
                               <input
@@ -219,7 +211,7 @@ function ProductSelector({
                                 type="checkbox"
                                 onChange={handleClick}
                                 checked={isCheck.some(
-                                  (item: string) => item === it[matchKey],
+                                  (item: string) => item === it[matchKey]
                                 )}
                               />
                             </label>
@@ -229,7 +221,7 @@ function ProductSelector({
                                 src={
                                   it.image_url
                                     ? proxyURL(it.image_url, 50, 50)
-                                    : 'https://via.placeholder.com/50'
+                                    : "https://via.placeholder.com/50"
                                 }
                                 alt={it.label}
                               />
@@ -246,47 +238,41 @@ function ProductSelector({
         </ModalBasic>
       </div>
       <ul className="text-sm w-full">
-        {products && products.map((product: any) => (
-          <li
-            key={product.product_id}
-            className="flex items-center"
-          >
-            <div className="flex w-full items-center py-2 text-gray-500 rounded group">
-              <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
-                <img
-                  src={
-                    product.image_url
-                      ? proxyURL(
-                        product.image_url,
-                        50,
-                        50,
-                      )
-                      : 'https://via.placeholder.com/50'
-                  }
-                  alt={product.handle}
-                />
-              </div>
-              <div className="w-full flex-grow flex justify-between">
-                <div className="text-sm font-medium text-gray-900">
-                  {product.title}
+        {products &&
+          products.map((product: any) => (
+            <li key={product.product_id} className="flex items-center">
+              <div className="flex w-full items-center py-2 text-gray-500 rounded group">
+                <div className="w-18 h-18 flex-shrink-0 mr-2 sm:mr-3">
+                  <img
+                    src={
+                      product.image_url
+                        ? proxyURL(product.image_url, 50, 50)
+                        : "https://via.placeholder.com/50"
+                    }
+                    alt={product.handle}
+                  />
                 </div>
-                <button
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleRemove(product.product_id)
-                    onChange(isCheck)
-                  }}
-                  className="text-sm text-gray-500 cursor-pointer"
-                >
-                  X
-                </button>
+                <div className="w-full flex-grow flex justify-between">
+                  <div className="text-sm font-medium text-gray-900">
+                    {product.title}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleRemove(product.product_id)
+                      onChange(isCheck)
+                    }}
+                    className="text-sm text-gray-500 cursor-pointer"
+                  >
+                    X
+                  </button>
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
       </ul>
     </div>
-  );
+  )
 }
 
-export default ProductSelector;
+export default ProductSelector

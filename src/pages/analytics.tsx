@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import Datepicker from 'components/date-picker';
-import BottomNav from 'components/bottom-navigation';
-import AnalyticsCard01 from 'partials/analytics/AnalyticsCard01';
-import AnalyticsCard02 from 'partials/analytics/AnalyticsCard02';
-import AnalyticsCard05 from 'partials/analytics/AnalyticsCard05';
-import AnalyticsCard06 from 'partials/analytics/AnalyticsCard06';
-import AnalyticsCard07 from 'partials/analytics/AnalyticsCard07';
-import { useStats } from 'hooks/use-shopstats';
-import { useOnboarding } from 'hooks/use-onboarding';
-import { useSession } from 'hooks/use-session';
-import DashboardCard01 from 'partials/dashboard/DashboardCard01';
-import DashboardCard02 from 'partials/dashboard/DashboardCard02';
-import DashboardCard03 from 'partials/dashboard/DashboardCard03';
-import DashboardCard04 from 'partials/dashboard/DashboardCard04';
-import { toast } from 'react-toastify';
-import useDomains from 'hooks/use-domains';
-import { isEmptyArray } from 'formik';
-import useHasProducts from 'hooks/use-has-products';
-import CTAs from 'partials/cta';
-import useHasRates from 'hooks/use-has-rates';
+import React, { useEffect, useState } from "react"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import Datepicker from "components/date-picker"
+import BottomNav from "components/bottom-navigation"
+import AnalyticsCard01 from "partials/analytics/AnalyticsCard01"
+import AnalyticsCard02 from "partials/analytics/AnalyticsCard02"
+import AnalyticsCard05 from "partials/analytics/AnalyticsCard05"
+import AnalyticsCard06 from "partials/analytics/AnalyticsCard06"
+import AnalyticsCard07 from "partials/analytics/AnalyticsCard07"
+import { useStats } from "hooks/use-shopstats"
+import { useOnboarding } from "hooks/use-onboarding"
+import { useSession } from "hooks/use-session"
+import DashboardCard01 from "partials/dashboard/DashboardCard01"
+import DashboardCard02 from "partials/dashboard/DashboardCard02"
+import DashboardCard03 from "partials/dashboard/DashboardCard03"
+import DashboardCard04 from "partials/dashboard/DashboardCard04"
+import { toast } from "react-toastify"
+import useDomains from "hooks/use-domains"
+import { isEmptyArray } from "formik"
+import useHasProducts from "hooks/use-has-products"
+import CTAs from "partials/cta"
+import useHasRates from "hooks/use-has-rates"
 
 function Analytics() {
-  useOnboarding();
-  const { isEmailVerified } = useSession();
-  const { hasProduct } = useHasProducts();
-  const { hasRates } = useHasRates();
-  const { entries } = useDomains();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { stats, statsIsLoading } = useStats();
+  useOnboarding()
+  const { isEmailVerified } = useSession()
+  const { hasProduct } = useHasProducts()
+  const { hasRates } = useHasRates()
+  const { entries } = useDomains()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { stats, statsIsLoading } = useStats()
 
   useEffect(() => {
     if (statsIsLoading) {
@@ -48,7 +48,7 @@ function Analytics() {
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         {/*  Site header */}
         <Header
-          location={'Analytics'}
+          location={"Analytics"}
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
@@ -61,12 +61,21 @@ function Analytics() {
                 Overview
               </h4>
               <h4 className="text-xl md:text-xl text-gray-500 font-medium">
-                {entries && !isEmptyArray(entries) && entries?.length > 0 && <>
-                  <p className='text-sm md:text-xl cursor-pointer text-gray-800'>Here's your website link: {" "}
-                    <span className='underline text-purple-500'>
-                      <a href={`https://${entries[0].domain}`} target="_blank">Link</a>
-                    </span></p>
-                </>}
+                {entries && !isEmptyArray(entries) && entries?.length > 0 && (
+                  <>
+                    <p className="text-sm md:text-xl cursor-pointer text-gray-800">
+                      Here's your website link:{" "}
+                      <span className="underline text-purple-500">
+                        <a
+                          href={`https://${entries[0].domain}`}
+                          target="_blank"
+                        >
+                          Link
+                        </a>
+                      </span>
+                    </p>
+                  </>
+                )}
               </h4>
             </div>
 
@@ -77,7 +86,11 @@ function Analytics() {
             </div>
           </div>
           <div>
-            <CTAs noProducts={!hasProduct} noRates={!hasRates} noTheme={false} />
+            <CTAs
+              noProducts={!hasProduct}
+              noRates={!hasRates}
+              noTheme={false}
+            />
           </div>
           <div className="grid grid-cols-12 gap-6">
             <DashboardCard01 sales={stats?.gross_revenue} dataset={[]} />
@@ -103,7 +116,7 @@ function Analytics() {
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Analytics;
+export default Analytics

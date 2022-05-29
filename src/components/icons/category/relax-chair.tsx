@@ -1,4 +1,4 @@
-export const RelaxChair: React.FC<React.SVGAttributes<{}>> = props => {
+export const RelaxChair: React.FC<React.SVGAttributes<{}>> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -29,5 +29,5 @@ export const RelaxChair: React.FC<React.SVGAttributes<{}>> = props => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}

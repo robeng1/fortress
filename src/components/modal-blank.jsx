@@ -1,28 +1,28 @@
-import React, { useRef, useEffect } from 'react';
-import Transition from '../utils/transition';
+import React, { useRef, useEffect } from "react"
+import Transition from "../utils/transition"
 
 function ModalBlank({ children, id, modalOpen, setModalOpen }) {
-  const modalContent = useRef(null);
+  const modalContent = useRef(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!modalOpen || modalContent.current.contains(target)) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+      if (!modalOpen || modalContent.current.contains(target)) return
+      setModalOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!modalOpen || keyCode !== 27) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!modalOpen || keyCode !== 27) return
+      setModalOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <>
@@ -60,7 +60,7 @@ function ModalBlank({ children, id, modalOpen, setModalOpen }) {
         </div>
       </Transition>
     </>
-  );
+  )
 }
 
-export default ModalBlank;
+export default ModalBlank

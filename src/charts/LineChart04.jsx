@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react"
 
 import {
   Chart,
@@ -9,11 +9,11 @@ import {
   LinearScale,
   TimeScale,
   Tooltip,
-} from 'chart.js';
-import 'chartjs-adapter-moment';
+} from "chart.js"
+import "chartjs-adapter-moment"
 
 // Import utilities
-import { tailwindConfig, formatThousands } from '../utils/utils';
+import { tailwindConfig, formatThousands } from "../utils/utils"
 
 Chart.register(
   LineController,
@@ -22,17 +22,17 @@ Chart.register(
   PointElement,
   LinearScale,
   TimeScale,
-  Tooltip,
-);
+  Tooltip
+)
 
 function LineChart04({ data, width, height }) {
-  const canvas = useRef(null);
+  const canvas = useRef(null)
 
   useEffect(() => {
-    const ctx = canvas.current;
+    const ctx = canvas.current
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
-      type: 'line',
+      type: "line",
       data: data,
       options: {
         chartArea: {
@@ -50,10 +50,10 @@ function LineChart04({ data, width, height }) {
             beginAtZero: true,
           },
           x: {
-            type: 'time',
+            type: "time",
             time: {
-              parser: 'MM-DD-YYYY',
-              unit: 'month',
+              parser: "MM-DD-YYYY",
+              unit: "month",
             },
             display: false,
           },
@@ -62,7 +62,7 @@ function LineChart04({ data, width, height }) {
           tooltip: {
             callbacks: {
               title: () => false, // Disable tooltip title
-              label: context => formatThousands(context.parsed.y),
+              label: (context) => formatThousands(context.parsed.y),
             },
           },
           legend: {
@@ -71,16 +71,16 @@ function LineChart04({ data, width, height }) {
         },
         interaction: {
           intersect: false,
-          mode: 'nearest',
+          mode: "nearest",
         },
         maintainAspectRatio: false,
       },
-    });
-    return () => chart.destroy();
+    })
+    return () => chart.destroy()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  return <canvas ref={canvas} width={width} height={height}></canvas>;
+  return <canvas ref={canvas} width={width} height={height}></canvas>
 }
 
-export default LineChart04;
+export default LineChart04

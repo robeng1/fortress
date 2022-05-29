@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import PageDescription from 'components/blocks/page-description';
+import React, { useState } from "react"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import PageDescription from "components/blocks/page-description"
 
 const ThemeSettingsOverview: React.FC = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -22,8 +22,8 @@ const ThemeSettingsOverview: React.FC = ({ children }) => {
         <main className="mb-10 md:mb-0">
           <div className="bg-white p-lg">
             <PageDescription
-              title={'Theme settings'}
-              subtitle={'Manage the content and looks of your business'}
+              title={"Theme settings"}
+              subtitle={"Manage the content and looks of your business"}
             />
             <div className="grid md:grid-cols-2 auto-cols-fr grid-cols-1 gap-x-base gap-y-xs bg-white">
               {children}
@@ -32,7 +32,7 @@ const ThemeSettingsOverview: React.FC = ({ children }) => {
         </main>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ThemeSettingsOverview;
+export default ThemeSettingsOverview

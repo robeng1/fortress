@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function PaginationNumeric() {
   return (
@@ -63,7 +63,7 @@ function PaginationNumeric() {
         </div>
       </nav>
     </div>
-  );
+  )
 }
 
-export default PaginationNumeric;
+export default PaginationNumeric

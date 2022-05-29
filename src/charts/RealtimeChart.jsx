@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react"
 
 import {
   Chart,
@@ -9,11 +9,11 @@ import {
   LinearScale,
   TimeScale,
   Tooltip,
-} from 'chart.js';
-import 'chartjs-adapter-moment';
+} from "chart.js"
+import "chartjs-adapter-moment"
 
 // Import utilities
-import { tailwindConfig, formatValue } from '../utils/utils';
+import { tailwindConfig, formatValue } from "../utils/utils"
 
 Chart.register(
   LineController,
@@ -22,19 +22,19 @@ Chart.register(
   PointElement,
   LinearScale,
   TimeScale,
-  Tooltip,
-);
+  Tooltip
+)
 
 function RealtimeChart({ data, width, height }) {
-  const canvas = useRef(null);
-  const chartValue = useRef(null);
-  const chartDeviation = useRef(null);
+  const canvas = useRef(null)
+  const chartValue = useRef(null)
+  const chartDeviation = useRef(null)
 
   useEffect(() => {
-    const ctx = canvas.current;
+    const ctx = canvas.current
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
-      type: 'line',
+      type: "line",
       data: data,
       options: {
         layout: {
@@ -49,17 +49,17 @@ function RealtimeChart({ data, width, height }) {
             suggestedMax: 80,
             ticks: {
               maxTicksLimit: 5,
-              callback: value => formatValue(value),
+              callback: (value) => formatValue(value),
             },
           },
           x: {
-            type: 'time',
+            type: "time",
             time: {
-              parser: 'hh:mm:ss',
-              unit: 'second',
-              tooltipFormat: 'MMM DD, H:mm:ss a',
+              parser: "hh:mm:ss",
+              unit: "second",
+              tooltipFormat: "MMM DD, H:mm:ss a",
               displayFormats: {
-                second: 'H:mm:ss',
+                second: "H:mm:ss",
               },
             },
             grid: {
@@ -78,46 +78,45 @@ function RealtimeChart({ data, width, height }) {
           },
           tooltip: {
             titleFont: {
-              weight: '600',
+              weight: "600",
             },
             callbacks: {
-              label: context => formatValue(context.parsed.y),
+              label: (context) => formatValue(context.parsed.y),
             },
           },
         },
         interaction: {
           intersect: false,
-          mode: 'nearest',
+          mode: "nearest",
         },
         animation: false,
         maintainAspectRatio: false,
         resizeDelay: 200,
       },
-    });
-    return () => chart.destroy();
+    })
+    return () => chart.destroy()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data])
 
   // Update header values
   useEffect(() => {
-    const currentValue =
-      data.datasets[0].data[data.datasets[0].data.length - 1];
+    const currentValue = data.datasets[0].data[data.datasets[0].data.length - 1]
     const previousValue =
-      data.datasets[0].data[data.datasets[0].data.length - 2];
-    const diff = ((currentValue - previousValue) / previousValue) * 100;
+      data.datasets[0].data[data.datasets[0].data.length - 2]
+    const diff = ((currentValue - previousValue) / previousValue) * 100
     chartValue.current.innerHTML =
-      data.datasets[0].data[data.datasets[0].data.length - 1];
+      data.datasets[0].data[data.datasets[0].data.length - 1]
     if (diff < 0) {
       chartDeviation.current.style.backgroundColor =
-        tailwindConfig().theme.colors.yellow[500];
+        tailwindConfig().theme.colors.yellow[500]
     } else {
       chartDeviation.current.style.backgroundColor =
-        tailwindConfig().theme.colors.emerald[500];
+        tailwindConfig().theme.colors.emerald[500]
     }
-    chartDeviation.current.innerHTML = `${diff > 0 ? '+' : ''}${diff.toFixed(
-      2,
-    )}%`;
-  }, [data]);
+    chartDeviation.current.innerHTML = `${diff > 0 ? "+" : ""}${diff.toFixed(
+      2
+    )}%`
+  }, [data])
 
   return (
     <React.Fragment>
@@ -136,7 +135,7 @@ function RealtimeChart({ data, width, height }) {
         <canvas ref={canvas} data={data} width={width} height={height}></canvas>
       </div>
     </React.Fragment>
-  );
+  )
 }
 
-export default RealtimeChart;
+export default RealtimeChart

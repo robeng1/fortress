@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function DashboardCard10() {
   return (
@@ -32,11 +32,11 @@ function DashboardCard10() {
                       href="#0"
                     >
                       Nick Mark
-                    </a>{' '}
-                    mentioned{' '}
+                    </a>{" "}
+                    mentioned{" "}
                     <a className="font-medium text-gray-800" href="#0">
                       Sara Smith
-                    </a>{' '}
+                    </a>{" "}
                     in a new post
                   </div>
                   <div className="flex-shrink-0 self-end ml-2">
@@ -63,11 +63,11 @@ function DashboardCard10() {
               <div className="flex-grow flex items-center border-b border-gray-100 text-sm py-2">
                 <div className="flex-grow flex justify-between">
                   <div className="self-center">
-                    The post{' '}
+                    The post{" "}
                     <a className="font-medium text-gray-800" href="#0">
                       Post Name
-                    </a>{' '}
-                    was removed by{' '}
+                    </a>{" "}
+                    was removed by{" "}
                     <a
                       className="font-medium text-gray-800 hover:text-gray-900"
                       href="#0"
@@ -104,8 +104,8 @@ function DashboardCard10() {
                       href="#0"
                     >
                       Patrick Sullivan
-                    </a>{' '}
-                    published a new{' '}
+                    </a>{" "}
+                    published a new{" "}
                     <a className="font-medium text-gray-800" href="#0">
                       post
                     </a>
@@ -147,8 +147,8 @@ function DashboardCard10() {
                       href="#0"
                     >
                       240+
-                    </a>{' '}
-                    users have subscribed to{' '}
+                    </a>{" "}
+                    users have subscribed to{" "}
                     <a className="font-medium text-gray-800" href="#0">
                       Newsletter #1
                     </a>
@@ -177,11 +177,11 @@ function DashboardCard10() {
               <div className="flex-grow flex items-center text-sm py-2">
                 <div className="flex-grow flex justify-between">
                   <div className="self-center">
-                    The post{' '}
+                    The post{" "}
                     <a className="font-medium text-gray-800" href="#0">
                       Post Name
-                    </a>{' '}
-                    was suspended by{' '}
+                    </a>{" "}
+                    was suspended by{" "}
                     <a
                       className="font-medium text-gray-800 hover:text-gray-900"
                       href="#0"
@@ -204,7 +204,7 @@ function DashboardCard10() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default DashboardCard10;
+export default DashboardCard10

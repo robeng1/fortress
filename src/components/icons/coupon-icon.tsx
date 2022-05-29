@@ -1,5 +1,5 @@
-import React from 'react';
-export const CouponIcon = ({ width = '18', height = '13' }) => {
+import React from "react"
+export const CouponIcon = ({ width = "18", height = "13" }) => {
   return (
     <svg
       data-name="Group 2930"
@@ -23,5 +23,5 @@ export const CouponIcon = ({ width = '18', height = '13' }) => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}

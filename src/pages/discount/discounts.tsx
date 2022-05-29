@@ -1,43 +1,43 @@
-import React, { ChangeEvent, lazy, useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import Pagination from '@mui/material/Pagination';
-import BottomNav from 'components/bottom-navigation';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import SearchForm from 'partials/actions/search-box';
-import DiscountTable from 'partials/discount/discount-table';
-import useShop from 'hooks/use-shop';
-import { useNavigate } from 'react-router-dom';
-import { ThemeProvider } from 'styles/material/theme';
-import ThreeDots from 'components/ui/loaders/three-dots';
-import useDiscountViews from 'hooks/use-discount-views';
+import React, { ChangeEvent, lazy, useState } from "react"
+import isEmpty from "lodash/isEmpty"
+import Pagination from "@mui/material/Pagination"
+import BottomNav from "components/bottom-navigation"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import SearchForm from "partials/actions/search-box"
+import DiscountTable from "partials/discount/discount-table"
+import useShop from "hooks/use-shop"
+import { useNavigate } from "react-router-dom"
+import { ThemeProvider } from "styles/material/theme"
+import ThreeDots from "components/ui/loaders/three-dots"
+import useDiscountViews from "hooks/use-discount-views"
 
 function Discounts() {
-  const navigate = useNavigate();
-  const { shop } = useShop();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate()
+  const { shop } = useShop()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentDiscountId, setCurrentDiscountId] = useState<
     String | undefined
-  >(undefined);
+  >(undefined)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [selectedItems, setSelectedItems] = useState<any>([])
 
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [limit, setLimit] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(15)
 
-  const [term, setTerm] = useState<string>("");
+  const [term, setTerm] = useState<string>("")
 
   const { discountData, isLoading } = useDiscountViews(page, limit, term)
 
   const handleSelectedItems = (selectedItems: any) => {
-    setSelectedItems([...selectedItems]);
-  };
+    setSelectedItems([...selectedItems])
+  }
 
   const handleShow = (display: Boolean, discountId: String) => {
-    setCurrentDiscountId(prevState => discountId);
-  };
-  const discounts = discountData?.discounts || [];
+    setCurrentDiscountId((prevState) => discountId)
+  }
+  const discounts = discountData?.discounts || []
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -66,13 +66,14 @@ function Discounts() {
                       value={term}
                       onChange={(e: React.FormEvent<HTMLInputElement>) => {
                         setTerm(e.currentTarget.value)
-                      }} />
+                      }}
+                    />
                     {/* <div className="">
                       <FilterButton align="right" />
                     </div> */}
                   </div>
                   <button
-                    onClick={() => navigate('/discounts/new')}
+                    onClick={() => navigate("/discounts/new")}
                     className="btn bg-purple-600 hover:bg-purple-600 text-white"
                   >
                     <svg
@@ -88,43 +89,45 @@ function Discounts() {
                 </div>
               </div>
             </div>
-            {isLoading &&
+            {isLoading && (
               <div className="sm:flex sm:items-center justify-center">
                 <ThreeDots />
               </div>
-            }
+            )}
             {/* Table */}
-            {!isLoading && <>
-              <DiscountTable
-                selectedItems={handleSelectedItems}
-                discounts={discounts || []}
-              />
-              {/* Pagination */}
-              {!isEmpty(discounts) && (discountData?.total ?? 0) > limit && (
-                <ThemeProvider>
-                  <Pagination
-                    count={
-                      (discountData?.total ?? 0) > limit
-                        ? Math.ceil((discountData?.total ?? 0) / limit)
-                        : 1
-                    }
-                    variant="outlined"
-                    color="primary"
-                    className="mt-4 md:mt-8"
-                    page={page}
-                    onChange={(event: ChangeEvent<unknown>, page: number) =>
-                      setPage(page)
-                    }
-                  />
-                </ThemeProvider>
-              )}</>}
+            {!isLoading && (
+              <>
+                <DiscountTable
+                  selectedItems={handleSelectedItems}
+                  discounts={discounts || []}
+                />
+                {/* Pagination */}
+                {!isEmpty(discounts) && (discountData?.total ?? 0) > limit && (
+                  <ThemeProvider>
+                    <Pagination
+                      count={
+                        (discountData?.total ?? 0) > limit
+                          ? Math.ceil((discountData?.total ?? 0) / limit)
+                          : 1
+                      }
+                      variant="outlined"
+                      color="primary"
+                      className="mt-4 md:mt-8"
+                      page={page}
+                      onChange={(event: ChangeEvent<unknown>, page: number) =>
+                        setPage(page)
+                      }
+                    />
+                  </ThemeProvider>
+                )}
+              </>
+            )}
           </div>
         </main>
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Discounts;
-
+export default Discounts

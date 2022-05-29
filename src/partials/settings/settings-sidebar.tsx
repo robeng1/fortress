@@ -1,9 +1,9 @@
-import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React from "react"
+import { NavLink, useLocation } from "react-router-dom"
 
 function SettingsSidebar() {
-  const location = useLocation();
-  const { pathname } = location;
+  const location = useLocation()
+  const { pathname } = location
 
   return (
     <div className="flex flex-nowrap overflow-x-scroll no-scrollbar md:block md:overflow-auto px-3 py-6 border-b md:border-b-0 md:border-r border-gray-200 min-w-60 md:space-y-3">
@@ -17,12 +17,12 @@ function SettingsSidebar() {
             <NavLink
               to="/settings/account"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
-                pathname.includes('/settings/account') && 'bg-purple-50'
+                pathname.includes("/settings/account") && "bg-purple-50"
               }`}
             >
               <svg
                 className={`w-4 h-4 flex-shrink-0 fill-current text-gray-400 mr-2 ${
-                  pathname.includes('/settings/account') && 'text-purple-400'
+                  pathname.includes("/settings/account") && "text-purple-400"
                 }`}
                 viewBox="0 0 16 16"
               >
@@ -30,9 +30,9 @@ function SettingsSidebar() {
               </svg>
               <span
                 className={`text-sm font-medium ${
-                  pathname.includes('/settings/account')
-                    ? 'text-purple-500'
-                    : 'hover:text-gray-700'
+                  pathname.includes("/settings/account")
+                    ? "text-purple-500"
+                    : "hover:text-gray-700"
                 }`}
               >
                 Account
@@ -43,12 +43,12 @@ function SettingsSidebar() {
             <NavLink
               to="/settings/payments"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
-                pathname.includes('/settings/payments') && 'bg-purple-50'
+                pathname.includes("/settings/payments") && "bg-purple-50"
               }`}
             >
               <svg
                 className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
-                  pathname.includes('/settings/payments') && 'text-purple-400'
+                  pathname.includes("/settings/payments") && "text-purple-400"
                 }`}
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -62,9 +62,9 @@ function SettingsSidebar() {
               </svg>
               <span
                 className={`text-sm font-medium ${
-                  pathname.includes('/settings/payments')
-                    ? 'text-purple-500'
-                    : 'hover:text-gray-700'
+                  pathname.includes("/settings/payments")
+                    ? "text-purple-500"
+                    : "hover:text-gray-700"
                 }`}
               >
                 Payments
@@ -75,13 +75,13 @@ function SettingsSidebar() {
             <NavLink
               to="/settings/locations"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
-                pathname.includes('/settings/locations') && 'bg-purple-50'
+                pathname.includes("/settings/locations") && "bg-purple-50"
               }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
-                  pathname.includes('/settings/locations') && 'text-purple-400'
+                  pathname.includes("/settings/locations") && "text-purple-400"
                 }`}
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -94,9 +94,9 @@ function SettingsSidebar() {
               </svg>
               <span
                 className={`text-sm font-medium ${
-                  pathname.includes('/settings/locations')
-                    ? 'text-purple-500'
-                    : 'hover:text-gray-700'
+                  pathname.includes("/settings/locations")
+                    ? "text-purple-500"
+                    : "hover:text-gray-700"
                 }`}
               >
                 Locations
@@ -107,12 +107,12 @@ function SettingsSidebar() {
             <NavLink
               to="/settings/shipping"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
-                pathname.includes('/settings/shipping') && 'bg-purple-50'
+                pathname.includes("/settings/shipping") && "bg-purple-50"
               }`}
             >
               <svg
                 className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
-                  pathname.includes('/settings/shipping') && 'text-purple-400'
+                  pathname.includes("/settings/shipping") && "text-purple-400"
                 }`}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -126,9 +126,9 @@ function SettingsSidebar() {
               </svg>
               <span
                 className={`text-sm font-medium ${
-                  pathname.includes('/settings/shipping')
-                    ? 'text-purple-500'
-                    : 'hover:text-gray-700'
+                  pathname.includes("/settings/shipping")
+                    ? "text-purple-500"
+                    : "hover:text-gray-700"
                 }`}
               >
                 Shipping
@@ -139,12 +139,12 @@ function SettingsSidebar() {
             <NavLink
               to="/settings/policies"
               className={`flex items-center px-2.5 py-2 rounded whitespace-nowrap ${
-                pathname.includes('/settings/policies') && 'bg-purple-50'
+                pathname.includes("/settings/policies") && "bg-purple-50"
               }`}
             >
               <svg
                 className={`w-5 h-5 flex-shrink-0 fill-current text-gray-400 mr-2 ${
-                  pathname.includes('/settings/policies') && 'text-purple-400'
+                  pathname.includes("/settings/policies") && "text-purple-400"
                 }`}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -158,9 +158,9 @@ function SettingsSidebar() {
               </svg>
               <span
                 className={`text-sm font-medium ${
-                  pathname.includes('/settings/policies')
-                    ? 'text-purple-500'
-                    : 'hover:text-gray-700'
+                  pathname.includes("/settings/policies")
+                    ? "text-purple-500"
+                    : "hover:text-gray-700"
                 }`}
               >
                 Legal
@@ -239,7 +239,7 @@ function SettingsSidebar() {
         </ul>
       </div> */}
     </div>
-  );
+  )
 }
 
-export default SettingsSidebar;
+export default SettingsSidebar

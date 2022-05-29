@@ -1,16 +1,19 @@
-import * as React from 'react';
-import { LocationType } from 'typings/inventory/inventory-type';
+import * as React from "react"
+import { LocationType } from "typings/inventory/inventory-type"
 
 type LocationCardProps = {
   location: LocationType
   handleShow: (show: boolean, id?: string) => void
 }
 
-const LocationCard: React.FC<LocationCardProps> = ({ handleShow, location }) => {
+const LocationCard: React.FC<LocationCardProps> = ({
+  handleShow,
+  location,
+}) => {
   return (
     <>
       <div
-        onClick={e => handleShow(true, location.centre_id)}
+        onClick={(e) => handleShow(true, location.centre_id)}
         className="py-1 px-3 mb-4 md:p-5 text-coolGray-800 shadow rounded-lg"
       >
         <div className="flex md:space-y-0 md:space-x-6 align-top">
@@ -34,6 +37,6 @@ const LocationCard: React.FC<LocationCardProps> = ({ handleShow, location }) => 
         </div>
       </div>
     </>
-  );
+  )
 }
-export default LocationCard;
+export default LocationCard

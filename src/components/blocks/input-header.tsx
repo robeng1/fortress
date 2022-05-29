@@ -1,12 +1,12 @@
-import React from 'react';
-import InfoTooltip from './info-tooltip';
+import React from "react"
+import InfoTooltip from "./info-tooltip"
 
 export type InputHeaderProps = {
-  label?: string;
-  required?: boolean;
-  tooltipContent?: string;
-  tooltip?: React.ReactNode;
-};
+  label?: string
+  required?: boolean
+  tooltipContent?: string
+  tooltip?: React.ReactNode
+}
 
 const InputHeader: React.FC<InputHeaderProps> = ({
   label,
@@ -16,7 +16,7 @@ const InputHeader: React.FC<InputHeaderProps> = ({
 }) => {
   return (
     <div className="w-full flex text-md font-semibold text-grey-50 items-center">
-      <label className='block text-sm font-semibold'>{label}</label>
+      <label className="block text-sm font-semibold">{label}</label>
       {required && <div className="text-rose-50 "> *</div>}
       {tooltip || tooltipContent ? (
         <div className="flex ml-1.5">
@@ -30,7 +30,7 @@ const InputHeader: React.FC<InputHeaderProps> = ({
         </div>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default InputHeader;
+export default InputHeader

@@ -10,5 +10,5 @@ export const PhoneIcon = ({ ...props }) => {
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}

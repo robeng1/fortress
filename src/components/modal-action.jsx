@@ -1,28 +1,28 @@
-import React, { useRef, useEffect } from 'react';
-import Transition from '../utils/transition';
+import React, { useRef, useEffect } from "react"
+import Transition from "../utils/transition"
 
 function ModalAction({ children, id, modalOpen, setModalOpen }) {
-  const modalContent = useRef(null);
+  const modalContent = useRef(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!modalOpen || modalContent.current.contains(target)) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+      if (!modalOpen || modalContent.current.contains(target)) return
+      setModalOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!modalOpen || keyCode !== 27) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!modalOpen || keyCode !== 27) return
+      setModalOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <>
@@ -61,9 +61,9 @@ function ModalAction({ children, id, modalOpen, setModalOpen }) {
               {/* Close button */}
               <button
                 className="absolute top-0 right-0 text-gray-400 hover:text-gray-500"
-                onClick={e => {
-                  e.stopPropagation();
-                  setModalOpen(false);
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setModalOpen(false)
                 }}
               >
                 <div className="sr-only">Close</div>
@@ -77,7 +77,7 @@ function ModalAction({ children, id, modalOpen, setModalOpen }) {
         </div>
       </Transition>
     </>
-  );
+  )
 }
 
-export default ModalAction;
+export default ModalAction

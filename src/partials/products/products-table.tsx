@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Product from './product-item';
-import ProductList from './mobile/product-list';
-import EmptyState from 'partials/empty-state';
-import { useNavigate } from 'react-router-dom';
-import { ProductViewType } from 'typings/product/product-type';
+import React, { useState, useEffect } from "react"
+import Product from "./product-item"
+import ProductList from "./mobile/product-list"
+import EmptyState from "partials/empty-state"
+import { useNavigate } from "react-router-dom"
+import { ProductViewType } from "typings/product/product-type"
 
 type ProductsTableProps = {
   selectedItems: (items: string[]) => void
@@ -11,32 +11,36 @@ type ProductsTableProps = {
   products: ProductViewType[]
 }
 
-const ProductsTable: React.FC<ProductsTableProps> = ({ selectedItems, handleShow, products }) => {
-  const navigate = useNavigate();
-  const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState<string[]>([]);
+const ProductsTable: React.FC<ProductsTableProps> = ({
+  selectedItems,
+  handleShow,
+  products,
+}) => {
+  const navigate = useNavigate()
+  const [selectAll, setSelectAll] = useState(false)
+  const [isCheck, setIsCheck] = useState<string[]>([])
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setIsCheck(products?.map(li => li.product_id) ?? []);
+    setSelectAll(!selectAll)
+    setIsCheck(products?.map((li) => li.product_id) ?? [])
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    const { id, checked } = e.target;
-    setSelectAll(false);
-    setIsCheck([...isCheck, id]);
+  const handleClick = (e) => {
+    const { id, checked } = e.target
+    setSelectAll(false)
+    setIsCheck([...isCheck, id])
     if (!checked) {
-      setIsCheck(isCheck.filter(item => item !== id));
+      setIsCheck(isCheck.filter((item) => item !== id))
     }
-  };
+  }
 
   useEffect(() => {
-    selectedItems(isCheck);
+    selectedItems(isCheck)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCheck]);
+  }, [isCheck])
 
   return (
     <>
@@ -85,7 +89,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ selectedItems, handleShow
                 </thead>
                 {/* Table body */}
                 <tbody className="text-sm divide-y divide-gray-200">
-                  {products.map(product => {
+                  {products.map((product) => {
                     return (
                       <Product
                         key={product.product_id}
@@ -97,7 +101,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ selectedItems, handleShow
                         handleClick={handleClick}
                         isChecked={isCheck.includes(product.product_id)}
                       />
-                    );
+                    )
                   })}
                 </tbody>
               </table>
@@ -109,15 +113,15 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ selectedItems, handleShow
           heading="No products yet"
           msg="Create some products to get started"
           action={{
-            name: 'Create product',
+            name: "Create product",
             func: () => {
-              navigate('/shop/products/new');
+              navigate("/shop/products/new")
             },
           }}
         />
       )}
     </>
-  );
+  )
 }
 
-export default ProductsTable;
+export default ProductsTable

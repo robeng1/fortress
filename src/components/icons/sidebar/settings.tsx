@@ -1,4 +1,4 @@
-export const SettingsIcon: React.FC<React.SVGAttributes<{}>> = props => (
+export const SettingsIcon: React.FC<React.SVGAttributes<{}>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -19,4 +19,4 @@ export const SettingsIcon: React.FC<React.SVGAttributes<{}>> = props => (
       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
     />
   </svg>
-);
+)

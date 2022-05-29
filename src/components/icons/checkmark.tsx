@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 export const CheckMark = ({ ...props }) => {
   return (
     <svg
@@ -15,5 +15,5 @@ export const CheckMark = ({ ...props }) => {
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}

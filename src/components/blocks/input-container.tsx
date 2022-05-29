@@ -1,13 +1,13 @@
-import React from 'react';
-import clsx from 'clsx';
-import { MouseEventHandler } from 'react';
+import React from "react"
+import clsx from "clsx"
+import { MouseEventHandler } from "react"
 
 type InputContainerProps = React.HTMLAttributes<HTMLDivElement> & {
-  key?: string;
-  className?: string;
-  onClick?: MouseEventHandler<HTMLDivElement>;
-  onFocusLost?: () => void;
-};
+  key?: string
+  className?: string
+  onClick?: MouseEventHandler<HTMLDivElement>
+  onFocusLost?: () => void
+}
 
 const InputContainer: React.FC<InputContainerProps> = ({
   key,
@@ -23,9 +23,9 @@ const InputContainer: React.FC<InputContainerProps> = ({
       key={key}
       tabIndex={-1}
       onClick={onClick}
-      onBlur={e => {
+      onBlur={(e) => {
         if (onFocusLost && !e.currentTarget.contains(e.relatedTarget)) {
-          onFocusLost();
+          onFocusLost()
         }
       }}
       className={clsx([
@@ -35,7 +35,7 @@ const InputContainer: React.FC<InputContainerProps> = ({
     >
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default InputContainer;
+export default InputContainer

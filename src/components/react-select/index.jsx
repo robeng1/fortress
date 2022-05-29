@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import Select from 'react-select';
-import AsyncCreatableSelect from 'react-select/async-creatable';
+import React from "react"
+import styled from "@emotion/styled"
+import Select from "react-select"
+import AsyncCreatableSelect from "react-select/async-creatable"
 
 const StyledSelect = styled(Select)`
   font-size: 14px;
@@ -32,7 +32,7 @@ const StyledSelect = styled(Select)`
       border-color: transparent;
     }
   }
-`;
+`
 
 const StyledCreatableSelect = styled(AsyncCreatableSelect)`
   font-size: 14px;
@@ -63,46 +63,46 @@ const StyledCreatableSelect = styled(AsyncCreatableSelect)`
       border-color: transparent;
     }
   }
-`;
+`
 
 const customSelectStyles = {
-  menuPortal: base => ({
+  menuPortal: (base) => ({
     ...base,
     zIndex: 9999,
-    fontSize: '14px',
+    fontSize: "14px",
     fontFamily:
-      '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;',
+      "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;",
   }),
   placeholder: (provided, state) => ({
     ...provided,
   }),
   valueContainer: (provided, state) => ({
     ...provided,
-    height: '33px',
-    minHeight: '33px',
+    height: "33px",
+    minHeight: "33px",
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
-    height: '33px',
+    height: "33px",
   }),
   input: (provided, state) => ({
     ...provided,
-    height: '26px',
+    height: "26px",
   }),
-};
+}
 
 export const ReactSelect = React.forwardRef(
   (
     {
       options = [],
-      placeholder = '',
+      placeholder = "",
       value,
       onChange,
       selectStyles,
       cacheOptions = true,
       ...props
     },
-    ref,
+    ref
   ) => {
     return (
       <StyledSelect
@@ -113,22 +113,22 @@ export const ReactSelect = React.forwardRef(
         options={options}
         {...props}
       />
-    );
-  },
-);
+    )
+  }
+)
 
 export const ReactCreatableSelect = React.forwardRef(
   (
     {
       options = [],
-      placeholder = '',
+      placeholder = "",
       value,
       onChange,
       selectStyles,
       cacheOptions = true,
       ...props
     },
-    ref,
+    ref
   ) => {
     return (
       <StyledCreatableSelect
@@ -142,6 +142,6 @@ export const ReactCreatableSelect = React.forwardRef(
         options={options}
         {...props}
       />
-    );
-  },
-);
+    )
+  }
+)

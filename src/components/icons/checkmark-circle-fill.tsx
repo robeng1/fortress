@@ -6,5 +6,5 @@ export const CheckMarkFill = ({ ...props }) => {
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}

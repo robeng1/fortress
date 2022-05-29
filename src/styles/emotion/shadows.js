@@ -116,4 +116,4 @@ export default {
       rgba(59,119,255, 0.25) 0px 3px 9px 0px;
       rgba(59,119,255, 0.25) 0px 2px 5px 0px;
     `,
-};
+}

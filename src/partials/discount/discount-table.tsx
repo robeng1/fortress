@@ -1,15 +1,18 @@
-import React from 'react';
-import EmptyState from 'partials/empty-state';
-import DiscountList from './mobile/discount-list';
-import { useNavigate } from 'react-router-dom';
-import { DiscountViewType } from 'typings/discount/discount-type';
+import React from "react"
+import EmptyState from "partials/empty-state"
+import DiscountList from "./mobile/discount-list"
+import { useNavigate } from "react-router-dom"
+import { DiscountViewType } from "typings/discount/discount-type"
 
 type DiscountTableProps = {
   selectedItems: (items: string[]) => void
   discounts: DiscountViewType[]
 }
-const DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts }) => {
-  const navigate = useNavigate();
+const DiscountTable: React.FC<DiscountTableProps> = ({
+  selectedItems,
+  discounts,
+}) => {
+  const navigate = useNavigate()
   return (
     <>
       {discounts.length > 0 ? (
@@ -49,7 +52,7 @@ const DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts 
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {discounts.map(discount => (
+                      {discounts.map((discount) => (
                         <tr key={discount.discount_id}>
                           <td className="px-6 py-2 whitespace-nowrap">
                             <div className="flex items-center">
@@ -65,9 +68,12 @@ const DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts 
                               <div className="ml-4">
                                 <div
                                   onClick={() => {
-                                    navigate(`/discounts/${discount.discount_id}`)
+                                    navigate(
+                                      `/discounts/${discount.discount_id}`
+                                    )
                                   }}
-                                  className="text-sm font-medium text-gray-900 cursor-pointer hover:underline">
+                                  className="text-sm font-medium text-gray-900 cursor-pointer hover:underline"
+                                >
                                   {discount.name}
                                 </div>
                                 <div className="text-sm text-gray-500 ">
@@ -78,12 +84,14 @@ const DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts 
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {discount.type === 'Site' ? 'Automatic' : 'Manual'}
+                              {discount.type === "Site"
+                                ? "Automatic"
+                                : "Manual"}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              {discount.active ? 'Active' : 'Inactive'}
+                              {discount.active ? "Active" : "Inactive"}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -103,13 +111,13 @@ const DiscountTable: React.FC<DiscountTableProps> = ({ selectedItems, discounts 
           heading="No discounts yet"
           msg="Create some discounts to get started"
           action={{
-            name: 'Create discount',
-            func: () => navigate('/discounts/new'),
+            name: "Create discount",
+            func: () => navigate("/discounts/new"),
           }}
         />
       )}
     </>
-  );
+  )
 }
 
-export default DiscountTable;
+export default DiscountTable

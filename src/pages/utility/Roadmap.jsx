@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react"
 
-import Sidebar from '../../partials/sidebar';
-import Header from '../../partials/header';
+import Sidebar from "../../partials/sidebar"
+import Header from "../../partials/header"
 
-import User01 from '../../images/user-28-01.jpg';
-import User02 from '../../images/user-28-02.jpg';
-import User03 from '../../images/user-28-03.jpg';
-import User05 from '../../images/user-28-05.jpg';
-import User06 from '../../images/user-28-06.jpg';
-import User08 from '../../images/user-28-08.jpg';
-import User09 from '../../images/user-28-09.jpg';
+import User01 from "../../images/user-28-01.jpg"
+import User02 from "../../images/user-28-02.jpg"
+import User03 from "../../images/user-28-03.jpg"
+import User05 from "../../images/user-28-05.jpg"
+import User06 from "../../images/user-28-06.jpg"
+import User08 from "../../images/user-28-08.jpg"
+import User09 from "../../images/user-28-09.jpg"
 
 function Roadmap() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -604,7 +604,7 @@ function Roadmap() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default Roadmap;
+export default Roadmap

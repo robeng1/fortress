@@ -1,29 +1,31 @@
-import useModal from 'hooks/use-modal';
-import useShop from 'hooks/use-shop';
-import * as React from 'react';
-import { InventoryViewType } from 'typings/inventory/inventory-type';
-import { mToSFormatted, pesosRawMoney } from 'utils/money';
-import { proxyURL } from 'utils/urlsigner';
-import VariantEditor from '../editor';
+import useModal from "hooks/use-modal"
+import useShop from "hooks/use-shop"
+import * as React from "react"
+import { InventoryViewType } from "typings/inventory/inventory-type"
+import { mToSFormatted, pesosRawMoney } from "utils/money"
+import { proxyURL } from "utils/urlsigner"
+import VariantEditor from "../editor"
 
 type MobileVariantManagerProps = {
   handleClick?: (e: any) => void
-  isChecked?: boolean,
+  isChecked?: boolean
   product: InventoryViewType
 }
 
-const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) => {
-  const { isOpen, handleOpen, handleClose } = useModal(false);
-  const { shop } = useShop();
-  const statusColor = stock => {
-    if (stock > 0){
-      return 'bg-green-100 text-green-600';
+const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({
+  product,
+}) => {
+  const { isOpen, handleOpen, handleClose } = useModal(false)
+  const { shop } = useShop()
+  const statusColor = (stock) => {
+    if (stock > 0) {
+      return "bg-green-100 text-green-600"
     }
-    return 'bg-red-100 text-red-600';
-  };
-  const { image_url, price_excl_tax, title, num_in_stock } = product;
+    return "bg-red-100 text-red-600"
+  }
+  const { image_url, price_excl_tax, title, num_in_stock } = product
   return (
-    <main className='flex flex-1 cursor-pointer' onClick={handleOpen}>
+    <main className="flex flex-1 cursor-pointer" onClick={handleOpen}>
       <div className="flex-shrink-0 w-[48px] h-[48px] align-middle self-center cursor-pointer justify-center border border-gray-100 rounded-md overflow-hidden">
         <img
           src={proxyURL(image_url, 50, 50)}
@@ -43,17 +45,27 @@ const MobileVarianManager: React.FC<MobileVariantManagerProps> = ({ product }) =
         <div className="flex justify-between align-bottom text-base font-medium text-gray-900">
           <p
             className={`mt-1 text-sm text-gray-500 rounded text-center py-0.5 px-2 ${statusColor(
-              num_in_stock,
+              num_in_stock
             )}`}
           >
             {num_in_stock} In stock
           </p>
-          <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">{mToSFormatted({ amount: price_excl_tax, currency: shop?.currency?.iso_code ?? 'GHS' })}</p>
+          <p className="mt-1 ml-4 text-sm text-gray-500 py-0.5">
+            {mToSFormatted({
+              amount: price_excl_tax,
+              currency: shop?.currency?.iso_code ?? "GHS",
+            })}
+          </p>
         </div>
       </div>
-      <VariantEditor product={product} isOpen={isOpen} handleOpen={handleOpen} handleClose={handleClose} />
+      <VariantEditor
+        product={product}
+        isOpen={isOpen}
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+      />
     </main>
-  );
+  )
 }
 
-export default MobileVarianManager;
+export default MobileVarianManager

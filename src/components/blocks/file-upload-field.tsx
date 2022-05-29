@@ -1,14 +1,14 @@
-import clsx from 'clsx';
-import React, { useRef, useState } from 'react';
+import clsx from "clsx"
+import React, { useRef, useState } from "react"
 
 type FileUploadFieldProps = {
-  onFileChosen: (files: any[]) => void;
-  filetypes: string[];
-  errorMessage?: string;
-  placeholder?: string;
-  className?: string;
-  multiple?: boolean;
-};
+  onFileChosen: (files: any[]) => void
+  filetypes: string[]
+  errorMessage?: string
+  placeholder?: string
+  className?: string
+  multiple?: boolean
+}
 
 const FileUploadField: React.FC<FileUploadFieldProps> = ({
   onFileChosen,
@@ -18,28 +18,28 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
   multiple,
   className,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [fileUploadError, setFileUploadError] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [fileUploadError, setFileUploadError] = useState(false)
 
-  const handleFileUpload = e => {
-    onFileChosen(Array.from(e.target.files));
-  };
+  const handleFileUpload = (e) => {
+    onFileChosen(Array.from(e.target.files))
+  }
 
-  const handleFileDrop = e => {
-    setFileUploadError(false);
+  const handleFileDrop = (e) => {
+    setFileUploadError(false)
 
-    e.preventDefault();
+    e.preventDefault()
 
-    const files: unknown[] = [];
+    const files: unknown[] = []
 
     if (e.dataTransfer.items) {
       // Use DataTransferItemList interface to access the file(s)
       for (let i = 0; i < e.dataTransfer.items.length; i++) {
         // If dropped items aren't files, reject them
-        if (e.dataTransfer.items[i].kind === 'file') {
-          const file = e.dataTransfer.items[i].getAsFile();
+        if (e.dataTransfer.items[i].kind === "file") {
+          const file = e.dataTransfer.items[i].getAsFile()
           if (filetypes.indexOf(file.type) > -1) {
-            files.push(file);
+            files.push(file)
           }
         }
       }
@@ -47,49 +47,49 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
       // Use DataTransfer interface to access the file(s)
       for (let i = 0; i < e.dataTransfer.files.length; i++) {
         if (filetypes.indexOf(e.dataTransfer.files[i].type) > -1) {
-          files.push(e.dataTransfer.files[i]);
+          files.push(e.dataTransfer.files[i])
         }
       }
     }
     if (files.length === 1) {
-      onFileChosen(files);
+      onFileChosen(files)
     } else {
-      setFileUploadError(true);
+      setFileUploadError(true)
     }
-  };
+  }
 
   return (
     <div
       onClick={() => inputRef?.current?.click()}
       onDrop={handleFileDrop}
-      onDragOver={e => e.preventDefault()}
+      onDragOver={(e) => e.preventDefault()}
       className={clsx(
-        'flex flex-col select-none inter-base-regular text-grey-50 cursor-pointer items-center justify-center w-full h-full rounded-rounded border-2 border-dashed border-grey-20 transition-colors hover:border-purple-60 hover:text-grey-40',
-        className,
+        "flex flex-col select-none inter-base-regular text-grey-50 cursor-pointer items-center justify-center w-full h-full rounded-rounded border-2 border-dashed border-grey-20 transition-colors hover:border-purple-60 hover:text-grey-40",
+        className
       )}
     >
       <div className="flex flex-col items-center">
         <p>
-          Drop your images here, or{' '}
+          Drop your images here, or{" "}
           <span className="text-purple-60">click to browse</span>
         </p>
         {placeholder}
       </div>
       {fileUploadError && (
         <span className="text-rose-60">
-          {errorMessage || 'Please upload an image file'}
+          {errorMessage || "Please upload an image file"}
         </span>
       )}
       <input
         ref={inputRef}
-        accept={filetypes.join(', ')}
+        accept={filetypes.join(", ")}
         type="file"
         multiple={multiple}
         onChange={handleFileUpload}
         className="hidden"
       />
     </div>
-  );
-};
+  )
+}
 
-export default FileUploadField;
+export default FileUploadField

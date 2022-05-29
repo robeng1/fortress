@@ -1,34 +1,34 @@
-import React, { useRef, useEffect } from 'react';
-import { NavLink as Link } from 'react-router-dom';
-import Transition from '../utils/transition';
+import React, { useRef, useEffect } from "react"
+import { NavLink as Link } from "react-router-dom"
+import Transition from "../utils/transition"
 
 function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
-  const modalContent = useRef(null);
-  const searchInput = useRef(null);
+  const modalContent = useRef(null)
+  const searchInput = useRef(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!modalOpen || modalContent.current.contains(target)) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+      if (!modalOpen || modalContent.current.contains(target)) return
+      setModalOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!modalOpen || keyCode !== 27) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!modalOpen || keyCode !== 27) return
+      setModalOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   useEffect(() => {
-    modalOpen && searchInput.current.focus();
-  }, [modalOpen]);
+    modalOpen && searchInput.current.focus()
+  }, [modalOpen])
 
   return (
     <>
@@ -194,7 +194,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
         </div>
       </Transition>
     </>
-  );
+  )
 }
 
-export default ModalSearch;
+export default ModalSearch

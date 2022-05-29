@@ -1,19 +1,17 @@
 import React from "react"
 import { toast } from "react-hot-toast"
-import Notification, {
-  NotificationTypes,
-} from "components/blocks/notification"
+import Notification, { NotificationTypes } from "components/blocks/notification"
 
 const useNotification = () => {
   return (title: string, message: string, type: NotificationTypes) => {
     toast.custom(
       (t) => (
-        <Notification toast= { t } type = { type } title = { title } message = { message } />
+        <Notification toast={t} type={type} title={title} message={message} />
       ),
-    {
-      position: "top-right",
-      duration: 3000,
-    }
+      {
+        position: "top-right",
+        duration: 3000,
+      }
     )
   }
 }

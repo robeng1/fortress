@@ -1,81 +1,79 @@
-import React, { useState } from 'react';
-import toast from 'react-hot-toast';
-import { Formik } from 'formik';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-} from 'react-places-autocomplete';
-import { LocationType } from 'typings/inventory/inventory-type';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { request, ResponseError } from 'utils/request';
-import { fortressURL } from 'endpoints/urls';
-import useShop from 'hooks/use-shop';
-import { Loading } from 'components/blocks/backdrop';
-import { getAddress } from 'typings/settings/shop-type';
-import { useNavigate } from 'react-router-dom';
-import { useOnboarding } from 'hooks/use-onboarding';
+import React, { useState } from "react"
+import toast from "react-hot-toast"
+import { Formik } from "formik"
+import PlacesAutocomplete, { geocodeByAddress } from "react-places-autocomplete"
+import { LocationType } from "typings/inventory/inventory-type"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+import { request, ResponseError } from "utils/request"
+import { fortressURL } from "endpoints/urls"
+import useShop from "hooks/use-shop"
+import { Loading } from "components/blocks/backdrop"
+import { getAddress } from "typings/settings/shop-type"
+import { useNavigate } from "react-router-dom"
+import { useOnboarding } from "hooks/use-onboarding"
 
 type FieldSetter = (field: string, value: any, sv?: boolean | undefined) => void
 type AddressHandler = (address: string, placeId: string) => void
 
 function LocationsForm({ id }) {
-  useOnboarding();
-  const navigate = useNavigate();
-  const klient = useQueryClient();
-  const { shop } = useShop();
-  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/centres`;
-  const [centreId, setCentreId] = useState(id);
-  const [showFields, setShowFields] = useState<boolean>(false);
+  useOnboarding()
+  const navigate = useNavigate()
+  const klient = useQueryClient()
+  const { shop } = useShop()
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/centres`
+  const [centreId, setCentreId] = useState(id)
+  const [showFields, setShowFields] = useState<boolean>(false)
 
   // query for getting the collection
   const { data: centre } = useQuery<LocationType>(
-    ['location', centreId],
+    ["location", centreId],
     async () => await request(`${requestURL}/${centreId}`),
     {
       // The query will not execute until the centre exists
       enabled: !!centreId,
       keepPreviousData: true,
-    },
-  );
+    }
+  )
 
   const initialValues: LocationType = {
     shop_id: shop?.shop_id,
-    centre_id: centreId || '',
-    name: centre?.name || '',
-    description: centre?.description || '',
+    centre_id: centreId || "",
+    name: centre?.name || "",
+    description: centre?.description || "",
     is_pick_up_centre: centre?.is_pick_up_centre || true,
     is_active: centre?.is_active || true,
     longitude: centre?.longitude || 10.099,
     latitude: centre?.latitude || 123.243,
     address: {
-      street: centre?.address?.street || '',
-      city: centre?.address?.city || '',
-      province: centre?.address?.province || '',
-      area: centre?.address?.area || '',
-      country: centre?.address?.country || '',
+      street: centre?.address?.street || "",
+      city: centre?.address?.city || "",
+      province: centre?.address?.province || "",
+      area: centre?.address?.area || "",
+      country: centre?.address?.country || "",
     },
-  };
+  }
   const handleSelect = (sf: FieldSetter): AddressHandler => {
     return (address: string, placeId: string) => {
       geocodeByAddress(address)
-        .then(results => {
+        .then((results) => {
           const result = results[0]
           if (result) {
             const loc = getAddress(result)
             const raw = JSON.stringify(loc)
-            sf('address.street', loc.route)
-            sf('address.city', loc.locality)
-            sf('address.area', loc.sublocality_level_1)
-            sf('address.province', loc.administrative_area_level_1)
-            sf('address.country', loc.country)
-            sf('address.description', address, true)
-            sf('address.raw', raw)
-            sf('address.longitude', loc.lng)
-            sf('address.latitude', loc.lat)
-            sf('address.place_id', placeId)
+            sf("address.street", loc.route)
+            sf("address.city", loc.locality)
+            sf("address.area", loc.sublocality_level_1)
+            sf("address.province", loc.administrative_area_level_1)
+            sf("address.country", loc.country)
+            sf("address.description", address, true)
+            sf("address.raw", raw)
+            sf("address.longitude", loc.lng)
+            sf("address.latitude", loc.lat)
+            sf("address.place_id", placeId)
             setShowFields(true)
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // do smth with this error
         })
     }
@@ -85,38 +83,37 @@ function LocationsForm({ id }) {
   const { mutate: createLocation, isLoading: isCreatingLocation } = useMutation(
     (payload: LocationType) =>
       request(requestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newLocation: LocationType) => {
-        setCentreId(newLocation.centre_id);
-        klient.setQueryData(['location', newLocation.centre_id], newLocation);
-        toast.success('Location created successfully');
-        navigate('/')
-
+        setCentreId(newLocation.centre_id)
+        klient.setQueryData(["location", newLocation.centre_id], newLocation)
+        toast.success("Location created successfully")
+        navigate("/")
       },
       onError: (e: ResponseError) => {
-        toast.error('Location creation failed due to ' + e.message);
+        toast.error("Location creation failed due to " + e.message)
       },
-    },
-  );
+    }
+  )
 
   // update the collection
   const { mutate: updateLocation, isLoading: isUpdatingLocation } = useMutation(
     (payload: LocationType) =>
       request(`${requestURL}/${centreId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newLocation: LocationType) => {
-        setCentreId(newLocation.centre_id);
-        klient.setQueryData(['location', newLocation.centre_id], newLocation);
+        setCentreId(newLocation.centre_id)
+        klient.setQueryData(["location", newLocation.centre_id], newLocation)
       },
-      onError: (e: ResponseError) => { },
-    },
-  );
+      onError: (e: ResponseError) => {},
+    }
+  )
 
   return (
     <div>
@@ -125,13 +122,13 @@ function LocationsForm({ id }) {
         enableReinitialize
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          if (!centreId || centreId === '') {
-            createLocation({ ...values });
+          if (!centreId || centreId === "") {
+            createLocation({ ...values })
           } else {
-            updateLocation({ ...values });
+            updateLocation({ ...values })
           }
 
-          setSubmitting(false);
+          setSubmitting(false)
         }}
       >
         {({
@@ -179,7 +176,7 @@ function LocationsForm({ id }) {
                     <PlacesAutocomplete
                       value={values.description}
                       onSelect={handleSelect(setFieldValue)}
-                      onChange={v => setFieldValue('description', v)}
+                      onChange={(v) => setFieldValue("description", v)}
                     >
                       {({
                         getInputProps,
@@ -317,9 +314,9 @@ function LocationsForm({ id }) {
               <div className="flex flex-col px-6 py-5 md:border-t md:border-gray-200">
                 <div className="flex self-end">
                   <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -332,7 +329,7 @@ function LocationsForm({ id }) {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default LocationsForm;
+export default LocationsForm

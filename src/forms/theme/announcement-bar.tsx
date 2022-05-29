@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
-import { Formik } from 'formik';
-import { Buffer } from 'buffer';
-import { useThemeMutation } from 'hooks/use-theme-mutation';
-import { useNavigate } from 'react-router-dom';
-import { Loading } from 'components/blocks/backdrop';
+import React, { useState } from "react"
+import { Formik } from "formik"
+import { Buffer } from "buffer"
+import { useThemeMutation } from "hooks/use-theme-mutation"
+import { useNavigate } from "react-router-dom"
+import { Loading } from "components/blocks/backdrop"
 
 function AnnouncementBar() {
-  const navigate = useNavigate();
-  const { theme, config, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
+  const navigate = useNavigate()
+  const { theme, config, update, isUpdatingTheme, isLoadingTheme } =
+    useThemeMutation()
   const initialValues =
     config &&
     config.settings &&
     (config?.settings as Record<string, any>).sections
       ? (config?.settings as Record<string, any>).sections[
-          'layout-announcement-bar'
+          "layout-announcement-bar"
         ]
         ? (config?.settings as Record<string, any>).sections[
-            'layout-announcement-bar'
-          ]['settings'] ?? {}
+            "layout-announcement-bar"
+          ]["settings"] ?? {}
         : {}
-      : {};
+      : {}
   return (
     <div>
       <Loading open={isUpdatingTheme || isLoadingTheme} />
@@ -28,32 +29,32 @@ function AnnouncementBar() {
         initialValues={{
           visible: false,
           home_page_only: true,
-          content: '',
+          content: "",
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values };
-          let cfg = config;
-          if (!cfg) cfg = {};
-          if (!cfg.settings) cfg.settings = {};
+          const vals = { ...values }
+          let cfg = config
+          if (!cfg) cfg = {}
+          if (!cfg.settings) cfg.settings = {}
           cfg.settings = {
             ...(cfg?.settings as Record<string, any>),
             sections: {
-              ...cfg.settings['sections'],
-              'layout-announcement-bar': {
-                ...cfg.settings['sections']['layout-announcement-bar'],
+              ...cfg.settings["sections"],
+              "layout-announcement-bar": {
+                ...cfg.settings["sections"]["layout-announcement-bar"],
                 settings: { ...vals },
               },
             },
-          };
+          }
           update({
             ...theme,
             config: {
               ...cfg,
-              settings: cfg.settings
+              settings: cfg.settings,
             },
-          });
-          setSubmitting(false);
+          })
+          setSubmitting(false)
         }}
       >
         {({
@@ -136,9 +137,9 @@ function AnnouncementBar() {
                     Cancel
                   </button>
                   <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -151,7 +152,7 @@ function AnnouncementBar() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default AnnouncementBar;
+export default AnnouncementBar

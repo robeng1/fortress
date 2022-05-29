@@ -1,41 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import VariantManager from './variant-manager';
-import VarianList from './mobile/variant-list';
-import EmptyState from 'partials/empty-state';
-import { InventoryViewListType } from 'typings/inventory/inventory-type';
+import React, { useState, useEffect } from "react"
+import isEmpty from "lodash/isEmpty"
+import VariantManager from "./variant-manager"
+import VarianList from "./mobile/variant-list"
+import EmptyState from "partials/empty-state"
+import { InventoryViewListType } from "typings/inventory/inventory-type"
 
 type VariantTableProps = {
   selectedItems: (items: string[]) => void
 } & InventoryViewListType
 
-const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedItems }) => {
-  const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState<string[]>([]);
+const VariantTable: React.FC<VariantTableProps> = ({
+  records,
+  total,
+  selectedItems,
+}) => {
+  const [selectAll, setSelectAll] = useState(false)
+  const [isCheck, setIsCheck] = useState<string[]>([])
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
+    setSelectAll(!selectAll)
     setIsCheck(
-      records?.map(li => `${li.product_id}-${li.variant_id}-${li.centre_id}`) ?? [],
-    );
+      records?.map(
+        (li) => `${li.product_id}-${li.variant_id}-${li.centre_id}`
+      ) ?? []
+    )
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    const { id, checked } = e.target;
-    setSelectAll(false);
-    setIsCheck([...isCheck, id]);
+  const handleClick = (e) => {
+    const { id, checked } = e.target
+    setSelectAll(false)
+    setIsCheck([...isCheck, id])
     if (!checked) {
-      setIsCheck(isCheck.filter(item => item !== id));
+      setIsCheck(isCheck.filter((item) => item !== id))
     }
-  };
+  }
 
   useEffect(() => {
-    selectedItems(isCheck);
+    selectedItems(isCheck)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCheck]);
+  }, [isCheck])
 
   return (
     <>
@@ -72,7 +78,7 @@ const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedIte
                     </th>
                     <th className="px-2 first:pl-3 last:pr-3 py-3 text-left whitespace-nowrap">
                       <div className="font-semibold">
-                        Price{' '}
+                        Price{" "}
                         {!isEmpty(records) && `(in ${records[0].currency})`}
                       </div>
                     </th>
@@ -89,11 +95,9 @@ const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedIte
                         key={`${index}`}
                         product={product}
                         handleClick={handleClick}
-                        isChecked={isCheck.includes(
-                          `${product.variant_id}`,
-                        )}
+                        isChecked={isCheck.includes(`${product.variant_id}`)}
                       />
-                    );
+                    )
                   })}
                 </tbody>
               </table>
@@ -108,7 +112,7 @@ const VariantTable: React.FC<VariantTableProps> = ({ records, total, selectedIte
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default VariantTable;
+export default VariantTable

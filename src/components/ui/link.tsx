@@ -1,4 +1,4 @@
-import {Link as RLink, LinkProps} from "react-router-dom";
+import { Link as RLink, LinkProps } from "react-router-dom"
 
 const Link: React.FC<LinkProps & { className?: string }> = ({
   to,
@@ -9,7 +9,7 @@ const Link: React.FC<LinkProps & { className?: string }> = ({
     <RLink to={to}>
       <a {...props}>{children}</a>
     </RLink>
-  );
-};
+  )
+}
 
-export default Link;
+export default Link

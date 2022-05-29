@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react"
 export const Revenue = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
   ...props
 }) => {
   return (
@@ -73,5 +73,5 @@ export const Revenue = ({
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}

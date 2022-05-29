@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Transition from '../../utils/Transition.js';
+import React, { useState, useRef, useEffect } from "react"
+import { Link } from "react-router-dom"
+import Transition from "../../utils/Transition.js"
 
 function SearchModal() {
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false)
 
-  const trigger = useRef(null);
-  const searchContent = useRef(null);
-  const searchInput = useRef(null);
+  const trigger = useRef(null)
+  const searchContent = useRef(null)
+  const searchInput = useRef(null)
 
   // close on click outside
   useEffect(() => {
@@ -17,22 +17,22 @@ function SearchModal() {
         searchContent.current.contains(target) ||
         trigger.current.contains(target)
       )
-        return;
-      setSearchOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+        return
+      setSearchOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!searchOpen || keyCode !== 27) return;
-      setSearchOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!searchOpen || keyCode !== 27) return
+      setSearchOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <div>
@@ -40,11 +40,11 @@ function SearchModal() {
       <button
         ref={trigger}
         className={`w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition duration-150 rounded-full ml-3 ${
-          searchOpen && 'bg-gray-200'
+          searchOpen && "bg-gray-200"
         }`}
         onClick={() => {
-          setSearchOpen(!searchOpen);
-          setImmediate(() => searchInput.current.focus());
+          setSearchOpen(!searchOpen)
+          setImmediate(() => searchInput.current.focus())
         }}
         aria-controls="search-modal"
       >
@@ -247,7 +247,7 @@ function SearchModal() {
                     <span>
                       <span className="font-medium text-gray-800 group-hover:text-white">
                         Messages
-                      </span>{' '}
+                      </span>{" "}
                       - Conversation / … / Mike Mills
                     </span>
                   </Link>
@@ -267,7 +267,7 @@ function SearchModal() {
                     <span>
                       <span className="font-medium text-gray-800 group-hover:text-white">
                         Messages
-                      </span>{' '}
+                      </span>{" "}
                       - Conversation / … / Eva Patrick
                     </span>
                   </Link>
@@ -278,7 +278,7 @@ function SearchModal() {
         </div>
       </Transition>
     </div>
-  );
+  )
 }
 
-export default SearchModal;
+export default SearchModal

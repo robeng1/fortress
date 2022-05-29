@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react"
 
-import Sidebar from '../../partials/sidebar';
-import Header from '../../partials/header';
+import Sidebar from "../../partials/sidebar"
+import Header from "../../partials/header"
 
 function EmptyState() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -85,7 +85,7 @@ function EmptyState() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default EmptyState;
+export default EmptyState

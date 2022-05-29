@@ -1,61 +1,61 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Transition from '../utils/transition';
+import React, { useState, useRef, useEffect } from "react"
+import Transition from "../utils/transition"
 
 function DropdownClassic() {
   const options = [
     {
       id: 0,
-      period: 'Today',
+      period: "Today",
     },
     {
       id: 1,
-      period: 'Last 7 Days',
+      period: "Last 7 Days",
     },
     {
       id: 2,
-      period: 'Last Month',
+      period: "Last Month",
     },
     {
       id: 3,
-      period: 'Last 12 Months',
+      period: "Last 12 Months",
     },
     {
       id: 4,
-      period: 'All Time',
+      period: "All Time",
     },
-  ];
+  ]
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selected, setSelected] = useState(2);
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [selected, setSelected] = useState(2)
 
-  const trigger = useRef(null);
-  const dropdown = useRef(null);
+  const trigger = useRef(null)
+  const dropdown = useRef(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!dropdown.current) return;
+      if (!dropdown.current) return
       if (
         !dropdownOpen ||
         dropdown.current.contains(target) ||
         trigger.current.contains(target)
       )
-        return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+        return
+      setDropdownOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!dropdownOpen || keyCode !== 27) return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!dropdownOpen || keyCode !== 27) return
+      setDropdownOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <div className="relative inline-flex">
@@ -96,22 +96,22 @@ function DropdownClassic() {
           onFocus={() => setDropdownOpen(true)}
           onBlur={() => setDropdownOpen(false)}
         >
-          {options.map(option => {
+          {options.map((option) => {
             return (
               <button
                 key={option.id}
                 tabIndex="0"
                 className={`flex items-center w-full hover:bg-gray-50 py-1 px-3 cursor-pointer ${
-                  option.id === selected && 'text-purple-500'
+                  option.id === selected && "text-purple-500"
                 }`}
                 onClick={() => {
-                  setSelected(option.id);
-                  setDropdownOpen(false);
+                  setSelected(option.id)
+                  setDropdownOpen(false)
                 }}
               >
                 <svg
                   className={`flex-shrink-0 mr-2 fill-current text-purple-500 ${
-                    option.id !== selected && 'invisible'
+                    option.id !== selected && "invisible"
                   }`}
                   width="12"
                   height="9"
@@ -121,12 +121,12 @@ function DropdownClassic() {
                 </svg>
                 <span>{option.period}</span>
               </button>
-            );
+            )
           })}
         </div>
       </Transition>
     </div>
-  );
+  )
 }
 
-export default DropdownClassic;
+export default DropdownClassic

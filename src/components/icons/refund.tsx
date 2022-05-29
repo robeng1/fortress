@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react"
 export const Refund = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
   ...props
 }) => {
   return (
@@ -233,5 +233,5 @@ export const Refund = ({
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}

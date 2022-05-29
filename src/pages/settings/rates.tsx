@@ -1,11 +1,11 @@
-import React, { lazy, useState } from 'react';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import RatesPanel from 'partials/settings/rates-panel';
-import { Link } from 'react-router-dom';
+import React, { lazy, useState } from "react"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import RatesPanel from "partials/settings/rates-panel"
+import { Link } from "react-router-dom"
 
 function Rates() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen">
@@ -18,7 +18,7 @@ function Rates() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={'Shipping'}
+          location={"Shipping"}
         />
         <div className="px-6 py-8 bg-slate-50 border border-slate-200 rounded-sm">
           <div className="text-start">
@@ -61,7 +61,7 @@ function Rates() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default Rates;
+export default Rates

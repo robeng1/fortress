@@ -1,97 +1,97 @@
-import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
-import { Box, Flex } from './reflexbox';
-import Typography from './typography';
+import styled from "@emotion/styled"
+import React, { useRef, useState } from "react"
+import { Box, Flex } from "./reflexbox"
+import Typography from "./typography"
 
-const ENTER_KEY = 13;
-const TAB_KEY = 9;
-const BACKSPACE_KEY = 8;
-const ARROW_LEFT_KEY = 37;
-const ARROW_RIGHT_KEY = 39;
+const ENTER_KEY = 13
+const TAB_KEY = 9
+const BACKSPACE_KEY = 8
+const ARROW_LEFT_KEY = 37
+const ARROW_RIGHT_KEY = 39
 
 const TagInput = ({ onChange, values, onBlur = () => {}, ...props }) => {
-  const [isFocused, setFocused] = useState(false);
-  const [highlighted, setHighlighted] = useState(-1);
-  const inputRef = useRef();
+  const [isFocused, setFocused] = useState(false)
+  const [highlighted, setHighlighted] = useState(-1)
+  const inputRef = useRef()
 
-  const handleKeyDown = e => {
-    const value = inputRef.current.value;
+  const handleKeyDown = (e) => {
+    const value = inputRef.current.value
 
     switch (e.keyCode) {
       case ARROW_LEFT_KEY:
         if (highlighted !== -1) {
           if (highlighted > 0) {
-            setHighlighted(highlighted - 1);
+            setHighlighted(highlighted - 1)
           }
         } else if (!inputRef.current.selectionStart) {
-          setHighlighted(values.length - 1);
-          e.preventDefault();
+          setHighlighted(values.length - 1)
+          e.preventDefault()
         }
-        break;
+        break
       case ARROW_RIGHT_KEY:
         if (highlighted !== -1) {
           if (highlighted < values.length - 1) {
-            setHighlighted(highlighted + 1);
-            e.preventDefault();
+            setHighlighted(highlighted + 1)
+            e.preventDefault()
           } else {
-            setHighlighted(-1);
+            setHighlighted(-1)
           }
         }
-        break;
+        break
       case ENTER_KEY: // Fall through
-        e.preventDefault();
+        e.preventDefault()
       case TAB_KEY:
         if (value) {
-          onChange([...values, value]);
-          inputRef.current.value = '';
-          e.preventDefault();
+          onChange([...values, value])
+          inputRef.current.value = ""
+          e.preventDefault()
         }
-        break;
+        break
 
       case BACKSPACE_KEY:
         if (!inputRef.current.selectionStart && highlighted === -1) {
-          setHighlighted(values.length - 1);
-          e.preventDefault();
+          setHighlighted(values.length - 1)
+          e.preventDefault()
         }
         if (highlighted !== -1) {
-          const newValues = [...values];
-          newValues.splice(highlighted, 1);
-          onChange(newValues);
-          setHighlighted(-1);
+          const newValues = [...values]
+          newValues.splice(highlighted, 1)
+          onChange(newValues)
+          setHighlighted(-1)
         }
-        break;
+        break
       default:
-        setHighlighted(-1);
+        setHighlighted(-1)
     }
-  };
+  }
 
-  const handleRemove = index => {
-    const newValues = [...values];
-    newValues.splice(index, 1);
-    onChange(newValues);
-  };
+  const handleRemove = (index) => {
+    const newValues = [...values]
+    newValues.splice(index, 1)
+    onChange(newValues)
+  }
 
   const handleBlur = () => {
-    setHighlighted(-1);
-    setFocused(false);
-    onBlur();
-  };
+    setHighlighted(-1)
+    setFocused(false)
+    onBlur()
+  }
 
   const handleFocus = () => {
-    setFocused(true);
-  };
-  <div class="flex-grow border-t border-gray-400"></div>
-  const handleInput = e => {
-    const value = inputRef.current.value;
-    if (value.endsWith(',')) {
-      onChange([...values, value.slice(0, -1)]);
-      inputRef.current.value = '';
+    setFocused(true)
+  }
+  ;<div class="flex-grow border-t border-gray-400"></div>
+  const handleInput = (e) => {
+    const value = inputRef.current.value
+    if (value.endsWith(",")) {
+      onChange([...values, value.slice(0, -1)])
+      inputRef.current.value = ""
     }
-  };
+  }
 
   return (
     <Wrapper
-      className={isFocused ? 'form-input' : ''}
+      className={isFocused ? "form-input" : ""}
       focused={isFocused}
       variant="forms.input"
     >
@@ -114,39 +114,39 @@ const TagInput = ({ onChange, values, onBlur = () => {}, ...props }) => {
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}
         onChange={handleInput}
-        placeholder={!values.length ? props.placeholder : ''}
+        placeholder={!values.length ? props.placeholder : ""}
         type="text"
       />
     </Wrapper>
-  );
-};
+  )
+}
 
 const Wrapper = styled(Flex)`
   flex-wrap: wrap;
   position: relative;
   align-items: center;
   font-size: 16px;
-`;
+`
 
 const Remove = styled.div`
   cursor: pointer;
   display: inline-block;
   padding-left: 5px;
-`;
+`
 
 const TextWrapper = styled.div`
   display: inline-block;
-`;
+`
 
 const TagBox = styled(Box)`
   white-space: nowrap;
   font-size: 16px;
-  ${props =>
+  ${(props) =>
     props.highlighted &&
     `
       box-shadow: ${props.theme.shadows.tagBoxShadow};
   `}
-`;
+`
 
 const StyledInput = styled.input`
   ${Typography.Base}
@@ -163,6 +163,6 @@ const StyledInput = styled.input`
   &::placeholder {
     opacity: 0.99;
   }
-`;
+`
 
-export default TagInput;
+export default TagInput

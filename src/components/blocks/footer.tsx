@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 export function Footer() {
   return (
@@ -24,5 +24,5 @@ export function Footer() {
         </a>
       </nav>
     </footer>
-  );
+  )
 }

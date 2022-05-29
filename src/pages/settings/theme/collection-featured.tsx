@@ -1,13 +1,13 @@
-import Banner from 'forms/theme/banner';
-import SectionCollection from 'forms/theme/section-collection';
-import Header from 'partials/header';
-import Sidebar from 'partials/sidebar';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Banner from "forms/theme/banner"
+import SectionCollection from "forms/theme/section-collection"
+import Header from "partials/header"
+import Sidebar from "partials/sidebar"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function FeaturedCollection() {
-  const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -59,7 +59,7 @@ function FeaturedCollection() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default FeaturedCollection;
+export default FeaturedCollection

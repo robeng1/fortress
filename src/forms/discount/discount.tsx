@@ -1,95 +1,113 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { Formik } from 'formik';
-import { fortressURL } from 'endpoints/urls';
-import { DiscountType } from 'typings/discount/discount-type';
-import { request, ResponseError } from 'utils/request';
-import useShop from 'hooks/use-shop';
-import { initialValues } from './values';
-import { discountToValues, valuesToDiscount } from './utils';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ABSOLUTE, ALL_PRODUCTS, BUY_X_GET_Y, COUNT, COVERAGE, FIXED_PRICE, FREE, MULTIBUY, NONE, PERCENTAGE, SITE, SPECIFIC_COLLECTIONS, SPECIFIC_PRODUCTS, VALUE, VOUCHER } from './consts';
-import ProductSelector from 'components/blocks/product-selector';
-import CollectionSelector from 'components/blocks/collection-selector';
-import { useOnboarding } from 'hooks/use-onboarding';
-import InputHeader from 'components/blocks/input-header';
+import * as React from "react"
+import { useState, useEffect } from "react"
+import toast from "react-hot-toast"
+import { useQuery, useMutation, useQueryClient } from "react-query"
+import { Formik } from "formik"
+import { fortressURL } from "endpoints/urls"
+import { DiscountType } from "typings/discount/discount-type"
+import { request, ResponseError } from "utils/request"
+import useShop from "hooks/use-shop"
+import { initialValues } from "./values"
+import { discountToValues, valuesToDiscount } from "./utils"
+import { useLocation, useNavigate } from "react-router-dom"
+import {
+  ABSOLUTE,
+  ALL_PRODUCTS,
+  BUY_X_GET_Y,
+  COUNT,
+  COVERAGE,
+  FIXED_PRICE,
+  FREE,
+  MULTIBUY,
+  NONE,
+  PERCENTAGE,
+  SITE,
+  SPECIFIC_COLLECTIONS,
+  SPECIFIC_PRODUCTS,
+  VALUE,
+  VOUCHER,
+} from "./consts"
+import ProductSelector from "components/blocks/product-selector"
+import CollectionSelector from "components/blocks/collection-selector"
+import { useOnboarding } from "hooks/use-onboarding"
+import InputHeader from "components/blocks/input-header"
 
 const DiscountForm = ({ id }) => {
-  const location = useLocation();
-  const { pathname } = location;
-  useOnboarding(pathname);
-  const navigate = useNavigate();
-  const klient = useQueryClient();
-  const { shop } = useShop();
-  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`;
-  const [discountId, setDiscountId] = useState(id);
+  const location = useLocation()
+  const { pathname } = location
+  useOnboarding(pathname)
+  const navigate = useNavigate()
+  const klient = useQueryClient()
+  const { shop } = useShop()
+  const requestURL = `${fortressURL}/shops/${shop?.shop_id}/offers`
+  const [discountId, setDiscountId] = useState(id)
 
   // query for getting the discount, TODO: create a hook for this?
   const { data: discount, isLoading } = useQuery<DiscountType>(
-    ['discount', discountId],
+    ["discount", discountId],
     async () => await request(`${requestURL}/${discountId}`),
     {
       // The query will not execute until the discountId exists
       enabled: !!discountId,
       keepPreviousData: true,
-    },
-  );
+    }
+  )
 
   // TODO: hook this up since it's already baked in the backend
   // const [image, setImage] = useState(discount?.image?.image_url);
 
   // this is only useful for controlling which queries should be
   // enabled to prevent react-query from running all the quries
-  const [isBx, setIsBx] = useState<boolean>(false);
+  const [isBx, setIsBx] = useState<boolean>(false)
 
   // create the discount, TODO: should be moved into a hook
-  const { mutateAsync: createDiscount, isLoading: isCreatingDiscount } = useMutation(
-    (payload: DiscountType) =>
-      request(requestURL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      }),
-    {
-      onSuccess: (newDiscount: DiscountType) => {
-        setDiscountId(newDiscount.discount_id);
-        klient.setQueryData(['discount', discountId], newDiscount);
-        toast.success('Discount created successfully');
-      },
-      onError: (e: ResponseError) => {
-        toast.error(e.message);
-      },
-    },
-  );
+  const { mutateAsync: createDiscount, isLoading: isCreatingDiscount } =
+    useMutation(
+      (payload: DiscountType) =>
+        request(requestURL, {
+          method: "POST",
+          body: JSON.stringify(payload),
+        }),
+      {
+        onSuccess: (newDiscount: DiscountType) => {
+          setDiscountId(newDiscount.discount_id)
+          klient.setQueryData(["discount", discountId], newDiscount)
+          toast.success("Discount created successfully")
+        },
+        onError: (e: ResponseError) => {
+          toast.error(e.message)
+        },
+      }
+    )
 
   // update the update TODO: should be moved into a hook
-  const { mutateAsync: updateDiscount, isLoading: isUpdatingDiscount } = useMutation(
-    (payload: DiscountType) =>
-      request(`${requestURL}/${discountId}`, {
-        method: 'PATCH',
-        body: JSON.stringify(payload),
-      }),
-    {
-      onSuccess: (newDiscount: DiscountType) => {
-        setDiscountId(newDiscount.discount_id);
-        klient.setQueryData(['discount', discountId], newDiscount);
-        toast('Discount updated successfully');
-      },
-      onError: (e: ResponseError) => {
-        toast(e.message);
-      },
-    },
-  );
+  const { mutateAsync: updateDiscount, isLoading: isUpdatingDiscount } =
+    useMutation(
+      (payload: DiscountType) =>
+        request(`${requestURL}/${discountId}`, {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+        }),
+      {
+        onSuccess: (newDiscount: DiscountType) => {
+          setDiscountId(newDiscount.discount_id)
+          klient.setQueryData(["discount", discountId], newDiscount)
+          toast("Discount updated successfully")
+        },
+        onError: (e: ResponseError) => {
+          toast(e.message)
+        },
+      }
+    )
 
   const initialVals = {
     ...initialValues,
     ...discountToValues(discount, shop),
-  };
+  }
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("Fetching data", {id: "discount-fetching"})
+      toast.loading("Fetching data", { id: "discount-fetching" })
     } else {
       toast.dismiss("discount-fetching")
     }
@@ -112,21 +130,22 @@ const DiscountForm = ({ id }) => {
                 {
                   loading: "Updating discount",
                   success: null,
-                  error: null
+                  error: null,
                 }
               )
             } else {
-              toast.promise(createDiscount({
-                ...valuesToDiscount({ ...values }, shop),
-              }),
+              toast.promise(
+                createDiscount({
+                  ...valuesToDiscount({ ...values }, shop),
+                }),
                 {
                   loading: "Creating discount",
                   success: null,
-                  error: null
+                  error: null,
                 }
               )
             }
-            setSubmitting(false);
+            setSubmitting(false)
           }}
         >
           {({
@@ -143,7 +162,10 @@ const DiscountForm = ({ id }) => {
                   <section className="rounded bg-white shadow p-3">
                     <div className="flex items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
-                        <InputHeader label='Title' tooltipContent='This will be displayed in the customer&apos;s cart' />
+                        <InputHeader
+                          label="Title"
+                          tooltipContent="This will be displayed in the customer's cart"
+                        />
                         <input
                           id="title"
                           name="title"
@@ -159,7 +181,10 @@ const DiscountForm = ({ id }) => {
                     </div>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
-                        <InputHeader label='Discount Type' tooltipContent='Manual discounts require the customer to enter a code to activate, automatic gets applied automatically to the customer&apos;s cart provided the necessary conditons are met' />
+                        <InputHeader
+                          label="Discount Type"
+                          tooltipContent="Manual discounts require the customer to enter a code to activate, automatic gets applied automatically to the customer's cart provided the necessary conditons are met"
+                        />
                         <select
                           name="type"
                           onChange={handleChange}
@@ -192,9 +217,9 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="incentive_type"
                               className="form-radio"
-                              onChange={e => {
-                                setFieldValue('incentive_type', PERCENTAGE);
-                                setIsBx(false);
+                              onChange={(e) => {
+                                setFieldValue("incentive_type", PERCENTAGE)
+                                setIsBx(false)
                               }}
                               checked={values.incentive_type === PERCENTAGE}
                               value={values.incentive_type}
@@ -208,16 +233,11 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="incentive_type"
                               className="form-radio"
-                              onChange={e => {
-                                setFieldValue(
-                                  'incentive_type',
-                                  ABSOLUTE,
-                                );
-                                setIsBx(false);
+                              onChange={(e) => {
+                                setFieldValue("incentive_type", ABSOLUTE)
+                                setIsBx(false)
                               }}
-                              checked={
-                                values.incentive_type === ABSOLUTE
-                              }
+                              checked={values.incentive_type === ABSOLUTE}
                               value={values.incentive_type}
                             />
                             <span className="text-sm ml-2">Fixed amount</span>
@@ -229,9 +249,9 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="incentive_type"
                               className="form-radio"
-                              onChange={e => {
-                                setFieldValue('incentive_type', MULTIBUY);
-                                setIsBx(false);
+                              onChange={(e) => {
+                                setFieldValue("incentive_type", MULTIBUY)
+                                setIsBx(false)
                               }}
                               checked={values.incentive_type === MULTIBUY}
                               value={values.incentive_type}
@@ -245,9 +265,9 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="incentive_type"
                               className="form-radio"
-                              onChange={e => {
-                                setFieldValue('incentive_type', FIXED_PRICE);
-                                setIsBx(false);
+                              onChange={(e) => {
+                                setFieldValue("incentive_type", FIXED_PRICE)
+                                setIsBx(false)
                               }}
                               checked={values.incentive_type === FIXED_PRICE}
                               value={values.incentive_type}
@@ -261,9 +281,9 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="incentive_type"
                               className="form-radio"
-                              onChange={e => {
-                                setFieldValue('incentive_type', BUY_X_GET_Y);
-                                setIsBx(true);
+                              onChange={(e) => {
+                                setFieldValue("incentive_type", BUY_X_GET_Y)
+                                setIsBx(true)
                               }}
                               checked={values.incentive_type === BUY_X_GET_Y}
                               value={values.incentive_type}
@@ -277,10 +297,9 @@ const DiscountForm = ({ id }) => {
                 </div>
                 <div className="col-span-3 md:col-span-2">
                   <section
-                    className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${values.incentive_type === BUY_X_GET_Y
-                      ? 'block'
-                      : 'hidden'
-                      }`}
+                    className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
+                      values.incentive_type === BUY_X_GET_Y ? "block" : "hidden"
+                    }`}
                   >
                     <h2 className="block text-lg font-semibold mb-1">
                       Customer buys
@@ -291,12 +310,10 @@ const DiscountForm = ({ id }) => {
                           type="radio"
                           name="buy_x_get_y_condition_type"
                           className="form-radio"
-                          onChange={e =>
-                            setFieldValue('buy_x_get_y_condition_type', COUNT)
+                          onChange={(e) =>
+                            setFieldValue("buy_x_get_y_condition_type", COUNT)
                           }
-                          checked={
-                            values.buy_x_get_y_condition_type === COUNT
-                          }
+                          checked={values.buy_x_get_y_condition_type === COUNT}
                           value={values.buy_x_get_y_condition_type}
                         />
                         <span className="text-sm ml-2">
@@ -310,12 +327,10 @@ const DiscountForm = ({ id }) => {
                           type="radio"
                           name="buy_x_get_y_condition_type"
                           className="form-radio"
-                          onChange={e =>
-                            setFieldValue('buy_x_get_y_condition_type', VALUE)
+                          onChange={(e) =>
+                            setFieldValue("buy_x_get_y_condition_type", VALUE)
                           }
-                          checked={
-                            values.buy_x_get_y_condition_type === VALUE
-                          }
+                          checked={values.buy_x_get_y_condition_type === VALUE}
                           value={values.buy_x_get_y_condition_type}
                         />
                         <span className="text-sm ml-2">
@@ -329,10 +344,10 @@ const DiscountForm = ({ id }) => {
                           type="radio"
                           name="buy_x_get_y_condition_type"
                           className="form-radio"
-                          onChange={e =>
+                          onChange={(e) =>
                             setFieldValue(
-                              'buy_x_get_y_condition_type',
-                              COVERAGE,
+                              "buy_x_get_y_condition_type",
+                              COVERAGE
                             )
                           }
                           checked={
@@ -355,18 +370,18 @@ const DiscountForm = ({ id }) => {
                             htmlFor="buy_x_get_y_condition_value"
                           >
                             {values.buy_x_get_y_condition_type === COUNT ||
-                              values.buy_x_get_y_condition_type === COVERAGE
-                              ? 'Quantity'
-                              : 'Amount'}
+                            values.buy_x_get_y_condition_type === COVERAGE
+                              ? "Quantity"
+                              : "Amount"}
                           </label>
                           <div
-                            className={`relative ${values.buy_x_get_y_condition_type === COUNT ||
-                              values.buy_x_get_y_condition_type ===
-                              COVERAGE ||
-                              values.buy_x_get_y_condition_type === ''
-                              ? 'hidden'
-                              : 'block'
-                              }`}
+                            className={`relative ${
+                              values.buy_x_get_y_condition_type === COUNT ||
+                              values.buy_x_get_y_condition_type === COVERAGE ||
+                              values.buy_x_get_y_condition_type === ""
+                                ? "hidden"
+                                : "block"
+                            }`}
                           >
                             <input
                               className="form-input w-full pl-12"
@@ -384,11 +399,12 @@ const DiscountForm = ({ id }) => {
                             </div>
                           </div>
                           <div
-                            className={`relative ${values.buy_x_get_y_condition_type === VALUE ||
-                              values.buy_x_get_y_condition_type === ''
-                              ? 'hidden'
-                              : 'block'
-                              }`}
+                            className={`relative ${
+                              values.buy_x_get_y_condition_type === VALUE ||
+                              values.buy_x_get_y_condition_type === ""
+                                ? "hidden"
+                                : "block"
+                            }`}
                           >
                             <input
                               id="buy_x_get_y_condition_value"
@@ -437,14 +453,17 @@ const DiscountForm = ({ id }) => {
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         {values.buy_x_get_y_condition_range_type ===
-                          SPECIFIC_PRODUCTS ? (
+                        SPECIFIC_PRODUCTS ? (
                           <div className="w-full">
                             <ProductSelector
                               id="quick-find-modal-crp"
                               searchId="quick-find-crp"
                               queryKey="products-opt-search"
                               onChange={(items: string[]) => {
-                                setFieldValue('buy_x_get_y_condition_range_keys', items)
+                                setFieldValue(
+                                  "buy_x_get_y_condition_range_keys",
+                                  items
+                                )
                               }}
                               value={values.buy_x_get_y_condition_range_keys}
                               queryEnabled={!!shop?.shop_id}
@@ -457,7 +476,10 @@ const DiscountForm = ({ id }) => {
                             searchId="quick-find-crc"
                             queryKey="collections-opt-search"
                             onChange={(items: string[]) => {
-                              setFieldValue('buy_x_get_y_condition_range_keys', items)
+                              setFieldValue(
+                                "buy_x_get_y_condition_range_keys",
+                                items
+                              )
                             }}
                             value={values.buy_x_get_y_condition_range_keys}
                             queryEnabled={!!shop?.shop_id}
@@ -468,10 +490,9 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                   <section
-                    className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${values.incentive_type === BUY_X_GET_Y
-                      ? 'block'
-                      : 'hidden'
-                      }`}
+                    className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
+                      values.incentive_type === BUY_X_GET_Y ? "block" : "hidden"
+                    }`}
                   >
                     <h2 className="block text-lg font-semibold mb-1">
                       Customer gets
@@ -526,13 +547,13 @@ const DiscountForm = ({ id }) => {
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         {values.buy_x_get_y_ben_range_type ===
-                          SPECIFIC_PRODUCTS ? (
+                        SPECIFIC_PRODUCTS ? (
                           <ProductSelector
                             id="quick-find-modal-brp"
                             searchId="quick-find-brp"
                             queryKey="products-opt-search"
                             onChange={(items: string[]) => {
-                              setFieldValue('buy_x_get_y_ben_range_keys', items)
+                              setFieldValue("buy_x_get_y_ben_range_keys", items)
                             }}
                             value={values.buy_x_get_y_ben_range_keys}
                             queryEnabled={!!shop?.shop_id}
@@ -544,7 +565,7 @@ const DiscountForm = ({ id }) => {
                             searchId="quick-find-brc"
                             queryKey="collections-opt-search"
                             onChange={(items: any[]) => {
-                              setFieldValue('buy_x_get_y_ben_range_keys', items)
+                              setFieldValue("buy_x_get_y_ben_range_keys", items)
                             }}
                             value={values.buy_x_get_y_ben_range_keys}
                             queryEnabled={!!shop?.shop_id}
@@ -566,10 +587,10 @@ const DiscountForm = ({ id }) => {
                                 type="radio"
                                 name="buy_x_get_y_discounted_value_type"
                                 className="form-radio"
-                                onChange={e =>
+                                onChange={(e) =>
                                   setFieldValue(
-                                    'buy_x_get_y_discounted_value_type',
-                                    PERCENTAGE,
+                                    "buy_x_get_y_discounted_value_type",
+                                    PERCENTAGE
                                   )
                                 }
                                 checked={
@@ -587,10 +608,10 @@ const DiscountForm = ({ id }) => {
                                 type="radio"
                                 name="buy_x_get_y_discounted_value_type"
                                 className="form-radio"
-                                onChange={e =>
+                                onChange={(e) =>
                                   setFieldValue(
-                                    'buy_x_get_y_discounted_value_type',
-                                    ABSOLUTE,
+                                    "buy_x_get_y_discounted_value_type",
+                                    ABSOLUTE
                                   )
                                 }
                                 checked={
@@ -610,10 +631,10 @@ const DiscountForm = ({ id }) => {
                                 type="radio"
                                 name="buy_x_get_y_discounted_value_type"
                                 className="form-radio"
-                                onChange={e =>
+                                onChange={(e) =>
                                   setFieldValue(
-                                    'buy_x_get_y_discounted_value_type',
-                                    FREE,
+                                    "buy_x_get_y_discounted_value_type",
+                                    FREE
                                   )
                                 }
                                 checked={
@@ -628,11 +649,12 @@ const DiscountForm = ({ id }) => {
                         </div>
                       </div>
                       <div
-                        className={`relative w-1/2 ${values.buy_x_get_y_discounted_value_type === FREE ||
-                          values.buy_x_get_y_condition_type === ''
-                          ? 'hidden'
-                          : 'block'
-                          }`}
+                        className={`relative w-1/2 ${
+                          values.buy_x_get_y_discounted_value_type === FREE ||
+                          values.buy_x_get_y_condition_type === ""
+                            ? "hidden"
+                            : "block"
+                        }`}
                       >
                         <input
                           id="buy_x_get_y_discounted_value"
@@ -640,47 +662,49 @@ const DiscountForm = ({ id }) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.buy_x_get_y_discounted_value}
-                          className={`form-input w-full pr-8 ${(values.buy_x_get_y_discounted_value_type ===
-                            FIXED_PRICE ||
-                            values.buy_x_get_y_discounted_value_type ===
-                            ABSOLUTE) &&
-                            'pl-12'
-                            }`}
+                          className={`form-input w-full pr-8 ${
+                            (values.buy_x_get_y_discounted_value_type ===
+                              FIXED_PRICE ||
+                              values.buy_x_get_y_discounted_value_type ===
+                                ABSOLUTE) &&
+                            "pl-12"
+                          }`}
                           // step={1}
                           // min={1}
                           type="text"
                         />
                         {values.buy_x_get_y_discounted_value_type ===
                           PERCENTAGE && (
-                            <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
-                              <span className="text-sm text-gray-400 font-medium px-3">
-                                %
-                              </span>
-                            </div>
-                          )}
+                          <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
+                            <span className="text-sm text-gray-400 font-medium px-3">
+                              %
+                            </span>
+                          </div>
+                        )}
                         {(values.buy_x_get_y_discounted_value_type ===
                           FIXED_PRICE ||
                           values.buy_x_get_y_discounted_value_type ===
-                          ABSOLUTE ||
+                            ABSOLUTE ||
                           values.buy_x_get_y_discounted_value_type ===
-                          ABSOLUTE) && (
-                            <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
-                              <span className="text-sm text-gray-400 font-medium px-3">
-                                GHS
-                              </span>
-                            </div>
-                          )}
+                            ABSOLUTE) && (
+                          <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+                            <span className="text-sm text-gray-400 font-medium px-3">
+                              GHS
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </section>
                   <section className="rounded bg-white overflow-hidden p-3 mb-10">
                     <div>
                       <section
-                        className={`rounded bg-white overflow-hidden p-3 ${values.incentive_type === BUY_X_GET_Y ||
+                        className={`rounded bg-white overflow-hidden p-3 ${
+                          values.incentive_type === BUY_X_GET_Y ||
                           values.incentive_type === MULTIBUY
-                          ? 'hidden'
-                          : 'block'
-                          }`}
+                            ? "hidden"
+                            : "block"
+                        }`}
                       >
                         <div className="sm:w-1/2 mb-4">
                           <label
@@ -696,12 +720,11 @@ const DiscountForm = ({ id }) => {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.value}
-                              className={`form-input w-full pr-8 ${(values.incentive_type ===
-                                FIXED_PRICE ||
-                                values.incentive_type ===
-                                ABSOLUTE) &&
-                                'pl-12'
-                                }`}
+                              className={`form-input w-full pr-8 ${
+                                (values.incentive_type === FIXED_PRICE ||
+                                  values.incentive_type === ABSOLUTE) &&
+                                "pl-12"
+                              }`}
                               type="text"
                             />
                             {values.incentive_type === PERCENTAGE && (
@@ -713,12 +736,12 @@ const DiscountForm = ({ id }) => {
                             )}
                             {(values.incentive_type === FIXED_PRICE ||
                               values.incentive_type === ABSOLUTE) && (
-                                <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
-                                  <span className="text-sm text-gray-400 font-medium px-3">
-                                    GHS
-                                  </span>
-                                </div>
-                              )}
+                              <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+                                <span className="text-sm text-gray-400 font-medium px-3">
+                                  GHS
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -736,8 +759,8 @@ const DiscountForm = ({ id }) => {
                                   type="radio"
                                   name="applies_to"
                                   className="form-radio"
-                                  onChange={e =>
-                                    setFieldValue('applies_to', ALL_PRODUCTS)
+                                  onChange={(e) =>
+                                    setFieldValue("applies_to", ALL_PRODUCTS)
                                   }
                                   checked={values.applies_to === ALL_PRODUCTS}
                                   value={values.applies_to}
@@ -754,10 +777,10 @@ const DiscountForm = ({ id }) => {
                                   type="radio"
                                   name="applies_to"
                                   className="form-radio"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setFieldValue(
-                                      'applies_to',
-                                      SPECIFIC_PRODUCTS,
+                                      "applies_to",
+                                      SPECIFIC_PRODUCTS
                                     )
                                   }
                                   checked={
@@ -776,10 +799,10 @@ const DiscountForm = ({ id }) => {
                                   type="radio"
                                   name="applies_to"
                                   className="form-radio"
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setFieldValue(
-                                      'applies_to',
-                                      SPECIFIC_COLLECTIONS,
+                                      "applies_to",
+                                      SPECIFIC_COLLECTIONS
                                     )
                                   }
                                   checked={
@@ -795,11 +818,12 @@ const DiscountForm = ({ id }) => {
                           </div>
                         </div>
                         <div
-                          className={`${values.applies_to === ALL_PRODUCTS ||
-                            values.applies_to === ''
-                            ? 'hidden'
-                            : 'block'
-                            }`}
+                          className={`${
+                            values.applies_to === ALL_PRODUCTS ||
+                            values.applies_to === ""
+                              ? "hidden"
+                              : "block"
+                          }`}
                         >
                           <div
                             className={`sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5`}
@@ -810,7 +834,7 @@ const DiscountForm = ({ id }) => {
                                 searchId="quick-find-ip"
                                 queryKey="products-opt-search"
                                 onChange={(items: string[]) => {
-                                  setFieldValue('included_products', items)
+                                  setFieldValue("included_products", items)
                                 }}
                                 value={values.included_products}
                                 queryEnabled={!!shop?.shop_id}
@@ -822,7 +846,7 @@ const DiscountForm = ({ id }) => {
                                 searchId="quick-find-modal-ic"
                                 queryKey="collections-opt-search"
                                 onChange={(items: any[]) => {
-                                  setFieldValue('included_collections', items)
+                                  setFieldValue("included_collections", items)
                                 }}
                                 value={values.included_collections}
                                 queryEnabled={!!shop?.shop_id}
@@ -833,10 +857,11 @@ const DiscountForm = ({ id }) => {
                         </div>
                       </section>
                       <div
-                        className={`sm:w-full mt-6 ${values.incentive_type === BUY_X_GET_Y
-                          ? 'hidden'
-                          : 'block'
-                          }`}
+                        className={`sm:w-full mt-6 ${
+                          values.incentive_type === BUY_X_GET_Y
+                            ? "hidden"
+                            : "block"
+                        }`}
                       >
                         <label
                           className="block text-sm font-medium mb-1"
@@ -850,8 +875,8 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="condition_type"
                               className="form-radio"
-                              onChange={e =>
-                                setFieldValue('condition_type', NONE)
+                              onChange={(e) =>
+                                setFieldValue("condition_type", NONE)
                               }
                               checked={
                                 values.condition_type === NONE ? true : false
@@ -867,8 +892,8 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="condition_type"
                               className="form-radio"
-                              onChange={e =>
-                                setFieldValue('condition_type', VALUE)
+                              onChange={(e) =>
+                                setFieldValue("condition_type", VALUE)
                               }
                               checked={
                                 values.condition_type === VALUE ? true : false
@@ -885,8 +910,8 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="condition_type"
                               className="form-radio"
-                              onChange={e =>
-                                setFieldValue('condition_type', COUNT)
+                              onChange={(e) =>
+                                setFieldValue("condition_type", COUNT)
                               }
                               checked={
                                 values.condition_type === COUNT ? true : false
@@ -903,8 +928,8 @@ const DiscountForm = ({ id }) => {
                               type="radio"
                               name="condition_type"
                               className="form-radio"
-                              onChange={e =>
-                                setFieldValue('condition_type', COVERAGE)
+                              onChange={(e) =>
+                                setFieldValue("condition_type", COVERAGE)
                               }
                               checked={
                                 values.condition_type === COVERAGE
@@ -924,19 +949,20 @@ const DiscountForm = ({ id }) => {
                               htmlFor="condition_value_*"
                             >
                               {values.condition_type === COUNT ||
-                                values.condition_type === COVERAGE
-                                ? 'Quantity'
-                                : 'Amount'}
+                              values.condition_type === COVERAGE
+                                ? "Quantity"
+                                : "Amount"}
                             </label>
                           )}
                           <div
-                            className={`relative ${values.condition_type === COUNT ||
+                            className={`relative ${
+                              values.condition_type === COUNT ||
                               values.condition_type === COVERAGE ||
-                              values.condition_type === '' ||
+                              values.condition_type === "" ||
                               values.condition_type === NONE
-                              ? 'hidden'
-                              : 'block'
-                              }`}
+                                ? "hidden"
+                                : "block"
+                            }`}
                           >
                             <input
                               id="condition_value_int"
@@ -954,12 +980,13 @@ const DiscountForm = ({ id }) => {
                             </div>
                           </div>
                           <div
-                            className={`relative ${values.condition_type === VALUE ||
-                              values.condition_type === '' ||
+                            className={`relative ${
+                              values.condition_type === VALUE ||
+                              values.condition_type === "" ||
                               values.condition_type === NONE
-                              ? 'hidden'
-                              : 'block'
-                              }`}
+                                ? "hidden"
+                                : "block"
+                            }`}
                           >
                             <input
                               id="condition_value_money"
@@ -1197,7 +1224,7 @@ const DiscountForm = ({ id }) => {
                       </div>
                     </div>
                   </section>
-                  {!discountId && values.type === 'voucher' && (
+                  {!discountId && values.type === "voucher" && (
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                       <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Voucher
@@ -1214,8 +1241,10 @@ const DiscountForm = ({ id }) => {
                             type="radio"
                             name="code_type"
                             className="form-radio"
-                            onChange={e => setFieldValue('code_type', 'single')}
-                            checked={values.code_type === 'single'}
+                            onChange={(e) =>
+                              setFieldValue("code_type", "single")
+                            }
+                            checked={values.code_type === "single"}
                             value={values.code_type}
                           />
                           <span className="text-sm ml-2">Single</span>
@@ -1227,14 +1256,14 @@ const DiscountForm = ({ id }) => {
                             type="radio"
                             name="code_type"
                             className="form-radio"
-                            onChange={e => setFieldValue('code_type', 'set')}
-                            checked={values.code_type === 'set'}
+                            onChange={(e) => setFieldValue("code_type", "set")}
+                            checked={values.code_type === "set"}
                             value={values.code_type}
                           />
                           <span className="text-sm ml-2">Multi</span>
                         </label>
                       </div>
-                      {values.code_type === 'single' && (
+                      {values.code_type === "single" && (
                         <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                           <div className="w-full">
                             <label
@@ -1256,7 +1285,7 @@ const DiscountForm = ({ id }) => {
                           </div>
                         </div>
                       )}
-                      {values.code_type === 'set' && (
+                      {values.code_type === "set" && (
                         <>
                           <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                             <div className="w-full">
@@ -1410,15 +1439,15 @@ const DiscountForm = ({ id }) => {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate('/shop/discounts')}
+                      onClick={() => navigate("/shop/discounts")}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel
                     </button>
                     <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleSubmit();
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleSubmit()
                       }}
                       className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                     >
@@ -1432,6 +1461,6 @@ const DiscountForm = ({ id }) => {
         </Formik>
       </div>
     </div>
-  );
-};
-export default DiscountForm;
+  )
+}
+export default DiscountForm

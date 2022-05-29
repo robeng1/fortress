@@ -1,12 +1,12 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy, useState } from "react"
 
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import LocationsPanel from 'partials/settings/locations-panel';
-import { Link } from 'react-router-dom';
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import LocationsPanel from "partials/settings/locations-panel"
+import { Link } from "react-router-dom"
 
 function Locations() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -19,7 +19,7 @@ function Locations() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={'Locations'}
+          location={"Locations"}
         />
         <div className="px-6 py-8 bg-slate-50 border border-slate-200 rounded-sm">
           <div className="text-start">
@@ -62,7 +62,7 @@ function Locations() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default Locations;
+export default Locations

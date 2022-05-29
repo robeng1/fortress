@@ -1,6 +1,6 @@
-import { formatPesosMoney } from 'utils/money';
-import * as React from 'react';
-import { OrderViewType } from 'typings/order/order-type';
+import { formatPesosMoney } from "utils/money"
+import * as React from "react"
+import { OrderViewType } from "typings/order/order-type"
 
 type OrderTableItemProps = {
   order: OrderViewType
@@ -10,26 +10,23 @@ type OrderTableItemProps = {
 }
 
 const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
-  let status = 'New'
+  let status = "New"
   switch (order.status) {
-    case 'Complete':
-    case 'Customer completed':
-    case 'Escrow autocompleted':
-    case 'Completed':
-      status = 'Completed'
-      break;
-    case 'Authorized':
-      status = 'New'
+    case "Complete":
+    case "Customer completed":
+    case "Escrow autocompleted":
+    case "Completed":
+      status = "Completed"
+      break
+    case "Authorized":
+      status = "New"
       break
     default:
       status = order.status
-      break;
+      break
   }
   return (
-    <div
-      onClick={handleShow}
-      className="block w-full"
-    >
+    <div onClick={handleShow} className="block w-full">
       <div className="w-full flex flex-grow justify-between text-xs font-medium text-gray-900">
         <div className={`flex text-xs text-gray-900 text-center`}>
           {new Date(order.updated_at).toLocaleDateString()}
@@ -54,9 +51,7 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
             {order.location === "null" ? "Accra" : order.location}
           </div>
           <div className="flex text-base font-medium text-gray-900">
-            <p
-              className={`text-xs text-gray-500 rounded-full text-center`}
-            >
+            <p className={`text-xs text-gray-500 rounded-full text-center`}>
               {order.num_items} {order.num_items === 1 ? "item" : "items"}
             </p>
           </div>
@@ -65,7 +60,7 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
           {order.item_images.slice(0, 3).map((url, i) => (
             <img
               src={url}
-              alt={'product image'}
+              alt={"product image"}
               key={i}
               className="rounded-full border-none border-white box-content ml-1 w-7 h-7 "
             />
@@ -73,7 +68,7 @@ const OrderCard: React.FC<OrderTableItemProps> = ({ handleShow, order }) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default OrderCard;
+export default OrderCard

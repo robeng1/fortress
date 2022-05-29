@@ -1,6 +1,6 @@
-import { formatThousands } from 'utils/utils';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { formatThousands } from "utils/utils"
+import React from "react"
+import { Link } from "react-router-dom"
 
 function AnalyticsCard05({ topChannels }) {
   return (
@@ -27,7 +27,7 @@ function AnalyticsCard05({ topChannels }) {
                       style={{ width: `${100 - 10 * index}%` }}
                     ></div>
                     <div className="relative flex justify-between space-x-2">
-                      <div>{key!=="null"? key: "Organic"}</div>
+                      <div>{key !== "null" ? key : "Organic"}</div>
                       <div className="font-medium">
                         {formatThousands(value)}
                       </div>
@@ -48,7 +48,7 @@ function AnalyticsCard05({ topChannels }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default AnalyticsCard05;
+export default AnalyticsCard05

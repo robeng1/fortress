@@ -1,76 +1,76 @@
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import BottomNav from 'components/bottom-navigation';
-import { Link } from 'react-router-dom';
-import useDomains from 'hooks/use-domains';
-import useModal from 'hooks/use-modal';
-import ModalBasic from 'components/modal-basic';
-import { useMutation, useQueryClient } from 'react-query';
-import { DNSEntry } from 'typings/domains/domains';
-import { request, ResponseError } from 'utils/request';
-import { domainURL } from 'endpoints/urls';
-import useShop from 'hooks/use-shop';
-import { Formik } from 'formik';
-import isValidDomain from 'is-valid-domain';
+import { useState } from "react"
+import { toast } from "react-hot-toast"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import BottomNav from "components/bottom-navigation"
+import { Link } from "react-router-dom"
+import useDomains from "hooks/use-domains"
+import useModal from "hooks/use-modal"
+import ModalBasic from "components/modal-basic"
+import { useMutation, useQueryClient } from "react-query"
+import { DNSEntry } from "typings/domains/domains"
+import { request, ResponseError } from "utils/request"
+import { domainURL } from "endpoints/urls"
+import useShop from "hooks/use-shop"
+import { Formik } from "formik"
+import isValidDomain from "is-valid-domain"
 
 function Domains() {
-  const klient = useQueryClient();
-  const { shop } = useShop();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { entries } = useDomains();
-  const [entry, setEntry] = useState<DNSEntry>();
+  const klient = useQueryClient()
+  const { shop } = useShop()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { entries } = useDomains()
+  const [entry, setEntry] = useState<DNSEntry>()
 
-  const { isOpen, handleOpen, handleClose } = useModal(false);
-  const addRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains`;
-  const updateRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains/${entry?.domain}`;
+  const { isOpen, handleOpen, handleClose } = useModal(false)
+  const addRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains`
+  const updateRequestURL = `${domainURL}/shops/${shop?.shop_id}/domains/${entry?.domain}`
 
   const initialValues: DNSEntry = {
     shop_id: shop?.shop_id,
     is_system: false,
     is_active: true,
     is_primary: true,
-    domain: '',
-    theme_id: '',
+    domain: "",
+    theme_id: "",
     strictly_local_only: false,
     ...entry,
-  };
+  }
 
   // create the domain
   const { mutate: addDomain, isLoading: isAddingDomain } = useMutation(
     (payload: DNSEntry) =>
       request(addRequestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newDomain: DNSEntry) => {
-        klient.invalidateQueries(['domains']);
-        toast.success('Domain added successfully');
+        klient.invalidateQueries(["domains"])
+        toast.success("Domain added successfully")
       },
       onError: (e: ResponseError) => {
-        toast.error(e.message);
+        toast.error(e.message)
       },
-    },
-  );
+    }
+  )
   // update the domain
   const { mutate: updateDomain, isLoading: isUpdatingDomain } = useMutation(
     (payload: DNSEntry) =>
       request(updateRequestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newDomain: DNSEntry) => {
-        klient.invalidateQueries(['domains']);
-        toast.success('Domain updated successfully');
+        klient.invalidateQueries(["domains"])
+        toast.success("Domain updated successfully")
       },
       onError: (e: ResponseError) => {
-        toast.error(e.message);
+        toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -119,9 +119,9 @@ function Domains() {
             <button
               className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
               aria-controls="domain-modal"
-              onClick={e => {
-                e.stopPropagation();
-                handleOpen();
+              onClick={(e) => {
+                e.stopPropagation()
+                handleOpen()
               }}
             >
               Add Domain
@@ -132,7 +132,7 @@ function Domains() {
           <ModalBasic
             id="domain-modal"
             modalOpen={isOpen}
-            setModalOpen={state =>
+            setModalOpen={(state) =>
               state === true ? handleOpen() : handleClose()
             }
             title="Add domain"
@@ -156,24 +156,26 @@ function Domains() {
                 initialValues={initialValues}
                 // validationSchema={ProductSchema}
                 onSubmit={(values, { setSubmitting }) => {
-                  if (values.id && values.id !== '') {
-                    if (isValidDomain(values?.domain ?? '')) {
-                      updateDomain({ ...values });
+                  if (values.id && values.id !== "") {
+                    if (isValidDomain(values?.domain ?? "")) {
+                      updateDomain({ ...values })
                     } else {
                       toast.error("Domain is invalid")
                     }
                   } else {
-                    if (!values.domain?.includes('.myreoplex.com')) {
-                      if (isValidDomain(values?.domain ?? '')) {
-                        addDomain({ ...values });
+                    if (!values.domain?.includes(".myreoplex.com")) {
+                      if (isValidDomain(values?.domain ?? "")) {
+                        addDomain({ ...values })
                       } else {
                         toast.error("Domain is invalid")
                       }
                     } else {
-                      toast.error("Only one `myreoplex.com` domain is allowed per shop")
+                      toast.error(
+                        "Only one `myreoplex.com` domain is allowed per shop"
+                      )
                     }
                   }
-                  setSubmitting(false);
+                  setSubmitting(false)
                 }}
               >
                 {({
@@ -202,7 +204,13 @@ function Domains() {
                           value={values.domain}
                           className="form-input w-full px-2 py-1"
                           type="text"
-                          disabled={!!(values.domain && values.domain !== "" && values.domain.includes('.myreoplex.com'))}
+                          disabled={
+                            !!(
+                              values.domain &&
+                              values.domain !== "" &&
+                              values.domain.includes(".myreoplex.com")
+                            )
+                          }
                           required
                         />
                       </div>
@@ -242,18 +250,18 @@ function Domains() {
                       <div className="flex flex-wrap justify-end space-x-2">
                         <button
                           className="btn-sm border-slate-200 hover:border-slate-300 text-slate-600"
-                          onClick={e => {
-                            e.stopPropagation();
-                            handleClose();
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleClose()
                           }}
                         >
                           Cancel
                         </button>
                         <button
                           type="submit"
-                          onClick={e => {
-                            e.stopPropagation();
-                            handleSubmit();
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleSubmit()
                           }}
                           className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white"
                         >
@@ -297,13 +305,13 @@ function Domains() {
                       </thead>
                       {/* Table body */}
                       <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
-                        {entries?.map(entry => (
+                        {entries?.map((entry) => (
                           <tr key={entry.domain || entry.id}>
                             <td
-                              onClick={e => {
-                                e.stopPropagation();
-                                setEntry(entry);
-                                handleOpen();
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setEntry(entry)
+                                handleOpen()
                               }}
                               className="p-2 w-1/6 cursor-pointer"
                             >
@@ -314,14 +322,14 @@ function Domains() {
                             <td className="p-2 w-3/6">
                               <div className="text-left text-gray-800">
                                 {entry.is_active
-                                  ? 'Connected'
-                                  : 'Not connected'}
+                                  ? "Connected"
+                                  : "Not connected"}
                               </div>
                             </td>
 
                             <td className="p-2 w-2/6">
                               <div className="text-left text-gray-800">
-                                {entry?.is_system ? 'Reoplex' : ' Reoplex'}
+                                {entry?.is_system ? "Reoplex" : " Reoplex"}
                               </div>
                             </td>
                           </tr>
@@ -337,7 +345,7 @@ function Domains() {
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Domains;
+export default Domains

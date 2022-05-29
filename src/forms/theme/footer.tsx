@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Buffer } from 'buffer';
-import { Formik } from 'formik';
-import { useThemeMutation } from 'hooks/use-theme-mutation';
-import { useNavigate } from 'react-router-dom';
-import { Loading } from 'components/blocks/backdrop';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from "react"
+import { Buffer } from "buffer"
+import { Formik } from "formik"
+import { useThemeMutation } from "hooks/use-theme-mutation"
+import { useNavigate } from "react-router-dom"
+import { Loading } from "components/blocks/backdrop"
+import toast from "react-hot-toast"
 
 function Footer() {
-  const navigate = useNavigate();
-  const { theme, config, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation();
+  const navigate = useNavigate()
+  const { theme, config, update, isUpdatingTheme, isLoadingTheme } =
+    useThemeMutation()
   const initialValues =
     config &&
-      config.settings &&
-      (config?.settings as Record<string, any>).sections
-      ? (config?.settings as Record<string, any>).sections['layout-footer']
-        ? (config?.settings as Record<string, any>).sections['layout-footer'][
-        'settings'
-        ] ?? {}
+    config.settings &&
+    (config?.settings as Record<string, any>).sections
+      ? (config?.settings as Record<string, any>).sections["layout-footer"]
+        ? (config?.settings as Record<string, any>).sections["layout-footer"][
+            "settings"
+          ] ?? {}
         : {}
-      : {};
+      : {}
   useEffect(() => {
     if (isUpdatingTheme) {
       toast.loading("Updating theme", { id: "saving-footer" })
@@ -33,41 +34,50 @@ function Footer() {
         enableReinitialize
         initialValues={{
           social_instagram_visible: false,
-          social_instagram_link: '',
+          social_instagram_link: "",
           social_twitter_visible: false,
-          social_twitter_link: '',
+          social_twitter_link: "",
           social_facebook_visible: false,
-          social_facebook_link: '',
+          social_facebook_link: "",
           social_youtube_visible: false,
-          social_youtube_link: '',
+          social_youtube_link: "",
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values };
-          let cfg = config;
-          if (!cfg) cfg = {};
-          if (!cfg.settings) cfg.settings = {};
+          const vals = { ...values }
+          let cfg = config
+          if (!cfg) cfg = {}
+          if (!cfg.settings) cfg.settings = {}
           cfg.settings = {
             ...(cfg?.settings as Record<string, any>),
             sections: {
-              ...cfg.settings['sections'],
-              'layout-footer': {
-                ...cfg.settings['sections']['layout-footer'],
-                settings: { ...vals, 
-                  social_instagram_link: values.social_instagram_link && values.social_instagram_link !== "" ? `https://instagram.com/${values.social_instagram_link}` : '',
-                  social_twitter_link: values.social_twitter_link && values.social_twitter_link !== "" ? `https://twitter.com/${values.social_twitter_link}` : '' 
+              ...cfg.settings["sections"],
+              "layout-footer": {
+                ...cfg.settings["sections"]["layout-footer"],
+                settings: {
+                  ...vals,
+                  social_instagram_link:
+                    values.social_instagram_link &&
+                    values.social_instagram_link !== ""
+                      ? `https://instagram.com/${values.social_instagram_link}`
+                      : "",
+                  social_twitter_link:
+                    values.social_twitter_link &&
+                    values.social_twitter_link !== ""
+                      ? `https://twitter.com/${values.social_twitter_link}`
+                      : "",
                 },
               },
             },
-          };
+          }
           update({
             ...theme,
             config: {
               ...cfg,
-              settings: cfg.settings
+              settings: cfg.settings,
             },
-          });
-          setSubmitting(false);
+          })
+          setSubmitting(false)
         }}
       >
         {({
@@ -268,9 +278,9 @@ function Footer() {
                     Cancel
                   </button>
                   <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -283,7 +293,7 @@ function Footer() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

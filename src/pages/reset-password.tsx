@@ -1,10 +1,10 @@
-import { theKeepURL } from 'endpoints/urls';
-import React, { useState } from 'react';
-import toast from 'react-hot-toast';
-import { useMutation } from 'react-query';
-import { request, ResponseError } from 'utils/request';
+import { theKeepURL } from "endpoints/urls"
+import React, { useState } from "react"
+import toast from "react-hot-toast"
+import { useMutation } from "react-query"
+import { request, ResponseError } from "utils/request"
 function ResetPassword() {
-  const requestURL = `${theKeepURL}/auth/password/send-reset`;
+  const requestURL = `${theKeepURL}/auth/password/send-reset`
   const {
     mutateAsync: sendResetLink,
     isLoading,
@@ -13,26 +13,23 @@ function ResetPassword() {
   } = useMutation(
     (payload: any) =>
       request(requestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
-      onSuccess: async (s: Record<string, any>) => {
-      },
-      onError: (e: ResponseError) => { },
-    },
-  );
-  const [key, setKey] = useState('');
-  const handleSubmit = e => {
-    e.preventDefault();
-    toast.promise(
-      sendResetLink({ key }),
-      {
-        loading: "Sending reset link",
-        success: "A password reset link has been sent to your email",
-        error: null
-      })
-  };
+      onSuccess: async (s: Record<string, any>) => {},
+      onError: (e: ResponseError) => {},
+    }
+  )
+  const [key, setKey] = useState("")
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    toast.promise(sendResetLink({ key }), {
+      loading: "Sending reset link",
+      success: "A password reset link has been sent to your email",
+      error: null,
+    })
+  }
   return (
     <main className="bg-white">
       <div className="relative md:flex">
@@ -55,7 +52,7 @@ function ResetPassword() {
                     </label>
                     <input
                       id="email"
-                      onChange={e => setKey(e.target.value)}
+                      onChange={(e) => setKey(e.target.value)}
                       className="form-input w-full"
                       type="email"
                     />
@@ -65,7 +62,8 @@ function ResetPassword() {
                   <button
                     onClick={handleSubmit}
                     disabled={isLoading}
-                    className="btn bg-purple-600 hover:bg-purple-600 text-white whitespace-nowrap">
+                    className="btn bg-purple-600 hover:bg-purple-600 text-white whitespace-nowrap"
+                  >
                     Send Reset Link
                   </button>
                 </div>
@@ -75,7 +73,7 @@ function ResetPassword() {
         </div>
       </div>
     </main>
-  );
+  )
 }
 
-export default ResetPassword;
+export default ResetPassword

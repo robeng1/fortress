@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function DashboardCard07() {
   return (
@@ -200,7 +200,7 @@ function DashboardCard07() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default DashboardCard07;
+export default DashboardCard07

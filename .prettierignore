@@ -2,3 +2,9 @@ build/
 node_modules/
 package-lock.json
 yarn.lock
+.cache
+.vscode
+dist
+package.json
+package-lock.json
+public

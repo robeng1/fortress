@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function CustomersTableItem(props) {
   return (
@@ -22,7 +22,7 @@ function CustomersTableItem(props) {
           <button>
             <svg
               className={`w-4 h-4 flex-shrink-0 fill-current ${
-                props.fav ? 'text-yellow-500' : 'text-gray-300'
+                props.fav ? "text-yellow-500" : "text-gray-300"
               }`}
               viewBox="0 0 16 16"
             >
@@ -79,7 +79,7 @@ function CustomersTableItem(props) {
         </button>
       </td>
     </tr>
-  );
+  )
 }
 
-export default CustomersTableItem;
+export default CustomersTableItem

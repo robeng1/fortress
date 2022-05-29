@@ -1,9 +1,8 @@
-import InputHeader from 'components/blocks/input-header';
-import { Formik } from 'formik';
-import React, { useState } from 'react';
-import { InventoryType } from 'typings/inventory/inventory-type';
-import { mToCurrency, sToM } from 'utils/money';
-
+import InputHeader from "components/blocks/input-header"
+import { Formik } from "formik"
+import React, { useState } from "react"
+import { InventoryType } from "typings/inventory/inventory-type"
+import { mToCurrency, sToM } from "utils/money"
 
 type StockMangerProps = {
   onChange: (e: InventoryType) => void
@@ -18,12 +17,16 @@ interface Values {
   num_in_stock: number
 }
 
-const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) => {
+const StockManger: React.FC<StockMangerProps> = ({
+  stock,
+  currency,
+  onChange,
+}) => {
   const initialValues: Values = {
     compare_at_price: mToCurrency(stock?.compare_at_price).toString(),
     price_excl_tax: mToCurrency(stock?.price_excl_tax).toString(),
     cost_per_item: mToCurrency(stock?.cost_per_item).toString(),
-    num_in_stock: stock.num_in_stock ?? 1
+    num_in_stock: stock.num_in_stock ?? 1,
   }
   return (
     <>
@@ -31,7 +34,7 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
         enableReinitialize
         initialValues={initialValues}
         onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(false);
+          setSubmitting(false)
         }}
       >
         {({
@@ -51,7 +54,10 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
             </h2>
             <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
               <div className="sm:w-1/2">
-                <InputHeader label='Price' tooltipContent='The actual selling price of this product' />
+                <InputHeader
+                  label="Price"
+                  tooltipContent="The actual selling price of this product"
+                />
                 <input
                   id="price"
                   name="price"
@@ -61,14 +67,16 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
                     if (val) {
                       const num = Number.parseFloat(val)
                       if (!isNaN(num)) {
-                        setFieldValue('price_excl_tax', num.toFixed(2))
-                        onChange({ ...stock, price_excl_tax: sToM(num, currency) })
+                        setFieldValue("price_excl_tax", num.toFixed(2))
+                        onChange({
+                          ...stock,
+                          price_excl_tax: sToM(num, currency),
+                        })
                       } else {
-                        setFieldValue('price_excl_tax', '0.00')
+                        setFieldValue("price_excl_tax", "0.00")
                       }
-
                     } else {
-                      setFieldValue('price_excl_tax', '0.00')
+                      setFieldValue("price_excl_tax", "0.00")
                     }
                   }}
                   value={values.price_excl_tax}
@@ -84,7 +92,10 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
               </div>
 
               <div className="sm:w-1/2">
-                <InputHeader label='Compare at price' tooltipContent='The original listing price of this product. This is normally displayed as a strikethrough along with the price' />
+                <InputHeader
+                  label="Compare at price"
+                  tooltipContent="The original listing price of this product. This is normally displayed as a strikethrough along with the price"
+                />
                 <input
                   id="compare_at_price"
                   name="compare_at_price"
@@ -94,14 +105,16 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
                     if (val) {
                       const num = Number.parseFloat(val)
                       if (!isNaN(num)) {
-                        setFieldValue('compare_at_price', num.toFixed(2))
-                        onChange({ ...stock, compare_at_price: sToM(num, currency) })
+                        setFieldValue("compare_at_price", num.toFixed(2))
+                        onChange({
+                          ...stock,
+                          compare_at_price: sToM(num, currency),
+                        })
                       } else {
-                        setFieldValue('compare_at_price', '0.00')
+                        setFieldValue("compare_at_price", "0.00")
                       }
-
                     } else {
-                      setFieldValue('compare_at_price', '0.00')
+                      setFieldValue("compare_at_price", "0.00")
                     }
                   }}
                   value={values.compare_at_price}
@@ -109,17 +122,19 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
                   type="text"
                   placeholder="GHS 0.00"
                 />
-                {touched.compare_at_price &&
-                  errors.compare_at_price && (
-                    <div className="text-xs mt-1 text-red-500">
-                      {errors.compare_at_price}
-                    </div>
-                  )}
+                {touched.compare_at_price && errors.compare_at_price && (
+                  <div className="text-xs mt-1 text-red-500">
+                    {errors.compare_at_price}
+                  </div>
+                )}
               </div>
             </div>
             <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
               <div className="sm:w-1/2">
-                <InputHeader label='Cost per item' tooltipContent="The cost of this product. This isn't shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service" />
+                <InputHeader
+                  label="Cost per item"
+                  tooltipContent="The cost of this product. This isn't shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service"
+                />
                 <input
                   id="cost_per_item"
                   name="cost_per_item"
@@ -129,14 +144,16 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
                     if (val) {
                       const num = Number.parseFloat(val)
                       if (!isNaN(num)) {
-                        setFieldValue('cost_per_item', num.toFixed(2))
-                        onChange({ ...stock, cost_per_item: sToM(num, currency) })
+                        setFieldValue("cost_per_item", num.toFixed(2))
+                        onChange({
+                          ...stock,
+                          cost_per_item: sToM(num, currency),
+                        })
                       } else {
-                        setFieldValue('cost_per_item', '0.00')
+                        setFieldValue("cost_per_item", "0.00")
                       }
-
                     } else {
-                      setFieldValue('cost_per_item', '0.00')
+                      setFieldValue("cost_per_item", "0.00")
                     }
                   }}
                   value={values.cost_per_item}
@@ -185,4 +202,4 @@ const StockManger: React.FC<StockMangerProps> = ({ stock, currency, onChange }) 
   )
 }
 
-export default StockManger;
+export default StockManger

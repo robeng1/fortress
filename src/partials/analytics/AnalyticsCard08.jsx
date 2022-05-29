@@ -1,18 +1,16 @@
-import React from 'react';
-import DoughnutChart from '../../charts/DoughnutChart';
+import React from "react"
+import DoughnutChart from "../../charts/DoughnutChart"
 
 // Import utilities
-import { tailwindConfig } from '../../utils/utils';
+import { tailwindConfig } from "../../utils/utils"
 
 function AnalyticsCard08() {
   const chartData = {
-    labels: ['Desktop', 'Mobile', 'Tablet'],
+    labels: ["Desktop", "Mobile", "Tablet"],
     datasets: [
       {
-        label: 'Sessions By Device',
-        data: [
-          12, 50, 38,
-        ],
+        label: "Sessions By Device",
+        data: [12, 50, 38],
         backgroundColor: [
           tailwindConfig().theme.colors.indigo[500],
           tailwindConfig().theme.colors.sky[400],
@@ -26,7 +24,7 @@ function AnalyticsCard08() {
         hoverBorderColor: tailwindConfig().theme.colors.white,
       },
     ],
-  };
+  }
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-slate-200">
@@ -37,7 +35,7 @@ function AnalyticsCard08() {
       {/* Change the height attribute to adjust the chart height */}
       <DoughnutChart data={chartData} width={389} height={260} />
     </div>
-  );
+  )
 }
 
-export default AnalyticsCard08;
+export default AnalyticsCard08

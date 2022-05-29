@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function SalesChannelsPanel() {
   return (
@@ -113,7 +113,7 @@ function SalesChannelsPanel() {
         </div>
       </footer>
     </div>
-  );
+  )
 }
 
-export default SalesChannelsPanel;
+export default SalesChannelsPanel

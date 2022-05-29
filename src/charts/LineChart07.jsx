@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react"
 
 import {
   Chart,
@@ -9,11 +9,11 @@ import {
   LinearScale,
   CategoryScale,
   Tooltip,
-} from 'chart.js';
-import 'chartjs-adapter-moment';
+} from "chart.js"
+import "chartjs-adapter-moment"
 
 // Import utilities
-import { formatValue } from '../utils/utils';
+import { formatValue } from "../utils/utils"
 
 Chart.register(
   LineController,
@@ -22,17 +22,17 @@ Chart.register(
   PointElement,
   LinearScale,
   CategoryScale,
-  Tooltip,
-);
+  Tooltip
+)
 
 function LineChart07({ data, width, height }) {
-  const canvas = useRef(null);
+  const canvas = useRef(null)
 
   useEffect(() => {
-    const ctx = canvas.current;
+    const ctx = canvas.current
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
-      type: 'line',
+      type: "line",
       data: data,
       options: {
         layout: {
@@ -51,7 +51,7 @@ function LineChart07({ data, width, height }) {
             },
             ticks: {
               maxTicksLimit: 7,
-              callback: value => formatValue(value),
+              callback: (value) => formatValue(value),
             },
           },
           x: {
@@ -62,7 +62,7 @@ function LineChart07({ data, width, height }) {
             ticks: {
               autoSkipPadding: 48,
               maxRotation: 0,
-              align: 'end',
+              align: "end",
             },
           },
         },
@@ -70,7 +70,7 @@ function LineChart07({ data, width, height }) {
           tooltip: {
             callbacks: {
               title: () => false, // Disable tooltip title
-              label: context => formatValue(context.parsed.y),
+              label: (context) => formatValue(context.parsed.y),
             },
           },
           legend: {
@@ -79,16 +79,16 @@ function LineChart07({ data, width, height }) {
         },
         interaction: {
           intersect: false,
-          mode: 'nearest',
+          mode: "nearest",
         },
         maintainAspectRatio: false,
       },
-    });
-    return () => chart.destroy();
+    })
+    return () => chart.destroy()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  return <canvas ref={canvas} width={width} height={height}></canvas>;
+  return <canvas ref={canvas} width={width} height={height}></canvas>
 }
 
-export default LineChart07;
+export default LineChart07

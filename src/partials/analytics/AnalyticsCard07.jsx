@@ -1,6 +1,6 @@
-import { formatThousands } from 'utils/utils';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { formatThousands } from "utils/utils"
+import React from "react"
+import { Link } from "react-router-dom"
 
 function AnalyticsCard07({ topDevices }) {
   return (
@@ -48,7 +48,7 @@ function AnalyticsCard07({ topDevices }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default AnalyticsCard07;
+export default AnalyticsCard07

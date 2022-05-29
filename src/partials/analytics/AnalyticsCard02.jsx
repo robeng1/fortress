@@ -1,20 +1,20 @@
-import React from 'react';
-import LineChart from '../../charts/LineChart04';
-import { Link } from 'react-router-dom';
+import React from "react"
+import LineChart from "../../charts/LineChart04"
+import { Link } from "react-router-dom"
 
 // Import utilities
-import { tailwindConfig, hexToRGB, formatThousands } from '../../utils/utils';
+import { tailwindConfig, hexToRGB, formatThousands } from "../../utils/utils"
 
 function AnalyticsCard02({ liveVisitors, topPages }) {
   const chartData = {
-    labels: !!topPages ? topPages.map(s => s.key) : [],
+    labels: !!topPages ? topPages.map((s) => s.key) : [],
     datasets: [
       // Indigo line
       {
-        data: !!topPages ? topPages.map(s => s.value) : [],
+        data: !!topPages ? topPages.map((s) => s.value) : [],
         fill: true,
         backgroundColor: `rgba(${hexToRGB(
-          tailwindConfig().theme.colors.purple[500],
+          tailwindConfig().theme.colors.purple[500]
         )}, 0.08)`,
         borderColor: tailwindConfig().theme.colors.purple[500],
         borderWidth: 2,
@@ -25,7 +25,7 @@ function AnalyticsCard02({ liveVisitors, topPages }) {
         clip: 20,
       },
     ],
-  };
+  }
 
   return (
     <div className="flex flex-col col-span-full xl:col-span-4 border border-transparent focus:outline-none rounded-md shadow-lg bg-white  appearance-none">
@@ -47,7 +47,7 @@ function AnalyticsCard02({ liveVisitors, topPages }) {
             {/* Vistors number */}
             <div>
               <div className="text-3xl font-bold text-gray-800 mr-2">
-                {!!liveVisitors ? formatThousands(liveVisitors) : '-'}
+                {!!liveVisitors ? formatThousands(liveVisitors) : "-"}
               </div>
               <div className="text-sm text-gray-500">Live visitors</div>
             </div>
@@ -107,7 +107,7 @@ function AnalyticsCard02({ liveVisitors, topPages }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default AnalyticsCard02;
+export default AnalyticsCard02

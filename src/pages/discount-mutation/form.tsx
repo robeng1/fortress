@@ -1,22 +1,22 @@
-import React, { ChangeEvent, lazy, useState } from 'react';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import DiscountForm from 'forms/discount/discount';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { ChangeEvent, lazy, useState } from "react"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import DiscountForm from "forms/discount/discount"
+import { useNavigate, useParams } from "react-router-dom"
 
 function DiscountMutation() {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate()
+  const { id } = useParams()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentDiscountId, setCurrentDiscountId] = useState<
     String | undefined
-  >(id !== 'new' ? id : undefined);
+  >(id !== "new" ? id : undefined)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [selectedItems, setSelectedItems] = useState<any>([])
 
   const handleSelectedItems = (selectedItems: any) => {
-    setSelectedItems([...selectedItems]);
-  };
+    setSelectedItems([...selectedItems])
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -40,7 +40,7 @@ function DiscountMutation() {
               <div className="mb-4 sm:mb-0">
                 <div className="m-1.5">
                   <button
-                    onClick={(e) => navigate('/discounts')}
+                    onClick={(e) => navigate("/discounts")}
                     className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
                   >
                     <svg
@@ -68,7 +68,7 @@ function DiscountMutation() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default DiscountMutation;
+export default DiscountMutation

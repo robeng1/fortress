@@ -1,102 +1,114 @@
-import ModalBasic from 'components/modal-basic';
-import { fortressURL } from 'endpoints/urls';
-import { Formik } from 'formik';
-import useShop from 'hooks/use-shop';
-import toast from 'react-hot-toast';
-import React from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { InventoryType, InventoryViewType } from 'typings/inventory/inventory-type';
-import { ProductType } from 'typings/product/product-type';
-import { request, ResponseError } from 'utils/request';
-import StockManger from './stock-manager';
-import InputHeader from 'components/blocks/input-header';
+import ModalBasic from "components/modal-basic"
+import { fortressURL } from "endpoints/urls"
+import { Formik } from "formik"
+import useShop from "hooks/use-shop"
+import toast from "react-hot-toast"
+import React from "react"
+import { useMutation, useQuery } from "react-query"
+import {
+  InventoryType,
+  InventoryViewType,
+} from "typings/inventory/inventory-type"
+import { ProductType } from "typings/product/product-type"
+import { request, ResponseError } from "utils/request"
+import StockManger from "./stock-manager"
+import InputHeader from "components/blocks/input-header"
 
 type VariantEditorProps = {
   handleClick?: (e: any) => void
-  isChecked?: boolean,
+  isChecked?: boolean
   product: InventoryViewType
   isOpen: boolean
   handleOpen: () => void
   handleClose: () => void
 }
 
-const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handleClick, isOpen, handleClose, handleOpen }) => {
-  const { shop } = useShop();
+const VariantEditor: React.FC<VariantEditorProps> = ({
+  product,
+  isChecked,
+  handleClick,
+  isOpen,
+  handleClose,
+  handleOpen,
+}) => {
+  const { shop } = useShop()
   const isVariant = product.product_id !== product.variant_id
-  const url = isVariant ? `${fortressURL}/shops/${shop?.shop_id}/products/${product.product_id}/variants/${product.variant_id}` : `${fortressURL}/shops/${shop?.shop_id}/products/${product.product_id}`;
+  const url = isVariant
+    ? `${fortressURL}/shops/${shop?.shop_id}/products/${product.product_id}/variants/${product.variant_id}`
+    : `${fortressURL}/shops/${shop?.shop_id}/products/${product.product_id}`
 
   const { data: variant } = useQuery<InventoryType>(
-    ['variant-manager', product.variant_id],
+    ["variant-manager", product.variant_id],
     async () => await request(url),
     {
       // The query will not execute until the productId exists
       enabled: isOpen,
       keepPreviousData: true,
-    },
-  );
+    }
+  )
   const { mutateAsync: update, isLoading: isUpdating } = useMutation(
     (payload: ProductType) =>
       request(url, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newVariant: ProductType) => {
         // klient.invalidateQueries(['domains']);
-        toast.success('Updated successfully');
+        toast.success("Updated successfully")
       },
       onError: (e: ResponseError) => {
-        toast.error(e.message);
+        toast.error(e.message)
       },
-    },
-  );
+    }
+  )
   const initialValues: ProductType = {
-    product_id: '',
-    upc: '',
-    shop_id: '',
-    attributes: '',
-    title: '',
-    description: '',
-    created_at: '',
-    updated_at: '',
-    image: '',
-    sku: '',
+    product_id: "",
+    upc: "",
+    shop_id: "",
+    attributes: "",
+    title: "",
+    description: "",
+    created_at: "",
+    updated_at: "",
+    image: "",
+    sku: "",
     track_stock: true,
     categories: [],
-    status: '',
-    item_condition: '',
-    swatch_image_url: '',
-    material: '',
-    product_type_id: '',
+    status: "",
+    item_condition: "",
+    swatch_image_url: "",
+    material: "",
+    product_type_id: "",
     is_discountable: true,
     is_public: false,
-    parent_id: '',
+    parent_id: "",
     shipping_required: true,
-    variant_id: '',
-    handle: '',
-    vendor: '',
+    variant_id: "",
+    handle: "",
+    vendor: "",
     channels: [],
-    inheritance_id: '',
-    product_status: '',
-    template_suffix: '',
-    bucket: '',
+    inheritance_id: "",
+    product_status: "",
+    template_suffix: "",
+    bucket: "",
     tags: [],
-    page_title: '',
-    page_description: '',
+    page_title: "",
+    page_description: "",
     stock_records: [],
     variant_rank: 1,
     position: 1,
-    ean: '',
+    ean: "",
     allow_backorder: true,
-    hs_code: '',
-    mid_code: '',
-    deleted_at: '',
-    metadata: '',
-    weight: '',
-    length: '',
-    height: '',
-    width: '',
-    profile_id: '',
+    hs_code: "",
+    mid_code: "",
+    deleted_at: "",
+    metadata: "",
+    weight: "",
+    length: "",
+    height: "",
+    width: "",
+    profile_id: "",
     ...variant,
     images: [],
   }
@@ -106,7 +118,7 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
         <ModalBasic
           id="inventory-modal"
           modalOpen={isOpen}
-          setModalOpen={state =>
+          setModalOpen={(state) =>
             state === true ? handleOpen() : handleClose()
           }
           title={`Edit ${product.title}`}
@@ -117,15 +129,12 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
               initialValues={initialValues}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(true)
-                toast.promise(
-                  update({ ...values, images: [] }),
-                  {
-                    loading: "Updating product",
-                    success: null,
-                    error: null
-                  }
-                )
-                setSubmitting(false);
+                toast.promise(update({ ...values, images: [] }), {
+                  loading: "Updating product",
+                  success: null,
+                  error: null,
+                })
+                setSubmitting(false)
               }}
             >
               {({
@@ -211,7 +220,10 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                             className="form-checkbox mr-2"
                             type="checkbox"
                           />
-                          <InputHeader label='Allow backorders' tooltipContent='Customers can still order even if this product is out of stock' />
+                          <InputHeader
+                            label="Allow backorders"
+                            tooltipContent="Customers can still order even if this product is out of stock"
+                          />
                         </div>
                         <div className="flex items-center w-full">
                           <input
@@ -223,7 +235,10 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                             className="form-checkbox mr-2"
                             type="checkbox"
                           />
-                          <InputHeader label='Manage inventory' tooltipContent='Customers can still order even if this product is out of stock' />
+                          <InputHeader
+                            label="Manage inventory"
+                            tooltipContent="Customers can still order even if this product is out of stock"
+                          />
                         </div>
                         <div className="flex items-center w-full">
                           <input
@@ -235,23 +250,28 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                             className="form-checkbox mr-2"
                             type="checkbox"
                           />
-                          <InputHeader label='Is discountable' tooltipContent='Whether this product should be included in a discount' />
+                          <InputHeader
+                            label="Is discountable"
+                            tooltipContent="Whether this product should be included in a discount"
+                          />
                         </div>
                       </div>
                     </section>
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                      {values.stock_records?.map((record, index) => 
-                      <StockManger
-                        key={index}
-                        stock={record}
-                        currency={shop?.currency?.iso_code!}
-                        onChange={(stk: InventoryType) => {
-                          const stocks = values.stock_records
-                          if (stocks) {
-                            stocks[index] = stk
-                            setFieldValue("stock_records", stocks)
-                          }
-                        }} />)}
+                      {values.stock_records?.map((record, index) => (
+                        <StockManger
+                          key={index}
+                          stock={record}
+                          currency={shop?.currency?.iso_code!}
+                          onChange={(stk: InventoryType) => {
+                            const stocks = values.stock_records
+                            if (stocks) {
+                              stocks[index] = stk
+                              setFieldValue("stock_records", stocks)
+                            }
+                          }}
+                        />
+                      ))}
                     </section>
                     <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                       <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
@@ -409,9 +429,9 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
                           Cancel
                         </button>
                         <button
-                          onClick={e => {
-                            e.stopPropagation();
-                            handleSubmit();
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleSubmit()
                           }}
                           type="button"
                           className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
@@ -428,6 +448,6 @@ const VariantEditor: React.FC<VariantEditorProps> = ({ product, isChecked, handl
         </ModalBasic>
       </div>
     </>
-  );
+  )
 }
-export default VariantEditor;
+export default VariantEditor

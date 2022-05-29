@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import RateForm from 'forms/rates/rate';
-import RateCard from '../shipping/rate-card';
+import React, { useState } from "react"
+import isEmpty from "lodash/isEmpty"
+import RateForm from "forms/rates/rate"
+import RateCard from "../shipping/rate-card"
 
-import useRates from 'hooks/use-rates';
+import useRates from "hooks/use-rates"
 
 function RatesPanel() {
-  const { rates } = useRates();
-  const [showRateForm, setShowRateForm] = useState(false);
+  const { rates } = useRates()
+  const [showRateForm, setShowRateForm] = useState(false)
 
   const handleShow = (show: boolean, id?: string) => {
-    setShowRateForm(show);
-  };
+    setShowRateForm(show)
+  }
   return (
     <div className="flex-grow">
       {/* Panel body */}
@@ -40,12 +40,12 @@ function RatesPanel() {
               ))}
             </section>
           ) : (
-            'No shipping rates to show'
+            "No shipping rates to show"
           )}
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default RatesPanel;
+export default RatesPanel

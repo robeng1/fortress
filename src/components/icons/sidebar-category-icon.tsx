@@ -1,5 +1,5 @@
-import React from 'react';
-export const SidebarCategoryIcon = ({ width = '12.958', height = '13' }) => {
+import React from "react"
+export const SidebarCategoryIcon = ({ width = "12.958", height = "13" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,5 +14,5 @@ export const SidebarCategoryIcon = ({ width = '12.958', height = '13' }) => {
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}

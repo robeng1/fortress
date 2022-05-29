@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react"
 
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import SalesChannelsPanel from 'partials/settings/channels-panel';
-import { Link } from 'react-router-dom';
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import SalesChannelsPanel from "partials/settings/channels-panel"
+import { Link } from "react-router-dom"
 
 function SalesChannels() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -19,7 +19,7 @@ function SalesChannels() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={'Sales channels'}
+          location={"Sales channels"}
         />
         <div className="px-6 py-8 bg-slate-50 border border-slate-200 rounded-sm">
           <div className="text-start">
@@ -64,7 +64,7 @@ function SalesChannels() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default SalesChannels;
+export default SalesChannels

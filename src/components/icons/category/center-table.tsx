@@ -1,4 +1,4 @@
-export const CenterTable: React.FC<React.SVGAttributes<{}>> = props => {
+export const CenterTable: React.FC<React.SVGAttributes<{}>> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,5 +16,5 @@ export const CenterTable: React.FC<React.SVGAttributes<{}>> = props => {
         fill="#212121"
       />
     </svg>
-  );
-};
+  )
+}

@@ -1,22 +1,22 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import { useNavigate, useParams } from 'react-router-dom';
-import VoucherForm from 'forms/voucher/voucher';
+import React, { useState } from "react"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import { useNavigate, useParams } from "react-router-dom"
+import VoucherForm from "forms/voucher/voucher"
 
 function VoucherMutation() {
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const navigate = useNavigate()
+  const { id } = useParams()
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState<any>([])
   const [currentlyBeingEditedVoucherId, setCurrentlyBeingEditedVoucherId] =
-    useState<string | undefined>(id !== 'new' ? id : undefined);
+    useState<string | undefined>(id !== "new" ? id : undefined)
 
   const handleSelectedItems = (selectedItems: any) => {
-    setSelectedItems([...selectedItems]);
-  };
+    setSelectedItems([...selectedItems])
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -70,7 +70,7 @@ function VoucherMutation() {
         </>
       </div>
     </div>
-  );
+  )
 }
 
-export default VoucherMutation;
+export default VoucherMutation

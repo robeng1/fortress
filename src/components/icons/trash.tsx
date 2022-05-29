@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 const Trash = ({ ...props }) => {
   return (
@@ -28,7 +28,7 @@ const Trash = ({ ...props }) => {
         <path data-name="Line 3" d="M11.777 6.238V18.7" />
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default Trash;
+export default Trash

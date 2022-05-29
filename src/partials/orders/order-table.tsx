@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import OrderItem from './table-item';
-import OrderList from './mobile/order-list';
-import EmptyState from 'partials/empty-state';
-import { OrderViewType } from 'typings/order/order-type';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react"
+import OrderItem from "./table-item"
+import OrderList from "./mobile/order-list"
+import EmptyState from "partials/empty-state"
+import { OrderViewType } from "typings/order/order-type"
+import { useNavigate } from "react-router-dom"
 
 type OrderTableProps = {
   selectedItems: (items: string[]) => void
@@ -11,31 +11,31 @@ type OrderTableProps = {
 }
 
 const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, orders }) => {
-  const navigate = useNavigate();
-  const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState<string[]>([]);
+  const navigate = useNavigate()
+  const [selectAll, setSelectAll] = useState(false)
+  const [isCheck, setIsCheck] = useState<string[]>([])
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setIsCheck(orders?.map(li => li.order_id) ?? []);
+    setSelectAll(!selectAll)
+    setIsCheck(orders?.map((li) => li.order_id) ?? [])
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    const { id, checked } = e.target;
-    setSelectAll(false);
-    setIsCheck([...isCheck, id]);
+  const handleClick = (e) => {
+    const { id, checked } = e.target
+    setSelectAll(false)
+    setIsCheck([...isCheck, id])
     if (!checked) {
-      setIsCheck(isCheck.filter(item => item !== id));
+      setIsCheck(isCheck.filter((item) => item !== id))
     }
-  };
+  }
 
   useEffect(() => {
-    selectedItems(isCheck);
+    selectedItems(isCheck)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCheck]);
+  }, [isCheck])
 
   return (
     <>
@@ -89,7 +89,7 @@ const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, orders }) => {
                   </tr>
                 </thead>
                 {/* Table body */}
-                {orders.map(order => {
+                {orders.map((order) => {
                   return (
                     <OrderItem
                       handleShow={() => navigate(`/orders/${order.order_id}`)}
@@ -98,7 +98,7 @@ const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, orders }) => {
                       handleClick={handleClick}
                       isChecked={isCheck.includes(order.order_id)}
                     />
-                  );
+                  )
                 })}
               </table>
             </div>
@@ -112,7 +112,7 @@ const OrdersTable: React.FC<OrderTableProps> = ({ selectedItems, orders }) => {
         />
       )}
     </>
-  );
+  )
 }
 
-export default OrdersTable;
+export default OrdersTable

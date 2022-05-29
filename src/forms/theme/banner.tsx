@@ -1,51 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { Formik } from 'formik';
-import { useThemeMutation } from 'hooks/use-theme-mutation';
-import { useNavigate } from 'react-router-dom';
-import useShop from 'hooks/use-shop';
-import { Loading } from 'components/blocks/backdrop';
-import { Template } from 'typings/theme/template';
-import SimpleImageDropzone from 'components/single-image-dropzone';
-import { useUpload } from 'hooks/use-upload';
-import { proxyURL } from 'utils/urlsigner';
-import toast from 'react-hot-toast';
-
+import React, { useEffect, useState } from "react"
+import { Formik } from "formik"
+import { useThemeMutation } from "hooks/use-theme-mutation"
+import { useNavigate } from "react-router-dom"
+import useShop from "hooks/use-shop"
+import { Loading } from "components/blocks/backdrop"
+import { Template } from "typings/theme/template"
+import SimpleImageDropzone from "components/single-image-dropzone"
+import { useUpload } from "hooks/use-upload"
+import { proxyURL } from "utils/urlsigner"
+import toast from "react-hot-toast"
 
 function Banner() {
-  const navigate = useNavigate();
-  const { shop } = useShop();
-  const { theme, update, isUpdatingTheme, isLoadingTheme} = useThemeMutation();
-  const ind = theme?.templates?.findIndex(t => t.type === 'index');
-  const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {};
-  const cob = JSON.parse(tpl?.content ?? '{}');
+  const navigate = useNavigate()
+  const { shop } = useShop()
+  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation()
+  const ind = theme?.templates?.findIndex((t) => t.type === "index")
+  const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {}
+  const cob = JSON.parse(tpl?.content ?? "{}")
   const initialValues =
-    cob && cob.sections && cob.sections['section-banner']
-      ? cob.sections['section-banner'].settings
-      : {};
+    cob && cob.sections && cob.sections["section-banner"]
+      ? cob.sections["section-banner"].settings
+      : {}
   // set the image if one already exists
-  const [image, setImage] = useState(initialValues['image'] ?? '');
+  const [image, setImage] = useState(initialValues["image"] ?? "")
 
-  const { upload } = useUpload();
+  const { upload } = useUpload()
 
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDirty, setIsDirty] = useState(false)
   const onImageChange = (files: File[]) => {
-    if (files.length < 1) return;
-    const pickf = files[0];
-    setImage(pickf['preview'] ?? '');
-    setIsDirty(true);
-    upload(files).then(bundle => {
+    if (files.length < 1) return
+    const pickf = files[0]
+    setImage(pickf["preview"] ?? "")
+    setIsDirty(true)
+    upload(files).then((bundle) => {
       // const statuses = bundle.transloadit; // Array of Assembly statuses
-      const assemblyResults = bundle.results;
+      const assemblyResults = bundle.results
       if (assemblyResults) {
-        const url = assemblyResults[0].ssl_url;
-        setImage(url);
-        setIsDirty(false);
+        const url = assemblyResults[0].ssl_url
+        setImage(url)
+        setIsDirty(false)
       }
-      return;
-    });
-  };
+      return
+    })
+  }
   useEffect(() => {
-    setImage(initialValues['image'])
+    setImage(initialValues["image"])
   }, [theme])
 
   useEffect(() => {
@@ -62,31 +61,31 @@ function Banner() {
       <Formik
         enableReinitialize
         initialValues={{
-          image: '',
-          headline: '',
-          text: '',
-          'button-url': '',
-          'button-text': '',
+          image: "",
+          headline: "",
+          text: "",
+          "button-url": "",
+          "button-text": "",
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values };
-          let content = cob;
-          if (!content) content = {};
-          if (!content.sections) content.sections = {};
+          const vals = { ...values }
+          let content = cob
+          if (!content) content = {}
+          if (!content.sections) content.sections = {}
           content.sections = {
             ...content?.sections,
-            'section-banner': {
-              ...content.sections['section-banner'],
+            "section-banner": {
+              ...content.sections["section-banner"],
               settings: { ...vals, image },
             },
-          };
-          const modfTemp = tpl;
-          modfTemp.content = JSON.stringify(content);
-          const modfTheme = theme;
-          modfTheme!.templates![ind!] = modfTemp;
-          update(modfTheme!);
-          setSubmitting(false);
+          }
+          const modfTemp = tpl
+          modfTemp.content = JSON.stringify(content)
+          const modfTheme = theme
+          modfTheme!.templates![ind!] = modfTemp
+          update(modfTheme!)
+          setSubmitting(false)
         }}
       >
         {({
@@ -112,7 +111,7 @@ function Banner() {
                   <div className="w-full">
                     <SimpleImageDropzone
                       onChange={onImageChange}
-                      label={'Banner'}
+                      label={"Banner"}
                       value={image}
                       height="100%"
                       width="100%"
@@ -179,7 +178,7 @@ function Banner() {
                       name="button-text"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values['button-text']}
+                      value={values["button-text"]}
                       className="form-input w-full"
                       type="text"
                       placeholder="View all"
@@ -200,7 +199,7 @@ function Banner() {
                       name="button-url"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values['button-url']}
+                      value={values["button-url"]}
                       className="form-input w-full"
                       type="text"
                       placeholder="/collections/all"
@@ -220,9 +219,9 @@ function Banner() {
                     Cancel
                   </button>
                   <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -235,7 +234,7 @@ function Banner() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default Banner;
+export default Banner

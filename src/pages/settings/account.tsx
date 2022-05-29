@@ -1,12 +1,12 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy, useState } from "react"
 
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import StorePanel from 'partials/settings/store-panel';
-import { Link } from 'react-router-dom';
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import StorePanel from "partials/settings/store-panel"
+import { Link } from "react-router-dom"
 
 function Account() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -19,7 +19,7 @@ function Account() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={'Account'}
+          location={"Account"}
         />
         <div className="px-6 py-8 bg-slate-50 border border-slate-200 rounded-sm">
           <div className="text-start">
@@ -62,7 +62,7 @@ function Account() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default Account;
+export default Account

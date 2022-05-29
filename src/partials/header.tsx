@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { useAtom } from 'jotai';
+import React, { useState } from "react"
+import { useAtom } from "jotai"
 
-import SearchModal from 'components/modal-search';
-import Notifications from 'components/dropdown-notifications';
-import Help from 'components/dropdown-help';
-import UserMenu from 'components/dropdown-profile';
-import useShop from 'hooks/use-shop';
+import SearchModal from "components/modal-search"
+import Notifications from "components/dropdown-notifications"
+import Help from "components/dropdown-help"
+import UserMenu from "components/dropdown-profile"
+import useShop from "hooks/use-shop"
 
 function Header({ sidebarOpen, setSidebarOpen, location }) {
-  const { shop } = useShop();
-  const shopName = shop?.business_display_name;
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const { shop } = useShop()
+  const shopName = shop?.business_display_name
+  const [searchModalOpen, setSearchModalOpen] = useState(false)
 
   return (
     <header
       className={`sticky md:sticky w-full top-0 z-20 max-w-full bg-white ${
-        !searchModalOpen && 'backdrop-blur-md'
+        !searchModalOpen && "backdrop-blur-md"
       }`}
     >
       <div className="px-4 sm:px-6 lg:px-8">
@@ -51,11 +51,11 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
           <div className="flex items-center space-x-3">
             <button
               className={`w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition duration-150 rounded-full ml-3 ${
-                searchModalOpen && 'w-px h-6 bg-slate-200 mx-3'
+                searchModalOpen && "w-px h-6 bg-slate-200 mx-3"
               }`}
-              onClick={e => {
-                e.stopPropagation();
-                setSearchModalOpen(true);
+              onClick={(e) => {
+                e.stopPropagation()
+                setSearchModalOpen(true)
               }}
               aria-controls="search-modal"
             >
@@ -90,7 +90,7 @@ function Header({ sidebarOpen, setSidebarOpen, location }) {
         </div>
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

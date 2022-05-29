@@ -26,5 +26,5 @@ export const Dot = ({ ...props }) => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}

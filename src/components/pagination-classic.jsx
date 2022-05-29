@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function PaginationClassic({ previous, next }) {
   return (
@@ -13,14 +13,14 @@ function PaginationClassic({ previous, next }) {
             <a
               className={` ${
                 previous.disabled
-                  ? 'btn bg-white border-gray-200 text-gray-300 cursor-not-allowed'
-                  : 'btn bg-white border-gray-200 hover:border-gray-300 text-purple-500'
+                  ? "btn bg-white border-gray-200 text-gray-300 cursor-not-allowed"
+                  : "btn bg-white border-gray-200 hover:border-gray-300 text-purple-500"
               }`}
               href="#0"
               disabled={previous.disabled}
-              onClick={e => {
-                e.stopPropagation();
-                previous.callBack();
+              onClick={(e) => {
+                e.stopPropagation()
+                previous.callBack()
               }}
             >
               <svg
@@ -42,14 +42,14 @@ function PaginationClassic({ previous, next }) {
             <a
               className={` ${
                 next.disabled
-                  ? 'btn bg-white border-gray-200 text-gray-300 cursor-not-allowed'
-                  : 'btn bg-white border-gray-200 hover:border-gray-300 text-purple-500'
+                  ? "btn bg-white border-gray-200 text-gray-300 cursor-not-allowed"
+                  : "btn bg-white border-gray-200 hover:border-gray-300 text-purple-500"
               }`}
               href="#0"
               disabled={previous.disabled}
-              onClick={e => {
-                e.stopPropagation();
-                next.callBack();
+              onClick={(e) => {
+                e.stopPropagation()
+                next.callBack()
               }}
             >
               Next
@@ -75,7 +75,7 @@ function PaginationClassic({ previous, next }) {
         <span className="font-medium text-gray-600">467</span> results
       </div> */}
     </div>
-  );
+  )
 }
 
-export default PaginationClassic;
+export default PaginationClassic

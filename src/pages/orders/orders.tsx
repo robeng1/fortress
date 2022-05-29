@@ -1,68 +1,70 @@
-import React, { ChangeEvent, lazy, useState } from 'react';
-import { useQuery } from 'react-query';
-import isEmpty from 'lodash/isEmpty';
-import Pagination from '@mui/material/Pagination';
-import BottomNav from 'components/bottom-navigation';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import DeleteButton from 'partials/actions/DeleteButton';
-import DateSelect from 'components/date-select';
-import FilterButton from 'components/dropdown-filter';
-import SearchForm from 'partials/actions/search-box';
-import { fortressURL } from 'endpoints/urls';
-import OrdersTable from 'partials/orders/order-table';
-import Order from 'partials/orders/order-manager';
-import useShop from 'hooks/use-shop';
-import { ThemeProvider } from 'styles/material/theme';
-import { request } from 'utils/request';
-import ThreeDots from 'components/ui/loaders/three-dots';
+import React, { ChangeEvent, lazy, useState } from "react"
+import { useQuery } from "react-query"
+import isEmpty from "lodash/isEmpty"
+import Pagination from "@mui/material/Pagination"
+import BottomNav from "components/bottom-navigation"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import DeleteButton from "partials/actions/DeleteButton"
+import DateSelect from "components/date-select"
+import FilterButton from "components/dropdown-filter"
+import SearchForm from "partials/actions/search-box"
+import { fortressURL } from "endpoints/urls"
+import OrdersTable from "partials/orders/order-table"
+import Order from "partials/orders/order-manager"
+import useShop from "hooks/use-shop"
+import { ThemeProvider } from "styles/material/theme"
+import { request } from "utils/request"
+import ThreeDots from "components/ui/loaders/three-dots"
 
 function Orders() {
-  const { shop } = useShop();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<any>([]);
-  const [showOrder, setShowOrder] = useState<Boolean>(false);
+  const { shop } = useShop()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState<any>([])
+  const [showOrder, setShowOrder] = useState<Boolean>(false)
   const [currentlyShowingOrderId, setCurrentlyShowingOrderId] = useState<
     string | undefined
-  >();
+  >()
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(15)
 
-  const query = `SELECT * FROM "order" WHERE shop_id = '${shop?.shop_id
-    }' ORDER BY updated_at DESC LIMIT ${(page - 1) * (itemsPerPage + 1)
-    }, ${itemsPerPage}`;
+  const query = `SELECT * FROM "order" WHERE shop_id = '${
+    shop?.shop_id
+  }' ORDER BY updated_at DESC LIMIT ${
+    (page - 1) * (itemsPerPage + 1)
+  }, ${itemsPerPage}`
 
   const { data, isLoading } = useQuery(
-    ['orderviews', page],
+    ["orderviews", page],
     async () => {
       try {
         const views = await request(
           `${fortressURL}/shops/${shop?.shop_id}/order-views`,
           {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(query),
-            headers: { 'Content-Type': 'application/json' },
-          },
-        );
-        return views;
-      } catch (error) { }
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+        return views
+      } catch (error) {}
     },
 
-    { keepPreviousData: true, enabled: !!shop?.shop_id },
-  );
+    { keepPreviousData: true, enabled: !!shop?.shop_id }
+  )
 
   const handleSelectedItems = (selectedItems: any) => {
-    setSelectedItems([...selectedItems]);
-  };
+    setSelectedItems([...selectedItems])
+  }
 
   const handleShow = (display: Boolean, orderId?: string) => {
-    setCurrentlyShowingOrderId(orderId);
-    setShowOrder(display);
-  };
+    setCurrentlyShowingOrderId(orderId)
+    setShowOrder(display)
+  }
 
-  const orders = data?.orders;
+  const orders = data?.orders
   const renderList = () => {
     return (
       <main className="mb-10 md:mb-0">
@@ -109,11 +111,11 @@ function Orders() {
               </button>
             </div>
           </div>
-          {isLoading &&
+          {isLoading && (
             <div className="sm:flex sm:items-center justify-center">
               <ThreeDots />
             </div>
-          }
+          )}
           {data && (
             <div className="sm:flex sm:justify-between sm:items-center mb-5">
               {/* Left side */}
@@ -138,34 +140,35 @@ function Orders() {
               </div> */}
             </div>
           )}
-          {!isLoading && <>
-            {/* Table */}
-            <OrdersTable
-              selectedItems={handleSelectedItems}
-              orders={data?.views || []}
-            />
+          {!isLoading && (
+            <>
+              {/* Table */}
+              <OrdersTable
+                selectedItems={handleSelectedItems}
+                orders={data?.views || []}
+              />
 
-            {/* Pagination */}
-            {!isEmpty(orders) && data?.total > itemsPerPage && (
-              <ThemeProvider>
-                <Pagination
-                  count={data?.total / itemsPerPage}
-                  variant="outlined"
-                  color="primary"
-                  className="mt-4 md:mt-8"
-                  page={page}
-                  onChange={(event: ChangeEvent<unknown>, page: number) =>
-                    setPage(page)
-                  }
-                />
-              </ThemeProvider>
-            )}
-          </>}
-
+              {/* Pagination */}
+              {!isEmpty(orders) && data?.total > itemsPerPage && (
+                <ThemeProvider>
+                  <Pagination
+                    count={data?.total / itemsPerPage}
+                    variant="outlined"
+                    color="primary"
+                    className="mt-4 md:mt-8"
+                    page={page}
+                    onChange={(event: ChangeEvent<unknown>, page: number) =>
+                      setPage(page)
+                    }
+                  />
+                </ThemeProvider>
+              )}
+            </>
+          )}
         </div>
       </main>
-    );
-  };
+    )
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -185,7 +188,7 @@ function Orders() {
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Orders;
+export default Orders

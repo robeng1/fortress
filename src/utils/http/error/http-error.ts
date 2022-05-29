@@ -1,30 +1,30 @@
 export class HttpError<TCode extends number = number> extends Error {
-  public readonly cause: unknown;
-  public readonly statusCode: TCode;
-  public readonly message: string;
-  public readonly url: string | undefined;
-  public readonly method: string | undefined;
+  public readonly cause: unknown
+  public readonly statusCode: TCode
+  public readonly message: string
+  public readonly url: string | undefined
+  public readonly method: string | undefined
 
   constructor(opts: {
-    url?: string;
-    method?: string;
-    message?: string;
-    statusCode: TCode;
-    cause?: unknown;
+    url?: string
+    method?: string
+    message?: string
+    statusCode: TCode
+    cause?: unknown
   }) {
-    super(opts.message ?? `HTTP Error ${opts.statusCode} `);
+    super(opts.message ?? `HTTP Error ${opts.statusCode} `)
 
-    Object.setPrototypeOf(this, HttpError.prototype);
-    this.name = HttpError.prototype.constructor.name;
+    Object.setPrototypeOf(this, HttpError.prototype)
+    this.name = HttpError.prototype.constructor.name
 
-    this.cause = opts.cause;
-    this.statusCode = opts.statusCode;
-    this.url = opts.url;
-    this.method = opts.method;
-    this.message = opts.message ?? `HTTP Error ${opts.statusCode}`;
+    this.cause = opts.cause
+    this.statusCode = opts.statusCode
+    this.url = opts.url
+    this.method = opts.method
+    this.message = opts.message ?? `HTTP Error ${opts.statusCode}`
 
     if (opts.cause instanceof Error && opts.cause.stack) {
-      this.stack = opts.cause.stack;
+      this.stack = opts.cause.stack
     }
   }
 
@@ -34,6 +34,6 @@ export class HttpError<TCode extends number = number> extends Error {
       url: response.url,
       method: request.method,
       statusCode: response.status,
-    });
+    })
   }
 }

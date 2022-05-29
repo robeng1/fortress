@@ -1,4 +1,4 @@
-export const InstagramIcon: React.FC<React.SVGAttributes<{}>> = props => (
+export const InstagramIcon: React.FC<React.SVGAttributes<{}>> = (props) => (
   <svg
     data-name="Group 96"
     xmlns="http://www.w3.org/2000/svg"
@@ -16,4 +16,4 @@ export const InstagramIcon: React.FC<React.SVGAttributes<{}>> = props => (
       fill="currentColor"
     />
   </svg>
-);
+)

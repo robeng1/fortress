@@ -1,4 +1,4 @@
-export const DashboardIcon: React.FC<React.SVGAttributes<{}>> = props => (
+export const DashboardIcon: React.FC<React.SVGAttributes<{}>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.2 16.2" {...props}>
     <g data-name="menu (1)">
       <g data-name="Group 36282">
@@ -39,4 +39,4 @@ export const DashboardIcon: React.FC<React.SVGAttributes<{}>> = props => (
       </g>
     </g>
   </svg>
-);
+)

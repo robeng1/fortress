@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import isEmpty from 'lodash/isEmpty';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { theKeepURL } from 'endpoints/urls';
-import { RegisterLogInType } from 'typings/user/profile';
-import { useMutation, useQueryClient } from 'react-query';
-import { request, ResponseError } from 'utils/request';
-import { useAtom } from 'jotai';
-import { sessionAtom } from 'store/authorization-atom';
-import Input from 'components/blocks/input';
-import PasswordInput from 'components/blocks/password-input';
-import Button from 'components/blocks/button';
-import { Footer } from 'components/blocks/footer';
+import React, { useState, useEffect } from "react"
+import isEmpty from "lodash/isEmpty"
+import { Link, useNavigate, useLocation } from "react-router-dom"
+import { theKeepURL } from "endpoints/urls"
+import { RegisterLogInType } from "typings/user/profile"
+import { useMutation, useQueryClient } from "react-query"
+import { request, ResponseError } from "utils/request"
+import { useAtom } from "jotai"
+import { sessionAtom } from "store/authorization-atom"
+import Input from "components/blocks/input"
+import PasswordInput from "components/blocks/password-input"
+import Button from "components/blocks/button"
+import { Footer } from "components/blocks/footer"
 
 interface LocationState {
-  from: string;
+  from: string
 }
 
 function Signin() {
-  const queryClient = useQueryClient();
-  const requestURL = `${theKeepURL}/auth/login`;
-  const [session, setSession] = useAtom(sessionAtom);
+  const queryClient = useQueryClient()
+  const requestURL = `${theKeepURL}/auth/login`
+  const [session, setSession] = useAtom(sessionAtom)
   const {
     mutate: login,
     isLoading,
@@ -28,35 +28,35 @@ function Signin() {
   } = useMutation(
     (payload: RegisterLogInType) =>
       request(requestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: async (s: Record<string, any>) => {
-        setSession(s);
-        queryClient.prefetchQuery(['shop', s?.identity?.account_id]);
+        setSession(s)
+        queryClient.prefetchQuery(["shop", s?.identity?.account_id])
       },
       onError: (e: ResponseError) => {},
-    },
-  );
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { from } = (location.state as LocationState) || { from: '/' };
+    }
+  )
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { from } = (location.state as LocationState) || { from: "/" }
 
-  const isAuthenticated = !isEmpty(session);
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
-  const handleSubmit = e => {
-    e.preventDefault();
-    login({ identifier, password });
-  };
+  const isAuthenticated = !isEmpty(session)
+  const [identifier, setIdentifier] = useState("")
+  const [password, setPassword] = useState("")
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    login({ identifier, password })
+  }
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from || '/');
+      navigate(from || "/")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, from]);
+  }, [isAuthenticated, from])
 
   return (
     <div className="flex flex-col md:items-center md:justify-center h-screen bg-slate-100 sm:bg-gray-100">
@@ -75,7 +75,7 @@ function Signin() {
               id="identifier"
               name="identifier"
               type="text"
-              onChange={e => setIdentifier(e.target.value)}
+              onChange={(e) => setIdentifier(e.target.value)}
             />
 
             <PasswordInput
@@ -85,8 +85,8 @@ function Signin() {
               name="password"
               type="password"
               autoComplete="on"
-              onChange={e => setPassword(e.target.value)}
-              label={'Password'}
+              onChange={(e) => setPassword(e.target.value)}
+              label={"Password"}
               error={undefined}
             />
           </div>
@@ -102,7 +102,7 @@ function Signin() {
         </div>
         <div className="pt-5 mt-6 border-t border-gray-200">
           <div className="text-sm">
-            Don’t have an account?{' '}
+            Don’t have an account?{" "}
             <Link
               className="font-bold text-indigo-500 hover:text-indigo-600"
               to="/signup"
@@ -116,7 +116,7 @@ function Signin() {
         <Footer />
       </div>
     </div>
-  );
+  )
 }
 
-export default Signin;
+export default Signin

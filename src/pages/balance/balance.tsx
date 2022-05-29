@@ -1,113 +1,128 @@
-import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import Pagination from '@mui/material/Pagination';
-import Transition from '../../utils/transition';
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+import Pagination from "@mui/material/Pagination"
+import Transition from "../../utils/transition"
 
-import { paymentURL } from 'endpoints/urls';
+import { paymentURL } from "endpoints/urls"
 
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import FilterButton from 'components/dropdown-filter';
-import BottomNav from 'components/bottom-navigation';
-import { useAtom } from 'jotai';
-import { request, ResponseError } from 'utils/request';
-import { uidAtom } from 'store/authorization-atom';
-import DateSelect from 'components/date-select';
-import { currencyToM, mToS, mToSFormatted, mToSFormattedK, sToCurrency, sToM } from 'utils/money';
-import Button from 'components/blocks/button';
-import { TransferKind, TransferType } from 'typings/payment/transfer';
-import Input from 'components/blocks/input';
-import useShop from 'hooks/use-shop';
-import usePayment from 'hooks/use-payment';
-import { ThemeProvider } from 'styles/material/theme';
-import { TransactionType, TransactionViewType } from 'typings/payment/transaction-type';
-import ThreeDots from 'components/ui/loaders/three-dots';
-import TransactionItem from 'partials/balance/transaction-item';
-import toast from 'react-hot-toast';
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import FilterButton from "components/dropdown-filter"
+import BottomNav from "components/bottom-navigation"
+import { useAtom } from "jotai"
+import { request, ResponseError } from "utils/request"
+import { uidAtom } from "store/authorization-atom"
+import DateSelect from "components/date-select"
+import {
+  currencyToM,
+  mToS,
+  mToSFormatted,
+  mToSFormattedK,
+  sToCurrency,
+  sToM,
+} from "utils/money"
+import Button from "components/blocks/button"
+import { TransferKind, TransferType } from "typings/payment/transfer"
+import Input from "components/blocks/input"
+import useShop from "hooks/use-shop"
+import usePayment from "hooks/use-payment"
+import { ThemeProvider } from "styles/material/theme"
+import {
+  TransactionType,
+  TransactionViewType,
+} from "typings/payment/transaction-type"
+import ThreeDots from "components/ui/loaders/three-dots"
+import TransactionItem from "partials/balance/transaction-item"
+import toast from "react-hot-toast"
 
 function Balance() {
-  const klient = useQueryClient();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [open, setOpen] = useState(false);
-  const { shop } = useShop();
-  const shopId = shop?.shop_id;
-  const { shopAccount: paymentAccount } = usePayment();
-  const [accountId] = useAtom(uidAtom);
-  const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`;
-  const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`;
+  const klient = useQueryClient()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const { shop } = useShop()
+  const shopId = shop?.shop_id
+  const { shopAccount: paymentAccount } = usePayment()
+  const [accountId] = useAtom(uidAtom)
+  const requestURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}`
+  const withdrawalURL = `${paymentURL}/${shopId}/accounts/${paymentAccount?.account_id}/withdraw`
 
-  const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState<number>(15);
-  const [amountToWithdraw, setAmountToWithdraw] = useState<string>('0.0');
+  const [page, setPage] = useState(1)
+  const [itemsPerPage] = useState<number>(15)
+  const [amountToWithdraw, setAmountToWithdraw] = useState<string>("0.0")
 
-  const trigger = useRef<HTMLButtonElement>(null);
-  const dropdown = useRef<HTMLDivElement>(null);
-  const align = 'right';
+  const trigger = useRef<HTMLButtonElement>(null)
+  const dropdown = useRef<HTMLDivElement>(null)
+  const align = "right"
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!dropdown.current) return;
+      if (!dropdown.current) return
       if (
         !open ||
         dropdown.current.contains(target) ||
         trigger?.current?.contains(target)
       )
-        return;
-      setOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+        return
+      setOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!open || keyCode !== 27) return;
-      setOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!open || keyCode !== 27) return
+      setOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
-  const query = `SELECT * FROM transaction WHERE account_id = '${paymentAccount?.account_id}' ORDER BY created_at DESC LIMIT ${((page - 1) * itemsPerPage + 1) - 1
-    }, ${itemsPerPage}`;
+  const query = `SELECT * FROM transaction WHERE account_id = '${
+    paymentAccount?.account_id
+  }' ORDER BY created_at DESC LIMIT ${
+    (page - 1) * itemsPerPage + 1 - 1
+  }, ${itemsPerPage}`
 
   const { data, isLoading } = useQuery<TransactionViewType[], ResponseError>(
-    ['account-activities', page],
+    ["account-activities", page],
     async () => {
       try {
         const resp = await request(`${requestURL}/transactions`, {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify(query),
-          headers: { 'Content-Type': 'application/json' },
-        });
-        return resp;
-      } catch (error) { }
+          headers: { "Content-Type": "application/json" },
+        })
+        return resp
+      } catch (error) {}
     },
 
     {
       keepPreviousData: true,
       enabled: !!accountId && !!paymentAccount?.account_id,
-    },
-  );
+    }
+  )
 
   const { mutateAsync: makeWithdrawal } = useMutation(
     (payload: TransferType) =>
       request(withdrawalURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ transfer: payload }),
       }),
     {
       onSuccess: (transfer: TransferType) => {
-        klient.invalidateQueries(['account-activities', page])
-        toast.success('Amount succefully sent');
+        klient.invalidateQueries(["account-activities", page])
+        toast.success("Amount succefully sent")
       },
       onError: (e: ResponseError) => {
-        toast.error('Could not process withdraw at this time due to ' + e.message);
+        toast.error(
+          "Could not process withdraw at this time due to " + e.message
+        )
       },
-    },
-  );
+    }
+  )
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -204,8 +219,9 @@ function Balance() {
                   <Transition
                     show={open}
                     tag="div"
-                    className={`origin-top-right z-10 absolute top-full min-w-56 bg-white border border-gray-200 pt-1.5 rounded shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'right-0' : 'left-0'
-                      }`}
+                    className={`origin-top-right z-10 absolute top-full min-w-56 bg-white border border-gray-200 pt-1.5 rounded shadow-lg overflow-hidden mt-1 ${
+                      align === "right" ? "right-0" : "left-0"
+                    }`}
                     enter="transition ease-out duration-200 transform"
                     enterStart="opacity-0 -translate-y-2"
                     enterEnd="opacity-100 translate-y-0"
@@ -218,19 +234,21 @@ function Balance() {
                       <div className="align-middle">
                         <div className="flex justify-between content-center py-3 space-x-6 px-8">
                           <Input
-                            label={'Amount'}
+                            label={"Amount"}
                             type="text"
                             className="self-center block"
-                            onChange={e => setAmountToWithdraw(e.target.value)}
+                            onChange={(e) =>
+                              setAmountToWithdraw(e.target.value)
+                            }
                             value={amountToWithdraw}
-                            onBlur={event =>
+                            onBlur={(event) =>
                               setAmountToWithdraw(
                                 sToCurrency(
-                                  event.currentTarget.value,
-                                ).toString(),
+                                  event.currentTarget.value
+                                ).toString()
                               )
                             }
-                            name={'amount'}
+                            name={"amount"}
                           />
                         </div>
                       </div>
@@ -258,16 +276,16 @@ function Balance() {
                                   is_system: false,
                                   amount: currencyToM(
                                     sToCurrency(amountToWithdraw),
-                                    shop?.currency?.iso_code,
+                                    shop?.currency?.iso_code
                                   ),
-                                  description: 'Payout',
-                                };
+                                  description: "Payout",
+                                }
                                 toast.promise(makeWithdrawal(trsf), {
                                   loading: "Processing cashout",
                                   success: "Cashout processed",
-                                  error: null
+                                  error: null,
                                 })
-                                setOpen(false);
+                                setOpen(false)
                               }}
                               onBlur={() => setOpen(false)}
                             >
@@ -281,77 +299,94 @@ function Balance() {
                 </div>
               </div>
             </div>
-            {isLoading &&
+            {isLoading && (
               <div className="sm:flex sm:items-center justify-center">
                 <ThreeDots />
               </div>
-            }
-            {!isLoading && <>
-              <div className='hidden lg:block'>
-                <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-gray-200">
-                  <div className="p-3">
-                    {/* Table */}
-                    <div className="overflow-x-auto">
-                      <table className="table-auto w-full">
-                        {/* Table header */}
-                        <thead className="text-xs uppercase text-gray-400 bg-gray-50 rounded-lg">
-                          <tr>
-                            <th className="p-2">
-                              <div className="font-semibold text-left">Date</div>
-                            </th>
-                            <th className="p-2">
-                              <div className="font-semibold text-left">
-                                Description
-                              </div>
-                            </th>
-                            <th className="p-2">
-                              <div className="font-semibold text-right">
-                                Amount
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                        {/* Table body */}
-                        <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
-                          {data && data.map((txn, index) =>
-                            <tr key={index}>
-                              <td className="p-2 w-1/6">
-                                <div className="text-left text-gray-500">
-                                  {new Date(txn.created_at).toDateString()}
+            )}
+            {!isLoading && (
+              <>
+                <div className="hidden lg:block">
+                  <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-gray-200">
+                    <div className="p-3">
+                      {/* Table */}
+                      <div className="overflow-x-auto">
+                        <table className="table-auto w-full">
+                          {/* Table header */}
+                          <thead className="text-xs uppercase text-gray-400 bg-gray-50 rounded-lg">
+                            <tr>
+                              <th className="p-2">
+                                <div className="font-semibold text-left">
+                                  Date
                                 </div>
-                              </td>
-                              <td className="p-2 w-3/6">
-                                <div className="flex items-center">
-                                  <div className="text-gray-500">{txn.description}</div>
+                              </th>
+                              <th className="p-2">
+                                <div className="font-semibold text-left">
+                                  Description
                                 </div>
-                              </td>
-                              <td className="p-2 w-2/6">
-                                <div className={`text-right text-gray-800 ${txn.minor_amount < 0 ? "text-gray-800 " : "text-green-500"}`}>
-                                  {txn.minor_amount < 0 ? "" : "+"}{mToSFormatted({ amount: txn.minor_amount, currency: txn.currency })}
+                              </th>
+                              <th className="p-2">
+                                <div className="font-semibold text-right">
+                                  Amount
                                 </div>
-                              </td>
+                              </th>
                             </tr>
-                          )}
-                        </tbody>
-                      </table>
+                          </thead>
+                          {/* Table body */}
+                          <tbody className="text-xs sm:text-sm font-medium divide-y divide-gray-100">
+                            {data &&
+                              data.map((txn, index) => (
+                                <tr key={index}>
+                                  <td className="p-2 w-1/6">
+                                    <div className="text-left text-gray-500">
+                                      {new Date(txn.created_at).toDateString()}
+                                    </div>
+                                  </td>
+                                  <td className="p-2 w-3/6">
+                                    <div className="flex items-center">
+                                      <div className="text-gray-500">
+                                        {txn.description}
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td className="p-2 w-2/6">
+                                    <div
+                                      className={`text-right text-gray-800 ${
+                                        txn.minor_amount < 0
+                                          ? "text-gray-800 "
+                                          : "text-green-500"
+                                      }`}
+                                    >
+                                      {txn.minor_amount < 0 ? "" : "+"}
+                                      {mToSFormatted({
+                                        amount: txn.minor_amount,
+                                        currency: txn.currency,
+                                      })}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className='block lg:hidden space-y-2'>
-                {data && data.map((txn, index) =>
-                  <TransactionItem key={index} txn={txn} />
-                )}
-              </div>
-            </>}
-
+                <div className="block lg:hidden space-y-2">
+                  {data &&
+                    data.map((txn, index) => (
+                      <TransactionItem key={index} txn={txn} />
+                    ))}
+                </div>
+              </>
+            )}
           </div>
         </main>
 
         <BottomNav />
       </div>
     </div>
-  );
+  )
 }
 
-export default Balance;
+export default Balance

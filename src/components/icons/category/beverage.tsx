@@ -1,5 +1,5 @@
-import React from 'react';
-export const Beverage: React.FC<React.SVGAttributes<{}>> = props => {
+import React from "react"
+export const Beverage: React.FC<React.SVGAttributes<{}>> = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,5 +17,5 @@ export const Beverage: React.FC<React.SVGAttributes<{}>> = props => {
         strokeWidth="0.1"
       />
     </svg>
-  );
-};
+  )
+}

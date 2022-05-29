@@ -1,41 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import EmptyState from 'partials/empty-state';
-import Collection from './collection-table-item';
-import CollectionList from './mobile/collection-list';
-import { CollectionViewType } from 'typings/collection/collection-type';
+import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import EmptyState from "partials/empty-state"
+import Collection from "./collection-table-item"
+import CollectionList from "./mobile/collection-list"
+import { CollectionViewType } from "typings/collection/collection-type"
 
 type CollectionsTableProps = {
   selectedItems: (items: string[]) => void
   collections: CollectionViewType[]
 }
 
-const CollectionsTable: React.FC<CollectionsTableProps> = ({ selectedItems, collections }) => {
-  const navigate = useNavigate();
-  const [selectAll, setSelectAll] = useState(false);
-  const [isCheck, setIsCheck] = useState<any[]>([]);
+const CollectionsTable: React.FC<CollectionsTableProps> = ({
+  selectedItems,
+  collections,
+}) => {
+  const navigate = useNavigate()
+  const [selectAll, setSelectAll] = useState(false)
+  const [isCheck, setIsCheck] = useState<any[]>([])
 
   const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setIsCheck(collections.map(li => li.collection_id));
+    setSelectAll(!selectAll)
+    setIsCheck(collections.map((li) => li.collection_id))
     if (selectAll) {
-      setIsCheck([]);
+      setIsCheck([])
     }
-  };
+  }
 
-  const handleClick = e => {
-    const { id, checked } = e.target;
-    setSelectAll(false);
-    setIsCheck([...isCheck, id]);
+  const handleClick = (e) => {
+    const { id, checked } = e.target
+    setSelectAll(false)
+    setIsCheck([...isCheck, id])
     if (!checked) {
-      setIsCheck(isCheck.filter(item => item !== id));
+      setIsCheck(isCheck.filter((item) => item !== id))
     }
-  };
+  }
 
   useEffect(() => {
-    selectedItems(isCheck);
+    selectedItems(isCheck)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCheck]);
+  }, [isCheck])
 
   return (
     <>
@@ -83,7 +86,7 @@ const CollectionsTable: React.FC<CollectionsTableProps> = ({ selectedItems, coll
                 </thead>
                 {/* Table body */}
                 <tbody className="text-sm divide-y divide-gray-200">
-                  {collections.map(collection => {
+                  {collections.map((collection) => {
                     return (
                       <Collection
                         key={collection.collection_id}
@@ -92,7 +95,7 @@ const CollectionsTable: React.FC<CollectionsTableProps> = ({ selectedItems, coll
                         isChecked={isCheck.includes(collection.collection_id)}
                         selectedItems={selectedItems}
                       />
-                    );
+                    )
                   })}
                 </tbody>
               </table>
@@ -104,13 +107,13 @@ const CollectionsTable: React.FC<CollectionsTableProps> = ({ selectedItems, coll
           heading="No collections yet"
           msg="Collections are a way to group products."
           action={{
-            name: 'Create collection',
-            func: () => navigate('/shop/collections/new'),
+            name: "Create collection",
+            func: () => navigate("/shop/collections/new"),
           }}
         />
       )}
     </>
-  );
+  )
 }
 
-export default CollectionsTable;
+export default CollectionsTable

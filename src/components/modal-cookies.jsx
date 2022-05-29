@@ -1,28 +1,28 @@
-import React, { useRef, useEffect } from 'react';
-import Transition from '../utils/transition';
+import React, { useRef, useEffect } from "react"
+import Transition from "../utils/transition"
 
 function ModalCookies({ children, id, title, modalOpen, setModalOpen }) {
-  const modalContent = useRef(null);
+  const modalContent = useRef(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
-      if (!modalOpen || modalContent.current.contains(target)) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+      if (!modalOpen || modalContent.current.contains(target)) return
+      setModalOpen(false)
+    }
+    document.addEventListener("click", clickHandler)
+    return () => document.removeEventListener("click", clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
-      if (!modalOpen || keyCode !== 27) return;
-      setModalOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!modalOpen || keyCode !== 27) return
+      setModalOpen(false)
+    }
+    document.addEventListener("keydown", keyHandler)
+    return () => document.removeEventListener("keydown", keyHandler)
+  })
 
   return (
     <>
@@ -65,9 +65,9 @@ function ModalCookies({ children, id, title, modalOpen, setModalOpen }) {
                 </div>
                 <button
                   className="text-gray-400 hover:text-gray-500"
-                  onClick={e => {
-                    e.stopPropagation();
-                    setModalOpen(false);
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setModalOpen(false)
                   }}
                 >
                   <div className="sr-only">Close</div>
@@ -82,7 +82,7 @@ function ModalCookies({ children, id, title, modalOpen, setModalOpen }) {
         </div>
       </Transition>
     </>
-  );
+  )
 }
 
-export default ModalCookies;
+export default ModalCookies

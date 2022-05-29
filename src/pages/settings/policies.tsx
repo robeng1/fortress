@@ -1,13 +1,13 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy, useState } from "react"
 
-import BottomNav from 'components/bottom-navigation';
-import Sidebar from 'partials/sidebar';
-import Header from 'partials/header';
-import PoliciesPanel from 'partials/settings/policies-panel';
-import { Link } from 'react-router-dom';
+import BottomNav from "components/bottom-navigation"
+import Sidebar from "partials/sidebar"
+import Header from "partials/header"
+import PoliciesPanel from "partials/settings/policies-panel"
+import { Link } from "react-router-dom"
 
 function Policies() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -20,7 +20,7 @@ function Policies() {
         <Header
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-          location={'Legal'}
+          location={"Legal"}
         />
         <div className="px-6 py-8 bg-slate-50 border border-slate-200 rounded-sm">
           <div className="text-start">
@@ -64,7 +64,7 @@ function Policies() {
       </div>
       <BottomNav />
     </div>
-  );
+  )
 }
 
-export default Policies;
+export default Policies

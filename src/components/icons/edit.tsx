@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 const Edit = ({ ...props }) => {
   return (
@@ -19,7 +19,7 @@ const Edit = ({ ...props }) => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit

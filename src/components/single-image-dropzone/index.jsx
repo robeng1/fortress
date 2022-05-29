@@ -1,18 +1,18 @@
-import styled from '@emotion/styled';
-import React from 'react';
-import { useDropzone } from 'react-dropzone';
-import { Box, Image as RebassImage, Text } from 'rebass';
-import { proxyURL } from 'utils/urlsigner';
+import styled from "@emotion/styled"
+import React from "react"
+import { useDropzone } from "react-dropzone"
+import { Box, Image as RebassImage, Text } from "rebass"
+import { proxyURL } from "utils/urlsigner"
 
 const Image = styled(RebassImage)`
   height: 255px;
   width: 255px;
-  border: ${props => (props.selected ? '1px solid #53725D' : 'none')};
+  border: ${(props) => (props.selected ? "1px solid #53725D" : "none")};
   cursor: pointer;
   object-fit: cover;
   border-radius: 3px;
-  visibility: ${props => (props.src ? 'visible' : 'hidden')};
-`;
+  visibility: ${(props) => (props.src ? "visible" : "hidden")};
+`
 
 const Container = styled(Box)`
   position: relative;
@@ -20,10 +20,10 @@ const Container = styled(Box)`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  ${props => (props.noImages ? 'min-height: 300px;' : '')}
+  ${(props) => (props.noImages ? "min-height: 300px;" : "")}
   border-width: 2px;
   border-radius: 5px;
-  border-color: ${props => (props.showDropClues ? '#89959c' : 'transparent')};
+  border-color: ${(props) => (props.showDropClues ? "#89959c" : "transparent")};
   border-style: dashed;
   background-color: rgba(255, 255, 255, 0.85);
   color: #bdbdbd;
@@ -32,8 +32,8 @@ const Container = styled(Box)`
   &:hover {
     border-color: #89959c;
   }
-  ${props => (props.showDropClues ? Overlay : '')}
-`;
+  ${(props) => (props.showDropClues ? Overlay : "")}
+`
 
 const Overlay = `
   &:after {
@@ -53,22 +53,22 @@ const Overlay = `
     z-index: 99;
     background-color: rgba(255,255,255,0.85)
   }
-`;
+`
 
 const SingleImageDropzone = ({ value, onChange, label, ...props }) => {
   const { isDragAccept, isDragActive, getRootProps, getInputProps } =
     useDropzone({
-      accept: 'image/*',
-      onDrop: acceptedFiles => {
-        const newImages = acceptedFiles.map(file =>
+      accept: "image/*",
+      onDrop: (acceptedFiles) => {
+        const newImages = acceptedFiles.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
-          }),
-        );
-        onChange(newImages);
+          })
+        )
+        onChange(newImages)
       },
       maxFiles: 1,
-    });
+    })
 
   return (
     <Box>
@@ -85,10 +85,17 @@ const SingleImageDropzone = ({ value, onChange, label, ...props }) => {
         })}
       >
         <input {...getInputProps()} />
-        <Image src={value && value.includes("static.reoplex.com") ? proxyURL(value, 300, 300) : value} {...props} />
+        <Image
+          src={
+            value && value.includes("static.reoplex.com")
+              ? proxyURL(value, 300, 300)
+              : value
+          }
+          {...props}
+        />
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default SingleImageDropzone;
+export default SingleImageDropzone

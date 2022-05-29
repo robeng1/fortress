@@ -1,26 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowNext } from 'components/icons/arrow-next';
+import React from "react"
+import { Link } from "react-router-dom"
+import { ArrowNext } from "components/icons/arrow-next"
 
 type SettingsCardProps = {
-  icon?: JSX.Element;
-  heading: string;
-  description: string;
-  to?: string;
-  externalLink?: string;
-  disabled: boolean;
-};
+  icon?: JSX.Element
+  heading: string
+  description: string
+  to?: string
+  externalLink?: string
+  disabled: boolean
+}
 
 const SettingsCard: React.FC<SettingsCardProps> = ({
   icon,
   heading,
   description,
-  to = '/settings/account',
+  to = "/settings/account",
   externalLink = null,
   disabled = false,
 }) => {
   if (disabled) {
-    to = '/settings';
+    to = "/settings"
   }
 
   return (
@@ -30,7 +30,7 @@ const SettingsCard: React.FC<SettingsCardProps> = ({
         disabled={disabled}
         onClick={() => {
           if (externalLink) {
-            window.location.href = externalLink;
+            window.location.href = externalLink
           }
         }}
       >
@@ -50,20 +50,20 @@ const SettingsCard: React.FC<SettingsCardProps> = ({
         </div>
       </button>
     </Link>
-  );
-};
+  )
+}
 
-export default SettingsCard;
+export default SettingsCard
 
 export const SettingsCardNoIcon: React.FC<SettingsCardProps> = ({
   heading,
   description,
-  to = '/settings/account',
+  to = "/settings/account",
   externalLink = null,
   disabled = false,
 }) => {
   if (disabled) {
-    to = '/settings';
+    to = "/settings"
   }
 
   return (
@@ -73,7 +73,7 @@ export const SettingsCardNoIcon: React.FC<SettingsCardProps> = ({
         disabled={disabled}
         onClick={() => {
           if (externalLink) {
-            window.location.href = externalLink;
+            window.location.href = externalLink
           }
         }}
       >
@@ -90,5 +90,5 @@ export const SettingsCardNoIcon: React.FC<SettingsCardProps> = ({
         </div>
       </button>
     </Link>
-  );
-};
+  )
+}

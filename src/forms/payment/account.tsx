@@ -1,63 +1,63 @@
-import React from 'react';
-import toast from 'react-hot-toast';
-import { useMutation, useQueryClient } from 'react-query';
-import { Formik } from 'formik';
+import React from "react"
+import toast from "react-hot-toast"
+import { useMutation, useQueryClient } from "react-query"
+import { Formik } from "formik"
 import {
   Account,
   AccountStatus,
   PaymentMode,
-} from 'typings/payment/account-type';
-import { useAtom } from 'jotai';
-import { request, ResponseError } from 'utils/request';
-import { paymentURL } from 'endpoints/urls';
-import { uidAtom } from 'store/authorization-atom';
-import usePayment from 'hooks/use-payment';
-import useShop from 'hooks/use-shop';
-import { Loading } from 'components/blocks/backdrop';
-import { useNavigate } from 'react-router-dom';
+} from "typings/payment/account-type"
+import { useAtom } from "jotai"
+import { request, ResponseError } from "utils/request"
+import { paymentURL } from "endpoints/urls"
+import { uidAtom } from "store/authorization-atom"
+import usePayment from "hooks/use-payment"
+import useShop from "hooks/use-shop"
+import { Loading } from "components/blocks/backdrop"
+import { useNavigate } from "react-router-dom"
 
 function PaymentsAccountPanel() {
-  const klient = useQueryClient();
-  const navigate = useNavigate();
-  const { shop } = useShop();
-  const { shopAccount: paymentAccount } = usePayment();
-  const [accountId] = useAtom(uidAtom);
-  const requestURL = `${paymentURL}/${accountId}/accounts`;
+  const klient = useQueryClient()
+  const navigate = useNavigate()
+  const { shop } = useShop()
+  const { shopAccount: paymentAccount } = usePayment()
+  const [accountId] = useAtom(uidAtom)
+  const requestURL = `${paymentURL}/${accountId}/accounts`
 
   // create the account
   const { mutate: createAccount, isLoading: isCreatingAccount } = useMutation(
     (payload: any) =>
       request(requestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newAccount: Account) => {
-        toast('Payment data updated succesffully');
-        klient.setQueryData(['payment', shop?.shop_id], newAccount);
-        navigate('/onboarding/location')
+        toast("Payment data updated succesffully")
+        klient.setQueryData(["payment", shop?.shop_id], newAccount)
+        navigate("/onboarding/location")
       },
       onError: (e: ResponseError) => {
-        toast(e.message);
+        toast(e.message)
       },
-    },
-  );
+    }
+  )
 
   // update the account
   const { mutate: updateAccount, isLoading: isUpdatingAccount } = useMutation(
     (payload: { account: Account }) =>
       request(`${requestURL}/${paymentAccount?.account_id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newAccount: Account) => {
-        toast('Payment data updated succesffully');
-        klient.setQueryData(['payment', shop?.shop_id], newAccount);
+        toast("Payment data updated succesffully")
+        klient.setQueryData(["payment", shop?.shop_id], newAccount)
       },
-      onError: (e: ResponseError) => { },
-    },
-  );
+      onError: (e: ResponseError) => {},
+    }
+  )
 
   return (
     <div>
@@ -65,28 +65,28 @@ function PaymentsAccountPanel() {
       <Formik
         enableReinitialize
         initialValues={{
-          account_id: paymentAccount?.account_id || '',
-          name: shop?.business_name || '',
+          account_id: paymentAccount?.account_id || "",
+          name: shop?.business_name || "",
           primary_user: shop?.shop_id,
           currency: shop?.currency?.iso_code,
           // payment_data: account?.payment_data || 'wallet',
           wallet: {
-            merchant: paymentAccount?.wallet?.merchant || '',
-            name: paymentAccount?.wallet?.name || '',
-            number: paymentAccount?.wallet?.number || '',
+            merchant: paymentAccount?.wallet?.merchant || "",
+            name: paymentAccount?.wallet?.name || "",
+            number: paymentAccount?.wallet?.number || "",
           },
           payment_mode:
             paymentAccount?.payment_mode || PaymentMode.MOBILE_NETWORK,
           status: paymentAccount?.status || AccountStatus.OPEN,
-          account_kind: paymentAccount?.account_kind || 'REGULAR',
+          account_kind: paymentAccount?.account_kind || "REGULAR",
         }}
         onSubmit={(values, { setSubmitting }) => {
-          if (values.account_id !== '') {
-            updateAccount({ account: { ...paymentAccount, ...values } });
+          if (values.account_id !== "") {
+            updateAccount({ account: { ...paymentAccount, ...values } })
           } else {
-            createAccount({ account: { ...values } });
+            createAccount({ account: { ...values } })
           }
-          setSubmitting(false);
+          setSubmitting(false)
         }}
       >
         {({
@@ -217,12 +217,11 @@ function PaymentsAccountPanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                
                   <button
                     type="submit"
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleSubmit();
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleSubmit()
                     }}
                     className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                   >
@@ -235,7 +234,7 @@ function PaymentsAccountPanel() {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default PaymentsAccountPanel;
+export default PaymentsAccountPanel

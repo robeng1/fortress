@@ -1,123 +1,123 @@
-import { Formik } from 'formik';
-import moment from 'moment';
-import { discountOptions } from 'services';
-import { VoucherType } from 'typings/voucher/voucher';
-import { request, ResponseError } from 'utils/request';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { VoucherSetType } from 'typings/voucher/voucherset';
-import { fortressURL } from 'endpoints/urls';
-import ReactSelect from 'react-select/async';
-import useShop from 'hooks/use-shop';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Loading } from 'components/blocks/backdrop';
-import toast from 'react-hot-toast';
-import InputHeader from 'components/blocks/input-header';
+import { Formik } from "formik"
+import moment from "moment"
+import { discountOptions } from "services"
+import { VoucherType } from "typings/voucher/voucher"
+import { request, ResponseError } from "utils/request"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+import { VoucherSetType } from "typings/voucher/voucherset"
+import { fortressURL } from "endpoints/urls"
+import ReactSelect from "react-select/async"
+import useShop from "hooks/use-shop"
+import { useNavigate, useParams } from "react-router-dom"
+import { Loading } from "components/blocks/backdrop"
+import toast from "react-hot-toast"
+import InputHeader from "components/blocks/input-header"
 
-const SINGLE_CODE_TYPE = 'single'
-const MULTI_CODE_TYPE = 'multi'
+const SINGLE_CODE_TYPE = "single"
+const MULTI_CODE_TYPE = "multi"
 
 const VoucherForm = ({ id, codeType }) => {
-  codeType = SINGLE_CODE_TYPE;
-  const navigate = useNavigate();
-  const klient = useQueryClient();
-  const { shop } = useShop();
-  const vRequestURL = `${fortressURL}/shops/${shop?.shop_id}/vouchers`;
-  const vsRequestURL = `${fortressURL}/shops/${shop?.shop_id}/voucher-sets`;
+  codeType = SINGLE_CODE_TYPE
+  const navigate = useNavigate()
+  const klient = useQueryClient()
+  const { shop } = useShop()
+  const vRequestURL = `${fortressURL}/shops/${shop?.shop_id}/vouchers`
+  const vsRequestURL = `${fortressURL}/shops/${shop?.shop_id}/voucher-sets`
 
   // query for getting the voucher
   const { data: voucher, isLoading: isVoucherLoading } = useQuery<VoucherType>(
-    ['voucher', id],
+    ["voucher", id],
     async () => await request(`${vRequestURL}/${id}`),
     {
       // The query will not execute until the id exists
       enabled: !!id && codeType === SINGLE_CODE_TYPE,
       keepPreviousData: true,
-    },
-  );
+    }
+  )
 
   // query for getting the voucher set
   const { data: voucherSet, isLoading: isVoucherSetLoading } =
     useQuery<VoucherType>(
-      ['voucherset', id],
+      ["voucherset", id],
       async () => await request(`${vsRequestURL}/${id}`),
       {
         // The query will not execute until the id exists
         enabled: !!id && codeType === MULTI_CODE_TYPE,
         keepPreviousData: true,
-      },
-    );
+      }
+    )
 
   // create the voucher
   const { mutateAsync: createVoucher } = useMutation(
     (payload: VoucherType) =>
       request(vRequestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newVoucher: VoucherType) => {
-        klient.setQueryData(['voucher', id], newVoucher);
+        klient.setQueryData(["voucher", id], newVoucher)
         toast.success("Voucher created successfully")
       },
       onError: (e: ResponseError) => {
         toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   // update the voucher
   const { mutateAsync: updateVoucher } = useMutation(
     (payload: VoucherType) =>
       request(`${vRequestURL}/${id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newVoucher: VoucherType) => {
-        klient.setQueryData(['voucher', id], newVoucher);
+        klient.setQueryData(["voucher", id], newVoucher)
         toast.success("Voucher updated successfully")
       },
       onError: (e: ResponseError) => {
         toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   // create the voucherset
   const { mutate: createSet } = useMutation(
     (payload: VoucherSetType) =>
       request(vsRequestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newVoucherSet: VoucherSetType) => {
-        klient.setQueryData(['voucherset', id], newVoucherSet);
+        klient.setQueryData(["voucherset", id], newVoucherSet)
         toast.success("Voucher set created successfully")
       },
       onError: (e: ResponseError) => {
         toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   // update the voucherset
   const { mutate: updateSet, isLoading } = useMutation(
     (payload: VoucherSetType) =>
       request(`${vsRequestURL}/${id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (newVoucherSet: VoucherSetType) => {
-        klient.setQueryData(['voucherset', id], newVoucherSet);
+        klient.setQueryData(["voucherset", id], newVoucherSet)
         toast.success("Voucher set updated successfully")
       },
       onError: (e: ResponseError) => {
         toast.error(e.message)
       },
-    },
-  );
+    }
+  )
 
   return (
     <>
@@ -126,22 +126,26 @@ const VoucherForm = ({ id, codeType }) => {
         <Formik
           enableReinitialize={true}
           initialValues={{
-            name: '',
-            start_date: '',
-            start_time: '',
-            end_date: '',
-            description: '',
-            end_time: '',
+            name: "",
+            start_date: "",
+            start_time: "",
+            end_date: "",
+            description: "",
+            end_time: "",
             discount: null,
             code_type: SINGLE_CODE_TYPE,
-            code: '',
-            usage: '',
+            code: "",
+            usage: "",
             code_length: 6,
             count: 1,
           }}
           onSubmit={(values, { setSubmitting }) => {
             setSubmitting(true)
-            if (!values.discount || values.discount === null || values.discount === "") {
+            if (
+              !values.discount ||
+              values.discount === null ||
+              values.discount === ""
+            ) {
               toast.error("Discount is required for voucher")
               return
             } else {
@@ -149,7 +153,10 @@ const VoucherForm = ({ id, codeType }) => {
                 if (values.code_type === SINGLE_CODE_TYPE) {
                   const vals = values as unknown as VoucherType
                   if (!voucher?.total_discount) {
-                    vals.total_discount = { amount: 0, currency: shop?.currency?.iso_code! }
+                    vals.total_discount = {
+                      amount: 0,
+                      currency: shop?.currency?.iso_code!,
+                    }
                   }
                   updateVoucher({
                     ...voucher,
@@ -158,14 +165,14 @@ const VoucherForm = ({ id, codeType }) => {
                     usage: vals.usage,
                     voucher_id: id,
                     shop_id: shop?.shop_id,
-                    discount_id: values.discount['key'],
+                    discount_id: values.discount["key"],
                     start_datetime: moment(
-                      values.start_date + ' ' + values.start_time,
+                      values.start_date + " " + values.start_time
                     ).toISOString(),
                     end_datetime: moment(
-                      values.end_date + ' ' + values.end_time,
+                      values.end_date + " " + values.end_time
                     ).toISOString(),
-                  } as VoucherType);
+                  } as VoucherType)
                 } else {
                   const vals = values as unknown as VoucherSetType
                   updateSet({
@@ -175,15 +182,15 @@ const VoucherForm = ({ id, codeType }) => {
                     code_length: vals.code_length,
                     count: vals.count,
                     shop_id: shop?.shop_id,
-                    discount_id: values.discount['key'],
+                    discount_id: values.discount["key"],
                     set_id: id,
                     start_datetime: moment(
-                      values.start_date + ' ' + values.start_time,
+                      values.start_date + " " + values.start_time
                     ).toISOString(),
                     end_datetime: moment(
-                      values.end_date + ' ' + values.end_time,
+                      values.end_date + " " + values.end_time
                     ).toISOString(),
-                  } as VoucherSetType);
+                  } as VoucherSetType)
                 }
               } else {
                 if (values.code_type === SINGLE_CODE_TYPE) {
@@ -194,22 +201,25 @@ const VoucherForm = ({ id, codeType }) => {
                       code: vals.code,
                       usage: vals.usage,
                       shop_id: shop?.shop_id,
-                      voucher_id: '',
-                      total_discount: { amount: 0, currency: shop?.currency?.iso_code },
-                      discount_id: values.discount['key'],
+                      voucher_id: "",
+                      total_discount: {
+                        amount: 0,
+                        currency: shop?.currency?.iso_code,
+                      },
+                      discount_id: values.discount["key"],
                       start_datetime: moment(
-                        values.start_date + ' ' + values.start_time,
+                        values.start_date + " " + values.start_time
                       ).toISOString(),
                       end_datetime: moment(
-                        values.end_date + ' ' + values.end_time,
+                        values.end_date + " " + values.end_time
                       ).toISOString(),
                     } as VoucherType),
                     {
-                      loading: 'Saving voucher',
+                      loading: "Saving voucher",
                       success: null,
                       error: null,
-                    },
-                  );
+                    }
+                  )
                 } else {
                   const vals = values as unknown as VoucherSetType
                   createSet({
@@ -217,19 +227,19 @@ const VoucherForm = ({ id, codeType }) => {
                     code_length: vals.code_length,
                     count: vals.count,
                     description: vals.description,
-                    set_id: '',
+                    set_id: "",
                     shop_id: shop?.shop_id,
-                    discount_id: values.discount['key'],
+                    discount_id: values.discount["key"],
                     start_datetime: moment(
-                      values.start_date + ' ' + values.start_time,
+                      values.start_date + " " + values.start_time
                     ).toISOString(),
                     end_datetime: moment(
-                      values.end_date + ' ' + values.end_time,
+                      values.end_date + " " + values.end_time
                     ).toISOString(),
-                  } as VoucherSetType);
+                  } as VoucherSetType)
                 }
               }
-              setSubmitting(false);
+              setSubmitting(false)
             }
           }}
         >
@@ -306,7 +316,10 @@ const VoucherForm = ({ id, codeType }) => {
                     {values.code_type === SINGLE_CODE_TYPE && (
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-1">
                         <div className="w-full">
-                          <InputHeader label='Code' tooltipContent='This is the code that customers will enter to activate the discount' />
+                          <InputHeader
+                            label="Code"
+                            tooltipContent="This is the code that customers will enter to activate the discount"
+                          />
                           <input
                             id="code"
                             name="code"
@@ -386,7 +399,9 @@ const VoucherForm = ({ id, codeType }) => {
                           isSearchable
                           isMulti={false}
                           menuPortalTarget={document.body}
-                          onChange={option => setFieldValue('discount', option)}
+                          onChange={(option) =>
+                            setFieldValue("discount", option)
+                          }
                           loadOptions={discountOptions(shop?.shop_id!)}
                           className="w-full md:w-2/3"
                         />
@@ -508,13 +523,13 @@ const VoucherForm = ({ id, codeType }) => {
                 <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                   <div className="flex self-end md:self-center">
                     <button
-                      onClick={() => navigate('/shop/vouchers')}
+                      onClick={() => navigate("/shop/vouchers")}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel
                     </button>
                     <button
-                      onClick={e => handleSubmit()}
+                      onClick={(e) => handleSubmit()}
                       className="btn bg-purple-600 bg-opacity-100 rounded  text-white ml-3"
                     >
                       Save
@@ -527,7 +542,7 @@ const VoucherForm = ({ id, codeType }) => {
         </Formik>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default VoucherForm;
+export default VoucherForm

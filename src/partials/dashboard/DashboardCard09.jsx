@@ -1,24 +1,24 @@
-import React from 'react';
-import Tooltip from '../../components/tooltip';
-import BarChart from '../../charts/BarChart02';
+import React from "react"
+import Tooltip from "../../components/tooltip"
+import BarChart from "../../charts/BarChart02"
 
 // Import utilities
-import { tailwindConfig } from '../../utils/utils';
+import { tailwindConfig } from "../../utils/utils"
 
 function DashboardCard09() {
   const chartData = {
     labels: [
-      '12-01-2020',
-      '01-01-2021',
-      '02-01-2021',
-      '03-01-2021',
-      '04-01-2021',
-      '05-01-2021',
+      "12-01-2020",
+      "01-01-2021",
+      "02-01-2021",
+      "03-01-2021",
+      "04-01-2021",
+      "05-01-2021",
     ],
     datasets: [
       // Light purple bars
       {
-        label: 'Stack 1',
+        label: "Stack 1",
         data: [6200, 9200, 6600, 8800, 5200, 9200],
         backgroundColor: tailwindConfig().theme.colors.purple[500],
         hoverBackgroundColor: tailwindConfig().theme.colors.purple[600],
@@ -27,7 +27,7 @@ function DashboardCard09() {
       },
       // purple bars
       {
-        label: 'Stack 2',
+        label: "Stack 2",
         data: [-4000, -2600, -5350, -4000, -7500, -2000],
         backgroundColor: tailwindConfig().theme.colors.purple[200],
         hoverBackgroundColor: tailwindConfig().theme.colors.purple[300],
@@ -35,7 +35,7 @@ function DashboardCard09() {
         categoryPercentage: 0.66,
       },
     ],
-  };
+  }
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 bg-white shadow-lg rounded-sm border border-gray-200">
@@ -62,7 +62,7 @@ function DashboardCard09() {
         <BarChart data={chartData} width={595} height={248} />
       </div>
     </div>
-  );
+  )
 }
 
-export default DashboardCard09;
+export default DashboardCard09

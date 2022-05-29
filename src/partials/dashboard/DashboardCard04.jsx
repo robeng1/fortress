@@ -1,41 +1,52 @@
-import React from 'react';
-import useShop from 'hooks/use-shop';
-import LineChart from '../../charts/LineChart01';
-import { mToCurrency, mToSFormatted, sToCurrency, sToM, sToMFromCents } from 'utils/money';
+import React from "react"
+import useShop from "hooks/use-shop"
+import LineChart from "../../charts/LineChart01"
+import {
+  mToCurrency,
+  mToSFormatted,
+  sToCurrency,
+  sToM,
+  sToMFromCents,
+} from "utils/money"
 
 // Import utilities
-import { tailwindConfig, hexToRGB, formatThousands, formatDuration } from '../../utils/utils';
+import {
+  tailwindConfig,
+  hexToRGB,
+  formatThousands,
+  formatDuration,
+} from "../../utils/utils"
 
 function DashboardCard01({ volume, dataset }) {
-  const { shop } = useShop();
+  const { shop } = useShop()
   const chartData = {
     labels: [
-      '12-01-2020',
-      '01-01-2021',
-      '02-01-2021',
-      '03-01-2021',
-      '04-01-2021',
-      '05-01-2021',
-      '06-01-2021',
-      '07-01-2021',
-      '08-01-2021',
-      '09-01-2021',
-      '10-01-2021',
-      '11-01-2021',
-      '12-01-2021',
-      '01-01-2022',
-      '02-01-2022',
-      '03-01-2022',
-      '04-01-2022',
-      '05-01-2022',
-      '06-01-2022',
-      '07-01-2022',
-      '08-01-2022',
-      '09-01-2022',
-      '10-01-2022',
-      '11-01-2022',
-      '12-01-2022',
-      '01-01-2023',
+      "12-01-2020",
+      "01-01-2021",
+      "02-01-2021",
+      "03-01-2021",
+      "04-01-2021",
+      "05-01-2021",
+      "06-01-2021",
+      "07-01-2021",
+      "08-01-2021",
+      "09-01-2021",
+      "10-01-2021",
+      "11-01-2021",
+      "12-01-2021",
+      "01-01-2022",
+      "02-01-2022",
+      "03-01-2022",
+      "04-01-2022",
+      "05-01-2022",
+      "06-01-2022",
+      "07-01-2022",
+      "08-01-2022",
+      "09-01-2022",
+      "10-01-2022",
+      "11-01-2022",
+      "12-01-2022",
+      "01-01-2023",
     ],
     datasets: [
       // Indigo line
@@ -46,7 +57,7 @@ function DashboardCard01({ volume, dataset }) {
         ],
         fill: true,
         backgroundColor: `rgba(${hexToRGB(
-          tailwindConfig().theme.colors.purple[500],
+          tailwindConfig().theme.colors.purple[500]
         )}, 0.08)`,
         borderColor: tailwindConfig().theme.colors.purple[500],
         borderWidth: 2,
@@ -71,19 +82,21 @@ function DashboardCard01({ volume, dataset }) {
         clip: 20,
       },
     ],
-  };
+  }
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-gray-200">
       <div className="px-5 pt-5">
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">Total Orders</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">
+          Total Orders
+        </h2>
         <div className="text-xs font-semibold text-gray-400 uppercase mb-1">
           Orders
         </div>
         <div className="flex items-start">
-          <div className="text-3xl font-bold text-gray-800 mr-2">{!!volume
-            ? formatThousands(volume)
-            : '-'}</div>
+          <div className="text-3xl font-bold text-gray-800 mr-2">
+            {!!volume ? formatThousands(volume) : "-"}
+          </div>
           {/* <div className="text-sm font-semibold text-white px-1.5 bg-green-500 rounded-full">
             +49%
           </div> */}
@@ -95,7 +108,7 @@ function DashboardCard01({ volume, dataset }) {
         <LineChart data={chartData} width={389} height={128} />
       </div>
     </div>
-  );
+  )
 }
 
-export default DashboardCard01;
+export default DashboardCard01

@@ -1,12 +1,12 @@
-import Banner from 'forms/theme/banner';
-import Header from 'partials/header';
-import Sidebar from 'partials/sidebar';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Banner from "forms/theme/banner"
+import Header from "partials/header"
+import Sidebar from "partials/sidebar"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function BannerMutation() {
-  const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -58,7 +58,7 @@ function BannerMutation() {
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export default BannerMutation;
+export default BannerMutation

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 
 function EmptyState({ heading, msg, action }) {
   return (
@@ -72,7 +72,7 @@ function EmptyState({ heading, msg, action }) {
         </div>
       </main>
     </div>
-  );
+  )
 }
 
-export default EmptyState;
+export default EmptyState

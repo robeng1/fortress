@@ -1,20 +1,20 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CollectionViewType } from 'typings/collection/collection-type';
-import CollectionCard from './collection-card';
+import React from "react"
+import { useNavigate } from "react-router-dom"
+import { CollectionViewType } from "typings/collection/collection-type"
+import CollectionCard from "./collection-card"
 
 type CollectionsListProps = {
   collections: CollectionViewType[]
 }
 const CollectionList: React.FC<CollectionsListProps> = ({ collections }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
     <>
       <div className="md:hidden">
         <div className="mt-0">
           <div className="flow-root">
             <ul className="px-3 py-1 divide-y divide-gray-200">
-              {collections.map(collection => (
+              {collections.map((collection) => (
                 <li key={collection.collection_id} className="flex pr-3 py-2">
                   <CollectionCard
                     handleShow={() =>
@@ -29,7 +29,7 @@ const CollectionList: React.FC<CollectionsListProps> = ({ collections }) => {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default CollectionList;
+export default CollectionList

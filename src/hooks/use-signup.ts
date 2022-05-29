@@ -1,21 +1,21 @@
-import { fortressURL } from 'endpoints/urls';
-import isEmpty from 'lodash/isEmpty';
-import { useAtom } from 'jotai';
-import { StartType } from 'typings/settings/shop-type';
-import { useEffect } from 'react';
-import { useQueryClient, useMutation } from 'react-query';
-import { useNavigate, useLocation } from 'react-router-dom';
-import slugify from 'slugify';
-import { sessionAtom } from 'store/authorization-atom';
-import { request, ResponseError } from 'utils/request';
+import { fortressURL } from "endpoints/urls"
+import isEmpty from "lodash/isEmpty"
+import { useAtom } from "jotai"
+import { StartType } from "typings/settings/shop-type"
+import { useEffect } from "react"
+import { useQueryClient, useMutation } from "react-query"
+import { useNavigate, useLocation } from "react-router-dom"
+import slugify from "slugify"
+import { sessionAtom } from "store/authorization-atom"
+import { request, ResponseError } from "utils/request"
 interface LocationState {
-  from: string;
+  from: string
 }
 
 export function useSignup() {
-  const queryClient = useQueryClient();
-  const requestURL = `${fortressURL}/shops/get-started`;
-  const [session, setSession] = useAtom(sessionAtom);
+  const queryClient = useQueryClient()
+  const requestURL = `${fortressURL}/shops/get-started`
+  const [session, setSession] = useAtom(sessionAtom)
   const {
     mutate: getStarted,
     isLoading,
@@ -24,47 +24,47 @@ export function useSignup() {
   } = useMutation(
     (payload: StartType) =>
       request(requestURL, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
       }),
     {
       onSuccess: (resp: Record<string, any>) => {
-        setSession(resp.session);
+        setSession(resp.session)
         queryClient.setQueryData(
-          ['shop', resp.session.identity.account_id],
-          resp.shop,
-        );
+          ["shop", resp.session.identity.account_id],
+          resp.shop
+        )
       },
       onError: (e: ResponseError) => {},
-    },
-  );
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { from } = { from: '/onboarding/currency' };
+    }
+  )
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { from } = { from: "/onboarding/currency" }
 
-  const isAuthenticated = !isEmpty(session);
+  const isAuthenticated = !isEmpty(session)
   const submitData = (values: StartType) => {
-    getStarted({ ...values });
-  };
+    getStarted({ ...values })
+  }
   const slugit = (txt: string) =>
     slugify(txt, {
-      replacement: '-',
+      replacement: "-",
       lower: true,
       strict: true,
       trim: true,
-    });
+    })
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from || '/onboarding/currency');
+      navigate(from || "/onboarding/currency")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, from]);
+  }, [isAuthenticated, from])
   return {
     submitData,
     slugit,
     isError,
     isLoading,
     error,
-  };
+  }
 }

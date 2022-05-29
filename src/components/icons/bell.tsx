@@ -8,5 +8,5 @@ export const Bell = ({ ...props }) => {
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}

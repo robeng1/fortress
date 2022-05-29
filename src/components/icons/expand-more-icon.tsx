@@ -13,4 +13,4 @@ export const ExpandMoreIcon = () => (
       d="M5 15l7-7 7 7"
     />
   </svg>
-);
+)

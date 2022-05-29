@@ -6,93 +6,93 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { useEffect, lazy } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import './charts/ChartjsConfig';
+import React, { useEffect, lazy } from "react"
+import { Routes, Route, useLocation } from "react-router-dom"
+import { Helmet } from "react-helmet-async"
+import "./charts/ChartjsConfig"
 
-import Signup from './pages/signup';
-import Signin from './pages/signin';
-import Analytics from './pages/analytics';
-import Products from './pages/product/products';
-import Inventory from './pages/inventory/inventory';
-import Discounts from './pages/discount/discounts';
-import Collections from './pages/collection/collections';
-import Orders from './pages/orders/orders';
-import Account from './pages/settings/account';
-import Payments from './pages/settings/payments';
-import Locations from './pages/settings/centres';
-import Rates from './pages/settings/rates';
-import Policies from './pages/settings/policies';
-import PageNotFound from 'pages/utility/PageNotFound';
-import { RequireAuth } from './components/protected-route';
-import Transactions from './pages/transactions/transaction';
-import Payouts from './pages/payouts/payout';
-import Balance from './pages/balance/balance';
-import SettingsIndex from './pages/settings/overview';
-import Domains from 'pages/settings/domains';
-import ProductMutation from 'pages/product-mutation/form';
-import CollectionMutation from 'pages/collection-mutation/form';
-import DiscountMutation from 'pages/discount-mutation/form';
-import ThemeSettings from 'pages/settings/theme';
-import AnnouncementBarMutation from 'pages/settings/theme/announcement-bar';
-import FooterMutation from 'pages/settings/theme/footer';
-import BannerMutation from 'pages/settings/theme/banner';
-import HeroMutation from 'pages/settings/theme/hero';
-import FeaturedCollection from 'pages/settings/theme/collection-featured';
-import VoucherMutation from 'pages/voucher-mutation/form';
-import Vouchers from 'pages/voucher/voucher';
-import OnboardingCurrency from 'forms/onboarding/currency';
-import OnboardingCentre from 'forms/onboarding/centre';
-import OnboardingPayment from 'forms/onboarding/payment';
-import OrderManager from 'pages/order-manager/manager';
-import ResetPassword from 'pages/reset-password';
+import Signup from "./pages/signup"
+import Signin from "./pages/signin"
+import Analytics from "./pages/analytics"
+import Products from "./pages/product/products"
+import Inventory from "./pages/inventory/inventory"
+import Discounts from "./pages/discount/discounts"
+import Collections from "./pages/collection/collections"
+import Orders from "./pages/orders/orders"
+import Account from "./pages/settings/account"
+import Payments from "./pages/settings/payments"
+import Locations from "./pages/settings/centres"
+import Rates from "./pages/settings/rates"
+import Policies from "./pages/settings/policies"
+import PageNotFound from "pages/utility/PageNotFound"
+import { RequireAuth } from "./components/protected-route"
+import Transactions from "./pages/transactions/transaction"
+import Payouts from "./pages/payouts/payout"
+import Balance from "./pages/balance/balance"
+import SettingsIndex from "./pages/settings/overview"
+import Domains from "pages/settings/domains"
+import ProductMutation from "pages/product-mutation/form"
+import CollectionMutation from "pages/collection-mutation/form"
+import DiscountMutation from "pages/discount-mutation/form"
+import ThemeSettings from "pages/settings/theme"
+import AnnouncementBarMutation from "pages/settings/theme/announcement-bar"
+import FooterMutation from "pages/settings/theme/footer"
+import BannerMutation from "pages/settings/theme/banner"
+import HeroMutation from "pages/settings/theme/hero"
+import FeaturedCollection from "pages/settings/theme/collection-featured"
+import VoucherMutation from "pages/voucher-mutation/form"
+import Vouchers from "pages/voucher/voucher"
+import OnboardingCurrency from "forms/onboarding/currency"
+import OnboardingCentre from "forms/onboarding/centre"
+import OnboardingPayment from "forms/onboarding/payment"
+import OrderManager from "pages/order-manager/manager"
+import ResetPassword from "pages/reset-password"
 
 export function App() {
-  const location = useLocation();
+  const location = useLocation()
   useEffect(() => {
-    document.querySelector('html')!.style.scrollBehavior = 'auto';
-    window.scroll({ top: 0 });
-    document.querySelector('html')!.style.scrollBehavior = '';
-  }, [location.pathname]); // triggered on route change
+    document.querySelector("html")!.style.scrollBehavior = "auto"
+    window.scroll({ top: 0 })
+    document.querySelector("html")!.style.scrollBehavior = ""
+  }, [location.pathname]) // triggered on route change
   return (
     <>
       <Helmet
         titleTemplate="%s - Reoplex | Seller | Dashboard"
         defaultTitle="Reoplex Dashboard"
-        htmlAttributes={{ lang: 'en-US' }}
+        htmlAttributes={{ lang: "en-US" }}
       >
         <meta name="description" content="Reoplex Merchant Dashboard" />
       </Helmet>
       <Routes>
         <Route
-          path={'/onboarding/currency'}
+          path={"/onboarding/currency"}
           element={
-            <RequireAuth path={'/onboarding/currency'}>
+            <RequireAuth path={"/onboarding/currency"}>
               <OnboardingCurrency />
             </RequireAuth>
           }
         />
         <Route
-          path={'/onboarding/location'}
+          path={"/onboarding/location"}
           element={
-            <RequireAuth path={'/onboarding/location'}>
+            <RequireAuth path={"/onboarding/location"}>
               <OnboardingCentre />
             </RequireAuth>
           }
         />
         <Route
-          path={'/onboarding/payment'}
+          path={"/onboarding/payment"}
           element={
-            <RequireAuth path={'/onboarding/payment'}>
+            <RequireAuth path={"/onboarding/payment"}>
               <OnboardingPayment />
             </RequireAuth>
           }
         />
         <Route
-          path={'/'}
+          path={"/"}
           element={
-            <RequireAuth path={'/'}>
+            <RequireAuth path={"/"}>
               <Analytics />
             </RequireAuth>
           }
@@ -341,16 +341,16 @@ export function App() {
         ></Route>
       </Routes>
     </>
-  );
+  )
 }
 
 export const Loader = () => {
   return (
     <div className="flex h-screen justify-center self-center align-middle items-center content-center">
       <div
-        style={{ borderTopColor: 'transparent' }}
+        style={{ borderTopColor: "transparent" }}
         className="w-16 h-16 border-4 border-purple-400 border-solid rounded-full animate-spin"
       ></div>
     </div>
-  );
-};
+  )
+}

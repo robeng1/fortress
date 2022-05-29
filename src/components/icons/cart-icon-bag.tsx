@@ -1,5 +1,5 @@
-import React from 'react';
-export const CartIconBig = ({ width = '48px', height = '48px' }) => {
+import React from "react"
+export const CartIconBig = ({ width = "48px", height = "48px" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -28,5 +28,5 @@ export const CartIconBig = ({ width = '48px', height = '48px' }) => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
