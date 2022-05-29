@@ -9,9 +9,11 @@ import { request, ResponseError } from "utils/request"
 import toast from "react-hot-toast"
 import useShop from "hooks/use-shop"
 import { Loading } from "components/blocks/backdrop"
+import { useNavigate } from "react-router-dom"
 
 function PoliciesPanel() {
-  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  const klient = useQueryClient()
   const { shop } = useShop()
   const [accountId] = useAtom(uidAtom)
   const requestURL = `${fortressURL}/shops`
@@ -25,7 +27,7 @@ function PoliciesPanel() {
       }),
     {
       onSuccess: (newShop: ShopType) => {
-        queryClient.setQueryData(["shop", accountId], newShop)
+        klient.setQueryData(["shop", accountId], newShop)
         toast.success("Polices updated succesffully")
       },
       onError: (e: ResponseError) => {
@@ -170,7 +172,7 @@ function PoliciesPanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                  <button className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
+                  <button onClick={() => navigate('/settings')} className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
                     Cancel
                   </button>
                   <button

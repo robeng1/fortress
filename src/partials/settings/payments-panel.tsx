@@ -14,8 +14,10 @@ import { uidAtom } from "store/authorization-atom"
 import usePayment from "hooks/use-payment"
 import useShop from "hooks/use-shop"
 import { Loading } from "components/blocks/backdrop"
+import { useNavigate } from "react-router-dom"
 
 function PaymentsPanel() {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { shop } = useShop()
   const { shopAccount: paymentAccount } = usePayment()
@@ -222,7 +224,7 @@ function PaymentsPanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                  <button className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
+                  <button onClick={()=> navigate('/settings')} className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
                     Cancel
                   </button>
                   <button

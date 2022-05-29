@@ -14,7 +14,7 @@ const columns = [
     accessor: "image",
     Cell: ({ cell }) => {
       return (
-        <div className="py-base lg:w-[176px] xsm:w-[80px]">
+        <div className="py-base lg:w-[176px] xs:w-[80px]">
           <img
             className="h-[80px] w-[80px] object-cover rounded"
             src={cell.row.original.url}

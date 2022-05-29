@@ -80,7 +80,6 @@ const TagInput = ({ onChange, values, onBlur = () => {}, ...props }) => {
   const handleFocus = () => {
     setFocused(true)
   }
-  ;<div class="flex-grow border-t border-gray-400"></div>
   const handleInput = (e) => {
     const value = inputRef.current.value
     if (value.endsWith(",")) {
@@ -91,7 +90,7 @@ const TagInput = ({ onChange, values, onBlur = () => {}, ...props }) => {
 
   return (
     <Wrapper
-      className={isFocused ? "form-input" : ""}
+      className={`${isFocused ? "form-input" : ""} border-blue-40 focus:border-2 focus:border-blue-500 border-opacity-100`}
       focused={isFocused}
       variant="forms.input"
     >
@@ -126,6 +125,10 @@ const Wrapper = styled(Flex)`
   position: relative;
   align-items: center;
   font-size: 16px;
+  &:focus {
+    border: 1px solid blue;
+    outline: 1px solid blue;
+  }
 `
 
 const Remove = styled.div`
@@ -161,7 +164,7 @@ const StyledInput = styled.input`
     outline: none;
   }
   &::placeholder {
-    opacity: 0.99;
+    opacity: ;
   }
 `
 

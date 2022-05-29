@@ -13,8 +13,10 @@ import SimpleImageDropzone from "components/single-image-dropzone"
 import { useUpload } from "hooks/use-upload"
 import { proxyURL } from "utils/urlsigner"
 import { useHasSale } from "hooks/use-has-sale"
+import { useNavigate } from "react-router-dom"
 
 function StorePanel() {
+  const navigate = useNavigate()
   const klient = useQueryClient()
   const { shop } = useShop()
   const hasSale = useHasSale()
@@ -371,7 +373,7 @@ function StorePanel() {
             <footer>
               <div className="flex flex-col px-6 py-5 border-t border-gray-200">
                 <div className="flex self-end">
-                  <button className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
+                  <button onClick={() => navigate('/settings')} className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white">
                     Cancel
                   </button>
                   <button

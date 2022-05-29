@@ -19,5 +19,6 @@ button:focus,
 .form-radio {
   &:focus {
     box-shadow: none !important;
+    @apply outline;
   }
 }
