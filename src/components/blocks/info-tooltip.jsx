@@ -2,15 +2,11 @@ import React from 'react';
 import { Box } from 'components/blocks/reflexbox';
 import Tooltip from './tooltip';
 import styled from '@emotion/styled';
-import { ReactComponent as InfoIcon } from 'images/info.svg';
+import InfoIcon from "components/icons/info-icon"
 
 const StyledBox = styled(Box)`
   & svg {
-    fill: #c4c4c4;
     transition: fill 0.2s ease-in;
-  }
-  &:hover svg {
-    fill: #454b54;
   }
 `;
 
@@ -19,7 +15,7 @@ const InfoTooltip = ({ tooltipText, tooltipProps, ...props }) => {
   return (
     <StyledBox {...props}>
       <InfoIcon
-        style={{ display: 'block' }}
+        size={16} className="flex text-grey-40"
         data-for={id}
         data-tip={tooltipText}
       />

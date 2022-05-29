@@ -64,14 +64,14 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
       onDrop={handleFileDrop}
       onDragOver={e => e.preventDefault()}
       className={clsx(
-        'flex flex-col select-none inter-base-regular text-grey-50 cursor-pointer items-center justify-center w-full h-full rounded-rounded border-2 border-dashed border-grey-20 transition-colors hover:border-violet-60 hover:text-grey-40',
+        'flex flex-col select-none inter-base-regular text-grey-50 cursor-pointer items-center justify-center w-full h-full rounded-rounded border-2 border-dashed border-grey-20 transition-colors hover:border-purple-60 hover:text-grey-40',
         className,
       )}
     >
       <div className="flex flex-col items-center">
         <p>
           Drop your images here, or{' '}
-          <span className="text-violet-60">click to browse</span>
+          <span className="text-purple-60">click to browse</span>
         </p>
         {placeholder}
       </div>

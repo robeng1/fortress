@@ -195,7 +195,7 @@ function Balance() {
                   <Button
                     ref={trigger}
                     onClick={() => setOpen(true)}
-                    size="small"
+                    size="sm"
                     aria-haspopup="true"
                     aria-expanded={open}
                   >

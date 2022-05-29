@@ -20,9 +20,9 @@ export const theme = {
   breakpoints,
   spacing,
   mediaQueries: {
-    small: `@media screen and (min-width: ${breakpoints[0]})`,
-    medium: `@media screen and (min-width: ${breakpoints[1]})`,
-    large: `@media screen and (min-width: ${breakpoints[2]})`,
+    sm: `@media screen and (min-width: ${breakpoints[0]})`,
+    md: `@media screen and (min-width: ${breakpoints[1]})`,
+    lg: `@media screen and (min-width: ${breakpoints[2]})`,
   },
   grid: {
     selectedShadow: `

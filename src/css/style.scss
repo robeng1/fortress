@@ -3,6 +3,369 @@
 @tailwind base;
 @tailwind components;
 
+@layer components {
+  .inter-5xl-regular {
+    @apply font-sans text-5xl leading-4xl font-normal;
+  }
+
+  .inter-5xl-semibold {
+    @apply font-sans text-5xl leading-4xl font-semibold;
+  }
+
+  .inter-4xl-regular {
+    @apply font-sans text-4xl leading-3xl font-normal;
+  }
+
+  .inter-4xl-semibold {
+    @apply font-sans text-4xl leading-3xl font-semibold;
+  }
+
+  .inter-3xl-regular {
+    @apply font-sans text-3xl leading-2xl font-normal;
+  }
+
+  .inter-3xl-semibold {
+    @apply font-sans text-3xl leading-2xl font-semibold;
+  }
+
+  .inter-2xl-regular {
+    @apply font-sans text-2xl leading-xl font-normal;
+  }
+
+  .inter-2xl-semibold {
+    @apply font-sans text-2xl leading-xl font-semibold;
+  }
+
+  .inter-xl-regular {
+    @apply font-sans text-xl leading-lg font-normal;
+  }
+
+  .inter-xl-semibold {
+    @apply font-sans text-xl leading-lg font-semibold;
+  }
+
+  .inter-lg-regular {
+    @apply font-sans text-lg leading-base font-normal;
+  }
+
+  .inter-lg-semibold {
+    @apply font-sans text-lg leading-base font-semibold;
+  }
+
+  .inter-base-regular {
+    @apply font-sans text-base leading-base font-normal;
+  }
+
+  .inter-base-semibold {
+    @apply font-sans text-base leading-base font-semibold;
+  }
+
+  .inter-sm-regular {
+    @apply font-sans text-sm leading-sm font-normal;
+  }
+
+  .inter-sm-semibold {
+    @apply font-sans text-sm leading-sm font-semibold;
+  }
+
+  .inter-xs-regular {
+    @apply font-sans text-xs leading-xs font-normal;
+  }
+
+  .inter-xs-semibold {
+    @apply font-sans text-xs leading-xs font-semibold;
+  }
+
+  .mono-5xl-regular {
+    @apply font-mono text-5xl leading-4xl font-normal;
+  }
+
+  .mono-5xl-semibold {
+    @apply font-mono text-5xl leading-4xl font-bold;
+  }
+
+  .mono-4xl-regular {
+    @apply font-mono text-4xl leading-3xl font-normal;
+  }
+
+  .mono-4xl-semibold {
+    @apply font-mono text-4xl leading-3xl font-bold;
+  }
+
+  .mono-3xl-regular {
+    @apply font-mono text-3xl leading-2xl font-normal;
+  }
+
+  .mono-3xl-semibold {
+    @apply font-mono text-3xl leading-2xl font-bold;
+  }
+
+  .mono-2xl-regular {
+    @apply font-mono text-2xl leading-xl font-normal;
+  }
+
+  .mono-2xl-semibold {
+    @apply font-mono text-2xl leading-xl font-bold;
+  }
+
+  .mono-xl-regular {
+    @apply font-mono text-xl leading-lg font-normal;
+  }
+
+  .mono-xl-semibold {
+    @apply font-mono text-xl leading-lg font-bold;
+  }
+
+  .mono-lg-regular {
+    @apply font-mono text-lg leading-base font-normal;
+  }
+
+  .mono-lg-semibold {
+    @apply font-mono text-lg leading-base font-bold;
+  }
+
+  .mono-base-regular {
+    @apply font-mono text-base leading-base font-normal;
+  }
+
+  .mono-base-semibold {
+    @apply font-mono text-base leading-base font-bold;
+  }
+
+  .mono-sm-regular {
+    @apply font-mono text-sm leading-sm font-normal;
+  }
+
+  .mono-sm-semibold {
+    @apply font-mono text-sm leading-sm font-bold;
+  }
+
+  .mono-xs-regular {
+    @apply font-mono text-xs leading-xs font-normal;
+  }
+
+  .mono-xs-semibold {
+    @apply font-mono text-xs leading-xs font-bold;
+  }
+
+  .radio-outer-ring>span.indicator[data-state="checked"] {
+    @apply rounded-circle shadow-purple-60 shadow-[0_0_0_2px];
+  }
+
+  .bold-active-item+span {
+    @apply inter-base-semibold;
+  }
+}
+
+@layer components {
+  .react-select-container {
+    @apply p-0 -mx-3 border-0 mb-1 cursor-text h-6;
+
+    .react-select__control {
+      @apply border-0 bg-inherit shadow-none;
+    }
+
+    .react-select__control,
+    .react-select__control--is-focused,
+    .react-select__control--menu-is-open {
+      @apply h-6 p-0 m-0;
+    }
+
+    .react-select__value-container--is-multi,
+    .react-select__value-container--has-value {
+      @apply h-6 pl-3 p-0 m-0;
+    }
+
+    .react-select__menu,
+    .react-select__menu-list {
+      @apply rounded-t-none mt-0 z-[110];
+    }
+
+    .react-select__value-container {
+      @apply pl-3 pr-0;
+    }
+
+    .react-select__indicators {
+      @apply p-0 h-full items-center flex pr-3;
+
+      .react-select__indicator {
+        @apply p-0;
+      }
+    }
+
+    .react-select__input {
+      @apply w-full mt-0 min-w-[120px] pt-0;
+    }
+
+    .react-select__option,
+    .react-select__option--is-focused,
+    .react-select__option--is-selected {
+      @apply bg-grey-0 hover:bg-grey-5;
+    }
+
+    .react-select__multi-value,
+    .react-select__input-container {
+      @apply my-0 py-0;
+    }
+  }
+}
+
+@layer components {
+  .badge {
+    @apply w-min py-0.5 px-2 rounded inter-sm-semibold;
+  }
+
+  .badge-primary {
+    @apply bg-purple-60 bg-opacity-10 text-purple-60;
+  }
+
+  .badge-danger {
+    @apply bg-rose-50 bg-opacity-10 text-rose-50;
+  }
+
+  .badge-success {
+    @apply bg-teal-50 bg-opacity-10 text-teal-50;
+  }
+
+  .badge-warning {
+    @apply bg-yellow-40 bg-opacity-20 text-yellow-60;
+  }
+
+  .badge-default {
+    @apply inter-sm-regular bg-grey-10 text-grey-90 whitespace-nowrap;
+  }
+
+  .btn {
+    @apply flex items-center justify-center rounded-base focus:outline-none focus:shadow-cta;
+  }
+
+  .btn-lg {
+    @apply inter-base-semibold px-lg py-sm;
+  }
+
+  .btn-md {
+    @apply inter-base-semibold px-base py-xs;
+  }
+
+  .btn-sm {
+    @apply inter-sm-semibold px-sm py-[6px];
+  }
+
+  .btn-primary {
+    @apply bg-purple-60 text-grey-0 hover:bg-purple-50 active:bg-purple-70 disabled:bg-grey-20 disabled:text-grey-40;
+  }
+
+  .btn-secondary {
+    @apply bg-grey-0 text-grey-90 border border-grey-20 hover:bg-grey-5 active:bg-grey-5 active:text-purple-60 focus:border-purple-60 disabled:bg-grey-0 disabled:text-grey-30;
+  }
+
+  .btn-danger {
+    @apply bg-rose-50 text-grey-0 hover:bg-rose-40 active:bg-rose-60 disabled:bg-grey-20 disabled:text-grey-40;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-grey-90 hover: bg-grey-5 active:bg-grey-5 active:text-purple-60 focus:border-purple-60 disabled:bg-transparent disabled:text-grey-30;
+  }
+
+  .btn-primary-lg {
+    @apply btn btn-lg btn-primary;
+  }
+
+  .btn-primary-md {
+    @apply btn btn-md;
+  }
+
+  .btn-primary-sm {
+    @apply btn btn-sm;
+  }
+
+  .btn-secondary-lg {
+    @apply btn btn-lg btn-seconday;
+  }
+
+  .btn-secondary-md {
+    @apply btn btn-md btn-seconday;
+  }
+
+  .btn-secondary-sm {
+    @apply btn btn-sm btn-seconday;
+  }
+
+  .btn-ghost-lg {
+    @apply btn btn-lg btn-ghost;
+  }
+
+  .btn-ghost-md {
+    @apply btn btn-md btn-ghost;
+  }
+
+  .btn-ghost-sm {
+    @apply btn btn-sm btn-ghost;
+  }
+}
+
+@layer components {
+  .date-picker {
+    @apply border-0 outline-none pt-6;
+
+    .react-datepicker__month-container {
+      .react-datepicker__header {
+        @apply bg-inherit border-0;
+      }
+    }
+
+    .react-datepicker__day-names {
+      @apply inter-base-semibold pt-4;
+
+      .react-datepicker__day-name {
+        @apply w-[40px] m-0;
+      }
+    }
+
+    .react-datepicker__month {
+      @apply m-0;
+    }
+
+    .react-datepicker__day {
+      @apply inter-base-regular;
+    }
+
+    .react-datepicker__day--today {
+      @apply text-grey-90 inter-base-semibold bg-grey-10 rounded;
+    }
+
+    .react-datepicker__day--outside-month,
+    .past {
+      @apply text-grey-40;
+    }
+
+    .date {
+      @apply text-grey-90 m-[0px] w-[38px] h-[38px] align-middle relative leading-none pt-3;
+
+      :hover {
+        @apply cursor-pointer;
+      }
+    }
+
+    .chosen,
+    .react-datepicker__day--keyboard-selected {
+      @apply bg-purple-60 text-grey-0 inter-base-semibold leading-none;
+    }
+  }
+
+  .time-list::-webkit-scrollbar {
+    /* chrome */
+    display: none;
+  }
+
+  .time-list {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+}
+
 @import 'additional-styles/utility-patterns.scss';
 @import 'additional-styles/range-slider.scss';
 @import 'additional-styles/toggle-switch.scss';
@@ -10,6 +373,35 @@
 @import 'additional-styles/theme.scss';
 
 @tailwind utilities;
+
+@layer utilities {
+  .hidden-actions[data-state="open"] {
+    opacity: 1;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-rounded bg-grey-30;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-grey-40;
+  }
+}
 
 /* Classes to remove number spinners from inputs of type number */
 /* Chrome, Safari, Edge, Opera */

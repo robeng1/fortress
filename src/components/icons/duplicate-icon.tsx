@@ -1,9 +1,9 @@
-import React from 'react';
-import IconProps from 'types/icon-type';
+import React from "react"
+import IconProps from "./types/icon-type"
 
-export const DuplicateIcon: React.FC<IconProps> = ({
-  size = '20px',
-  color = 'currentColor',
+const DuplicateIcon: React.FC<IconProps> = ({
+  size = "20px",
+  color = "currentColor",
   ...attributes
 }) => {
   return (
@@ -30,7 +30,7 @@ export const DuplicateIcon: React.FC<IconProps> = ({
         strokeLinejoin="round"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default DuplicateIcon;
+export default DuplicateIcon

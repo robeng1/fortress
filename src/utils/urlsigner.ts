@@ -27,7 +27,7 @@ export function makeURL(opts) {
     ':' +
     opts.height +
     ':' +
-    opts.enlarge +
+    opts.enlg +
     '/g:' +
     opts.gravity +
     '/' +
@@ -53,7 +53,7 @@ const salt =
 
 const resize = 'fill';
 const gravity = 'no';
-const enlarge = 1;
+const enlg = 1;
 const defaultExtension = 'jpg';
 
 export const proxyURL = (
@@ -72,7 +72,7 @@ export const proxyURL = (
     salt,
     resize,
     gravity,
-    enlarge,
+    enlg,
     proxy_url: 'https://cdn.reoplex.com',
   };
   const path = makeURL(opts);

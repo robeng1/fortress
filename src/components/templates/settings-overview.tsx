@@ -20,12 +20,12 @@ const SettingsOverview: React.FC = ({ children }) => {
         />
 
         <main className="mb-10 md:mb-0">
-          <div className="bg-white p-large">
+          <div className="bg-white p-lg">
             <PageDescription
               title={'Settings'}
               subtitle={'Manage the settings for your business'}
             />
-            <div className="grid medium:grid-cols-2 auto-cols-fr grid-cols-1 gap-x-base gap-y-xsmall bg-white">
+            <div className="grid md:grid-cols-2 auto-cols-fr grid-cols-1 gap-x-base gap-y-sm bg-white">
               {children}
             </div>
           </div>

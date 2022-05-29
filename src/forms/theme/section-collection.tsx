@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { collectionOptions, filterCollectionsAsOptions } from 'services';
 import useShop from 'hooks/use-shop';
 import ReactSelect from 'react-select/async-creatable';
-import customSelectStyles from 'forms/product/styles';
 import { SelectOption } from 'forms/product/values';
 import toast from 'react-hot-toast';
 
@@ -130,9 +129,6 @@ function SectionCollection() {
                       }
                       placeholder="Select collection"
                       loadOptions={collectionOptions(shop?.shop_id || '')}
-                      styles={{
-                        ...customSelectStyles,
-                      }}
                       className="w-full"
                     />
                   </div>

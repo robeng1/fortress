@@ -189,7 +189,7 @@ const DropdownItem = styled.a`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Helvetica Neue, Ubuntu, sans-serif;
   ${props => {
-    return props.theme.text.small.default;
+    return props.theme.text.sm.default;
   }};
   font-weight: 300;
   &:hover {

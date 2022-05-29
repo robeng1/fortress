@@ -9,7 +9,6 @@ import { Formik } from 'formik';
 import { cartesian } from 'utils/cartesian';
 import ProdutVariantPreview from 'forms/product/variant';
 import { fortressURL } from 'endpoints/urls';
-import { customSelectStyles } from 'forms/product/styles';
 import { attributeOptions } from 'data/select';
 import { ProductStructure, ProductStructureStr, ProductType } from 'typings/product/product-type';
 import { InventoryType } from 'typings/inventory/inventory-type';
@@ -520,7 +519,7 @@ const ProductForm = ({ id }) => {
                       </h2>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
-                          <InputHeader label='Product Category' tooltipContent='Choose a product category' />
+                          <InputHeader label='Category' tooltipContent='Choose a product category' />
                           <ReactSelectCreatable
                             menuPortalTarget={document.body}
                             isSearchable
@@ -528,9 +527,6 @@ const ProductForm = ({ id }) => {
                             value={values.type}
                             loadOptions={productTypeOptions}
                             onChange={option => setFieldValue('type', option)}
-                            styles={{
-                              ...customSelectStyles,
-                            }}
                             className="w-full"
                           />
                         </div>
@@ -1053,9 +1049,6 @@ const ProductForm = ({ id }) => {
                                           attr.value === opt.attribute?.value,
                                       ),
                                   )}
-                                  styles={{
-                                    ...customSelectStyles,
-                                  }}
                                   className="w-full"
                                 />
                               </div>

@@ -26,7 +26,7 @@ const Item = ({
   return (
     <label
       className={clsx(
-        'rounded-base border border-grey-20 p-base flex items-start mb-xsmall last:mb-0 gap-base cursor-pointer',
+        'rounded-base border border-grey-20 p-base flex items-start mb-xs last:mb-0 gap-base cursor-pointer',
       )}
       htmlFor={rest.value}
     >
@@ -41,7 +41,7 @@ const Item = ({
         <RadioGroupPrimitive.Indicator
           className={clsx(
             'flex items-center justify-center w-full h-full relative',
-            'after:absolute after:inset-0 after:m-auto after:block after:w-[12px] after:h-[12px] after:bg-violet-60 after:rounded-circle',
+            'after:absolute after:inset-0 after:m-auto after:block after:w-[12px] after:h-[12px] after:bg-purple-60 after:rounded-circle',
           )}
         />
       </RadioGroupPrimitive.Item>
@@ -55,7 +55,7 @@ const Item = ({
           </p>
         </div>
         {description && (
-          <p className="inter-small-regular text-grey-50 mt-2xsmall truncate">
+          <p className="inter-sm-regular text-grey-50 mt-2xs truncate">
             {description}
           </p>
         )}
@@ -70,7 +70,7 @@ const SimpleItem: React.FC<RadioGroupSimpleItemProps> = ({
 }) => {
   return (
     <label
-      className={clsx('flex items-center mr-large last:mr-0', {
+      className={clsx('flex items-center mr-lg last:mr-0', {
         ['opacity-50 select-none pointer-events-none']: rest.disabled,
       })}
       htmlFor={rest.value}
@@ -86,12 +86,12 @@ const SimpleItem: React.FC<RadioGroupSimpleItemProps> = ({
         <RadioGroupPrimitive.Indicator
           className={clsx(
             'flex items-center justify-center w-full h-full relative',
-            'after:absolute after:inset-0 after:m-auto after:block after:w-[12px] after:h-[12px] after:bg-violet-60 after:rounded-circle',
+            'after:absolute after:inset-0 after:m-auto after:block after:w-[12px] after:h-[12px] after:bg-purple-60 after:rounded-circle',
           )}
         />
       </RadioGroupPrimitive.Item>
       {label && (
-        <span className="ml-small inter-base-regular cursor-pointer">
+        <span className="ml-sm inter-base-regular cursor-pointer">
           {label}
         </span>
       )}

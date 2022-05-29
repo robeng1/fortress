@@ -167,7 +167,7 @@ export default function OrderManager() {
                       <div className="bg-white border mb-6 rounded shadow">
                         <header className="flex items-center pb-3 pl-6 pr-3 pt-5">
                           <span className="font-semibold inline-flex items-center text-gray-700">
-                            <i className="border-2 border-dashed border-yellow-700 h-5 inline-block mr-3 rounded-full w-5 shadow-yellow-large"></i>
+                            <i className="border-2 border-dashed border-yellow-700 h-5 inline-block mr-3 rounded-full w-5 shadow-yellow-lg"></i>
                             <span>
                               {!(order.status === OrderStatusType.ORDER_COMPLETED || "Complete")
                                 ? 'Unfulfilled'

@@ -181,7 +181,7 @@ const TagInput: React.FC<TagInputProps> = ({
                 },
               )}
             >
-              <div className="inline-block text-grey-0 h-full inter-small-semibold mr-1">
+              <div className="inline-block text-grey-0 h-full inter-sm-semibold mr-1">
                 {v}
               </div>
               <CloseIcon

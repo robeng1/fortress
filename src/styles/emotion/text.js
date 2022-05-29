@@ -43,17 +43,17 @@ export default {
     fontSize: '18px',
     fontWeight: 300,
   },
-  small: {
+  sm: {
     default: {
       fontSize: '14px',
       fontWeight: 'normal',
     },
     heavy: {
-      variant: 'text.small.default',
+      variant: 'text.sm.default',
       fontWeight: 500,
     },
     bold: {
-      variant: 'text.small.default',
+      variant: 'text.sm.default',
       fontWeight: 700,
     },
   },

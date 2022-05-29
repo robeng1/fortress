@@ -15,7 +15,7 @@ type CarouselPropsType = {
 	nextActivateId?: string;
 	prevButtonClasses?: string;
 	nextButtonClasses?: string;
-	buttonSize?: "default" | "small";
+	buttonSize?: "default" | "sm";
 	paginationVariant?: "default" | "circle";
 	paginationPosition?: "center" | "left" | "right";
 	loop?: boolean;
@@ -73,9 +73,8 @@ const Carousel: React.FunctionComponent<CarouselPropsType> = ({
 	);
 	return (
 		<div
-			className={`carouselWrapper relative ${className} ${classPagination} ${
-				paginationVariant === "circle" ? "dotsCircle" : ""
-			}`}
+			className={`carouselWrapper relative ${className} ${classPagination} ${paginationVariant === "circle" ? "dotsCircle" : ""
+				}`}
 		>
 			<Swiper
 				modules={[Navigation, Autoplay, Pagination, Scrollbar]}
@@ -87,13 +86,13 @@ const Carousel: React.FunctionComponent<CarouselPropsType> = ({
 				navigation={
 					navigation
 						? {
-								prevEl: prevActivateId.length
-									? `#${prevActivateId}`
-									: prevRef.current!, // Assert non-null
-								nextEl: nextActivateId.length
-									? `#${nextActivateId}`
-									: nextRef.current!, // Assert non-null
-						  }
+							prevEl: prevActivateId.length
+								? `#${prevActivateId}`
+								: prevRef.current!, // Assert non-null
+							nextEl: nextActivateId.length
+								? `#${nextActivateId}`
+								: nextRef.current!, // Assert non-null
+						}
 						: {}
 				}
 				{...props}
@@ -110,7 +109,7 @@ const Carousel: React.FunctionComponent<CarouselPropsType> = ({
 							id={prevActivateId}
 							aria-label="prev-button"
 						>
-						<IoIosArrowBack />
+							<IoIosArrowBack />
 						</button>
 					) : (
 						<button
@@ -118,7 +117,7 @@ const Carousel: React.FunctionComponent<CarouselPropsType> = ({
 							className={prevButtonClassName}
 							aria-label="prev-button"
 						>
-						<IoIosArrowForward />
+							<IoIosArrowForward />
 						</button>
 					)}
 
@@ -136,7 +135,7 @@ const Carousel: React.FunctionComponent<CarouselPropsType> = ({
 							className={nextButtonClassName}
 							aria-label="next-button"
 						>
-						<IoIosArrowForward />
+							<IoIosArrowForward />
 						</button>
 					)}
 				</div>

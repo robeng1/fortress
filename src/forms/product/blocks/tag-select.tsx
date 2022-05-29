@@ -1,4 +1,3 @@
-import customSelectStyles from 'forms/product/styles';
 import React, { useEffect, useState } from 'react'
 import { MultiValue, SingleValue } from 'react-select';
 import ReactSelect from 'react-select/async-creatable';
@@ -61,10 +60,8 @@ const Tag: React.FC<TagProps> = ({ multi, onChange, value, shop_id }) => {
             singleOnChange(option)
           }
           placeholder="Select tags"
-        loadOptions={tagOptions(shop_id)}
-          styles={{
-            ...customSelectStyles,
-          }}
+          loadOptions={tagOptions(shop_id)}
+
           className="w-full"
         />
       }
@@ -80,9 +77,6 @@ const Tag: React.FC<TagProps> = ({ multi, onChange, value, shop_id }) => {
           }
           placeholder="Select/Create tags"
           loadOptions={tagOptions(shop_id)}
-          styles={{
-            ...customSelectStyles,
-          }}
           className="w-full"
         />
       }

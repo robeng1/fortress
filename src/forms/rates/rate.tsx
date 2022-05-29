@@ -8,7 +8,6 @@ import { request, ResponseError } from 'utils/request';
 import { fortressURL } from 'endpoints/urls';
 import { WeightBasedRateType } from 'typings/rates/weight-based-rate';
 import { ItemBasedRateType } from 'typings/rates/item-based-rate';
-import colourStyles from 'forms/product/styles';
 import { modelOptions, ShippingRateModelOption } from 'data/select';
 import { sToCurrency } from 'utils/money';
 import { rateToIB, rateToWB, rawToRate } from './mappers';
@@ -238,9 +237,6 @@ function RatesForm({ handleShow, rate }) {
                       }
                       components={animatedComponents}
                       options={modelOptions}
-                      styles={{
-                        ...colourStyles,
-                      }}
                       className="w-full"
                     />
                   </div>

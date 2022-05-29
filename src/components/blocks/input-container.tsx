@@ -29,7 +29,7 @@ const InputContainer: React.FC<InputContainerProps> = ({
         }
       }}
       className={clsx([
-        `bg-grey-5  w-full p-3 flex h-18 flex-col cursor-text border border-grey-20 focus-within:shadow-input focus-within:border-violet-60 rounded-md`,
+        `bg-grey-5  w-full p-3 flex h-18 flex-col cursor-text border border-grey-20 focus-within:shadow-input focus-within:border-purple-60 rounded-md`,
         className,
       ])}
     >

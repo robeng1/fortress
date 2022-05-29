@@ -10,8 +10,8 @@ const PageDescription: React.FC<PageDescriptionProps> = ({
   subtitle,
 }) => {
   return (
-    <div className="mb-xlarge">
-      <h1 className="font-bold mb-xsmall text-xl">{title}</h1>
+    <div className="mb-xl">
+      <h1 className="font-bold mb-xs text-xl">{title}</h1>
       <h2 className="text-grey-50">{subtitle}</h2>
     </div>
   );

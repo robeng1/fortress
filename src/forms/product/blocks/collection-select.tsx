@@ -1,4 +1,3 @@
-import customSelectStyles from 'forms/product/styles';
 import isEmpty from 'lodash/isEmpty';
 import React, { useEffect, useState } from 'react'
 import { MultiValue, SingleValue } from 'react-select';
@@ -67,9 +66,6 @@ const CollectionSelect: React.FC<CollectionSelectProps> = ({ multi, onChange, va
           }
           placeholder="Select collections"
           loadOptions={collectionOptions(shop_id)}
-          styles={{
-            ...customSelectStyles,
-          }}
           className="w-full"
         />
       }
@@ -85,9 +81,6 @@ const CollectionSelect: React.FC<CollectionSelectProps> = ({ multi, onChange, va
           }
           placeholder="Select collections"
           loadOptions={collectionOptions(shop_id)}
-          styles={{
-            ...customSelectStyles,
-          }}
           className="w-full"
         />
       }

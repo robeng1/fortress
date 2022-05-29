@@ -10,7 +10,6 @@ import ReactSelect from 'react-select/async';
 import useShop from 'hooks/use-shop';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from 'components/blocks/backdrop';
-import customSelectStyles from 'forms/product/styles';
 import toast from 'react-hot-toast';
 import InputHeader from 'components/blocks/input-header';
 
@@ -389,9 +388,6 @@ const VoucherForm = ({ id, codeType }) => {
                           menuPortalTarget={document.body}
                           onChange={option => setFieldValue('discount', option)}
                           loadOptions={discountOptions(shop?.shop_id!)}
-                          styles={{
-                            ...customSelectStyles,
-                          }}
                           className="w-full md:w-2/3"
                         />
                       </div>
