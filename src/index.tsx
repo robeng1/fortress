@@ -141,18 +141,18 @@ export function App() {
         />
 
         <Route
-          path="/shop/collections"
+          path="/collections"
           element={
-            <RequireAuth path="/shop/collections">
+            <RequireAuth path="/collections">
               <Collections />
             </RequireAuth>
           }
         />
 
         <Route
-          path="/shop/collections/:id"
+          path="/collections/:id"
           element={
-            <RequireAuth path="/shop/collections/:id">
+            <RequireAuth path="/collections/:id">
               <CollectionMutation />
             </RequireAuth>
           }

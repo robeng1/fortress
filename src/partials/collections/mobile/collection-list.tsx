@@ -18,7 +18,7 @@ const CollectionList: React.FC<CollectionsListProps> = ({ collections }) => {
                 <li key={collection.collection_id} className="flex pr-3 py-2">
                   <CollectionCard
                     handleShow={() =>
-                      navigate(`/shop/collections/${collection.collection_id}`)
+                      navigate(`/collections/${collection.collection_id}`)
                     }
                     collection={collection}
                   />

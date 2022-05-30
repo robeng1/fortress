@@ -64,7 +64,7 @@ const CollectionItemTable: React.FC<CollectionTableItemProps> = ({
             <p
               className="hover:underline "
               onClick={() =>
-                navigate(`/shop/collections/${collection.collection_id}`)
+                navigate(`/collections/${collection.collection_id}`)
               }
             >
               {collection.title}

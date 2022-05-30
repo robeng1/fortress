@@ -140,7 +140,7 @@ function LocationsForm({ id }) {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <div className="flex-grow w-full">
+          <div className="flex-grow w-full mx-auto items-start self-center">
             {/* Panel body */}
             <div className="md:p-6 p-4 space-y-6">
               <section>

@@ -108,7 +108,7 @@ const CollectionsTable: React.FC<CollectionsTableProps> = ({
           msg="Collections are a way to group products."
           action={{
             name: "Create collection",
-            func: () => navigate("/shop/collections/new"),
+            func: () => navigate("/collections/new"),
           }}
         />
       )}

@@ -75,7 +75,7 @@ function Collections() {
                     </div>
                   </div>
                   <button
-                    onClick={() => navigate("/shop/collections/new")}
+                    onClick={() => navigate("/collections/new")}
                     className="btn bg-purple-600 hover:bg-purple-600 text-white"
                   >
                     <svg

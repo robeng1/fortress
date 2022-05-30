@@ -7,7 +7,7 @@ function Centre() {
   useOnboarding()
   return (
     <main className="bg-white">
-      <div className="relative flex justify-center">
+      <div className="relative flex">
         {/* Content */}
         <div className="w-full md:w-1/2">
           <div className="min-h-screen h-full w-screen flex flex-col after:flex-1">
