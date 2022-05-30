@@ -55,8 +55,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <div className="block">
         {/* Sidebar backdrop (mobile only) */}
         <div
-          className={`fixed inset-0 bg-gray-300 bg-opacity-30 blur-md z-999 lg:hidden lg:z-auto transition-opacity duration-200 ${sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
+          className={`fixed inset-0 bg-gray-300 bg-opacity-30 blur-md z-999 lg:hidden lg:z-auto transition-opacity duration-200 ${
+            sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
           aria-hidden="true"
         ></div>
 
@@ -64,8 +65,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         <div
           id="sidebar"
           ref={sidebar}
-          className={`flex flex-col absolute z-999 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-white p-4 transition-all duration-100 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-64"
-            }`}
+          className={`flex flex-col absolute z-999 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 flex-shrink-0 bg-white p-4 transition-all duration-100 ease-in-out ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-64"
+          }`}
         >
           {/* Sidebar header */}
           <div className="flex justify-between mb-10 pr-3 sm:px-2">
@@ -101,14 +103,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               <ul className="mt-0">
                 {/* Dashboard */}
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 hidden md:block last:mb-0 ${pathname === "/" &&
+                  className={`px-3 py-2 rounded-sm mb-0.5 hidden md:block last:mb-0 ${
+                    pathname === "/" &&
                     "w-full bg-gray-200 ease-out transition-transform transition-medium"
-                    }`}
+                  }`}
                 >
                   <NavLink
                     to="/"
-                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname === "/" && "text-gray-900 "
-                      }`}
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname === "/" && "text-gray-900 "
+                    }`}
                   >
                     <div className="flex items-center align-middle">
                       <svg
@@ -126,8 +130,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </g>
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === "/" && "text-gray-900"
-                          }`}
+                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === "/" && "text-gray-900"
+                        }`}
                       >
                         Home
                       </span>
@@ -136,14 +141,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </li>
                 {/* Orders */}
                 <li
-                  className={`px-3 py-2 rounded-sm hidden md:block mb-0.5 last:mb-0 ${pathname.includes("orders") &&
+                  className={`px-3 py-2 rounded-sm hidden md:block mb-0.5 last:mb-0 ${
+                    pathname.includes("orders") &&
                     "w-full bg-gray-200 ease-out transition-transform transition-medium"
-                    }`}
+                  }`}
                 >
                   <NavLink
                     to="/orders"
-                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname.includes("orders") && "hover:text-gray-900"
-                      }`}
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname.includes("orders") && "hover:text-gray-900"
+                    }`}
                   >
                     <div className="flex items-center align-middle">
                       {/* <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z" /><g fill="#757575"><path d="M15.858 15c-.446 1.723-1.997 3-3.858 3s-3.412-1.277-3.858-3H2v7h20v-7h-6.142zM15.293 8.293L13 10.586V2h-2v8.586L8.707 8.293 7.293 9.707 12 14.415l4.707-4.708z" /></g></svg> */}
@@ -167,8 +174,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </g>
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname.includes("orders") && "text-gray-900"
-                          }`}
+                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname.includes("orders") && "text-gray-900"
+                        }`}
                       >
                         Orders
                       </span>
@@ -182,9 +190,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       <div>
                         <a
                           href="#0"
-                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname.includes("products") &&
+                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                            pathname.includes("products") &&
                             "hover:text-gray-900"
-                            }`}
+                          }`}
                           onClick={(e) => {
                             e.preventDefault()
                             sidebarExpanded
@@ -214,34 +223,38 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-5 mt-1 ${!open && "hidden"}`}>
                             <li
-                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("products") && "bg-gray-200"
-                                }`}
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
+                                pathname.includes("products") && "bg-gray-200"
+                              }`}
                             >
                               <NavLink
                                 to="/shop/products"
                                 className={`block text-gray-900 hover:text-black transition duration-150 truncate `}
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname.includes("products") &&
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes("products") &&
                                     "text-gray-900"
-                                    }`}
+                                  }`}
                                 >
                                   All products
                                 </span>
                               </NavLink>
                             </li>
                             <li
-                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("inventory") && "bg-gray-200"
-                                }`}
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
+                                pathname.includes("inventory") && "bg-gray-200"
+                              }`}
                             >
                               <NavLink
                                 to="/shop/inventory"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname.includes("inventory") &&
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes("inventory") &&
                                     "text-gray-900"
-                                    }`}
+                                  }`}
                                 >
                                   Inventory
                                 </span>
@@ -254,20 +267,69 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup>
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/collections" &&
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                    pathname === "/collections" &&
                     "w-full bg-gray-200 ease-out transition-transform transition-medium"
-                    }`}
+                  }`}
                 >
                   <NavLink
                     to="/collections"
-                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname === "/discounts" && "text-gray-900 "
-                      }`}
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname === "/discounts" && "text-gray-900 "
+                    }`}
                   >
                     <div className="flex items-center align-middle">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g data-name="katman 2"><path fill="none" stroke="#2c2c2c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18,23H6a2,2,0,0,1-2-2V7L9,2h6l5,5V21A2,2,0,0,1,18,23Z" /><circle cx="12" cy="11" r="3" fill="none" stroke="#2c2c2c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" /><line x1="10" x2="14" y1="19" y2="19" fill="none" stroke="#2c2c2c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" /><path fill="none" stroke="#2c2c2c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12,8a5.54,5.54,0,0,1-1-2,6.36,6.36,0,0,1,1-5" /><rect width="24" height="24" fill="none" /></g></svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                      >
+                        <g data-name="katman 2">
+                          <path
+                            fill="none"
+                            stroke="#2c2c2c"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M18,23H6a2,2,0,0,1-2-2V7L9,2h6l5,5V21A2,2,0,0,1,18,23Z"
+                          />
+                          <circle
+                            cx="12"
+                            cy="11"
+                            r="3"
+                            fill="none"
+                            stroke="#2c2c2c"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                          />
+                          <line
+                            x1="10"
+                            x2="14"
+                            y1="19"
+                            y2="19"
+                            fill="none"
+                            stroke="#2c2c2c"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                          />
+                          <path
+                            fill="none"
+                            stroke="#2c2c2c"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12,8a5.54,5.54,0,0,1-1-2,6.36,6.36,0,0,1,1-5"
+                          />
+                          <rect width="24" height="24" fill="none" />
+                        </g>
+                      </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === "/collections" && "text-gray-900"
-                          }`}
+                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === "/collections" && "text-gray-900"
+                        }`}
                       >
                         Collections
                       </span>
@@ -282,9 +344,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       <div>
                         <a
                           href="#0"
-                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname.includes("products") &&
+                          className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                            pathname.includes("products") &&
                             "hover:text-gray-900"
-                            }`}
+                          }`}
                           onClick={(e) => {
                             e.preventDefault()
                             sidebarExpanded
@@ -312,36 +375,40 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                           <ul className={`pl-5 mt-1 ${!open && "hidden"}`}>
                             <li
-                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("balance") && "bg-gray-200"
-                                }`}
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
+                                pathname.includes("balance") && "bg-gray-200"
+                              }`}
                             >
                               <NavLink
                                 to="/finances/balance"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname.includes("finances/balance") &&
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes("finances/balance") &&
                                     "text-gray-900"
-                                    }`}
+                                  }`}
                                 >
                                   Balance
                                 </span>
                               </NavLink>
                             </li>
                             <li
-                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("transactions") &&
+                              className={`py-1 rounded-sm mb-0.5 last:mb-0 ${
+                                pathname.includes("transactions") &&
                                 "bg-gray-200"
-                                }`}
+                              }`}
                             >
                               <NavLink
                                 to="/finances/transactions"
                                 className="block text-gray-900 hover:text-black transition duration-150 truncate"
                               >
                                 <span
-                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname.includes(
-                                    "finances/transactions"
-                                  ) && "text-gray-900"
-                                    }`}
+                                  className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                                    pathname.includes(
+                                      "finances/transactions"
+                                    ) && "text-gray-900"
+                                  }`}
                                 >
                                   Transactions
                                 </span>
@@ -373,14 +440,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup>
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/discounts" &&
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                    pathname === "/discounts" &&
                     "w-full bg-gray-200 ease-out transition-transform transition-medium"
-                    }`}
+                  }`}
                 >
                   <NavLink
                     to="/discounts"
-                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname === "/discounts" && "text-gray-900 "
-                      }`}
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname === "/discounts" && "text-gray-900 "
+                    }`}
                   >
                     <div className="flex items-center align-middle">
                       <svg
@@ -400,8 +469,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         ></path>
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === "/discounts" && "text-gray-900"
-                          }`}
+                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === "/discounts" && "text-gray-900"
+                        }`}
                       >
                         Discounts
                       </span>
@@ -410,14 +480,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </li>
 
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/vouchers" &&
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                    pathname === "/vouchers" &&
                     "w-full bg-gray-200 ease-out transition-transform transition-medium"
-                    }`}
+                  }`}
                 >
                   <NavLink
                     to="/vouchers"
-                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname === "/vouchers" && "text-gray-900 "
-                      }`}
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname === "/vouchers" && "text-gray-900 "
+                    }`}
                   >
                     <div className="flex items-center align-middle">
                       <svg
@@ -430,8 +502,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <path d="M22,4H2A1,1,0,0,0,1,5V19a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V5A1,1,0,0,0,22,4ZM21,18H19V15a1,1,0,0,0-2,0v3H3V6H17V9a1,1,0,0,0,2,0V6h2ZM13.71,8.29a1,1,0,0,1,0,1.42l-6,6a1,1,0,0,1-1.42,0,1,1,0,0,1,0-1.42l6-6A1,1,0,0,1,13.71,8.29ZM7,9a1,1,0,1,1,1,1A1,1,0,0,1,7,9Zm6,6a1,1,0,1,1-1-1A1,1,0,0,1,13,15Z" />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === "/vouchers" && "text-gray-900"
-                          }`}
+                        className={`text-sm font-medium ml-2 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === "/vouchers" && "text-gray-900"
+                        }`}
                       >
                         Vouchers
                       </span>
@@ -455,14 +528,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </h3>
               <ul className="mt-3">
                 <li
-                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/settings" &&
+                  className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                    pathname === "/settings" &&
                     "w-full bg-gray-200 ease-out transition-transform transition-medium"
-                    }`}
+                  }`}
                 >
                   <NavLink
                     to="/settings"
-                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${pathname === "/settings" && "text-gray-900 "
-                      }`}
+                    className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
+                      pathname === "/settings" && "text-gray-900 "
+                    }`}
                   >
                     <div className="flex items-center align-middle">
                       <svg
@@ -476,8 +551,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         <path d="M19.9,12.66a1,1,0,0,1,0-1.32L21.18,9.9a1,1,0,0,0,.12-1.17l-2-3.46a1,1,0,0,0-1.07-.48l-1.88.38a1,1,0,0,1-1.15-.66l-.61-1.83A1,1,0,0,0,13.64,2h-4a1,1,0,0,0-1,.68L8.08,4.51a1,1,0,0,1-1.15.66L5,4.79A1,1,0,0,0,4,5.27L2,8.73A1,1,0,0,0,2.1,9.9l1.27,1.44a1,1,0,0,1,0,1.32L2.1,14.1A1,1,0,0,0,2,15.27l2,3.46a1,1,0,0,0,1.07.48l1.88-.38a1,1,0,0,1,1.15.66l.61,1.83a1,1,0,0,0,1,.68h4a1,1,0,0,0,.95-.68l.61-1.83a1,1,0,0,1,1.15-.66l1.88.38a1,1,0,0,0,1.07-.48l2-3.46a1,1,0,0,0-.12-1.17ZM18.41,14l.8.9-1.28,2.22-1.18-.24a3,3,0,0,0-3.45,2L12.92,20H10.36L10,18.86a3,3,0,0,0-3.45-2l-1.18.24L4.07,14.89l.8-.9a3,3,0,0,0,0-4l-.8-.9L5.35,6.89l1.18.24a3,3,0,0,0,3.45-2L10.36,4h2.56l.38,1.14a3,3,0,0,0,3.45,2l1.18-.24,1.28,2.22-.8.9A3,3,0,0,0,18.41,14ZM11.64,8a4,4,0,1,0,4,4A4,4,0,0,0,11.64,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,11.64,14Z" />
                       </svg>
                       <span
-                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${pathname === "/settings" && "text-gray-900"
-                          }`}
+                        className={`text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200 ${
+                          pathname === "/settings" && "text-gray-900"
+                        }`}
                       >
                         Settings
                       </span>
