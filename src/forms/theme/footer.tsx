@@ -12,12 +12,12 @@ function Footer() {
     useThemeMutation()
   const initialValues =
     config &&
-    config.settings &&
-    (config?.settings as Record<string, any>).sections
+      config.settings &&
+      (config?.settings as Record<string, any>).sections
       ? (config?.settings as Record<string, any>).sections["layout-footer"]
         ? (config?.settings as Record<string, any>).sections["layout-footer"][
-            "settings"
-          ] ?? {}
+        "settings"
+        ] ?? {}
         : {}
       : {}
   useEffect(() => {
@@ -58,13 +58,13 @@ function Footer() {
                   ...vals,
                   social_instagram_link:
                     values.social_instagram_link &&
-                    values.social_instagram_link !== ""
-                      ? `https://instagram.com/${values.social_instagram_link}`
+                      values.social_instagram_link !== ""
+                      ? (values.social_instagram_link.startsWith(`https://instagram.com/`) ? `${values.social_instagram_link}` : `https://instagram.com/${values.social_instagram_link}`)
                       : "",
                   social_twitter_link:
                     values.social_twitter_link &&
-                    values.social_twitter_link !== ""
-                      ? `https://twitter.com/${values.social_twitter_link}`
+                      values.social_twitter_link !== ""
+                      ? (values.social_twitter_link.startsWith(`https://twitter.com/`) ? `${values.social_twitter_link}` : `https://twitter.com/${values.social_twitter_link}`)
                       : "",
                 },
               },

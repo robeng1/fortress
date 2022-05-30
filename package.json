@@ -28,6 +28,7 @@
     "@styled-system/should-forward-prop": "^5.1.5",
     "@tailwindcss/forms": "0.4.0",
     "@tailwindcss/line-clamp": "0.3.0",
+    "@tanstack/react-table": "^0.0.1-alpha.0",
     "@uppy/box": "1.0.5",
     "@uppy/core": "^2.1.4",
     "@uppy/dashboard": "2.1.3",
