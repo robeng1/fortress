@@ -332,7 +332,7 @@ export default function CollectionForm({ id }) {
                 <div className="flex flex-col py-5">
                   <div className="flex self-end">
                     <button
-                      onClick={() => navigate("/shop/collections")}
+                      onClick={() => navigate("/collections")}
                       className="btn border-teal-600 hover:border-gray-700 text-gray-600 bg-white"
                     >
                       Cancel
