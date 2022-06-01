@@ -275,7 +275,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   <NavLink
                     to="/collections"
                     className={`block text-gray-900 hover:text-black truncate transition duration-150 ${
-                      pathname === "/discounts" && "text-gray-900 "
+                      pathname === "/collections" && "text-gray-900 "
                     }`}
                   >
                     <div className="flex items-center align-middle">
@@ -283,6 +283,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
+                        className="flex-shrink-0"
                         viewBox="0 0 24 24"
                       >
                         <g data-name="katman 2">

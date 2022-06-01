@@ -51,7 +51,7 @@ function PaymentsPanel() {
       }),
     {
       onSuccess: (newAccount: Account) => {
-        toast("Payment data updated succesffully")
+        toast.success("Payment data updated succesffully")
         queryClient.setQueryData(["payment", shop?.shop_id], newAccount)
       },
       onError: (e: ResponseError) => {},
