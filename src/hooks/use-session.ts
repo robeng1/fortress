@@ -15,6 +15,16 @@ const loadSession = async (id?: string) => {
   }
 }
 
+const refreshSession = async (id?: string) => {
+  try {
+    const resp = await request(`${theKeepURL}/auth/sessions/${id}/refresh`)
+    const session: Session = resp
+    return session
+  } catch (error) {
+    return emptySession
+  }
+}
+
 export function useSession() {
   const sid: string = useAtom(sidAtom) as unknown as string
   const [sess, setSession] = useAtom(sessionAtom)
@@ -24,7 +34,7 @@ export function useSession() {
     isLoading,
     isIdle,
     isRefetching,
-  } = useQuery<Session>(["session_load", sid], () => loadSession(sid), {
+  } = useQuery<Session>(["refresh-session", sid], () => refreshSession(sid), {
     enabled:
       !!sid && sid != undefined && !sess.identity?.email_verification_required,
     keepPreviousData: true,
