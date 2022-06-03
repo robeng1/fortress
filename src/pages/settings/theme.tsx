@@ -2,8 +2,17 @@ import BottomNav from "components/bottom-navigation"
 import { SettingsCardNoIcon } from "components/blocks/settings-card"
 import ThemeSettingsOverview from "components/templates/theme-settings"
 import { Link } from "react-router-dom"
+import { useQueryClient } from "react-query"
+import { useEffect } from "react"
+import useShop from "hooks/use-shop"
 
 const ThemeSettings = () => {
+  const { shop } = useShop()
+  const klient = useQueryClient()
+  useEffect(() => {
+    if (!!shop?.shop_id) klient.prefetchQuery(["theme", shop?.shop_id])
+  }, [shop?.shop_id])
+
   return (
     <>
       <ThemeSettingsOverview>

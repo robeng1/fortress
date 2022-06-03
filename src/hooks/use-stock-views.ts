@@ -18,7 +18,7 @@ export default function useStockView(
     ? `${fortressURL}/shops/${shop?.shop_id}/inventory-views`
     : `${fortressURL}/shops/${shop?.shop_id}/inventory-views/search`
   const body = {
-    offset: (page - 1) * itemsPerPage + 1,
+    offset: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
     shop_id: shop?.shop_id,
   }

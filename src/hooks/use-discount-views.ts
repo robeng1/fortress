@@ -15,7 +15,7 @@ export default function useDiscountViews(
     ? `${fortressURL}/shops/${shop?.shop_id}/offer-views`
     : `${fortressURL}/shops/${shop?.shop_id}/offer-views/search`
   const body = {
-    offset: (page - 1) * itemsPerPage + 1,
+    offset: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
     shop_id: shop?.shop_id,
   }

@@ -24,7 +24,7 @@ import useHasRates from "hooks/use-has-rates"
 
 function Analytics() {
   useOnboarding()
-  const { isEmailVerified } = useSession()
+  // const { isEmailVerified } = useSession()
   const { hasProduct } = useHasProducts()
   const { hasRates } = useHasRates()
   const { entries } = useDomains()

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import isEmpty from "lodash/isEmpty"
 import toast from "react-hot-toast"
 import { useQuery, useMutation, useQueryClient } from "react-query"
@@ -56,6 +56,7 @@ const ProductForm = ({ id }) => {
   const { shop } = useShop()
   const { locations } = useCentres()
   const requestURL = `${fortressURL}/shops/${shop?.shop_id}/products`
+  const showVariantButtonRef = useRef<HTMLButtonElement>(null)
 
   const [formView, setFormView] = React.useState<string>(SIMPLE_PRODUCT_VIEW)
   const [images, setImages] = React.useState<string[]>([])
@@ -328,7 +329,9 @@ const ProductForm = ({ id }) => {
     options.forEach((opt) => {
       if (_.isEmpty(opt.attribute) || _.isEmpty(opt.values)) isValid = false
     })
-    if (isValid && func) func()
+    if (isValid && func) {
+      func()
+    }
     return isValid
   }
 
@@ -535,7 +538,9 @@ const ProductForm = ({ id }) => {
                           <ReactSelectCreatable
                             menuPortalTarget={document.body}
                             isSearchable
+                            closeMenuOnSelect
                             cacheOptions
+                            placeholder="Search category"
                             value={values.type}
                             loadOptions={productTypeOptions}
                             onChange={(option) => setFieldValue("type", option)}
@@ -567,8 +572,8 @@ const ProductForm = ({ id }) => {
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <InputHeader
-                            label="Collections"
-                            tooltipContent="Make this product part of a collection, this makes it easier to group products and display them"
+                            label="Collections (optional)"
+                            tooltipContent="Collections are a way to group products into categories. Eg. Men, Women, Shoes, Shirts. They give you total control over how you group products in your store. You have to create some before they show here when you search."
                           />
                           <CollectionSelect
                             value={values.collection_fks ?? []}
@@ -591,7 +596,7 @@ const ProductForm = ({ id }) => {
                           />
                           <TagInput
                             values={values.tags ?? []}
-                            placeholder="Comma separated"
+                            placeholder="Separate each tag with a comma"
                             onChange={(option) =>
                               setFieldValue("tags", option as string[])
                             }
@@ -678,120 +683,285 @@ const ProductForm = ({ id }) => {
                       handleIsSaving={setIsSavingImages}
                     />
                   </section>
-
-                  <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
-                      Pricing
+                  <section className="rounded bg-white shadow overflow-hidden relative p-3 mb-10">
+                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-8">
+                      Options
                     </h2>
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="sm:w-1/2">
-                        <InputHeader
-                          label="Price"
-                          tooltipContent="The actual selling price of this product"
-                        />
+                      <div className="flex items-center w-full">
                         <input
-                          id="price"
-                          name="price"
+                          name="is_parent"
                           onChange={handleChange}
-                          onBlur={(e) => {
-                            const val = e.target.value as string
-                            if (val) {
-                              const num = Number.parseFloat(val)
-                              if (!isNaN(num)) {
-                                setFieldValue("price", num.toFixed(2))
+                          onBlur={handleBlur}
+                          checked={values.is_parent}
+                          id="is_parent"
+                          className="form-checkbox"
+                          type="checkbox"
+                        />
+                        <label
+                          className="block text-sm ml-2"
+                          htmlFor="is_parent"
+                        >
+                          This product has optons, like color or size
+                        </label>
+                      </div>
+                    </div>
+                    {values.is_parent ? (
+                      <>
+                        <h2 className="text-sm uppercase leading-snug text-gray-500 font-medium mb-1 mt-5">
+                          Options
+                        </h2>
+                        {values.variation_options.map((op, index) => (
+                          <div key={index}>
+                            <div className="flex items-center justify-between mt-5">
+                              <h1 className="mb-0">Option {index + 1}</h1>
+                              <button
+                                onClick={() => {
+                                  let opts = values.variation_options
+                                  opts.splice(index, 1)
+                                  setFieldValue("variation_options", opts)
+                                  if (
+                                    validateVarOptions(values.variation_options)
+                                  ) {
+                                    createVars(values, setFieldValue)
+                                  }
+                                }}
+                                type="button"
+                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 mr-3 mb-3"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                            <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                              <div className="sm:w-2/5 md:w-2/5">
+                                <label
+                                  className="block text-sm font-medium mb-1"
+                                  htmlFor="option"
+                                >
+                                  Option name
+                                </label>
+                                <Creatable
+                                  closeMenuOnSelect={true}
+                                  defaultValue={op.attribute}
+                                  value={op.attribute}
+                                  isClearable
+                                  isSearchable
+                                  menuPortalTarget={document.body}
+                                  onChange={(option) => {
+                                    let opt = values.variation_options[index]
+                                    opt.attribute = option as Record<
+                                      string,
+                                      string
+                                    >
+
+                                    let opts = values.variation_options
+                                    opts[index] = opt
+                                    setFieldValue("variation_options", opts)
+                                  }}
+                                  components={animatedComponents}
+                                  options={attributeOptions.filter(
+                                    (attr) =>
+                                      !values.variation_options.some(
+                                        (opt) =>
+                                          attr.value === opt.attribute?.value
+                                      )
+                                  )}
+                                  className="w-full"
+                                />
+                              </div>
+                              <div className="sm:w-3/5 md:w-3/5">
+                                <label
+                                  className="block text-sm font-medium mb-1"
+                                  htmlFor="values"
+                                >
+                                  Option values
+                                </label>
+                                <TagInput
+                                  values={op.values}
+                                  onChange={(options) => {
+                                    let opt = values.variation_options[index]
+                                    opt.values = options as string[]
+                                    let opts = values.variation_options
+                                    opts[index] = opt
+                                    setFieldValue("variation_options", opts)
+                                    if (
+                                      validateVarOptions(
+                                        values.variation_options
+                                      )
+                                    ) {
+                                      createVars(values, setFieldValue)
+                                    }
+                                  }}
+                                  className="w-full"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="mt-5">
+                          <button
+                            onClick={() => {
+                              setFieldValue("variation_options", [
+                                ...values.variation_options,
+                                {
+                                  attribute: null,
+
+                                  values: [],
+                                },
+                              ])
+                            }}
+                            className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
+                          >
+                            <span className="ml-2">Add Option</span>
+                          </button>
+                        </div>
+                        <div>
+                          <div className="rounded bg-white shadow p-3 mt-6 mb-10">
+                            {validateVarOptions(values.variation_options) && (
+                              <>
+                                <h2 className="text-sm capitalize text-left leading-snug text-gray-500 font-medium mb-2">
+                                  {locations && locations[0].name}
+                                </h2>
+                                <ProdutVariantPreview
+                                  selectedItems={handleSelectedItems}
+                                  productVariants={values.variants}
+                                  updatePrice={updatePrice(
+                                    values,
+                                    setFieldValue
+                                  )}
+                                  updateQuantity={updateQuantity(
+                                    values,
+                                    setFieldValue
+                                  )}
+                                  currency={
+                                    shop?.currency?.iso_code || defaultCurrency
+                                  }
+                                />
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </section>
+                  {!values.is_parent && (
+                    <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
+                      <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
+                        Pricing
+                      </h2>
+                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                        <div className="sm:w-1/2">
+                          <InputHeader
+                            label="Price"
+                            tooltipContent="The actual selling price of this product. This is what the customer pays at checkout"
+                          />
+                          <input
+                            id="price"
+                            name="price"
+                            onChange={handleChange}
+                            onBlur={(e) => {
+                              const val = e.target.value as string
+                              if (val) {
+                                const num = Number.parseFloat(val)
+                                if (!isNaN(num)) {
+                                  setFieldValue("price", num.toFixed(2))
+                                } else {
+                                  setFieldValue("price", "0.00")
+                                }
                               } else {
                                 setFieldValue("price", "0.00")
                               }
-                            } else {
-                              setFieldValue("price", "0.00")
-                            }
-                          }}
-                          value={values.price}
-                          className="form-input w-full md:w-min"
-                          type="text"
-                          placeholder="GHS 0.00"
-                        />
-                        {touched.price && errors.price && (
-                          <div className="text-xs mt-1 text-red-500">
-                            {errors.price}
-                          </div>
-                        )}
-                      </div>
+                            }}
+                            value={values.price}
+                            className="form-input w-full md:w-min"
+                            type="text"
+                            placeholder="GHS 0.00"
+                          />
+                          {touched.price && errors.price && (
+                            <div className="text-xs mt-1 text-red-500">
+                              {errors.price}
+                            </div>
+                          )}
+                        </div>
 
-                      <div className="sm:w-1/2">
-                        <InputHeader
-                          label="Compare at price"
-                          tooltipContent="The original listing price of this product. This is normally displayed as a strikethrough along with the price"
-                        />
-                        <input
-                          id="compare_at_price"
-                          name="compare_at_price"
-                          onChange={handleChange}
-                          onBlur={(e) => {
-                            const val = e.target.value as string
-                            if (val) {
-                              const num = Number.parseFloat(val)
-                              if (!isNaN(num)) {
-                                setFieldValue(
-                                  "compare_at_price",
-                                  num.toFixed(2)
-                                )
+                        {/* <div className="sm:w-1/2">
+                          <InputHeader
+                            label="Compare at price"
+                            tooltipContent="The original listing price of this product. This is normally displayed as a strikethrough along with the price"
+                          />
+                          <input
+                            id="compare_at_price"
+                            name="compare_at_price"
+                            onChange={handleChange}
+                            onBlur={(e) => {
+                              const val = e.target.value as string
+                              if (val) {
+                                const num = Number.parseFloat(val)
+                                if (!isNaN(num)) {
+                                  setFieldValue(
+                                    "compare_at_price",
+                                    num.toFixed(2)
+                                  )
+                                } else {
+                                  setFieldValue("compare_at_price", "0.00")
+                                }
                               } else {
                                 setFieldValue("compare_at_price", "0.00")
                               }
-                            } else {
-                              setFieldValue("compare_at_price", "0.00")
-                            }
-                          }}
-                          value={values.compare_at_price}
-                          className="form-input w-full md:w-min"
-                          type="text"
-                          placeholder="GHS 0.00"
-                        />
-                        {touched.compare_at_price &&
-                          errors.compare_at_price && (
-                            <div className="text-xs mt-1 text-red-500">
-                              {errors.compare_at_price}
-                            </div>
-                          )}
-                      </div>
-                    </div>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="sm:w-1/2">
-                        <InputHeader
-                          label="Cost per item"
-                          tooltipContent="The cost of this product. This isn't shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service"
-                        />
-                        <input
-                          id="cost_per_item"
-                          name="cost_per_item"
-                          onChange={handleChange}
-                          onBlur={(e) => {
-                            const val = e.target.value as string
-                            if (val) {
-                              const num = Number.parseFloat(val)
-                              if (!isNaN(num)) {
-                                setFieldValue("cost_per_item", num.toFixed(2))
+                            }}
+                            value={values.compare_at_price}
+                            className="form-input w-full md:w-min"
+                            type="text"
+                            placeholder="GHS 0.00"
+                          />
+                          {touched.compare_at_price &&
+                            errors.compare_at_price && (
+                              <div className="text-xs mt-1 text-red-500">
+                                {errors.compare_at_price}
+                              </div>
+                            )}
+                        </div>
+                      </div> */}
+                        {/* <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                        <div className="sm:w-1/2">
+                          <InputHeader
+                            label="Cost per item"
+                            tooltipContent="The cost of this product. This isn't shown to the customer but helps Reoplex to calculate your margins and give you excellent accounting service"
+                          />
+                          <input
+                            id="cost_per_item"
+                            name="cost_per_item"
+                            onChange={handleChange}
+                            onBlur={(e) => {
+                              const val = e.target.value as string
+                              if (val) {
+                                const num = Number.parseFloat(val)
+                                if (!isNaN(num)) {
+                                  setFieldValue("cost_per_item", num.toFixed(2))
+                                } else {
+                                  setFieldValue("cost_per_item", "0.00")
+                                }
                               } else {
                                 setFieldValue("cost_per_item", "0.00")
                               }
-                            } else {
-                              setFieldValue("cost_per_item", "0.00")
-                            }
-                          }}
-                          value={values.cost_per_item}
-                          className="form-input w-full md:w-min"
-                          type="text"
-                          placeholder="GHS 0.00"
-                        />
-                        {touched.cost_per_item && errors.cost_per_item && (
-                          <div className="text-xs mt-1 text-red-500">
-                            {errors.cost_per_item}
-                          </div>
-                        )}
+                            }}
+                            value={values.cost_per_item}
+                            className="form-input w-full md:w-min"
+                            type="text"
+                            placeholder="GHS 0.00"
+                          />
+                          {touched.cost_per_item && errors.cost_per_item && (
+                            <div className="text-xs mt-1 text-red-500">
+                              {errors.cost_per_item}
+                            </div>
+                          )}
+                        </div>*/}
                       </div>
-                    </div>
-                  </section>
+                    </section>
+                  )}
+
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Inventory
@@ -870,33 +1040,35 @@ const ProductForm = ({ id }) => {
                         </label>
                       </div>
                     </div>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="quantity"
-                        >
-                          Quantity
-                        </label>
-                        <input
-                          id="quantity"
-                          name="quantity"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.quantity}
-                          className="form-input w-full md:w-min"
-                          type="number"
-                          step={1}
-                          min={0}
-                          placeholder="10"
-                        />
-                        {touched.quantity && errors.quantity && (
-                          <div className="text-xs mt-1 text-red-500">
-                            {errors.quantity}
-                          </div>
-                        )}
+                    {!values.is_parent && (
+                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                        <div className="">
+                          <label
+                            className="block text-sm font-medium mb-1"
+                            htmlFor="quantity"
+                          >
+                            Quantity
+                          </label>
+                          <input
+                            id="quantity"
+                            name="quantity"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.quantity}
+                            className="form-input w-full md:w-min"
+                            type="number"
+                            step={1}
+                            min={0}
+                            placeholder="10"
+                          />
+                          {touched.quantity && errors.quantity && (
+                            <div className="text-xs mt-1 text-red-500">
+                              {errors.quantity}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </section>
                   <section className="rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
@@ -1005,185 +1177,6 @@ const ProductForm = ({ id }) => {
                     </div>
                   </section>
 
-                  <section className="rounded bg-white shadow overflow-hidden relative p-3 mb-10">
-                    <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-8">
-                      Options
-                    </h2>
-                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                      <div className="flex items-center w-full">
-                        <input
-                          name="is_parent"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          checked={values.is_parent}
-                          id="is_parent"
-                          className="form-checkbox"
-                          type="checkbox"
-                        />
-                        <label
-                          className="block text-sm ml-2"
-                          htmlFor="is_parent"
-                        >
-                          This product has optons, like color or size
-                        </label>
-                      </div>
-                    </div>
-                    {values.is_parent ? (
-                      <>
-                        <h2 className="text-sm uppercase leading-snug text-gray-500 font-medium mb-1 mt-5">
-                          Options
-                        </h2>
-                        {values.variation_options.map((op, index) => (
-                          <div key={index}>
-                            <div className="flex items-center justify-between mt-5">
-                              <h1 className="mb-0">Option {index + 1}</h1>
-                              <button
-                                onClick={() => {
-                                  let opts = values.variation_options
-                                  opts.splice(index, 1)
-                                  setFieldValue("variation_options", opts)
-                                }}
-                                type="button"
-                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 mr-3 mb-3"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                            <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                              <div className="sm:w-2/5 md:w-2/5">
-                                <label
-                                  className="block text-sm font-medium mb-1"
-                                  htmlFor="option"
-                                >
-                                  Option name
-                                </label>
-                                <Creatable
-                                  closeMenuOnSelect={true}
-                                  defaultValue={op.attribute}
-                                  value={op.attribute}
-                                  isClearable
-                                  isSearchable
-                                  menuPortalTarget={document.body}
-                                  onChange={(option) => {
-                                    let opt = values.variation_options[index]
-                                    opt.attribute = option as Record<
-                                      string,
-                                      string
-                                    >
-
-                                    let opts = values.variation_options
-                                    opts[index] = opt
-                                    setFieldValue("variation_options", opts)
-                                  }}
-                                  components={animatedComponents}
-                                  options={attributeOptions.filter(
-                                    (attr) =>
-                                      !values.variation_options.some(
-                                        (opt) =>
-                                          attr.value === opt.attribute?.value
-                                      )
-                                  )}
-                                  className="w-full"
-                                />
-                              </div>
-                              <div className="sm:w-3/5 md:w-3/5">
-                                <label
-                                  className="block text-sm font-medium mb-1"
-                                  htmlFor="values"
-                                >
-                                  Option values
-                                </label>
-                                <TagInput
-                                  values={op.values}
-                                  onChange={(options) => {
-                                    let opt = values.variation_options[index]
-                                    opt.values = options as string[]
-                                    let opts = values.variation_options
-                                    opts[index] = opt
-                                    setFieldValue("variation_options", opts)
-                                  }}
-                                  className="w-full"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                        <div className="mt-5">
-                          <button
-                            onClick={() => {
-                              setFieldValue("variation_options", [
-                                ...values.variation_options,
-                                {
-                                  attribute: null,
-
-                                  values: [],
-                                },
-                              ])
-                            }}
-                            className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3"
-                          >
-                            <span className="ml-2">Add Option</span>
-                          </button>
-                        </div>
-                        <div>
-                          <div className="rounded bg-white shadow p-3 mt-6 mb-10">
-                            {validateVarOptions(values.variation_options) && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  if (!showVariants) {
-                                    createVars(values, setFieldValue)
-                                  }
-                                  setShowVariants(!showVariants)
-                                }}
-                                className="rounded-lg border border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-2 focus:ring-purple-700 focus:text-purple-700 mr-3 mb-3"
-                              >
-                                Edit Variants
-                              </button>
-                            )}
-                            {!validateVarOptions(values.variation_options) && (
-                              <div className="m-1.5">
-                                {/* Start */}
-                                <button
-                                  className="btn bg-indigo-500 hover:bg-indigo-600 text-white disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed shadow-none"
-                                  disabled
-                                >
-                                  Edit Variants
-                                </button>
-                                {/* End */}
-                              </div>
-                            )}
-                            {showVariants &&
-                              validateVarOptions(values.variation_options) && (
-                                <>
-                                  <h2 className="text-sm capitalize text-left leading-snug text-gray-500 font-medium mb-2">
-                                    {locations && locations[0].name}
-                                  </h2>
-                                  <ProdutVariantPreview
-                                    selectedItems={handleSelectedItems}
-                                    productVariants={values.variants}
-                                    updatePrice={updatePrice(
-                                      values,
-                                      setFieldValue
-                                    )}
-                                    updateQuantity={updateQuantity(
-                                      values,
-                                      setFieldValue
-                                    )}
-                                    currency={
-                                      shop?.currency?.iso_code ||
-                                      defaultCurrency
-                                    }
-                                  />
-                                </>
-                              )}
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </section>
                   <section className=" hidden rounded bg-white shadow overflow-hidden p-3 mb-10">
                     <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                       Search Engine Preview

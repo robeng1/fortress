@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import { NavLink, useLocation } from "react-router-dom"
+import Logo from "images/logo.svg"
 
 import SidebarLinkGroup from "./sidebar-link-group"
 
@@ -90,9 +91,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </button>
             {/* Logo */}
             <NavLink to="/" className="block">
-              <div className="w-8 h-8 relative flex justify-center items-center rounded-full bg-purple-500 text-xl text-white uppercase">
-                R
-              </div>
+              <img src={Logo} width="24" height="24" alt="Reoplex" />
             </NavLink>
           </div>
 

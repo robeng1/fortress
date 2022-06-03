@@ -15,7 +15,7 @@ export default function useCollectionViews(
     ? `${fortressURL}/shops/${shop?.shop_id}/collection-views`
     : `${fortressURL}/shops/${shop?.shop_id}/collection-views/search`
   const body = {
-    offset: (page - 1) * itemsPerPage + 1,
+    offset: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
     shop_id: shop?.shop_id,
   }

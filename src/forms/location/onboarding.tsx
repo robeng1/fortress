@@ -91,10 +91,11 @@ function LocationsForm({ id }) {
         setCentreId(newLocation.centre_id)
         klient.setQueryData(["location", newLocation.centre_id], newLocation)
         toast.success("Location created successfully")
+        klient.prefetchQuery(["web-analytics"])
         navigate("/")
       },
       onError: (e: ResponseError) => {
-        toast.error("Location creation failed due to " + e.message)
+        toast.error("Something went wrong")
       },
     }
   )

@@ -5,6 +5,7 @@ import { sessionAtom, sidAtom } from "store/authorization-atom"
 import { request, ResponseError } from "utils/request"
 import { Session } from "typings/user/session"
 const emptySession = {}
+
 const loadSession = async (id?: string) => {
   try {
     const resp = await request(`${theKeepURL}/auth/sessions/${id}/reload`)

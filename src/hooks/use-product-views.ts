@@ -15,7 +15,7 @@ export default function useProductViews(
     ? `${fortressURL}/shops/${shop?.shop_id}/product-views`
     : `${fortressURL}/shops/${shop?.shop_id}/product-views/search`
   const body = {
-    offset: (page - 1) * itemsPerPage + 1,
+    offset: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
     shop_id: shop?.shop_id,
   }

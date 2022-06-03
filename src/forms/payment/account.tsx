@@ -38,7 +38,7 @@ function PaymentsAccountPanel() {
         navigate("/onboarding/location")
       },
       onError: (e: ResponseError) => {
-        toast(e.message)
+        toast.error("Something went wrong")
       },
     }
   )

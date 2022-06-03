@@ -32,7 +32,7 @@ function Currency() {
         navigate("/onboarding/payment")
       },
       onError: (e: ResponseError) => {
-        toast.error(e.message)
+        toast.error("Something went wrong")
       },
     }
   )
