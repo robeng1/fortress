@@ -965,13 +965,13 @@ const DiscountForm = ({ id }) => {
                             }`}
                           >
                             <input
-                              id="condition_value_int"
+                              id="condition_value"
                               className="form-input w-full pl-12"
                               type="text"
-                              name="condition_value_int"
+                              name="condition_value"
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={values.condition_value_int}
+                              value={values.condition_value}
                             />
                             <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
                               <span className="text-sm text-gray-400 font-medium px-3">
@@ -989,11 +989,11 @@ const DiscountForm = ({ id }) => {
                             }`}
                           >
                             <input
-                              id="condition_value_money"
-                              name="condition_value_money"
+                              id="condition_amount"
+                              name="condition_amount"
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={values.condition_value_money}
+                              value={values.condition_amount}
                               className="form-input w-full pr-8"
                               step={1}
                               min={1}

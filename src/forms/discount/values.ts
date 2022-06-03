@@ -18,8 +18,8 @@ export interface Values {
   included_collections: string[]
   incentive_type: string
   max_affected_items: number | null
-  condition_value_money: string
-  condition_value_int: number
+  condition_amount: string
+  condition_value: number
   buy_x_get_y_condition_value: string | number
   buy_x_get_y_condition_range_type: string
   buy_x_get_y_condition_range_keys: string[]
@@ -85,8 +85,8 @@ export const initialValues: Values = {
   buy_x_get_y_ben_max_affected_items: 1,
   buy_x_get_y_discounted_value_type: PERCENTAGE,
   buy_x_get_y_discounted_value: "",
-  condition_value_money: "",
-  condition_value_int: 1,
+  condition_amount: "",
+  condition_value: 1,
   condition_type: NONE,
   value: "",
   applies_to: "all_products",

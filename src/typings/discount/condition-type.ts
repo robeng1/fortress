@@ -6,8 +6,8 @@ export interface CompoundMetaType {
 }
 export interface ConditionType {
   condition_type?: string
-  value_int?: number
-  money_value?: MoneyType | null
+  value?: number
+  amount?: MoneyType | null
   compound_meta?: CompoundMetaType[]
   collection?: RangeType | null
 }

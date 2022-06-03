@@ -290,9 +290,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <path
                             fill="none"
                             stroke="#2c2c2c"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M18,23H6a2,2,0,0,1-2-2V7L9,2h6l5,5V21A2,2,0,0,1,18,23Z"
                           />
                           <circle
@@ -301,9 +301,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             r="3"
                             fill="none"
                             stroke="#2c2c2c"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                           />
                           <line
                             x1="10"
@@ -312,16 +312,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             y2="19"
                             fill="none"
                             stroke="#2c2c2c"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                           />
                           <path
                             fill="none"
                             stroke="#2c2c2c"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M12,8a5.54,5.54,0,0,1-1-2,6.36,6.36,0,0,1,1-5"
                           />
                           <rect width="24" height="24" fill="none" />

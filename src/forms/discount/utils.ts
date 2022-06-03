@@ -5,7 +5,7 @@ import { BenefitType } from "typings/discount/benefit-type"
 import { RangeType } from "typings/discount/range-type"
 import { VoucherType } from "typings/voucher/voucher"
 import { VoucherSetType } from "typings/voucher/voucherset"
-import { mToS, sToM as strToMoney } from "utils/money"
+import { mToS, sToM as stom } from "utils/money"
 import { initialValues, Values } from "./values"
 import { ShopType } from "typings/settings/shop-type"
 import {
@@ -59,40 +59,37 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
     club_id: "",
   }
   if (d.discount_id) disc.discount_id = d.discount_id
-  disc.max_discount = strToMoney(d.max_discount, shop?.currency?.iso_code)
+  disc.max_discount = stom(d.max_discount, shop?.currency?.iso_code)
   switch (d.incentive_type) {
     case ABSOLUTE: {
       const condition: ConditionType = {
         condition_type: d.condition_type,
       }
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
-        condition.value_int = d.condition_value_int
+        condition.value = d.condition_value
       } else if (d.condition_type === VALUE) {
-        condition.money_value = strToMoney(
-          d.condition_value_money,
-          shop?.currency?.iso_code
-        )
+        condition.amount = stom(d.condition_amount, shop?.currency?.iso_code)
       } else {
-        condition.value_int = 0
-        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code)
+        condition.value = 0
+        condition.amount = stom(0.0, shop?.currency?.iso_code)
       }
       disc.condition = condition
 
       // benefit construction
       const benefit: BenefitType = {
         benefit_type: d.incentive_type,
-        value_m: strToMoney(d.value, shop?.currency?.iso_code),
+        amount: stom(d.value, shop?.currency?.iso_code),
       }
-      const benRange: RangeType = {
+      const benefitRange: RangeType = {
         includes_all_products: d.applies_to === ALL_PRODUCTS,
       }
       if (d.applies_to === SPECIFIC_PRODUCTS) {
-        benRange.included_products = d.included_products
+        benefitRange.included_products = d.included_products
       }
       if (d.applies_to === SPECIFIC_COLLECTIONS) {
-        benRange.included_collections = d.included_collections
+        benefitRange.included_collections = d.included_collections
       }
-      benefit.collection = benRange
+      benefit.collection = benefitRange
       disc.benefit = benefit
       break
     }
@@ -101,33 +98,30 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         condition_type: d.condition_type,
       }
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
-        condition.value_int = d.condition_value_int
+        condition.value = d.condition_value
       } else if (d.condition_type === VALUE) {
-        condition.money_value = strToMoney(
-          d.condition_value_money,
-          shop?.currency?.iso_code
-        )
+        condition.amount = stom(d.condition_amount, shop?.currency?.iso_code)
       } else {
-        condition.value_int = 0
-        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code)
+        condition.value = 0
+        condition.amount = stom(0.0, shop?.currency?.iso_code)
       }
       disc.condition = condition
 
       // benefit construction
       const benefit: BenefitType = {
         benefit_type: d.incentive_type,
-        value_i: parseInt(d.value as string),
+        value: Number.parseInt(d.value as string),
       }
-      const benRange: RangeType = {
+      const benefitRange: RangeType = {
         includes_all_products: d.applies_to === ALL_PRODUCTS,
       }
       if (d.applies_to === SPECIFIC_PRODUCTS) {
-        benRange.included_products = d.included_products
+        benefitRange.included_products = d.included_products
       }
       if (d.applies_to === SPECIFIC_COLLECTIONS) {
-        benRange.included_collections = d.included_collections
+        benefitRange.included_collections = d.included_collections
       }
-      benefit.collection = benRange
+      benefit.collection = benefitRange
       disc.benefit = benefit
       break
     }
@@ -136,15 +130,12 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         condition_type: d.condition_type,
       }
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
-        condition.value_int = d.condition_value_int
+        condition.value = d.condition_value
       } else if (d.condition_type === VALUE) {
-        condition.money_value = strToMoney(
-          d.condition_value_money,
-          shop?.currency?.iso_code
-        )
+        condition.amount = stom(d.condition_amount, shop?.currency?.iso_code)
       } else {
-        condition.value_int = 0
-        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code)
+        condition.value = 0
+        condition.amount = stom(0.0, shop?.currency?.iso_code)
       }
       disc.condition = condition
 
@@ -169,22 +160,19 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         condition_type: d.condition_type,
       }
       if (d.condition_type === COVERAGE || d.condition_type === COUNT) {
-        condition.value_int = d.condition_value_int
+        condition.value = d.condition_value
       } else if (d.condition_type === VALUE) {
-        condition.money_value = strToMoney(
-          d.condition_value_money,
-          shop?.currency?.iso_code
-        )
+        condition.amount = stom(d.condition_amount, shop?.currency?.iso_code)
       } else {
-        condition.value_int = 0
-        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code)
+        condition.value = 0
+        condition.amount = stom(0.0, shop?.currency?.iso_code)
       }
       disc.condition = condition
 
       // benefit construction
       const benefit: BenefitType = {
         benefit_type: d.incentive_type,
-        value_m: strToMoney(d.value, shop?.currency?.iso_code),
+        amount: stom(d.value, shop?.currency?.iso_code),
       }
       const benRange: RangeType = {
         includes_all_products: d.applies_to === ALL_PRODUCTS,
@@ -207,27 +195,30 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         d.buy_x_get_y_condition_type === COVERAGE ||
         d.buy_x_get_y_condition_type === COUNT
       ) {
-        condition.value_int = d.buy_x_get_y_condition_value as number
+        condition.value =
+          typeof d.buy_x_get_y_condition_value == "string"
+            ? Number.parseInt(d.buy_x_get_y_condition_value)
+            : d.buy_x_get_y_condition_value
       } else if (d.buy_x_get_y_condition_type === VALUE) {
-        condition.money_value = strToMoney(
+        condition.amount = stom(
           d.buy_x_get_y_condition_value,
           shop?.currency?.iso_code
         )
       } else {
-        condition.value_int = 0
-        condition.money_value = strToMoney(0.0, shop?.currency?.iso_code)
+        condition.value = 0
+        condition.amount = stom(0.0, shop?.currency?.iso_code)
       }
-      const condRange: RangeType = {
+      const conditionRange: RangeType = {
         includes_all_products: false,
       }
       if (d.buy_x_get_y_condition_range_type === SPECIFIC_PRODUCTS) {
-        condRange.included_products = d.buy_x_get_y_condition_range_keys
+        conditionRange.included_products = d.buy_x_get_y_condition_range_keys
       }
       if (d.buy_x_get_y_condition_range_type === SPECIFIC_COLLECTIONS) {
-        condRange.included_collections = d.buy_x_get_y_condition_range_keys
+        conditionRange.included_collections = d.buy_x_get_y_condition_range_keys
       }
       // assign range to condition
-      condition.collection = condRange
+      condition.collection = conditionRange
       // assign condition to discount
       disc.condition = condition
 
@@ -236,31 +227,31 @@ export const valuesToDiscount = (d: Values, shop?: ShopType): DiscountType => {
         benefit_type: d.buy_x_get_y_discounted_value_type,
       }
       if (d.buy_x_get_y_discounted_value_type === ABSOLUTE) {
-        benefit.value_m = strToMoney(
+        benefit.amount = stom(
           d.buy_x_get_y_discounted_value,
           shop?.currency?.iso_code
         )
       } else if (d.buy_x_get_y_discounted_value_type === PERCENTAGE) {
-        benefit.value_i = Number.parseInt(d.buy_x_get_y_discounted_value)
+        benefit.value = Number.parseInt(d.buy_x_get_y_discounted_value)
       } else if (d.buy_x_get_y_discounted_value_type === FREE) {
         benefit.benefit_type = PERCENTAGE
-        benefit.value_i = 100
+        benefit.value = 100
       }
 
       benefit.max_affected_items = d.buy_x_get_y_ben_max_affected_items
 
       // range
-      const benRange: RangeType = {
+      const benefitRange: RangeType = {
         includes_all_products: d.buy_x_get_y_ben_range_type === ALL_PRODUCTS,
       }
       if (d.buy_x_get_y_ben_range_type === SPECIFIC_PRODUCTS) {
-        benRange.included_products = d.buy_x_get_y_ben_range_keys
+        benefitRange.included_products = d.buy_x_get_y_ben_range_keys
       }
       if (d.buy_x_get_y_ben_range_type === SPECIFIC_COLLECTIONS) {
-        benRange.included_collections = d.buy_x_get_y_ben_range_keys
+        benefitRange.included_collections = d.buy_x_get_y_ben_range_keys
       }
       // assign range to benefit
-      benefit.collection = benRange
+      benefit.collection = benefitRange
 
       // assign benefit to discount
       disc.benefit = benefit
@@ -319,10 +310,11 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
     end_time: moment(d.end).format("HH:mm:ss"),
   }
   if (
-    d.benefit?.benefit_type === ABSOLUTE ||
-    d.benefit?.benefit_type === FIXED_PRICE ||
-    d.benefit?.benefit_type === MULTIBUY ||
-    d.benefit?.benefit_type === PERCENTAGE
+    (d.benefit?.benefit_type === ABSOLUTE ||
+      d.benefit?.benefit_type === FIXED_PRICE ||
+      d.benefit?.benefit_type === MULTIBUY ||
+      d.benefit?.benefit_type === PERCENTAGE) &&
+    !isBxGy(d)
   ) {
     // condition deconstruction
     disc.condition_type =
@@ -331,13 +323,12 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
       d.condition?.condition_type === COVERAGE ||
       d.condition?.condition_type === COUNT
     ) {
-      disc.condition_value_int =
-        d.condition.value_int || initialValues.condition_value_int
+      disc.condition_value = d.condition.value || initialValues.condition_value
     } else if (d.condition?.condition_type === VALUE) {
       // will be quite weird that these values would not exist
       // at the time when they are needed
       // d.condition.money_value
-      disc.condition_value_money = mToS(d.condition.money_value!)
+      disc.condition_amount = mToS(d.condition.amount!)
     } else {
       // TODO:(romeo) remove this block as it's weird as we should NEVER! reach here
     }
@@ -363,14 +354,14 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
         disc.applies_to = SPECIFIC_PRODUCTS
         disc.included_products = d.benefit.collection?.included_products
       }
-      if (d.benefit.value_m) {
-        disc.value = mToS(d.benefit.value_m)
-      } else if (d.benefit.value_i) {
-        disc.value = d.benefit.value_i
+      if (d.benefit.amount) {
+        disc.value = mToS(d.benefit.amount)
+      } else if (d.benefit.value) {
+        disc.value = d.benefit.value
       }
     }
   } else {
-    // deconstructing buy-x-get-y
+    disc.incentive_type = BUY_X_GET_Y
     if (d.condition) {
       disc.buy_x_get_y_condition_type =
         d.condition?.condition_type || initialValues.buy_x_get_y_condition_type
@@ -379,11 +370,11 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
         d.condition?.condition_type === COUNT
       ) {
         disc.buy_x_get_y_condition_value =
-          d.condition.value_int || initialValues.buy_x_get_y_condition_value
+          d.condition.value || initialValues.buy_x_get_y_condition_value
       } else if (d.condition?.condition_type === VALUE) {
         // will be quite weird that these values would not exist
         // at the time when they are needed
-        disc.buy_x_get_y_condition_value = mToS(d.condition.money_value)
+        disc.buy_x_get_y_condition_value = mToS(d.condition.amount)
       } else {
         // TODO:(romeo)  remove this block as it's weird as we should NEVER! reach here
       }
@@ -441,10 +432,10 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
         disc.buy_x_get_y_ben_range_keys =
           d.benefit.collection?.included_products
       }
-      if (d.benefit.value_m) {
-        disc.buy_x_get_y_discounted_value = mToS(d.benefit.value_m)
-      } else if (d.benefit.value_i) {
-        disc.buy_x_get_y_discounted_value = d.benefit.value_i as string
+      if (d.benefit.amount) {
+        disc.buy_x_get_y_discounted_value = mToS(d.benefit.amount)
+      } else if (d.benefit.value) {
+        disc.buy_x_get_y_discounted_value = d.benefit.value as string
       }
       disc.buy_x_get_y_ben_max_affected_items =
         d.benefit.max_affected_items ||
@@ -453,4 +444,8 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
   }
   disc.max_discount = mToS(d.max_discount)
   return disc
+}
+
+const isBxGy = (d: DiscountType): boolean => {
+  return !!d && !!d.condition && !!d.condition.collection
 }

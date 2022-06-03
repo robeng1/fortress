@@ -3,8 +3,8 @@ import { RangeType } from "./range-type"
 
 export interface BenefitType {
   benefit_type?: string
-  value_m?: MoneyType | null
-  value_i?: number | string
+  amount?: MoneyType | null
+  value?: number | string
   max_affected_items?: number
   collection?: RangeType | null
 }
