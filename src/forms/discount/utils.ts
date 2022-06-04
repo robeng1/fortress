@@ -5,7 +5,7 @@ import { BenefitType } from "typings/discount/benefit-type"
 import { RangeType } from "typings/discount/range-type"
 import { VoucherType } from "typings/voucher/voucher"
 import { VoucherSetType } from "typings/voucher/voucherset"
-import { mToS, sToM as stom } from "utils/money"
+import { mtos, stom as stom } from "utils/money"
 import { initialValues, Values } from "./values"
 import { ShopType } from "typings/settings/shop-type"
 import {
@@ -328,7 +328,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
       // will be quite weird that these values would not exist
       // at the time when they are needed
       // d.condition.money_value
-      disc.condition_amount = mToS(d.condition.amount!)
+      disc.condition_amount = mtos(d.condition.amount!)
     } else {
       // TODO:(romeo) remove this block as it's weird as we should NEVER! reach here
     }
@@ -355,7 +355,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
         disc.included_products = d.benefit.collection?.included_products
       }
       if (d.benefit.amount) {
-        disc.value = mToS(d.benefit.amount)
+        disc.value = mtos(d.benefit.amount)
       } else if (d.benefit.value) {
         disc.value = d.benefit.value
       }
@@ -374,7 +374,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
       } else if (d.condition?.condition_type === VALUE) {
         // will be quite weird that these values would not exist
         // at the time when they are needed
-        disc.buy_x_get_y_condition_value = mToS(d.condition.amount)
+        disc.buy_x_get_y_condition_value = mtos(d.condition.amount)
       } else {
         // TODO:(romeo)  remove this block as it's weird as we should NEVER! reach here
       }
@@ -433,7 +433,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
           d.benefit.collection?.included_products
       }
       if (d.benefit.amount) {
-        disc.buy_x_get_y_discounted_value = mToS(d.benefit.amount)
+        disc.buy_x_get_y_discounted_value = mtos(d.benefit.amount)
       } else if (d.benefit.value) {
         disc.buy_x_get_y_discounted_value = d.benefit.value as string
       }
@@ -442,7 +442,7 @@ export const discountToValues = (d?: DiscountType, shop?: ShopType): Values => {
         initialValues.buy_x_get_y_ben_max_affected_items
     }
   }
-  disc.max_discount = mToS(d.max_discount)
+  disc.max_discount = mtos(d.max_discount)
   return disc
 }
 

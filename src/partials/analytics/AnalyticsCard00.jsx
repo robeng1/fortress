@@ -4,7 +4,7 @@ import {
   mToCurrency,
   mToSFormatted,
   sToCurrency,
-  sToM,
+  stom,
   sToMFromCents,
 } from "utils/money"
 

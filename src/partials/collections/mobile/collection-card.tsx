@@ -1,9 +1,11 @@
 import useClipboard from "hooks/use-clipboard"
+import isEmpty from "lodash"
 import useShop from "hooks/use-shop"
 import React from "react"
 import { IoIosCopy } from "react-icons/io"
 import { CollectionViewType } from "typings/collection/collection-type"
 import { proxyURL } from "utils/urlsigner"
+import ImagePlaceholder from "components/blocks/image-placeholder"
 type CollectionCardProps = {
   collection: CollectionViewType
   handleShow: () => void
@@ -18,15 +20,20 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   )
   return (
     <>
-      <div className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden">
-        <img
-          onClick={handleShow}
-          src={proxyURL(collection.image_url ?? "", 50, 50)}
-          alt={collection.title}
-          className="w-full h-full object-center object-cover"
-        />
+      <div
+        onClick={handleShow}
+        className="flex-shrink-0 w-[60px] h-[60px] align-middle self-center justify-center border border-gray-100 rounded-md overflow-hidden cursor-pointer"
+      >
+        {isEmpty(collection.image_url) && <ImagePlaceholder size={60} />}
+        {!isEmpty(collection.image_url) && (
+          <img
+            onClick={handleShow}
+            src={proxyURL(collection.image_url ?? "", 50, 50)}
+            alt={collection.title}
+            className="w-full h-full object-center object-cover"
+          />
+        )}
       </div>
-
       <div className="ml-2 flex-1 flex flex-col pl-2">
         <div>
           <div className="flex justify-between text-sm font-medium text-gray-900">

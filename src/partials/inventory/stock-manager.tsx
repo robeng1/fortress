@@ -2,7 +2,7 @@ import InputHeader from "components/blocks/input-header"
 import { Formik } from "formik"
 import React, { useState } from "react"
 import { InventoryType } from "typings/inventory/inventory-type"
-import { mToCurrency, sToM } from "utils/money"
+import { mToCurrency, stom } from "utils/money"
 
 type StockMangerProps = {
   onChange: (e: InventoryType) => void
@@ -70,7 +70,7 @@ const StockManger: React.FC<StockMangerProps> = ({
                         setFieldValue("price_excl_tax", num.toFixed(2))
                         onChange({
                           ...stock,
-                          price_excl_tax: sToM(num, currency),
+                          price_excl_tax: stom(num, currency),
                         })
                       } else {
                         setFieldValue("price_excl_tax", "0.00")
@@ -108,7 +108,7 @@ const StockManger: React.FC<StockMangerProps> = ({
                         setFieldValue("compare_at_price", num.toFixed(2))
                         onChange({
                           ...stock,
-                          compare_at_price: sToM(num, currency),
+                          compare_at_price: stom(num, currency),
                         })
                       } else {
                         setFieldValue("compare_at_price", "0.00")
@@ -147,7 +147,7 @@ const StockManger: React.FC<StockMangerProps> = ({
                         setFieldValue("cost_per_item", num.toFixed(2))
                         onChange({
                           ...stock,
-                          cost_per_item: sToM(num, currency),
+                          cost_per_item: stom(num, currency),
                         })
                       } else {
                         setFieldValue("cost_per_item", "0.00")

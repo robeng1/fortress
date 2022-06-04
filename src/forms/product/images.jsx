@@ -72,7 +72,7 @@ const Images = ({ product, handleUpload, handleIsSaving }) => {
               sx={{ position: "relative" }}
               src={
                 image && image.includes("static.reoplex.com")
-                  ? proxyURL(image, 300, 300)
+                  ? proxyURL(image, 350, 350)
                   : image
               }
             >

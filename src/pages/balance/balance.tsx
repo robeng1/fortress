@@ -14,12 +14,12 @@ import { request, ResponseError } from "utils/request"
 import { uidAtom } from "store/authorization-atom"
 import DateSelect from "components/date-select"
 import {
-  currencyToM,
-  mToS,
+  currencyTom,
+  mtos,
   mToSFormatted,
   mToSFormattedK,
   sToCurrency,
-  sToM,
+  stom,
 } from "utils/money"
 import Button from "components/blocks/button"
 import { TransferKind, TransferType } from "typings/payment/transfer"
@@ -274,7 +274,7 @@ function Balance() {
                                   unit_amount:
                                     sToCurrency(amountToWithdraw).intValue,
                                   is_system: false,
-                                  amount: currencyToM(
+                                  amount: currencyTom(
                                     sToCurrency(amountToWithdraw),
                                     shop?.currency?.iso_code
                                   ),

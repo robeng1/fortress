@@ -20,7 +20,7 @@ import slugify from "slugify"
 import { productTypeOptions } from "services"
 import Creatable from "react-select/creatable"
 import { request, ResponseError } from "utils/request"
-import { mToCurrency, sToM } from "utils/money"
+import { mToCurrency, stom as stom } from "utils/money"
 import ReactSelectCreatable from "react-select/async-creatable"
 import useCentres from "hooks/use-location"
 import useShop from "hooks/use-shop"
@@ -192,9 +192,9 @@ const ProductForm = ({ id }) => {
             ...stock,
             num_in_stock: d.quantity,
             centre_sku: slugify(d.title),
-            cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
-            price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
-            compare_at_price: sToM(
+            cost_per_item: stom(d.cost_per_item, shop?.currency?.iso_code),
+            price_excl_tax: stom(d.price, shop?.currency?.iso_code),
+            compare_at_price: stom(
               d.compare_at_price,
               shop?.currency?.iso_code
             ),
@@ -213,9 +213,9 @@ const ProductForm = ({ id }) => {
             num_in_stock: d.quantity,
             centre_id: loc.centre_id ?? "",
             centre_sku: slugify(d.title),
-            cost_per_item: sToM(d.cost_per_item, shop?.currency?.iso_code),
-            price_excl_tax: sToM(d.price, shop?.currency?.iso_code),
-            compare_at_price: sToM(
+            cost_per_item: stom(d.cost_per_item, shop?.currency?.iso_code),
+            price_excl_tax: stom(d.price, shop?.currency?.iso_code),
+            compare_at_price: stom(
               d.compare_at_price,
               shop?.currency?.iso_code
             ),
@@ -295,7 +295,7 @@ const ProductForm = ({ id }) => {
     (index: number, newValue: string) => {
       const variants = values.variants
       const va = values.variants[index]
-      va.stock_records![0].price_excl_tax = sToM(
+      va.stock_records![0].price_excl_tax = stom(
         newValue,
         shop?.currency?.iso_code
       )
@@ -358,7 +358,7 @@ const ProductForm = ({ id }) => {
     )
 
     const variants: ProductType[] = titles.map((title: string) => {
-      const foundv = old.find((v) => v.title === title)
+      const foundv = old.find((child) => child.title === title)
       let variant: ProductType
       if (foundv) {
         variant = foundv
@@ -388,9 +388,9 @@ const ProductForm = ({ id }) => {
             // TODO: centreId && centreSku should be replaced with correct on
             centre_id: centre_id ?? "",
             centre_sku: slugify(title),
-            cost_per_item: sToM(values.cost_per_item, shop?.currency?.iso_code),
-            price_excl_tax: sToM(values.price, shop?.currency?.iso_code),
-            compare_at_price: sToM(
+            cost_per_item: stom(values.cost_per_item, shop?.currency?.iso_code),
+            price_excl_tax: stom(values.price, shop?.currency?.iso_code),
+            compare_at_price: stom(
               values.compare_at_price,
               shop?.currency?.iso_code
             ),
