@@ -101,7 +101,7 @@ function ProductSelector({
 
   return (
     <div>
-      <div className="w-full">
+      <div className="w-full lg:w-2/3">
         <div
           onClick={(e) => {
             e.stopPropagation()
@@ -237,7 +237,7 @@ function ProductSelector({
           </div>
         </ModalBasic>
       </div>
-      <ul className="text-sm w-full">
+      <ul className="text-sm w-full lg:w-2/3">
         {products &&
           products.map((product: any) => (
             <li key={product.product_id} className="flex items-center">

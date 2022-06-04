@@ -48,7 +48,6 @@ const Tag: React.FC<TagProps> = ({ multi, onChange, value, shop_id }) => {
       {!multi && (
         <ReactSelect
           value={singleValue}
-          menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => singleOnChange(option)}
@@ -61,7 +60,6 @@ const Tag: React.FC<TagProps> = ({ multi, onChange, value, shop_id }) => {
         <ReactSelect
           value={multiValue}
           isMulti
-          menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => multiOnChange(option)}

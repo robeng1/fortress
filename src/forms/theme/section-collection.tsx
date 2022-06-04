@@ -123,7 +123,6 @@ function SectionCollection() {
                     </label>
                     <ReactSelect
                       value={values.collection_featured}
-                      menuPortalTarget={document.body}
                       cacheOptions
                       closeMenuOnSelect={false}
                       onChange={(option) =>

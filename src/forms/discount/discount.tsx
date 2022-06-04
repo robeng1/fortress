@@ -158,7 +158,7 @@ const DiscountForm = ({ id }) => {
           }) => (
             <div className="flex-grow w-full mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-2">
-                <div className="col-span-3 md:col-span-2">
+                <div className="col-span-3 lg:col-span-2">
                   <section className="rounded bg-white shadow p-3">
                     <div className="flex items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="w-full">
@@ -201,7 +201,7 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                 </div>
-                <div className="col-span-3 md:col-span-2">
+                <div className="col-span-3 lg:col-span-2">
                   <section className="rounded bg-white shadow overflow-hidden p-3">
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <div className="sm:w-full mt-1">
@@ -295,7 +295,7 @@ const DiscountForm = ({ id }) => {
                     </div>
                   </section>
                 </div>
-                <div className="col-span-3 md:col-span-2">
+                <div className="col-span-3 lg:col-span-2">
                   <section
                     className={`rounded bg-white shadow overflow-hidden p-3 mb-10 ${
                       values.incentive_type === BUY_X_GET_Y ? "block" : "hidden"
@@ -362,115 +362,111 @@ const DiscountForm = ({ id }) => {
                     </div>
 
                     {/* TODO: radios for customer to choose value type */}
-                    <div>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        <div className="w-1/2">
-                          <label
-                            className="block text-sm font-medium mb-1"
-                            htmlFor="buy_x_get_y_condition_value"
-                          >
-                            {values.buy_x_get_y_condition_type === COUNT ||
-                            values.buy_x_get_y_condition_type === COVERAGE
-                              ? "Quantity"
-                              : "Amount"}
-                          </label>
-                          <div
-                            className={`relative ${
-                              values.buy_x_get_y_condition_type === COUNT ||
-                              values.buy_x_get_y_condition_type === COVERAGE ||
-                              values.buy_x_get_y_condition_type === ""
-                                ? "hidden"
-                                : "block"
-                            }`}
-                          >
-                            <input
-                              className="form-input w-full pl-12"
-                              type="text"
-                              id="buy_x_get_y_condition_value"
-                              name="buy_x_get_y_condition_value"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.buy_x_get_y_condition_value}
-                            />
-                            <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
-                              <span className="text-sm text-gray-400 font-medium px-3">
-                                GHS
-                              </span>
-                            </div>
-                          </div>
-                          <div
-                            className={`relative ${
-                              values.buy_x_get_y_condition_type === VALUE ||
-                              values.buy_x_get_y_condition_type === ""
-                                ? "hidden"
-                                : "block"
-                            }`}
-                          >
-                            <input
-                              id="buy_x_get_y_condition_value"
-                              name="buy_x_get_y_condition_value"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.buy_x_get_y_condition_value}
-                              className="form-input w-full pr-8"
-                              step={1}
-                              min={1}
-                              type="number"
-                              placeholder="1"
-                            />
-                            {/* <div className="absolute inset-0 left-auto flex items-center pointer-events-none">
+
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      <div className="w-1/2">
+                        <label
+                          className="block text-sm font-medium mb-1"
+                          htmlFor="buy_x_get_y_condition_value"
+                        >
+                          {values.buy_x_get_y_condition_type === COUNT ||
+                          values.buy_x_get_y_condition_type === COVERAGE
+                            ? "Quantity"
+                            : "Amount"}
+                        </label>
+                        <div
+                          className={`relative ${
+                            values.buy_x_get_y_condition_type === COUNT ||
+                            values.buy_x_get_y_condition_type === COVERAGE ||
+                            values.buy_x_get_y_condition_type === ""
+                              ? "hidden"
+                              : "block"
+                          }`}
+                        >
+                          <input
+                            className="form-input w-full pl-12"
+                            type="text"
+                            id="buy_x_get_y_condition_value"
+                            name="buy_x_get_y_condition_value"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.buy_x_get_y_condition_value}
+                          />
+                          <div className="absolute inset-0 right-auto flex items-center pointer-events-none">
                             <span className="text-sm text-gray-400 font-medium px-3">
-                              products
+                              GHS
                             </span>
-                          </div> */}
                           </div>
                         </div>
-                        <div className="w-full">
-                          <div className="w-full">
-                            <label
-                              className="block text-sm font-medium mb-1"
-                              htmlFor="buy_x_get_y_condition_range_type"
-                            >
-                              Any Items from
-                            </label>
-                            <select
-                              name="buy_x_get_y_condition_range_type"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.buy_x_get_y_condition_range_type}
-                              id="buy_x_get_y_condition_range_type"
-                              className="form-select block w-2/3"
-                            >
-                              <option value="specific_products">
-                                Specific products
-                              </option>
-                              <option value="specific_collections">
-                                Specific collections
-                              </option>
-                            </select>
-                          </div>
+                        <div
+                          className={`relative ${
+                            values.buy_x_get_y_condition_type === VALUE ||
+                            values.buy_x_get_y_condition_type === ""
+                              ? "hidden"
+                              : "block"
+                          }`}
+                        >
+                          <input
+                            id="buy_x_get_y_condition_value"
+                            name="buy_x_get_y_condition_value"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.buy_x_get_y_condition_value}
+                            className="form-input w-full pr-8"
+                            step={1}
+                            min={1}
+                            type="number"
+                            placeholder="1"
+                          />
                         </div>
                       </div>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                        {values.buy_x_get_y_condition_range_type ===
-                        SPECIFIC_PRODUCTS ? (
-                          <div className="w-full">
-                            <ProductSelector
-                              id="quick-find-modal-crp"
-                              searchId="quick-find-crp"
-                              queryKey="products-opt-search"
-                              onChange={(items: string[]) => {
-                                setFieldValue(
-                                  "buy_x_get_y_condition_range_keys",
-                                  items
-                                )
-                              }}
-                              value={values.buy_x_get_y_condition_range_keys}
-                              queryEnabled={!!shop?.shop_id}
-                              shopId={shop?.shop_id}
-                            />
-                          </div>
-                        ) : (
+                      <div className="w-full">
+                        <div className="w-full">
+                          <label
+                            className="block text-sm font-medium mb-1"
+                            htmlFor="buy_x_get_y_condition_range_type"
+                          >
+                            Any Items from
+                          </label>
+                          <select
+                            name="buy_x_get_y_condition_range_type"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.buy_x_get_y_condition_range_type}
+                            id="buy_x_get_y_condition_range_type"
+                            className="form-select block"
+                          >
+                            <option value="specific_products">
+                              Specific products
+                            </option>
+                            <option value="specific_collections">
+                              Specific collections
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      {values.buy_x_get_y_condition_range_type ===
+                      SPECIFIC_PRODUCTS ? (
+                        <div className="w-full">
+                          <ProductSelector
+                            id="quick-find-modal-crp"
+                            searchId="quick-find-crp"
+                            queryKey="products-opt-search"
+                            onChange={(items: string[]) => {
+                              setFieldValue(
+                                "buy_x_get_y_condition_range_keys",
+                                items
+                              )
+                            }}
+                            value={values.buy_x_get_y_condition_range_keys}
+                            queryEnabled={!!shop?.shop_id}
+                            shopId={shop?.shop_id}
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-full">
                           <CollectionSelector
                             id="quick-find-modal-crc"
                             searchId="quick-find-crc"
@@ -485,8 +481,8 @@ const DiscountForm = ({ id }) => {
                             queryEnabled={!!shop?.shop_id}
                             shopId={shop?.shop_id}
                           />
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </section>
                   <section
@@ -512,7 +508,7 @@ const DiscountForm = ({ id }) => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.buy_x_get_y_ben_max_affected_items}
-                            className="form-input w-1/2"
+                            className="form-input w-full pr-8"
                             step={1}
                             min={1}
                             type="number"
@@ -533,7 +529,7 @@ const DiscountForm = ({ id }) => {
                               onBlur={handleBlur}
                               value={values.buy_x_get_y_ben_range_type}
                               id="buy_x_get_y_ben_range_type"
-                              className="form-select block w-2/3"
+                              className="form-select block"
                             >
                               <option value="specific_products">
                                 Specific products
@@ -548,29 +544,39 @@ const DiscountForm = ({ id }) => {
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         {values.buy_x_get_y_ben_range_type ===
                         SPECIFIC_PRODUCTS ? (
-                          <ProductSelector
-                            id="quick-find-modal-brp"
-                            searchId="quick-find-brp"
-                            queryKey="products-opt-search"
-                            onChange={(items: string[]) => {
-                              setFieldValue("buy_x_get_y_ben_range_keys", items)
-                            }}
-                            value={values.buy_x_get_y_ben_range_keys}
-                            queryEnabled={!!shop?.shop_id}
-                            shopId={shop?.shop_id}
-                          />
+                          <div className="w-full">
+                            <ProductSelector
+                              id="quick-find-modal-brp"
+                              searchId="quick-find-brp"
+                              queryKey="products-opt-search"
+                              onChange={(items: string[]) => {
+                                setFieldValue(
+                                  "buy_x_get_y_ben_range_keys",
+                                  items
+                                )
+                              }}
+                              value={values.buy_x_get_y_ben_range_keys}
+                              queryEnabled={!!shop?.shop_id}
+                              shopId={shop?.shop_id}
+                            />
+                          </div>
                         ) : (
-                          <CollectionSelector
-                            id="quick-find-modal-brc"
-                            searchId="quick-find-brc"
-                            queryKey="collections-opt-search"
-                            onChange={(items: any[]) => {
-                              setFieldValue("buy_x_get_y_ben_range_keys", items)
-                            }}
-                            value={values.buy_x_get_y_ben_range_keys}
-                            queryEnabled={!!shop?.shop_id}
-                            shopId={shop?.shop_id}
-                          />
+                          <div className="w-full">
+                            <CollectionSelector
+                              id="quick-find-modal-brc"
+                              searchId="quick-find-brc"
+                              queryKey="collections-opt-search"
+                              onChange={(items: any[]) => {
+                                setFieldValue(
+                                  "buy_x_get_y_ben_range_keys",
+                                  items
+                                )
+                              }}
+                              value={values.buy_x_get_y_ben_range_keys}
+                              queryEnabled={!!shop?.shop_id}
+                              shopId={shop?.shop_id}
+                            />
+                          </div>
                         )}
                       </div>
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">

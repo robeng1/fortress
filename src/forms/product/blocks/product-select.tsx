@@ -57,7 +57,6 @@ const ProductSelect: React.FC<ProductSelectProps> = ({
       {!multi && (
         <ReactSelect
           value={singleValue}
-          menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => singleOnChange(option)}
@@ -70,7 +69,6 @@ const ProductSelect: React.FC<ProductSelectProps> = ({
         <ReactSelect
           value={multiValue}
           isMulti
-          menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => multiOnChange(option)}

@@ -99,7 +99,7 @@ function CollectionSelector({
 
   return (
     <div>
-      <div className="w-full">
+      <div className="w-full lg:w-2/3">
         <div
           onClick={(e) => {
             e.stopPropagation()
@@ -235,7 +235,7 @@ function CollectionSelector({
           </div>
         </ModalBasic>
       </div>
-      <ul className="text-sm w-full">
+      <ul className="text-sm w-full lg:w-2/3">
         {collections &&
           collections.map((collection: any) => (
             <li key={collection.collection_id} className="flex items-center">

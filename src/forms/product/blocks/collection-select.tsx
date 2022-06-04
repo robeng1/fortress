@@ -72,7 +72,6 @@ const CollectionSelect: React.FC<CollectionSelectProps> = ({
       {!multi && (
         <ReactSelect
           value={singleValue}
-          menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => singleOnChange(option)}
@@ -85,7 +84,6 @@ const CollectionSelect: React.FC<CollectionSelectProps> = ({
         <ReactSelect
           value={multiValue}
           isMulti
-          menuPortalTarget={document.body}
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => multiOnChange(option)}

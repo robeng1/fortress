@@ -398,7 +398,6 @@ const VoucherForm = ({ id, codeType }) => {
                           isClearable
                           isSearchable
                           isMulti={false}
-                          menuPortalTarget={document.body}
                           onChange={(option) =>
                             setFieldValue("discount", option)
                           }

@@ -5,12 +5,17 @@ import { Link } from "react-router-dom"
 import { useQueryClient } from "react-query"
 import { useEffect } from "react"
 import useShop from "hooks/use-shop"
+import useTheme from "hooks/use-theme"
 
 const ThemeSettings = () => {
+  useTheme()
   const { shop } = useShop()
   const klient = useQueryClient()
+
   useEffect(() => {
-    if (!!shop?.shop_id) klient.prefetchQuery(["theme", shop?.shop_id])
+    if (!!shop && !!shop?.shop_id && shop.shop_id !== "") {
+      klient.prefetchQuery(["theme", shop?.shop_id])
+    }
   }, [shop?.shop_id])
 
   return (

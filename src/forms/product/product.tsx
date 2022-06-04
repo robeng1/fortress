@@ -536,9 +536,9 @@ const ProductForm = ({ id }) => {
                             tooltipContent="Choose a product category"
                           />
                           <ReactSelectCreatable
-                            menuPortalTarget={document.body}
                             isSearchable
-                            closeMenuOnSelect
+                            closeMenuOnSelect={true}
+                            closeMenuOnScroll={true}
                             cacheOptions
                             placeholder="Search category"
                             value={values.type}
@@ -592,7 +592,7 @@ const ProductForm = ({ id }) => {
                         <div className="w-full">
                           <InputHeader
                             label="Tags"
-                            tooltipContent="Add tags to products for grouping and search indexing"
+                            tooltipContent="Words that when searched, this products should be included in the search results, separated by commas"
                           />
                           <TagInput
                             values={values.tags ?? []}
@@ -746,7 +746,6 @@ const ProductForm = ({ id }) => {
                                   value={op.attribute}
                                   isClearable
                                   isSearchable
-                                  menuPortalTarget={document.body}
                                   onChange={(option) => {
                                     let opt = values.variation_options[index]
                                     opt.attribute = option as Record<

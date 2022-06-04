@@ -1,13 +1,12 @@
 import React from "react"
 import { Navigate, Route, RouteProps } from "react-router-dom"
 import isEmpty from "lodash/isEmpty"
-import { useAtom } from "jotai"
-import { sessionAtom } from "store/authorization-atom"
+import { useSession } from "hooks/use-session"
 
 export type ProtectedRouteProps = {} & RouteProps
 
 export default function ProtectedRoute({ path, ...rest }: ProtectedRouteProps) {
-  const [session] = useAtom(sessionAtom)
+  const { session } = useSession()
   const isAuthenticated = !isEmpty(session)
   if (isAuthenticated) {
     return <Route path={path} {...rest} />
@@ -17,7 +16,7 @@ export default function ProtectedRoute({ path, ...rest }: ProtectedRouteProps) {
 }
 
 export function RequireAuth({ children, path }) {
-  const [session] = useAtom(sessionAtom)
+  const { session } = useSession()
   const isAuthenticated = !isEmpty(session)
   return isAuthenticated ? (
     children

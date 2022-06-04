@@ -5,7 +5,6 @@ import {
 } from "typings/inventory/inventory-type"
 import { request, ResponseError } from "utils/request"
 import { useQuery } from "react-query"
-import { useAtom } from "jotai"
 import useShop from "./use-shop"
 const initialState: LocationType[] = []
 const findLocations = async (id?: string) => {

@@ -10,11 +10,7 @@ export function useOnboarding(loc?: string) {
   const { locations, isLoading: locationIsLoading } = useCentres()
   const { shopAccount, isLoading: accountIsLoading } = usePayment()
   let invalidCurrency = false
-  if (
-    !shop?.currency ||
-    shop.currency.iso_code === "" ||
-    isEmpty(shop.currency)
-  ) {
+  if (isEmpty(shop?.currency) || shop?.currency?.iso_code === "") {
     invalidCurrency = true
   }
   let noLocation = false
@@ -33,7 +29,7 @@ export function useOnboarding(loc?: string) {
   const { pathname } = location
 
   useEffect(() => {
-    if (!shopIsLoading && shop) {
+    if (!shopIsLoading && shop && !isEmpty(shop)) {
       if (invalidCurrency && pathname !== "/onboarding/currency") {
         navigate("/onboarding/currency")
       } else if (invalidCurrency && pathname == "/onboarding/currency") {

@@ -4,6 +4,7 @@ import { useQuery } from "react-query"
 import { sessionAtom, sidAtom } from "store/authorization-atom"
 import { request, ResponseError } from "utils/request"
 import { Session } from "typings/user/session"
+import isEmpty from "lodash"
 const emptySession = {}
 
 const loadSession = async (id?: string) => {
@@ -27,7 +28,7 @@ const refreshSession = async (id?: string) => {
 }
 
 export function useSession() {
-  const sid: string = useAtom(sidAtom) as unknown as string
+  const [sid, _] = useAtom(sidAtom)
   const [sess, setSession] = useAtom(sessionAtom)
   let {
     data: session,
@@ -36,11 +37,11 @@ export function useSession() {
     isIdle,
     isRefetching,
   } = useQuery<Session>(["refresh-session", sid], () => refreshSession(sid), {
-    enabled:
-      !!sid && sid != undefined && !sess.identity?.email_verification_required,
+    enabled: !!sid && sid != undefined,
     keepPreviousData: true,
+    staleTime: 60000 * 59,
   })
-  if (session) {
+  if (session && !isEmpty(session)) {
     setSession(session)
   } else {
     session = sess
