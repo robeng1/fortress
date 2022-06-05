@@ -113,7 +113,7 @@ function Currency() {
                         aria-hidden="true"
                       ></div>
                     </label>
-                    <label className="relative block cursor-pointer">
+                    {/* <label className="relative block cursor-pointer">
                       <input
                         onChange={(event) => setCurrency("ZAR")}
                         type="radio"
@@ -128,7 +128,7 @@ function Currency() {
                         className="absolute inset-0 border-2 border-transparent peer-checked:border-indigo-400 rounded pointer-events-none"
                         aria-hidden="true"
                       ></div>
-                    </label>
+                    </label> */}
                     <label className="relative block cursor-pointer">
                       <input
                         onChange={(event) => setCurrency("NGN")}
