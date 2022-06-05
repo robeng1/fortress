@@ -15,6 +15,7 @@ export interface OrderProductType {
   product_id?: string
   image?: string
   title?: string
+  variant_title?: string
   requires_shipping?: boolean
   is_discountable?: boolean
   track_stock?: boolean
