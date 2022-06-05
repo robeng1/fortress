@@ -177,7 +177,7 @@ export default function OrderManager() {
                             <span>
                               {!(
                                 order.status ===
-                                OrderStatusType.ORDER_COMPLETED || "Complete"
+                                  OrderStatusType.ORDER_COMPLETED || "Complete"
                               )
                                 ? "Unfulfilled"
                                 : "FulFilled"}
@@ -212,11 +212,11 @@ export default function OrderManager() {
                                 <p className="text-purple-600 text-sm overflow-ellipsis">
                                   {line.product?.variant_title}
                                 </p>
-                                {!isEmpty(line.centre_sku) &&
+                                {!isEmpty(line.centre_sku) && (
                                   <span className="block md:mt-px text-gray-600 text-sm">
                                     SKU: {line.centre_sku}
                                   </span>
-                                }
+                                )}
                               </div>
                               <div className="flex gap-x-5 md:gap-28 md:self-center self-start pl-2">
                                 <div className="font-medium text-green-900 text-sm">

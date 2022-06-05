@@ -1,5 +1,5 @@
 import ModalBasic from "components/modal-basic"
-import isEmpty from 'lodash'
+import isEmpty from "lodash"
 import { fortressURL } from "endpoints/urls"
 import { Formik } from "formik"
 import useShop from "hooks/use-shop"
@@ -124,7 +124,7 @@ const VariantEditor: React.FC<VariantEditorProps> = ({
           setModalOpen={(state) =>
             state === true ? handleOpen() : handleClose()
           }
-          title={`Edit ${product.title} ${!isEmpty(sku) ? `(${sku})`: ""}`}
+          title={`Edit: ${product.title} ${sku !== "" ? `(${sku})` : ""}`}
         >
           <div className="px-2 py-2">
             <Formik
