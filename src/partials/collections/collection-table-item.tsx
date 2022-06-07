@@ -56,8 +56,8 @@ const CollectionItemTable: React.FC<CollectionTableItemProps> = ({
       <td className="cursor-pointerpx-2 first:pl-5 last:pr-5 py-2 whitespace-nowrap">
         <div className="flex items-center">
           <div className="w-8 h-8 flex-shrink-0 mr-2 sm:mr-3">
-            {isEmpty(collection.image_url) && <ImagePlaceholder size={40} />}
-            {!isEmpty(collection.image_url) && (
+            {collection.image_url == "" && <ImagePlaceholder size={40} />}
+            {collection.image_url !== "" && (
               <img
                 className="rounded"
                 src={proxyURL(collection.image_url ?? "", 50, 50)}
