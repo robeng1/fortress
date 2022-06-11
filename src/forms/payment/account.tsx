@@ -68,6 +68,7 @@ function PaymentsAccountPanel() {
           account_id: paymentAccount?.account_id || "",
           name: shop?.business_name || "",
           primary_user: shop?.shop_id,
+          decription: `Payout account for ${shop?.business_name || ""}`,
           currency: shop?.currency?.iso_code,
           // payment_data: account?.payment_data || 'wallet',
           wallet: {

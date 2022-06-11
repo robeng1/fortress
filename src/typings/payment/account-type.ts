@@ -50,6 +50,7 @@ export interface Account {
   account_kind?: string
   blocked_amount?: MoneyType | null
   // payment_data?: 'card' | 'wallet';
+  subaccount_code?: string
 }
 
 export enum TxnKind {
