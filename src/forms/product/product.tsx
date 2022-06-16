@@ -572,8 +572,8 @@ const ProductForm = ({ id }) => {
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <InputHeader
-                            label="Collections (optional)"
-                            tooltipContent="Collections are a way to group products into categories. Eg. Men, Women, Shoes, Shirts. They give you total control over how you group products in your store. You have to create some before they show here when you search."
+                            label="Categories"
+                            tooltipContent="Categories are a way to group products. Eg. Men, Women, Shoes, Shirts. They give you total control over how you group products in your store. You have to create some before they show here when you search."
                           />
                           <CollectionSelect
                             value={values.collection_fks ?? []}
