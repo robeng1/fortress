@@ -529,7 +529,7 @@ const ProductForm = ({ id }) => {
                       <h2 className="text-sm header leading-snug text-gray-500 font-bold mb-1">
                         Organization
                       </h2>
-                      <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                      {/* <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <InputHeader
                             label="Category"
@@ -547,7 +547,7 @@ const ProductForm = ({ id }) => {
                             className="w-full"
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div className="w-full">
                           <label
