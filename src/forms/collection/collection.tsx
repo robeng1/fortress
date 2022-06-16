@@ -99,10 +99,10 @@ export default function CollectionForm({ id }) {
         onSuccess: (newCollection: CollectionType) => {
           setCollectionId(newCollection.collection_id)
           klient.setQueryData(["collection", collectionId], newCollection)
-          toast.success("Collection created successfully")
+          toast.success("Category created successfully")
         },
         onError: (e: ResponseError) => {
-          toast.error("Collection creation failed due to " + e.message)
+          toast.error("Category creation failed due to " + e.message)
         },
       }
     )
@@ -119,10 +119,10 @@ export default function CollectionForm({ id }) {
         onSuccess: (newCollection: CollectionType) => {
           setCollectionId(newCollection.collection_id)
           klient.setQueryData(["collection", collectionId], newCollection)
-          toast.success("Collection updated successfully")
+          toast.success("Category updated successfully")
         },
         onError: (e: ResponseError) => {
-          toast.error("Collection could not be updated due to " + e.message)
+          toast.error("Category could not be updated due to " + e.message)
         },
       }
     )
@@ -319,7 +319,7 @@ export default function CollectionForm({ id }) {
                     <div className="sm:flex sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                       <SimpleImageDropzone
                         onChange={onImageChange}
-                        label={"Collection Banner"}
+                        label={"Category Banner"}
                         value={image ? proxyURL(image, 255, 255) : undefined}
                         height={255}
                         width={255}

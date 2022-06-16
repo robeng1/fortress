@@ -75,7 +75,7 @@ const CollectionSelect: React.FC<CollectionSelectProps> = ({
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => singleOnChange(option)}
-          placeholder="Select collections"
+          placeholder="Select categories"
           loadOptions={collectionOptions(shop_id)}
           className="w-full"
         />
@@ -87,7 +87,7 @@ const CollectionSelect: React.FC<CollectionSelectProps> = ({
           cacheOptions
           closeMenuOnSelect={false}
           onChange={(option) => multiOnChange(option)}
-          placeholder="Select collections"
+          placeholder="Select categories"
           loadOptions={collectionOptions(shop_id)}
           className="w-full"
         />
