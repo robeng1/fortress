@@ -119,7 +119,7 @@ function SectionCollection() {
                       className="block text-sm font-medium mb-1"
                       htmlFor="collection_featured"
                     >
-                      Featured category
+                      Featured collection
                     </label>
                     <ReactSelect
                       value={values.collection_featured}
@@ -131,7 +131,7 @@ function SectionCollection() {
                           label: option.label,
                         })
                       }
-                      placeholder="Select category"
+                      placeholder="Select collection"
                       loadOptions={collectionOptions(shop?.shop_id || "")}
                       className="w-full"
                     />

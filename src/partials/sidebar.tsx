@@ -331,7 +331,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           pathname === "/collections" && "text-gray-900"
                         }`}
                       >
-                        Categories
+                        Collections
                       </span>
                     </div>
                   </NavLink>

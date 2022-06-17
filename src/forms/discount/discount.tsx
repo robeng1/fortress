@@ -440,7 +440,7 @@ const DiscountForm = ({ id }) => {
                               Specific products
                             </option>
                             <option value="specific_collections">
-                              Specific categories
+                              Specific collections
                             </option>
                           </select>
                         </div>
@@ -535,7 +535,7 @@ const DiscountForm = ({ id }) => {
                                 Specific products
                               </option>
                               <option value="specific_collections">
-                                Specific categories
+                                Specific collections
                               </option>
                             </select>
                           </div>
@@ -817,7 +817,7 @@ const DiscountForm = ({ id }) => {
                                   value={values.applies_to}
                                 />
                                 <span className="text-sm ml-2">
-                                  Specific categories
+                                  Specific collections
                                 </span>
                               </label>
                             </div>
