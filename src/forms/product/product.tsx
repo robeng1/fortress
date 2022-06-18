@@ -240,7 +240,6 @@ const ProductForm = ({ id }) => {
     return p
   }
 
-  // create the product
   const { mutate: createProduct, isLoading: isCreatingProduct } = useMutation(
     (payload: ProductType) =>
       request(requestURL, {
@@ -259,7 +258,6 @@ const ProductForm = ({ id }) => {
     }
   )
 
-  // update the collection
   const { mutate: updateProduct, isLoading: isUpdatingProduct } = useMutation(
     (payload: ProductType) =>
       request(`${requestURL}/${productId}`, {
