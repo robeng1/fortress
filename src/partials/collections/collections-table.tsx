@@ -104,10 +104,10 @@ const CollectionsTable: React.FC<CollectionsTableProps> = ({
         </div>
       ) : (
         <EmptyState
-          heading="No categories yet"
-          msg="Categories are a way to group products."
+          heading="No collections yet"
+          msg="Collections are a way to group products into categories"
           action={{
-            name: "Create category",
+            name: "Create collection",
             func: () => navigate("/collections/new"),
           }}
         />
