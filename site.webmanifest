@@ -1,7 +1,19 @@
 {
-  "name": "Reoplex",
-  "short_name": "Reoplex",
+  "background_color": "#0000ff",
+  "description": "Manage your business from one place",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "app.reoplex",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "app.reoplex",
+  "start_url": "/",
+  "theme_color": "#0000ff",
   "icons": [
+    {
+      "src": "/favicon.ico",
+      "type": "image/png"
+    },
     {
       "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
@@ -17,11 +29,28 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "images/32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "images/16x16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "images/180x180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/safari-pinned-tab.svg"
+    },
+    {
+      "src": "/favicon.ico",
+      "type": "image/x-icon"
     }
-  ],
-  "theme_color": "#0000ff",
-  "start_url": ".",
-  "background_color": "#ffffff",
-  "description": "Reoplex merchant dashboard",
-  "display": "standalone"
+  ]
 }
