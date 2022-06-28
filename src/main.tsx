@@ -22,11 +22,11 @@ const MOUNT_NODE = document.getElementById("root") as HTMLElement
 
 ReactDOM.render(
   <React.StrictMode>
+    <SW />
     <QueryClientProvider client={klient}>
       <Provider>
         <EmotionThemeProvider>
           <HelmetProvider>
-            <SW />
             <Router>
               <Suspense fallback={<Loader />}>
                 <App />
@@ -50,7 +50,6 @@ ReactDOM.render(
                 />
               </Suspense>
             </Router>
-
           </HelmetProvider>
         </EmotionThemeProvider>
       </Provider>
