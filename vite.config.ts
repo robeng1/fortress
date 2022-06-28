@@ -4,6 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths"
 import postcss from "./postcss.config.js"
 import react from "@vitejs/plugin-react"
 import svgr from "vite-plugin-svgr"
+import manifest from './manifest.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,8 +16,11 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    svgr(),
+    tsconfigPaths(),
     VitePWA({
-      includeAssets: ['favicon.svg', 'favicon.ico', 'favicon.png', 'robots.txt', 'apple-touch-icon.png'],
+      manifest,
+      includeAssets: ['favicon.png', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       // switch to "true" to enable sw on development
       devOptions: {
         enabled: true,
@@ -25,12 +29,5 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html}', '**/*.{svg,png,jpg,gif}'],
       },
     }),
-    svgr(),
-    tsconfigPaths(),
-  ],
-  build: {
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-  },
+  ]
 })

@@ -19,9 +19,8 @@
       "purpose": "any maskable"
     }
   ],
-  "theme_color": "#0000ff",
+  "theme_color": "#ffffff",
   "start_url": ".",
-  "background_color": "#ffffff",
   "description": "Reoplex merchant dashboard",
   "display": "standalone"
 }

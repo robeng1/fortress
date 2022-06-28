@@ -38,7 +38,7 @@ export function useSession() {
     isIdle,
     isRefetching,
   } = useQuery<Session>(["refresh-session", sid], () => refreshSession(sid), {
-    enabled: !!sid && sid != undefined,
+    enabled: !!sid && sid != undefined && false,
     keepPreviousData: true,
     staleTime: 60000 * 59,
   })
