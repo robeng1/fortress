@@ -21,7 +21,7 @@ function SW() {
         position: "bottom-left"
       })
     } else if (needRefresh) {
-      toast((t) => (
+      toast((t,) => (
         <span>
           Reload
           <button onClick={() => updateServiceWorker(true)}>

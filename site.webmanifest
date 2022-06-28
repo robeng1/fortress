@@ -20,7 +20,7 @@
     }
   ],
   "theme_color": "#0000ff",
-  "start_url": ".",
+  "start_url": "https://app.reoplex.com",
   "background_color": "#ffffff",
   "description": "Reoplex merchant dashboard",
   "display": "standalone"
