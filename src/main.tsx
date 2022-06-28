@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { BrowserRouter as Router } from "react-router-dom"
 import { Toaster } from "react-hot-toast"
+import { registerSW } from 'virtual:pwa-register'
 
 import "./css/style.scss"
 import "tippy.js/dist/tippy.css"
@@ -54,3 +55,8 @@ ReactDOM.render(
   </QueryClientProvider>,
   MOUNT_NODE
 )
+
+const updateSW = registerSW({
+  onNeedRefresh() { },
+  onOfflineReady() { },
+})

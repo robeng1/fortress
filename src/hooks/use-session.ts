@@ -1,7 +1,7 @@
 import { theKeepURL } from "endpoints/urls"
 import { useAtom } from "jotai"
 import { useQuery } from "react-query"
-import { sessionAtom, sidAtom } from "store/authorization-atom"
+import { clearSessionAtom, sessionAtom, sidAtom } from "store/authorization-atom"
 import { request, ResponseError } from "utils/request"
 import { Session } from "typings/user/session"
 import isEmpty from "lodash"
@@ -30,6 +30,7 @@ const refreshSession = async (id?: string) => {
 export function useSession() {
   const [sid, _] = useAtom(sidAtom)
   const [sess, setSession] = useAtom(sessionAtom)
+  const [, clearSession] = useAtom(clearSessionAtom)
   let {
     data: session,
     refetch,

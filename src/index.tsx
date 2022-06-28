@@ -47,8 +47,12 @@ import OnboardingCentre from "forms/onboarding/centre"
 import OnboardingPayment from "forms/onboarding/payment"
 import OrderManager from "pages/order-manager/manager"
 import ResetPassword from "pages/reset-password"
+import ReloadPrompt from "ReloadPrompt"
 
 export function App() {
+  // replaced dyanmicaly
+  const date = '__DATE__'
+
   const location = useLocation()
   useEffect(() => {
     document.querySelector("html")!.style.scrollBehavior = "auto"
@@ -340,6 +344,7 @@ export function App() {
           }
         ></Route>
       </Routes>
+      <ReloadPrompt />
     </>
   )
 }

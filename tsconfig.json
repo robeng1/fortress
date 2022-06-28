@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "target": "esnext",
     "jsx": "preserve",
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "esnext", "WebWorker"],
     "strict": true,
     "noEmit": true,
     "isolatedModules": true,
@@ -29,5 +29,5 @@
     "src/**/*.js",
     "src/css/tailwind.config.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules",]
 }
