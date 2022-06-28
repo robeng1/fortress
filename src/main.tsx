@@ -56,7 +56,8 @@ ReactDOM.render(
   MOUNT_NODE
 )
 
-const updateSW = registerSW({
-  onNeedRefresh() { },
-  onOfflineReady() { },
-})
+if ("serviceWorker" in navigator && !/localhost/.test(window.location.toString())) {
+  registerSW({
+    immediate: true,
+  })
+}

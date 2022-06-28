@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, lazy } from "react"
+import { Outlet } from 'react-router-dom'
 import { Routes, Route, useLocation } from "react-router-dom"
 import { Helmet } from "react-helmet-async"
 import "./charts/ChartjsConfig"
@@ -344,6 +345,7 @@ export function App() {
           }
         ></Route>
       </Routes>
+      <Outlet />
       <ReloadPrompt />
     </>
   )

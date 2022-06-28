@@ -48,10 +48,10 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    svgr(),
-    tsconfigPaths(),
     VitePWA(pwaOptions),
     replace(replaceOptions),
+    svgr(),
+    tsconfigPaths(),
   ],
   build: {
     commonjsOptions: {
