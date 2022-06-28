@@ -3,10 +3,10 @@
   "description": "Manage your business from one place",
   "dir": "ltr",
   "display": "standalone",
-  "name": "app.reoplex",
+  "name": "Reoplex",
   "orientation": "any",
   "scope": "/",
-  "short_name": "app.reoplex",
+  "short_name": "Reoplex",
   "start_url": "/",
   "theme_color": "#0000ff",
   "icons": [
