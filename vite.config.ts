@@ -50,7 +50,7 @@ export default defineConfig({
     react(),
     svgr(),
     tsconfigPaths(),
-    VitePWA({}),
+    VitePWA(pwaOptions),
     replace(replaceOptions),
   ],
   build: {
