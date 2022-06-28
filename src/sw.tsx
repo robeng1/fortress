@@ -2,13 +2,14 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import toast from 'react-hot-toast';
+import Button from 'components/blocks/button';
 
 function SW() {
   const {
     offlineReady: [offlineReady, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
-  } = useRegisterSW({immediate: true});
+  } = useRegisterSW();
 
   const close = useCallback(() => {
     setOfflineReady(false);
@@ -21,17 +22,15 @@ function SW() {
         position: "bottom-left"
       })
     } else if (needRefresh) {
-      toast((t,) => (
+      toast((t) => (
         <span>
-          Reload
-          <button onClick={() => updateServiceWorker(true)}>
+          <Button onClick={() => updateServiceWorker(true)}>
             Reload
-          </button>
+          </Button>
         </span>
       ));
     }
   }, [close, needRefresh, offlineReady, updateServiceWorker]);
-
   return null;
 }
 
