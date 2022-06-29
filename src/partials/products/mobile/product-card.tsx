@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, handleShow }) => {
           className="w-full h-full object-center object-cover"
         />
       </div>
-      <div className="ml-2 cursor-pointer flex-1 flex flex-col pl-2">
+      <div className="ml-2 cursor-pointer justify-between flex-1 flex flex-col pl-2">
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <div onClick={() => handleShow()}>
@@ -50,15 +50,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, handleShow }) => {
             )}
           </div>
         </div>
-        <div onClick={() => handleShow()} className="flex justify-between text-base font-medium text-gray-900">
+        <div onClick={() => handleShow()} className="flex justify-between align-bottom text-base font-medium text-gray-900">
           <p
-            className={`mt-1 text-sm text-gray-500 rounded text-center py-0.5 px-2 ${statusColor(
+            className={`mt-3 text-xs text-gray-500 rounded text-center px-2 ${statusColor(
               product.num_in_stock
             )}`}
           >
             {`${product.num_in_stock} in stock`}
           </p>
-          <p className="ml-4 text-sm text-gray-500">
+          <p className="ml-4 text-xs text-gray-500 mt-3">
             {formatPesosMoney(product.price_int, product.currency)}
           </p>
         </div>
