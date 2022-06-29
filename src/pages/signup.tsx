@@ -92,7 +92,7 @@ function Signup() {
               error={touched.password ? errors.password : undefined}
             />
             <Input
-              label="Store handle*"
+              label="Store Name*"
               id="handle"
               name="handle"
               onChange={handleChange}
