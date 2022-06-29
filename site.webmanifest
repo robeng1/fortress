@@ -31,17 +31,17 @@
       "purpose": "any maskable"
     },
     {
-      "src": "images/32x32.png",
+      "src": "/32x32.png",
       "type": "image/png",
       "sizes": "32x32"
     },
     {
-      "src": "images/16x16.png",
+      "src": "/16x16.png",
       "type": "image/png",
       "sizes": "16x16"
     },
     {
-      "src": "images/180x180.png",
+      "src": "/180x180.png",
       "type": "image/png",
       "sizes": "180x180"
     },
