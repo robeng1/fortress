@@ -72,7 +72,7 @@ const OrdersTableItem: React.FC<OrderTableItemProps> = ({
                 alt={order.order_id}
               />
             </div>
-            <div className="text-light-purple-500 font-thin text-xs">
+            <div className="text-light-purple-500 font-normal text-xs">
               {order.order_id}
             </div>
           </div>
