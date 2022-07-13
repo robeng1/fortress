@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react"
 import { Formik } from "formik"
-import { useThemeMutation } from "hooks/use-theme-mutation"
 import { useNavigate } from "react-router-dom"
-import useShop from "hooks/use-shop"
 import { Loading } from "components/blocks/backdrop"
-import { Template } from "typings/theme/template"
 import SimpleImageDropzone from "components/single-image-dropzone"
 import { useUpload } from "hooks/use-upload"
-import { proxyURL } from "utils/urlsigner"
 import toast from "react-hot-toast"
+import { useShopAppMutation } from "hooks/use-shop-app-mutation"
+import { PageTemplate } from "typings/theme/types"
+import { BannerSettings } from "./types"
+
+const emptyBanner: BannerSettings = {
+  image_url: '', shop_id: '', type: 'medium', url: '/search', id: '1', title: 'Shop amazing products'
+}
+
+const emptyBanners: BannerSettings[] = [emptyBanner, emptyBanner]
 
 function Banner() {
   const navigate = useNavigate()
-  const { shop } = useShop()
-  const { theme, update, isUpdatingTheme, isLoadingTheme } = useThemeMutation()
-  const ind = theme?.templates?.findIndex((t) => t.type === "index")
-  const tpl: Template = theme?.templates && ind ? theme?.templates[ind] : {}
-  const cob = JSON.parse(tpl?.content ?? "{}")
-  const initialValues =
-    cob && cob.sections && cob.sections["section-banner"]
-      ? cob.sections["section-banner"].settings
-      : {}
-  // set the image if one already exists
-  const [image, setImage] = useState(initialValues["image"] ?? "")
+  const { app, update, isUpdatingApp, isLoadingApp } = useShopAppMutation()
+  const tpl: PageTemplate | undefined = app?.template
+  const banners: BannerSettings[] =
+    tpl && tpl.sections && tpl.sections["banner-slider-block"]
+      ? (tpl.sections["banner-slider-block"].settings?.banners ? tpl.sections["banner-slider-block"].settings?.banners as BannerSettings[] : emptyBanners)
+      : emptyBanners
 
+  const initialValues: BannerSettings = banners && banners.length > 1 ? banners[1] : emptyBanner
+  const [image, setImage] = useState(initialValues.image_url ?? "")
   const { upload } = useUpload()
 
   const [isDirty, setIsDirty] = useState(false)
+
   const onImageChange = (files: File[]) => {
     if (files.length < 1) return
     const pickf = files[0]
@@ -44,47 +47,41 @@ function Banner() {
     })
   }
   useEffect(() => {
-    setImage(initialValues["image"])
-  }, [theme])
+    setImage(initialValues.image_url ?? "")
+  }, [app])
 
   useEffect(() => {
-    if (isUpdatingTheme) {
-      toast.loading("Updating theme", { id: "saving-banner" })
+    if (isUpdatingApp) {
+      toast.loading("Updating theme", { id: "saving-hero" })
     } else {
-      toast.dismiss("saving-banner")
+      toast.dismiss("saving-hero")
     }
-  }, [isUpdatingTheme])
+  }, [isUpdatingApp])
 
   return (
     <div>
-      <Loading open={isUpdatingTheme || isDirty || isLoadingTheme} />
+      <Loading open={isUpdatingApp || isDirty || isLoadingApp} />
       <Formik
         enableReinitialize
         initialValues={{
-          image: "",
-          headline: "",
-          text: "",
-          "button-url": "",
-          "button-text": "",
           ...initialValues,
         }}
         onSubmit={(values, { setSubmitting }) => {
           const vals = { ...values }
-          let content = cob
-          if (!content) content = {}
+          let content = tpl
+          banners[1] = { ...vals, image_url: image }
+          if (!content) content = { sections: {}, order: [] }
           if (!content.sections) content.sections = {}
           content.sections = {
             ...content?.sections,
-            "section-banner": {
-              ...content.sections["section-banner"],
-              settings: { ...vals, image },
+            "banner-slider-block": {
+              ...content.sections["banner-slider-block"],
+              settings: { banners },
             },
           }
-          const modfTemp = tpl
-          modfTemp.content = JSON.stringify(content)
-          const modfTheme = theme
-          modfTheme!.templates![ind!] = modfTemp
-          update(modfTheme!)
+          const modfApp = app
+          modfApp!.template = content
+          update(modfApp!)
           setSubmitting(false)
         }}
       >
@@ -113,7 +110,7 @@ function Banner() {
                       onChange={onImageChange}
                       label={"Banner"}
                       value={image}
-                      height="100%"
+                      height="50%"
                       width="100%"
                     />
                   </div>
@@ -129,11 +126,11 @@ function Banner() {
                       Headline
                     </label>
                     <input
-                      id="headline"
-                      name="headline"
+                      id="title"
+                      name="title"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.headline}
+                      value={values.title}
                       className="form-input w-full"
                       type="text"
                       placeholder="Summer shoes"
@@ -141,68 +138,26 @@ function Banner() {
                     />
                   </div>
                 </div>
-                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full">
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="text"
-                    >
-                      Text
-                    </label>
-                    <input
-                      id="text"
-                      name="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.text}
-                      className="form-input w-full"
-                      type="textarea"
-                      placeholder="Summer shoes with the best soles"
-                      required
-                    />
-                  </div>
-                </div>
               </section>
               <section>
-                <h5>Button and URL</h5>
+                <h5>URL</h5>
                 <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                   <div className="w-full">
                     <label
                       className="block text-sm font-medium mb-1"
-                      htmlFor="button-text"
-                    >
-                      Button Text
-                    </label>
-                    <input
-                      id="button-text"
-                      name="button-text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values["button-text"]}
-                      className="form-input w-full"
-                      type="text"
-                      placeholder="View all"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:flex sm:w-1/2 sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                  <div className="w-full">
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="button-url"
+                      htmlFor="url"
                     >
                       URL
                     </label>
                     <input
-                      id="button-url"
-                      name="button-url"
+                      id="url"
+                      name="url"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values["button-url"]}
+                      value={values["url"]}
                       className="form-input w-full"
                       type="text"
-                      placeholder="/collections/all"
+                      placeholder="/search"
                       required
                     />
                   </div>

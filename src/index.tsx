@@ -7,7 +7,6 @@
  */
 
 import React, { useEffect, lazy } from "react"
-import { Outlet } from 'react-router-dom'
 import { Routes, Route, useLocation } from "react-router-dom"
 import { Helmet } from "react-helmet-async"
 import "./charts/ChartjsConfig"
@@ -36,11 +35,9 @@ import ProductMutation from "pages/product-mutation/form"
 import CollectionMutation from "pages/collection-mutation/form"
 import DiscountMutation from "pages/discount-mutation/form"
 import ThemeSettings from "pages/settings/theme"
-import AnnouncementBarMutation from "pages/settings/theme/announcement-bar"
 import FooterMutation from "pages/settings/theme/footer"
 import BannerMutation from "pages/settings/theme/banner"
 import HeroMutation from "pages/settings/theme/hero"
-import FeaturedCollection from "pages/settings/theme/collection-featured"
 import VoucherMutation from "pages/voucher-mutation/form"
 import Vouchers from "pages/voucher/voucher"
 import OnboardingCurrency from "forms/onboarding/currency"
@@ -291,14 +288,6 @@ export function App() {
           }
         />
         <Route
-          path="/settings/theme/announcement-bar"
-          element={
-            <RequireAuth path="/settings/theme/announcement-bar">
-              <AnnouncementBarMutation />
-            </RequireAuth>
-          }
-        />
-        <Route
           path="/settings/theme/footer"
           element={
             <RequireAuth path="/settings/theme/footer">
@@ -319,14 +308,6 @@ export function App() {
           element={
             <RequireAuth path="/settings/theme/hero">
               <HeroMutation />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/settings/theme/featured-collection"
-          element={
-            <RequireAuth path="/settings/theme/featured-collection">
-              <FeaturedCollection />
             </RequireAuth>
           }
         />

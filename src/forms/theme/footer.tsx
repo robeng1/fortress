@@ -1,103 +1,68 @@
 import React, { useEffect, useState } from "react"
-import { Buffer } from "buffer"
 import { Formik } from "formik"
-import { useThemeMutation } from "hooks/use-theme-mutation"
 import { useNavigate } from "react-router-dom"
 import { Loading } from "components/blocks/backdrop"
 import toast from "react-hot-toast"
+import { useShopAppMutation } from "hooks/use-shop-app-mutation"
 
 function Footer() {
   const navigate = useNavigate()
-  const { theme, config, update, isUpdatingTheme, isLoadingTheme } =
-    useThemeMutation()
-  const initialValues =
-    config &&
-    config.settings &&
-    (config?.settings as Record<string, any>).sections
-      ? (config?.settings as Record<string, any>).sections["layout-footer"]
-        ? (config?.settings as Record<string, any>).sections["layout-footer"][
-            "settings"
-          ] ?? {}
-        : {}
-      : {}
+  const { app, update, isUpdatingApp, isLoadingApp } =
+    useShopAppMutation()
   useEffect(() => {
-    if (isUpdatingTheme) {
+    if (isUpdatingApp) {
       toast.loading("Updating theme", { id: "saving-footer" })
     } else {
       toast.dismiss("saving-footer")
     }
-  }, [isUpdatingTheme])
+  }, [isUpdatingApp])
   return (
     <div>
-      <Loading open={isUpdatingTheme || isLoadingTheme} />
+      <Loading open={isUpdatingApp || isLoadingApp} />
       <Formik
         enableReinitialize
         initialValues={{
-          social_instagram_visible: false,
-          social_instagram_link: "",
-          social_twitter_visible: false,
-          social_twitter_link: "",
-          social_facebook_visible: false,
-          social_facebook_link: "",
-          social_youtube_visible: false,
-          social_youtube_link: "",
-          ...initialValues,
+          social_instagram_visible: app?.instagram_link ? true : false,
+          social_instagram_link: app?.instagram_link,
+          social_twitter_visible: app?.twitter_link ? true : false,
+          social_twitter_link: app?.twitter_link,
+          social_facebook_visible: app?.facebook_link ? true : false,
+          social_facebook_link: app?.facebook_link,
+          social_youtube_visible: app?.youtube_link ? true : false,
+          social_youtube_link: app?.youtube_link,
         }}
         onSubmit={(values, { setSubmitting }) => {
-          const vals = { ...values }
-          let cfg = config
-          if (!cfg) cfg = {}
-          if (!cfg.settings) cfg.settings = {}
-          cfg.settings = {
-            ...(cfg?.settings as Record<string, any>),
-            sections: {
-              ...cfg.settings["sections"],
-              "layout-footer": {
-                ...cfg.settings["sections"]["layout-footer"],
-                settings: {
-                  ...vals,
-                  social_instagram_link:
-                    values.social_instagram_link &&
-                    values.social_instagram_link !== ""
-                      ? values.social_instagram_link.startsWith(
-                          `https://instagram.com/`
-                        )
-                        ? `${values.social_instagram_link}`
-                        : `https://instagram.com/${values.social_instagram_link}`
-                      : "",
-                  social_twitter_link:
-                    values.social_twitter_link &&
-                    values.social_twitter_link !== ""
-                      ? values.social_twitter_link.startsWith(
-                          `https://twitter.com/`
-                        )
-                        ? `${values.social_twitter_link}`
-                        : `https://twitter.com/${values.social_twitter_link}`
-                      : "",
-                },
-              },
-            },
+          if (app) {
+            update({
+              ...app,
+              instagram_link:
+                values.social_instagram_link &&
+                  values.social_instagram_link !== ""
+                  ? values.social_instagram_link.startsWith(
+                    `https://instagram.com/`
+                  )
+                    ? `${values.social_instagram_link}`
+                    : `https://instagram.com/${values.social_instagram_link}`
+                  : "",
+              twitter_link:
+                values.social_twitter_link &&
+                  values.social_twitter_link !== ""
+                  ? values.social_twitter_link.startsWith(
+                    `https://twitter.com/`
+                  )
+                    ? `${values.social_twitter_link}`
+                    : `https://twitter.com/${values.social_twitter_link}`
+                  : "",
+
+            })
           }
-          update({
-            ...theme,
-            config: {
-              ...cfg,
-              settings: cfg.settings,
-            },
-          })
           setSubmitting(false)
         }}
       >
         {({
           values,
-          errors,
-          touched,
           handleChange,
           handleBlur,
-          setFieldValue,
-          setFieldError,
-          setValues,
-          setFieldTouched,
           handleSubmit,
           isSubmitting,
           /* and other goodies */
